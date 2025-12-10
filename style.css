@@ -33,7 +33,7 @@ header h1 { font-weight: 700; font-size: 1.8rem; color: #1e90ff; flex-grow: 1; }
 
 .cta-buttons a:hover, .cta-buttons button:hover { background: #0c5ea8; box-shadow: 0 4px 12px rgba(12, 94, 168, 0.9); }
 
-/* ✅ زر المتجر */ .cta-buttons .btn-store { background: #ffc107 !important; color: #000 !important; padding: 14px 25px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; text-decoration: none; min-width: 160px; text-align: center; font-size: 1.1rem; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); transition: background-color 0.3s ease; }
+/* ✅ زر المتجر */ .cta-buttons .btn-store { background: #007bff !important; color: #000 !important; padding: 14px 25px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; text-decoration: none; min-width: 160px; text-align: center; font-size: 1.1rem; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); transition: background-color 0.3s ease; }
 
 .cta-buttons .btn-store:hover { background: #e0a800 !important; }
 

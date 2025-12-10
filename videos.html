@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>فيديوهات الورشة | Atelier Electronique Médenine</title>
+  <style>
+    body {
+      font-family: 'Montserrat', 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #0b1a27, #122f4a);
+      color: #eee;
+      direction: rtl;
+      text-align: center;
+      margin: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      color: #1e90ff;
+      margin-bottom: 25px;
+    }
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .video-card {
+      background-color: #0f2238;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px #1e90ff;
+    }
+    video {
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .views, .reactions, .comments {
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    .reactions button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .comments textarea {
+      width: 80%;
+      border-radius: 6px;
+      padding: 5px;
+      margin-top: 10px;
+      vertical-align: middle;
+    }
+    .comments button.add-comment-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      margin-left: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      background-color: #ff6b35;
+      color: white;
+      box-shadow: 0 2px 6px rgba(255,107,53,0.7);
+      transition: background-color 0.3s ease;
+      vertical-align: middle;
+    }
+    .comments button.add-comment-btn:hover {
+      background-color: #d9533f;
+      box-shadow: 0 4px 12px rgba(217,83,63,0.9);
+    }
+    .comments ul {
+      text-align: right;
+      padding-right: 20px;
+      list-style: disc;
+      margin-top: 10px;
+    }
+    .comments li {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    /* الأزرار */
+    button, a.btn-return {
+      max-width: 220px;
+      margin: 10px auto;
+      display: block;
+      background-color: #ff6b35;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(255,107,53,0.7);
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+    }
+    button:hover, a.btn-return:hover {
+      background-color: #d9533f;
+      box-shadow: 0 4px 12px rgba(217,83,63,0.9);
+    }
+
+    /* مودال الفيديو */
+    #video-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+    #video-modal video {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #1e90ff;
+    }
+    #video-modal .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2.5rem;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="page-title">فيديوهات الورشة</h1>
+
+    <div class="video-gallery" id="video-gallery">
+      <!-- الفيديوهات تدرج ديناميكياً -->
+    </div>
+
+    <button id="toggle-lang-btn">تبديل اللغة</button>
+    <a href="index.html" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
+  </div>
+
+  <!-- مودال عرض الفيديو -->
+  <div id="video-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <span class="close-btn" id="close-modal" aria-label="إغلاق الفيديو">&times;</span>
+    <video id="modal-video" controls></video>
+  </div>
+
+  <script>
+    const videos = [
+      { src: "video1.mp4" },
+      { src: "video2.mp4" },
+      { src: "video3.mp4" },
+      { src: "video4.mp4" },
+      { src: "video5.mp4" },
+      { src: "video6.mp4" },
+      { src: "video7.mp4" },
+    ];
+
+    const texts = {
+      ar: {
+        title: "فيديوهات الورشة",
+        toggle: "تبديل اللغة",
+        views: "مشاهدة",
+        commentPlaceholder: "أضف تعليقًا...",
+      },
+      fr: {
+        title: "Vidéos de l'atelier",
+        toggle: "Changer la langue",
+        views: "vue",
+        commentPlaceholder: "Ajouter un commentaire...",
+      }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'ar';
+
+    function renderVideos() {
+      const gallery = document.getElementById('video-gallery');
+      gallery.innerHTML = '';
+
+      videos.forEach((video, index) => {
+        const videoId = `video${index}`;
+        const viewsKey = `${videoId}-views`;
+        const reactsKey = `${videoId}-reacts`;
+        const commentsKey = `${videoId}-comments`;
+
+        let views = parseInt(localStorage.getItem(viewsKey)) || 0;
+        let reacts = JSON.parse(localStorage.getItem(reactsKey)) || { like: 0, love: 0, laugh: 0 };
+        let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.innerHTML = `
+          <video onclick="openModal('${video.src}', '${viewsKey}')" preload="metadata" muted>
+            <source src="${video.src}" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+          <div class="views">${views} ${texts[currentLang].views}</div>
+          <div class="reactions">
+            <button onclick="react(event, '${reactsKey}', 'like', this)">👍 ${reacts.like}</button>
+            <button onclick="react(event, '${reactsKey}', 'love', this)">❤️ ${reacts.love}</button>
+            <button onclick="react(event, '${reactsKey}', 'laugh', this)">😏 ${reacts.laugh}</button>
+          </div>
+          <div class="comments">
+            <textarea placeholder="${texts[currentLang].commentPlaceholder}" onkeydown="if(event.key==='Enter'){event.preventDefault(); addComment('${commentsKey}', this)}"></textarea>
+            <button class="add-comment-btn" onclick="addComment('${commentsKey}', this.previousElementSibling)">إرسال</button>
+            <ul>
+              ${comments.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        gallery.appendChild(card);
+      });
+    }
+
+    function incrementViews(key) {
+      let views = parseInt(localStorage.getItem(key)) || 0;
+      localStorage.setItem(key, ++views);
+      renderVideos();
+    }
+
+    function react(event, key, type, btn) {
+      event.stopPropagation(); // لمنع تشغيل الفيديو عند الضغط على الأزرار
+      let reacts = JSON.parse(localStorage.getItem(key)) || { like: 0, love: 0, laugh: 0 };
+      reacts[type]++;
+      localStorage.setItem(key, JSON.stringify(reacts));
+      renderVideos();
+    }
+
+    function addComment(key, textarea) {
+      const val = textarea.value.trim();
+      if (val) {
+        let comments = JSON.parse(localStorage.getItem(key)) || [];
+        comments.push(val);
+        localStorage.setItem(key, JSON.stringify(comments));
+        textarea.value = "";
+        renderVideos();
+      }
+    }
+
+    // مودال الفيديو
+    const modal = document.getElementById('video-modal');
+    const modalVideo = document.getElementById('modal-video');
+    const closeBtn = document.getElementById('close-modal');
+
+    function openModal(src, viewsKey) {
+      modal.style.display = 'flex';
+      modalVideo.src = src;
+      modalVideo.play();
+      incrementViews(viewsKey);
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modalVideo.pause();
+      modalVideo.src = "";
+      renderVideos(); // لإعادة عرض الفيديوهات بدون عدادات جديدة متكررة
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // تغيير اللغة
+    document.getElementById('toggle-lang-btn').addEventListener('click', () => {
+      currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+      localStorage.setItem('lang', currentLang);
+      applyLang();
+      renderVideos();
+    });
+
+    function applyLang() {
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('page-title').textContent = texts[currentLang].title;
+      document.getElementById('toggle-lang-btn').textContent = texts[currentLang].toggle;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      applyLang();
+      renderVideos();
+    });
+  </script>
+</body>
+</html>

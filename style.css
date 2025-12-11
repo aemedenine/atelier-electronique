@@ -24,6 +24,42 @@ body {
   padding-left: 12px;
   padding-right: 12px;
 }
+/* CSS */
+.chacha {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: rotate(-90deg) translateY(-50%);
+  transform-origin: left top;
+  background-color: transparent;
+  padding: 5px;
+  border: 1px solid #ccc;
+  z-index: 9999;
+}
+
+.chacha video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: width 0.5s ease, box-shadow 0.3s ease;
+}
+
+.chacha button {
+  display: block;
+  margin-top: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 4px 8px;
+  transition: transform 0.3s ease;
+}
+
+.chacha button:hover {
+  transform: scale(1.2) rotate(10deg);
+}
 
 /* Header */
 header {

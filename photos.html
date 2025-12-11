@@ -15,7 +15,7 @@
       direction: rtl;
     }
     .container { max-width: 900px; margin: auto; }
-    h1 { color: #1e90ff; margin-bottom: 25px; }
+    h1 { color: #1e90ff; margin-bottom: 15px; }
 
     .lang-btn {
       margin-bottom: 20px;
@@ -49,6 +49,35 @@
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .card img:hover { transform: scale(1.05); box-shadow: 0 0 15px #1e90ff; }
+
+    .comment-section {
+      margin-top: 8px;
+      text-align: right;
+    }
+    .comment-section textarea {
+      width: 80%;
+      padding: 5px;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+    .comment-section button {
+      margin-top: 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff6b35;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .comment-section ul {
+      list-style: disc;
+      text-align: right;
+      padding-right: 20px;
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
 
     .popup {
       position: fixed;
@@ -93,7 +122,7 @@
     <button class="lang-btn" id="toggle-lang-btn">تبديل اللغة</button>
 
     <div class="gallery" id="image-gallery"></div>
-    <a href="index.html" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
+    <a href="index.html" id="return-btn" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
   </div>
 
   <div class="popup" id="popup" onclick="this.style.display='none'">
@@ -102,10 +131,9 @@
 
   <script>
     const images = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
-
     const texts = {
-      ar: { title: "صور الورشة" },
-      fr: { title: "Photos de l'atelier" }
+      ar: { title: "صور الورشة", return: "⬅️ الرجوع إلى الصفحة الرئيسية", commentPlaceholder: "أضف تعليقًا..." },
+      fr: { title: "Photos de l'atelier", return: "⬅️ Retour à la page principale", commentPlaceholder: "Ajouter un commentaire..." }
     };
     let currentLang = localStorage.getItem('lang') || 'ar';
 
@@ -115,7 +143,7 @@
 
     function renderGallery() {
       gallery.innerHTML = '';
-      images.forEach(src => {
+      images.forEach((src, index) => {
         const card = document.createElement('div');
         card.className = 'card';
 
@@ -125,7 +153,7 @@
         img.onclick = () => showPopupWithEmoji(src);
         card.appendChild(img);
 
-        // إيموجيات hover على الصورة قبل التكبير
+        // إيموجيات صغيرة على الصورة
         const heart = document.createElement('div');
         heart.textContent = '❤️';
         heart.style.position = 'absolute';
@@ -144,24 +172,46 @@
         star.style.pointerEvents = 'none';
         card.appendChild(star);
 
+        // قسم التعليقات
+        const commentsKey = `comments-${index}`;
+        let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment-section';
+        commentDiv.innerHTML = `
+          <textarea placeholder="${texts[currentLang].commentPlaceholder}" id="textarea-${index}"></textarea>
+          <button onclick="addComment(${index})">📩</button>
+          <ul id="comments-list-${index}">${comments.map(c => `<li>${c}</li>`).join('')}</ul>
+        `;
+        card.appendChild(commentDiv);
+
         gallery.appendChild(card);
       });
+    }
+
+    function addComment(index) {
+      const textarea = document.getElementById(`textarea-${index}`);
+      const val = textarea.value.trim();
+      if (!val) return;
+      const commentsKey = `comments-${index}`;
+      let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+      comments.push(val);
+      localStorage.setItem(commentsKey, JSON.stringify(comments));
+      textarea.value = '';
+      renderGallery();
     }
 
     function showPopupWithEmoji(src) {
       popupImg.src = src;
       popup.style.display = 'flex';
-
       const emojis = ['❤️','✨'];
       const emoji = document.createElement('div');
       emoji.className = 'popup-emoji';
       emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
       popup.appendChild(emoji);
-
       const rect = popupImg.getBoundingClientRect();
       emoji.style.left = (rect.left + rect.width/2 - 20) + 'px';
       emoji.style.top = (rect.top + rect.height/2 - 20) + 'px';
-
       setTimeout(() => emoji.remove(), 1200);
     }
 
@@ -169,10 +219,13 @@
       currentLang = currentLang === 'ar' ? 'fr' : 'ar';
       localStorage.setItem('lang', currentLang);
       document.getElementById('page-title').textContent = texts[currentLang].title;
+      document.getElementById('return-btn').textContent = texts[currentLang].return;
+      renderGallery();
     });
 
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('page-title').textContent = texts[currentLang].title;
+      document.getElementById('return-btn').textContent = texts[currentLang].return;
       renderGallery();
     });
   </script>

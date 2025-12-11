@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>صور الورشة | Atelier Electronique Médenine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Montserrat', 'Open Sans', sans-serif;
@@ -13,14 +14,9 @@
       margin: 20px;
       direction: rtl;
     }
-    .container {
-      max-width: 900px;
-      margin: auto;
-    }
-    h1 {
-      color: #1e90ff;
-      margin-bottom: 25px;
-    }
+    .container { max-width: 900px; margin: auto; }
+    h1 { color: #1e90ff; margin-bottom: 25px; }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -31,16 +27,17 @@
       padding: 10px;
       border-radius: 10px;
       box-shadow: 0 0 8px #1e90ff;
+      position: relative;
     }
     .card img {
       width: 100%;
       border-radius: 8px;
       cursor: pointer;
+      transition: 0.3s;
     }
-    .views, .reactions, .comments {
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
+    .card img:hover { transform: scale(1.05); box-shadow: 0 0 15px #1e90ff; }
+
+    .views { margin-top: 10px; font-size: 0.95rem; }
     .reactions button {
       margin: 0 5px;
       padding: 5px 10px;
@@ -49,38 +46,11 @@
       cursor: pointer;
       font-size: 1.1rem;
     }
-    .comments textarea {
-      width: 80%;
-      border-radius: 6px;
-      padding: 5px;
-      margin-top: 10px;
-    }
-    .comments button {
-      margin-top: 5px;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #ff6b35;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .comments ul {
-      text-align: right;
-      padding-right: 20px;
-      list-style: disc;
-      margin-top: 10px;
-    }
-    .comments li {
-      font-size: 0.9rem;
-      color: #ccc;
-    }
+
     .popup {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.8);
       display: none;
       justify-content: center;
@@ -93,155 +63,84 @@
       border-radius: 10px;
     }
 
-    /* زر اللغة وزر الرجوع */
-    button, a.btn-return {
-      max-width: 220px;
-      margin: 10px auto;
-      display: block;
+    .popup-emoji {
+      position: absolute;
+      font-size: 2rem;
+      pointer-events: none;
+      user-select: none;
+      animation: float 1.2s ease-out forwards;
+    }
+    @keyframes float {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-50px); }
+    }
+
+    a.btn-return {
+      display: inline-block;
+      margin-top: 20px;
       background-color: #ff6b35;
-      border: none;
-      padding: 12px 25px;
+      color: #fff;
+      padding: 10px 20px;
       border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(255,107,53,0.7);
-      transition: background-color 0.3s ease;
       text-decoration: none;
+      font-weight: 700;
     }
-    button:hover, a.btn-return:hover {
-      background-color: #d9533f;
-      box-shadow: 0 4px 12px rgba(217,83,63,0.9);
-    }
+    a.btn-return:hover { background-color: #d9533f; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 id="page-title">صور الورشة</h1>
-    <div class="gallery" id="image-gallery">
-      <!-- الصور تظهر ديناميكيا -->
-    </div>
-
-    <button id="toggle-lang-btn">تبديل اللغة</button>
+    <h1>صور الورشة</h1>
+    <div class="gallery" id="image-gallery"></div>
     <a href="index.html" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
   </div>
 
-  <!-- نافذة العرض -->
   <div class="popup" id="popup" onclick="this.style.display='none'">
     <img src="" id="popup-img" />
   </div>
 
   <script>
     const images = [
-      { src: "photo1.jpg" },
-      { src: "photo2.jpg" },
-      { src: "photo3.jpg" },
-      { src: "photo4.jpg" },
-      { src: "photo5.jpg" },
-      { src: "photo6.jpg" },
-      { src: "photo7.jpg" }
+      "photo1.jpg",
+      "photo2.jpg",
+      "photo3.jpg",
+      "photo4.jpg",
+      "photo5.jpg"
     ];
 
-    const texts = {
-      ar: {
-        title: "صور الورشة",
-        toggle: "تبديل اللغة",
-        views: "مشاهدة",
-        commentPlaceholder: "أضف تعليقًا...",
-      },
-      fr: {
-        title: "Photos de l'atelier",
-        toggle: "Changer la langue",
-        views: "vue",
-        commentPlaceholder: "Ajouter un commentaire...",
-      }
-    };
+    const gallery = document.getElementById('image-gallery');
+    const popup = document.getElementById('popup');
+    const popupImg = document.getElementById('popup-img');
+    const emojis = ['👍','❤️','😂','😎','🔥','✨','😏'];
 
-    let currentLang = localStorage.getItem('lang') || 'ar';
+    images.forEach(src => {
+      const card = document.createElement('div');
+      card.className = 'card';
 
-    function renderImages() {
-      const gallery = document.getElementById('image-gallery');
-      gallery.innerHTML = "";
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = "photo";
+      img.onclick = () => showPopupWithEmoji(src);
+      card.appendChild(img);
 
-      images.forEach((image, index) => {
-        const id = `img${index}`;
-        const viewsKey = `${id}-views`;
-        const reactsKey = `${id}-reacts`;
-        const commentsKey = `${id}-comments`;
-
-        let views = parseInt(localStorage.getItem(viewsKey)) || 0;
-        let reacts = JSON.parse(localStorage.getItem(reactsKey)) || { like: 0, love: 0, laugh: 0 };
-        let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
-
-        const card = document.createElement('div');
-        card.className = 'card';
-
-        const img = document.createElement('img');
-        img.src = image.src;
-        img.alt = "photo";
-        img.onclick = () => {
-          document.getElementById('popup-img').src = image.src;
-          document.getElementById('popup').style.display = 'flex';
-          if (!img.dataset.counted) {
-            localStorage.setItem(viewsKey, ++views);
-            img.dataset.counted = "true";
-            renderImages();
-          }
-        };
-
-        card.appendChild(img);
-        card.innerHTML += `
-          <div class="views">${views} ${texts[currentLang].views}</div>
-          <div class="reactions">
-            <button onclick="react('${reactsKey}', 'like')">👍 ${reacts.like}</button>
-            <button onclick="react('${reactsKey}', 'love')">❤️ ${reacts.love}</button>
-            <button onclick="react('${reactsKey}', 'laugh')">😏 ${reacts.laugh}</button>
-          </div>
-          <div class="comments">
-            <textarea placeholder="${texts[currentLang].commentPlaceholder}" id="comment-${id}"></textarea>
-            <button onclick="addComment('${commentsKey}', 'comment-${id}')">📩</button>
-            <ul>${comments.map(c => `<li>${c}</li>`).join('')}</ul>
-          </div>
-        `;
-        gallery.appendChild(card);
-      });
-    }
-
-    function react(key, type) {
-      let reacts = JSON.parse(localStorage.getItem(key)) || { like: 0, love: 0, laugh: 0 };
-      reacts[type]++;
-      localStorage.setItem(key, JSON.stringify(reacts));
-      renderImages();
-    }
-
-    function addComment(key, textareaId) {
-      const textarea = document.getElementById(textareaId);
-      const val = textarea.value.trim();
-      if (val) {
-        let comments = JSON.parse(localStorage.getItem(key)) || [];
-        comments.push(val);
-        localStorage.setItem(key, JSON.stringify(comments));
-        textarea.value = "";
-        renderImages();
-      }
-    }
-
-    function applyLang() {
-      document.documentElement.lang = currentLang;
-      document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-      document.getElementById('page-title').textContent = texts[currentLang].title;
-      document.getElementById('toggle-lang-btn').textContent = texts[currentLang].toggle;
-      renderImages();
-    }
-
-    document.getElementById('toggle-lang-btn').addEventListener('click', () => {
-      currentLang = currentLang === 'ar' ? 'fr' : 'ar';
-      localStorage.setItem('lang', currentLang);
-      applyLang();
+      gallery.appendChild(card);
     });
 
-    document.addEventListener('DOMContentLoaded', applyLang);
+    function showPopupWithEmoji(src) {
+      popupImg.src = src;
+      popup.style.display = 'flex';
+
+      const emoji = document.createElement('div');
+      emoji.className = 'popup-emoji';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      popup.appendChild(emoji);
+
+      const rect = popupImg.getBoundingClientRect();
+      emoji.style.left = (rect.left + rect.width/2 - 20) + 'px';
+      emoji.style.top = (rect.top + rect.height/2 - 20) + 'px';
+
+      setTimeout(() => emoji.remove(), 1200);
+    }
   </script>
 </body>
 </html>

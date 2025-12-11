@@ -242,3 +242,4 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Firebase init skipped or failed:', e);
   }
 });
+  

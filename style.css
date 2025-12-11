@@ -69,8 +69,7 @@ header h1 {
   font-size: 1rem;
 }
 
-.news-ticker .news-text,
-#live-news {
+.news-ticker .news-text {
   display: inline-block;
   padding: 0 12px;
   min-height: 1.2em;
@@ -79,7 +78,7 @@ header h1 {
 }
 
 /* fade effect class applied by JS */
-.fade {
+.news-text.fade {
   animation: fade 0.45s linear;
 }
 

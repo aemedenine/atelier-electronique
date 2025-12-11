@@ -1,10 +1,10 @@
 // app.js
+// All client logic: UI, language toggle, news, time, visits, radio, equalizer, FAQ
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* -------------------- Language + Time + Visits + News + FAQ + Radio -------------------- */
-
+  // language initial based on html lang attribute
   let currentLang = document.documentElement.lang && document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
 
+  // Elements
   const ticker = document.getElementById('live-news');
   const toggleBtn = document.getElementById('toggle-lang-btn');
   const visitEl = document.getElementById('visit-count');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const radioBtn = document.getElementById('radio-btn');
   const equalizer = document.getElementById('equalizer');
 
-  /* TIME */
+  /* -------------------- Time -------------------- */
   function updateTime() {
     const now = new Date();
     const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     timeEl.textContent = `${dateStr} - ${timeStr}`;
   }
 
-  /* VISITS */
+  /* -------------------- Visits -------------------- */
   function updateVisits() {
     const key = 'aem-visit-count';
     let count = parseInt(localStorage.getItem(key)) || 0;
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
   }
 
-  /* NEWS */
+  /* -------------------- News rotation -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
     "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
@@ -73,10 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateNews() {
     const news = currentLang === 'ar' ? newsAr : newsFr;
+    // show next with fade animation class
     ticker.classList.remove('fade');
-    void ticker.offsetWidth;
+    void ticker.offsetWidth; // force reflow to restart animation
     ticker.textContent = news[newsIndex];
     ticker.classList.add('fade');
+
     newsIndex = (newsIndex + 1) % news.length;
   }
 
@@ -86,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     newsInterval = setInterval(updateNews, 5000);
   }
 
-  /* FAQ */
+  /* -------------------- FAQ -------------------- */
   function initFAQ() {
     const items = document.querySelectorAll('.faq-item');
     items.forEach(item => {
@@ -96,17 +98,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* EQUALIZER */
+  /* -------------------- Equalizer visibility -------------------- */
   function updateEqualizerVisibility() {
     if (!equalizer) return;
-    equalizer.style.opacity = radio.paused ? '0.25' : '1';
-    equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
+    if (radio.paused) {
+      equalizer.style.opacity = '0.25';
+      equalizer.style.pointerEvents = 'none';
+    } else {
+      equalizer.style.opacity = '1';
+      equalizer.style.pointerEvents = 'auto';
+    }
   }
 
-  /* RADIO */
+  /* -------------------- Radio controls -------------------- */
   radioBtn.addEventListener('click', () => {
     if (radio.paused) {
-      radio.play().catch(e => console.warn('Radio play failed:', e));
+      radio.play().catch(e => {
+        // autoplay may be blocked by browser; inform user
+        console.warn('Radio play failed:', e);
+      });
       radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
     } else {
       radio.pause();
@@ -118,11 +128,51 @@ document.addEventListener('DOMContentLoaded', () => {
   radio.addEventListener('play', updateEqualizerVisibility);
   radio.addEventListener('pause', updateEqualizerVisibility);
 
-  /* LANGUAGE */
+  /* -------------------- Language toggle -------------------- */
   function setLanguage(lang) {
     currentLang = lang;
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    if (lang === 'ar') {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+      document.querySelector('.experience-badge').textContent = '🌼 أكثر من 10 سنوات خبرة';
+      toggleBtn.textContent = 'تبديل اللغة';
+      document.querySelector('.btn-whatsapp').textContent = 'واتساب';
+      document.querySelector('.btn-maps').textContent = 'موقعنا على Google Maps';
+      document.querySelector('.btn-gallery').textContent = 'شاهد الصور';
+      document.querySelector('.btn-video').textContent = 'شاهد الفيديو';
+      document.querySelector('.btn-services').textContent = 'خدمات الورشة';
+      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو';
+
+      // rebuild FAQ in Arabic (keeps markup consistent)
+      faqContainer.innerHTML = `
+        <h2>الأسئلة الشائعة</h2>
+        <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
+        <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
+        <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
+        <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
+      `;
+    } else {
+      document.documentElement.lang = 'fr';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+      document.querySelector('.experience-badge').textContent = '🌼 Plus de 10 ans d\'expérience';
+      toggleBtn.textContent = 'Changer la langue';
+      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp';
+      document.querySelector('.btn-maps').textContent = 'Voir sur Google Maps';
+      document.querySelector('.btn-gallery').textContent = 'Voir les photos';
+      document.querySelector('.btn-video').textContent = 'Voir les vidéos';
+      document.querySelector('.btn-services').textContent = 'Services de l\'atelier';
+      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio';
+
+      faqContainer.innerHTML = `<h2>FAQ</h2>
+        <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
+        <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
+        <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
+        <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>`;
+    }
+
+    // restart related features
     startNewsRotation();
     updateTime();
     updateVisits();
@@ -133,11 +183,62 @@ document.addEventListener('DOMContentLoaded', () => {
     setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
   });
 
-  /* INIT */
+  /* -------------------- Initialization -------------------- */
+  // periodic time update
   setInterval(updateTime, 1000);
+
+  // initial calls
   updateTime();
   updateVisits();
   startNewsRotation();
   initFAQ();
   updateEqualizerVisibility();
 
+  /* -------------------- Firebase (reactions/comments) -------------------- */
+  // If you use Firebase features, keep these credentials as you provided.
+  // NOTE: these keys are visible in client code by design (Firebase config).
+  // If you don't use Firebase, you can remove this block.
+  try {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5Hrfk6tU22ITquRR3xt957WmlnvPTw5M",
+      authDomain: "aem-site-4e030.firebaseapp.com",
+      projectId: "aem-site-4e030",
+      storageBucket: "aem-site-4e030.firebasestorage.app",
+      messagingSenderId: "241838556898",
+      appId: "1:241838556898:web:9eb591e3d05405894800bb",
+      measurementId: "G-DTNBCK5H1F"
+    };
+
+    // initialize compat SDK (we included compat scripts in HTML)
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Example: attach listeners to reaction & comment buttons (if present)
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const reaction = btn.dataset.reaction;
+        const mediaId = btn.closest('.reactions')?.dataset.id;
+        if (!mediaId) return;
+        db.collection("reactions").add({ mediaId, reaction, timestamp: new Date() });
+      });
+    });
+
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parent = btn.closest('.reactions');
+        if (!parent) return;
+        const commentInput = parent.querySelector('.comment-input');
+        const mediaId = parent.dataset.id;
+        const comment = commentInput?.value.trim();
+        if (comment) {
+          db.collection("comments").add({ mediaId, comment, timestamp: new Date() });
+          if (commentInput) commentInput.value = '';
+        }
+      });
+    });
+
+  } catch (e) {
+    // if Firebase scripts not loaded or config invalid, don't break the UI
+    console.warn('Firebase init skipped or failed:', e);
+  }
+});

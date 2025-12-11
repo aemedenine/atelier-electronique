@@ -30,6 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('current-time').textContent = `${dateStr} - ${timeStr}`;
   }
+<script>
+function changeVideo(url) {
+  const video = document.getElementById("work-video");
+  video.src = url;
+  video.play();
+}
+
+// مثال: تبديل الفيديو
+// changeVideo("video2.mp4");
+</script>
 
   // تحديث عداد الزيارات (localStorage)
   function updateVisits() {

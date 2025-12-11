@@ -8,7 +8,221 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 
+  <!-- Main CSS -->
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ===== Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', 'Open Sans', sans-serif;
+      background: linear-gradient(135deg, #0b1a27, #1a2a3a);
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    header img.logo {
+      width: 120px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: #ffdd57;
+    }
+
+    /* ===== News Ticker ===== */
+    .news-ticker {
+      background: #002233;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* ===== Info Bar ===== */
+    .info-bar {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      gap: 10px;
+    }
+
+    .info-bar div, .info-bar button {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    button.btn-primary {
+      cursor: pointer;
+      border: none;
+      color: #fff;
+      background: #ffdd57;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 15px;
+    }
+
+    /* ===== Chacha Video ===== */
+    .chacha {
+      position: relative;
+      display: block;
+      max-width: 400px;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .chacha video {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    #toggleBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 50%;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s;
+    }
+
+    #toggleBtn:hover {
+      transform: scale(1.2);
+    }
+
+    /* ===== CTA Buttons ===== */
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .cta-buttons a, .cta-buttons button {
+      text-decoration: none;
+      color: #fff;
+      background: #ffdd57;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .cta-buttons a:hover, .cta-buttons button:hover {
+      transform: scale(1.05);
+    }
+
+    /* ===== Equalizer ===== */
+    .equalizer {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 10px;
+    }
+
+    .equalizer .bar {
+      width: 6px;
+      height: 20px;
+      background: #ffdd57;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { height: 10px; }
+      to { height: 30px; }
+    }
+
+    /* ===== Experience Badge ===== */
+    .experience-badge {
+      text-align: center;
+      background: #ffdd57;
+      color: #0b1a27;
+      font-weight: bold;
+      padding: 10px 15px;
+      border-radius: 12px;
+      margin: 20px auto;
+      max-width: 300px;
+    }
+
+    /* ===== FAQ ===== */
+    .faq {
+      margin: 20px 0;
+    }
+
+    .faq-item {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .faq-item h3 {
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .faq-item .answer {
+      display: none;
+      padding-left: 10px;
+      color: #ffdd57;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: #002233;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    footer p {
+      margin-bottom: 5px;
+    }
+
+    .social-icons a {
+      margin: 0 5px;
+    }
+
+    .social-icons img {
+      width: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .info-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -28,14 +242,15 @@
       <div id="visit-count">عدد زياراتك: 0</div>
       <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
     </section>
-<!-- HTML -->
-<div class="chacha" id="chacha">
-  <video id="chachaVideo" autoplay muted loop width="200">
-    <source src="video.mp4" type="video/mp4">
-    متصفحك لا يدعم الفيديو
-  </video>
-  <button id="toggleBtn">🔍✨</button>
-</div>
+
+    <!-- Chacha Video -->
+    <div class="chacha" id="chacha">
+      <video id="chachaVideo" autoplay muted loop>
+        <source src="video.mp4" type="video/mp4">
+        متصفحك لا يدعم الفيديو
+      </video>
+      <button id="toggleBtn">🔍✨</button>
+    </div>
 
     <section class="cta-buttons">
       <a href="download" class="btn-download">📥 تحميل البرامج</a>
@@ -49,7 +264,6 @@
 
       <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
 
-      <!-- Equalizer Bars -->
       <div class="equalizer" id="equalizer" aria-hidden="true">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -94,11 +308,21 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs (only needed because you use Firestore in app.js) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <!-- Your application JS -->
   <script src="app.js" defer></script>
+
+  <script>
+    // FAQ toggle
+    document.querySelectorAll('.faq-item h3').forEach(item => {
+      item.addEventListener('click', () => {
+        const answer = item.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
 </body>
 </html>

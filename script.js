@@ -208,3 +208,20 @@ function closeModal() {
   modalVideo.currentTime = 0;
   modalVideo.src = "";
 }
+// JavaScript
+const video = document.getElementById('chachaVideo');
+const btn = document.getElementById('toggleBtn');
+
+let enlarged = false;
+
+btn.addEventListener('click', () => {
+  if (!enlarged) {
+    video.style.width = '400px';        // تكبير الفيديو
+    video.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)'; // ظل جميل
+    enlarged = true;
+  } else {
+    video.style.width = '200px';        // تصغير الفيديو
+    video.style.boxShadow = 'none';
+    enlarged = false;
+  }
+});

@@ -7,6 +7,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -27,15 +28,6 @@
       <div id="visit-count">عدد زياراتك: 0</div>
       <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
     </section>
-
-    <!-- Chacha Video -->
-    <div class="chacha" id="chacha">
-      <video id="chachaVideo" autoplay muted loop width="200">
-        <source src="video.mp4" type="video/mp4">
-        متصفحك لا يدعم الفيديو
-      </video>
-      <button id="toggleBtn">🔍✨</button>
-    </div>
 
     <section class="cta-buttons">
       <a href="download" class="btn-download">📥 تحميل البرامج</a>
@@ -94,7 +86,7 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs (only needed because you use Firestore in app.js) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -102,4 +94,3 @@
   <script src="app.js" defer></script>
 </body>
 </html>
-  

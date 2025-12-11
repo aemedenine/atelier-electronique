@@ -55,7 +55,7 @@ header h1 {
   flex-grow: 1;
 }
 
-/* News ticker (rotating items with fade) */
+/* News ticker */
 .news-ticker {
   width: 100%;
   overflow: hidden;
@@ -77,7 +77,6 @@ header h1 {
   opacity: 1;
 }
 
-/* fade effect class applied by JS */
 .news-text.fade {
   animation: fade 0.45s linear;
 }
@@ -116,7 +115,7 @@ header h1 {
 
 #toggle-lang-btn:hover { background-color: #d9533f; }
 
-/* CTA Buttons */
+/* CTA Buttons - unified text size for Arabic & French */
 .cta-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -129,16 +128,19 @@ header h1 {
 .cta-buttons button {
   background: #1e90ff;
   color: white;
-  padding: 14px 18px;
+  padding: 14px 25px;
   border-radius: 8px;
   font-weight: 700;
+  font-size: 1rem; /* حجم موحد */
+  line-height: 1.2;
   border: none;
   cursor: pointer;
   text-decoration: none;
-  min-width: 140px;
+  min-width: 160px;
   text-align: center;
   transition: background-color 0.3s ease, transform 0.08s ease;
   box-shadow: 0 2px 6px rgba(30, 144, 255, 0.7);
+  white-space: nowrap;
 }
 
 .cta-buttons a:hover,
@@ -147,13 +149,16 @@ header h1 {
 .btn-store {
   background: #007bff !important;
   color: #f5eded !important;
-  padding: 14px 25px;
-  min-width: 160px;
-  font-size: 1.05rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
 }
 
 .btn-store:hover { background: #e0a800 !important; }
+
+.btn-download {
+  background: #28a745 !important;
+  color: white !important;
+}
+
+.btn-download:hover { background: #218838 !important; }
 
 /* Experience badge */
 .experience-badge {
@@ -225,7 +230,7 @@ header h1 {
 
 .faq-item.open .answer { display: block; }
 
-/* Equalizer styles (for .bar elements used in HTML) */
+/* Equalizer */
 .equalizer {
   display: flex;
   justify-content: center;

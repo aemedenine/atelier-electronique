@@ -21,41 +21,8 @@ body {
   width: 90%;
   max-width: 1100px;
   margin: 0 auto;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding: 0 12px;
 }
-/* Section Live */
-.live-section { padding: 20px; margin-bottom: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); background: #0a1e3d; color: #fff; text-align: center; }
-.live-section h2 { color: #ff6b35; font-size: 1.5rem; margin-bottom: 15px; }
-.facebook-live iframe { width: 100%; max-width: 600px; border-radius: 8px; height: 340px; border:none; overflow:hidden; }
-
-/* WhatsApp Chat Button */
-.whatsapp-chat { display: inline-block; background-color: #25D366; color: white; padding: 12px 25px; border-radius: 8px; font-weight: 700; text-decoration: none; margin-top: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); transition: background 0.3s; }
-.whatsapp-chat:hover { background-color: #1ebe57; }
-
-/* Live News */
-.live-news { background: #ff6b35; color: #fff; padding: 10px; margin-bottom: 20px; font-weight: 700; overflow: hidden; white-space: nowrap; }
-.live-news span { display: inline-block; animation: scrollText 15s linear infinite; }
-@keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-/* Equalizer */
-.equalizer { display: flex; justify-content: center; gap: 4px; margin-top: 20px; height: 30px; }
-.equalizer .bar { display: block; width: 6px; background: #1e90ff; animation: bounce 1s infinite ease-in-out; }
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
-@keyframes bounce { 0%,100% {height:5px;} 50% {height:30px;} }
-
-/* Devices Status */
-.device-status { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
-.device-card { background: #122f4a; padding: 15px 20px; border-radius: 10px; min-width: 150px; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-.device-card h3 { color: #1e90ff; margin-bottom: 8px; }
-.device-card p { color: #ddd; font-weight: 500; }
-
-/* Responsive */
-@media (max-width:768px) { .facebook-live iframe { height:250px; } .device-status { flex-direction: column; align-items: center; } }
 
 /* Header */
 header {
@@ -64,7 +31,6 @@ header {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
   margin-bottom: 15px;
 }
-
 .header-inner {
   display: flex;
   align-items: center;
@@ -72,14 +38,11 @@ header {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
-
 .logo {
   width: 150px;
-  height: auto;
   border-radius: 10px;
   box-shadow: 0 0 8px #1e90ff;
 }
-
 header h1 {
   font-weight: 700;
   font-size: 1.8rem;
@@ -87,39 +50,7 @@ header h1 {
   flex-grow: 1;
 }
 
-/* News ticker (rotating items with fade) */
-.news-ticker {
-  width: 100%;
-  overflow: hidden;
-  background: #ff6b35;
-  color: white;
-  white-space: nowrap;
-  font-weight: 700;
-  padding: 10px 0;
-  margin-bottom: 25px;
-  position: relative;
-  font-size: 1rem;
-}
-
-.news-ticker .news-text {
-  display: inline-block;
-  padding: 0 12px;
-  min-height: 1.2em;
-  transition: opacity 0.4s ease;
-  opacity: 1;
-}
-
-/* fade effect class applied by JS */
-.news-text.fade {
-  animation: fade 0.45s linear;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Info bar */
+/* Info Bar */
 .info-bar {
   display: flex;
   justify-content: space-between;
@@ -134,7 +65,6 @@ header h1 {
   flex-wrap: wrap;
   gap: 10px;
 }
-
 #toggle-lang-btn {
   background-color: #ff6b35;
   border: none;
@@ -145,8 +75,111 @@ header h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 #toggle-lang-btn:hover { background-color: #d9533f; }
+
+/* الأخبار المتحركة */
+.live-news {
+  background: #ff6b35;
+  color: #fff;
+  padding: 10px;
+  font-weight: 700;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-bottom: 20px;
+}
+.live-news span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 15s linear infinite;
+}
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Live Sections */
+.live-section {
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  background: #0a1e3d;
+  color: #fff;
+  text-align: center;
+}
+.live-section h2 {
+  color: #ff6b35;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+.facebook-live iframe {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px;
+  height: 340px;
+  border: none;
+}
+
+/* WhatsApp Button */
+.whatsapp-chat {
+  display: inline-block;
+  background-color: #25D366;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  transition: background 0.3s;
+}
+.whatsapp-chat:hover { background-color: #1ebe57; }
+
+/* Devices Status */
+.device-status {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.device-card {
+  background: #122f4a;
+  padding: 15px 20px;
+  border-radius: 10px;
+  min-width: 150px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.device-card h3 { color: #1e90ff; margin-bottom: 8px; }
+.device-card p { color: #ddd; font-weight: 500; }
+
+/* Equalizer */
+.equalizer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  height: 40px;
+  align-items: flex-end;
+  transition: opacity 0.3s ease;
+}
+.equalizer .bar {
+  width: 6px;
+  background: #1e90ff;
+  border-radius: 3px;
+  height: 8px;
+  animation: bounce 1s infinite ease-in-out;
+  transition: height 0.2s ease-in-out;
+}
+.equalizer .bar:nth-child(1) { animation-delay: 0s; }
+.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
+.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
+.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
+.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%, 100% { height: 8px; }
+  50% { height: 36px; }
+}
 
 /* CTA Buttons */
 .cta-buttons {
@@ -156,9 +189,7 @@ header h1 {
   gap: 15px;
   margin-bottom: 30px;
 }
-
-.cta-buttons a,
-.cta-buttons button {
+.cta-buttons a, .cta-buttons button {
   background: #1e90ff;
   color: white;
   padding: 14px 18px;
@@ -172,22 +203,12 @@ header h1 {
   transition: background-color 0.3s ease, transform 0.08s ease;
   box-shadow: 0 2px 6px rgba(30, 144, 255, 0.7);
 }
+.cta-buttons a:hover, .cta-buttons button:hover { background: #0c5ea8; transform: translateY(-2px); }
 
-.cta-buttons a:hover,
-.cta-buttons button:hover { background: #0c5ea8; transform: translateY(-2px); }
-
-.btn-store {
-  background: #007bff !important;
-  color: #f5eded !important;
-  padding: 14px 25px;
-  min-width: 160px;
-  font-size: 1.05rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-}
-
+.btn-store { background: #007bff !important; color: #f5eded !important; min-width: 160px; font-size: 1.05rem; }
 .btn-store:hover { background: #e0a800 !important; }
 
-/* Experience badge */
+/* Experience Badge */
 .experience-badge {
   background-color: #007bff;
   color: white;
@@ -203,15 +224,7 @@ header h1 {
 
 /* FAQ */
 .faq { max-width: 800px; margin: 0 auto 60px auto; }
-
-.faq h2 {
-  color: #007bff;
-  font-weight: 700;
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
+.faq h2 { color: #007bff; font-weight: 700; font-size: 1.8rem; text-align: center; margin-bottom: 25px; }
 .faq-item {
   background-color: #0a1e3d;
   margin-bottom: 12px;
@@ -219,18 +232,15 @@ header h1 {
   padding: 15px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
-
 .faq-item:hover { background-color: #13325b; }
-
 .faq-item h3 {
   font-weight: 700;
   position: relative;
   color: #1e90ff;
   margin-bottom: 6px;
 }
-
 .faq-item h3::after {
   content: "+";
   position: absolute;
@@ -241,51 +251,9 @@ header h1 {
   color: #ff6b35;
   transition: transform 0.3s ease;
 }
-
-.faq-item.open h3::after {
-  content: "-";
-  transform: rotate(180deg);
-}
-
-.answer {
-  margin-top: 12px;
-  font-weight: 400;
-  color: #ddd;
-  display: none;
-  line-height: 1.5;
-}
-
+.faq-item.open h3::after { content: "-"; transform: rotate(180deg); }
+.answer { margin-top: 12px; font-weight: 400; color: #ddd; display: none; line-height: 1.5; }
 .faq-item.open .answer { display: block; }
-
-/* Equalizer styles (for .bar elements used in HTML) */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 20px;
-  height: 40px;
-  align-items: flex-end;
-  transition: opacity 0.3s ease;
-}
-
-.equalizer .bar {
-  width: 6px;
-  background: #1e90ff;
-  border-radius: 3px;
-  animation: bounce 1s infinite ease-in-out;
-  height: 8px;
-}
-
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes bounce {
-  0%, 100% { height: 8px; }
-  50% { height: 36px; }
-}
 
 /* Footer */
 footer {
@@ -297,15 +265,10 @@ footer {
   font-size: 0.9rem;
   box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
 }
-
 .footer-inner p { margin-bottom: 5px; }
-
 .social-icons { margin-top: 10px; }
-
 .social-icons a { margin: 0 12px; display: inline-block; opacity: 0.75; transition: opacity 0.3s ease; }
-
 .social-icons a:hover { opacity: 1; }
-
 .social-icons img { width: 28px; height: 28px; filter: drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
 
 /* Responsive */
@@ -315,4 +278,6 @@ footer {
   .cta-buttons { flex-direction: column; align-items: center; }
   .experience-badge { width: 90%; }
   .faq { width: 90%; }
+  .facebook-live iframe { height: 250px; }
+  .device-status { flex-direction: column; align-items: center; }
 }

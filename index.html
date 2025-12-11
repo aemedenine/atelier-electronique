@@ -10,6 +10,38 @@
 
   <link rel="stylesheet" href="style.css" />
 </head>
+  // أخبار متحركة
+const news = [
+  "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+  "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+  "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+  "📱 تواصل معنا عبر واتساب لأي استفسار."
+];
+let newsIndex = 0;
+const liveNewsSpan = document.querySelector('.live-news span');
+function showNextNews() {
+  liveNewsSpan.textContent = news[newsIndex];
+  newsIndex = (newsIndex + 1) % news.length;
+}
+showNextNews();
+setInterval(showNextNews, 5000);
+
+// راديو
+const radio = document.getElementById('radio-stream');
+const radioBtn = document.getElementById('radio-btn');
+const equalizer = document.getElementById('equalizer');
+radioBtn.addEventListener('click', () => {
+  if(radio.paused){ radio.play(); radioBtn.textContent = 'أوقف الراديو'; }
+  else{ radio.pause(); radioBtn.textContent = 'شغّل الراديو'; }
+  updateEqualizer();
+});
+function updateEqualizer() {
+  equalizer.style.opacity = radio.paused ? '0.2' : '1';
+}
+radio.addEventListener('play', updateEqualizer);
+radio.addEventListener('pause', updateEqualizer);
+updateEqualizer();
+
 <body>
   <header>
     <div class="container header-inner">

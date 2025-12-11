@@ -141,21 +141,3 @@ document.addEventListener('DOMContentLoaded', () => {
   initFAQ();
   updateEqualizerVisibility();
 
-  /* -------------------- CHACHA SMALL VIDEO -------------------- */
-  const video = document.getElementById('chachaVideo');
-  const btn = document.getElementById('toggleBtn');
-
-  let enlarged = false;
-
-  btn.addEventListener('click', () => {
-    if (!enlarged) {
-      video.style.width = '400px';        
-      video.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
-      enlarged = true;
-    } else {
-      video.style.width = '200px';        
-      video.style.boxShadow = 'none';
-      enlarged = false;
-    }
-  });
-});

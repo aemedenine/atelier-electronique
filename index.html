@@ -10,38 +10,6 @@
 
   <link rel="stylesheet" href="style.css" />
 </head>
-  // أخبار متحركة
-const news = [
-  "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-  "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-  "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-  "📱 تواصل معنا عبر واتساب لأي استفسار."
-];
-let newsIndex = 0;
-const liveNewsSpan = document.querySelector('.live-news span');
-function showNextNews() {
-  liveNewsSpan.textContent = news[newsIndex];
-  newsIndex = (newsIndex + 1) % news.length;
-}
-showNextNews();
-setInterval(showNextNews, 5000);
-
-// راديو
-const radio = document.getElementById('radio-stream');
-const radioBtn = document.getElementById('radio-btn');
-const equalizer = document.getElementById('equalizer');
-radioBtn.addEventListener('click', () => {
-  if(radio.paused){ radio.play(); radioBtn.textContent = 'أوقف الراديو'; }
-  else{ radio.pause(); radioBtn.textContent = 'شغّل الراديو'; }
-  updateEqualizer();
-});
-function updateEqualizer() {
-  equalizer.style.opacity = radio.paused ? '0.2' : '1';
-}
-radio.addEventListener('play', updateEqualizer);
-radio.addEventListener('pause', updateEqualizer);
-updateEqualizer();
-
 <body>
   <header>
     <div class="container header-inner">
@@ -50,8 +18,9 @@ updateEqualizer();
     </div>
   </header>
 
-  <div class="news-ticker" aria-live="polite">
-    <div class="news-text" id="live-news">تحميل الأخبار...</div>
+  <!-- الأخبار المتحركة -->
+  <div class="live-news" aria-live="polite">
+    <span>تحميل الأخبار...</span>
   </div>
 
   <main class="container main-content">
@@ -60,54 +29,57 @@ updateEqualizer();
       <div id="visit-count">عدد زياراتك: 0</div>
       <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
     </section>
-<!-- أخبار متحركة Live -->
-<div class="live-news" id="live-news"><span>تحميل الأخبار...</span></div>
 
-<!-- البث المباشر -->
-<section class="live-section">
-  <h2>بث مباشر</h2>
-  <div class="facebook-live">
-    <iframe 
-      src="https://www.facebook.com/plugins/video.php?href=رابط_البث_المباشر_متاعك&show_text=0&width=560" 
-      allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-    </iframe>
-  </div>
-</section>
+    <!-- البث المباشر -->
+    <section class="live-section">
+      <h2>بث مباشر</h2>
+      <div class="facebook-live">
+        <iframe 
+          src="https://www.facebook.com/plugins/video.php?href=رابط_البث_المباشر_متاعك&show_text=0&width=560" 
+          width="560" height="315"
+          allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+        </iframe>
+      </div>
+    </section>
 
-<!-- زر الشات واتساب -->
-<section class="live-section">
-  <h2>تواصل معنا مباشرة</h2>
-  <a href="https://wa.me/21698192103" target="_blank" class="whatsapp-chat">💬 تواصل عبر واتساب</a>
-</section>
+    <!-- زر الشات واتساب -->
+    <section class="live-section">
+      <h2>تواصل معنا مباشرة</h2>
+      <a href="https://wa.me/21698192103" target="_blank" class="whatsapp-chat">💬 تواصل عبر واتساب</a>
+    </section>
 
-<!-- حالة الأجهزة Live -->
-<section class="live-section">
-  <h2>حالة الأجهزة</h2>
-  <div class="device-status">
-    <div class="device-card">
-      <h3>جاهز</h3>
-      <p id="ready-count">5 أجهزة</p>
-    </div>
-    <div class="device-card">
-      <h3>قيد التصليح</h3>
-      <p id="repair-count">3 أجهزة</p>
-    </div>
-    <div class="device-card">
-      <h3>متأخر</h3>
-      <p id="late-count">1 جهاز</p>
-    </div>
-  </div>
-</section>
+    <!-- حالة الأجهزة Live -->
+    <section class="live-section">
+      <h2>حالة الأجهزة</h2>
+      <div class="device-status">
+        <div class="device-card">
+          <h3>جاهز</h3>
+          <p id="ready-count">5 أجهزة</p>
+        </div>
+        <div class="device-card">
+          <h3>قيد التصليح</h3>
+          <p id="repair-count">3 أجهزة</p>
+        </div>
+        <div class="device-card">
+          <h3>متأخر</h3>
+          <p id="late-count">1 جهاز</p>
+        </div>
+      </div>
+    </section>
 
-<!-- الراديو + Equalizer -->
-<section class="live-section">
-  <h2>راديو الورشة</h2>
-  <button id="radio-btn">شغّل الراديو</button>
-  <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-  <div class="equalizer" id="equalizer">
-    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-  </div>
-</section>
+    <!-- الراديو + Equalizer -->
+    <section class="live-section">
+      <h2>راديو الورشة</h2>
+      <button id="radio-btn">شغّل الراديو</button>
+      <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+      <div class="equalizer" id="equalizer" aria-hidden="true">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </section>
 
     <section class="cta-buttons">
       <a href="download" class="btn-download">📥 تحميل البرامج</a>
@@ -117,18 +89,6 @@ updateEqualizer();
       <a href="photos.html" class="btn-gallery">شاهد الصور</a>
       <a href="videos.html" class="btn-video">شاهد الفيديو</a>
       <a href="services.html" class="btn-services">خدمات الورشة</a>
-      <button id="radio-btn" class="btn-radio">شغّل الراديو</button>
-
-      <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-
-      <!-- Equalizer Bars -->
-      <div class="equalizer" id="equalizer" aria-hidden="true">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
     </section>
 
     <section class="experience-badge">🌼 أكثر من 10 سنوات خبرة</section>
@@ -166,11 +126,51 @@ updateEqualizer();
     </div>
   </footer>
 
-  <!-- Firebase SDKs (only needed because you use Firestore in app.js) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <!-- Your application JS -->
-  <script src="app.js" defer></script>
+  <!-- JavaScript -->
+  <script>
+    // أخبار متحركة
+    const news = [
+      "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+      "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+      "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+      "📱 تواصل معنا عبر واتساب لأي استفسار."
+    ];
+    let newsIndex = 0;
+    const liveNewsSpan = document.querySelector('.live-news span');
+    function showNextNews() {
+      liveNewsSpan.textContent = news[newsIndex];
+      newsIndex = (newsIndex + 1) % news.length;
+    }
+    showNextNews();
+    setInterval(showNextNews, 5000);
+
+    // الراديو + Equalizer
+    const radio = document.getElementById('radio-stream');
+    const radioBtn = document.getElementById('radio-btn');
+    const equalizer = document.getElementById('equalizer');
+
+    radioBtn.addEventListener('click', () => {
+      if (radio.paused) {
+        radio.play();
+        radioBtn.textContent = 'أوقف الراديو';
+      } else {
+        radio.pause();
+        radioBtn.textContent = 'شغّل الراديو';
+      }
+      updateEqualizer();
+    });
+
+    function updateEqualizer() {
+      equalizer.style.opacity = radio.paused ? '0.2' : '1';
+    }
+
+    radio.addEventListener('play', updateEqualizer);
+    radio.addEventListener('pause', updateEqualizer);
+    updateEqualizer();
+  </script>
 </body>
 </html>

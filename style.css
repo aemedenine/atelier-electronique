@@ -24,41 +24,58 @@ body {
   padding-left: 12px;
   padding-right: 12px;
 }
-/* CSS */
+
+/* --- CHACHA (small rotated video) --- */
 .chacha {
   position: fixed;
   top: 50%;
   left: 0;
-  transform: rotate(-90deg) translateY(-50%);
+  transform: translateY(-50%) rotate(-90deg); /* translate first, then rotate */
   transform-origin: left top;
-  background-color: transparent;
-  padding: 5px;
-  border: 1px solid #ccc;
+  width: 150px; /* ثابت ومعقول */
+  background: transparent;
+  padding: 0;
+  border: none;
   z-index: 9999;
+  pointer-events: auto;
 }
 
 .chacha video {
-  display: block;
-  max-width: 100%;
+  width: 150px;
   height: auto;
-  border-radius: 8px;
-  transition: width 0.5s ease, box-shadow 0.3s ease;
+  opacity: 0.88; /* شفافية */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.12);
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  display: block;
 }
 
+.chacha video:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* زر التكبير (نخليها ظاهرة على الشاشة لو تحب) */
 .chacha button {
-  display: block;
-  margin-top: 5px;
+  display: inline-block;
+  margin-top: 6px;
   cursor: pointer;
-  font-size: 18px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  font-size: 16px;
+  background: rgba(255,255,255,0.95);
+  border: none;
+  border-radius: 6px;
   padding: 4px 8px;
-  transition: transform 0.3s ease;
+  transition: transform 0.18s ease;
 }
 
 .chacha button:hover {
-  transform: scale(1.2) rotate(10deg);
+  transform: scale(1.08) rotate(6deg);
+}
+
+/* Accessibility: hide on very small screens to avoid covering content */
+@media (max-width: 420px) {
+  .chacha { display: none; }
 }
 
 /* Header */
@@ -105,7 +122,8 @@ header h1 {
   font-size: 1rem;
 }
 
-.news-ticker .news-text {
+.news-ticker .news-text,
+#live-news {
   display: inline-block;
   padding: 0 12px;
   min-height: 1.2em;
@@ -114,7 +132,7 @@ header h1 {
 }
 
 /* fade effect class applied by JS */
-.news-text.fade {
+.fade {
   animation: fade 0.45s linear;
 }
 

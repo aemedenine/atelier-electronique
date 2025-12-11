@@ -131,15 +131,17 @@
 
   <script>
     const images = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
+
     const texts = {
-      ar: { title: "صور الورشة", return: "⬅️ الرجوع إلى الصفحة الرئيسية", commentPlaceholder: "أضف تعليقًا..." },
-      fr: { title: "Photos de l'atelier", return: "⬅️ Retour à la page principale", commentPlaceholder: "Ajouter un commentaire..." }
+      ar: { title: "صور الورشة", return: "⬅️ الرجوع إلى الصفحة الرئيسية", commentPlaceholder: "أضف تعليقًا...", toggle: "تبديل اللغة" },
+      fr: { title: "Photos de l'atelier", return: "⬅️ Retour à la page principale", commentPlaceholder: "Ajouter un commentaire...", toggle: "Changer la langue" }
     };
     let currentLang = localStorage.getItem('lang') || 'ar';
 
     const gallery = document.getElementById('image-gallery');
     const popup = document.getElementById('popup');
     const popupImg = document.getElementById('popup-img');
+    const toggleBtn = document.getElementById('toggle-lang-btn');
 
     function renderGallery() {
       gallery.innerHTML = '';
@@ -215,17 +217,19 @@
       setTimeout(() => emoji.remove(), 1200);
     }
 
-    document.getElementById('toggle-lang-btn').addEventListener('click', () => {
+    toggleBtn.addEventListener('click', () => {
       currentLang = currentLang === 'ar' ? 'fr' : 'ar';
       localStorage.setItem('lang', currentLang);
       document.getElementById('page-title').textContent = texts[currentLang].title;
       document.getElementById('return-btn').textContent = texts[currentLang].return;
+      toggleBtn.textContent = texts[currentLang].toggle;
       renderGallery();
     });
 
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('page-title').textContent = texts[currentLang].title;
       document.getElementById('return-btn').textContent = texts[currentLang].return;
+      toggleBtn.textContent = texts[currentLang].toggle;
       renderGallery();
     });
   </script>

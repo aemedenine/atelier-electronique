@@ -24,22 +24,6 @@ body {
   padding-left: 12px;
   padding-right: 12px;
 }
-.live-box {
-  position: fixed;
-  top: 10px;     /* المسافة من الأعلى */
-  left: 10px;    /* المسافة من اليسار */
-  width: 320px;
-  height: 180px;
-  border: 3px solid #f0c040;  /* حدود صفراء */
-  background-color: #000;      /* خلفية سوداء */
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
-  z-index: 9999;               /* باش يكون فوق كل شي */
-}
-
-.live-box video {
-  width: 100%;
-  height: 100%;
-}
 
 /* Header */
 header {
@@ -52,7 +36,7 @@ header {
 .header-inner {
   display: flex;
   align-items: center;
-  gap: 15px;  
+  gap: 15px;
   justify-content: flex-start;
   flex-wrap: wrap;
 }

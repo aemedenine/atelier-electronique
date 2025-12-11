@@ -28,6 +28,54 @@
       <div id="visit-count">عدد زياراتك: 0</div>
       <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
     </section>
+<!-- أخبار متحركة Live -->
+<div class="live-news" id="live-news"><span>تحميل الأخبار...</span></div>
+
+<!-- البث المباشر -->
+<section class="live-section">
+  <h2>بث مباشر</h2>
+  <div class="facebook-live">
+    <iframe 
+      src="https://www.facebook.com/plugins/video.php?href=رابط_البث_المباشر_متاعك&show_text=0&width=560" 
+      allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+    </iframe>
+  </div>
+</section>
+
+<!-- زر الشات واتساب -->
+<section class="live-section">
+  <h2>تواصل معنا مباشرة</h2>
+  <a href="https://wa.me/21698192103" target="_blank" class="whatsapp-chat">💬 تواصل عبر واتساب</a>
+</section>
+
+<!-- حالة الأجهزة Live -->
+<section class="live-section">
+  <h2>حالة الأجهزة</h2>
+  <div class="device-status">
+    <div class="device-card">
+      <h3>جاهز</h3>
+      <p id="ready-count">5 أجهزة</p>
+    </div>
+    <div class="device-card">
+      <h3>قيد التصليح</h3>
+      <p id="repair-count">3 أجهزة</p>
+    </div>
+    <div class="device-card">
+      <h3>متأخر</h3>
+      <p id="late-count">1 جهاز</p>
+    </div>
+  </div>
+</section>
+
+<!-- الراديو + Equalizer -->
+<section class="live-section">
+  <h2>راديو الورشة</h2>
+  <button id="radio-btn">شغّل الراديو</button>
+  <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+  <div class="equalizer" id="equalizer">
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  </div>
+</section>
 
     <section class="cta-buttons">
       <a href="download" class="btn-download">📥 تحميل البرامج</a>

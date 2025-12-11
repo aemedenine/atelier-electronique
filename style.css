@@ -25,58 +25,47 @@ body {
   padding-right: 12px;
 }
 
-/* --- CHACHA (small rotated video) --- */
+/* --- CHACHA VIDEO BUTTON (LEFT 90 DEGREE) --- */
+
 .chacha {
   position: fixed;
   top: 50%;
   left: 0;
-  transform: translateY(-50%) rotate(-90deg); /* translate first, then rotate */
+  transform: translateY(-50%) rotate(-90deg);
   transform-origin: left top;
-  width: 150px; /* ثابت ومعقول */
+  width: 180px;
+  z-index: 9999;
+  pointer-events: auto;
   background: transparent;
   padding: 0;
   border: none;
-  z-index: 9999;
-  pointer-events: auto;
 }
 
 .chacha video {
-  width: 150px;
+  width: 180px;
   height: auto;
-  opacity: 0.88; /* شفافية */
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.12);
-  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  opacity: 0.88;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.18);
   display: block;
+  transition: opacity .25s ease, transform .25s ease;
 }
 
 .chacha video:hover {
+  transform: scale(1.07);
   opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
 }
 
-/* زر التكبير (نخليها ظاهرة على الشاشة لو تحب) */
 .chacha button {
-  display: inline-block;
-  margin-top: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  background: rgba(255,255,255,0.95);
-  border: none;
-  border-radius: 6px;
-  padding: 4px 8px;
-  transition: transform 0.18s ease;
+  display: none;
 }
 
-.chacha button:hover {
-  transform: scale(1.08) rotate(6deg);
+@media(max-width: 480px) {
+  .chacha {
+    transform: translateY(-50%) rotate(-90deg) scale(0.7);
+  }
 }
 
-/* Accessibility: hide on very small screens to avoid covering content */
-@media (max-width: 420px) {
-  .chacha { display: none; }
-}
 
 /* Header */
 header {

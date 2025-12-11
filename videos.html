@@ -77,8 +77,9 @@ function renderVideos(){
       </video>
       <div class="views">${views} ${texts[currentLang].views}</div>
       <div class="reactions">
-
-        
+        <button onclick="react(event,'${reactsKey}','like',this)">✨ ${reacts.like}</button>
+        <button onclick="react(event,'${reactsKey}','love',this)">❤️ ${reacts.love}</button>
+      
       </div>
       <div class="comments">
         <textarea placeholder="${texts[currentLang].commentPlaceholder}" onkeydown="if(event.key==='Enter'){event.preventDefault(); addComment('${commentsKey}',this)}"></textarea>
@@ -138,4 +139,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-  

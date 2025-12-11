@@ -9,6 +9,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* 🌟 Live Box ثابت فوق يسار */
+    .live-box {
+      position: fixed;       /* ثابت */
+      top: 10px;
+      left: 10px;
+      width: 320px;
+      height: 180px;
+      border: 3px solid #f0c040;
+      background-color: #000;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+      z-index: 9999;
+    }
+
+    .live-box video {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -17,45 +36,21 @@
       <h1>Atelier Electronique Médenine</h1>
     </div>
   </header>
-<!-- Live Box ثابت فوق يسار -->
-<div class="live-box">
-  <video id="work-video" controls>
-    <source src="video1.mp4" type="video/mp4">
-    متصفحك ما يدعمش الفيديو
-  </video>
-</div>
 
-<style>
-.live-box {
-  position: fixed;   /* مهم جداً */
-  top: 10px;         /* مسافة من الأعلى */
-  left: 10px;        /* مسافة من اليسار */
-  width: 320px;
-  height: 180px;
-  border: 3px solid #f0c040;
-  background-color: #000;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
-  z-index: 9999;     /* باش يبقى فوق كل العناصر */
-}
-
-.live-box video {
-  width: 100%;
-  height: 100%;
-}
-</style>
-
+  <!-- 🌟 Live Box فوق يسار -->
+  <div class="live-box">
+    <video id="work-video" controls>
+      <source src="video1.mp4" type="video/mp4">
+      متصفحك ما يدعمش الفيديو
+    </video>
+  </div>
 
   <div class="news-ticker" aria-live="polite">
     <div class="news-text" id="live-news">تحميل الأخبار...</div>
   </div>
 
   <main class="container main-content">
-    <section class="info-bar">
-      <div id="current-time">--:--:--</div>
-      <div id="visit-count">عدد زياراتك: 0</div>
-      <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
-    </section>
-
+    <!-- باقي محتوى الموقع -->
     <section class="cta-buttons">
       <a href="download" class="btn-download">📥 تحميل البرامج</a>
       <a href="store.html" class="btn-store">🛒 تَسوّق الآن</a>
@@ -65,39 +60,7 @@
       <a href="videos.html" class="btn-video">شاهد الفيديو</a>
       <a href="services.html" class="btn-services">خدمات الورشة</a>
       <button id="radio-btn" class="btn-radio">شغّل الراديو</button>
-
       <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-
-      <!-- Equalizer Bars -->
-      <div class="equalizer" id="equalizer" aria-hidden="true">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
-    </section>
-
-    <section class="experience-badge">🌼 أكثر من 10 سنوات خبرة</section>
-
-    <section class="faq">
-      <h2>الأسئلة الشائعة</h2>
-      <div class="faq-item">
-        <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
-        <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
-      </div>
-      <div class="faq-item">
-        <h3>ما هي مدة التصليح المعتادة؟</h3>
-        <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
-      </div>
-      <div class="faq-item">
-        <h3>هل توفرون قطع غيار أصلية؟</h3>
-        <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
-      </div>
-      <div class="faq-item">
-        <h3>كيف أتابع حالة الإصلاح؟</h3>
-        <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div>
-      </div>
     </section>
   </main>
 
@@ -113,11 +76,23 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs (only needed because you use Firestore in app.js) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <!-- Your application JS -->
   <script src="app.js" defer></script>
+
+  <!-- 🌟 JS لتغيير الفيديو بسهولة -->
+  <script>
+    function changeVideo(url) {
+      const video = document.getElementById("work-video");
+      video.src = url;
+      video.play();
+    }
+
+    // مثال: تبديل الفيديو لاحقًا
+    // changeVideo("video2.mp4");
+  </script>
 </body>
 </html>

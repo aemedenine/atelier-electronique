@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>صور الورشة | Atelier Electronique Médenine</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -17,6 +17,18 @@
     .container { max-width: 900px; margin: auto; }
     h1 { color: #1e90ff; margin-bottom: 25px; }
 
+    .lang-btn {
+      margin-bottom: 20px;
+      padding: 8px 15px;
+      background-color: #ff6b35;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .lang-btn:hover { background-color: #d9533f; }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -28,24 +40,15 @@
       border-radius: 10px;
       box-shadow: 0 0 8px #1e90ff;
       position: relative;
+      overflow: hidden;
     }
     .card img {
       width: 100%;
       border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
     .card img:hover { transform: scale(1.05); box-shadow: 0 0 15px #1e90ff; }
-
-    .views { margin-top: 10px; font-size: 0.95rem; }
-    .reactions button {
-      margin: 0 5px;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1.1rem;
-    }
 
     .popup {
       position: fixed;
@@ -57,11 +60,7 @@
       align-items: center;
       z-index: 9999;
     }
-    .popup img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-    }
+    .popup img { max-width: 90%; max-height: 90%; border-radius: 10px; }
 
     .popup-emoji {
       position: absolute;
@@ -90,46 +89,70 @@
 </head>
 <body>
   <div class="container">
-    <h1>صور الورشة</h1>
+    <h1 id="page-title">صور الورشة</h1>
+    <button class="lang-btn" id="toggle-lang-btn">تبديل اللغة</button>
+
     <div class="gallery" id="image-gallery"></div>
     <a href="index.html" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
   </div>
 
   <div class="popup" id="popup" onclick="this.style.display='none'">
-    <img src="" id="popup-img" />
+    <img src="" id="popup-img">
   </div>
 
   <script>
-    const images = [
-      "photo1.jpg",
-      "photo2.jpg",
-      "photo3.jpg",
-      "photo4.jpg",
-      "photo5.jpg"
-    ];
+    const images = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
+
+    const texts = {
+      ar: { title: "صور الورشة" },
+      fr: { title: "Photos de l'atelier" }
+    };
+    let currentLang = localStorage.getItem('lang') || 'ar';
 
     const gallery = document.getElementById('image-gallery');
     const popup = document.getElementById('popup');
     const popupImg = document.getElementById('popup-img');
-    const emojis = ['👍','❤️','😂','😎','🔥','✨','😏'];
 
-    images.forEach(src => {
-      const card = document.createElement('div');
-      card.className = 'card';
+    function renderGallery() {
+      gallery.innerHTML = '';
+      images.forEach(src => {
+        const card = document.createElement('div');
+        card.className = 'card';
 
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = "photo";
-      img.onclick = () => showPopupWithEmoji(src);
-      card.appendChild(img);
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = "photo";
+        img.onclick = () => showPopupWithEmoji(src);
+        card.appendChild(img);
 
-      gallery.appendChild(card);
-    });
+        // إيموجيات hover على الصورة قبل التكبير
+        const heart = document.createElement('div');
+        heart.textContent = '❤️';
+        heart.style.position = 'absolute';
+        heart.style.top = '10px';
+        heart.style.left = '10px';
+        heart.style.fontSize = '1.5rem';
+        heart.style.pointerEvents = 'none';
+        card.appendChild(heart);
+
+        const star = document.createElement('div');
+        star.textContent = '✨';
+        star.style.position = 'absolute';
+        star.style.top = '10px';
+        star.style.right = '10px';
+        star.style.fontSize = '1.5rem';
+        star.style.pointerEvents = 'none';
+        card.appendChild(star);
+
+        gallery.appendChild(card);
+      });
+    }
 
     function showPopupWithEmoji(src) {
       popupImg.src = src;
       popup.style.display = 'flex';
 
+      const emojis = ['❤️','✨'];
       const emoji = document.createElement('div');
       emoji.className = 'popup-emoji';
       emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -141,6 +164,17 @@
 
       setTimeout(() => emoji.remove(), 1200);
     }
+
+    document.getElementById('toggle-lang-btn').addEventListener('click', () => {
+      currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+      localStorage.setItem('lang', currentLang);
+      document.getElementById('page-title').textContent = texts[currentLang].title;
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('page-title').textContent = texts[currentLang].title;
+      renderGallery();
+    });
   </script>
 </body>
 </html>

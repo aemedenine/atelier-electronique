@@ -119,45 +119,42 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -------------------- Language -------------------- */
   function setLanguage(lang) {
     currentLang = lang;
-    if(lang === 'ar') {
-      document.documentElement.lang = 'ar';
-      document.documentElement.dir = 'rtl';
-      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-      document.querySelector('.experience-badge').textContent = '🌼 أكثر من 10 سنوات خبرة';
-      toggleBtn.textContent = 'تبديل اللغة';
-      document.querySelector('.btn-whatsapp').textContent = 'واتساب';
-      document.querySelector('.btn-maps').textContent = 'موقعنا على Google Maps';
-      document.querySelector('.btn-gallery').textContent = 'شاهد الصور';
-      document.querySelector('.btn-video').textContent = 'شاهد الفيديو';
-      document.querySelector('.btn-services').textContent = 'خدمات الورشة';
-      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو';
-      faqContainer.innerHTML = `
-        <h2>الأسئلة الشائعة</h2>
-        <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
-        <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">غالباً لا تتجاوز 3 أيام عمل.</div></div>
-        <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
-        <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات للجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
-      `;
-    } else {
-      document.documentElement.lang = 'fr';
-      document.documentElement.dir = 'ltr';
-      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-      document.querySelector('.experience-badge').textContent = '🌼 Plus de 10 ans d\'expérience';
-      toggleBtn.textContent = 'Changer la langue';
-      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp';
-      document.querySelector('.btn-maps').textContent = 'Voir sur Google Maps';
-      document.querySelector('.btn-gallery').textContent = 'Voir les photos';
-      document.querySelector('.btn-video').textContent = 'Voir les vidéos';
-      document.querySelector('.btn-services').textContent = 'Services de l\'atelier';
-      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio';
-      faqContainer.innerHTML = `
-        <h2>FAQ</h2>
-        <div class="faq-item"><h3>Comment envoyer un appareil pour réparation ?</h3><div class="answer">Envoyez l'appareil par courrier ou contactez-nous pour la collecte.</div></div>
-        <div class="faq-item"><h3>Délai moyen de réparation ?</h3><div class="answer">Généralement pas plus de 3 jours ouvrables.</div></div>
-        <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, pièces originales et haute qualité.</div></div>
-        <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons photos et vidéos via WhatsApp.</div></div>
-      `;
-    }
+
+    // Header & badges
+    document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+    document.querySelector('.experience-badge').textContent = lang === 'ar' ? '🌼 أكثر من 10 سنوات خبرة' : '🌼 Plus de 10 ans d\'expérience';
+    toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    // Buttons
+    document.querySelector('.btn-whatsapp').textContent = lang === 'ar' ? 'واتساب' : 'WhatsApp';
+    document.querySelector('.btn-maps').textContent = lang === 'ar' ? 'موقعنا على Google Maps' : 'Voir sur Google Maps';
+    document.querySelector('.btn-gallery').textContent = lang === 'ar' ? 'شاهد الصور' : 'Voir les photos';
+    document.querySelector('.btn-video').textContent = lang === 'ar' ? 'شاهد الفيديو' : 'Voir les vidéos';
+    document.querySelector('.btn-services').textContent = lang === 'ar' ? 'خدمات الورشة' : 'Services de l\'atelier';
+    radioBtn.textContent = radio.paused ? (lang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio') : (lang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio');
+
+    // New buttons: shop & download
+    if(downloadBtn) downloadBtn.textContent = lang === 'ar' ? '📥 تحميل البرامج' : '📥 Télécharger les programmes';
+    if(shopBtn) shopBtn.textContent = lang === 'ar' ? '🛒 تَسوّق الآن' : '🛒 Achetez maintenant';
+
+    // FAQ
+    faqContainer.innerHTML = lang === 'ar' ? `
+      <h2>الأسئلة الشائعة</h2>
+      <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
+      <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">غالباً لا تتجاوز 3 أيام عمل.</div></div>
+      <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
+      <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات للجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
+    ` : `
+      <h2>FAQ</h2>
+      <div class="faq-item"><h3>Comment envoyer un appareil pour réparation ?</h3><div class="answer">Envoyez l'appareil par courrier ou contactez-nous pour la collecte.</div></div>
+      <div class="faq-item"><h3>Délai moyen de réparation ?</h3><div class="answer">Généralement pas plus de 3 jours ouvrables.</div></div>
+      <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, pièces originales et haute qualité.</div></div>
+      <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons photos et vidéos via WhatsApp.</div></div>
+    `;
+
+    // Restart features
     startNewsRotation();
     updateTime();
     updateVisits();
@@ -168,10 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* -------------------- Buttons: Shop & Download -------------------- */
   if(shopBtn){
-    shopBtn.addEventListener('click', () => window.location.href = 'https://yourshoplink.com');
+    shopBtn.addEventListener('click', () => window.location.href = 'store.html');
   }
   if(downloadBtn){
-    downloadBtn.addEventListener('click', () => window.location.href = 'path/to/your/programs.zip');
+    downloadBtn.addEventListener('click', () => window.location.href = 'download');
   }
 
   /* -------------------- Initialization -------------------- */

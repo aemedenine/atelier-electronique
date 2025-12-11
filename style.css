@@ -285,37 +285,3 @@ footer {
   .experience-badge { width: 90%; }
   .faq { width: 90%; }
 }
-.chacha {
-  position: fixed;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: left top;
-  z-index: 99999;
-  width: 160px;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  pointer-events: auto;
-}
-
-.chacha video {
-  width: 160px;
-  height: auto;
-  opacity: 0.9;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(255,255,255,0.15);
-  display: block;
-  transition: 0.25s ease;
-}
-
-.chacha video:hover {
-  opacity: 1;
-  transform: scale(1.08);
-}
-
-@media (max-width: 480px) {
-  .chacha {
-    transform: translateY(-50%) rotate(-90deg) scale(0.7);
-  }
-}

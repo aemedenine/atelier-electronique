@@ -152,23 +152,34 @@
 
       // تحديث الأخبار المتحركة
       function updateNews() {
-        const newsAr = [
-          "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-          "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-          "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-          "📱 تواصل معنا عبر واتساب لأي استفسار."
-        ];
-        const newsFr = [
-          "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
-          "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
-          "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-          "📱 Contactez-nous via WhatsApp pour toute question."
-        ];
+  const newsAr = [
+    "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+    "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+    "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+    "📱 تواصل معنا عبر واتساب لأي استفسار."
+  ];
 
-        const news = currentLang === 'ar' ? newsAr : newsFr;
-        const ticker = document.getElementById('live-news');
-        ticker.textContent = news.join(' • ');
-      }
+  const newsFr = [
+    "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
+    "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
+    "🌍 Livraison par courrier disponible dans toute la Tunisie.",
+    "📱 Contactez-nous via WhatsApp pour toute question."
+  ];
+
+  const news = currentLang === 'ar' ? newsAr : newsFr;
+  const ticker = document.getElementById('live-news');
+
+  let index = 0;
+
+  function showNext() {
+    ticker.textContent = news[index];
+    index = (index + 1) % news.length;
+  }
+
+  showNext();  
+  setInterval(showNext, 5000); // كل 5 ثواني
+}
+
 
       // تفعيل فتح وإغلاق الأسئلة FAQ
       function initFAQ() {

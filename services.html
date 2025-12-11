@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>خدمات الورشة | Atelier Electronique Médenine</title>
   <style>
+    /* Base */
     body {
       font-family: 'Montserrat', 'Open Sans', sans-serif;
       background: linear-gradient(135deg, #0b1a27, #122f4a);
@@ -15,6 +16,7 @@
       padding: 20px;
       margin: 0;
     }
+
     .container {
       max-width: 900px;
       margin: auto;
@@ -22,6 +24,7 @@
       flex-direction: column;
       gap: 20px;
     }
+
     header {
       background-color: #061222;
       padding: 15px;
@@ -32,6 +35,7 @@
       text-align: center;
       border-radius: 8px;
     }
+
     .services-text {
       background: #0a1e3d;
       border-radius: 12px;
@@ -42,9 +46,11 @@
       flex-direction: column;
       gap: 15px;
     }
+
     .services-text p {
-      margin-bottom: 8px; /* تقليل المسافة بين الفقرات */
+      margin-bottom: 8px;
     }
+
     button, a.btn-return {
       max-width: 220px;
       margin: 0 auto;
@@ -61,6 +67,7 @@
       transition: background-color 0.3s ease;
       text-decoration: none;
     }
+
     button:hover, a.btn-return:hover {
       background-color: #d9533f;
       box-shadow: 0 4px 12px rgba(217,83,63,0.9);
@@ -120,7 +127,13 @@
         document.documentElement.lang = currentLang;
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         renderServices(currentLang);
+
+        // الزر يتغير فقط
         toggleBtn.textContent = currentLang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
+
+        // العنوان وزر الرجوع يبقاو ثابتين
+        document.querySelector('header').textContent = 'خدمات الورشة';
+        document.querySelector('.btn-return').textContent = '⬅️ الرجوع إلى الصفحة الرئيسية';
       });
 
       // العرض الابتدائي

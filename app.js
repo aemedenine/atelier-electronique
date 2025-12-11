@@ -60,13 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
     "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
     "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-    "📱 تواصل معنا عبر واتساب لأي استفسار."
+    "📱 تواصل معنا عبر واتساب لأي استفسار: +21698192103"
   ];
   const newsFr = [
     "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
     "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
     "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-    "📱 Contactez-nous via WhatsApp pour toute question."
+    "📱 Contactez-nous via WhatsApp pour toute question: +21698192103"
   ];
 
   let newsIndex = 0;

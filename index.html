@@ -4,11 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Atelier Electronique Médenine</title>
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Simple modal style */
+    #video-modal {
+      display:none;
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.8);
+      justify-content:center; align-items:center;
+      z-index:1000;
+    }
+    #modal-video {
+      max-width:90%; max-height:80%;
+    }
+    .fade { transition: opacity 0.5s; opacity:1; }
+    .fade-out { opacity:0; }
+  </style>
 </head>
 <body>
   <header>
@@ -30,12 +44,12 @@
     </section>
 
     <section class="cta-buttons">
-      <a href="download" class="btn-download">📥 تحميل البرامج</a>
-      <a href="store.html" class="btn-store">🛒 تَسوّق الآن</a>
+      <button id="download-btn" class="btn-download">📥 تحميل البرامج</button>
+      <button id="shop-btn" class="btn-store">🛒 تَسوّق الآن</button>
       <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب</a>
       <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على Google Maps</a>
+      <button class="btn-video" onclick="openModal('videos/video1.mp4')">شاهد الفيديو</button>
       <a href="photos.html" class="btn-gallery">شاهد الصور</a>
-      <a href="videos.html" class="btn-video">شاهد الفيديو</a>
       <a href="services.html" class="btn-services">خدمات الورشة</a>
       <button id="radio-btn" class="btn-radio">شغّل الراديو</button>
 
@@ -74,6 +88,11 @@
     </section>
   </main>
 
+  <!-- Video Modal -->
+  <div id="video-modal">
+    <video id="modal-video" controls></video>
+  </div>
+
   <footer>
     <div class="container footer-inner">
       <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
@@ -86,12 +105,40 @@
     </div>
   </footer>
 
-  <!-- Firebase SDKs (only needed because you use Firestore in app.js) -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <!-- Your application JS -->
+  <!-- App JS -->
   <script src="app.js" defer></script>
+
+  <script>
+    // Shop & Download
+    const shopBtn = document.getElementById('shop-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    if(shopBtn) shopBtn.addEventListener('click', () => window.location.href='store.html');
+    if(downloadBtn) downloadBtn.addEventListener('click', () => window.location.href='downloads/programs.zip');
+
+    // Video Modal functions
+    function openModal(src) {
+      const modal = document.getElementById('video-modal');
+      const modalVideo = document.getElementById('modal-video');
+      modal.style.display = 'flex';
+      modalVideo.src = src;
+      modalVideo.play();
+      modalVideo.onended = () => closeModal();
+      modal.addEventListener('click', e => { if(e.target===modal) closeModal(); });
+    }
+    function closeModal() {
+      const modal = document.getElementById('video-modal');
+      const modalVideo = document.getElementById('modal-video');
+      modal.style.display = 'none';
+      modalVideo.pause();
+      modalVideo.currentTime = 0;
+      modalVideo.src = '';
+    }
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+  </script>
 </body>
 </html>
-  

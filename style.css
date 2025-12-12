@@ -155,19 +155,6 @@ header h1 {
 
 .btn-store:hover { background: #e0a800 !important; }
 
-/* Experience badge */
-.experience-badge {
-  background-color: #007bff;
-  color: white;
-  font-weight: 700;
-  text-align: center;
-  padding: 12px 0;
-  border-radius: 50px;
-  font-size: 1.2rem;
-  width: 250px;
-  margin: 0 auto 40px auto;
-  box-shadow: 0 0 15px #ff6b35;
-}
 
 /* FAQ */
 .faq { max-width: 800px; margin: 0 auto 60px auto; }

@@ -41,6 +41,7 @@
 
       <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
 
+      <!-- Equalizer Bars -->
       <div class="equalizer" id="equalizer" aria-hidden="true">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -56,19 +57,19 @@
       <h2>الأسئلة الشائعة</h2>
       <div class="faq-item">
         <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
-        <div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div>
+        <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
       </div>
       <div class="faq-item">
         <h3>ما هي مدة التصليح المعتادة؟</h3>
-        <div class="answer">غالباً لا تتجاوز 3 أيام عمل.</div>
+        <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
       </div>
       <div class="faq-item">
         <h3>هل توفرون قطع غيار أصلية؟</h3>
-        <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div>
+        <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
       </div>
       <div class="faq-item">
         <h3>كيف أتابع حالة الإصلاح؟</h3>
-        <div class="answer">نرسل صور وفيديوهات للجهاز أثناء مراحل التصليح عبر واتساب.</div>
+        <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div>
       </div>
     </section>
   </main>
@@ -85,6 +86,12 @@
     </div>
   </footer>
 
+  <!-- Firebase SDKs (only needed because you use Firestore in app.js) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Your application JS -->
   <script src="app.js" defer></script>
 </body>
 </html>
+  

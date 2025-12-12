@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>خدمات الورشة | Atelier Electronique Médenine</title>
   <style>
-    /* Base */
     body {
       font-family: 'Montserrat', 'Open Sans', sans-serif;
       background: linear-gradient(135deg, #0b1a27, #122f4a);
@@ -47,7 +46,12 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
-      transition: all 0.3s ease;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    .services-text.fade-out {
+      opacity: 0;
     }
 
     .services-text p {
@@ -138,19 +142,24 @@
       }
 
       toggleBtn.addEventListener('click', () => {
-        currentLang = currentLang === 'ar' ? 'fr' : 'ar';
-        document.documentElement.lang = currentLang;
-        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        document.body.style.textAlign = currentLang === 'ar' ? 'right' : 'left';
+        servicesContainer.classList.add('fade-out'); // بدء اختفاء النصوص
 
-        renderServices(currentLang);
+        setTimeout(() => {
+          currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+          document.documentElement.lang = currentLang;
+          document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+          document.body.style.textAlign = currentLang === 'ar' ? 'right' : 'left';
 
-        toggleBtn.textContent = currentLang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
-        pageHeader.textContent = headers[currentLang];
-        btnReturn.textContent = returnTexts[currentLang];
+          renderServices(currentLang);
+
+          toggleBtn.textContent = currentLang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
+          pageHeader.textContent = headers[currentLang];
+          btnReturn.textContent = returnTexts[currentLang];
+
+          servicesContainer.classList.remove('fade-out'); // ظهور النصوص الجديد
+        }, 300); // مدة الاختفاء قبل التبديل
       });
 
-      // العرض الابتدائي
       renderServices(currentLang);
     });
   </script>

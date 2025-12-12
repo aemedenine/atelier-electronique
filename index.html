@@ -9,23 +9,40 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ستايل تقييم الورشة */
+    /* ====== تقييم الورشة عمودي ====== */
     .rating-container {
       background: #0a1e3d;
-      padding: 20px 25px;
+      padding: 20px;
       border-radius: 12px;
-      display: inline-block;
+      display: flex;
+      flex-direction: column; /* نجوم عمودية */
+      align-items: flex-start; /* على اليسار */
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
       margin: 20px auto;
     }
-    .rating-container span {
+
+    .rating {
+      display: flex;
+      flex-direction: column; /* نجوم عمودية */
+      gap: 5px;
+    }
+
+    .rating span {
       font-size: 2rem;
       color: #ffcc00;
       cursor: pointer;
       transition: transform 0.2s;
     }
-    .rating-container span:hover { transform: scale(1.2); }
-    .average-rating { margin-top: 10px; font-size: 1.2rem; }
+
+    .rating span:hover {
+      transform: scale(1.2);
+    }
+
+    .average-rating {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
     .services-text { margin-top: 20px; }
   </style>
 </head>
@@ -48,10 +65,14 @@
       <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
     </section>
 
-    <!-- تقييم الورشة كامل -->
+    <!-- تقييم الورشة عمودي -->
     <div class="rating-container" id="workshop-rating-container">
       <div class="rating" id="workshop-rating">
-        <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        <span>☆</span>
+        <span>☆</span>
+        <span>☆</span>
+        <span>☆</span>
+        <span>☆</span>
       </div>
       <div class="average-rating" id="average-rating">تقييمك: 0 / 5</div>
     </div>
@@ -122,7 +143,6 @@
   <!-- Scripts -->
   <script src="app.js" defer></script>
   <script>
-    // ======= خدمات الورشة باللغتين =======
     document.addEventListener('DOMContentLoaded', () => {
       let currentLang = 'ar';
       const servicesText = {
@@ -163,7 +183,7 @@
 
       renderServices(currentLang);
 
-      // ======= تقييم الورشة كامل =======
+      // ======= تقييم الورشة كامل عمودي =======
       const ratingStars = document.querySelectorAll('#workshop-rating span');
       const averageDisplay = document.getElementById('average-rating');
       let savedRating = localStorage.getItem('workshopRating') || 0;

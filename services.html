@@ -15,6 +15,7 @@
       line-height: 1.6;
       padding: 20px;
       margin: 0;
+      transition: all 0.3s ease;
     }
 
     .container {
@@ -34,6 +35,7 @@
       font-weight: bold;
       text-align: center;
       border-radius: 8px;
+      transition: all 0.3s ease;
     }
 
     .services-text {
@@ -45,6 +47,7 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      transition: all 0.3s ease;
     }
 
     .services-text p {
@@ -64,7 +67,7 @@
       cursor: pointer;
       text-align: center;
       box-shadow: 0 2px 6px rgba(255,107,53,0.7);
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
       text-decoration: none;
     }
 
@@ -75,7 +78,7 @@
   </style>
 </head>
 <body>
-  <header>خدمات الورشة</header>
+  <header id="page-header">خدمات الورشة</header>
 
   <div class="container">
     <div class="services-text" id="services-text">
@@ -84,7 +87,7 @@
 
     <button id="toggle-lang-btn">تبديل اللغة</button>
 
-    <a href="index.html" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
+    <a href="index.html" class="btn-return" id="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
   </div>
 
   <script>
@@ -110,8 +113,20 @@
         ]
       };
 
+      const headers = {
+        ar: "خدمات الورشة",
+        fr: "Services de l'Atelier"
+      };
+
+      const returnTexts = {
+        ar: "⬅️ الرجوع إلى الصفحة الرئيسية",
+        fr: "⬅️ Retour à la page d'accueil"
+      };
+
       const servicesContainer = document.getElementById('services-text');
       const toggleBtn = document.getElementById('toggle-lang-btn');
+      const pageHeader = document.getElementById('page-header');
+      const btnReturn = document.getElementById('btn-return');
 
       function renderServices(lang) {
         servicesContainer.innerHTML = '';
@@ -126,14 +141,13 @@
         currentLang = currentLang === 'ar' ? 'fr' : 'ar';
         document.documentElement.lang = currentLang;
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        document.body.style.textAlign = currentLang === 'ar' ? 'right' : 'left';
+
         renderServices(currentLang);
 
-        // الزر يتغير فقط
         toggleBtn.textContent = currentLang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
-
-        // العنوان وزر الرجوع يبقاو ثابتين
-        document.querySelector('header').textContent = 'خدمات الورشة';
-        document.querySelector('.btn-return').textContent = '⬅️ الرجوع إلى الصفحة الرئيسية';
+        pageHeader.textContent = headers[currentLang];
+        btnReturn.textContent = returnTexts[currentLang];
       });
 
       // العرض الابتدائي

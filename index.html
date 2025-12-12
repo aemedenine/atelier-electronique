@@ -1,185 +1,1 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Atelier Electronique Médenine - الورشة الإلكترونية الرحماني</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="style.css" />
-
-  <style>
-    /* ————————— MODAL VIDEO FIXED ————————— */
-
-    #video-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      backdrop-filter: blur(3px);
-    }
-
-    #video-modal video {
-      width: 90%;
-      max-width: 700px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.3);
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="container header-inner">
-      <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-      <h1>Atelier Electronique Médenine</h1>
-    </div>
-  </header>
-
-  <!-- NEWS TICKER -->
-  <div class="news-ticker" aria-live="polite">
-    <div class="news-text" id="live-news">تحميل الأخبار...</div>
-  </div>
-
-  <!-- MAIN -->
-  <main class="container main-content">
-
-    <!-- INFO BAR -->
-    <section class="info-bar">
-      <div id="current-time">--:--:--</div>
-      <div id="visit-count">عدد زياراتك: 0</div>
-      <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
-    </section>
-
-    <!-- CTA BUTTONS -->
-    <section class="cta-buttons">
-
-      <button id="download-btn" class="btn-download">📥 تحميل البرامج</button>
-      <button id="shop-btn" class="btn-store">🛒 تَسوّق الآن</button>
-
-      <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب</a>
-      <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على Google Maps</a>
-
-      <button class="btn-video" onclick="openModal('videos/video1.mp4')">🎥 شاهد الفيديو</button>
-
-      <a href="photos.html" class="btn-gallery">📸 شاهد الصور</a>
-      <a href="services.html" class="btn-services">خدمات الورشة</a>
-
-      <button id="radio-btn" class="btn-radio">🎧 شغّل الراديو</button>
-
-      <!-- Radio Stream -->
-      <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-
-      <!-- Equalizer Animation -->
-      <div class="equalizer" id="equalizer" aria-hidden="true">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
-
-    </section>
-
-    <!-- EXPERIENCE BADGE -->
-    <section class="experience-badge">🌼 أكثر من 10 سنوات خبرة</section>
-
-    <!-- FAQ -->
-    <section class="faq">
-      <h2>الأسئلة الشائعة</h2>
-
-      <div class="faq-item">
-        <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
-        <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
-      </div>
-
-      <div class="faq-item">
-        <h3>ما هي مدة التصليح المعتادة؟</h3>
-        <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
-      </div>
-
-      <div class="faq-item">
-        <h3>هل توفرون قطع غيار أصلية؟</h3>
-        <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
-      </div>
-
-      <div class="faq-item">
-        <h3>كيف أتابع حالة الإصلاح؟</h3>
-        <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div>
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- VIDEO MODAL -->
-  <div id="video-modal">
-    <video id="modal-video" controls playsinline></video>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container footer-inner">
-      <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
-      <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
-
-      <div class="social-icons">
-        <a href="https://www.facebook.com/AEMednine" target="_blank"><img src="icons/facebook.svg" alt="Facebook"></a>
-        <a href="https://www.instagram.com/aemedenine/" target="_blank"><img src="icons/instagram.svg" alt="Instagram"></a>
-        <a href="https://wa.me/21698192103" target="_blank"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <!-- External JS -->
-  <script src="app.js" defer></script>
-
-  <script>
-    // SHOP + DOWNLOAD
-    document.getElementById('shop-btn').onclick = () => window.location.href = 'store.html';
-    document.getElementById('download-btn').onclick = () => window.location.href = 'downloads/programs.zip';
-
-    // VIDEO MODAL
-    function openModal(src) {
-      const modal = document.getElementById('video-modal');
-      const video = document.getElementById('modal-video');
-
-      modal.style.display = 'flex';
-      video.src = src;
-      video.play();
-
-      modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-
-      video.onended = () => closeModal();
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('video-modal');
-      const video = document.getElementById('modal-video');
-
-      modal.style.display = 'none';
-      video.pause();
-      video.currentTime = 0;
-      video.src = "";
-    }
-  </script>
-
-</body>
-</html>
-  
+<!DOCTYPE html> <html lang="ar" dir="rtl"> <head> <meta charset="utf-8" /> <meta name="viewport" content="width=device-width, initial-scale=1" /> <title>Atelier Electronique Médenine</title> <title>ورشة الكترونيك الرحماني</title> <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet"> <link rel="stylesheet" href="style.css" /> <style> /* Simple modal style */ #video-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000; } #modal-video { max-width:90%; max-height:80%; } .fade { transition: opacity 0.5s; opacity:1; } .fade-out { opacity:0; } </style> </head> <body> <header> <div class="container header-inner"> <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" /> <h1>Atelier Electronique Médenine</h1> </div> </header> <div class="news-ticker" aria-live="polite"> <div class="news-text" id="live-news">تحميل الأخبار...</div> </div> <main class="container main-content"> <section class="info-bar"> <div id="current-time">--:--:--</div> <div id="visit-count">عدد زياراتك: 0</div> <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button> </section> <section class="cta-buttons"> <button id="download-btn" class="btn-download">📥 تحميل البرامج</button> <button id="shop-btn" class="btn-store">🛒 تَسوّق الآن</button> <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب</a> <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على Google Maps</a> <button class="btn-video" onclick="openModal('videos/video1.mp4')">شاهد الفيديو</button> <a href="photos.html" class="btn-gallery">شاهد الصور</a> <a href="services.html" class="btn-services">خدمات الورشة</a> <button id="radio-btn" class="btn-radio">شغّل الراديو</button> <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio> <!-- Equalizer Bars --> <div class="equalizer" id="equalizer" aria-hidden="true"> <div class="bar"></div> <div class="bar"></div> <div class="bar"></div> <div class="bar"></div> <div class="bar"></div> </div> </section> <section class="experience-badge">🌼 أكثر من 10 سنوات خبرة</section> <section class="faq"> <h2>الأسئلة الشائعة</h2> <div class="faq-item"> <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3> <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div> </div> <div class="faq-item"> <h3>ما هي مدة التصليح المعتادة؟</h3> <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div> </div> <div class="faq-item"> <h3>هل توفرون قطع غيار أصلية؟</h3> <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div> </div> <div class="faq-item"> <h3>كيف أتابع حالة الإصلاح؟</h3> <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div> </div> </section> </main> <!-- Video Modal --> <div id="video-modal"> <video id="modal-video" controls></video> </div> <footer> <div class="container footer-inner"> <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p> <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p> <div class="social-icons"> <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook" /></a> <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram" /></a> <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a> </div> </div> </footer> <!-- Firebase SDKs --> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script> <!-- App JS --> <script src="app.js" defer></script> <script> // Shop & Download const shopBtn = document.getElementById('shop-btn'); const downloadBtn = document.getElementById('download-btn'); if(shopBtn) shopBtn.addEventListener('click', () => window.location.href='store.html'); if(downloadBtn) downloadBtn.addEventListener('click', () => window.location.href='downloads/programs.zip'); // Video Modal functions function openModal(src) { const modal = document.getElementById('video-modal'); const modalVideo = document.getElementById('modal-video'); modal.style.display = 'flex'; modalVideo.src = src; modalVideo.play(); modalVideo.onended = () => closeModal(); modal.addEventListener('click', e => { if(e.target===modal) closeModal(); }); } function closeModal() { const modal = document.getElementById('video-modal'); const modalVideo = document.getElementById('modal-video'); modal.style.display = 'none'; modalVideo.pause(); modalVideo.currentTime = 0; modalVideo.src = ''; } window.openModal = openModal; window.closeModal = closeModal; </script> </body> </html>

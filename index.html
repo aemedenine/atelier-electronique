@@ -9,41 +9,55 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ====== تقييم الورشة عمودي ====== */
-    .rating-container {
+    /* ======= تقييم الورشة عمودي أعلى يسار الصفحة ======= */
+    #workshop-rating-container {
+      position: fixed;
+      top: 20px;
+      left: 20px;
       background: #0a1e3d;
-      padding: 20px;
+      padding: 15px;
       border-radius: 12px;
-      display: flex;
-      flex-direction: column; /* نجوم عمودية */
-      align-items: flex-start; /* على اليسار */
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      margin: 20px auto;
-    }
-
-    .rating {
+      z-index: 9999;
       display: flex;
-      flex-direction: column; /* نجوم عمودية */
-      gap: 5px;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .rating span {
+    #workshop-rating span {
       font-size: 2rem;
       color: #ffcc00;
       cursor: pointer;
+      display: block;
       transition: transform 0.2s;
     }
 
-    .rating span:hover {
+    #workshop-rating span:hover {
       transform: scale(1.2);
     }
 
-    .average-rating {
+    #confirm-rating-btn {
       margin-top: 10px;
-      font-size: 1.2rem;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #ff6b35;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(255,107,53,0.7);
+      transition: background-color 0.3s ease;
     }
 
-    .services-text { margin-top: 20px; }
+    #confirm-rating-btn:hover {
+      background-color: #d9533f;
+    }
+
+    #average-rating {
+      margin-top: 8px;
+      font-size: 1rem;
+      color: #eee;
+    }
   </style>
 </head>
 <body>
@@ -65,21 +79,6 @@
       <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
     </section>
 
-    <!-- تقييم الورشة عمودي -->
-    <div class="rating-container" id="workshop-rating-container">
-      <div class="rating" id="workshop-rating">
-        <span>☆</span>
-        <span>☆</span>
-        <span>☆</span>
-        <span>☆</span>
-        <span>☆</span>
-      </div>
-      <div class="average-rating" id="average-rating">تقييمك: 0 / 5</div>
-    </div>
-
-    <!-- خدمات الورشة -->
-    <div class="services-text" id="services-text"></div>
-
     <section class="cta-buttons">
       <a href="download" class="btn-download">📥 تحميل البرامج</a>
       <a href="store.html" class="btn-store">🛒 تَسوّق الآن</a>
@@ -92,6 +91,7 @@
 
       <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
 
+      <!-- Equalizer Bars -->
       <div class="equalizer" id="equalizer" aria-hidden="true">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -136,66 +136,49 @@
     </div>
   </footer>
 
+  <!-- تقييم الورشة 90° على اليسار مع زر تأكيد -->
+  <div id="workshop-rating-container">
+    <div class="rating" id="workshop-rating">
+      <span>☆</span>
+      <span>☆</span>
+      <span>☆</span>
+      <span>☆</span>
+      <span>☆</span>
+    </div>
+    <button id="confirm-rating-btn">تأكيد</button>
+    <div id="average-rating">تقييمك: 0 / 5</div>
+  </div>
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <!-- Scripts -->
   <script src="app.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      let currentLang = 'ar';
-      const servicesText = {
-        ar: [
-          "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-          "🔧 نقدم خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-          "💻 تصليح الكمبيوتر، الأجهزة المنزلية، وكروت إلكترونية بخبرة عالية.",
-          "📱 تواصل معنا عبر واتساب لأي استفسار أو طلب خدمة.",
-          "🛠️ بيع واستبدال قطع الغيار الأصلية ذات الجودة العالية.",
-          "🚚 خدمة التوصيل والاستلام عبر البريد متوفرة لكل أنحاء تونس."
-        ],
-        fr: [
-          "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
-          "🔧 Nous proposons des services de réparation électronique de haute qualité à prix compétitifs.",
-          "💻 Réparation d'ordinateurs, appareils ménagers et cartes électroniques avec une grande expertise.",
-          "📱 Contactez-nous via WhatsApp pour toute demande ou information.",
-          "🛠️ Vente et remplacement de pièces d'origine de haute qualité.",
-          "🚚 Service de livraison et de collecte par courrier disponible dans toute la Tunisie."
-        ]
-      };
-      const servicesContainer = document.getElementById('services-text');
-      const toggleBtn = document.getElementById('toggle-lang-btn');
-
-      function renderServices(lang) {
-        servicesContainer.innerHTML = '';
-        servicesText[lang].forEach(text => {
-          const p = document.createElement('p');
-          p.textContent = text;
-          servicesContainer.appendChild(p);
-        });
-      }
-
-      toggleBtn.addEventListener('click', () => {
-        currentLang = currentLang === 'ar' ? 'fr' : 'ar';
-        renderServices(currentLang);
-        toggleBtn.textContent = currentLang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
-      });
-
-      renderServices(currentLang);
-
-      // ======= تقييم الورشة كامل عمودي =======
       const ratingStars = document.querySelectorAll('#workshop-rating span');
       const averageDisplay = document.getElementById('average-rating');
-      let savedRating = localStorage.getItem('workshopRating') || 0;
+      const confirmBtn = document.getElementById('confirm-rating-btn');
+      let tempRating = 0;
 
+      // استرجاع التقييم المخزن
+      let savedRating = localStorage.getItem('workshopRating') || 0;
       updateStars(savedRating);
 
+      // عند الضغط على النجوم
       ratingStars.forEach((star, idx) => {
         star.addEventListener('click', () => {
-          savedRating = idx + 1;
-          localStorage.setItem('workshopRating', savedRating);
-          updateStars(savedRating);
+          tempRating = idx + 1;
+          updateStars(tempRating);
         });
+      });
+
+      // عند الضغط على زر التأكيد
+      confirmBtn.addEventListener('click', () => {
+        savedRating = tempRating;
+        localStorage.setItem('workshopRating', savedRating);
+        updateStars(savedRating);
+        alert('تم حفظ تقييمك! ⭐');
       });
 
       function updateStars(rating) {

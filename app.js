@@ -1,8 +1,6 @@
-// app.js
 document.addEventListener('DOMContentLoaded', () => {
-  let currentLang = document.documentElement.lang && document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
+  let currentLang = document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
 
-  // Elements
   const ticker = document.getElementById('live-news');
   const toggleBtn = document.getElementById('toggle-lang-btn');
   const visitEl = document.getElementById('visit-count');
@@ -10,52 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const faqContainer = document.querySelector('.faq');
   const radio = document.getElementById('radio-stream');
   const radioBtn = document.getElementById('radio-btn');
-  const equalizer = document.getElementById('equalizer');
 
-  // New buttons
-  const shopBtn = document.getElementById('shop-btn');
-  const downloadBtn = document.getElementById('download-btn');
-
-  /* -------------------- Time -------------------- */
-  function updateTime() {
-    const now = new Date();
-    const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-    const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-    const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-    let day, month;
-    if(currentLang === 'ar'){
-      day = daysAr[now.getDay()];
-      month = monthsAr[now.getMonth()];
-    } else {
-      day = daysFr[now.getDay()];
-      month = monthsFr[now.getMonth()];
-    }
-
-    const date = now.getDate();
-    const hours = now.getHours().toString().padStart(2,'0');
-    const minutes = now.getMinutes().toString().padStart(2,'0');
-    const seconds = now.getSeconds().toString().padStart(2,'0');
-
-    const timeStr = `${hours}:${minutes}:${seconds}`;
-    const dateStr = currentLang === 'ar' 
-      ? `${day}، ${date} ${month}` 
-      : `${day}, ${date} ${month}`;
-
-    timeEl.textContent = `${dateStr} - ${timeStr}`;
-  }
-
-  /* -------------------- Visits -------------------- */
-  function updateVisits() {
-    const key = 'aem-visit-count';
-    let count = parseInt(localStorage.getItem(key)) || 0;
-    count++;
-    localStorage.setItem(key, count);
-    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
-  }
-
-  /* -------------------- News -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
     "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
@@ -74,10 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateNews() {
     const news = currentLang === 'ar' ? newsAr : newsFr;
-    ticker.classList.remove('fade');
-    void ticker.offsetWidth;
     ticker.textContent = news[newsIndex];
-    ticker.classList.add('fade');
     newsIndex = (newsIndex + 1) % news.length;
   }
 
@@ -87,95 +37,50 @@ document.addEventListener('DOMContentLoaded', () => {
     newsInterval = setInterval(updateNews, 5000);
   }
 
-  /* -------------------- FAQ -------------------- */
+  function updateTime() {
+    const now = new Date();
+    const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+    let day = currentLang==='ar'?daysAr[now.getDay()]:daysFr[now.getDay()];
+    let month = currentLang==='ar'?monthsAr[now.getMonth()]:monthsFr[now.getMonth()];
+
+    const dateStr = `${day}, ${now.getDate()} ${month}`;
+    const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+    timeEl.textContent = `${dateStr} - ${timeStr}`;
+  }
+
+  function updateVisits() {
+    const key = 'aem-visit-count';
+    let count = parseInt(localStorage.getItem(key))||0;
+    count++;
+    localStorage.setItem(key,count);
+    visitEl.textContent = currentLang==='ar'?`عدد زياراتك: ${count}`:`Nombre de visites: ${count}`;
+  }
+
   function initFAQ() {
     const items = document.querySelectorAll('.faq-item');
-    items.forEach(item => item.addEventListener('click', () => {
-      item.classList.toggle('open');
-    }));
+    items.forEach(item=>item.addEventListener('click',()=>item.classList.toggle('open')));
   }
 
-  /* -------------------- Equalizer -------------------- */
-  function updateEqualizerVisibility() {
-    if (!equalizer) return;
-    equalizer.style.opacity = radio.paused ? '0.25' : '1';
-    equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
-  }
-
-  /* -------------------- Radio -------------------- */
-  radioBtn.addEventListener('click', () => {
-    if (radio.paused) {
-      radio.play().catch(e => console.warn('Radio play failed:', e));
-      radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
-    } else {
-      radio.pause();
-      radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
-    }
-    updateEqualizerVisibility();
-  });
-  radio.addEventListener('play', updateEqualizerVisibility);
-  radio.addEventListener('pause', updateEqualizerVisibility);
-
-  /* -------------------- Language -------------------- */
   function setLanguage(lang) {
     currentLang = lang;
-
-    // Header & badges
-    document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-    document.querySelector('.experience-badge').textContent = lang === 'ar' ? '🌼 أكثر من 10 سنوات خبرة' : '🌼 Plus de 10 ans d\'expérience';
-    toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
     document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-    // Buttons
-    document.querySelector('.btn-whatsapp').textContent = lang === 'ar' ? 'واتساب' : 'WhatsApp';
-    document.querySelector('.btn-maps').textContent = lang === 'ar' ? 'موقعنا على Google Maps' : 'Voir sur Google Maps';
-    document.querySelector('.btn-gallery').textContent = lang === 'ar' ? 'شاهد الصور' : 'Voir les photos';
-    document.querySelector('.btn-video').textContent = lang === 'ar' ? 'شاهد الفيديو' : 'Voir les vidéos';
-    document.querySelector('.btn-services').textContent = lang === 'ar' ? 'خدمات الورشة' : 'Services de l\'atelier';
-    radioBtn.textContent = radio.paused ? (lang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio') : (lang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio');
-
-    // New buttons: shop & download
-    if(downloadBtn) downloadBtn.textContent = lang === 'ar' ? '📥 تحميل البرامج' : '📥 Télécharger les programmes';
-    if(shopBtn) shopBtn.textContent = lang === 'ar' ? '🛒 تَسوّق الآن' : '🛒 Achetez maintenant';
-
-    // FAQ
-    faqContainer.innerHTML = lang === 'ar' ? `
-      <h2>الأسئلة الشائعة</h2>
-      <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
-      <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">غالباً لا تتجاوز 3 أيام عمل.</div></div>
-      <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
-      <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات للجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
-    ` : `
-      <h2>FAQ</h2>
-      <div class="faq-item"><h3>Comment envoyer un appareil pour réparation ?</h3><div class="answer">Envoyez l'appareil par courrier ou contactez-nous pour la collecte.</div></div>
-      <div class="faq-item"><h3>Délai moyen de réparation ?</h3><div class="answer">Généralement pas plus de 3 jours ouvrables.</div></div>
-      <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, pièces originales et haute qualité.</div></div>
-      <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons photos et vidéos via WhatsApp.</div></div>
-    `;
-
-    // Restart features
+    document.documentElement.dir = lang==='ar'?'rtl':'ltr';
+    toggleBtn.textContent = lang==='ar'?'تبديل اللغة':'Changer la langue';
     startNewsRotation();
     updateTime();
     updateVisits();
     initFAQ();
   }
 
-  toggleBtn.addEventListener('click', () => setLanguage(currentLang === 'ar' ? 'fr' : 'ar'));
+  toggleBtn.addEventListener('click',()=>setLanguage(currentLang==='ar'?'fr':'ar'));
 
-  /* -------------------- Buttons: Shop & Download -------------------- */
-  if(shopBtn){
-    shopBtn.addEventListener('click', () => window.location.href = 'store.html');
-  }
-  if(downloadBtn){
-    downloadBtn.addEventListener('click', () => window.location.href = 'download');
-  }
-
-  /* -------------------- Initialization -------------------- */
-  setInterval(updateTime, 1000);
+  setInterval(updateTime,1000);
   updateTime();
   updateVisits();
   startNewsRotation();
   initFAQ();
-  updateEqualizerVisibility();
 });

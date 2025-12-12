@@ -9,19 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ======= تقييم الورشة عمودي أعلى يسار الصفحة ======= */
+    /* ======= تقييم الورشة عمودي أعلى يسار الصفحة شفاف ======= */
     #workshop-rating-container {
       position: fixed;
-      top: 15px;
-      left: 15px;
-      background: #0a1e3d;
+      top: 20px;
+      left: 20px;
       padding: 10px;
-      border-radius: 9px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      border-radius: 12px;
       z-index: 9999;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      backdrop-filter: blur(5px); /* تأثير شفاف جميل */
     }
 
     #workshop-rating span {
@@ -101,7 +100,7 @@
       </div>
     </section>
 
-    <section class="experience-badge">🌼 أكثر من 10 سنوات خبرة</section>
+    <section class="experience-badge">⭐أكثر من 10 سنوات خبرة</section>
 
     <section class="faq">
       <h2>الأسئلة الشائعة</h2>

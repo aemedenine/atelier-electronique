@@ -13,94 +13,92 @@
     padding:0;
   }
 
-  /* Fixed header: stars left, logo right */
-  .fixed-header {
-    position: fixed;
-    top: 10px;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 9999;
+  /* ======== التقييم تحت FAQ ======== */
+  .rating-container {
+    margin: 40px auto;
+    text-align: center;
+    color: #fff;
   }
 
-  .fixed-header .stars span {
-    font-size: 3rem; /* حجم قريب من اللوجو */
+  .stars-horizontal span {
+    font-size: 2.5rem;
     cursor: pointer;
     color: #ccc;
     transition: color 0.2s;
-    margin-right: 5px;
+    margin: 0 5px;
   }
 
-  .fixed-header .stars span.hover,
-  .fixed-header .stars span.selected {
+  .stars-horizontal span.hover,
+  .stars-horizontal span.selected {
     color: gold;
   }
 
-  .fixed-header .logo img {
-    height: 50px; /* حجم اللوجو */
-  }
-
   #rating-value {
-    position: fixed;
-    top: 70px;
-    left: 20px;
+    margin-top: 10px;
     font-size: 1.2rem;
-    color: #fff;
-    z-index: 9999;
   }
 </style>
 </head>
 <body>
 
-<!-- Fixed header -->
-<div class="fixed-header">
-  <div class="stars">
+<!-- محتوى الموقع هنا -->
+<div class="faq">
+  <h2>الأسئلة الشائعة</h2>
+  <div class="faq-item">
+    <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
+    <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
+  </div>
+  <div class="faq-item">
+    <h3>ما هي مدة التصليح المعتادة؟</h3>
+    <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
+  </div>
+  <div class="faq-item">
+    <h3>هل توفرون قطع غيار أصلية؟</h3>
+    <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
+  </div>
+</div>
+
+<!-- ======= تقييم النجوم تحت FAQ ======= -->
+<div class="rating-container">
+  <p>قيم الورشة:</p>
+  <div class="stars-horizontal">
     <span data-value="5">☆</span>
     <span data-value="4">☆</span>
     <span data-value="3">☆</span>
     <span data-value="2">☆</span>
     <span data-value="1">☆</span>
   </div>
-  <div class="logo">
-    <img src="logo.png" alt="Logo">
-  </div>
+  <p id="rating-value">0/5</p>
 </div>
-<p id="rating-value">0/5</p>
-
-<!-- باقي محتوى الموقع هنا -->
 
 <!-- JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   let currentLang = document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
 
-  // =================== التقييم بالنجوم ===================
-  const stars = document.querySelectorAll('.fixed-header .stars span');
-  const ratingValue = document.getElementById('rating-value');
-  let selectedRating = 0;
+  // ======= تقييم النجوم تحت FAQ =======
+  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
+  const ratingValueHorizontal = document.getElementById('rating-value');
+  let selectedRatingHorizontal = 0;
 
-  stars.forEach(star => {
+  starsHorizontal.forEach(star => {
     star.addEventListener('mouseover', () => {
-      stars.forEach(s => s.classList.remove('hover'));
+      starsHorizontal.forEach(s => s.classList.remove('hover'));
       let val = Number(star.dataset.value);
-      stars.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover') });
+      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover') });
     });
     star.addEventListener('mouseout', () => {
-      stars.forEach(s => s.classList.remove('hover'));
+      starsHorizontal.forEach(s => s.classList.remove('hover'));
     });
     star.addEventListener('click', () => {
-      selectedRating = Number(star.dataset.value);
-      stars.forEach(s => s.classList.remove('selected'));
-      stars.forEach(s => { if(Number(s.dataset.value) <= selectedRating) s.classList.add('selected') });
-      ratingValue.textContent = `${selectedRating}/5`;
+      selectedRatingHorizontal = Number(star.dataset.value);
+      starsHorizontal.forEach(s => s.classList.remove('selected'));
+      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= selectedRatingHorizontal) s.classList.add('selected') });
+      ratingValueHorizontal.textContent = `${selectedRatingHorizontal}/5`;
     });
   });
 
-  // =================== باقي JS متاعك ===================
-  // تحديث الوقت والتاريخ
+  // ======= باقي JS متاع الموقع =======
   function updateTime() {
     const now = new Date();
     const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -131,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(timeElement) timeElement.textContent = `${dateStr} - ${timeStr}`;
   }
 
-  // تحديث عداد الزيارات
   function updateVisits() {
     const key = 'aem-visit-count';
     let count = parseInt(localStorage.getItem(key)) || 0;
@@ -143,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // تحديث الأخبار
   function updateNews() {
     const newsAr = [
       "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",

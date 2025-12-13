@@ -72,40 +72,42 @@
   100% { transform: rotateY(360deg); }
 }
 
-/* ======= خلفية PCB Animated ======= */
-.hero-background {
-  position: fixed;
+/* ======= PCB Animated خلفية فقط Header ======= */
+.header-inner {
+  position: relative;
+  overflow: hidden;
+}
+
+#pcbCanvasHeader {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
-  background: #0b1a27;
+  z-index: 0;
 }
-
-#pcbCanvas {
-  width: 100%;
-  height: 100%;
-  display: block;
+.header-inner img,
+.header-inner h1 {
+  position: relative;
+  z-index: 10;
 }
 </style>
 </head>
 <body>
-<!-- Background PCB -->
-<div class="hero-background">
-  <canvas id="pcbCanvas"></canvas>
-</div>
-
 <header>
   <div class="container header-inner">
+    <!-- PCB Canvas خلف الـ Header -->
+    <canvas id="pcbCanvasHeader"></canvas>
+
+    <!-- Logo + Site Name فوق الخلفية -->
     <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
-</header>
 
-<div class="news-ticker" aria-live="polite">
-  <div class="news-text" id="live-news">تحميل الأخبار...</div>
-</div>
+  <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
+    <div class="news-text" id="live-news">تحميل الأخبار...</div>
+  </div>
+</header>
 
 <main class="container main-content">
   <section class="info-bar">
@@ -181,8 +183,8 @@
 
 <script src="app.js" defer></script>
 <script>
-// ======= نص الموقع يتغير تلقائياً =======
 document.addEventListener('DOMContentLoaded', () => {
+  // ======= نص الموقع يتغير تلقائياً =======
   const siteName = document.getElementById('site-name');
   const texts = [
     "Atelier Electronique Médenine",
@@ -251,13 +253,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ======= PCB Animated Background with Interactive Current =======
-const canvas = document.getElementById('pcbCanvas');
+// ======= PCB Animated Background for Header Only =======
+const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = canvas.parentElement.offsetWidth;
+  canvas.height = canvas.parentElement.offsetHeight;
 }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();

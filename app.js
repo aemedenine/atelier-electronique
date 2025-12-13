@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
     "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
     "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-    "📱 Contactez-nous via WhatsApp pour toute question."
+    "📱 Contactez-nous via WhatsApp pour toute question 98192103."
   ];
 
   let newsIndex = 0;

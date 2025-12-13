@@ -10,6 +10,47 @@
 <link rel="stylesheet" href="style.css" />
 
 <style>
+.logo-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 30px;
+}
+
+.logo-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle,
+      rgba(0,255,255,0.25),
+      rgba(0,255,255,0.05),
+      transparent 70%);
+  animation: pulseTech 4s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes pulseTech {
+  0%,100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* اللوجو يبقى كيف ما هو */
+.logo {
+  width: 150px;
+  animation: rotate3D 6s linear infinite;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 15px #00ffff);
+  animation-duration: 2s;
+}
 
 /* نص الموقع يتغير تلقائياً */
 .header-inner h1 {

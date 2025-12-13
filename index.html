@@ -15,6 +15,7 @@
 .cta-buttons button {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
+
 .cta-buttons a:hover,
 .cta-buttons button:hover {
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
@@ -29,12 +30,13 @@
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
 
-/* ======= تقييم النجوم ======= */
+/* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
 .rating-container {
   margin: 40px auto;
   text-align: center;
   color: #fff;
 }
+
 .stars-horizontal span {
   font-size: 2.5rem;
   cursor: pointer;
@@ -43,29 +45,39 @@
   margin: 0 5px;
   display: inline-block;
 }
+
 .stars-horizontal span.selected {
   color: gold;
   text-shadow: 0 0 8px gold;
 }
+
 .stars-horizontal span.hover {
   color: gold;
   text-shadow: 0 0 8px gold;
   transform: scale(1.4) translateY(-5px);
 }
+
 #rating-value {
   margin-top: 10px;
   font-size: 1.2rem;
   transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
 }
+
 .rating-container:hover #rating-value {
   transform: translateY(-3px);
 }
 
-/* ======= PCB Animated خلفية Header ======= */
+@keyframes rotate3D {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* ======= PCB Animated خلفية فقط Header ======= */
 .header-inner {
   position: relative;
   overflow: hidden;
 }
+
 #pcbCanvasHeader {
   position: absolute;
   top: 0;
@@ -74,12 +86,9 @@
   height: 100%;
   z-index: 0;
 }
+
 .header-inner img,
 .header-inner h1 {
-  position: relative;
-  z-index: 10;
-}
-.news-ticker {
   position: relative;
   z-index: 10;
 }
@@ -88,16 +97,16 @@
 <body>
 <header>
   <div class="container header-inner">
-    <!-- PCB Canvas -->
+    <!-- PCB Canvas خلف الـ Header -->
     <canvas id="pcbCanvasHeader"></canvas>
 
-    <!-- Logo + Site Name -->
+    <!-- Logo + Site Name فوق الخلفية -->
     <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
+  </div>
 
-    <div class="news-ticker" aria-live="polite">
-      <div class="news-text" id="live-news">تحميل الأخبار...</div>
-    </div>
+  <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
+    <div class="news-text" id="live-news">تحميل الأخبار...</div>
   </div>
 </header>
 
@@ -109,15 +118,17 @@
   </section>
 
   <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج 📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن 🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب 📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس 📍</a>
-    <a href="photos.html" class="btn-gallery">شاهد الصور 🖼️</a>
-    <a href="videos.html" class="btn-video">شاهد الفيديو 🎥</a>
-    <a href="services.html" class="btn-services">خدمات الورشة 🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
+    <a href="download" class="btn-download">تحميل البرامج  📥</a>
+    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
+    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
+    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
+    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
+
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+
     <div class="equalizer" id="equalizer" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
@@ -145,6 +156,7 @@
     </div>
   </section>
 
+  <!-- ======= تقييم النجوم تحت FAQ ======= -->
   <div class="rating-container">
     <p>قيم الورشة:</p>
     <div class="stars-horizontal">
@@ -180,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "ورشة الإلكترونيك مدنـين",
     " الإلكترونيك الرحمـاني",
   ];
+
   function changeText() {
     const randomIndex = Math.floor(Math.random() * texts.length);
     siteName.textContent = texts[randomIndex];
@@ -192,12 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
       siteName.style.transform = '';
     }, 1000);
   }
+
   setInterval(changeText, 4000);
 
-  // ======= تقييم النجوم =======
+  // ======= تقييم النجوم تحت FAQ =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
+
   function updateStars(rating){
     starsHorizontal.forEach(star => {
       star.classList.remove('selected');
@@ -205,10 +220,18 @@ document.addEventListener('DOMContentLoaded', () => {
       star.textContent = Number(star.dataset.value) <= rating ? '★' : '☆';
     });
     ratingValueHorizontal.textContent = `${rating}/5`;
-    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
-    ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
+    if(rating > 0){
+      ratingValueHorizontal.style.color = 'gold';
+      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
+    } else {
+      ratingValueHorizontal.style.color = '#fff';
+      ratingValueHorizontal.style.textShadow = 'none';
+    }
+    ratingValueHorizontal.style.transform = 'translateY(0)';
   }
+
   updateStars(selectedRatingHorizontal);
+
   starsHorizontal.forEach(star => {
     const val = Number(star.dataset.value);
     star.addEventListener('mouseover', () => {
@@ -216,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
       starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover'); });
       ratingValueHorizontal.style.color = 'gold';
       ratingValueHorizontal.style.textShadow = '0 0 8px gold';
+      ratingValueHorizontal.style.transform = 'translateY(-3px)';
     });
     star.addEventListener('mouseout', () => {
       starsHorizontal.forEach(s => s.classList.remove('hover'));
@@ -229,23 +253,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ======= PCB Animated Background for Header with Glow + Dynamic Colors + Mouse Interaction =======
+// ======= PCB Animated Background for Header Only (Fixed Colors: Blue, Red, Yellow) =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
-function resizeCanvas() { canvas.width = canvas.parentElement.offsetWidth; canvas.height = canvas.parentElement.offsetHeight; }
+
+function resizeCanvas() { 
+  canvas.width = canvas.parentElement.offsetWidth; 
+  canvas.height = canvas.parentElement.offsetHeight; 
+}
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+const colors = ['#00f', '#f00', '#ff0'];
 const traces = [];
 const traceCount = 50;
 for (let i = 0; i < traceCount; i++) {
-  const hueStart = Math.random()*360;
   traces.push({
     x: Math.random()*canvas.width,
     y: Math.random()*canvas.height,
     length: 50 + Math.random()*150,
     speed: 0.5 + Math.random()*1.5,
-    hue: hueStart,
+    color: colors[i % colors.length],
     particles: Array.from({length:5}, ()=>({offset: Math.random()*150, speed:1+Math.random()*2, size:2+Math.random()*2}))
   });
 }
@@ -260,8 +288,6 @@ window.addEventListener('mousemove', e=>{
 function animatePCB(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   traces.forEach(t=>{
-    t.hue = (t.hue+1)%360;
-    const color = `hsl(${t.hue},100%,50%)`;
     const dx = t.x + t.length/2 - mouseX;
     const dy = t.y - mouseY;
     const dist = Math.sqrt(dx*dx + dy*dy);
@@ -270,9 +296,9 @@ function animatePCB(){
     ctx.beginPath();
     ctx.moveTo(t.x, t.y);
     ctx.lineTo(t.x+t.length, t.y);
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = t.color;
     ctx.lineWidth = 2;
-    ctx.shadowColor = color;
+    ctx.shadowColor = t.color;
     ctx.shadowBlur = 15;
     ctx.stroke();
 
@@ -281,8 +307,8 @@ function animatePCB(){
       const py = t.y;
       ctx.beginPath();
       ctx.arc(px,py,p.size,0,Math.PI*2);
-      ctx.fillStyle = color;
-      ctx.shadowColor = color;
+      ctx.fillStyle = t.color;
+      ctx.shadowColor = t.color;
       ctx.shadowBlur = 15;
       ctx.fill();
       p.offset += p.speed*speedMultiplier;

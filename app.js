@@ -137,14 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
       document.querySelector('.experience-badge').textContent = '⭐أكثر من 10 سنوات خبرة';
       toggleBtn.textContent = 'تبديل اللغة';   
-    document.querySelector('.btn-download').textContent = 'تحميل البرامج';
-      document.querySelector('.btn-store').textContent = ' َسوّق الآن';
-      document.querySelector('.btn-whatsapp').textContent = 'واتساب';
-      document.querySelector('.btn-maps').textContent = 'موقعنا على مابس';
-      document.querySelector('.btn-gallery').textContent = 'شاهد الصور';
-      document.querySelector('.btn-video').textContent = 'شاهد الفيديو';
-      document.querySelector('.btn-services').textContent = 'خدمات الورشة';
-      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو';
+    document.querySelector('.btn-download').textContent = 'تحميل البرامج  📥';
+      document.querySelector('.btn-store').textContent = ' َسوّق الآن  🛒';
+      document.querySelector('.btn-whatsapp').textContent = 'واتساب  📱';
+      document.querySelector('.btn-maps').textContent = 'موقعنا على مابس  📍';
+      document.querySelector('.btn-gallery').textContent = 'شاهد الصور  🖼️';
+      document.querySelector('.btn-video').textContent = 'شاهد الفيديو  🎥';
+      document.querySelector('.btn-services').textContent = 'خدمات الورشة  🛠️';
+      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو  📻';
 
       // rebuild FAQ in Arabic (keeps markup consistent)
       faqContainer.innerHTML = `
@@ -160,14 +160,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
       document.querySelector('.experience-badge').textContent = '⭐Plus de 10 ans d\'expérience';
       toggleBtn.textContent = 'Changer la langue';
-      document.querySelector('.btn-download').textContent = 'download';
-      document.querySelector('.btn-store').textContent = 'store';
-      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp';
-      document.querySelector('.btn-maps').textContent = 'Google Maps';
-      document.querySelector('.btn-gallery').textContent = 'Voir les photos';
-      document.querySelector('.btn-video').textContent = 'Voir les vidéos';
-      document.querySelector('.btn-services').textContent = 'Services ';
-      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio';
+      document.querySelector('.btn-download').textContent = 'download  📥';
+      document.querySelector('.btn-store').textContent = 'store  🛒';
+      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp  📱';
+      document.querySelector('.btn-maps').textContent = 'Google Maps  📍';
+      document.querySelector('.btn-gallery').textContent = 'Voir les photos  🖼️';
+      document.querySelector('.btn-video').textContent = 'Voir les vidéos  🎥';
+      document.querySelector('.btn-services').textContent = 'Services  🛠️';
+      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio  📻';
 
       faqContainer.innerHTML = `<h2>FAQ</h2>
         <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>

@@ -18,6 +18,17 @@
   margin-left: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
+/* ======= Glow متحرك للأزرار ======= */
+.cta-buttons a,
+.cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
 
 /* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
 .rating-container {

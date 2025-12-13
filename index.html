@@ -91,6 +91,23 @@
   position: relative;
   z-index: 10;
 }
+
+/* ======= نص الخبرة متلألئ ======= */
+.experience-badge {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: yellow;
+  animation: glowExperience 1.2s infinite alternate;
+  margin: 20px 0;
+}
+
+@keyframes glowExperience {
+  0% { color: yellow; text-shadow: 0 0 5px yellow; }
+  33% { color: red; text-shadow: 0 0 8px red; }
+  66% { color: cyan; text-shadow: 0 0 10px cyan; }
+  100% { color: yellow; text-shadow: 0 0 12px yellow; }
+}
 </style>
 </head>
 <body>
@@ -155,7 +172,6 @@
     </div>
   </section>
 
-  <!-- ======= تقييم النجوم تحت FAQ ======= -->
   <div class="rating-container">
     <p>قيم الورشة:</p>
     <div class="stars-horizontal">
@@ -183,14 +199,10 @@
 
 <script src="app.js" defer></script>
 <script>
+// ======= نص الموقع يتغير تلقائياً =======
 document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع يتغير تلقائياً =======
   const siteName = document.getElementById('site-name');
-  const texts = [
-    "Atelier Electronique Médenine",
-    "ورشة الإلكترونيك مدنـين",
-    " الإلكترونيك الرحمـاني",
-  ];
+  const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنـين"," الإلكترونيك الرحمـاني"];
 
   function changeText() {
     const randomIndex = Math.floor(Math.random() * texts.length);
@@ -198,19 +210,13 @@ document.addEventListener('DOMContentLoaded', () => {
     siteName.style.color = '#ff6b35';
     siteName.style.textShadow = '0 0 10px #ff6b35';
     siteName.style.transform = 'scale(1.2)';
-    setTimeout(() => {
-      siteName.style.color = '';
-      siteName.style.textShadow = '';
-      siteName.style.transform = '';
-    }, 1000);
+    setTimeout(() => { siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; }, 1000);
   }
-
   setInterval(changeText, 4000);
 
-  // ======= تقييم النجوم تحت FAQ =======
+  // ======= تقييم النجوم =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
-
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
 
   function updateStars(rating){
@@ -253,85 +259,53 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ======= PCB Animated Background for Header Only =======
+// ======= PCB Animated Background Header Only =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 
-function resizeCanvas() {
-  canvas.width = canvas.parentElement.offsetWidth;
-  canvas.height = canvas.parentElement.offsetHeight;
-}
+function resizeCanvas() { canvas.width = canvas.parentElement.offsetWidth; canvas.height = canvas.parentElement.offsetHeight; }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 const traces = [];
 const traceCount = 50;
-
-for (let i = 0; i < traceCount; i++) {
-  traces.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    length: 50 + Math.random() * 150,
-    speed: 0.5 + Math.random() * 1.5,
-    color: 'rgba(0,255,255,0.5)',
-    particles: []
-  });
-
-  for (let j = 0; j < 5; j++) {
-    traces[i].particles.push({
-      offset: Math.random() * traces[i].length,
-      speed: 1 + Math.random() * 2,
-      size: 2 + Math.random() * 2
-    });
-  }
+for (let i=0;i<traceCount;i++){
+  traces.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, length:50+Math.random()*150, speed:0.5+Math.random()*1.5, color:'rgba(0,255,255,0.5)', particles:[] });
+  for(let j=0;j<5;j++){ traces[i].particles.push({ offset:Math.random()*traces[i].length, speed:1+Math.random()*2, size:2+Math.random()*2 }); }
 }
 
-let mouseX = -1000;
-let mouseY = -1000;
-window.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
+let mouseX=-1000, mouseY=-1000;
+window.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; });
 
-function animatePCB() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  traces.forEach(t => {
-    const dx = t.x + t.length/2 - mouseX;
-    const dy = t.y - mouseY;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    let speedMultiplier = dist < 200 ? 3 : 1;
-
+function animatePCB(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  traces.forEach(t=>{
+    const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy);
+    let speedMultiplier=dist<200?3:1;
     ctx.beginPath();
-    ctx.moveTo(t.x, t.y);
-    ctx.lineTo(t.x + t.length, t.y);
-    ctx.strokeStyle = t.color;
-    ctx.lineWidth = 2;
-    ctx.shadowColor = '#0ff';
-    ctx.shadowBlur = 10;
+    ctx.moveTo(t.x,t.y);
+    ctx.lineTo(t.x+t.length,t.y);
+    ctx.strokeStyle=t.color;
+    ctx.lineWidth=2;
+    ctx.shadowColor='#0ff';
+    ctx.shadowBlur=10;
     ctx.stroke();
-
-    t.particles.forEach(p => {
-      let px = t.x + p.offset;
-      let py = t.y;
+    t.particles.forEach(p=>{
+      let px=t.x+p.offset, py=t.y;
       ctx.beginPath();
-      ctx.arc(px, py, p.size, 0, Math.PI*2);
-      ctx.fillStyle = '#0ff';
-      ctx.shadowColor = '#0ff';
-      ctx.shadowBlur = 10;
+      ctx.arc(px,py,p.size,0,Math.PI*2);
+      ctx.fillStyle='#0ff';
+      ctx.shadowColor='#0ff';
+      ctx.shadowBlur=10;
       ctx.fill();
-
-      p.offset += p.speed * speedMultiplier;
-      if (p.offset > t.length) p.offset = 0;
+      p.offset+=p.speed*speedMultiplier;
+      if(p.offset>t.length)p.offset=0;
     });
-
-    t.x += t.speed * speedMultiplier;
-    if (t.x > canvas.width) t.x = -t.length;
+    t.x+=t.speed*speedMultiplier;
+    if(t.x>canvas.width)t.x=-t.length;
   });
-
   requestAnimationFrame(animatePCB);
 }
-
 animatePCB();
 </script>
 </body>

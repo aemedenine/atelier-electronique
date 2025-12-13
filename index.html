@@ -20,19 +20,23 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      backdrop-filter: blur(5px); /* تأثير شفاف جميل */
+      backdrop-filter: blur(5px);
+      background: rgba(0,0,0,0.05);
     }
 
     #workshop-rating span {
-      font-size: 2rem;
-      color: #ffcc00;
+      font-size: 2.2rem;
+      color: rgba(255,215,0,0.35);
       cursor: pointer;
       display: block;
-      transition: transform 0.2s;
+      transition: transform 0.25s, color 0.25s;
+      margin: 2px 0;
     }
 
-    #workshop-rating span:hover {
-      transform: scale(1.2);
+    #workshop-rating span:hover,
+    #workshop-rating span.active {
+      color: rgba(255,215,0,0.9);
+      transform: scale(1.3);
     }
 
     #confirm-rating-btn {
@@ -60,6 +64,19 @@
   </style>
 </head>
 <body>
+  <!-- تقييم الورشة -->
+  <div id="workshop-rating-container">
+    <div class="rating" id="workshop-rating">
+      <span>☆</span>
+      <span>☆</span>
+      <span>☆</span>
+      <span>☆</span>
+      <span>☆</span>
+    </div>
+    <button id="confirm-rating-btn">تأكيد</button>
+    <div id="average-rating">تقييمك: 0 / 5</div>
+  </div>
+
   <header>
     <div class="container header-inner">
       <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
@@ -90,7 +107,6 @@
 
       <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
 
-      <!-- Equalizer Bars -->
       <div class="equalizer" id="equalizer" aria-hidden="true">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -135,58 +151,11 @@
     </div>
   </footer>
 
-  <!-- تقييم الورشة 90° على اليسار مع زر تأكيد -->
-  <div id="workshop-rating-container">
-    <div class="rating" id="workshop-rating">
-      <span>☆</span>
-      <span>☆</span>
-      <span>☆</span>
-      <span>☆</span>
-      <span>☆</span>
-    </div>
-    <button id="confirm-rating-btn">تأكيد</button>
-    <div id="average-rating">تقييمك: 0 / 5</div>
-  </div>
-
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <script src="app.js" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const ratingStars = document.querySelectorAll('#workshop-rating span');
-      const averageDisplay = document.getElementById('average-rating');
-      const confirmBtn = document.getElementById('confirm-rating-btn');
-      let tempRating = 0;
-
-      // استرجاع التقييم المخزن
-      let savedRating = localStorage.getItem('workshopRating') || 0;
-      updateStars(savedRating);
-
-      // عند الضغط على النجوم
-      ratingStars.forEach((star, idx) => {
-        star.addEventListener('click', () => {
-          tempRating = idx + 1;
-          updateStars(tempRating);
-        });
-      });
-
-      // عند الضغط على زر التأكيد
-      confirmBtn.addEventListener('click', () => {
-        savedRating = tempRating;
-        localStorage.setItem('workshopRating', savedRating);
-        updateStars(savedRating);
-        alert('تم حفظ تقييمك! ⭐');
-      });
-
-      function updateStars(rating) {
-        ratingStars.forEach((star, idx) => {
-          star.textContent = idx < rating ? '★' : '☆';
-        });
-        averageDisplay.textContent = `تقييمك: ${rating} / 5`;
-      }
-    });
-  </script>
+  <!-- Main JS -->
+  <script src="main.js" defer></script>
 </body>
 </html>

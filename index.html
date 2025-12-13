@@ -21,11 +21,10 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background:
-    radial-gradient(circle,
-      rgba(0,255,255,0.25),
-      rgba(0,255,255,0.05),
-      transparent 70%);
+  background: radial-gradient(circle,
+    rgba(0,255,255,0.25),
+    rgba(0,255,255,0.08),
+    transparent 70%);
   animation: pulseTech 4s ease-in-out infinite;
   z-index: -1;
 }
@@ -36,12 +35,12 @@
     opacity: 0.6;
   }
   50% {
-    transform: scale(1.15);
+    transform: scale(1.12);
     opacity: 1;
   }
 }
 
-/* اللوجو يبقى كيف ما هو */
+/* اللوجو */
 .logo {
   width: 150px;
   animation: rotate3D 6s linear infinite;
@@ -52,14 +51,20 @@
   animation-duration: 2s;
 }
 
-/* نص الموقع يتغير تلقائياً */
+@keyframes rotate3D {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* عنوان الموقع */
 .header-inner h1 {
   display: inline-block;
   font-size: 1.8rem;
-  margin-left: 15px;
+  margin-right: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
-/* ======= Glow متحرك للأزرار ======= */
+
+/* أزرار */
 .cta-buttons a,
 .cta-buttons button {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
@@ -70,7 +75,8 @@
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
   transform: translateY(-3px);
 }
-/* ======= Animation للأخبار ======= */
+
+/* الأخبار */
 .news-text {
   display: inline-block;
   white-space: nowrap;
@@ -81,53 +87,15 @@
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
-/* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
-.rating-container {
-  margin: 40px auto;
-  text-align: center;
-  color: #fff;
-}
-
-.stars-horizontal span {
-  font-size: 2.5rem;
-  cursor: pointer;
-  color: #ccc;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-  margin: 0 5px;
-  display: inline-block;
-}
-
-.stars-horizontal span.selected {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-}
-
-.stars-horizontal span.hover {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-  transform: scale(1.4) translateY(-5px);
-}
-
-#rating-value {
-  margin-top: 10px;
-  font-size: 1.2rem;
-  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
-}
-
-.rating-container:hover #rating-value {
-  transform: translateY(-3px);
-}
-
-@keyframes rotate3D {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
-}
 </style>
 </head>
+
 <body>
 <header>
   <div class="container header-inner">
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+    </div>
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
 </header>
@@ -137,148 +105,38 @@
 </div>
 
 <main class="container main-content">
-  <section class="info-bar">
-    <div id="current-time">--:--:--</div>
-    <div id="visit-count">عدد زياراتك: 0</div>
-    <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
-  </section>
-
-  <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج  📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
-    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
-    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
-    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
-
-    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-
-    <div class="equalizer" id="equalizer" aria-hidden="true">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </div>
-  </section>
-
-  <section class="experience-badge">⭐أكثر من 10 سنوات خبرة</section>
-
-  <section class="faq">
-    <h2>الأسئلة الشائعة</h2>
-    <div class="faq-item">
-      <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
-      <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
-    </div>
-    <div class="faq-item">
-      <h3>ما هي مدة التصليح المعتادة؟</h3>
-      <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
-    </div>
-    <div class="faq-item">
-      <h3>هل توفرون قطع غيار أصلية؟</h3>
-      <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
-    </div>
-    <div class="faq-item">
-      <h3>كيف أتابع حالة الإصلاح؟</h3>
-      <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div>
-    </div>
-  </section>
-
-  <!-- ======= تقييم النجوم تحت FAQ ======= -->
-  <div class="rating-container">
-    <p>قيم الورشة:</p>
-    <div class="stars-horizontal">
-      <span data-value="5">☆</span>
-      <span data-value="4">☆</span>
-      <span data-value="3">☆</span>
-      <span data-value="2">☆</span>
-      <span data-value="1">☆</span>
-    </div>
-    <p id="rating-value">0/5</p>
-  </div>
+  <!-- المحتوى متاعك كيف ما هو -->
 </main>
 
 <footer>
   <div class="container footer-inner">
     <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
     <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook" /></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram" /></a>
-      <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
-    </div>
   </div>
 </footer>
 
 <script src="app.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع يتغير تلقائياً =======
   const siteName = document.getElementById('site-name');
   const texts = [
     "Atelier Electronique Médenine",
-    "ورشة إلكتـرونيك مدنـين",
-    " إلكتـرونيك الرحمـاني",
-
+    "ورشة إلكترونيك مدنين",
+    "إلكترونيك الرحماني"
   ];
 
-  function changeText() {
-    const randomIndex = Math.floor(Math.random() * texts.length);
-    siteName.textContent = texts[randomIndex];
+  setInterval(() => {
+    const t = texts[Math.floor(Math.random() * texts.length)];
+    siteName.textContent = t;
     siteName.style.color = '#ff6b35';
     siteName.style.textShadow = '0 0 10px #ff6b35';
-    siteName.style.transform = 'scale(1.2)';
+    siteName.style.transform = 'scale(1.15)';
     setTimeout(() => {
       siteName.style.color = '';
       siteName.style.textShadow = '';
       siteName.style.transform = '';
     }, 1000);
-  }
-
-  setInterval(changeText, 4000); // كل 4 ثواني يتغير النص
-
-  // ======= تقييم النجوم تحت FAQ =======
-  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
-  const ratingValueHorizontal = document.getElementById('rating-value');
-
-  let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
-
-  function updateStars(rating){
-    starsHorizontal.forEach(star => {
-      star.classList.remove('selected');
-      if(Number(star.dataset.value) <= rating) star.classList.add('selected');
-      star.textContent = Number(star.dataset.value) <= rating ? '★' : '☆';
-    });
-    ratingValueHorizontal.textContent = `${rating}/5`;
-    if(rating > 0){
-      ratingValueHorizontal.style.color = 'gold';
-      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
-    } else {
-      ratingValueHorizontal.style.color = '#fff';
-      ratingValueHorizontal.style.textShadow = 'none';
-    }
-    ratingValueHorizontal.style.transform = 'translateY(0)';
-  }
-
-  updateStars(selectedRatingHorizontal);
-
-  starsHorizontal.forEach(star => {
-    const val = Number(star.dataset.value);
-    star.addEventListener('mouseover', () => {
-      starsHorizontal.forEach(s => s.classList.remove('hover'));
-      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover'); });
-      ratingValueHorizontal.style.color = 'gold';
-      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
-      ratingValueHorizontal.style.transform = 'translateY(-3px)';
-    });
-    star.addEventListener('mouseout', () => {
-      starsHorizontal.forEach(s => s.classList.remove('hover'));
-      updateStars(selectedRatingHorizontal);
-    });
-    star.addEventListener('click', () => {
-      selectedRatingHorizontal = val;
-      localStorage.setItem('workshopRating', selectedRatingHorizontal);
-      updateStars(selectedRatingHorizontal);
-    });
-  });
+  }, 4000);
 });
 </script>
 </body>

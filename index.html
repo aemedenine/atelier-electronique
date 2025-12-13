@@ -9,6 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 
+<!-- ======= Google AdSense ======= -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
+     crossorigin="anonymous"></script>
+
 <style>
 /* ======= Glow متحرك للأزرار ======= */
 .cta-buttons a,
@@ -148,9 +152,8 @@
 
 <script src="app.js" defer></script>
 <script>
-// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
+// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header + كوكي
 document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع =======
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -162,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
 
-  // ======= تقييم النجوم =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
@@ -180,17 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
     star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
   });
 
-  // ======= Cookie Banner =======
   const cookieBanner = document.getElementById('cookie-banner');
   const accepted = localStorage.getItem('cookiesAccepted');
   if(!accepted) cookieBanner.style.display='block';
-  document.getElementById('accept-cookies').addEventListener('click',()=>{
-    localStorage.setItem('cookiesAccepted','true');
-    cookieBanner.style.display='none';
-  });
+  document.getElementById('accept-cookies').addEventListener('click',()=>{ localStorage.setItem('cookiesAccepted','true'); cookieBanner.style.display='none'; });
 });
 
-// ======= PCB Animated Header =======
+// PCB Header
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }

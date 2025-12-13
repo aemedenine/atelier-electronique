@@ -15,11 +15,74 @@
 .cta-buttons button {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
+
 .cta-buttons a:hover,
 .cta-buttons button:hover {
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
   transform: translateY(-3px);
 }
+<header>
+  <div class="container header-inner">
+    <div class="pcb-bg"></div> <!-- الخلفية المتحركة -->
+    <img src="logo.png" alt="Logo" class="logo" />
+    <h1 id="site-name">Atelier Electronique Médenine</h1>
+  </div>
+</header>
+
+<style>
+/* ======= Header & PCB Background ======= */
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  z-index: 2;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  z-index: 3;
+  position: relative;
+}
+
+#site-name {
+  font-size: 1.8rem;
+  color: #fff;
+  margin-left: 15px;
+  z-index: 3;
+  position: relative;
+}
+
+/* PCB background behind logo & header */
+.pcb-bg {
+  position: absolute;
+  inset: 0;
+  background: black;
+  overflow: hidden;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* خطوط PCB */
+.pcb-bg::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,0,0,0.15) 0, rgba(255,0,0,0.15) 2px, transparent 2px, transparent 12px),
+    repeating-linear-gradient(-45deg, rgba(255,165,0,0.12) 0, rgba(255,165,0,0.12) 2px, transparent 2px, transparent 10px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 8px);
+  animation: pcbMove 12s linear infinite;
+}
+
+/* حركة المسارات */
+@keyframes pcbMove {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); }
+  100% { transform: translateX(-30px) translateY(-20px) rotate(360deg); }
+}
+</style>
 
 /* نص الموقع يتغير تلقائياً */
 .header-inner h1 {
@@ -27,38 +90,6 @@
   font-size: 1.8rem;
   margin-left: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-  position: relative;
-  z-index: 2;
-}
-
-/* ===== Fikra 3 : PCB background derrière le logo ===== */
-.header-inner {
-  position: relative;
-}
-.header-inner::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:12px;
-  background:
-    repeating-linear-gradient(45deg, rgba(0,255,255,0.15) 0, rgba(0,255,255,0.15) 2px, transparent 2px, transparent 12px),
-    repeating-linear-gradient(-45deg, rgba(255,0,0,0.12) 0, rgba(255,0,0,0.12) 2px, transparent 2px, transparent 10px);
-  z-index:1;
-  opacity:0.6;
-  animation: pcbRotate 15s linear infinite;
-}
-
-/* حركة المسارات */
-@keyframes pcbRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* على الموبايل: تعطيل الحركة */
-@media(max-width:768px){
-  .header-inner::before {
-    animation: none;
-  }
 }
 
 /* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
@@ -67,6 +98,7 @@
   text-align: center;
   color: #fff;
 }
+
 .stars-horizontal span {
   font-size: 2.5rem;
   cursor: pointer;
@@ -75,22 +107,31 @@
   margin: 0 5px;
   display: inline-block;
 }
+
 .stars-horizontal span.selected {
   color: gold;
   text-shadow: 0 0 8px gold;
 }
+
 .stars-horizontal span.hover {
   color: gold;
   text-shadow: 0 0 8px gold;
   transform: scale(1.4) translateY(-5px);
 }
+
 #rating-value {
   margin-top: 10px;
   font-size: 1.2rem;
   transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
 }
+
 .rating-container:hover #rating-value {
   transform: translateY(-3px);
+}
+
+@keyframes rotate3D {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
 }
 </style>
 </head>
@@ -181,21 +222,36 @@
 <script src="app.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // ======= نص الموقع يتغير تلقائياً =======
   const siteName = document.getElementById('site-name');
-  const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنـين"," الإلكترونيك الرحمـاني"];
+  const texts = [
+    "Atelier Electronique Médenine",
+    "ورشة الإلكترونيك مدنـين",
+    " الإلكترونيك الرحمـاني",
+
+  ];
+
   function changeText() {
     const randomIndex = Math.floor(Math.random() * texts.length);
     siteName.textContent = texts[randomIndex];
     siteName.style.color = '#ff6b35';
     siteName.style.textShadow = '0 0 10px #ff6b35';
     siteName.style.transform = 'scale(1.2)';
-    setTimeout(() => { siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; }, 1000);
+    setTimeout(() => {
+      siteName.style.color = '';
+      siteName.style.textShadow = '';
+      siteName.style.transform = '';
+    }, 1000);
   }
-  setInterval(changeText, 4000);
 
+  setInterval(changeText, 4000); // كل 4 ثواني يتغير النص
+
+  // ======= تقييم النجوم تحت FAQ =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
+
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
+
   function updateStars(rating){
     starsHorizontal.forEach(star => {
       star.classList.remove('selected');
@@ -203,27 +259,34 @@ document.addEventListener('DOMContentLoaded', () => {
       star.textContent = Number(star.dataset.value) <= rating ? '★' : '☆';
     });
     ratingValueHorizontal.textContent = `${rating}/5`;
-    if(rating>0){ ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; }
-    else{ ratingValueHorizontal.style.color='#fff'; ratingValueHorizontal.style.textShadow='none'; }
-    ratingValueHorizontal.style.transform='translateY(0)';
+    if(rating > 0){
+      ratingValueHorizontal.style.color = 'gold';
+      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
+    } else {
+      ratingValueHorizontal.style.color = '#fff';
+      ratingValueHorizontal.style.textShadow = 'none';
+    }
+    ratingValueHorizontal.style.transform = 'translateY(0)';
   }
+
   updateStars(selectedRatingHorizontal);
+
   starsHorizontal.forEach(star => {
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{
-      starsHorizontal.forEach(s=>s.classList.remove('hover'));
-      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); });
-      ratingValueHorizontal.style.color='gold';
-      ratingValueHorizontal.style.textShadow='0 0 8px gold';
-      ratingValueHorizontal.style.transform='translateY(-3px)';
+    star.addEventListener('mouseover', () => {
+      starsHorizontal.forEach(s => s.classList.remove('hover'));
+      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover'); });
+      ratingValueHorizontal.style.color = 'gold';
+      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
+      ratingValueHorizontal.style.transform = 'translateY(-3px)';
     });
-    star.addEventListener('mouseout',()=>{
-      starsHorizontal.forEach(s=>s.classList.remove('hover'));
+    star.addEventListener('mouseout', () => {
+      starsHorizontal.forEach(s => s.classList.remove('hover'));
       updateStars(selectedRatingHorizontal);
     });
-    star.addEventListener('click',()=>{
-      selectedRatingHorizontal=val;
-      localStorage.setItem('workshopRating',selectedRatingHorizontal);
+    star.addEventListener('click', () => {
+      selectedRatingHorizontal = val;
+      localStorage.setItem('workshopRating', selectedRatingHorizontal);
       updateStars(selectedRatingHorizontal);
     });
   });

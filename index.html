@@ -1,170 +1,60 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Atelier Electronique Médenine</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier Electronique Médenine</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
-
-<style>
-<header>
-  <div class="container header-inner">
-    <div class="logo-bg"></div> <!-- الخلفية الجديدة -->
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-    <h1 id="site-name">Atelier Electronique Médenine</h1>
-  </div>
-</header>
-
-<style>
-/* ======= Header & Logo Background ======= */
-.header-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
-  z-index: 2;
-}
-
-.logo {
-  width: 80px;
-  height: auto;
-  z-index: 3;
-  position: relative;
-}
-
-#site-name {
-  font-size: 1.8rem;
-  color: #fff;
-  margin-left: 15px;
-  z-index: 3;
-  position: relative;
-}
-
-/* الخلفية الجديدة */
-.logo-bg {
-  position: absolute;
-  inset: 0;
-  background: url('05f553fa-36d4-4e83-b8a3-98581b08e0f3.png') no-repeat center;
-  background-size: cover; /* او contain حسب الشكل */
-  opacity: 0.2; /* شوية شفافية عشان اللوجو يبين */
-  z-index: 1;
-  border-radius: 12px;
-  animation: glowAnim 6s linear infinite alternate;
-}
-
-/* تأثير إضاءة بسيط */
-@keyframes glowAnim {
-  0% { filter: brightness(0.8) blur(1px); }
-  50% { filter: brightness(1.2) blur(2px); }
-  100% { filter: brightness(0.9) blur(1px); }
-}
-</style>
-
-  /* ======= Glow متحرك للأزرار ======= */
-.cta-buttons a,
-.cta-buttons button {
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.cta-buttons a:hover,
-.cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
-  transform: translateY(-3px);
-}
-
-/* نص الموقع يتغير تلقائياً */
-.header-inner h1 {
-  display: inline-block;
-  font-size: 1.8rem;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-
-/* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
-.rating-container {
-  margin: 40px auto;
-  text-align: center;
-  color: #fff;
-}
-
-.stars-horizontal span {
-  font-size: 2.5rem;
-  cursor: pointer;
-  color: #ccc;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-  margin: 0 5px;
-  display: inline-block;
-}
-
-.stars-horizontal span.selected {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-}
-
-.stars-horizontal span.hover {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-  transform: scale(1.4) translateY(-5px);
-}
-
-#rating-value {
-  margin-top: 10px;
-  font-size: 1.2rem;
-  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
-}
-
-.rating-container:hover #rating-value {
-  transform: translateY(-3px);
-}
-
-@keyframes rotate3D {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
-}
-</style>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+<!-- ======= Header ======= -->
 <header>
   <div class="container header-inner">
+    <div class="logo-bg"></div>
     <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
 </header>
 
+<!-- ======= News Ticker ======= -->
 <div class="news-ticker" aria-live="polite">
   <div class="news-text" id="live-news">تحميل الأخبار...</div>
 </div>
 
 <main class="container main-content">
+
+  <!-- ======= Info Bar ======= -->
   <section class="info-bar">
     <div id="current-time">--:--:--</div>
     <div id="visit-count">عدد زياراتك: 0</div>
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
+  <!-- ======= CTA Buttons ======= -->
   <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج  📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
-    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
-    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
-    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
+    <a href="download" class="btn-download">تحميل البرامج 📥</a>
+    <a href="store.html" class="btn-store">تَسوّق الآن 🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب 📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس 📍</a>
+    <a href="photos.html" class="btn-gallery">شاهد الصور 🖼️</a>
+    <a href="videos.html" class="btn-video">شاهد الفيديو 🎥</a>
+    <a href="services.html" class="btn-services">خدمات الورشة 🛠️</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
 
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-
     <div class="equalizer" id="equalizer" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
   </section>
 
+  <!-- ======= Experience Badge ======= -->
   <section class="experience-badge">⭐أكثر من 10 سنوات خبرة</section>
 
+  <!-- ======= FAQ ======= -->
   <section class="faq">
     <h2>الأسئلة الشائعة</h2>
     <div class="faq-item">
@@ -185,7 +75,7 @@
     </div>
   </section>
 
-  <!-- ======= تقييم النجوم تحت FAQ ======= -->
+  <!-- ======= Rating Stars ======= -->
   <div class="rating-container">
     <p>قيم الورشة:</p>
     <div class="stars-horizontal">
@@ -199,6 +89,7 @@
   </div>
 </main>
 
+<!-- ======= Footer ======= -->
 <footer>
   <div class="container footer-inner">
     <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
@@ -211,6 +102,7 @@
   </div>
 </footer>
 
+<!-- ======= Scripts ======= -->
 <script src="app.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -219,8 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const texts = [
     "Atelier Electronique Médenine",
     "ورشة الإلكترونيك مدنـين",
-    " الإلكترونيك الرحمـاني",
-
+    "الإلكترونيك الرحمـاني"
   ];
 
   function changeText() {
@@ -236,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  setInterval(changeText, 4000); // كل 4 ثواني يتغير النص
+  setInterval(changeText, 4000);
 
   // ======= تقييم النجوم تحت FAQ =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');

@@ -15,7 +15,6 @@
 .cta-buttons button {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-
 .cta-buttons a:hover,
 .cta-buttons button:hover {
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
@@ -45,8 +44,8 @@
     repeating-linear-gradient(45deg, rgba(0,255,255,0.15) 0, rgba(0,255,255,0.15) 2px, transparent 2px, transparent 12px),
     repeating-linear-gradient(-45deg, rgba(255,0,0,0.12) 0, rgba(255,0,0,0.12) 2px, transparent 2px, transparent 10px);
   z-index:1;
-  animation: pcbRotate 15s linear infinite;
   opacity:0.6;
+  animation: pcbRotate 15s linear infinite;
 }
 
 /* حركة المسارات */
@@ -55,13 +54,19 @@
   100% { transform: rotate(360deg); }
 }
 
+/* على الموبايل: تعطيل الحركة */
+@media(max-width:768px){
+  .header-inner::before {
+    animation: none;
+  }
+}
+
 /* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
 .rating-container {
   margin: 40px auto;
   text-align: center;
   color: #fff;
 }
-
 .stars-horizontal span {
   font-size: 2.5rem;
   cursor: pointer;
@@ -70,31 +75,22 @@
   margin: 0 5px;
   display: inline-block;
 }
-
 .stars-horizontal span.selected {
   color: gold;
   text-shadow: 0 0 8px gold;
 }
-
 .stars-horizontal span.hover {
   color: gold;
   text-shadow: 0 0 8px gold;
   transform: scale(1.4) translateY(-5px);
 }
-
 #rating-value {
   margin-top: 10px;
   font-size: 1.2rem;
   transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
 }
-
 .rating-container:hover #rating-value {
   transform: translateY(-3px);
-}
-
-@keyframes rotate3D {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
 }
 </style>
 </head>
@@ -185,7 +181,6 @@
 <script src="app.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // نص الموقع يتغير تلقائياً
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنـين"," الإلكترونيك الرحمـاني"];
   function changeText() {
@@ -198,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setInterval(changeText, 4000);
 
-  // تقييم النجوم
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;

@@ -8,61 +8,11 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* ======= تقييم الورشة عمودي أعلى يسار الصفحة شفاف ======= */
-    #workshop-rating-container {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 10px;
-      border-radius: 12px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      backdrop-filter: blur(5px); /* تأثير شفاف جميل */
-    }
-
-    #workshop-rating span {
-      font-size: 2rem;
-      color: #ffcc00;
-      cursor: pointer;
-      display: block;
-      transition: transform 0.2s;
-    }
-
-    #workshop-rating span:hover {
-      transform: scale(1.2);
-    }
-
-    #confirm-rating-btn {
-      margin-top: 10px;
-      padding: 6px 12px;
-      font-size: 0.9rem;
-      border: none;
-      border-radius: 6px;
-      background-color: #ff6b35;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(255,107,53,0.7);
-      transition: background-color 0.3s ease;
-    }
-
-    #confirm-rating-btn:hover {
-      background-color: #d9533f;
-    }
-
-    #average-rating {
-      margin-top: 8px;
-      font-size: 1rem;
-      color: #eee;
-    }
-  </style>
 </head>
 <body>
   <header>
     <div class="container header-inner">
-      <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+      <img src="logo.png" alt="Logo" class="logo" />
       <h1>Atelier Electronique Médenine</h1>
     </div>
   </header>
@@ -90,7 +40,6 @@
 
       <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
 
-      <!-- Equalizer Bars -->
       <div class="equalizer" id="equalizer" aria-hidden="true">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -135,14 +84,9 @@
     </div>
   </footer>
 
-  <!-- تقييم الورشة 90° على اليسار مع زر تأكيد -->
   <div id="workshop-rating-container">
     <div class="rating" id="workshop-rating">
-      <span>☆</span>
-      <span>☆</span>
-      <span>☆</span>
-      <span>☆</span>
-      <span>☆</span>
+      <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
     </div>
     <button id="confirm-rating-btn">تأكيد</button>
     <div id="average-rating">تقييمك: 0 / 5</div>
@@ -153,40 +97,5 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script src="app.js" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const ratingStars = document.querySelectorAll('#workshop-rating span');
-      const averageDisplay = document.getElementById('average-rating');
-      const confirmBtn = document.getElementById('confirm-rating-btn');
-      let tempRating = 0;
-
-      // استرجاع التقييم المخزن
-      let savedRating = localStorage.getItem('workshopRating') || 0;
-      updateStars(savedRating);
-
-      // عند الضغط على النجوم
-      ratingStars.forEach((star, idx) => {
-        star.addEventListener('click', () => {
-          tempRating = idx + 1;
-          updateStars(tempRating);
-        });
-      });
-
-      // عند الضغط على زر التأكيد
-      confirmBtn.addEventListener('click', () => {
-        savedRating = tempRating;
-        localStorage.setItem('workshopRating', savedRating);
-        updateStars(savedRating);
-        alert('تم حفظ تقييمك! ⭐');
-      });
-
-      function updateStars(rating) {
-        ratingStars.forEach((star, idx) => {
-          star.textContent = idx < rating ? '★' : '☆';
-        });
-        averageDisplay.textContent = `تقييمك: ${rating} / 5`;
-      }
-    });
-  </script>
 </body>
 </html>

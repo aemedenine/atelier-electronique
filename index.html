@@ -10,6 +10,17 @@
 <link rel="stylesheet" href="style.css" />
 
 <style>
+/* ======= Glow متحرك للأزرار ======= */
+.cta-buttons a,
+.cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
 
 /* نص الموقع يتغير تلقائياً */
 .header-inner h1 {

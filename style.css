@@ -44,6 +44,37 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 .equalizer .bar { width:6px; background:#1e90ff; border-radius:3px; animation:bounce 1s infinite ease-in-out; height:8px; }
 .equalizer .bar:nth-child(1){animation-delay:0s;} .equalizer .bar:nth-child(2){animation-delay:0.1s;} .equalizer .bar:nth-child(3){animation-delay:0.2s;} .equalizer .bar:nth-child(4){animation-delay:0.3s;} .equalizer .bar:nth-child(5){animation-delay:0.4s;}
 @keyframes bounce{0%,100%{height:8px;}50%{height:36px;}}
+/* ===== Fikra 3 : Electronic PCB background وراء اللوجو ===== */
+.logo-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,255,255,0.15) 0,
+      rgba(0,255,255,0.15) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,107,53,0.12) 0,
+      rgba(255,107,53,0.12) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.6;
+  animation: pcbMove 12s linear infinite;
+  z-index: -2;
+}
+
+/* حركة خفيفة متاع المسارات */
+@keyframes pcbMove {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 /* Footer */
 footer { background:#061222; color:#888; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }

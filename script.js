@@ -103,11 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if(langBtn) langBtn.textContent = 'Changer la langue';
 
       const btns = [
+        {selector: '.btn-download', text: 'download'},
+        {selector: '.btn-store', text: 'store'},
         {selector: '.btn-whatsapp', text: 'WhatsApp'},
-        {selector: '.btn-maps', text: 'Voir sur Google Maps'},
+        {selector: '.btn-maps', text: 'Google Maps'},
         {selector: '.btn-gallery', text: 'Voir les photos'},
         {selector: '.btn-video', text: 'Voir les vidéos'},
-        {selector: '.btn-services', text: 'Services de l\'atelier'}
+        {selector: '.btn-services', text: 'Services'}
       ];
       btns.forEach(b => {
         const el = document.querySelector(b.selector);
@@ -139,8 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if(langBtn) langBtn.textContent = 'تبديل اللغة';
 
       const btns = [
+        {selector: '.btn-download', text: 'تحميل البرامج'},
+        {selector: '.btn-store', text: 'تَسوّق الآن'},
         {selector: '.btn-whatsapp', text: 'واتساب'},
-        {selector: '.btn-maps', text: 'موقعنا على Google Maps'},
+        {selector: '.btn-maps', text: 'موقعنا على مابس'},
         {selector: '.btn-gallery', text: 'شاهد الصور'},
         {selector: '.btn-video', text: 'شاهد الفيديو'},
         {selector: '.btn-services', text: 'خدمات الورشة'}

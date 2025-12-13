@@ -15,7 +15,6 @@
 .cta-buttons button {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-
 .cta-buttons a:hover,
 .cta-buttons button:hover {
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
@@ -30,13 +29,12 @@
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
 
-/* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
+/* ======= تقييم النجوم تحت FAQ ======= */
 .rating-container {
   margin: 40px auto;
   text-align: center;
   color: #fff;
 }
-
 .stars-horizontal span {
   font-size: 2.5rem;
   cursor: pointer;
@@ -45,24 +43,20 @@
   margin: 0 5px;
   display: inline-block;
 }
-
 .stars-horizontal span.selected {
   color: gold;
   text-shadow: 0 0 8px gold;
 }
-
 .stars-horizontal span.hover {
   color: gold;
   text-shadow: 0 0 8px gold;
   transform: scale(1.4) translateY(-5px);
 }
-
 #rating-value {
   margin-top: 10px;
   font-size: 1.2rem;
   transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
 }
-
 .rating-container:hover #rating-value {
   transform: translateY(-3px);
 }
@@ -72,7 +66,6 @@
   position: relative;
   overflow: hidden;
 }
-
 #pcbCanvasHeader {
   position: absolute;
   top: 0;
@@ -87,17 +80,18 @@
   z-index: 10;
 }
 
-/* ======= نص الخبرة وسط الصفحة مع Glow وFloat ======= */
+/* ======= نص الخبرة وسط الصفحة بدون مستطيل ======= */
 .experience-badge {
   display: block;
   text-align: center;
-  font-size: 1.3rem; /* حجم أصغر */
+  font-size: 1.3rem;
   font-weight: bold;
   color: yellow;
   margin: 30px auto;
+  background: none; /* نحينا الخلفية */
+  padding: 0;       /* نحينا أي padding */
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
-
 @keyframes glowExperience {
   0% { color: yellow; text-shadow: 0 0 5px yellow; }
   25% { color: red; text-shadow: 0 0 8px red; }
@@ -105,10 +99,9 @@
   75% { color: magenta; text-shadow: 0 0 12px magenta; }
   100% { color: yellow; text-shadow: 0 0 15px yellow; }
 }
-
 @keyframes floatExperience {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); } /* حركة خفيفة للأعلى */
+  50% { transform: translateY(-6px); }
   100% { transform: translateY(0px); }
 }
 </style>
@@ -116,10 +109,7 @@
 <body>
 <header>
   <div class="container header-inner">
-    <!-- PCB Canvas خلف الـ Header -->
     <canvas id="pcbCanvasHeader"></canvas>
-
-    <!-- Logo + Site Name فوق الخلفية -->
     <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
@@ -153,7 +143,6 @@
     </div>
   </section>
 
-  <!-- نص الخبرة وسط الصفحة -->
   <section class="experience-badge">⭐أكثر من 10 سنوات خبرة</section>
 
   <section class="faq">
@@ -176,7 +165,6 @@
     </div>
   </section>
 
-  <!-- ======= تقييم النجوم تحت FAQ ======= -->
   <div class="rating-container">
     <p>قيم الورشة:</p>
     <div class="stars-horizontal">
@@ -204,13 +192,10 @@
 
 <script src="app.js" defer></script>
 <script>
+// ======= نص الموقع يتغير تلقائياً =======
 document.addEventListener('DOMContentLoaded', () => {
   const siteName = document.getElementById('site-name');
-  const texts = [
-    "Atelier Electronique Médenine",
-    "ورشة الإلكترونيك مدنـين",
-    " الإلكترونيك الرحمـاني",
-  ];
+  const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
 
   function changeText() {
     const randomIndex = Math.floor(Math.random() * texts.length);
@@ -218,15 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
     siteName.style.color = '#ff6b35';
     siteName.style.textShadow = '0 0 10px #ff6b35';
     siteName.style.transform = 'scale(1.2)';
-    setTimeout(() => {
-      siteName.style.color = '';
-      siteName.style.textShadow = '';
-      siteName.style.transform = '';
-    }, 1000);
+    setTimeout(() => { siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; }, 1000);
   }
-
   setInterval(changeText, 4000);
 
+  // ======= تقييم النجوم =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
@@ -247,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     ratingValueHorizontal.style.transform = 'translateY(0)';
   }
-
   updateStars(selectedRatingHorizontal);
 
   starsHorizontal.forEach(star => {
@@ -271,26 +251,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ======= PCB Animated Background for Header Only =======
+// ======= PCB Animated Background for Header =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  canvas.width = canvas.parentElement.offsetWidth;
-  canvas.height = canvas.parentElement.offsetHeight;
-}
+function resizeCanvas() { canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 const traces = [];
-const traceCount = 50;
-for (let i = 0; i < traceCount; i++) {
-  traces.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, length:50+Math.random()*150, speed:0.5+Math.random()*1.5, color:'rgba(0,255,255,0.5)', particles:[]});
-  for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length, speed:1+Math.random()*2, size:2+Math.random()*2});}
+for(let i=0;i<50;i++){
+  traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
+  for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}
 }
 
-let mouseX=-1000, mouseY=-1000;
-window.addEventListener('mousemove', e => {mouseX=e.clientX; mouseY=e.clientY;});
+let mouseX=-1000,mouseY=-1000;
+window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
 
 function animatePCB(){
   ctx.clearRect(0,0,canvas.width,canvas.height);

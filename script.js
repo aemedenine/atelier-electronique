@@ -1,4 +1,4 @@
-// main.js (دمج app.js + script.js)
+// main.js
 document.addEventListener('DOMContentLoaded', () => {
   let currentLang = document.documentElement.lang && document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
 
@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const radio = document.getElementById('radio-stream');
   const radioBtn = document.getElementById('radio-btn');
   const equalizer = document.getElementById('equalizer');
-
-  // New buttons
   const shopBtn = document.getElementById('shop-btn');
   const downloadBtn = document.getElementById('download-btn');
 
@@ -175,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modalVideo.onended = () => closeModal();
     modal.addEventListener('click', e => { if(e.target===modal) closeModal(); });
   }
-
   function closeModal() {
     const modal = document.getElementById('video-modal');
     const modalVideo = document.getElementById('modal-video');
@@ -184,9 +181,42 @@ document.addEventListener('DOMContentLoaded', () => {
     modalVideo.currentTime = 0;
     modalVideo.src = "";
   }
-
-  window.openModal = openModal; // make accessible in HTML buttons
+  window.openModal = openModal;
   window.closeModal = closeModal;
+
+  /* -------------------- Workshop Rating -------------------- */
+  const stars = document.querySelectorAll('#workshop-rating span');
+  const confirmBtn = document.getElementById('confirm-rating-btn');
+  const averageDisplay = document.getElementById('average-rating');
+  let selectedRating = 0;
+
+  stars.forEach((star, index) => {
+    star.addEventListener('mouseover', () => {
+      stars.forEach((s, i) => s.style.color = i <= index ? 'rgba(255,215,0,0.9)' : 'rgba(255,215,0,0.35)');
+    });
+    star.addEventListener('mouseout', () => {
+      stars.forEach((s, i) => s.style.color = i < selectedRating ? 'rgba(255,215,0,0.75)' : 'rgba(255,215,0,0.35)');
+    });
+    star.addEventListener('click', () => {
+      selectedRating = index + 1;
+      stars.forEach((s, i) => s.classList.toggle('active', i < selectedRating));
+      if (averageDisplay) averageDisplay.textContent = `تقييمك: ${selectedRating}/5`;
+      localStorage.setItem('workshopRating', selectedRating);
+    });
+  });
+
+  const savedRating = localStorage.getItem('workshopRating');
+  if (savedRating) {
+    selectedRating = parseInt(savedRating);
+    stars.forEach((s, i) => s.classList.toggle('active', i < selectedRating));
+    if (averageDisplay) averageDisplay.textContent = `تقييمك: ${selectedRating}/5`;
+  }
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
+      alert(`شكراً على تقييمك: ${selectedRating}/5`);
+    });
+  }
 
   /* -------------------- Initialization -------------------- */
   setInterval(updateTime, 1000);

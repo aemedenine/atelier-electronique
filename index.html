@@ -92,7 +92,7 @@
   z-index: 10;
 }
 
-/* ======= نص الخبرة متلألئ ووسط الصفحة ======= */
+/* ======= نص الخبرة متلألئ وسط الصفحة بدون خلفية ======= */
 .experience-badge {
   display: block;
   text-align: center;
@@ -101,8 +101,9 @@
   color: yellow;
   animation: glowExperience 1.2s infinite alternate;
   margin: 20px auto;
+  /* لا خلفية */
+  background: none;
 }
-
 @keyframes glowExperience {
   0% { color: yellow; text-shadow: 0 0 5px yellow; }
   33% { color: red; text-shadow: 0 0 8px red; }
@@ -151,7 +152,7 @@
     </div>
   </section>
 
-  <!-- ======= نص الخبرة متلألئ وسط الصفحة ======= -->
+  <!-- نص الخبرة في وسط الصفحة -->
   <section class="experience-badge">⭐أكثر من 10 سنوات خبرة</section>
 
   <section class="faq">

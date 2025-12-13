@@ -29,7 +29,17 @@
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
   transform: translateY(-3px);
 }
+/* ======= Animation للأخبار ======= */
+.news-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker 15s linear infinite;
+}
 
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
 /* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
 .rating-container {
   margin: 40px auto;

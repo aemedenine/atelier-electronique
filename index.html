@@ -24,9 +24,12 @@
   animation-duration: 2s; /* يزيد السرعة عند hover */
 }
 
-@keyframes rotate3D {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(360deg); }
+/* نص الموقع يتغير تلقائياً */
+.header-inner h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
 
 /* ======= تقييم النجوم تحت FAQ مع hover وحركة ======= */
@@ -65,13 +68,18 @@
 .rating-container:hover #rating-value {
   transform: translateY(-3px);
 }
+
+@keyframes rotate3D {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
 </style>
 </head>
 <body>
 <header>
   <div class="container header-inner">
     <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-    <h1>Atelier Electronique Médenine</h1>
+    <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
 </header>
 
@@ -154,10 +162,34 @@
 <script src="app.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // ======= نص الموقع يتغير تلقائياً =======
+  const siteName = document.getElementById('site-name');
+  const texts = [
+    "Atelier Electronique Médenine",
+    "ورشة الإلكترونيات الأفضل في تونس",
+    "خبرة أكثر من 10 سنوات",
+    "خدمة سريعة وموثوقة"
+  ];
+
+  function changeText() {
+    const randomIndex = Math.floor(Math.random() * texts.length);
+    siteName.textContent = texts[randomIndex];
+    siteName.style.color = '#ff6b35';
+    siteName.style.textShadow = '0 0 10px #ff6b35';
+    siteName.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+      siteName.style.color = '';
+      siteName.style.textShadow = '';
+      siteName.style.transform = '';
+    }, 1000);
+  }
+
+  setInterval(changeText, 4000); // كل 4 ثواني يتغير النص
+
+  // ======= تقييم النجوم تحت FAQ =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
 
-  // استرجاع التقييم المخزن
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
 
   function updateStars(rating){
@@ -167,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
       star.textContent = Number(star.dataset.value) <= rating ? '★' : '☆';
     });
     ratingValueHorizontal.textContent = `${rating}/5`;
-
     if(rating > 0){
       ratingValueHorizontal.style.color = 'gold';
       ratingValueHorizontal.style.textShadow = '0 0 8px gold';
@@ -182,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   starsHorizontal.forEach(star => {
     const val = Number(star.dataset.value);
-
     star.addEventListener('mouseover', () => {
       starsHorizontal.forEach(s => s.classList.remove('hover'));
       starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover'); });
@@ -190,12 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ratingValueHorizontal.style.textShadow = '0 0 8px gold';
       ratingValueHorizontal.style.transform = 'translateY(-3px)';
     });
-
     star.addEventListener('mouseout', () => {
       starsHorizontal.forEach(s => s.classList.remove('hover'));
       updateStars(selectedRatingHorizontal);
     });
-
     star.addEventListener('click', () => {
       selectedRatingHorizontal = val;
       localStorage.setItem('workshopRating', selectedRatingHorizontal);

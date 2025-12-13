@@ -1,81 +1,140 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Atelier Electronique Médenine</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Atelier Electronique Médenine</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ======= Base ======= */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', 'Open Sans', sans-serif;
+  background: #0b1a27;
+  color: #eee;
+  overflow-x: hidden;
+}
+
+/* ======= Header ======= */
+header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 20px 0;
+}
+
+header .logo {
+  width: 120px;
+  animation: logoPulse 2s infinite alternate, logoRotate 10s linear infinite;
+}
+
+@keyframes logoPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 5px #0ff); }
+  50% { transform: scale(1.2); filter: drop-shadow(0 0 20px #0ff); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 5px #0ff); }
+}
+
+@keyframes logoRotate {
+  0% { transform: rotateY(0deg) scale(1); }
+  100% { transform: rotateY(360deg) scale(1); }
+}
+
+header h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
+
+/* ======= Circuit Background ======= */
+.circuit-bg {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  overflow:hidden;
+}
+
+.circuit-line {
+  position:absolute;
+  width:2px;
+  height:150%;
+  background: #0ff;
+  opacity: 0.3;
+  animation: moveLine 3s linear infinite;
+}
+
+@keyframes moveLine {
+  0% { transform: translateY(-50%); opacity:0.2; }
+  50% { opacity:0.8; }
+  100% { transform: translateY(50%); opacity:0.2; }
+}
+
+/* ======= Buttons Glow ======= */
+.cta-buttons a, .cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.cta-buttons a:hover, .cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
+
+/* ======= FAQ Stars ======= */
+.rating-container { text-align:center; color:#fff; margin:40px auto; }
+.stars-horizontal span { font-size:2.5rem; cursor:pointer; color:#ccc; margin:0 5px; transition: all 0.3s; display:inline-block;}
+.stars-horizontal span.selected { color:gold; text-shadow:0 0 8px gold; }
+.stars-horizontal span.hover { color:gold; text-shadow:0 0 8px gold; transform: scale(1.4) translateY(-5px); }
+#rating-value { margin-top:10px; font-size:1.2rem; transition: all 0.3s; }
+.rating-container:hover #rating-value { transform: translateY(-3px); }
+
+</style>
 </head>
-<body>
 
-<!-- ======= Header ======= -->
+<body>
+<div class="circuit-bg" id="circuit-bg"></div>
+
 <header>
-  <div class="container header-inner">
-    <div class="logo-bg"></div>
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-    <h1 id="site-name">Atelier Electronique Médenine</h1>
-  </div>
+  <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+  <h1 id="site-name">Atelier Electronique Médenine</h1>
 </header>
 
-<!-- ======= News Ticker ======= -->
 <div class="news-ticker" aria-live="polite">
   <div class="news-text" id="live-news">تحميل الأخبار...</div>
 </div>
 
 <main class="container main-content">
-
-  <!-- ======= Info Bar ======= -->
-  <section class="info-bar">
-    <div id="current-time">--:--:--</div>
-    <div id="visit-count">عدد زياراتك: 0</div>
-    <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
-  </section>
-
-  <!-- ======= CTA Buttons ======= -->
   <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج 📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن 🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب 📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس 📍</a>
-    <a href="photos.html" class="btn-gallery">شاهد الصور 🖼️</a>
-    <a href="videos.html" class="btn-video">شاهد الفيديو 🎥</a>
-    <a href="services.html" class="btn-services">خدمات الورشة 🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
+    <a href="download" class="btn-download">تحميل البرامج  📥</a>
+    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
+    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
+    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
+    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
 
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+
     <div class="equalizer" id="equalizer" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
   </section>
 
-  <!-- ======= Experience Badge ======= -->
-  <section class="experience-badge">⭐أكثر من 10 سنوات خبرة</section>
-
-  <!-- ======= FAQ ======= -->
   <section class="faq">
     <h2>الأسئلة الشائعة</h2>
     <div class="faq-item">
       <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
       <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
     </div>
-    <div class="faq-item">
-      <h3>ما هي مدة التصليح المعتادة؟</h3>
-      <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
-    </div>
-    <div class="faq-item">
-      <h3>هل توفرون قطع غيار أصلية؟</h3>
-      <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
-    </div>
-    <div class="faq-item">
-      <h3>كيف أتابع حالة الإصلاح؟</h3>
-      <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div>
-    </div>
   </section>
 
-  <!-- ======= Rating Stars ======= -->
   <div class="rating-container">
     <p>قيم الورشة:</p>
     <div class="stars-horizontal">
@@ -89,91 +148,60 @@
   </div>
 </main>
 
-<!-- ======= Footer ======= -->
 <footer>
   <div class="container footer-inner">
     <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
-    <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook" /></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram" /></a>
-      <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
-    </div>
   </div>
 </footer>
 
-<!-- ======= Scripts ======= -->
-<script src="app.js" defer></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع يتغير تلقائياً =======
-  const siteName = document.getElementById('site-name');
-  const texts = [
-    "Atelier Electronique Médenine",
-    "ورشة الإلكترونيك مدنـين",
-    "الإلكترونيك الرحمـاني"
-  ];
+// ======= Circuit Lines Animation =======
+const circuitBg = document.getElementById('circuit-bg');
+for(let i=0;i<50;i++){
+  const line = document.createElement('div');
+  line.classList.add('circuit-line');
+  line.style.left = `${Math.random()*100}%`;
+  line.style.animationDuration = `${2+Math.random()*3}s`;
+  line.style.height = `${50+Math.random()*100}px`;
+  circuitBg.appendChild(line);
+}
 
-  function changeText() {
-    const randomIndex = Math.floor(Math.random() * texts.length);
-    siteName.textContent = texts[randomIndex];
-    siteName.style.color = '#ff6b35';
-    siteName.style.textShadow = '0 0 10px #ff6b35';
-    siteName.style.transform = 'scale(1.2)';
-    setTimeout(() => {
-      siteName.style.color = '';
-      siteName.style.textShadow = '';
-      siteName.style.transform = '';
-    }, 1000);
-  }
+// ======= Site Name Text Change =======
+const siteName = document.getElementById('site-name');
+const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنـين"," الإلكترونيك الرحمـاني"];
+function changeText(){
+  const randomIndex = Math.floor(Math.random()*texts.length);
+  siteName.textContent = texts[randomIndex];
+  siteName.style.color = '#ff6b35';
+  siteName.style.textShadow = '0 0 10px #ff6b35';
+  siteName.style.transform = 'scale(1.2)';
+  setTimeout(()=>{siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform='';},1000);
+}
+setInterval(changeText,4000);
 
-  setInterval(changeText, 4000);
-
-  // ======= تقييم النجوم تحت FAQ =======
-  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
-  const ratingValueHorizontal = document.getElementById('rating-value');
-
-  let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
-
-  function updateStars(rating){
-    starsHorizontal.forEach(star => {
-      star.classList.remove('selected');
-      if(Number(star.dataset.value) <= rating) star.classList.add('selected');
-      star.textContent = Number(star.dataset.value) <= rating ? '★' : '☆';
-    });
-    ratingValueHorizontal.textContent = `${rating}/5`;
-    if(rating > 0){
-      ratingValueHorizontal.style.color = 'gold';
-      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
-    } else {
-      ratingValueHorizontal.style.color = '#fff';
-      ratingValueHorizontal.style.textShadow = 'none';
-    }
-    ratingValueHorizontal.style.transform = 'translateY(0)';
-  }
-
-  updateStars(selectedRatingHorizontal);
-
-  starsHorizontal.forEach(star => {
-    const val = Number(star.dataset.value);
-    star.addEventListener('mouseover', () => {
-      starsHorizontal.forEach(s => s.classList.remove('hover'));
-      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover'); });
-      ratingValueHorizontal.style.color = 'gold';
-      ratingValueHorizontal.style.textShadow = '0 0 8px gold';
-      ratingValueHorizontal.style.transform = 'translateY(-3px)';
-    });
-    star.addEventListener('mouseout', () => {
-      starsHorizontal.forEach(s => s.classList.remove('hover'));
-      updateStars(selectedRatingHorizontal);
-    });
-    star.addEventListener('click', () => {
-      selectedRatingHorizontal = val;
-      localStorage.setItem('workshopRating', selectedRatingHorizontal);
-      updateStars(selectedRatingHorizontal);
-    });
+// ======= Star Rating =======
+const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
+const ratingValueHorizontal = document.getElementById('rating-value');
+let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
+function updateStars(rating){
+  starsHorizontal.forEach(star=>{star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆';});
+  ratingValueHorizontal.textContent = `${rating}/5`;
+  if(rating>0){ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold';} 
+  else {ratingValueHorizontal.style.color='#fff'; ratingValueHorizontal.style.textShadow='none';}
+  ratingValueHorizontal.style.transform='translateY(0)';
+}
+updateStars(selectedRatingHorizontal);
+starsHorizontal.forEach(star=>{
+  const val = Number(star.dataset.value);
+  star.addEventListener('mouseover',()=>{
+    starsHorizontal.forEach(s=>s.classList.remove('hover'));
+    starsHorizontal.forEach(s=>{if(Number(s.dataset.value)<=val)s.classList.add('hover');});
+    ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; ratingValueHorizontal.style.transform='translateY(-3px)';
   });
+  star.addEventListener('mouseout'=>{starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal);});
+  star.addEventListener('click',()=>{selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal);});
 });
 </script>
+
 </body>
 </html>

@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>صور الورشة | Atelier Electronique Médenine</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     body {
       font-family: 'Montserrat', 'Open Sans', sans-serif;
@@ -14,6 +16,7 @@
       margin: 20px;
       direction: rtl;
     }
+
     .container { max-width: 900px; margin: auto; }
     h1 { color: #1e90ff; margin-bottom: 15px; }
 
@@ -34,6 +37,7 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
+
     .card {
       background: #0f2238;
       padding: 10px;
@@ -42,24 +46,32 @@
       position: relative;
       overflow: hidden;
     }
+
     .card img {
       width: 100%;
       border-radius: 8px;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .card img:hover { transform: scale(1.05); box-shadow: 0 0 15px #1e90ff; }
+
+    .card img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #1e90ff;
+    }
 
     .comment-section {
       margin-top: 8px;
       text-align: right;
     }
+
     .comment-section textarea {
       width: 80%;
       padding: 5px;
       border-radius: 5px;
       margin-top: 5px;
+      resize: none;
     }
+
     .comment-section button {
       margin-top: 5px;
       padding: 5px 10px;
@@ -70,9 +82,9 @@
       cursor: pointer;
       font-weight: bold;
     }
+
     .comment-section ul {
       list-style: disc;
-      text-align: right;
       padding-right: 20px;
       margin-top: 5px;
       font-size: 0.9rem;
@@ -81,23 +93,27 @@
 
     .popup {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      inset: 0;
       background: rgba(0,0,0,0.8);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 9999;
     }
-    .popup img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+
+    .popup img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
 
     .popup-emoji {
       position: absolute;
       font-size: 2rem;
       pointer-events: none;
-      user-select: none;
       animation: float 1.2s ease-out forwards;
     }
+
     @keyframes float {
       0% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-50px); }
@@ -113,127 +129,138 @@
       text-decoration: none;
       font-weight: 700;
     }
+
     a.btn-return:hover { background-color: #d9533f; }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1 id="page-title">صور الورشة</h1>
     <button class="lang-btn" id="toggle-lang-btn">تبديل اللغة</button>
 
     <div class="gallery" id="image-gallery"></div>
-    <a href="index.html" id="return-btn" class="btn-return">⬅️ الرجوع إلى الصفحة الرئيسية</a>
+
+    <a href="index.html" id="return-btn" class="btn-return">
+      ⬅️ الرجوع إلى الصفحة الرئيسية
+    </a>
   </div>
 
-  <div class="popup" id="popup" onclick="this.style.display='none'">
-    <img src="" id="popup-img">
+  <div class="popup" id="popup">
+    <img id="popup-img" alt="">
   </div>
 
   <script>
-    const images = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg", "photo10.png","photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg","photo16.jpg","photo17.jpg","photo18.jpg"];
-    const texts = {
-      ar: { title: "صور الورشة", return: "⬅️ الرجوع إلى الصفحة الرئيسية", commentPlaceholder: "أضف تعليقًا...", toggle: "تبديل اللغة" },
-      fr: { title: "Photos de l'atelier", return: "⬅️ Retour à la page principale", commentPlaceholder: "Ajouter un commentaire...", toggle: "Changer la langue" }
-    };
-    let currentLang = localStorage.getItem('lang') || 'ar';
+    const images = [
+      "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
+      "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.png",
+      "photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg",
+      "photo16.jpg","photo17.jpg","photo18.jpg"
+    ];
 
-    const gallery = document.getElementById('image-gallery');
-    const popup = document.getElementById('popup');
-    const popupImg = document.getElementById('popup-img');
-    const toggleBtn = document.getElementById('toggle-lang-btn');
+    const texts = {
+      ar: {
+        title: "صور الورشة",
+        return: "⬅️ الرجوع إلى الصفحة الرئيسية",
+        commentPlaceholder: "أضف تعليقًا...",
+        toggle: "تبديل اللغة"
+      },
+      fr: {
+        title: "Photos de l'atelier",
+        return: "⬅️ Retour à la page principale",
+        commentPlaceholder: "Ajouter un commentaire...",
+        toggle: "Changer la langue"
+      }
+    };
+
+    let currentLang = localStorage.getItem("lang") || "ar";
+
+    const gallery = document.getElementById("image-gallery");
+    const popup = document.getElementById("popup");
+    const popupImg = document.getElementById("popup-img");
+    const toggleBtn = document.getElementById("toggle-lang-btn");
 
     function renderGallery() {
-      gallery.innerHTML = '';
-      images.forEach((src, index) => {
-        const card = document.createElement('div');
-        card.className = 'card';
+      gallery.innerHTML = "";
 
-        const img = document.createElement('img');
+      images.forEach((src, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const img = document.createElement("img");
         img.src = src;
         img.alt = "photo";
         img.onclick = () => showPopupWithEmoji(src);
         card.appendChild(img);
 
-        // إيموجيات صغيرة على الصورة
-        const heart = document.createElement('div');
-        heart.textContent = '❤️';
-        heart.style.position = 'absolute';
-        heart.style.top = '10px';
-        heart.style.left = '10px';
-        heart.style.fontSize = '1.5rem';
-        heart.style.pointerEvents = 'none';
-        card.appendChild(heart);
-
-        const star = document.createElement('div');
-        star.textContent = '✨';
-        star.style.position = 'absolute';
-        star.style.top = '10px';
-        star.style.right = '10px';
-        star.style.fontSize = '1.5rem';
-        star.style.pointerEvents = 'none';
+        const star = document.createElement("div");
+        star.textContent = "✨";
+        star.style.position = "absolute";
+        star.style.top = "10px";
+        star.style.right = "10px";
         card.appendChild(star);
 
-        // قسم التعليقات
         const commentsKey = `comments-${index}`;
-        let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+        const comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
 
-        const commentDiv = document.createElement('div');
-        commentDiv.className = 'comment-section';
+        const commentDiv = document.createElement("div");
+        commentDiv.className = "comment-section";
         commentDiv.innerHTML = `
-          <textarea placeholder="${texts[currentLang].commentPlaceholder}" id="textarea-${index}"></textarea>
+          <textarea id="textarea-${index}" placeholder="${texts[currentLang].commentPlaceholder}"></textarea>
           <button onclick="addComment(${index})">📩</button>
-          <ul id="comments-list-${index}">${comments.map(c => `<li>${c}</li>`).join('')}</ul>
+          <ul>${comments.map(c => `<li>${c}</li>`).join("")}</ul>
         `;
-        card.appendChild(commentDiv);
 
+        card.appendChild(commentDiv);
         gallery.appendChild(card);
       });
     }
 
     function addComment(index) {
       const textarea = document.getElementById(`textarea-${index}`);
-      const val = textarea.value.trim();
+      let val = textarea.value.trim();
       if (!val) return;
-      const commentsKey = `comments-${index}`;
-      let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+
+      val = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+      const key = `comments-${index}`;
+      const comments = JSON.parse(localStorage.getItem(key)) || [];
       comments.push(val);
-      localStorage.setItem(commentsKey, JSON.stringify(comments));
-      textarea.value = '';
+      localStorage.setItem(key, JSON.stringify(comments));
+
+      textarea.value = "";
       renderGallery();
     }
 
     function showPopupWithEmoji(src) {
       popupImg.src = src;
-      popup.style.display = 'flex';
-      const emojis = ['❤️','✨'];
-      const emoji = document.createElement('div');
-      emoji.className = 'popup-emoji';
-      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      popup.style.display = "flex";
+
+      const emoji = document.createElement("div");
+      emoji.className = "popup-emoji";
+      emoji.textContent = Math.random() > 0.5 ? "❤️" : "✨";
       popup.appendChild(emoji);
-      const rect = popupImg.getBoundingClientRect();
-      emoji.style.left = (rect.left + rect.width/2 - 20) + 'px';
-      emoji.style.top = (rect.top + rect.height/2 - 20) + 'px';
+
       setTimeout(() => emoji.remove(), 1200);
     }
 
-    toggleBtn.addEventListener('click', () => {
-      currentLang = currentLang === 'ar' ? 'fr' : 'ar';
-      localStorage.setItem('lang', currentLang);
-      document.getElementById('page-title').textContent = texts[currentLang].title;
-      document.getElementById('return-btn').textContent = texts[currentLang].return;
+    popup.onclick = () => popup.style.display = "none";
+
+    toggleBtn.onclick = () => {
+      currentLang = currentLang === "ar" ? "fr" : "ar";
+      localStorage.setItem("lang", currentLang);
+      document.getElementById("page-title").textContent = texts[currentLang].title;
+      document.getElementById("return-btn").textContent = texts[currentLang].return;
       toggleBtn.textContent = texts[currentLang].toggle;
       renderGallery();
-    });
+    };
 
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('page-title').textContent = texts[currentLang].title;
-      document.getElementById('return-btn').textContent = texts[currentLang].return;
+    document.addEventListener("DOMContentLoaded", () => {
       toggleBtn.textContent = texts[currentLang].toggle;
+      document.getElementById("page-title").textContent = texts[currentLang].title;
+      document.getElementById("return-btn").textContent = texts[currentLang].return;
       renderGallery();
     });
   </script>
-</body>.comment-section textarea {
-  resize: none;
-}
+</body>
 </html>
-const val = textarea.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");

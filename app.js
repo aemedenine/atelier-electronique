@@ -58,14 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
     "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
     "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-    "📱 تواصل معنا عبر واتساب لأي استفسار 98192103."
+    "📱 تواصل معنا عبر واتساب لأي استفسار."
   ];
 
   const newsFr = [
     "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
     "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
     "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-    "📱 Contactez-nous via WhatsApp pour toute question 98192103."
+    "📱 Contactez-nous via WhatsApp pour toute question."
   ];
 
   let newsIndex = 0;
@@ -98,6 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* -------------------- Equalizer visibility -------------------- */
+  function updateEqualizerVisibility() {
+    if (!equalizer) return;
+    if (radio.paused) {
+      equalizer.style.opacity = '0.25';
+      equalizer.style.pointerEvents = 'none';
+    } else {
+      equalizer.style.opacity = '1';
+      equalizer.style.pointerEvents = 'auto';
+    }
+  }
 
   /* -------------------- Radio controls -------------------- */
   radioBtn.addEventListener('click', () => {

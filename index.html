@@ -21,6 +21,38 @@
   transform: translateY(-3px);
 }
 
+  /* ===== Theme ===== */
+  const themeBtn = document.getElementById('theme-toggle');
+  if(localStorage.getItem('theme') === 'light'){
+    document.body.classList.add('light');
+    themeBtn.textContent='☀️';
+  }
+  themeBtn.onclick = () => {
+    document.body.classList.toggle('light');
+    const t = document.body.classList.contains('light')?'light':'dark';
+    localStorage.setItem('theme', t);
+    themeBtn.textContent = t==='light'?'☀️':'🌙';
+  };
+
+  /* ===== Radio ===== */
+  const radio = document.getElementById('radio-stream');
+  const btn = document.getElementById('radio-btn');
+  const vol = document.getElementById('radio-volume');
+
+  radio.volume = vol.value;
+  vol.oninput = () => radio.volume = vol.value;
+
+  btn.onclick = () => {
+    if(radio.paused){
+      radio.play();
+      btn.classList.add('playing');
+      btn.textContent='إيقاف ⏹️';
+    } else {
+      radio.pause();
+      btn.classList.remove('playing');
+      btn.textContent='شغّل الراديو 📻';
+    }
+  };
 /* نص الموقع يتغير تلقائياً */
 .header-inner h1 {
   display: inline-block;

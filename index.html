@@ -7,7 +7,6 @@
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
 
 <style>
 /* ======= Glow متحرك للأزرار ======= */
@@ -82,32 +81,6 @@
   50% { transform: rotate(5deg) scale(1.1); }
   100% { transform: rotate(-5deg) scale(1.05); }
 }
-
-/* ======= Equalizer animation ======= */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 3px;
-  height: 20px;
-  margin-top: 10px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.equalizer.active { opacity: 1; }
-.equalizer .bar {
-  width: 5px;
-  background: #0ff;
-  animation: bounce 0.3s infinite alternate;
-}
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.15s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.05s; }
-@keyframes bounce {
-  0% { height: 5px; }
-  100% { height: 20px; }
-}
 </style>
 </head>
 <body>
@@ -139,9 +112,6 @@
     <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
     <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" crossorigin="anonymous"></audio>
-    <div class="equalizer" id="equalizer" aria-hidden="true">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </div>
   </section>
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
@@ -179,12 +149,10 @@
   </div>
 </footer>
 
-<!-- ======= Cookie Banner ======= -->
 <div id="cookie-banner" style="display:none;">
   نستخدم الكوكيز لتحسين تجربتك. <button id="accept-cookies">أوافق</button>
 </div>
 
-<script src="app.js" defer></script>
 <script>
 // نص الموقع يتغير تلقائياً + تقييم النجوم + Cookie Banner
 document.addEventListener('DOMContentLoaded', () => {
@@ -287,30 +255,21 @@ function animatePCB(){
 }
 animatePCB();
 
-// ======= Radio Button + Equalizer الواقعي =======
+// ======= Radio Button بدون Equalizer =======
 const radioBtn = document.getElementById('radio-btn');
 const radioStream = document.getElementById('radio-stream');
-const equalizer = document.getElementById('equalizer');
-
-let audioCtx, analyser, source, dataArray;
-let animationId;
+let audioCtx, source;
 
 radioBtn.addEventListener('click', () => {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioCtx.createAnalyser();
     source = audioCtx.createMediaElementSource(radioStream);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 32;
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    source.connect(audioCtx.destination);
   }
 
   if (radioStream.paused) {
     radioStream.play().then(() => {
       radioBtn.classList.add('playing');
-      equalizer.classList.add('active');
-      animateEqualizer();
     }).catch(err => {
       console.log("التشغيل يحتاج تفاعل المستخدم:", err);
       alert("اضغط مرة ثانية لتشغيل الراديو");
@@ -318,20 +277,8 @@ radioBtn.addEventListener('click', () => {
   } else {
     radioStream.pause();
     radioBtn.classList.remove('playing');
-    equalizer.classList.remove('active');
-    cancelAnimationFrame(animationId);
   }
 });
-
-function animateEqualizer() {
-  analyser.getByteFrequencyData(dataArray);
-  const bars = equalizer.querySelectorAll('.bar');
-  bars.forEach((bar, i) => {
-    const val = dataArray[i] / 2;
-    bar.style.height = val + 'px';
-  });
-  animationId = requestAnimationFrame(animateEqualizer);
-}
 </script>
 </body>
 </html>

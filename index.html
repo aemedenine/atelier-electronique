@@ -71,20 +71,15 @@
 }
 #cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
 
-/* ======= Radio Button Effect ======= */
-.btn-radio {
-  padding: 12px 25px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 5px;
-  border: none;
-  background-color: #4caf50;
-  color: #fff;
-  transition: transform 0.2s, background-color 0.3s;
-}
+/* ======= Radio Button Torqos Effect ======= */
 .btn-radio.active {
-  transform: scale(1.15);
-  background-color: #FF6600;
+  background-color: #e91e63;
+  animation: bounce 0.5s infinite alternate;
+}
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2) translateY(-3px); }
+  100% { transform: scale(1); }
 }
 </style>
 </head>
@@ -115,8 +110,6 @@
     <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
     <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
     <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
-
-    <!-- زر الراديو المعدل -->
     <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
   </section>
@@ -163,7 +156,7 @@
 
 <script src="app.js" defer></script>
 <script>
-// نص الموقع + تقييم النجوم + PCB Header (كما في الكود الأصلي)
+// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
 document.addEventListener('DOMContentLoaded', () => {
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
@@ -176,12 +169,16 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
 
-  // تقييم النجوم
+  // ======= تقييم النجوم =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
   function updateStars(rating){
-    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
+    starsHorizontal.forEach(star=>{
+      star.classList.remove('selected'); 
+      if(Number(star.dataset.value)<=rating) star.classList.add('selected'); 
+      star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; 
+    });
     ratingValueHorizontal.textContent = `${rating}/5`;
     ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
@@ -189,12 +186,24 @@ document.addEventListener('DOMContentLoaded', () => {
   updateStars(selectedRatingHorizontal);
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
-    star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
-    star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
+    star.addEventListener('mouseover',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover'));
+      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); });
+      ratingValueHorizontal.style.color='gold'; 
+      ratingValueHorizontal.style.textShadow='0 0 8px gold';
+    });
+    star.addEventListener('mouseout',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
+      updateStars(selectedRatingHorizontal); 
+    });
+    star.addEventListener('click',()=>{
+      selectedRatingHorizontal=val; 
+      localStorage.setItem('workshopRating',selectedRatingHorizontal); 
+      updateStars(selectedRatingHorizontal); 
+    });
   });
 
-  // Cookie Banner
+  // ======= Cookie Banner =======
   const cookieBanner = document.getElementById('cookie-banner');
   const accepted = localStorage.getItem('cookiesAccepted');
   if(!accepted) cookieBanner.style.display='block';
@@ -204,41 +213,67 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// PCB Header Animation (كما في الكود الأصلي)
+// ======= PCB Animated Header =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
 window.addEventListener('resize',resizeCanvas);
 resizeCanvas();
-const traces=[]; for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
+const traces=[];
+for(let i=0;i<50;i++){
+  traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
+  for(let j=0;j<5;j++){
+    traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});
+  }
+}
 let mouseX=-1000,mouseY=-1000;
 window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
+function animatePCB(){ 
+  ctx.clearRect(0,0,canvas.width,canvas.height); 
+  traces.forEach(t=>{
+    const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); 
+    let speedMultiplier=dist<200?3:1; 
+    ctx.beginPath(); 
+    ctx.moveTo(t.x,t.y); 
+    ctx.lineTo(t.x+t.length,t.y); 
+    ctx.strokeStyle=t.color; 
+    ctx.lineWidth=2; 
+    ctx.shadowColor='#0ff'; 
+    ctx.shadowBlur=10; 
+    ctx.stroke(); 
+    t.particles.forEach(p=>{
+      let px=t.x+p.offset, py=t.y; 
+      ctx.beginPath(); 
+      ctx.arc(px,py,p.size,0,Math.PI*2); 
+      ctx.fillStyle='#0ff'; 
+      ctx.shadowColor='#0ff'; 
+      ctx.shadowBlur=10; 
+      ctx.fill(); 
+      p.offset+=p.speed*speedMultiplier; 
+      if(p.offset>t.length)p.offset=0; 
+    }); 
+    t.x+=t.speed*speedMultiplier; 
+    if(t.x>canvas.width)t.x=-t.length; 
+  }); 
+  requestAnimationFrame(animatePCB); 
+}
 animatePCB();
 
-// ======= Radio Button =======
+// ======= Radio Button Torqos Function =======
 const radioBtn = document.getElementById('radio-btn');
 const radioStream = document.getElementById('radio-stream');
 let playing = false;
-
 radioBtn.addEventListener('click', () => {
   playing = !playing;
   if (playing) {
     radioStream.play();
     radioBtn.textContent = 'إيقاف الراديو  ⏹️';
-    radioBtn.classList.add('active');
+    radioBtn.classList.add('active'); // يبدأ التورقّص
   } else {
     radioStream.pause();
     radioBtn.textContent = 'شغّل الراديو  📻';
-    radioBtn.classList.remove('active');
+    radioBtn.classList.remove('active'); // يتوقف التورقّص
   }
-});
-
-// لتجنب مشاكل autoplay
-radioStream.addEventListener('ended', () => {
-  playing = false;
-  radioBtn.textContent = 'شغّل الراديو  📻';
-  radioBtn.classList.remove('active');
 });
 </script>
 </body>

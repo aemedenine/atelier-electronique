@@ -98,17 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* -------------------- Equalizer visibility -------------------- */
-  function updateEqualizerVisibility() {
-    if (!equalizer) return;
-    if (radio.paused) {
-      equalizer.style.opacity = '0.25';
-      equalizer.style.pointerEvents = 'none';
-    } else {
-      equalizer.style.opacity = '1';
-      equalizer.style.pointerEvents = 'auto';
-    }
-  }
 
   /* -------------------- Radio controls -------------------- */
   radioBtn.addEventListener('click', () => {

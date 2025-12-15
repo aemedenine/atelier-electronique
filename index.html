@@ -3,75 +3,99 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Atelier Electronique Médenine</title>
+<title>Atelier Electronique Médenine - Light Theme</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 
 <style>
+/* ======= Light Theme Colors ======= */
+body {
+  background-color: #fefefe;
+  color: #222;
+  font-family: 'Open Sans', sans-serif;
+  margin:0; padding:0;
+}
+
+header, footer {
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1, .news-text, .experience-badge, .faq h2, .faq h3, .rating-container p {
+  color: #222;
+}
+
 /* ======= Glow متحرك للأزرار ======= */
 .cta-buttons a,
 .cta-buttons button {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-color: #0077cc;
+  color: #fff;
 }
 .cta-buttons a:hover,
 .cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  box-shadow: 0 0 15px #0077cc, 0 0 30px #0077cc;
   transform: translateY(-3px);
 }
 
-/* نص الموقع يتغير تلقائياً */
-.header-inner h1 {
-  display: inline-block;
-  font-size: 1.8rem;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-
-/* تقييم النجوم */
-.rating-container { margin: 40px auto; text-align: center; color: #fff; }
-.stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
-.stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
-.stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
-#rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
-.rating-container:hover #rating-value { transform: translateY(-3px); }
-
-/* PCB Animated Header */
-.header-inner { position: relative; overflow: hidden; }
-#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
-.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
-
-/* نص الخبرة بدون مستطيل */
+/* خبرة الورشة */
 .experience-badge {
+  color: #ff6b35;
   display: block;
   text-align: center;
   font-size: 1.3rem;
   font-weight: bold;
-  color: yellow;
   margin: 30px auto;
   background: none;
   padding: 0;
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
 @keyframes glowExperience {
-  0% { color: yellow; text-shadow: 0 0 5px yellow; }
-  25% { color: red; text-shadow: 0 0 8px red; }
-  50% { color: cyan; text-shadow: 0 0 10px cyan; }
-  75% { color: magenta; text-shadow: 0 0 12px magenta; }
-  100% { color: yellow; text-shadow: 0 0 15px yellow; }
+  0% { color: #ff6b35; text-shadow: 0 0 5px #ff6b35; }
+  25% { color: #ff8c42; text-shadow: 0 0 8px #ff8c42; }
+  50% { color: #ffa66b; text-shadow: 0 0 10px #ffa66b; }
+  75% { color: #ffd1a1; text-shadow: 0 0 12px #ffd1a1; }
+  100% { color: #ff6b35; text-shadow: 0 0 15px #ff6b35; }
 }
 @keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
 
-/* ======= Cookie Banner ======= */
-#cookie-banner {
-  position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85);
-  color: #fff; text-align: center; padding: 15px 10px; z-index: 9999;
-  font-size: 0.95rem;
+/* FAQ */
+.faq-item .answer {
+  background-color: #f9f9f9;
+  color: #222;
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:10px;
 }
-#cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
 
-/* ======= Radio Button Dance Effect ======= */
+/* تقييم النجوم */
+.rating-container { 
+  margin: 40px auto; text-align: center; 
+}
+.stars-horizontal span { 
+  font-size: 2.5rem; cursor: pointer; color: #ccc; 
+  transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; 
+}
+.stars-horizontal span.selected, .stars-horizontal span.hover { 
+  color: gold; text-shadow: 0 0 8px gold; 
+}
+
+/* Cookie Banner */
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.95);
+  color: #222; text-align: center; padding: 15px 10px; z-index: 9999;
+  font-size: 0.95rem; border-top:1px solid #ddd;
+}
+#cookie-banner button { background:#0077cc; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
+
+/* PCB Animated Header */
+.header-inner { position: relative; overflow: hidden; }
+#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
+
+/* Radio Button Dance Effect */
 @keyframes dance {
   0%   { transform: rotate(0deg) translate(0,0); }
   25%  { transform: rotate(-10deg) translate(-2px,-2px); }
@@ -79,9 +103,10 @@
   75%  { transform: rotate(-10deg) translate(-2px,2px); }
   100% { transform: rotate(0deg) translate(0,0); }
 }
-.btn-radio.dance {
-  animation: dance 0.6s infinite;
-}
+.btn-radio.dance { animation: dance 0.6s infinite; }
+
+.main-content section { padding: 30px 15px; }
+
 </style>
 </head>
 <body>
@@ -153,16 +178,14 @@
   </div>
 </footer>
 
-<!-- ======= Cookie Banner ======= -->
 <div id="cookie-banner" style="display:none;">
   نستخدم الكوكيز لتحسين تجربتك. <button id="accept-cookies">أوافق</button>
 </div>
 
 <script src="app.js" defer></script>
 <script>
-// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
+// ======= نص الموقع يتغير تلقائياً =======
 document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع =======
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -179,15 +202,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
   function updateStars(rating){
-    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
+    starsHorizontal.forEach(star=>{
+      star.classList.remove('selected');
+      if(Number(star.dataset.value)<=rating) star.classList.add('selected');
+      star.textContent = Number(star.dataset.value)<=rating?'★':'☆';
+    });
     ratingValueHorizontal.textContent = `${rating}/5`;
-    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
+    ratingValueHorizontal.style.color = rating>0?'gold':'#222';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
   }
   updateStars(selectedRatingHorizontal);
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
+    star.addEventListener('mouseover',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover'));
+      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); });
+      ratingValueHorizontal.style.color='gold';
+      ratingValueHorizontal.style.textShadow='0 0 8px gold';
+    });
     star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
     star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
   });
@@ -209,10 +241,29 @@ function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.h
 window.addEventListener('resize',resizeCanvas);
 resizeCanvas();
 const traces=[];
-for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
+for(let i=0;i<50;i++){
+  traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
+  for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}
+}
 let mouseX=-1000,mouseY=-1000;
 window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
+function animatePCB(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  traces.forEach(t=>{
+    const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy);
+    let speedMultiplier=dist<200?3:1;
+    ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y);
+    ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke();
+    t.particles.forEach(p=>{
+      let px=t.x+p.offset, py=t.y;
+      ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2);
+      ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill();
+      p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0;
+    });
+    t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length;
+  });
+  requestAnimationFrame(animatePCB);
+}
 animatePCB();
 
 // ======= Radio Button Dance Script =======
@@ -221,9 +272,9 @@ let dancing = false;
 radioBtn.addEventListener('click', () => {
   dancing = !dancing;
   if(dancing) {
-    radioBtn.classList.add('dance'); // يبدأ الرقصة فوراً
+    radioBtn.classList.add('dance');
   } else {
-    radioBtn.classList.remove('dance'); // يتوقف الرقصة
+    radioBtn.classList.remove('dance');
   }
 });
 </script>

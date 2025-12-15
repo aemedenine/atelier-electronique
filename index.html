@@ -7,149 +7,49 @@
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
 
-<style>
-/* ======= Glow متحرك للأزرار ======= */
-.cta-buttons a,
-.cta-buttons button {
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-.cta-buttons a:hover,
-.cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
-  transform: translateY(-3px);
-}
-
-  /* ===== Theme ===== */
-  const themeBtn = document.getElementById('theme-toggle');
-  if(localStorage.getItem('theme') === 'light'){
-    document.body.classList.add('light');
-    themeBtn.textContent='☀️';
-  }
-  themeBtn.onclick = () => {
-    document.body.classList.toggle('light');
-    const t = document.body.classList.contains('light')?'light':'dark';
-    localStorage.setItem('theme', t);
-    themeBtn.textContent = t==='light'?'☀️':'🌙';
-  };
-
-  /* ===== Radio ===== */
-  const radio = document.getElementById('radio-stream');
-  const btn = document.getElementById('radio-btn');
-  const vol = document.getElementById('radio-volume');
-
-  radio.volume = vol.value;
-  vol.oninput = () => radio.volume = vol.value;
-
-  btn.onclick = () => {
-    if(radio.paused){
-      radio.play();
-      btn.classList.add('playing');
-      btn.textContent='إيقاف ⏹️';
-    } else {
-      radio.pause();
-      btn.classList.remove('playing');
-      btn.textContent='شغّل الراديو 📻';
-    }
-  };
-/* نص الموقع يتغير تلقائياً */
-.header-inner h1 {
-  display: inline-block;
-  font-size: 1.8rem;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-
-/* تقييم النجوم */
-.rating-container { margin: 40px auto; text-align: center; color: #fff; }
-.stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
-.stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
-.stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
-#rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
-.rating-container:hover #rating-value { transform: translateY(-3px); }
-
-/* PCB Animated Header */
-.header-inner { position: relative; overflow: hidden; }
-#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
-.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
-
-/* نص الخبرة بدون مستطيل */
-.experience-badge {
-  display: block;
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: yellow;
-  margin: 30px auto;
-  background: none;
-  padding: 0;
-  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
-}
-@keyframes glowExperience {
-  0% { color: yellow; text-shadow: 0 0 5px yellow; }
-  25% { color: red; text-shadow: 0 0 8px red; }
-  50% { color: cyan; text-shadow: 0 0 10px cyan; }
-  75% { color: magenta; text-shadow: 0 0 12px magenta; }
-  100% { color: yellow; text-shadow: 0 0 15px yellow; }
-}
-@keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
-
-/* ======= Cookie Banner ======= */
-#cookie-banner {
-  position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85);
-  color: #fff; text-align: center; padding: 15px 10px; z-index: 9999;
-  font-size: 0.95rem;
-}
-#cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <header>
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo">
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
-  <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
-    <div class="news-text" id="live-news">تحميل الأخبار...</div>
+
+  <div class="news-ticker">
+    <div class="news-text">مرحبا بكم في ورشة الإلكترونيك مدنين</div>
   </div>
 </header>
 
-<main class="container main-content">
+<main class="container">
+
   <section class="info-bar">
-    <div id="current-time">--:--:--</div>
-    <div id="visit-count">عدد زياراتك: 0</div>
+    <div id="current-time"></div>
+    <div id="visit-count"></div>
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
   <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج  📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
-    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
-    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
-    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
-    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-    <div class="equalizer" id="equalizer" aria-hidden="true">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </div>
+    <a href="download.html">تحميل البرامج 📥</a>
+    <a href="store.html">تسوّق الآن 🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank">واتساب 📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank">الموقع 📍</a>
+    <a href="photos.html">الصور 🖼️</a>
+    <a href="videos.html">الفيديو 🎥</a>
+    <a href="services.html">الخدمات 🛠️</a>
+
+    <button id="radio-btn">شغّل الراديو 📻</button>
+    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv"></audio>
   </section>
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
-  <section class="faq">
-    <h2>الأسئلة الشائعة</h2>
-    <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
-    <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
-    <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
-    <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
-  </section>
-
-  <div class="rating-container">
-    <p>قيم الورشة:</p>
+  <section class="rating-container">
+    <p>قيم الورشة</p>
     <div class="stars-horizontal">
       <span data-value="5">☆</span>
       <span data-value="4">☆</span>
@@ -158,94 +58,202 @@
       <span data-value="1">☆</span>
     </div>
     <p id="rating-value">0/5</p>
-  </div>
+  </section>
+
 </main>
 
 <footer>
-  <div class="container footer-inner">
-    <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
-    <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook" /></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram" /></a>
-      <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
-    </div>
-  </div>
+  <p>📍 مدنين – نخدمو في كامل تونس | 📲 98192103</p>
 </footer>
 
-<!-- ======= Cookie Banner ======= -->
-<div id="cookie-banner" style="display:none;">
-  نستخدم الكوكيز لتحسين تجربتك. <button id="accept-cookies">أوافق</button>
+<div id="cookie-banner">
+  نستخدم الكوكيز لتحسين تجربتك
+  <button id="accept-cookies">أوافق</button>
 </div>
 
 <script src="app.js" defer></script>
-<script>
-// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
-document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع =======
-  const siteName = document.getElementById('site-name');
-  const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
-  setInterval(() => {
-    const randomIndex = Math.floor(Math.random()*texts.length);
-    siteName.textContent = texts[randomIndex];
-    siteName.style.color='#ff6b35';
-    siteName.style.textShadow='0 0 10px #ff6b35';
-    siteName.style.transform='scale(1.2)';
-    setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
-  },4000);
-/* ===== Radio ZigZag ===== */
-@keyframes zigzag {
-  0%{transform:rotate(0)}
-  25%{transform:rotate(-5deg)}
-  50%{transform:rotate(5deg)}
-  75%{transform:rotate(-5deg)}
-  100%{transform:rotate(0)}
-}
-.btn-radio.playing {
-  animation: zigzag .4s infinite;
-  box-shadow: 0 0 20px #00ffcc;
-}
-
-  // ======= تقييم النجوم =======
-  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
-  const ratingValueHorizontal = document.getElementById('rating-value');
-  let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
-  function updateStars(rating){
-    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
-    ratingValueHorizontal.textContent = `${rating}/5`;
-    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
-    ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
-  }
-  updateStars(selectedRatingHorizontal);
-  starsHorizontal.forEach(star=>{
-    const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
-    star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
-    star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
-  });
-
-  // ======= Cookie Banner =======
-  const cookieBanner = document.getElementById('cookie-banner');
-  const accepted = localStorage.getItem('cookiesAccepted');
-  if(!accepted) cookieBanner.style.display='block';
-  document.getElementById('accept-cookies').addEventListener('click',()=>{
-    localStorage.setItem('cookiesAccepted','true');
-    cookieBanner.style.display='none';
-  });
-});
-
-// ======= PCB Animated Header =======
-const canvas = document.getElementById('pcbCanvasHeader');
-const ctx = canvas.getContext('2d');
-function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
-window.addEventListener('resize',resizeCanvas);
-resizeCanvas();
-const traces=[];
-for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
-let mouseX=-1000,mouseY=-1000;
-window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
-animatePCB();
-</script>
 </body>
 </html>
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background: #0b0f14;
+  color: #fff;
+}
+
+.container { width: 95%; margin: auto; }
+
+header { background: #000; position: relative; }
+
+.header-inner {
+  position: relative;
+  text-align: center;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+#pcbCanvasHeader {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.logo, h1 {
+  position: relative;
+  z-index: 2;
+}
+
+h1 { margin-top: 10px; }
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.cta-buttons a,
+.cta-buttons button {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35;
+  transform: translateY(-3px);
+}
+
+.experience-badge {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: gold;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px gold; }
+  to { text-shadow: 0 0 15px gold; }
+}
+
+/* Rating */
+.rating-container { text-align: center; }
+.stars-horizontal span {
+  font-size: 2.5rem;
+  cursor: pointer;
+  margin: 0 5px;
+  color: #ccc;
+}
+.stars-horizontal span.selected {
+  color: gold;
+}
+
+/* Radio animation */
+@keyframes zigzag {
+  0%{transform:rotate(0)}
+  50%{transform:rotate(5deg)}
+  100%{transform:rotate(0)}
+}
+#radio-btn.playing {
+  animation: zigzag .4s infinite;
+}
+
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,.85);
+  text-align: center;
+  padding: 10px;
+  display: none;
+}
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ===== Animated Title ===== */
+  const siteName = document.getElementById('site-name');
+  const texts = [
+    "Atelier Electronique Médenine",
+    "ورشة الإلكترونيك مدنين",
+    "الإلكترونيك الرحماني"
+  ];
+  setInterval(() => {
+    siteName.textContent = texts[Math.floor(Math.random()*texts.length)];
+  }, 4000);
+
+  /* ===== Radio ===== */
+  const radio = document.getElementById('radio-stream');
+  const radioBtn = document.getElementById('radio-btn');
+
+  radioBtn.onclick = () => {
+    if (radio.paused) {
+      radio.play();
+      radioBtn.classList.add('playing');
+      radioBtn.textContent = "إيقاف ⏹️";
+    } else {
+      radio.pause();
+      radioBtn.classList.remove('playing');
+      radioBtn.textContent = "شغّل الراديو 📻";
+    }
+  };
+
+  /* ===== Rating ===== */
+  const stars = document.querySelectorAll('.stars-horizontal span');
+  const ratingValue = document.getElementById('rating-value');
+  let rating = localStorage.getItem('rating') || 0;
+
+  function updateStars(val){
+    stars.forEach(s=>{
+      s.textContent = s.dataset.value <= val ? '★' : '☆';
+      s.classList.toggle('selected', s.dataset.value <= val);
+    });
+    ratingValue.textContent = `${val}/5`;
+  }
+  updateStars(rating);
+
+  stars.forEach(s=>{
+    s.onclick = () => {
+      rating = s.dataset.value;
+      localStorage.setItem('rating', rating);
+      updateStars(rating);
+    };
+  });
+
+  /* ===== Cookie ===== */
+  const banner = document.getElementById('cookie-banner');
+  if (!localStorage.getItem('cookies')) banner.style.display = 'block';
+
+  document.getElementById('accept-cookies').onclick = () => {
+    localStorage.setItem('cookies', true);
+    banner.style.display = 'none';
+  };
+
+  /* ===== PCB Canvas ===== */
+  const canvas = document.getElementById('pcbCanvasHeader');
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.onresize = resize;
+
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle = '#0ff';
+    ctx.beginPath();
+    ctx.moveTo(0,canvas.height/2);
+    ctx.lineTo(canvas.width,canvas.height/2);
+    ctx.stroke();
+    requestAnimationFrame(animate);
+  }
+  animate();
+});

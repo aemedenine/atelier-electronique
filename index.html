@@ -71,15 +71,16 @@
 }
 #cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
 
-/* ======= Radio Button Torqos Effect ======= */
-.btn-radio.active {
-  background-color: #e91e63;
-  animation: bounce 0.5s infinite alternate;
+/* ======= Radio Button Dance Effect ======= */
+@keyframes dance {
+  0%   { transform: rotate(0deg) translate(0,0); }
+  25%  { transform: rotate(-10deg) translate(-2px,-2px); }
+  50%  { transform: rotate(10deg) translate(2px,2px); }
+  75%  { transform: rotate(-10deg) translate(-2px,2px); }
+  100% { transform: rotate(0deg) translate(0,0); }
 }
-@keyframes bounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2) translateY(-3px); }
-  100% { transform: scale(1); }
+.btn-radio.dance {
+  animation: dance 0.3s infinite;
 }
 </style>
 </head>
@@ -112,6 +113,9 @@
     <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
     <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+    <div class="equalizer" id="equalizer" aria-hidden="true">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
   </section>
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
@@ -158,6 +162,7 @@
 <script>
 // نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
 document.addEventListener('DOMContentLoaded', () => {
+  // ======= نص الموقع =======
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -174,11 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
   function updateStars(rating){
-    starsHorizontal.forEach(star=>{
-      star.classList.remove('selected'); 
-      if(Number(star.dataset.value)<=rating) star.classList.add('selected'); 
-      star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; 
-    });
+    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
     ratingValueHorizontal.textContent = `${rating}/5`;
     ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
@@ -186,21 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
   updateStars(selectedRatingHorizontal);
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{
-      starsHorizontal.forEach(s=>s.classList.remove('hover'));
-      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); });
-      ratingValueHorizontal.style.color='gold'; 
-      ratingValueHorizontal.style.textShadow='0 0 8px gold';
-    });
-    star.addEventListener('mouseout',()=>{
-      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
-      updateStars(selectedRatingHorizontal); 
-    });
-    star.addEventListener('click',()=>{
-      selectedRatingHorizontal=val; 
-      localStorage.setItem('workshopRating',selectedRatingHorizontal); 
-      updateStars(selectedRatingHorizontal); 
-    });
+    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
+    star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
+    star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
   });
 
   // ======= Cookie Banner =======
@@ -220,59 +209,21 @@ function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.h
 window.addEventListener('resize',resizeCanvas);
 resizeCanvas();
 const traces=[];
-for(let i=0;i<50;i++){
-  traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
-  for(let j=0;j<5;j++){
-    traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});
-  }
-}
+for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
 let mouseX=-1000,mouseY=-1000;
 window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-function animatePCB(){ 
-  ctx.clearRect(0,0,canvas.width,canvas.height); 
-  traces.forEach(t=>{
-    const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); 
-    let speedMultiplier=dist<200?3:1; 
-    ctx.beginPath(); 
-    ctx.moveTo(t.x,t.y); 
-    ctx.lineTo(t.x+t.length,t.y); 
-    ctx.strokeStyle=t.color; 
-    ctx.lineWidth=2; 
-    ctx.shadowColor='#0ff'; 
-    ctx.shadowBlur=10; 
-    ctx.stroke(); 
-    t.particles.forEach(p=>{
-      let px=t.x+p.offset, py=t.y; 
-      ctx.beginPath(); 
-      ctx.arc(px,py,p.size,0,Math.PI*2); 
-      ctx.fillStyle='#0ff'; 
-      ctx.shadowColor='#0ff'; 
-      ctx.shadowBlur=10; 
-      ctx.fill(); 
-      p.offset+=p.speed*speedMultiplier; 
-      if(p.offset>t.length)p.offset=0; 
-    }); 
-    t.x+=t.speed*speedMultiplier; 
-    if(t.x>canvas.width)t.x=-t.length; 
-  }); 
-  requestAnimationFrame(animatePCB); 
-}
+function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
 animatePCB();
 
-// ======= Radio Button Torqos Function =======
+// ======= Radio Button Dance Script =======
 const radioBtn = document.getElementById('radio-btn');
-const radioStream = document.getElementById('radio-stream');
-let playing = false;
+let dancing = false;
 radioBtn.addEventListener('click', () => {
-  playing = !playing;
-  if (playing) {
-    radioStream.play();
-    radioBtn.textContent = 'إيقاف الراديو  ⏹️';
-    radioBtn.classList.add('active'); // يبدأ التورقّص
+  dancing = !dancing;
+  if(dancing) {
+    radioBtn.classList.add('dance'); // يبدأ الرقصة فوراً
   } else {
-    radioStream.pause();
-    radioBtn.textContent = 'شغّل الراديو  📻';
-    radioBtn.classList.remove('active'); // يتوقف التورقّص
+    radioBtn.classList.remove('dance'); // يتوقف الرقصة
   }
 });
 </script>

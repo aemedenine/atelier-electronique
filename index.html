@@ -201,24 +201,35 @@ document.addEventListener('DOMContentLoaded', () => {
       radioPlaying=true;
       radioBtn.textContent='أوقف الراديو  📻';
 
-      // ======= Button “torqos” Animation
-      radioBtn.style.transition = 'transform 0.2s';
-      radioBtnInterval = setInterval(()=>{
-        const randomY = Math.random()*6 - 3; // يتحرك -3px ل 3px
-        const randomX = Math.random()*6 - 3; // يتحرك -3px ل 3px
-        radioBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
-      }, 100);
+     // ======= Radio Button Animation =======
+const radioBtn = document.getElementById('radio-btn');
+const radioStream = document.getElementById('radio-stream');
+let radioPlaying = false;
+let radioBtnInterval;
 
-    } else {
-      radioStream.pause();
-      radioPlaying=false;
-      radioBtn.textContent='شغّل الراديو  📻';
+radioBtn.addEventListener('click', ()=>{
+  if(!radioPlaying){
+    radioStream.play();
+    radioPlaying=true;
+    radioBtn.textContent='أوقف الراديو  📻';
 
-      // ======= Stop Animation
-      clearInterval(radioBtnInterval);
-      radioBtn.style.transform = 'translate(0,0)';
-    }
-  });
+    // ======= Stop Animation while playing
+    clearInterval(radioBtnInterval);
+    radioBtn.style.transform = 'translate(0,0)';
+
+  } else {
+    radioStream.pause();
+    radioPlaying=false;
+    radioBtn.textContent='شغّل الراديو  📻';
+
+    // ======= Start Animation when paused
+    radioBtn.style.transition = 'transform 0.2s';
+    radioBtnInterval = setInterval(()=>{
+      const randomY = Math.random()*6 - 3; // يتحرك -3px ل 3px
+      const randomX = Math.random()*6 - 3; // يتحرك -3px ل 3px
+      radioBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }, 100);
+  }
 });
 
 // ======= PCB Animated Header =======

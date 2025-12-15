@@ -37,7 +37,7 @@ header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6
 /* CTA Buttons */
 .cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
 .cta-buttons a, .cta-buttons button { background:#1e90ff; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease, box-shadow 0.3s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
-.cta-buttons a:hover, .cta-buttons button:hover { background:#0c5ea8; transform:translateY(-2px); }
+.cta-buttons a:hover, .cta-buttons button:hover { background:#0c5ea8; }
 .btn-store { background:#007bff !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
 .btn-store:hover { background:#e0a800 !important; }
 
@@ -52,7 +52,7 @@ header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6
 
 /* Experience badge */
 .experience-badge { display:block; text-align:center; font-size:1.3rem; font-weight:bold; color:yellow; margin:30px auto; background:none; padding:0; animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite; }
-@keyframes glowExperience {0%{color:yellow;text-shadow:0 0 5px yellow;}25%{color:red;text-shadow:0 0 8px red;}50%{color:cyan;text-shadow:0 0 10px cyan;}75%{color:magenta;text-shadow:0 0 12px magenta;}100%{color:yellow;text-shadow:0 0 15px yellow;}}
+@keyframes glowExperience {0%{color:yellow;text-shadow:0 0 5px yellow;}25%{color:red;text-shadow:0 0 8px red;}50%{color:cyan;text-shadow:0 0 10px cyan;}75%{color:magenta;text-shadow:0 0 12px magenta;}100%{color:yellow;text-shadow:0 0 15px yellow;} }
 @keyframes floatExperience {0%{transform:translateY(0);}50%{transform:translateY(-6px);}100%{transform:translateY(0);}}
 
 /* FAQ */
@@ -114,10 +114,19 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
     <a href="photos.html">شاهد الصور  🖼️</a>
     <a href="videos.html">شاهد الفيديو  🎥</a>
     <a href="services.html">خدمات الورشة  🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
-    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-    <div class="equalizer" id="equalizer">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+
+    <!-- Radio Button + Options -->
+    <div>
+      <button id="radio-btn" class="btn-radio">تشغيل/إيقاف الراديو  📻</button>
+      <select id="radio-options" style="margin-top:8px; padding:6px 10px; border-radius:6px; border:none; font-weight:bold; cursor:pointer;">
+        <option value="https://stream.radiojar.com/8s5u5tpdtwzuv">محطة 1 - RadioJar</option>
+        <option value="https://stream.live.vc.bbcmedia.co.uk/bbc_radio_one">محطة 2 - BBC Radio 1</option>
+        <option value="https://stream.live.vc.bbcmedia.co.uk/bbc_radio_two">محطة 3 - BBC Radio 2</option>
+      </select>
+      <audio id="radio-stream" preload="none"></audio>
+      <div class="equalizer" id="equalizer">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
     </div>
   </section>
 
@@ -161,7 +170,7 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
 </div>
 
 <script>
-// ======= Site Text Change =======
+// ===== Site Text Change =====
 const siteName = document.getElementById('site-name');
 const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
 setInterval(() => {
@@ -173,7 +182,7 @@ setInterval(() => {
   setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
 },4000);
 
-// ======= Rating Stars =======
+// ===== Rating Stars =====
 const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
 const ratingValueHorizontal = document.getElementById('rating-value');
 let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
@@ -191,24 +200,22 @@ starsHorizontal.forEach(star=>{
   star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
 });
 
-// ======= FAQ Toggle =======
-document.querySelectorAll('.faq-item h3').forEach(h3=>{
-  h3.addEventListener('click',()=>{ h3.parentElement.classList.toggle('active'); });
-});
+// ===== FAQ Toggle =====
+document.querySelectorAll('.faq-item h3').forEach(h3=>{ h3.addEventListener('click',()=>{ h3.parentElement.classList.toggle('active'); }); });
 
-// ======= Cookie Banner =======
+// ===== Cookie Banner =====
 const cookieBanner = document.getElementById('cookie-banner');
 if(!localStorage.getItem('cookiesAccepted')) cookieBanner.style.display='block';
-document.getElementById('accept-cookies').addEventListener('click',()=>{
-  localStorage.setItem('cookiesAccepted','true');
-  cookieBanner.style.display='none';
-});
+document.getElementById('accept-cookies').addEventListener('click',()=>{ localStorage.setItem('cookiesAccepted','true'); cookieBanner.style.display='none'; });
 
-// ======= Radio Button + Equalizer =======
+// ===== Radio Button + Options + Equalizer =====
 const radioBtn = document.getElementById('radio-btn');
 const radioStream = document.getElementById('radio-stream');
 const equalizer = document.getElementById('equalizer');
+const radioOptions = document.getElementById('radio-options');
+
 radioBtn.addEventListener('click', () => {
+  radioStream.src = radioOptions.value;
   if (radioStream.paused) {
     radioStream.play();
     radioBtn.classList.add('playing');
@@ -219,6 +226,7 @@ radioBtn.addEventListener('click', () => {
     stopDancing();
   }
 });
+
 let danceInterval;
 function startDancing() {
   if(danceInterval) clearInterval(danceInterval);
@@ -237,16 +245,13 @@ function stopDancing() {
   bars.forEach(bar => bar.style.height='5px');
 }
 
-// ======= Clock + Visits =======
-setInterval(()=> {
-  const now = new Date();
-  document.getElementById('current-time').textContent = now.toLocaleTimeString();
-}, 1000);
+// ===== Clock + Visits =====
+setInterval(()=> { const now = new Date(); document.getElementById('current-time').textContent = now.toLocaleTimeString(); }, 1000);
 const visitCount = localStorage.getItem('visitCount') || 0;
 localStorage.setItem('visitCount', Number(visitCount)+1);
 document.getElementById('visit-count').textContent = 'عدد زياراتك: '+(Number(visitCount)+1);
 
-// ======= PCB Header Animation =======
+// ===== PCB Header Animation =====
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }

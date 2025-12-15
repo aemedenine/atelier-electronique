@@ -1,14 +1,51 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Atelier Electronique Médenine</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
+<style>
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background: #0b0f14;
+  color: #fff;
+}
+.container { width: 95%; margin: auto; }
+header { background: #000; position: relative; }
+.header-inner { position: relative; text-align: center; padding: 40px 0; overflow: hidden; }
+#pcbCanvasHeader { position: absolute; inset: 0; z-index: 0; }
+.logo, h1 { position: relative; z-index: 2; }
+h1 { margin-top: 10px; }
+.cta-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
+.cta-buttons a, .cta-buttons button {
+  background: #ff6b35; color: #fff; border: none; padding: 10px 15px;
+  border-radius: 6px; cursor: pointer; text-decoration: none; transition: 0.3s;
+}
+.cta-buttons a:hover, .cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35; transform: translateY(-3px);
+}
+.experience-badge {
+  text-align: center; margin: 30px 0; font-size: 1.3rem;
+  font-weight: bold; color: gold; animation: glow 1.5s infinite alternate;
+}
+@keyframes glow { from{ text-shadow:0 0 5px gold; } to{ text-shadow:0 0 15px gold; } }
+.rating-container { text-align: center; margin: 30px 0; }
+.stars-horizontal span { font-size: 2.5rem; cursor: pointer; margin: 0 5px; color: #ccc; }
+.stars-horizontal span.selected { color: gold; }
+@keyframes zigzag { 0%{transform:rotate(0)} 50%{transform:rotate(5deg)} 100%{transform:rotate(0)} }
+#radio-btn.playing { animation: zigzag .4s infinite; box-shadow: 0 0 20px #00ffcc; }
+#cookie-banner {
+  position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,.85);
+  text-align: center; padding: 10px; display: none; z-index: 9999;
+}
+#cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:6px 12px; border-radius:5px; cursor:pointer; }
+.info-bar { text-align:center; margin:20px 0; }
+</style>
 </head>
 
 <body>
@@ -19,7 +56,6 @@
     <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo">
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
-
   <div class="news-ticker">
     <div class="news-text">مرحبا بكم في ورشة الإلكترونيك مدنين</div>
   </div>
@@ -28,8 +64,8 @@
 <main class="container">
 
   <section class="info-bar">
-    <div id="current-time"></div>
-    <div id="visit-count"></div>
+    <div id="current-time">--:--:--</div>
+    <div id="visit-count">عدد زياراتك: 0</div>
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
@@ -41,7 +77,6 @@
     <a href="photos.html">الصور 🖼️</a>
     <a href="videos.html">الفيديو 🎥</a>
     <a href="services.html">الخدمات 🛠️</a>
-
     <button id="radio-btn">شغّل الراديو 📻</button>
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv"></audio>
   </section>
@@ -62,8 +97,8 @@
 
 </main>
 
-<footer>
-  <p>📍 مدنين – نخدمو في كامل تونس | 📲 98192103</p>
+<footer style="text-align:center;margin:30px 0">
+  📍 مدنين – نخدمو في كامل تونس | 📲 98192103
 </footer>
 
 <div id="cookie-banner">
@@ -71,140 +106,30 @@
   <button id="accept-cookies">أوافق</button>
 </div>
 
-<script src="app.js" defer></script>
-</body>
-</html>
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-  background: #0b0f14;
-  color: #fff;
-}
-
-.container { width: 95%; margin: auto; }
-
-header { background: #000; position: relative; }
-
-.header-inner {
-  position: relative;
-  text-align: center;
-  padding: 40px 0;
-  overflow: hidden;
-}
-
-#pcbCanvasHeader {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.logo, h1 {
-  position: relative;
-  z-index: 2;
-}
-
-h1 { margin-top: 10px; }
-
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.cta-buttons a,
-.cta-buttons button {
-  background: #ff6b35;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.cta-buttons a:hover,
-.cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35;
-  transform: translateY(-3px);
-}
-
-.experience-badge {
-  text-align: center;
-  margin: 30px 0;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: gold;
-  animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 5px gold; }
-  to { text-shadow: 0 0 15px gold; }
-}
-
-/* Rating */
-.rating-container { text-align: center; }
-.stars-horizontal span {
-  font-size: 2.5rem;
-  cursor: pointer;
-  margin: 0 5px;
-  color: #ccc;
-}
-.stars-horizontal span.selected {
-  color: gold;
-}
-
-/* Radio animation */
-@keyframes zigzag {
-  0%{transform:rotate(0)}
-  50%{transform:rotate(5deg)}
-  100%{transform:rotate(0)}
-}
-#radio-btn.playing {
-  animation: zigzag .4s infinite;
-}
-
-#cookie-banner {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: rgba(0,0,0,.85);
-  text-align: center;
-  padding: 10px;
-  display: none;
-}
+<script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ===== Animated Title ===== */
+  // Animated Title
   const siteName = document.getElementById('site-name');
-  const texts = [
-    "Atelier Electronique Médenine",
-    "ورشة الإلكترونيك مدنين",
-    "الإلكترونيك الرحماني"
-  ];
+  const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنين","الإلكترونيك الرحماني"];
   setInterval(() => {
-    siteName.textContent = texts[Math.floor(Math.random()*texts.length)];
-  }, 4000);
+    const randomIndex = Math.floor(Math.random()*texts.length);
+    siteName.textContent = texts[randomIndex];
+    siteName.style.color = '#ff6b35';
+    siteName.style.textShadow = '0 0 10px #ff6b35';
+    siteName.style.transform = 'scale(1.2)';
+    setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
+  },4000);
 
-  /* ===== Radio ===== */
+  // Radio
   const radio = document.getElementById('radio-stream');
   const radioBtn = document.getElementById('radio-btn');
-
   radioBtn.onclick = () => {
-    if (radio.paused) {
-      radio.play();
-      radioBtn.classList.add('playing');
-      radioBtn.textContent = "إيقاف ⏹️";
-    } else {
-      radio.pause();
-      radioBtn.classList.remove('playing');
-      radioBtn.textContent = "شغّل الراديو 📻";
-    }
+    if(radio.paused){ radio.play(); radioBtn.classList.add('playing'); radioBtn.textContent='إيقاف ⏹️'; }
+    else{ radio.pause(); radioBtn.classList.remove('playing'); radioBtn.textContent='شغّل الراديو 📻'; }
   };
 
-  /* ===== Rating ===== */
+  // Rating
   const stars = document.querySelectorAll('.stars-horizontal span');
   const ratingValue = document.getElementById('rating-value');
   let rating = localStorage.getItem('rating') || 0;
@@ -215,45 +140,58 @@ document.addEventListener('DOMContentLoaded', () => {
       s.classList.toggle('selected', s.dataset.value <= val);
     });
     ratingValue.textContent = `${val}/5`;
+    ratingValue.style.color = val>0 ? 'gold' : '#fff';
+    ratingValue.style.textShadow = val>0 ? '0 0 8px gold' : 'none';
   }
   updateStars(rating);
 
   stars.forEach(s=>{
-    s.onclick = () => {
-      rating = s.dataset.value;
-      localStorage.setItem('rating', rating);
-      updateStars(rating);
-    };
+    const val = Number(s.dataset.value);
+    s.onclick = ()=>{ rating = val; localStorage.setItem('rating', rating); updateStars(rating); };
+    s.onmouseover = ()=>{ stars.forEach(star=>star.classList.remove('hover')); stars.forEach(star=>{ if(Number(star.dataset.value)<=val) star.classList.add('hover'); }); ratingValue.style.color='gold'; ratingValue.style.textShadow='0 0 8px gold'; };
+    s.onmouseout = ()=>{ stars.forEach(star=>star.classList.remove('hover')); updateStars(rating); };
   });
 
-  /* ===== Cookie ===== */
+  // Cookie Banner
   const banner = document.getElementById('cookie-banner');
-  if (!localStorage.getItem('cookies')) banner.style.display = 'block';
+  if(!localStorage.getItem('cookies')) banner.style.display='block';
+  document.getElementById('accept-cookies').onclick = ()=>{ localStorage.setItem('cookies',true); banner.style.display='none'; };
 
-  document.getElementById('accept-cookies').onclick = () => {
-    localStorage.setItem('cookies', true);
-    banner.style.display = 'none';
-  };
-
-  /* ===== PCB Canvas ===== */
+  // PCB Canvas
   const canvas = document.getElementById('pcbCanvasHeader');
   const ctx = canvas.getContext('2d');
-
-  function resize(){
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
+  function resize(){ canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; }
   resize();
   window.onresize = resize;
 
-  function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.strokeStyle = '#0ff';
-    ctx.beginPath();
-    ctx.moveTo(0,canvas.height/2);
-    ctx.lineTo(canvas.width,canvas.height/2);
-    ctx.stroke();
-    requestAnimationFrame(animate);
+  const traces = [];
+  for(let i=0;i<50;i++){
+    traces.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, length:50+Math.random()*150, speed:0.5+Math.random()*1.5, color:'rgba(0,255,255,0.5)', particles:[]});
+    for(let j=0;j<5;j++){ traces[i].particles.push({offset:Math.random()*traces[i].length, speed:1+Math.random()*2, size:2+Math.random()*2}); }
   }
-  animate();
+  let mouseX=-1000, mouseY=-1000;
+  window.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
+
+  function animatePCB(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    traces.forEach(t=>{
+      const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy);
+      let speedMultiplier = dist<200?3:1;
+      ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y);
+      ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke();
+      t.particles.forEach(p=>{
+        let px=t.x+p.offset, py=t.y;
+        ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill();
+        p.offset += p.speed*speedMultiplier; if(p.offset>t.length) p.offset=0;
+      });
+      t.x += t.speed*speedMultiplier; if(t.x>canvas.width) t.x=-t.length;
+    });
+    requestAnimationFrame(animatePCB);
+  }
+  animatePCB();
+
 });
+</script>
+
+</body>
+</html>

@@ -79,9 +79,7 @@
   75%  { transform: rotate(-10deg) translate(-2px,2px); }
   100% { transform: rotate(0deg) translate(0,0); }
 }
-.btn-radio.dance {
-  animation: dance 0.6s infinite;
-}
+.btn-radio.dance { animation: dance 0.6s infinite; }
 
 /* ===== Toggle Theme Button ===== */
 #toggle-theme-btn {
@@ -97,10 +95,14 @@
 }
 #toggle-theme-btn:hover { transform: translateY(-2px) scale(1.05); }
 
-/* ===== Light Page (background only) ===== */
+/* ===== Light Page ===== */
 body.light-page {
   background-color: #ffffff !important;
+  color: #333 !important;
 }
+body.light-page .faq h3 { color:#333; }
+body.light-page #rating-value { color:#333; }
+body.light-page .experience-badge { color: yellow; }
 </style>
 </head>
 <body class="dark-theme">
@@ -179,11 +181,8 @@ body.light-page {
 
 <script src="app.js" defer></script>
 <script>
-// ======= نص الموقع + تقييم النجوم + Cookie + PCB + Radio Dance =======
-// (حافظت على كل كودك كما هو بدون تغيير)
-
+// ===== نص الموقع يتغير تلقائياً + تقييم النجوم + Cookie Banner =====
 document.addEventListener('DOMContentLoaded', () => {
-  // نص الموقع يتغير تلقائياً
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -218,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const accepted = localStorage.getItem('cookiesAccepted');
   if(!accepted) cookieBanner.style.display='block';
   document.getElementById('accept-cookies').addEventListener('click',()=>{ localStorage.setItem('cookiesAccepted','true'); cookieBanner.style.display='none'; });
-
 });
 
 // PCB Animated Header
@@ -230,7 +228,7 @@ resizeCanvas();
 const traces=[]; for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
 let mouseX=-1000,mouseY=-1000;
 window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0;}); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length;}); requestAnimationFrame(animatePCB);}
+function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length;}); requestAnimationFrame(animatePCB);}
 animatePCB();
 
 // Radio Button Dance
@@ -242,14 +240,22 @@ radioBtn.addEventListener('click', () => {
   else { radioBtn.classList.remove('dance'); }
 });
 
-// ===== Toggle Theme + Icon =====
+// Toggle Theme + Icon
 const toggleThemeBtn = document.getElementById('toggle-theme-btn');
 toggleThemeBtn.addEventListener('click', () => {
   document.body.classList.toggle('light-page');
   if(document.body.classList.contains('light-page')){
-    toggleThemeBtn.textContent = '☀️'; // شمس
+    toggleThemeBtn.textContent = '☀️';
+    document.body.style.color = '#333';
+    document.querySelectorAll('.faq h3').forEach(el => el.style.color = '#333');
+    document.querySelectorAll('.experience-badge').forEach(el => el.style.color = 'yellow');
+    document.getElementById('rating-value').style.color = '#333';
   } else {
-    toggleThemeBtn.textContent = '🌙'; // هلال
+    toggleThemeBtn.textContent = '🌙';
+    document.body.style.color = '#fff';
+    document.querySelectorAll('.faq h3').forEach(el => el.style.color = '#fff');
+    document.querySelectorAll('.experience-badge').forEach(el => el.style.color = 'yellow');
+    document.getElementById('rating-value').style.color = '#fff';
   }
 });
 </script>

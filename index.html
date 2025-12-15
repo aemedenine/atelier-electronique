@@ -14,37 +14,33 @@ body {
   font-family: 'Open Sans', sans-serif;
   background: #0b0f14;
   color: #fff;
+  transition: background 0.3s, color 0.3s;
 }
+body.light { background:#fff; color:#000; }
 .container { width: 95%; margin: auto; }
 header { background: #000; position: relative; }
+body.light header { background:#eee; color:#000; }
 .header-inner { position: relative; text-align: center; padding: 40px 0; overflow: hidden; }
 #pcbCanvasHeader { position: absolute; inset: 0; z-index: 0; }
 .logo, h1 { position: relative; z-index: 2; }
-h1 { margin-top: 10px; }
+h1 { margin-top: 10px; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; }
 .cta-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
 .cta-buttons a, .cta-buttons button {
   background: #ff6b35; color: #fff; border: none; padding: 10px 15px;
   border-radius: 6px; cursor: pointer; text-decoration: none; transition: 0.3s;
 }
-.cta-buttons a:hover, .cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35; transform: translateY(-3px);
-}
-.experience-badge {
-  text-align: center; margin: 30px 0; font-size: 1.3rem;
-  font-weight: bold; color: gold; animation: glow 1.5s infinite alternate;
-}
+.cta-buttons a:hover, .cta-buttons button:hover { box-shadow: 0 0 15px #ff6b35; transform: translateY(-3px); }
+.experience-badge { text-align: center; margin: 30px 0; font-size: 1.3rem; font-weight: bold; color: gold; animation: glow 1.5s infinite alternate; }
 @keyframes glow { from{ text-shadow:0 0 5px gold; } to{ text-shadow:0 0 15px gold; } }
 .rating-container { text-align: center; margin: 30px 0; }
 .stars-horizontal span { font-size: 2.5rem; cursor: pointer; margin: 0 5px; color: #ccc; }
 .stars-horizontal span.selected { color: gold; }
 @keyframes zigzag { 0%{transform:rotate(0)} 50%{transform:rotate(5deg)} 100%{transform:rotate(0)} }
 #radio-btn.playing { animation: zigzag .4s infinite; box-shadow: 0 0 20px #00ffcc; }
-#cookie-banner {
-  position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,.85);
-  text-align: center; padding: 10px; display: none; z-index: 9999;
-}
+#cookie-banner { position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,.85); text-align: center; padding: 10px; display: none; z-index: 9999; }
 #cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:6px 12px; border-radius:5px; cursor:pointer; }
 .info-bar { text-align:center; margin:20px 0; }
+#toggle-theme { margin-left:10px; padding:6px 12px; border-radius:5px; cursor:pointer; background:#ff6b35; color:#fff; border:none; }
 </style>
 </head>
 
@@ -66,7 +62,8 @@ h1 { margin-top: 10px; }
   <section class="info-bar">
     <div id="current-time">--:--:--</div>
     <div id="visit-count">عدد زياراتك: 0</div>
-    <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
+    <button id="toggle-lang-btn">تبديل اللغة</button>
+    <button id="toggle-theme">🌙</button>
   </section>
 
   <section class="cta-buttons">
@@ -107,24 +104,49 @@ h1 { margin-top: 10px; }
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',()=>{
 
   // Animated Title
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنين","الإلكترونيك الرحماني"];
-  setInterval(() => {
+  setInterval(()=>{
     const randomIndex = Math.floor(Math.random()*texts.length);
     siteName.textContent = texts[randomIndex];
-    siteName.style.color = '#ff6b35';
-    siteName.style.textShadow = '0 0 10px #ff6b35';
-    siteName.style.transform = 'scale(1.2)';
+    siteName.style.color='#ff6b35';
+    siteName.style.textShadow='0 0 10px #ff6b35';
+    siteName.style.transform='scale(1.2)';
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
+
+  // Clock
+  const clock = document.getElementById('current-time');
+  function updateClock(){
+    const now = new Date();
+    clock.textContent = now.toLocaleTimeString('ar-TN');
+  }
+  setInterval(updateClock,1000);
+  updateClock();
+
+  // Visits
+  const visitCount = document.getElementById('visit-count');
+  let visits = localStorage.getItem('visits') || 0;
+  visits++; localStorage.setItem('visits', visits);
+  visitCount.textContent = `عدد زياراتك: ${visits}`;
+
+  // Theme toggle
+  const themeBtn = document.getElementById('toggle-theme');
+  if(localStorage.getItem('theme')==='light'){ document.body.classList.add('light'); themeBtn.textContent='☀️'; }
+  themeBtn.onclick = ()=>{
+    document.body.classList.toggle('light');
+    const t = document.body.classList.contains('light')?'light':'dark';
+    localStorage.setItem('theme',t);
+    themeBtn.textContent = t==='light'?'☀️':'🌙';
+  };
 
   // Radio
   const radio = document.getElementById('radio-stream');
   const radioBtn = document.getElementById('radio-btn');
-  radioBtn.onclick = () => {
+  radioBtn.onclick=()=>{
     if(radio.paused){ radio.play(); radioBtn.classList.add('playing'); radioBtn.textContent='إيقاف ⏹️'; }
     else{ radio.pause(); radioBtn.classList.remove('playing'); radioBtn.textContent='شغّل الراديو 📻'; }
   };
@@ -133,23 +155,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const stars = document.querySelectorAll('.stars-horizontal span');
   const ratingValue = document.getElementById('rating-value');
   let rating = localStorage.getItem('rating') || 0;
-
   function updateStars(val){
-    stars.forEach(s=>{
-      s.textContent = s.dataset.value <= val ? '★' : '☆';
-      s.classList.toggle('selected', s.dataset.value <= val);
-    });
-    ratingValue.textContent = `${val}/5`;
-    ratingValue.style.color = val>0 ? 'gold' : '#fff';
-    ratingValue.style.textShadow = val>0 ? '0 0 8px gold' : 'none';
+    stars.forEach(s=>{ s.textContent=s.dataset.value<=val?'★':'☆'; s.classList.toggle('selected',s.dataset.value<=val); });
+    ratingValue.textContent=`${val}/5`;
+    ratingValue.style.color = val>0?'gold':'#fff';
+    ratingValue.style.textShadow = val>0?'0 0 8px gold':'none';
   }
   updateStars(rating);
-
   stars.forEach(s=>{
     const val = Number(s.dataset.value);
-    s.onclick = ()=>{ rating = val; localStorage.setItem('rating', rating); updateStars(rating); };
-    s.onmouseover = ()=>{ stars.forEach(star=>star.classList.remove('hover')); stars.forEach(star=>{ if(Number(star.dataset.value)<=val) star.classList.add('hover'); }); ratingValue.style.color='gold'; ratingValue.style.textShadow='0 0 8px gold'; };
-    s.onmouseout = ()=>{ stars.forEach(star=>star.classList.remove('hover')); updateStars(rating); };
+    s.onclick=()=>{ rating=val; localStorage.setItem('rating',rating); updateStars(rating); };
+    s.onmouseover=()=>{ stars.forEach(star=>star.classList.remove('hover')); stars.forEach(star=>{ if(Number(star.dataset.value)<=val) star.classList.add('hover'); }); ratingValue.style.color='gold'; ratingValue.style.textShadow='0 0 8px gold'; };
+    s.onmouseout=()=>{ stars.forEach(star=>star.classList.remove('hover')); updateStars(rating); };
   });
 
   // Cookie Banner
@@ -161,17 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('pcbCanvasHeader');
   const ctx = canvas.getContext('2d');
   function resize(){ canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight; }
-  resize();
-  window.onresize = resize;
+  resize(); window.onresize=resize;
 
-  const traces = [];
+  const traces=[];
   for(let i=0;i<50;i++){
     traces.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, length:50+Math.random()*150, speed:0.5+Math.random()*1.5, color:'rgba(0,255,255,0.5)', particles:[]});
     for(let j=0;j<5;j++){ traces[i].particles.push({offset:Math.random()*traces[i].length, speed:1+Math.random()*2, size:2+Math.random()*2}); }
   }
   let mouseX=-1000, mouseY=-1000;
   window.addEventListener('mousemove', e=>{ mouseX=e.clientX; mouseY=e.clientY; });
-
   function animatePCB(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     traces.forEach(t=>{
@@ -181,10 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke();
       t.particles.forEach(p=>{
         let px=t.x+p.offset, py=t.y;
-        ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill();
-        p.offset += p.speed*speedMultiplier; if(p.offset>t.length) p.offset=0;
+        ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2);
+        ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill();
+        p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0;
       });
-      t.x += t.speed*speedMultiplier; if(t.x>canvas.width) t.x=-t.length;
+      t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length;
     });
     requestAnimationFrame(animatePCB);
   }

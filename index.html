@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atelier Electronique Médenine</title>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== Reset ===== */
+/* ======= Reset ======= */
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; line-height:1.6; font-size:16px; text-align:right; }
 .container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
@@ -18,10 +18,14 @@ body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradie
 header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; }
 .header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; position:relative; overflow:hidden; }
 .logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; }
-.header-inner h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; position:relative; z-index:10; }
+.header-inner h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; position:relative; z-index:10; transition: color 0.5s, transform 0.5s, text-shadow 0.5s; }
+
+/* PCB Animated Header */
+#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
 
 /* News ticker */
-.news-ticker { width:100%; overflow:hidden; background:#ff6b35; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; position:relative; }
+.news-ticker { width:100%; overflow:hidden; background:#ff6b35; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; position:relative; z-index:10; }
 .news-text { display:inline-block; padding:0 12px; min-height:1.2em; animation:scrollNews 15s linear infinite; }
 @keyframes scrollNews { 0%{transform:translateX(100%);}100%{transform:translateX(-100%);} }
 
@@ -37,26 +41,19 @@ header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6
 .btn-store { background:#007bff !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
 .btn-store:hover { background:#e0a800 !important; }
 
-/* Experience badge */
-.experience-badge { display:block; text-align:center; font-size:1.3rem; font-weight:bold; color:yellow; margin:30px auto; background:none; padding:0; cursor:default; animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite; }
-@keyframes glowExperience { 0%{color:yellow;text-shadow:0 0 5px yellow;}25%{color:red;text-shadow:0 0 8px red;}50%{color:cyan;text-shadow:0 0 10px cyan;}75%{color:magenta;text-shadow:0 0 12px magenta;}100%{color:yellow;text-shadow:0 0 15px yellow;} }
-@keyframes floatExperience {0%{transform:translateY(0);}50%{transform:translateY(-6px);}100%{transform:translateY(0);}}
-
-/* Rating Stars */
-.rating-container { margin: 40px auto; text-align:center; color:#eee; }
-.stars-horizontal span { font-size:2.5rem; cursor:pointer; color:#ccc; margin:0 5px; display:inline-block; transition:color 0.3s, transform 0.3s, text-shadow 0.3s; }
-.stars-horizontal span.selected { color:gold; text-shadow:0 0 8px gold; }
-.stars-horizontal span.hover { color:gold; text-shadow:0 0 8px gold; transform:scale(1.4) translateY(-5px); }
-#rating-value { margin-top:10px; font-size:1.2rem; transition:color 0.3s, text-shadow 0.3s, transform 0.3s; }
-.rating-container:hover #rating-value { transform:translateY(-3px); }
-
 /* Radio Button */
-.btn-radio { background:#1e90ff; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-align:center; transition:transform 0.2s ease, background-color 0.3s ease; }
+.btn-radio { position:relative; background:#1e90ff; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-align:center; transition:transform 0.2s ease, background-color 0.3s ease; }
 .btn-radio.playing { animation:dance 0.5s infinite alternate; background:#ff6b35; }
 @keyframes dance {0%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-5px) rotate(-5deg);}100%{transform:translateY(5px) rotate(5deg);}}
 
-/* Volume Slider */
-#volume-slider { width:150px; margin-left:10px; vertical-align:middle; }
+/* Equalizer Bars */
+.equalizer { display:inline-flex; gap:3px; margin-top:5px; vertical-align:middle; }
+.equalizer .bar { width:5px; height:5px; background:#0ff; border-radius:2px; transition: height 0.1s ease, background 0.2s ease; }
+
+/* Experience badge */
+.experience-badge { display:block; text-align:center; font-size:1.3rem; font-weight:bold; color:yellow; margin:30px auto; background:none; padding:0; animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite; }
+@keyframes glowExperience {0%{color:yellow;text-shadow:0 0 5px yellow;}25%{color:red;text-shadow:0 0 8px red;}50%{color:cyan;text-shadow:0 0 10px cyan;}75%{color:magenta;text-shadow:0 0 12px magenta;}100%{color:yellow;text-shadow:0 0 15px yellow;}}
+@keyframes floatExperience {0%{transform:translateY(0);}50%{transform:translateY(-6px);}100%{transform:translateY(0);}}
 
 /* FAQ */
 .faq h2 { font-size:1.5rem; color:#1e90ff; margin-bottom:15px; }
@@ -64,6 +61,14 @@ header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6
 .faq-item h3 { cursor:pointer; background:#0a1e3d; padding:10px; border-radius:6px; }
 .faq-item .answer { display:none; padding:10px; background:#122f4a; border-radius:6px; margin-top:5px; }
 .faq-item.active .answer { display:block; }
+
+/* Rating Stars */
+.rating-container { margin:40px auto; text-align:center; color:#eee; }
+.stars-horizontal span { font-size:2.5rem; cursor:pointer; color:#ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin:0 5px; display:inline-block; }
+.stars-horizontal span.selected { color:gold; text-shadow:0 0 8px gold; }
+.stars-horizontal span.hover { color:gold; text-shadow:0 0 8px gold; transform:scale(1.4) translateY(-5px); }
+#rating-value { margin-top:10px; font-size:1.2rem; transition:color 0.3s, text-shadow 0.3s, transform 0.3s; }
+.rating-container:hover #rating-value { transform:translateY(-3px); }
 
 /* Footer */
 footer { background:#061222; color:#888; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
@@ -74,7 +79,8 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
 .social-icons img { width:28px; height:28px; filter:drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
 
 /* Cookie Banner */
-#cookie-banner { background:#ff6b35; color:white; padding:12px; text-align:center; position:fixed; bottom:0; width:100%; z-index:100; }
+#cookie-banner { position:fixed; bottom:0; left:0; width:100%; background: rgba(0,0,0,0.85); color:#fff; text-align:center; padding:15px 10px; z-index:9999; font-size:0.95rem; }
+#cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
 
 /* Responsive */
 @media(max-width:768px){.header-inner{flex-direction:column;text-align:center;gap:10px}.info-bar{flex-direction:column;gap:10px}.cta-buttons{flex-direction:column;align-items:center}.experience-badge{width:90%}.faq{width:90%}}
@@ -84,6 +90,7 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
 <body>
 <header>
   <div class="container header-inner">
+    <canvas id="pcbCanvasHeader"></canvas>
     <img src="logo.png" alt="Logo" class="logo">
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
@@ -100,26 +107,28 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
   </section>
 
   <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج 📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن 🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank">واتساب 📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank">موقعنا على مابس 📍</a>
-    <a href="photos.html">شاهد الصور 🖼️</a>
-    <a href="videos.html">شاهد الفيديو 🎥</a>
-    <a href="services.html">خدمات الورشة 🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
+    <a href="download">تحميل البرامج  📥</a>
+    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank">واتساب  📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank">موقعنا على مابس  📍</a>
+    <a href="photos.html">شاهد الصور  🖼️</a>
+    <a href="videos.html">شاهد الفيديو  🎥</a>
+    <a href="services.html">خدمات الورشة  🛠️</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
     <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+    <div class="equalizer" id="equalizer">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
   </section>
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
   <section class="faq">
     <h2>الأسئلة الشائعة</h2>
-    <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا.</div></div>
+    <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
     <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
     <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
-    <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات عبر واتساب.</div></div>
+    <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
   </section>
 
   <div class="rating-container">
@@ -140,9 +149,9 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
     <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
     <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
     <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank"><img src="icons/facebook.svg" alt="Facebook"></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank"><img src="icons/instagram.svg" alt="Instagram"></a>
-      <a href="https://wa.me/21698192103" target="_blank"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
+      <a href="https://www.facebook.com/AEMednine" target="_blank"><img src="icons/facebook.svg" alt="Facebook" /></a>
+      <a href="https://www.instagram.com/aemedenine/" target="_blank"><img src="icons/instagram.svg" alt="Instagram" /></a>
+      <a href="https://wa.me/21698192103" target="_blank"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
     </div>
   </div>
 </footer>
@@ -152,28 +161,24 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
 </div>
 
 <script>
-// تغيير نص الموقع
+// ======= Site Text Change =======
 const siteName = document.getElementById('site-name');
-const texts = ["Atelier Electronique Médenine","ورشة الإلكترونيك مدنـين"," الإلكترونيك الرحمـاني"];
-setInterval(()=>{
+const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
+setInterval(() => {
   const i = Math.floor(Math.random()*texts.length);
   siteName.textContent = texts[i];
   siteName.style.color='#ff6b35';
   siteName.style.textShadow='0 0 10px #ff6b35';
   siteName.style.transform='scale(1.2)';
-  setTimeout(()=>{siteName.style.color='';siteName.style.textShadow='';siteName.style.transform='';},1000);
+  setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
 },4000);
 
-// تقييم النجوم
+// ======= Rating Stars =======
 const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
 const ratingValueHorizontal = document.getElementById('rating-value');
 let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
 function updateStars(r){
-  starsHorizontal.forEach(star=>{
-    star.classList.remove('selected');
-    if(Number(star.dataset.value)<=r) star.classList.add('selected');
-    star.textContent = Number(star.dataset.value)<=r?'★':'☆';
-  });
+  starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=r) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=r?'★':'☆'; });
   ratingValueHorizontal.textContent=`${r}/5`;
   ratingValueHorizontal.style.color=r>0?'gold':'#fff';
   ratingValueHorizontal.style.textShadow=r>0?'0 0 8px gold':'none';
@@ -181,49 +186,79 @@ function updateStars(r){
 updateStars(selectedRatingHorizontal);
 starsHorizontal.forEach(star=>{
   const val=Number(star.dataset.value);
-  star.addEventListener('mouseover',()=>updateStars(val));
-  star.addEventListener('mouseout',()=>updateStars(selectedRatingHorizontal));
-  star.addEventListener('click',()=>{
-    selectedRatingHorizontal=val;
-    localStorage.setItem('workshopRating',val);
-    updateStars(val);
-  });
+  star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
+  star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
+  star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
 });
 
-// FAQ toggle
+// ======= FAQ Toggle =======
 document.querySelectorAll('.faq-item h3').forEach(h3=>{
-  h3.addEventListener('click',()=>{
-    h3.parentElement.classList.toggle('active');
-  });
+  h3.addEventListener('click',()=>{ h3.parentElement.classList.toggle('active'); });
 });
 
-// Cookie Banner
-const cookieBanner=document.getElementById('cookie-banner');
+// ======= Cookie Banner =======
+const cookieBanner = document.getElementById('cookie-banner');
 if(!localStorage.getItem('cookiesAccepted')) cookieBanner.style.display='block';
 document.getElementById('accept-cookies').addEventListener('click',()=>{
   localStorage.setItem('cookiesAccepted','true');
   cookieBanner.style.display='none';
 });
 
-// Radio + Volume
-const radioBtn=document.getElementById('radio-btn');
-const radioStream=document.getElementById('radio-stream');
-const volumeSlider=document.getElementById('volume-slider');
-radioBtn.addEventListener('click',()=>{
-  if(radioStream.paused){radioStream.play();radioBtn.classList.add('playing');}
-  else {radioStream.pause();radioBtn.classList.remove('playing');}
+// ======= Radio Button + Equalizer =======
+const radioBtn = document.getElementById('radio-btn');
+const radioStream = document.getElementById('radio-stream');
+const equalizer = document.getElementById('equalizer');
+radioBtn.addEventListener('click', () => {
+  if (radioStream.paused) {
+    radioStream.play();
+    radioBtn.classList.add('playing');
+    startDancing();
+  } else {
+    radioStream.pause();
+    radioBtn.classList.remove('playing');
+    stopDancing();
+  }
 });
-volumeSlider.addEventListener('input',()=>{radioStream.volume=volumeSlider.value;});
+let danceInterval;
+function startDancing() {
+  if(danceInterval) clearInterval(danceInterval);
+  danceInterval = setInterval(() => {
+    const bars = equalizer.querySelectorAll('.bar');
+    bars.forEach(bar => {
+      const height = Math.random() * 30 + 5;
+      bar.style.height = height + 'px';
+      bar.style.backgroundColor = `hsl(${Math.random()*360},80%,60%)`;
+    });
+  }, 150);
+}
+function stopDancing() {
+  if(danceInterval) clearInterval(danceInterval);
+  const bars = equalizer.querySelectorAll('.bar');
+  bars.forEach(bar => bar.style.height='5px');
+}
 
-// الساعة وعداد الزيارات
+// ======= Clock + Visits =======
 setInterval(()=> {
   const now = new Date();
   document.getElementById('current-time').textContent = now.toLocaleTimeString();
 }, 1000);
-let visits = parseInt(localStorage.getItem('visits')) || 0;
-visits++;
-localStorage.setItem('visits', visits);
-document.getElementById('visit-count').textContent = `عدد زياراتك: ${visits}`;
+const visitCount = localStorage.getItem('visitCount') || 0;
+localStorage.setItem('visitCount', Number(visitCount)+1);
+document.getElementById('visit-count').textContent = 'عدد زياراتك: '+(Number(visitCount)+1);
+
+// ======= PCB Header Animation =======
+const canvas = document.getElementById('pcbCanvasHeader');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+const traces=[];
+for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
+let mouseX=-1000,mouseY=-1000;
+window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
+function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
+animatePCB();
 </script>
+
 </body>
 </html>

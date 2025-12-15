@@ -10,81 +10,80 @@
 <link rel="stylesheet" href="style.css" />
 
 <style>
-/* ===== Theme Light - Classic & Simple ===== */
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  margin:0;
-  line-height:1.6;
+/* ======= Glow متحرك للأزرار ======= */
+.cta-buttons a,
+.cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-
-/* Headings */
-h1,h2,h3,h4,h5,h6 { font-family:'Montserrat',sans-serif; color:#111; margin-top:0; }
-
-/* Links */
-a { color:#007BFF; text-decoration:none; transition: all 0.3s ease; }
-a:hover { text-decoration:underline; color:#0056b3; }
-
-/* Navbar */
-.navbar { background-color:#ffffff; box-shadow:0 2px 5px rgba(0,0,0,0.1); padding:10px 20px; display:flex; justify-content:space-between; align-items:center; }
-.navbar a { margin:0 10px; font-weight:600; }
-
-/* Buttons */
-button, .btn, .btn-primary, .btn-download, .btn-store, .btn-whatsapp, .btn-maps, .btn-gallery, .btn-video, .btn-services, .btn-radio {
-  background-color:#007BFF; color:#fff; border:none; padding:10px 20px; cursor:pointer;
-  transition: all 0.3s ease; border-radius:5px; font-family:'Montserrat',sans-serif;
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
 }
-button:hover, .btn:hover, .btn-primary:hover, .btn-download:hover, .btn-store:hover, .btn-whatsapp:hover, .btn-maps:hover, .btn-gallery:hover, .btn-video:hover, .btn-services:hover, .btn-radio:hover {
-  background-color:#0056b3; box-shadow:0 4px 10px rgba(0,0,0,0.15);
-}
-
-/* Glow متحرك للأزرار */
-.cta-buttons a, .cta-buttons button { transition: box-shadow 0.3s ease, transform 0.2s ease; }
-.cta-buttons a:hover, .cta-buttons button:hover { box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35; transform: translateY(-3px); }
-
-/* Cards / Sections */
-.card, .info-bar, .faq, .rating-container { background-color:#fff; border:1px solid #ddd; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.05); margin:20px 0; }
-.card:hover, .info-bar:hover, .faq:hover { box-shadow:0 5px 15px rgba(0,0,0,0.1); }
-
-/* Footer */
-footer { background-color:#f1f1f1; color:#555; text-align:center; padding:20px 0; font-size:14px; }
 
 /* نص الموقع يتغير تلقائياً */
-.header-inner h1 { display:inline-block; font-size:1.8rem; margin-left:15px; transition: color 0.5s, transform 0.5s, text-shadow 0.5s; }
+.header-inner h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
 
 /* تقييم النجوم */
-.rating-container { margin:40px auto; text-align:center; }
-.stars-horizontal span { font-size:2.5rem; cursor:pointer; color:#ccc; transition:color 0.3s, transform 0.3s, text-shadow 0.3s; margin:0 5px; display:inline-block; }
-.stars-horizontal span.selected { color:gold; text-shadow:0 0 8px gold; }
-.stars-horizontal span.hover { color:gold; text-shadow:0 0 8px gold; transform:scale(1.4) translateY(-5px); }
-#rating-value { margin-top:10px; font-size:1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
+.rating-container { margin: 40px auto; text-align: center; color: #fff; }
+.stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
+.stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
+.stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
+#rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
+.rating-container:hover #rating-value { transform: translateY(-3px); }
 
 /* PCB Animated Header */
-.header-inner { position:relative; overflow:hidden; }
-#pcbCanvasHeader { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
-.header-inner img, .header-inner h1 { position:relative; z-index:10; }
+.header-inner { position: relative; overflow: hidden; }
+#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
 
 /* نص الخبرة بدون مستطيل */
 .experience-badge {
-  display:block; text-align:center; font-size:1.3rem; font-weight:bold;
-  color:yellow; margin:30px auto; background:none; padding:0;
+  display: block;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: yellow;
+  margin: 30px auto;
+  background: none;
+  padding: 0;
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
-@keyframes glowExperience { 0%{color:yellow;text-shadow:0 0 5px yellow;}25%{color:red;text-shadow:0 0 8px red;}50%{color:cyan;text-shadow:0 0 10px cyan;}75%{color:magenta;text-shadow:0 0 12px magenta;}100%{color:yellow;text-shadow:0 0 15px yellow;} }
-@keyframes floatExperience {0%{transform:translateY(0);}50%{transform:translateY(-6px);}100%{transform:translateY(0);}}
+@keyframes glowExperience {
+  0% { color: yellow; text-shadow: 0 0 5px yellow; }
+  25% { color: red; text-shadow: 0 0 8px red; }
+  50% { color: cyan; text-shadow: 0 0 10px cyan; }
+  75% { color: magenta; text-shadow: 0 0 12px magenta; }
+  100% { color: yellow; text-shadow: 0 0 15px yellow; }
+}
+@keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
 
 /* ======= Cookie Banner ======= */
-#cookie-banner { position:fixed; bottom:0; left:0; width:100%; background:rgba(0,0,0,0.85); color:#fff; text-align:center; padding:15px 10px; z-index:9999; font-size:0.95rem; }
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85);
+  color: #fff; text-align: center; padding: 15px 10px; z-index: 9999;
+  font-size: 0.95rem;
+}
 #cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
 
 /* ======= Radio Button Dance Effect ======= */
-@keyframes dance { 0%{transform:rotate(0deg) translate(0,0);}25%{transform:rotate(-10deg) translate(-2px,-2px);}50%{transform:rotate(10deg) translate(2px,2px);}75%{transform:rotate(-10deg) translate(-2px,2px);}100%{transform:rotate(0deg) translate(0,0);} }
-.btn-radio.dance { animation:dance 0.6s infinite; }
-
+@keyframes dance {
+  0%   { transform: rotate(0deg) translate(0,0); }
+  25%  { transform: rotate(-10deg) translate(-2px,-2px); }
+  50%  { transform: rotate(10deg) translate(2px,2px); }
+  75%  { transform: rotate(-10deg) translate(-2px,2px); }
+  100% { transform: rotate(0deg) translate(0,0); }
+}
+.btn-radio.dance {
+  animation: dance 0.6s infinite;
+}
 </style>
 </head>
-
 <body>
 <header>
   <div class="container header-inner">
@@ -98,13 +97,13 @@ footer { background-color:#f1f1f1; color:#555; text-align:center; padding:20px 0
 </header>
 
 <main class="container main-content">
-  <section class="info-bar card">
+  <section class="info-bar">
     <div id="current-time">--:--:--</div>
     <div id="visit-count">عدد زياراتك: 0</div>
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
-  <section class="cta-buttons card">
+  <section class="cta-buttons">
     <a href="download" class="btn-download">تحميل البرامج  📥</a>
     <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
     <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
@@ -121,7 +120,7 @@ footer { background-color:#f1f1f1; color:#555; text-align:center; padding:20px 0
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
-  <section class="faq card">
+  <section class="faq">
     <h2>الأسئلة الشائعة</h2>
     <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
     <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
@@ -129,7 +128,7 @@ footer { background-color:#f1f1f1; color:#555; text-align:center; padding:20px 0
     <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
   </section>
 
-  <div class="rating-container card">
+  <div class="rating-container">
     <p>قيم الورشة:</p>
     <div class="stars-horizontal">
       <span data-value="5">☆</span>
@@ -142,7 +141,7 @@ footer { background-color:#f1f1f1; color:#555; text-align:center; padding:20px 0
   </div>
 </main>
 
-<footer class="card">
+<footer>
   <div class="container footer-inner">
     <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
     <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
@@ -161,9 +160,9 @@ footer { background-color:#f1f1f1; color:#555; text-align:center; padding:20px 0
 
 <script src="app.js" defer></script>
 <script>
-// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header + Radio Dance
+// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
 document.addEventListener('DOMContentLoaded', () => {
-  // نص الموقع
+  // ======= نص الموقع =======
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -175,14 +174,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
 
-  // تقييم النجوم
+  // ======= تقييم النجوم =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
   function updateStars(rating){
     starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
     ratingValueHorizontal.textContent = `${rating}/5`;
-    ratingValueHorizontal.style.color = rating>0?'gold':'#333';
+    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
   }
   updateStars(selectedRatingHorizontal);
@@ -193,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
   });
 
-  // Cookie Banner
+  // ======= Cookie Banner =======
   const cookieBanner = document.getElementById('cookie-banner');
   const accepted = localStorage.getItem('cookiesAccepted');
   if(!accepted) cookieBanner.style.display='block';
@@ -203,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// PCB Animated Header
+// ======= PCB Animated Header =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
@@ -216,15 +215,15 @@ window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
 function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
 animatePCB();
 
-// Radio Button Dance Script
+// ======= Radio Button Dance Script =======
 const radioBtn = document.getElementById('radio-btn');
 let dancing = false;
 radioBtn.addEventListener('click', () => {
   dancing = !dancing;
   if(dancing) {
-    radioBtn.classList.add('dance');
+    radioBtn.classList.add('dance'); // يبدأ الرقصة فوراً
   } else {
-    radioBtn.classList.remove('dance');
+    radioBtn.classList.remove('dance'); // يتوقف الرقصة
   }
 });
 </script>

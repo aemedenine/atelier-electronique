@@ -10,6 +10,24 @@
 <link rel="stylesheet" href="style.css" />
 
 <style>
+/* ===== Dark & Light Themes ===== */
+body.dark-theme {
+  background-color: #1a1a1a;
+  color: #eee;
+}
+body.light-theme {
+  background-color: #ffffff;
+  color: #333;
+}
+
+/* نص الموقع يتغير تلقائياً */
+.header-inner h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
+
 /* ======= Glow متحرك للأزرار ======= */
 .cta-buttons a,
 .cta-buttons button {
@@ -21,21 +39,12 @@
   transform: translateY(-3px);
 }
 
-/* نص الموقع يتغير تلقائياً */
-.header-inner h1 {
-  display: inline-block;
-  font-size: 1.8rem;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-
 /* تقييم النجوم */
-.rating-container { margin: 40px auto; text-align: center; color: #fff; }
+.rating-container { margin: 40px auto; text-align: center; }
 .stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
 .stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
 .stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
 #rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
-.rating-container:hover #rating-value { transform: translateY(-3px); }
 
 /* PCB Animated Header */
 .header-inner { position: relative; overflow: hidden; }
@@ -79,12 +88,22 @@
   75%  { transform: rotate(-10deg) translate(-2px,2px); }
   100% { transform: rotate(0deg) translate(0,0); }
 }
-.btn-radio.dance {
-  animation: dance 0.6s infinite;
+.btn-radio.dance { animation: dance 0.6s infinite; }
+
+/* ===== Toggle Theme Button ===== */
+#toggle-theme-btn {
+  background:#ff6b35;
+  color:#fff;
+  border:none;
+  padding:8px 15px;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:bold;
+  margin-left:10px;
 }
 </style>
 </head>
-<body>
+<body class="dark-theme">
 <header>
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
@@ -101,6 +120,7 @@
     <div id="current-time">--:--:--</div>
     <div id="visit-count">عدد زياراتك: 0</div>
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
+    <button id="toggle-theme-btn">تبديل الوضع</button>
   </section>
 
   <section class="cta-buttons">
@@ -153,16 +173,29 @@
   </div>
 </footer>
 
-<!-- ======= Cookie Banner ======= -->
 <div id="cookie-banner" style="display:none;">
   نستخدم الكوكيز لتحسين تجربتك. <button id="accept-cookies">أوافق</button>
 </div>
 
 <script src="app.js" defer></script>
 <script>
-// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
+// ===== Toggle Theme =====
+const toggleThemeBtn = document.getElementById('toggle-theme-btn');
+toggleThemeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+  document.body.classList.toggle('light-theme');
+  localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+});
+
+// استعادة الوضع عند التحميل
 document.addEventListener('DOMContentLoaded', () => {
-  // ======= نص الموقع =======
+  const savedTheme = localStorage.getItem('theme');
+  if(savedTheme) {
+    document.body.classList.remove('dark-theme', 'light-theme');
+    document.body.classList.add(savedTheme + '-theme');
+  }
+
+  // ===== نص الموقع يتغير تلقائياً =====
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -181,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateStars(rating){
     starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
     ratingValueHorizontal.textContent = `${rating}/5`;
-    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
+    ratingValueHorizontal.style.color = rating>0?'gold':document.body.classList.contains('dark-theme')?'#fff':'#333';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
   }
   updateStars(selectedRatingHorizontal);
@@ -220,11 +253,8 @@ const radioBtn = document.getElementById('radio-btn');
 let dancing = false;
 radioBtn.addEventListener('click', () => {
   dancing = !dancing;
-  if(dancing) {
-    radioBtn.classList.add('dance'); // يبدأ الرقصة فوراً
-  } else {
-    radioBtn.classList.remove('dance'); // يتوقف الرقصة
-  }
+  if(dancing) radioBtn.classList.add('dance');
+  else radioBtn.classList.remove('dance');
 });
 </script>
 </body>

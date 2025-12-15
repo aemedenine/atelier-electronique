@@ -97,9 +97,9 @@
 }
 #toggle-theme-btn:hover { transform: translateY(-2px) scale(1.05); }
 
-/* ===== Light Page Background Only ===== */
+/* ===== Light Theme Background ===== */
 body.light-theme {
-  background-color: #ffffff; /* الخلفية بيضاء */
+  background-color: #ffffff; /* خلفية بيضاء */
 }
 </style>
 </head>
@@ -108,7 +108,7 @@ body.light-theme {
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
     <img src="logo.png" alt="Atelier Electronique Médenين Logo" class="logo" />
-    <h1 id="site-name">Atelier Electronique Médenين</h1>
+    <h1 id="site-name">Atelier Electronique Méدنين</h1>
   </div>
   <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
     <div class="news-text" id="live-news">تحميل الأخبار...</div>
@@ -196,7 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
   function updateStars(rating){
-    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
+    starsHorizontal.forEach(star=>{
+      star.classList.remove('selected');
+      if(Number(star.dataset.value)<=rating) star.classList.add('selected');
+      star.textContent = Number(star.dataset.value)<=rating?'★':'☆';
+    });
     ratingValueHorizontal.textContent = `${rating}/5`;
     ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
@@ -204,7 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
   updateStars(selectedRatingHorizontal);
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
+    star.addEventListener('mouseover',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover'));
+      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); });
+      ratingValueHorizontal.style.color='gold';
+      ratingValueHorizontal.style.textShadow='0 0 8px gold';
+    });
     star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
     star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
   });

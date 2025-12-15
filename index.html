@@ -12,7 +12,7 @@
 /* ====== Glow متحرك للأزرار ====== */
 .cta-buttons a,
 .cta-buttons button {
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background-color 0.3s, color 0.3s;
 }
 .cta-buttons a:hover,
 .cta-buttons button:hover {
@@ -58,18 +58,25 @@
 #toggle-theme-btn { background:#ff6b35; color:#fff; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold; margin-left:10px; transition: transform 0.2s, box-shadow 0.3s; }
 #toggle-theme-btn:hover { transform: translateY(-2px) scale(1.05); }
 
-/* Light Page Theme */
-body.light-page { background-color: #fff !important; color: #333 !important; }
-body.light-page .faq h3 { color:#333; }
-body.light-page #rating-value { color:#333; }
-body.light-page .experience-badge { color: yellow; }
+/* ===== Light / Dark Theme ===== */
+body.dark-theme { background-color:#0d1b2a; color:#fff; }
+body.dark-theme .cta-buttons a, body.dark-theme .cta-buttons button { background-color:#1b263b; color:#fff; }
+body.dark-theme .faq h3 { color:#fff; }
+body.dark-theme #rating-value { color:#fff; }
+body.dark-theme .experience-badge { color: yellow; }
+
+body.light-theme { background-color:#ffffff; color:#000; }
+body.light-theme .cta-buttons a, body.light-theme .cta-buttons button { background-color:#e0e0e0; color:#000; }
+body.light-theme .faq h3 { color:#000; }
+body.light-theme #rating-value { color:#000; }
+body.light-theme .experience-badge { color: #444; }
 </style>
 </head>
 <body class="dark-theme">
 <header>
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+    <img src="logo.png" alt="Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
   <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
@@ -146,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const starsHorizontal=document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal=document.getElementById('rating-value');
   let selectedRatingHorizontal=parseInt(localStorage.getItem('workshopRating'))||0;
-  function updateStars(rating){ starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; }); ratingValueHorizontal.textContent=`${rating}/5`; ratingValueHorizontal.style.color = rating>0?'gold':'#fff'; ratingValueHorizontal.style.textShadow= rating>0?'0 0 8px gold':'none'; }
+  function updateStars(rating){ starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; }); ratingValueHorizontal.textContent=`${rating}/5`; ratingValueHorizontal.style.color = rating>0?'gold':document.body.classList.contains('light-theme')?'#000':'#fff'; ratingValueHorizontal.style.textShadow= rating>0?'0 0 8px gold':'none'; }
   updateStars(selectedRatingHorizontal);
   starsHorizontal.forEach(star=>{ const val=Number(star.dataset.value); star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val)s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; }); star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); }); star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); }); });
 
@@ -173,8 +180,9 @@ radioBtn.addEventListener('click',()=>{ dancing=!dancing; if(dancing) radioBtn.c
 // Toggle Theme
 const toggleThemeBtn=document.getElementById('toggle-theme-btn');
 toggleThemeBtn.addEventListener('click',()=>{
-  document.body.classList.toggle('light-page');
-  toggleThemeBtn.textContent=document.body.classList.contains('light-page')?'☀️':'🌙';
+  document.body.classList.toggle('light-theme');
+  document.body.classList.toggle('dark-theme');
+  toggleThemeBtn.textContent=document.body.classList.contains('light-theme')?'☀️':'🌙';
 });
 </script>
 </body>

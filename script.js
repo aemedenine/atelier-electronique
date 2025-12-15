@@ -12,7 +12,15 @@
     margin:0;
     padding:0;
   }
-
+ // ===== Theme Toggle =====
+  const themeBtn = document.getElementById('theme-toggle');
+  if(localStorage.getItem('theme')==='light') document.body.classList.add('light');
+  themeBtn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+  themeBtn.onclick = () => {
+    document.body.classList.toggle('light');
+    const t = document.body.classList.contains('light') ? 'light' : 'dark';
+    localStorage.setItem('theme', t);
+    themeBtn.textContent = t==='light'?'☀️':'🌙';
   /* ======== التقييم تحت FAQ ======== */
   .rating-container {
     margin: 40px auto;

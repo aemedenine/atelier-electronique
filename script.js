@@ -12,44 +12,29 @@
     margin:0;
     padding:0;
   }
- // ===== Theme Toggle =====
-  const themeBtn = document.getElementById('theme-toggle');
-  if(localStorage.getItem('theme')==='light') document.body.classList.add('light');
-  themeBtn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
-  themeBtn.onclick = () => {
-    document.body.classList.toggle('light');
-    const t = document.body.classList.contains('light') ? 'light' : 'dark';
-    localStorage.setItem('theme', t);
-    themeBtn.textContent = t==='light'?'☀️':'🌙';
-  /* ======== التقييم تحت FAQ ======== */
-  .rating-container {
-    margin: 40px auto;
-    text-align: center;
-    color: #fff;
-  }
+  /* ===== Theme Toggle ===== */
+  body.light { background:#f5f5f5; color:#000; }
+  body.light h2,h3,p { color:#000; }
+  #theme-toggle { position: fixed; top: 10px; left: 10px; padding: 5px 10px; cursor: pointer; z-index: 9999; }
 
-  .stars-horizontal span {
-    font-size: 2.5rem;
-    cursor: pointer;
-    color: #ccc;
-    transition: color 0.2s;
-    margin: 0 5px;
-  }
+  /* ===== FAQ ===== */
+  .faq { max-width:800px; margin:50px auto; padding:0 20px; }
+  .faq-item { border-bottom:1px solid #444; padding:10px 0; cursor:pointer; }
+  .faq-item .answer { display:none; margin-top:5px; }
+  .faq-item.open .answer { display:block; }
 
+  /* ===== تقييم النجوم ===== */
+  .rating-container { margin:40px auto; text-align:center; color:#fff; }
+  .stars-horizontal span { font-size:2.5rem; cursor:pointer; color:#ccc; transition:color 0.2s; margin:0 5px; }
   .stars-horizontal span.hover,
-  .stars-horizontal span.selected {
-    color: gold;
-  }
-
-  #rating-value {
-    margin-top: 10px;
-    font-size: 1.2rem;
-  }
+  .stars-horizontal span.selected { color: gold; }
+  #rating-value { margin-top:10px; font-size:1.2rem; }
 </style>
 </head>
 <body>
 
-<!-- محتوى الموقع هنا -->
+<button id="theme-toggle">🌙</button>
+
 <div class="faq">
   <h2>الأسئلة الشائعة</h2>
   <div class="faq-item">
@@ -66,7 +51,6 @@
   </div>
 </div>
 
-<!-- ======= تقييم النجوم تحت FAQ ======= -->
 <div class="rating-container">
   <p>قيم الورشة:</p>
   <div class="stars-horizontal">
@@ -79,34 +63,49 @@
   <p id="rating-value">0/5</p>
 </div>
 
-<!-- JavaScript -->
+<div id="current-time" style="text-align:center; margin-top:20px;"></div>
+<div id="visit-count" style="text-align:center; margin-top:10px;"></div>
+<div id="live-news" style="text-align:center; margin-top:10px;"></div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  let currentLang = document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
 
-  // ======= تقييم النجوم تحت FAQ =======
-  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
-  const ratingValueHorizontal = document.getElementById('rating-value');
-  let selectedRatingHorizontal = 0;
+  // ===== Theme Toggle =====
+  const themeBtn = document.getElementById('theme-toggle');
+  if(localStorage.getItem('theme')==='light') document.body.classList.add('light');
+  themeBtn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+  themeBtn.onclick = () => {
+    document.body.classList.toggle('light');
+    const t = document.body.classList.contains('light') ? 'light' : 'dark';
+    localStorage.setItem('theme', t);
+    themeBtn.textContent = t==='light'?'☀️':'🌙';
+  };
 
-  starsHorizontal.forEach(star => {
-    star.addEventListener('mouseover', () => {
-      starsHorizontal.forEach(s => s.classList.remove('hover'));
-      let val = Number(star.dataset.value);
-      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= val) s.classList.add('hover') });
-    });
-    star.addEventListener('mouseout', () => {
-      starsHorizontal.forEach(s => s.classList.remove('hover'));
-    });
-    star.addEventListener('click', () => {
-      selectedRatingHorizontal = Number(star.dataset.value);
-      starsHorizontal.forEach(s => s.classList.remove('selected'));
-      starsHorizontal.forEach(s => { if(Number(s.dataset.value) <= selectedRatingHorizontal) s.classList.add('selected') });
-      ratingValueHorizontal.textContent = `${selectedRatingHorizontal}/5`;
-    });
+  // ===== تقييم النجوم =====
+  const stars = document.querySelectorAll('.stars-horizontal span');
+  const ratingValue = document.getElementById('rating-value');
+  let rating = parseInt(localStorage.getItem('workshopRating')) || 0;
+
+  function updateStars(val){
+    stars.forEach(s=>{ s.textContent = s.dataset.value<=val?'★':'☆'; s.classList.toggle('selected',s.dataset.value<=val); });
+    ratingValue.textContent = `${val}/5`;
+  }
+  updateStars(rating);
+
+  stars.forEach(s=>{
+    const val = parseInt(s.dataset.value);
+    s.addEventListener('mouseover',()=>{ stars.forEach(st=>st.classList.remove('hover')); stars.forEach(st=>{ if(st.dataset.value<=val) st.classList.add('hover'); }); });
+    s.addEventListener('mouseout',()=>{ stars.forEach(st=>st.classList.remove('hover')); updateStars(rating); });
+    s.addEventListener('click',()=>{ rating=val; localStorage.setItem('workshopRating',rating); updateStars(rating); });
   });
 
-  // ======= باقي JS متاع الموقع =======
+  // ===== FAQ =====
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    item.onclick=()=>{ item.classList.toggle('open'); };
+  });
+
+  // ===== Time & Date =====
+  const currentLang = document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
   function updateTime() {
     const now = new Date();
     const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -114,71 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
     const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-    let day, month;
-    if(currentLang === 'ar'){
-      day = daysAr[now.getDay()];
-      month = monthsAr[now.getMonth()];
-    } else {
-      day = daysFr[now.getDay()];
-      month = monthsFr[now.getMonth()];
-    }
-
-    const date = now.getDate();
-    const hours = now.getHours().toString().padStart(2,'0');
-    const minutes = now.getMinutes().toString().padStart(2,'0');
-    const seconds = now.getSeconds().toString().padStart(2,'0');
-
-    const timeStr = `${hours}:${minutes}:${seconds}`;
-    const dateStr = currentLang === 'ar' 
-      ? `${day}، ${date} ${month}` 
-      : `${day}, ${date} ${month}`;
-
-    const timeElement = document.getElementById('current-time');
-    if(timeElement) timeElement.textContent = `${dateStr} - ${timeStr}`;
+    const day = currentLang==='ar'?daysAr[now.getDay()]:daysFr[now.getDay()];
+    const month = currentLang==='ar'?monthsAr[now.getMonth()]:monthsFr[now.getMonth()];
+    const dateStr = `${day}, ${now.getDate()} ${month}`;
+    const timeStr = now.toLocaleTimeString('ar-EG',{hour12:false});
+    document.getElementById('current-time').textContent = `${dateStr} - ${timeStr}`;
   }
-
-  function updateVisits() {
-    const key = 'aem-visit-count';
-    let count = parseInt(localStorage.getItem(key)) || 0;
-    count++;
-    localStorage.setItem(key, count);
-    const visitElement = document.getElementById('visit-count');
-    if(visitElement) {
-      visitElement.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
-    }
-  }
-
-  function updateNews() {
-    const newsAr = [
-      "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-      "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-      "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-      "📱 تواصل معنا عبر واتساب لأي استفسار."
-    ];
-    const newsFr = [
-      "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
-      "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
-      "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-      "📱 Contactez-nous via WhatsApp pour toute question."
-    ];
-
-    const news = currentLang === 'ar' ? newsAr : newsFr;
-    const ticker = document.getElementById('live-news');
-    if(ticker) ticker.textContent = news.join(' • ');
-  }
-
-  function initFAQ() {
-    const items = document.querySelectorAll('.faq-item');
-    items.forEach(item => {
-      item.onclick = () => { item.classList.toggle('open'); };
-    });
-  }
-
   updateTime();
-  updateVisits();
-  updateNews();
-  initFAQ();
-  setInterval(updateTime, 1000);
+  setInterval(updateTime,1000);
+
+  // ===== Visits =====
+  const key='aem-visit-count';
+  let count = parseInt(localStorage.getItem(key)) || 0;
+  count++;
+  localStorage.setItem(key,count);
+  document.getElementById('visit-count').textContent = currentLang==='ar'?`عدد زياراتك: ${count}`:`Nombre de visites: ${count}`;
+
+  // ===== News =====
+  const newsAr = ["📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.","🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.","🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.","📱 تواصل معنا عبر واتساب لأي استفسار."];
+  const newsFr = ["📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.","🔧 Services de réparation électronique de haute qualité à prix compétitifs.","🌍 Livraison par courrier disponible dans toute la Tunisie.","📱 Contactez-nous via WhatsApp pour toute question."];
+  document.getElementById('live-news').textContent = currentLang==='ar'?newsAr.join(' • '):newsFr.join(' • ');
+
 });
 </script>
 </body>

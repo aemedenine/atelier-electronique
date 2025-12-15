@@ -7,94 +7,79 @@
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
 
 <style>
-/* ======= Reset ======= */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; line-height:1.6; font-size:16px; text-align:right; }
-.container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
+/* ======= Glow متحرك للأزرار ======= */
+.cta-buttons a,
+.cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
 
-/* ===== Header ===== */
-header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; }
-.header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; position:relative; overflow:hidden; }
-.logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; }
-.header-inner h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; position:relative; z-index:10; transition: color 0.5s, transform 0.5s, text-shadow 0.5s; }
+/* نص الموقع يتغير تلقائياً */
+.header-inner h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
+
+/* تقييم النجوم */
+.rating-container { margin: 40px auto; text-align: center; color: #fff; }
+.stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
+.stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
+.stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
+#rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
+.rating-container:hover #rating-value { transform: translateY(-3px); }
 
 /* PCB Animated Header */
+.header-inner { position: relative; overflow: hidden; }
 #pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
 .header-inner img, .header-inner h1 { position: relative; z-index: 10; }
 
-/* News ticker */
-.news-ticker { width:100%; overflow:hidden; background:#ff6b35; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; position:relative; z-index:10; }
-.news-text { display:inline-block; padding:0 12px; min-height:1.2em; animation:scrollNews 15s linear infinite; }
-@keyframes scrollNews { 0%{transform:translateX(100%);}100%{transform:translateX(-100%);} }
+/* نص الخبرة بدون مستطيل */
+.experience-badge {
+  display: block;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: yellow;
+  margin: 30px auto;
+  background: none;
+  padding: 0;
+  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
+}
+@keyframes glowExperience {
+  0% { color: yellow; text-shadow: 0 0 5px yellow; }
+  25% { color: red; text-shadow: 0 0 8px red; }
+  50% { color: cyan; text-shadow: 0 0 10px cyan; }
+  75% { color: magenta; text-shadow: 0 0 12px magenta; }
+  100% { color: yellow; text-shadow: 0 0 15px yellow; }
+}
+@keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
 
-/* Info bar */
-.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#aaa; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
-#toggle-lang-btn { background:#ff6b35; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
-#toggle-lang-btn:hover { background:#d9533f; }
-
-/* CTA Buttons */
-.cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
-.cta-buttons a, .cta-buttons button { background:#1e90ff; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease, box-shadow 0.3s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
-.cta-buttons a:hover, .cta-buttons button:hover { background:#0c5ea8; }
-.btn-store { background:#007bff !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
-.btn-store:hover { background:#e0a800 !important; }
-
-/* Radio Button */
-.btn-radio { position:relative; background:#1e90ff; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-align:center; transition:transform 0.2s ease, background-color 0.3s ease; }
-.btn-radio.playing { animation:dance 0.5s infinite alternate; background:#ff6b35; }
-@keyframes dance {0%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-5px) rotate(-5deg);}100%{transform:translateY(5px) rotate(5deg);}}
-
-/* Equalizer Bars */
-.equalizer { display:inline-flex; gap:3px; margin-top:5px; vertical-align:middle; }
-.equalizer .bar { width:5px; height:5px; background:#0ff; border-radius:2px; transition: height 0.1s ease, background 0.2s ease; }
-
-/* Experience badge */
-.experience-badge { display:block; text-align:center; font-size:1.3rem; font-weight:bold; color:yellow; margin:30px auto; background:none; padding:0; animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite; }
-@keyframes glowExperience {0%{color:yellow;text-shadow:0 0 5px yellow;}25%{color:red;text-shadow:0 0 8px red;}50%{color:cyan;text-shadow:0 0 10px cyan;}75%{color:magenta;text-shadow:0 0 12px magenta;}100%{color:yellow;text-shadow:0 0 15px yellow;} }
-@keyframes floatExperience {0%{transform:translateY(0);}50%{transform:translateY(-6px);}100%{transform:translateY(0);}}
-
-/* FAQ */
-.faq h2 { font-size:1.5rem; color:#1e90ff; margin-bottom:15px; }
-.faq-item { margin-bottom:15px; }
-.faq-item h3 { cursor:pointer; background:#0a1e3d; padding:10px; border-radius:6px; }
-.faq-item .answer { display:none; padding:10px; background:#122f4a; border-radius:6px; margin-top:5px; }
-.faq-item.active .answer { display:block; }
-
-/* Rating Stars */
-.rating-container { margin:40px auto; text-align:center; color:#eee; }
-.stars-horizontal span { font-size:2.5rem; cursor:pointer; color:#ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin:0 5px; display:inline-block; }
-.stars-horizontal span.selected { color:gold; text-shadow:0 0 8px gold; }
-.stars-horizontal span.hover { color:gold; text-shadow:0 0 8px gold; transform:scale(1.4) translateY(-5px); }
-#rating-value { margin-top:10px; font-size:1.2rem; transition:color 0.3s, text-shadow 0.3s, transform 0.3s; }
-.rating-container:hover #rating-value { transform:translateY(-3px); }
-
-/* Footer */
-footer { background:#061222; color:#888; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
-.footer-inner p { margin-bottom:5px; }
-.social-icons { margin-top:10px; }
-.social-icons a { margin:0 12px; display:inline-block; opacity:0.75; transition:opacity 0.3s ease; }
-.social-icons a:hover { opacity:1; }
-.social-icons img { width:28px; height:28px; filter:drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
-
-/* Cookie Banner */
-#cookie-banner { position:fixed; bottom:0; left:0; width:100%; background: rgba(0,0,0,0.85); color:#fff; text-align:center; padding:15px 10px; z-index:9999; font-size:0.95rem; }
+/* ======= Cookie Banner ======= */
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85);
+  color: #fff; text-align: center; padding: 15px 10px; z-index: 9999;
+  font-size: 0.95rem;
+}
 #cookie-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
-
-/* Responsive */
-@media(max-width:768px){.header-inner{flex-direction:column;text-align:center;gap:10px}.info-bar{flex-direction:column;gap:10px}.cta-buttons{flex-direction:column;align-items:center}.experience-badge{width:90%}.faq{width:90%}}
 </style>
 </head>
-
 <body>
 <header>
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
-    <img src="logo.png" alt="Logo" class="logo">
+    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
-  <div class="news-ticker" aria-live="polite">
+  <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
     <div class="news-text" id="live-news">تحميل الأخبار...</div>
   </div>
 </header>
@@ -103,30 +88,21 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
   <section class="info-bar">
     <div id="current-time">--:--:--</div>
     <div id="visit-count">عدد زياراتك: 0</div>
-    <button id="toggle-lang-btn">تبديل اللغة</button>
+    <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
   <section class="cta-buttons">
-    <a href="download">تحميل البرامج  📥</a>
+    <a href="download" class="btn-download">تحميل البرامج  📥</a>
     <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank">واتساب  📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank">موقعنا على مابس  📍</a>
-    <a href="photos.html">شاهد الصور  🖼️</a>
-    <a href="videos.html">شاهد الفيديو  🎥</a>
-    <a href="services.html">خدمات الورشة  🛠️</a>
-
-    <!-- Radio Button + Options -->
-    <div>
-      <button id="radio-btn" class="btn-radio">تشغيل/إيقاف الراديو  📻</button>
-      <select id="radio-options" style="margin-top:8px; padding:6px 10px; border-radius:6px; border:none; font-weight:bold; cursor:pointer;">
-        <option value="https://stream.radiojar.com/8s5u5tpdtwzuv">محطة 1 - RadioJar</option>
-        <option value="https://stream.live.vc.bbcmedia.co.uk/bbc_radio_one">محطة 2 - BBC Radio 1</option>
-        <option value="https://stream.live.vc.bbcmedia.co.uk/bbc_radio_two">محطة 3 - BBC Radio 2</option>
-      </select>
-      <audio id="radio-stream" preload="none"></audio>
-      <div class="equalizer" id="equalizer">
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-      </div>
+    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
+    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
+    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
+    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
+    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+    <div class="equalizer" id="equalizer" aria-hidden="true">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
   </section>
 
@@ -158,100 +134,63 @@ footer { background:#061222; color:#888; padding:25px 0; text-align:center; font
     <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
     <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
     <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank"><img src="icons/facebook.svg" alt="Facebook" /></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank"><img src="icons/instagram.svg" alt="Instagram" /></a>
-      <a href="https://wa.me/21698192103" target="_blank"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
+      <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook" /></a>
+      <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram" /></a>
+      <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
     </div>
   </div>
 </footer>
 
+<!-- ======= Cookie Banner ======= -->
 <div id="cookie-banner" style="display:none;">
   نستخدم الكوكيز لتحسين تجربتك. <button id="accept-cookies">أوافق</button>
 </div>
 
+<script src="app.js" defer></script>
 <script>
-// ===== Site Text Change =====
-const siteName = document.getElementById('site-name');
-const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
-setInterval(() => {
-  const i = Math.floor(Math.random()*texts.length);
-  siteName.textContent = texts[i];
-  siteName.style.color='#ff6b35';
-  siteName.style.textShadow='0 0 10px #ff6b35';
-  siteName.style.transform='scale(1.2)';
-  setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
-},4000);
+// نص الموقع يتغير تلقائياً + تقييم النجوم + PCB Header
+document.addEventListener('DOMContentLoaded', () => {
+  // ======= نص الموقع =======
+  const siteName = document.getElementById('site-name');
+  const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
+  setInterval(() => {
+    const randomIndex = Math.floor(Math.random()*texts.length);
+    siteName.textContent = texts[randomIndex];
+    siteName.style.color='#ff6b35';
+    siteName.style.textShadow='0 0 10px #ff6b35';
+    siteName.style.transform='scale(1.2)';
+    setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
+  },4000);
 
-// ===== Rating Stars =====
-const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
-const ratingValueHorizontal = document.getElementById('rating-value');
-let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
-function updateStars(r){
-  starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=r) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=r?'★':'☆'; });
-  ratingValueHorizontal.textContent=`${r}/5`;
-  ratingValueHorizontal.style.color=r>0?'gold':'#fff';
-  ratingValueHorizontal.style.textShadow=r>0?'0 0 8px gold':'none';
-}
-updateStars(selectedRatingHorizontal);
-starsHorizontal.forEach(star=>{
-  const val=Number(star.dataset.value);
-  star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
-  star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
-  star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
-});
-
-// ===== FAQ Toggle =====
-document.querySelectorAll('.faq-item h3').forEach(h3=>{ h3.addEventListener('click',()=>{ h3.parentElement.classList.toggle('active'); }); });
-
-// ===== Cookie Banner =====
-const cookieBanner = document.getElementById('cookie-banner');
-if(!localStorage.getItem('cookiesAccepted')) cookieBanner.style.display='block';
-document.getElementById('accept-cookies').addEventListener('click',()=>{ localStorage.setItem('cookiesAccepted','true'); cookieBanner.style.display='none'; });
-
-// ===== Radio Button + Options + Equalizer =====
-const radioBtn = document.getElementById('radio-btn');
-const radioStream = document.getElementById('radio-stream');
-const equalizer = document.getElementById('equalizer');
-const radioOptions = document.getElementById('radio-options');
-
-radioBtn.addEventListener('click', () => {
-  radioStream.src = radioOptions.value;
-  if (radioStream.paused) {
-    radioStream.play();
-    radioBtn.classList.add('playing');
-    startDancing();
-  } else {
-    radioStream.pause();
-    radioBtn.classList.remove('playing');
-    stopDancing();
+  // ======= تقييم النجوم =======
+  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
+  const ratingValueHorizontal = document.getElementById('rating-value');
+  let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
+  function updateStars(rating){
+    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
+    ratingValueHorizontal.textContent = `${rating}/5`;
+    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
+    ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
   }
+  updateStars(selectedRatingHorizontal);
+  starsHorizontal.forEach(star=>{
+    const val = Number(star.dataset.value);
+    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
+    star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
+    star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
+  });
+
+  // ======= Cookie Banner =======
+  const cookieBanner = document.getElementById('cookie-banner');
+  const accepted = localStorage.getItem('cookiesAccepted');
+  if(!accepted) cookieBanner.style.display='block';
+  document.getElementById('accept-cookies').addEventListener('click',()=>{
+    localStorage.setItem('cookiesAccepted','true');
+    cookieBanner.style.display='none';
+  });
 });
 
-let danceInterval;
-function startDancing() {
-  if(danceInterval) clearInterval(danceInterval);
-  danceInterval = setInterval(() => {
-    const bars = equalizer.querySelectorAll('.bar');
-    bars.forEach(bar => {
-      const height = Math.random() * 30 + 5;
-      bar.style.height = height + 'px';
-      bar.style.backgroundColor = `hsl(${Math.random()*360},80%,60%)`;
-    });
-  }, 150);
-}
-function stopDancing() {
-  if(danceInterval) clearInterval(danceInterval);
-  const bars = equalizer.querySelectorAll('.bar');
-  bars.forEach(bar => bar.style.height='5px');
-}
-
-// ===== Clock + Visits =====
-setInterval(()=> { const now = new Date(); document.getElementById('current-time').textContent = now.toLocaleTimeString(); }, 1000);
-const visitCount = localStorage.getItem('visitCount') || 0;
-localStorage.setItem('visitCount', Number(visitCount)+1);
-document.getElementById('visit-count').textContent = 'عدد زياراتك: '+(Number(visitCount)+1);
-
-// ===== PCB Header Animation =====
+// ======= PCB Animated Header =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
 function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
@@ -264,6 +203,5 @@ window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
 function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
 animatePCB();
 </script>
-
 </body>
 </html>

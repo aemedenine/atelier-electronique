@@ -32,7 +32,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 .faq { max-width:800px; margin:0 auto 60px auto; }
 .faq h2 { color:#007bff; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:25px; }
 .faq-item { background:#0a1e3d; margin-bottom:12px; border-radius:8px; padding:15px 20px; cursor:pointer; transition:background-color 0.3s ease; box-shadow:0 2px 8px rgba(0,0,0,0.6); }
-.faq-item:hover { background:#13325b; }
+.faq-item:hover { background:#ebeff5; }
 .faq-item h3 { font-weight:700; position:relative; color:#1e90ff; margin-bottom:6px; }
 .faq-item h3::after { content:"+"; position:absolute; left:20px; top:0; font-size:1.6rem; font-weight:700; color:#ff6b35; transition:transform 0.3s ease; }
 .faq-item.open h3::after { content:"-"; transform:rotate(180deg); }

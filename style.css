@@ -8,14 +8,14 @@ header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6
 header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 
 /* News ticker */
-.news-ticker { width:100%; overflow:hidden; background:#ff6b35; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; }
+.news-ticker { width:100%; overflow:hidden; background:#007bff; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; }
 .news-text { display:inline-block; padding:0 12px; min-height:1.2em; transition:opacity 0.4s ease; opacity:1; }
 .news-text.fade { animation:fade 0.45s linear; }
 @keyframes fade { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
 /* Info bar */
 .info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#aaa; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
-#toggle-lang-btn { background:#ff6b35; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
+#toggle-lang-btn { background:#007bff; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
 #toggle-lang-btn:hover { background:#d9533f; }
 
 /* CTA Buttons */

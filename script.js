@@ -7,7 +7,7 @@
 <style>
   body {
     font-family:'Montserrat','Open Sans',sans-serif;
-    background: linear-gradient(135deg,#e9eef2,#122f4a);
+    background: linear-gradient(135deg,#0b1a27,#b1c8de);
     color: #eee;
     margin:0;
     padding:0;

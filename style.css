@@ -1,6 +1,6 @@
 /* Reset */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; direction:rtl; text-align:right; line-height:1.6; font-size:16px; }
+body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0a1e3d,#122f4a); color:#eee; direction:rtl; text-align:right; line-height:1.6; font-size:16px; }
 .container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
 header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; }
 .header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }

@@ -246,3 +246,85 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Firebase init skipped or failed:', e);
   }
 });
+/* =====================================================
+   PCB WEATHER ANIMATION + LIVE WEATHER
+===================================================== */
+
+(() => {
+  const canvas = document.getElementById('pcbWeatherCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* -------- PCB PARTICLES -------- */
+  const nodes = Array.from({ length: 60 }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4
+  }));
+
+  let weatherMode = 'clear';
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
+
+      if (weatherMode === 'rain') ctx.fillStyle = 'rgba(0,180,255,0.9)';
+      else if (weatherMode === 'storm') ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      else ctx.fillStyle = 'rgba(255,200,0,0.9)';
+
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* -------- WEATHER API -------- */
+  const API_KEY = "PUT_YOUR_OPENWEATHER_KEY";
+
+  function applyWeather(data) {
+    document.getElementById('weather-city').textContent = data.name;
+    document.getElementById('weather-temp').textContent = Math.round(data.main.temp) + '°';
+    document.getElementById('weather-desc').textContent = data.weather[0].description;
+
+    const main = data.weather[0].main.toLowerCase();
+    if (main.includes('rain')) weatherMode = 'rain';
+    else if (main.includes('storm') || main.includes('thunder')) weatherMode = 'storm';
+    else weatherMode = 'clear';
+  }
+
+  function fetchWeather(lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=fr&appid=${API_KEY}`)
+      .then(r => r.json())
+      .then(applyWeather)
+      .catch(() => {
+        document.getElementById('weather-desc').textContent = 'Weather unavailable';
+      });
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+      () => fetchWeather(36.8, 10.18) // fallback تونس
+    );
+  }
+})();

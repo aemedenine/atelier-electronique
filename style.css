@@ -50,30 +50,17 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 .faq-item.open .answer { display:block; }
 
 /* ===== Fikra 3 : Electronic PCB background وراء اللوجو ===== */
-.logo-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,255,255,0.15) 0,
-      rgba(0,255,255,0.15) 1px,
-      transparent 1px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255,107,53,0.12) 0,
-      rgba(255,107,53,0.12) 1px,
-      transparent 1px,
-      transparent 10px
-    );
-  opacity: 0.6;
-  animation: pcbMove 12s linear infinite;
-  z-index: -2;
+header {
+  position: relative;
+  overflow: hidden;
 }
+
+#pcbCanvasHeader {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 
 /* حركة خفيفة متاع المسارات */
 @keyframes pcbMove {

@@ -24,7 +24,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 
 
 /* Info bar */
-.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#aaa; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
+.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#faf8f7; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
 #toggle-lang-btn { background:#0a1e3d; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
 #toggle-lang-btn:hover { background:#e0a800; }
 

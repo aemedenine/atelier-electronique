@@ -203,17 +203,92 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ======= PCB Animated Header =======
+// ======= PCB Animated Header (FULL WIDTH FIXED) =======
 const canvas = document.getElementById('pcbCanvasHeader');
 const ctx = canvas.getContext('2d');
-function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
-window.addEventListener('resize',resizeCanvas);
+const dpr = window.devicePixelRatio || 1;
+
+function resizeCanvas() {
+  const h = canvas.parentElement.offsetHeight;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = h + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
-const traces=[];
-for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
-let mouseX=-1000,mouseY=-1000;
-window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
+
+const traces = [];
+const TRACE_COUNT = 50;
+
+for (let i = 0; i < TRACE_COUNT; i++) {
+  const length = 50 + Math.random() * 150;
+  const trace = {
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * canvas.height,
+    length,
+    speed: 0.5 + Math.random() * 1.5,
+    color: 'rgba(0,255,255,0.5)',
+    particles: []
+  };
+
+  for (let j = 0; j < 5; j++) {
+    trace.particles.push({
+      offset: Math.random() * length,
+      speed: 1 + Math.random() * 2,
+      size: 2 + Math.random() * 2
+    });
+  }
+  traces.push(trace);
+}
+
+let mouseX = -1000, mouseY = -1000;
+window.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function animatePCB() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  traces.forEach(t => {
+    const dx = t.x + t.length / 2 - mouseX;
+    const dy = t.y - mouseY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const speedMultiplier = dist < 200 ? 3 : 1;
+
+    // Trace
+    ctx.beginPath();
+    ctx.moveTo(t.x, t.y);
+    ctx.lineTo(t.x + t.length, t.y);
+    ctx.strokeStyle = t.color;
+    ctx.lineWidth = 2;
+    ctx.shadowColor = '#0ff';
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+
+    // Particles
+    t.particles.forEach(p => {
+      const px = t.x + p.offset;
+      ctx.beginPath();
+      ctx.arc(px, t.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = '#0ff';
+      ctx.fill();
+
+      p.offset += p.speed * speedMultiplier;
+      if (p.offset > t.length) p.offset = 0;
+    });
+
+    t.x += t.speed * speedMultiplier;
+    if (t.x > window.innerWidth) t.x = -t.length;
+  });
+
+  requestAnimationFrame(animatePCB);
+}
+
 animatePCB();
+
 
 // ======= Radio Button Dance Script =======
 const radioBtn = document.getElementById('radio-btn');

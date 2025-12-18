@@ -6,7 +6,7 @@ header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6
 .header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
 .logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; }
 header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
-
+ 
 /* News ticker */
 .news-ticker {
   width: 100%;

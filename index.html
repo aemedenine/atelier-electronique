@@ -206,14 +206,35 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
 
-  // ======= Weather Script =======
-  fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("weather-temp").textContent = data.current_weather.temperature + "°C";
-    document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + data.current_weather.windspeed + " كم/س";
-  })
-  .catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
+  // ======= Weather Script مع دعم تبديل اللغة =======
+  let currentLanguage = 'ar'; // اللغة الافتراضية
+  function updateWeather(language) {
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
+    .then(res => res.json())
+    .then(data => {
+      const temp = data.current_weather.temperature + "°C";
+      const wind = data.current_weather.windspeed + (language==='fr' ? " km/h" : " كم/س");
+      document.getElementById("weather-temp").textContent = temp;
+
+      if(language === 'ar') {
+        document.querySelector(".weather-box h3").textContent = "🌦️ حالة الطقس في مدنين";
+        document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
+      } else if(language === 'fr') {
+        document.querySelector(".weather-box h3").textContent = "🌦️ Météo à Médenine";
+        document.getElementById("weather-desc").textContent = "🌬️ Vitesse du vent: " + wind;
+      }
+    })
+    .catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
+  }
+
+  // عند تبديل اللغة
+  document.getElementById('toggle-lang-btn').addEventListener('click', () => {
+    currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
+    updateWeather(currentLanguage);
+  });
+
+  // استدعاء أول مرة
+  updateWeather(currentLanguage);
 
   // ======= تقييم النجوم =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');

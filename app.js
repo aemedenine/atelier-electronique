@@ -1,88 +1,248 @@
-/* Reset */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; direction:rtl; text-align:right; line-height:1.6; font-size:16px; }
-.container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
-header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; }
-.header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
-.logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; }
-header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
+// app.js
+// All client logic: UI, language toggle, news, time, visits, radio, equalizer, FAQ
+document.addEventListener('DOMContentLoaded', () => {
+  // language initial based on html lang attribute
+  let currentLang = document.documentElement.lang && document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
 
-/* News ticker */
-.news-ticker { width:100%; overflow:hidden; background:#ff6b35; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; }
-.news-text { display:inline-block; padding:0 12px; min-height:1.2em; transition:opacity 0.4s ease; opacity:1; }
-.news-text.fade { animation:fade 0.45s linear; }
-@keyframes fade { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  // Elements
+  const ticker = document.getElementById('live-news');
+  const toggleBtn = document.getElementById('toggle-lang-btn');
+  const visitEl = document.getElementById('visit-count');
+  const timeEl = document.getElementById('current-time');
+  const faqContainer = document.querySelector('.faq');
+  const radio = document.getElementById('radio-stream');
+  const radioBtn = document.getElementById('radio-btn');
+  const equalizer = document.getElementById('equalizer');
 
-/* Info bar */
-.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#aaa; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
-#toggle-lang-btn { background:#ff6b35; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
-#toggle-lang-btn:hover { background:#d9533f; }
+  /* -------------------- Time -------------------- */
+  function updateTime() {
+    const now = new Date();
+    const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+    const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+    const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-/* CTA Buttons */
-.cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
-.cta-buttons a, .cta-buttons button { background:#1e90ff; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
-.cta-buttons a:hover, .cta-buttons button:hover { background:#0c5ea8; transform:translateY(-2px); }
-.btn-store { background:#007bff !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
-.btn-store:hover { background:#e0a800 !important; }
+    let day, month;
+    if(currentLang === 'ar'){
+      day = daysAr[now.getDay()];
+      month = monthsAr[now.getMonth()];
+    } else {
+      day = daysFr[now.getDay()];
+      month = monthsFr[now.getMonth()];
+    }
 
-/* Experience badge */
-.experience-badge { background:#007bff; color:white; font-weight:700; text-align:center; padding:12px 0; border-radius:50px; font-size:1.2rem; width:250px; margin:0 auto 40px auto; box-shadow:0 0 15px #007bff; }
+    const date = now.getDate();
+    const hours = now.getHours().toString().padStart(2,'0');
+    const minutes = now.getMinutes().toString().padStart(2,'0');
+    const seconds = now.getSeconds().toString().padStart(2,'0');
 
-/* FAQ */
-.faq { max-width:800px; margin:0 auto 60px auto; }
-.faq h2 { color:#007bff; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:25px; }
-.faq-item { background:#0a1e3d; margin-bottom:12px; border-radius:8px; padding:15px 20px; cursor:pointer; transition:background-color 0.3s ease; box-shadow:0 2px 8px rgba(0,0,0,0.6); }
-.faq-item:hover { background:#13325b; }
-.faq-item h3 { font-weight:700; position:relative; color:#1e90ff; margin-bottom:6px; }
-.faq-item h3::after { content:"+"; position:absolute; left:20px; top:0; font-size:1.6rem; font-weight:700; color:#ff6b35; transition:transform 0.3s ease; }
-.faq-item.open h3::after { content:"-"; transform:rotate(180deg); }
-.answer { margin-top:12px; font-weight:400; color:#ddd; display:none; line-height:1.5; }
-.faq-item.open .answer { display:block; }
+    const timeStr = `${hours}:${minutes}:${seconds}`;
+    const dateStr = currentLang === 'ar' 
+      ? `${day}، ${date} ${month}` 
+      : `${day}, ${date} ${month}`;
 
-/* Equalizer */
-.equalizer { display:flex; justify-content:center; gap:6px; margin-top:20px; height:40px; align-items:flex-end; transition:opacity 0.3s ease; }
-.equalizer .bar { width:6px; background:#1e90ff; border-radius:3px; animation:bounce 1s infinite ease-in-out; height:8px; }
-.equalizer .bar:nth-child(1){animation-delay:0s;} .equalizer .bar:nth-child(2){animation-delay:0.1s;} .equalizer .bar:nth-child(3){animation-delay:0.2s;} .equalizer .bar:nth-child(4){animation-delay:0.3s;} .equalizer .bar:nth-child(5){animation-delay:0.4s;}
-@keyframes bounce{0%,100%{height:8px;}50%{height:36px;}}
-/* ===== Fikra 3 : Electronic PCB background وراء اللوجو ===== */
-.logo-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,255,255,0.15) 0,
-      rgba(0,255,255,0.15) 1px,
-      transparent 1px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255,107,53,0.12) 0,
-      rgba(255,107,53,0.12) 1px,
-      transparent 1px,
-      transparent 10px
-    );
-  opacity: 0.6;
-  animation: pcbMove 12s linear infinite;
-  z-index: -2;
-}
+    timeEl.textContent = `${dateStr} - ${timeStr}`;
+  }
 
-/* حركة خفيفة متاع المسارات */
-@keyframes pcbMove {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+  /* -------------------- Visits -------------------- */
+  function updateVisits() {
+    const key = 'aem-visit-count';
+    let count = parseInt(localStorage.getItem(key)) || 0;
+    count++;
+    localStorage.setItem(key, count);
+    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
+  }
 
-/* Footer */
-footer { background:#061222; color:#888; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
-.footer-inner p { margin-bottom:5px; }
-.social-icons { margin-top:10px; }
-.social-icons a { margin:0 12px; display:inline-block; opacity:0.75; transition:opacity 0.3s ease; }
-.social-icons a:hover { opacity:1; }
-.social-icons img { width:28px; height:28px; filter:drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
+  /* -------------------- News rotation -------------------- */
+  const newsAr = [
+    "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+    "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+    "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+    "📱 تواصل معنا عبر واتساب لأي استفسار."
+  ];
 
-/* Responsive */
-@media(max-width:768px){.header-inner{flex-direction:column;text-align:center;gap:10px}.info-bar{flex-direction:column;gap:10px}.cta-buttons{flex-direction:column;align-items:center}.experience-badge{width:90%}.faq{width:90%}}
+  const newsFr = [
+    "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
+    "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
+    "🌍 Livraison par courrier disponible dans toute la Tunisie.",
+    "📱 Contactez-nous via WhatsApp pour toute question."
+  ];
+
+  let newsIndex = 0;
+  let newsInterval = null;
+
+  function updateNews() {
+    const news = currentLang === 'ar' ? newsAr : newsFr;
+    // show next with fade animation class
+    ticker.classList.remove('fade');
+    void ticker.offsetWidth; // force reflow to restart animation
+    ticker.textContent = news[newsIndex];
+    ticker.classList.add('fade');
+
+    newsIndex = (newsIndex + 1) % news.length;
+  }
+
+  function startNewsRotation() {
+    if (newsInterval) clearInterval(newsInterval);
+    updateNews();
+    newsInterval = setInterval(updateNews, 5000);
+  }
+
+  /* -------------------- FAQ -------------------- */
+  function initFAQ() {
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('open');
+      });
+    });
+  }
+
+  /* -------------------- Equalizer visibility -------------------- */
+  function updateEqualizerVisibility() {
+    if (!equalizer) return;
+    if (radio.paused) {
+      equalizer.style.opacity = '0.25';
+      equalizer.style.pointerEvents = 'none';
+    } else {
+      equalizer.style.opacity = '1';
+      equalizer.style.pointerEvents = 'auto';
+    }
+  }
+
+  /* -------------------- Radio controls -------------------- */
+  radioBtn.addEventListener('click', () => {
+    if (radio.paused) {
+      radio.play().catch(e => {
+        // autoplay may be blocked by browser; inform user
+        console.warn('Radio play failed:', e);
+      });
+      radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
+    } else {
+      radio.pause();
+      radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
+    }
+    updateEqualizerVisibility();
+  });
+
+  radio.addEventListener('play', updateEqualizerVisibility);
+  radio.addEventListener('pause', updateEqualizerVisibility);
+
+  /* -------------------- Language toggle -------------------- */
+  function setLanguage(lang) {
+    currentLang = lang;
+    if (lang === 'ar') {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+      document.querySelector('.experience-badge').textContent = 'أكثر من 10 سنوات خبرة';
+      toggleBtn.textContent = 'تبديل اللغة';   
+    document.querySelector('.btn-download').textContent = 'تحميل البرامج  📥';
+      document.querySelector('.btn-store').textContent = ' َسوّق الآن  🛒';
+      document.querySelector('.btn-whatsapp').textContent = 'واتساب  📱';
+      document.querySelector('.btn-maps').textContent = 'موقعنا على مابس  📍';
+      document.querySelector('.btn-gallery').textContent = 'شاهد الصور  🖼️';
+      document.querySelector('.btn-video').textContent = 'شاهد الفيديو  🎥';
+      document.querySelector('.btn-services').textContent = 'خدمات الورشة  🛠️';
+      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو  📻';
+
+      // rebuild FAQ in Arabic (keeps markup consistent)
+      faqContainer.innerHTML = `
+        <h2>الأسئلة الشائعة</h2>
+        <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
+        <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
+        <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
+        <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
+      `;
+    } else {
+      document.documentElement.lang = 'fr';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+      document.querySelector('.experience-badge').textContent = 'Plus de 10 ans d\'expérience';
+      toggleBtn.textContent = 'Changer la langue';
+      document.querySelector('.btn-download').textContent = 'download  📥';
+      document.querySelector('.btn-store').textContent = 'store  🛒';
+      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp  📱';
+      document.querySelector('.btn-maps').textContent = 'Google Maps  📍';
+      document.querySelector('.btn-gallery').textContent = 'Voir les photos  🖼️';
+      document.querySelector('.btn-video').textContent = 'Voir les vidéos  🎥';
+      document.querySelector('.btn-services').textContent = 'Services  🛠️';
+      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio  📻';
+
+      faqContainer.innerHTML = `<h2>FAQ</h2>
+        <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
+        <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
+        <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
+        <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>`;
+    }
+
+    // restart related features
+    startNewsRotation();
+    updateTime();
+    updateVisits();
+    initFAQ();
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
+  });
+
+  /* -------------------- Initialization -------------------- */
+  // periodic time update
+  setInterval(updateTime, 1000);
+
+  // initial calls
+  updateTime();
+  updateVisits();
+  startNewsRotation();
+  initFAQ();
+  updateEqualizerVisibility();
+
+  /* -------------------- Firebase (reactions/comments) -------------------- */
+  // If you use Firebase features, keep these credentials as you provided.
+  // NOTE: these keys are visible in client code by design (Firebase config).
+  // If you don't use Firebase, you can remove this block.
+  try {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5Hrfk6tU22ITquRR3xt957WmlnvPTw5M",
+      authDomain: "aem-site-4e030.firebaseapp.com",
+      projectId: "aem-site-4e030",
+      storageBucket: "aem-site-4e030.firebasestorage.app",
+      messagingSenderId: "241838556898",
+      appId: "1:241838556898:web:9eb591e3d05405894800bb",
+      measurementId: "G-DTNBCK5H1F"
+    };
+
+    // initialize compat SDK (we included compat scripts in HTML)
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Example: attach listeners to reaction & comment buttons (if present)
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const reaction = btn.dataset.reaction;
+        const mediaId = btn.closest('.reactions')?.dataset.id;
+        if (!mediaId) return;
+        db.collection("reactions").add({ mediaId, reaction, timestamp: new Date() });
+      });
+    });
+
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parent = btn.closest('.reactions');
+        if (!parent) return;
+        const commentInput = parent.querySelector('.comment-input');
+        const mediaId = parent.dataset.id;
+        const comment = commentInput?.value.trim();
+        if (comment) {
+          db.collection("comments").add({ mediaId, comment, timestamp: new Date() });
+          if (commentInput) commentInput.value = '';
+        }
+      });
+    });
+
+  } catch (e) {
+    // if Firebase scripts not loaded or config invalid, don't break the UI
+    console.warn('Firebase init skipped or failed:', e);
+  }
+});

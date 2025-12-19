@@ -42,7 +42,6 @@
 #pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
 .header-inner img, .header-inner h1 { position: relative; z-index: 10; }
 
-
 /* نص الخبرة بدون مستطيل */
 .experience-badge {
   display: block;
@@ -113,7 +112,7 @@
     <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
     <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
     <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
-    <audio id="radio-stream" src="https://stream.radiozitouna.tn/radio/8030/radio.mp3" preload="none"></audio>
+    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
     <div class="equalizer" id="equalizer" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
@@ -165,7 +164,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ======= نص الموقع =======
   const siteName = document.getElementById('site-name');
-  const texts = ["Atelier Electronique Médenine", " الإلكترونيك الرحمـاني"];
+  const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
     const randomIndex = Math.floor(Math.random()*texts.length);
     siteName.textContent = texts[randomIndex];
@@ -215,41 +214,6 @@ let mouseX=-1000,mouseY=-1000;
 window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
 function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
 animatePCB();
-
-
-
-
-    // Trace
-    ctx.beginPath();
-    ctx.moveTo(t.x, t.y);
-    ctx.lineTo(t.x + t.length, t.y);
-    ctx.strokeStyle = t.color;
-    ctx.lineWidth = 2;
-    ctx.shadowColor = '#0ff';
-    ctx.shadowBlur = 10;
-    ctx.stroke();
-
-    // Particles
-    t.particles.forEach(p => {
-      const px = t.x + p.offset;
-      ctx.beginPath();
-      ctx.arc(px, t.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = '#0ff';
-      ctx.fill();
-
-      p.offset += p.speed * speedMultiplier;
-      if (p.offset > t.length) p.offset = 0;
-    });
-
-    t.x += t.speed * speedMultiplier;
-    if (t.x > window.innerWidth) t.x = -t.length;
-  });
-
-  requestAnimationFrame(animatePCB);
-}
-
-animatePCB();
-
 
 // ======= Radio Button Dance Script =======
 const radioBtn = document.getElementById('radio-btn');

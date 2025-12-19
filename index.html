@@ -191,6 +191,19 @@ document.addEventListener('DOMContentLoaded', () => {
     star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
     star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
   });
+<!-- Weather Widget -->
+<div class="weather-box" id="weather">
+  <div class="weather-main">
+    <span class="city">📍 Médenine</span>
+    <span class="temp" id="temp">--°C</span>
+  </div>
+
+  <div class="weather-desc" id="desc">تحميل حالة الطقس...</div>
+
+  <div class="rain-status" id="rain">
+    🌧️ هل تنجّم تجينا ؟ ...
+  </div>
+</div>
 
   // ======= Cookie Banner =======
   const cookieBanner = document.getElementById('cookie-banner');

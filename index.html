@@ -1,33 +1,101 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atelier Electronique Médenine</title>
 
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css" />
 
 <style>
-.weather-box{
-  max-width:420px;
-  margin:20px auto 35px;
-  padding:18px 22px;
-  background:linear-gradient(135deg,#0a1e3d,#123b6d);
-  color:#fff;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25)
+/* ======= Glow متحرك للأزرار ======= */
+.cta-buttons a,
+.cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
-.weather-main{display:flex;justify-content:space-between;align-items:center}
-.weather-main .temp{font-size:2.2rem;font-weight:700}
-.weather-desc{margin-top:8px;opacity:.85}
-.rain-status{
-  margin-top:12px;
-  padding:12px;
-  background:rgba(255,255,255,.15);
-  border-radius:10px;
-  font-weight:800;
-  text-align:center
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
+
+/* نص الموقع يتغير تلقائياً */
+.header-inner h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
+
+/* ======= Weather Box ======= */
+.weather-box {
+  margin: 40px auto 10px;
+  padding: 20px;
+  max-width: 420px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
+}
+.weather-box h3 {
+  margin-bottom: 10px;
+  color: #0ff;
+}
+.weather-temp {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.weather-desc {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* تقييم النجوم */
+.rating-container { margin: 20px auto 40px; text-align: center; color: #fff; }
+.stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
+.stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
+.stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
+#rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
+.rating-container:hover #rating-value { transform: translateY(-3px); }
+
+/* PCB Animated Header */
+.header-inner { position: relative; overflow: hidden; }
+#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
+.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
+
+/* نص الخبرة */
+.experience-badge {
+  display: block;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: yellow;
+  margin: 30px auto;
+  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
+}
+@keyframes glowExperience {
+  0% { color: yellow; text-shadow: 0 0 5px yellow; }
+  50% { color: cyan; text-shadow: 0 0 10px cyan; }
+  100% { color: yellow; text-shadow: 0 0 15px yellow; }
+}
+@keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+
+/* Cookie */
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  background: rgba(0,0,0,0.85);
+  color: #fff; text-align: center; padding: 15px;
+  z-index: 9999;
+}
+#cookie-banner button {
+  background:#ff6b35; border:none; color:#fff;
+  padding:8px 15px; margin-left:10px;
+  cursor:pointer; border-radius:5px;
 }
 </style>
 </head>
@@ -37,117 +105,88 @@
 <header>
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
-    <img src="logo.png" class="logo">
+    <img src="logo.png" alt="Logo" class="logo" />
     <h1 id="site-name">Atelier Electronique Médenine</h1>
   </div>
-
   <div class="news-ticker">
-    <div class="news-text" id="live-news">تحميل الأخبار...</div>
+    <div class="news-text">مرحبا بكم في ورشة الإلكترونيك مدنين</div>
   </div>
 </header>
 
 <main class="container main-content">
 
-<section class="info-bar">
-  <div id="current-time">--:--:--</div>
-  <div id="visit-count">عدد زياراتك: 0</div>
-  <button id="toggle-lang-btn">تبديل اللغة</button>
-</section>
+  <section class="cta-buttons">
+    <a href="download" class="btn-download">تحميل البرامج 📥</a>
+    <a href="store.html" class="btn-store">تسوّق 🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp">واتساب 📱</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
+    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv"></audio>
+  </section>
 
-<section class="cta-buttons">
-  <a href="download">تحميل البرامج 📥</a>
-  <a href="store.html">تسوّق الآن 🛒</a>
-  <a href="https://wa.me/21698192103" target="_blank">واتساب 📱</a>
-  <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank">موقعنا 📍</a>
-  <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
-  <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv"></audio>
-  <div class="equalizer" id="equalizer">
-    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
+
+  <!-- ======= Weather Section ======= -->
+  <section class="weather-box">
+    <h3>🌦️ حالة الطقس في مدنين</h3>
+    <div class="weather-temp" id="weather-temp">--°C</div>
+    <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
+  </section>
+
+  <!-- ======= Rating ======= -->
+  <div class="rating-container">
+    <p>قيّم الورشة:</p>
+    <div class="stars-horizontal">
+      <span data-value="5">☆</span>
+      <span data-value="4">☆</span>
+      <span data-value="3">☆</span>
+      <span data-value="2">☆</span>
+      <span data-value="1">☆</span>
+    </div>
+    <p id="rating-value">0/5</p>
   </div>
-</section>
-
-<section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
-<section class="faq">
-  <h2>الأسئلة الشائعة</h2>
-  <div class="faq-item"><h3>كيف نرسل جهاز؟</h3><div class="answer">بريد أو واتساب</div></div>
-  <div class="faq-item"><h3>مدة التصليح؟</h3><div class="answer">غالباً أقل من 3 أيام</div></div>
-</section>
-
-<!-- ======= WEATHER ======= -->
-<div class="weather-box" id="weather">
-  <div class="weather-main">
-    <span>📍 مدنين</span>
-    <span class="temp" id="temp">--°C</span>
-  </div>
-  <div class="weather-desc" id="desc">تحميل حالة الطقس...</div>
-  <div class="rain-status" id="rain">🌧️ هل تنجّم تجينا شتا؟ ...</div>
-</div>
-
-<!-- ======= RATING ======= -->
-<div class="rating-container">
-  <p>قيّم الورشة:</p>
-  <div class="stars-horizontal">
-    <span data-value="5">☆</span>
-    <span data-value="4">☆</span>
-    <span data-value="3">☆</span>
-    <span data-value="2">☆</span>
-    <span data-value="1">☆</span>
-  </div>
-  <p id="rating-value">0/5</p>
-</div>
 
 </main>
 
 <footer>
-  <div class="container footer-inner">
-    <p>📍 مدنين – نخدمو كامل تونس</p>
-  </div>
+  <p>📍 مدنين – نخدمو كامل تونس | 📲 98192103</p>
 </footer>
 
-<div id="cookie-banner" style="display:none">
+<div id="cookie-banner" style="display:none;">
   نستخدم الكوكيز <button id="accept-cookies">أوافق</button>
 </div>
 
 <script>
-// ===== TEXT EFFECT =====
-const siteName=document.getElementById("site-name");
-const texts=["Atelier Electronique Médenine","ورشة الإلكترونيك مدنين"];
-setInterval(()=>{
-  siteName.textContent=texts[Math.floor(Math.random()*texts.length)];
-},4000);
-
-// ===== RATING =====
-const stars=document.querySelectorAll(".stars-horizontal span");
-const ratingValue=document.getElementById("rating-value");
-let rating=localStorage.getItem("rating")||0;
-function draw(r){
- stars.forEach(s=>{
-  s.textContent=Number(s.dataset.value)<=r?"★":"☆";
- });
- ratingValue.textContent=r+"/5";
-}
-draw(rating);
-stars.forEach(s=>{
- s.onclick=()=>{
-  rating=s.dataset.value;
-  localStorage.setItem("rating",rating);
-  draw(rating);
- };
+/* ======= Weather Script ======= */
+fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
+.then(res => res.json())
+.then(data => {
+  document.getElementById("weather-temp").textContent =
+    data.current_weather.temperature + "°C";
+  document.getElementById("weather-desc").textContent =
+    "🌬️ سرعة الرياح: " + data.current_weather.windspeed + " كم/س";
 });
 
-// ===== WEATHER =====
-const API_KEY="PUT_YOUR_API_KEY_HERE";
-fetch(`https://api.openweathermap.org/data/2.5/weather?q=Medenine,TN&units=metric&lang=ar&appid=${API_KEY}`)
-.then(r=>r.json())
-.then(d=>{
- document.getElementById("temp").textContent=Math.round(d.main.temp)+"°C";
- document.getElementById("desc").textContent="☁️ "+d.weather[0].description;
- const m=d.weather[0].main.toLowerCase();
- document.getElementById("rain").textContent=
- "🌧️ هل تنجّم تجينا شتا؟ "+(m.includes("rain")?"✅ نعم":"❌ لا");
-})
-.catch(()=>{document.getElementById("desc").textContent="⚠️ خطأ";});
+/* ======= Rating Script ======= */
+const stars = document.querySelectorAll(".stars-horizontal span");
+const ratingValue = document.getElementById("rating-value");
+let saved = localStorage.getItem("workshopRating") || 0;
+
+function update(r) {
+  stars.forEach(s => {
+    s.textContent = s.dataset.value <= r ? "★" : "☆";
+    s.classList.toggle("selected", s.dataset.value <= r);
+  });
+  ratingValue.textContent = r + "/5";
+}
+update(saved);
+
+stars.forEach(star => {
+  star.onclick = () => {
+    saved = star.dataset.value;
+    localStorage.setItem("workshopRating", saved);
+    update(saved);
+  };
+});
 </script>
 
 </body>

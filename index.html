@@ -289,29 +289,3 @@ function animatePCB() {
 
 animatePCB();
 
-
-// ======= Radio Button Dance Script =======
-const radioBtn = document.getElementById('radio-btn');
-let dancing = false;
-radioBtn.addEventListener('click', () => {
-  dancing = !dancing;
-  if(dancing) {
-    radioBtn.classList.add('dance'); // يبدأ الرقصة فوراً
-  } else {
-    radioBtn.classList.remove('dance'); // يتوقف الرقصة
-  }
-});
-</script>
-</body>
-</html>
-<audio id="radio" src="PUT_RADIO_STREAM_HERE" crossorigin="anonymous"></audio>
-
-<button id="radioBtn">▶ تشغيل الراديو</button>
-
-<div class="equalizer paused" id="equalizer">
-  <span class="bar"></span>
-  <span class="bar"></span>
-  <span class="bar"></span>
-  <span class="bar"></span>
-  <span class="bar"></span>
-</div>

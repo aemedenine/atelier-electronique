@@ -246,3 +246,46 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Firebase init skipped or failed:', e);
   }
 });
+<script>
+const audio = document.getElementById("radio");
+const btn = document.getElementById("radioBtn");
+const equalizer = document.getElementById("equalizer");
+const bars = document.querySelectorAll(".equalizer .bar");
+
+let audioCtx, analyser, source, dataArray;
+
+btn.addEventListener("click", async () => {
+  if (audio.paused) {
+    await audio.play();
+    btn.textContent = "⏸ إيقاف";
+    equalizer.classList.remove("paused");
+
+    if (!audioCtx) {
+      audioCtx = new AudioContext();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+
+      source = audioCtx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+      animateEQ();
+    }
+  } else {
+    audio.pause();
+    btn.textContent = "▶ تشغيل الراديو";
+    equalizer.classList.add("paused");
+  }
+});
+
+function animateEQ() {
+  requestAnimationFrame(animateEQ);
+  analyser.getByteFrequencyData(dataArray);
+
+  bars.forEach((bar, i) => {
+    const v = dataArray[i * 3] || 0;
+    bar.style.height = Math.max(8, v / 3) + "px";
+  });
+}
+</script>

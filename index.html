@@ -116,6 +116,44 @@
   border-radius:5px;
   font-weight:bold;
 }
+
+/* ======= Gallery / Services Today ======= */
+.services-today h2 {
+  text-align:center;
+  color:#0ff;
+  margin:30px 0;
+  font-size:1.8rem;
+  text-shadow:0 0 8px rgba(0,255,255,0.6);
+}
+.services-slider {
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:10px;
+  cursor:grab;
+}
+.services-slider::-webkit-scrollbar { display:none; }
+.service-card {
+  min-width:220px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(6px);
+  border-radius:15px;
+  padding:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+  flex-shrink:0;
+}
+.service-card img {
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:12px;
+}
+.service-card p {
+  margin-top:10px;
+  font-weight:bold;
+  color:#fff;
+  text-align:center;
+}
 </style>
 </head>
 <body>
@@ -180,6 +218,34 @@
     </div>
     <p id="rating-value">0/5</p>
   </div>
+
+  <!-- ======= Gallery / Services Today ======= -->
+  <section class="services-today">
+    <h2>خدمات اليوم</h2>
+    <div class="services-slider" id="servicesSlider">
+      <div class="service-card">
+        <img src="images/service1.jpg">
+        <p>تصليح لوحات إلكترونية</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service2.jpg">
+        <p>برمجة أجهزة</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service3.jpg">
+        <p>صيانة هواتف</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service4.jpg">
+        <p>تصليح شاشات</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service5.jpg">
+        <p>بيع قطع إلكترونية</p>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer>
@@ -221,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ======= باقي كود الموقع =======
-  // نص الموقع، الطقس، PCB Header، تقييم النجوم، الراديو
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -287,6 +352,14 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
   function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
   animatePCB();
+
+  // ======= Slider Drag =======
+  const slider = document.getElementById('servicesSlider');
+  let isDown = false, startX, scrollLeft;
+  slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('active'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
+  slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
+  slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
+  slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; });
 
   // ======= Radio Button Dance Script =======
   const radioBtn = document.getElementById('radio-btn');

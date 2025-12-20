@@ -154,7 +154,7 @@
   color:#fff;
   text-align:center;
 }
-     .site-signature {
+.site-signature {
   text-align: center;
   color: #aaa;
   font-size: 0.9rem;
@@ -267,13 +267,12 @@
     </div>
   </div>
 </footer>
-<!-- ======= Site Signature & Copyright ======= -->
+
 <div class="site-signature" style="text-align:center; color:#aaa; font-size:0.9rem; margin-top:10px; padding-bottom:10px;">
   &copy; 2025 Atelier Electronique Médenine. Tous droits réservés. <br>
   Signature: RAHMANI Soufien. CHATGPT Labiba
 </div>
 
-<!-- ======= CMP Banner 2 choix ======= -->
 <div id="cmp-banner">
   نستخدم الكوكيز لتحسين تجربتك. 
   <button id="consent-allow">أوافق</button>
@@ -299,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
     alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
   });
 
-  // ======= باقي كود الموقع =======
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", " إلكترونيك الرحمـاني"];
   setInterval(() => {
@@ -329,39 +327,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }).catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
   }
-const ratingTitle = document.getElementById('rating-title');
 
-function updateLanguageTexts(lang) {
-  // تقييم الورشة
-  if(lang === 'ar') {
-    ratingTitle.textContent = 'قيم الورشة:';
-  } else {
-    ratingTitle.textContent = 'Évaluez l’atelier :';
+  const ratingTitle = document.getElementById('rating-title');
+  function updateLanguageTexts(lang) {
+    ratingTitle.textContent = (lang==='ar') ? 'قيم الورشة:' : 'Évaluez l’atelier :';
   }
-}
 
-// عند تبديل اللغة
-document.getElementById('toggle-lang-btn').addEventListener('click', () => {
-  currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
-  updateWeather(currentLanguage);
-  updateLanguageTexts(currentLanguage);  // نحدّث العنوان
-});
-
-// أول مرة عند تحميل الصفحة
-updateLanguageTexts(currentLanguage);
-
-  // ======= Toggle Language =======
+  // Toggle Language
   document.getElementById('toggle-lang-btn').addEventListener('click', () => {
     currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
     updateWeather(currentLanguage);
+    updateLanguageTexts(currentLanguage);
     updateServiceCaptions(currentLanguage);
   });
+
+  updateLanguageTexts(currentLanguage);
   updateWeather(currentLanguage);
 
   // ======= Rating =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
+
   function updateStars(rating){
     starsHorizontal.forEach(star=>{
       star.classList.remove('selected'); 
@@ -373,6 +360,7 @@ updateLanguageTexts(currentLanguage);
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
   }
   updateStars(selectedRatingHorizontal);
+
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
     star.addEventListener('mouseover',()=>{
@@ -437,37 +425,36 @@ updateLanguageTexts(currentLanguage);
     if(dancing) { radioBtn.classList.add('dance'); } else { radioBtn.classList.remove('dance'); }
   });
 
-// ======= Service Captions Translations + Section Title =======
-const serviceTranslations = {
-  ar: {
-    title: "خدمات اليوم",
-    captions: [
-      "تصليح لوحات إلكترونية",
-      "تصليح كارت جهاز المشي",
-      "تصليح كارت ماكينة غسيل",
-      "تصليح كارت تلفاز",
-      "تصليح كارت غسالة ل-ج"
-    ]
-  },
-  fr: {
-    title: "Services du jour",
-    captions: [
-      "réparation de cartes électroniques",
-      "réparation carte tapis roulant",
-      "réparation carte lave-linge",
-      "réparation carte television",
-      "réparation carte lave-linge LG"
-    ]
+  // ======= Service Captions Translations + Section Title =======
+  const serviceTranslations = {
+    ar: {
+      title: "خدمات اليوم",
+      captions: [
+        "تصليح لوحات إلكترونية",
+        "تصليح كارت جهاز المشي",
+        "تصليح كارت ماكينة غسيل",
+        "تصليح كارت تلفاز",
+        "تصليح كارت غسالة ل-ج"
+      ]
+    },
+    fr: {
+      title: "Services du jour",
+      captions: [
+        "réparation de cartes électroniques",
+        "réparation carte tapis roulant",
+        "réparation carte lave-linge",
+        "réparation carte television",
+        "réparation carte lave-linge LG"
+      ]
+    }
+  };
+  function updateServiceCaptions(lang){
+    document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
+    const captions = document.querySelectorAll('.service-caption');
+    captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
   }
-};
-function updateServiceCaptions(lang){
-  // تحديث عنوان القسم
-  document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
-  // تحديث نصوص الصور
-  const captions = document.querySelectorAll('.service-caption');
-  captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
-}
   updateServiceCaptions(currentLanguage);
+
 });
 </script>
 </body>

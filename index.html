@@ -225,23 +225,23 @@
     <div class="services-slider" id="servicesSlider">
       <div class="service-card">
         <img src="images/service1.jpg">
-        <p>تصليح لوحات إلكترونية</p>
+        <p class="service-caption">تصليح لوحات إلكترونية</p>
       </div>
       <div class="service-card">
         <img src="images/service2.jpg">
-        <p>برمجة أجهزة</p>
+        <p class="service-caption">برمجة أجهزة</p>
       </div>
       <div class="service-card">
         <img src="images/service3.jpg">
-        <p>صيانة هواتف</p>
+        <p class="service-caption">صيانة هواتف</p>
       </div>
       <div class="service-card">
         <img src="images/service4.jpg">
-        <p>تصليح شاشات</p>
+        <p class="service-caption">تصليح شاشات</p>
       </div>
       <div class="service-card">
         <img src="images/service5.jpg">
-        <p>بيع قطع إلكترونية</p>
+        <p class="service-caption">بيع قطع إلكترونية</p>
       </div>
     </div>
   </section>
@@ -269,7 +269,7 @@
 
 <script src="app.js" defer></script>
 <script>
-// ======= CMP Script =======
+// ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
   const cmpBanner = document.getElementById('cmp-banner');
   const consentAllow = document.getElementById('consent-allow');
@@ -316,18 +316,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }).catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
   }
+
+  // ======= Toggle Language =======
   document.getElementById('toggle-lang-btn').addEventListener('click', () => {
     currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
     updateWeather(currentLanguage);
+    updateServiceCaptions(currentLanguage);
   });
   updateWeather(currentLanguage);
 
-  // ======= تقييم النجوم =======
+  // ======= Rating =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
   function updateStars(rating){
-    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
+    starsHorizontal.forEach(star=>{
+      star.classList.remove('selected'); 
+      if(Number(star.dataset.value)<=rating) star.classList.add('selected'); 
+      star.textContent = Number(star.dataset.value)<=rating?'★':'☆';
+    });
     ratingValueHorizontal.textContent = `${rating}/5`;
     ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
@@ -335,9 +342,20 @@ document.addEventListener('DOMContentLoaded', () => {
   updateStars(selectedRatingHorizontal);
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
-    star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
-    star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
+    star.addEventListener('mouseover',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
+      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); 
+      ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold';
+    });
+    star.addEventListener('mouseout',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
+      updateStars(selectedRatingHorizontal); 
+    });
+    star.addEventListener('click',()=>{
+      selectedRatingHorizontal=val; 
+      localStorage.setItem('workshopRating',selectedRatingHorizontal); 
+      updateStars(selectedRatingHorizontal);
+    });
   });
 
   // ======= PCB Animated Header =======
@@ -347,10 +365,27 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize',resizeCanvas);
   resizeCanvas();
   const traces=[];
-  for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
+  for(let i=0;i<50;i++){
+    traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
+    for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}
+  }
   let mouseX=-1000,mouseY=-1000;
   window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-  function animatePCB(){ ctx.clearRect(0,0,canvas.width,canvas.height); traces.forEach(t=>{ const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); let speedMultiplier=dist<200?3:1; ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); t.particles.forEach(p=>{ let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0; }); t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length; }); requestAnimationFrame(animatePCB); }
+  function animatePCB(){ 
+    ctx.clearRect(0,0,canvas.width,canvas.height); 
+    traces.forEach(t=>{
+      const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); 
+      let speedMultiplier=dist<200?3:1; 
+      ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); 
+      ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); 
+      t.particles.forEach(p=>{
+        let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); 
+        p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0;
+      }); 
+      t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length;
+    }); 
+    requestAnimationFrame(animatePCB); 
+  }
   animatePCB();
 
   // ======= Slider Drag =======
@@ -359,19 +394,38 @@ document.addEventListener('DOMContentLoaded', () => {
   slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('active'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
   slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
   slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
-  slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; });
+  slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - startX; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; });
 
   // ======= Radio Button Dance Script =======
   const radioBtn = document.getElementById('radio-btn');
   let dancing = false;
   radioBtn.addEventListener('click', () => {
     dancing = !dancing;
-    if(dancing) {
-      radioBtn.classList.add('dance');
-    } else {
-      radioBtn.classList.remove('dance');
-    }
+    if(dancing) { radioBtn.classList.add('dance'); } else { radioBtn.classList.remove('dance'); }
   });
+
+  // ======= Service Captions Translations =======
+  const serviceTranslations = {
+    ar: [
+      "تصليح لوحات إلكترونية",
+      "برمجة أجهزة",
+      "صيانة هواتف",
+      "تصليح شاشات",
+      "بيع قطع إلكترونية"
+    ],
+    fr: [
+      "Réparation de cartes électroniques",
+      "Programmation d'appareils",
+      "Entretien de téléphones",
+      "Réparation d'écrans",
+      "Vente de pièces électroniques"
+    ]
+  };
+  function updateServiceCaptions(lang){
+    const captions = document.querySelectorAll('.service-caption');
+    captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang][idx]; });
+  }
+  updateServiceCaptions(currentLanguage);
 });
 </script>
 </body>

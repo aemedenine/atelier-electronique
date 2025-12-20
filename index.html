@@ -301,12 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ======= باقي كود الموقع =======
   const siteName = document.getElementById('site-name');
-  const texts = ["Atelier Electronique Médenine", "ورشة الإلكترونيك مدنـين", " الإلكترونيك الرحمـاني"];
+  const texts = ["Atelier Electronique Médenine", " إلكترونيك الرحمـاني"];
   setInterval(() => {
     const randomIndex = Math.floor(Math.random()*texts.length);
     siteName.textContent = texts[randomIndex];
     siteName.style.color='#ff6b35';
-    siteName.style.textShadow='0 0 10px #ff6b35';
+    siteName.style.textShadow='0 0 10px #e0a800';
     siteName.style.transform='scale(1.2)';
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);

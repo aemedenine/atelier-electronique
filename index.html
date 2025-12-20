@@ -215,17 +215,17 @@
     <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
   </section>
 
-  <div class="rating-container">
-    <p>قيم الورشة:</p>
-    <div class="stars-horizontal">
-      <span data-value="5">☆</span>
-      <span data-value="4">☆</span>
-      <span data-value="3">☆</span>
-      <span data-value="2">☆</span>
-      <span data-value="1">☆</span>
-    </div>
-    <p id="rating-value">0/5</p>
+ <div class="rating-container">
+  <p id="rating-title">قيم الورشة:</p>
+  <div class="stars-horizontal">
+    <span data-value="5">☆</span>
+    <span data-value="4">☆</span>
+    <span data-value="3">☆</span>
+    <span data-value="2">☆</span>
+    <span data-value="1">☆</span>
   </div>
+  <p id="rating-value">0/5</p>
+</div>
 
   <!-- ======= Gallery / Services Today ======= -->
   <section class="services-today">
@@ -329,6 +329,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }).catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
   }
+const ratingTitle = document.getElementById('rating-title');
+
+function updateLanguageTexts(lang) {
+  // تقييم الورشة
+  if(lang === 'ar') {
+    ratingTitle.textContent = 'قيم الورشة:';
+  } else {
+    ratingTitle.textContent = 'Évaluez l’atelier :';
+  }
+}
+
+// عند تبديل اللغة
+document.getElementById('toggle-lang-btn').addEventListener('click', () => {
+  currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
+  updateWeather(currentLanguage);
+  updateLanguageTexts(currentLanguage);  // نحدّث العنوان
+});
+
+// أول مرة عند تحميل الصفحة
+updateLanguageTexts(currentLanguage);
 
   // ======= Toggle Language =======
   document.getElementById('toggle-lang-btn').addEventListener('click', () => {

@@ -232,23 +232,23 @@
     <h2>خدمات اليوم</h2>
     <div class="services-slider" id="servicesSlider">
       <div class="service-card">
-        <img src="service1.jpg">
+        <img src="service1.jpg" width="300" height="200" loading="lazy">
         <p class="service-caption">تصليح لوحات إلكترونية</p>
       </div>
       <div class="service-card">
-        <img src="service2.jpg">
+        <img src="service2.jpg" width="300" height="200" loading="lazy">
         <p class="service-caption">تصليح كارت جهاز المشي</p>
       </div>
       <div class="service-card">
-        <img src="service3.jpg">
+        <img src="service3.jpg" width="300" height="200" loading="lazy">
         <p class="service-caption">تصليح كارت ماكينة غسيل</p>
       </div>
       <div class="service-card">
-        <img src="service4.jpg">
+        <img src="service4.jpg" width="300" height="200" loading="lazy">
         <p class="service-caption">تصليح كارت تلفاز</p>
       </div>
       <div class="service-card">
-        <img src="service5.jpg">
+        <img src="service5.jpg" width="300" height="200" loading="lazy">
         <p class="service-caption">تصليح كارت غسالة ل-ج</p>
       </div>
     </div>
@@ -278,8 +278,6 @@
   <button id="consent-allow">أوافق</button>
   <button id="consent-manage">تغيير الخيارات</button>
 </div>
-
-<script src="app.js" defer></script>
 <script>
 // ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
@@ -407,15 +405,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }); 
     requestAnimationFrame(animatePCB); 
   }
+  window.addEventListener('load',()=>{
   animatePCB();
+});
 
   // ======= Slider Drag =======
-  const slider = document.getElementById('servicesSlider');
-  let isDown = false, startX, scrollLeft;
-  slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('active'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
-  slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
-  slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
-  slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - startX; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; });
+ const slider=document.getElementById('servicesSlider');
+let isDown=false,startX,scrollLeft;
+
+slider.addEventListener('mousedown',e=>{
+  isDown=true;
+  startX=e.pageX-slider.offsetLeft;
+  scrollLeft=slider.scrollLeft;
+});
+
+['mouseleave','mouseup'].forEach(evt=>{
+  slider.addEventListener(evt,()=>isDown=false);
+});
+
+slider.addEventListener('mousemove',e=>{
+  if(!isDown)return;
+  e.preventDefault();
+  const x=e.pageX-slider.offsetLeft;
+  slider.scrollLeft=scrollLeft-(x-startX)*1.5;
+});
 
   // ======= Radio Button Dance Script =======
   const radioBtn = document.getElementById('radio-btn');
@@ -457,5 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+ <script src="app.js" defer></script>
 </body>
 </html>

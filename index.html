@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Atelier Electronique Médenine</title>
 <meta name="google-adsense-account" content="ca-pub-5360225987687639">
-
 <!-- Script AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
      crossorigin="anonymous"></script>
@@ -20,7 +19,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 <script>
-  // Firebase configuration
+ // Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyBzrfz5URXi3M-deXSklvIVRr6LbQvSlpY",
     authDomain: "atelier-electronique-medenine.firebaseapp.com",
@@ -35,8 +34,7 @@
   const app = firebase.initializeApp(firebaseConfig);
   const analytics = firebase.analytics(app);
   const auth = firebase.auth();
-
-  // Google Sign-In
+ // Google Sign-In
   function googleSignIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
@@ -57,22 +55,51 @@
     });
   }
 </script>
-
 <style>
 /* ======= Glow متحرك للأزرار ======= */
 .cta-buttons a,
-.cta-buttons button { transition: box-shadow 0.3s ease, transform 0.2s ease; }
+.cta-buttons button {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
 .cta-buttons a:hover,
-.cta-buttons button:hover { box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35; transform: translateY(-3px); }
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
 
 /* نص الموقع يتغير تلقائياً */
-.header-inner h1 { display: inline-block; font-size: 1.8rem; margin-left: 15px; transition: color 0.5s, transform 0.5s, text-shadow 0.5s; }
+.header-inner h1 {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
 
 /* ======= Weather Box ======= */
-.weather-box { margin: 40px auto 10px; padding: 20px; max-width: 420px; background: rgba(255,255,255,0.08); backdrop-filter: blur(8px); border-radius: 15px; text-align: center; color: #fff; box-shadow: 0 0 20px rgba(0,255,255,0.2); }
-.weather-box h3 { margin-bottom: 10px; color: #0ff; }
-.weather-temp { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
-.weather-desc { font-size: 1.1rem; opacity: 0.9; }
+.weather-box {
+  margin: 40px auto 10px;
+  padding: 20px;
+  max-width: 420px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2);
+}
+.weather-box h3 {
+  margin-bottom: 10px;
+  color: #0ff;
+}
+.weather-temp {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.weather-desc {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
 
 /* تقييم النجوم */
 .rating-container { margin: 40px auto; text-align: center; color: #fff; }
@@ -88,30 +115,98 @@
 .header-inner img, .header-inner h1 { position: relative; z-index: 10; }
 
 /* نص الخبرة بدون مستطيل */
-.experience-badge { display: block; text-align: center; font-size: 1.3rem; font-weight: bold; color: yellow; margin: 30px auto; background: none; padding: 0; animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite; }
-@keyframes glowExperience { 0% { color: yellow; text-shadow: 0 0 5px yellow; } 25% { color: red; text-shadow: 0 0 8px red; } 50% { color: cyan; text-shadow: 0 0 10px cyan; } 75% { color: magenta; text-shadow: 0 0 12px magenta; } 100% { color: yellow; text-shadow: 0 0 15px yellow; } }
+.experience-badge {
+  display: block;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: yellow;
+  margin: 30px auto;
+  background: none;
+  padding: 0;
+  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
+}
+@keyframes glowExperience {
+  0% { color: yellow; text-shadow: 0 0 5px yellow; }
+  25% { color: red; text-shadow: 0 0 8px red; }
+  50% { color: cyan; text-shadow: 0 0 10px cyan; }
+  75% { color: magenta; text-shadow: 0 0 12px magenta; }
+  100% { color: yellow; text-shadow: 0 0 15px yellow; }
+}
 @keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
 
 /* ======= Cookie / CMP Banner ======= */
-#cmp-banner { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85); color: #fff; text-align: center; padding: 15px 10px; z-index: 9999; font-size: 0.95rem; }
-#cmp-banner button { background:#ff6b35; border:none; color:#fff; padding:8px 15px; margin-left:10px; cursor:pointer; border-radius:5px; font-weight:bold; }
+#cmp-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  text-align: center;
+  padding: 15px 10px;
+  z-index: 9999;
+  font-size: 0.95rem;
+}
+#cmp-banner button {
+  background:#ff6b35;
+  border:none;
+  color:#fff;
+  padding:8px 15px;
+  margin-left:10px;
+  cursor:pointer;
+  border-radius:5px;
+  font-weight:bold;
+}
 
 /* ======= Gallery / Services Today ======= */
-.services-today h2 { text-align:center; color:#0ff; margin:30px 0; font-size:1.8rem; text-shadow:0 0 8px rgba(0,255,255,0.6); }
-.services-slider { display:flex; gap:20px; overflow-x:auto; padding:10px; cursor:grab; }
+.services-today h2 {
+  text-align:center;
+  color:#0ff;
+  margin:30px 0;
+  font-size:1.8rem;
+  text-shadow:0 0 8px rgba(0,255,255,0.6);
+}
+.services-slider {
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:10px;
+  cursor:grab;
+}
 .services-slider::-webkit-scrollbar { display:none; }
-.service-card { min-width:220px; background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); border-radius:15px; padding:10px; box-shadow:0 8px 20px rgba(0,0,0,.35); flex-shrink:0; }
-.service-card img { width:100%; height:140px; object-fit:cover; border-radius:12px; }
-.service-card p { margin-top:10px; font-weight:bold; color:#fff; text-align:center; }
-
-/* ======= Popup Login ======= */
-#login-popup { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display:none; justify-content:center; align-items:center; z-index:10000; }
-#login-popup .popup-content { background:#111; padding:25px; border-radius:12px; text-align:center; color:#fff; width:300px; max-width:90%; }
-#login-popup button { margin-top:10px; padding:10px 15px; background:#ff6b35; border:none; color:#fff; border-radius:5px; cursor:pointer; font-weight:bold; }
+.service-card {
+  min-width:220px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(6px);
+  border-radius:15px;
+  padding:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+  flex-shrink:0;
+}
+.service-card img {
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:12px;
+}
+.service-card p {
+  margin-top:10px;
+  font-weight:bold;
+  color:#fff;
+  text-align:center;
+}
+.site-signature {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding-bottom: 10px;
+  font-style: italic;
+}
 </style>
 </head>
 <body>
-
 <header>
   <div class="container header-inner">
     <canvas id="pcbCanvasHeader"></canvas>
@@ -124,51 +219,45 @@
 </header>
 
 <main class="container main-content">
+  <section class="info-bar">
+    <div id="current-time">--:--:--</div>
+    <div id="visit-count">عدد زياراتك: 0</div>
+    <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
+  </section>
 
-<!-- ======= User Info & Login ======= -->
-<div id="user-info" style="display:none; text-align:center; margin:15px 0;">
-  <p>مرحبا <span id="user-name"></span>!</p>
-  <button onclick="signOut()">تسجيل الخروج</button>
-</div>
+  <section class="cta-buttons">
+    <a href="download" class="btn-download">تحميل البرامج  📥</a>
+    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
+    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
+    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
+    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
+    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
+    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
+    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
+    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+    <div class="equalizer" id="equalizer" aria-hidden="true">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+  </section>
 
-<button onclick="document.getElementById('login-popup').style.display='flex'" style="display:block; margin:10px auto; background:#0ff; padding:10px 20px; border:none; border-radius:5px; font-weight:bold;">تسجيل الدخول</button>
+  <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
-<div id="login-popup">
-  <div class="popup-content">
-    <h2>تسجيل الدخول</h2>
-    <button onclick="googleSignIn()">تسجيل الدخول بواسطة Google</button>
-    <button onclick="document.getElementById('login-popup').style.display='none'">إلغاء</button>
-  </div>
-</div>
+  <!-- ======= Weather Section ======= -->
+  <section class="weather-box">
+    <h3>🌦️ حالة الطقس في مدنين</h3>
+    <div class="weather-temp" id="weather-temp">--°C</div>
+    <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
+  </section>
 
-<!-- ======= CTA Buttons ======= -->
-<section class="cta-buttons">
-  <a href="download" class="btn-download">تحميل البرامج  📥</a>
-  <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
-  <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
-  <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
-  <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
-  <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
-  <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
-  <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
-  <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-  <div class="equalizer" id="equalizer" aria-hidden="true">
-    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-  </div>
-</section>
+  <section class="faq">
+    <h2>الأسئلة الشائعة</h2>
+    <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
+    <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
+    <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
+    <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
+  </section>
 
-<!-- ======= Experience Badge ======= -->
-<section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
-<!-- ======= Weather Section ======= -->
-<section class="weather-box">
-  <h3>🌦️ حالة الطقس في مدنين</h3>
-  <div class="weather-temp" id="weather-temp">--°C</div>
-  <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
-</section>
-
-<!-- ======= Rating ======= -->
-<div class="rating-container">
+ <div class="rating-container">
   <p id="rating-title">قيم الورشة:</p>
   <div class="stars-horizontal">
     <span data-value="5">☆</span>
@@ -180,17 +269,32 @@
   <p id="rating-value">0/5</p>
 </div>
 
-<!-- ======= Services Today ======= -->
-<section class="services-today">
-  <h2>خدمات اليوم</h2>
-  <div class="services-slider" id="servicesSlider">
-    <div class="service-card"><img src="service1.webp"><p class="service-caption">تصليح لوحات إلكترونية</p></div>
-    <div class="service-card"><img src="service2.webp"><p class="service-caption">تصليح كارت جهاز المشي</p></div>
-    <div class="service-card"><img src="service3.webp"><p class="service-caption">تصليح كارت ماكينة غسيل</p></div>
-    <div class="service-card"><img src="service4.webp"><p class="service-caption">تصليح كارت تلفاز</p></div>
-    <div class="service-card"><img src="service5.webp"><p class="service-caption">تصليح كارت غسالة ل-ج</p></div>
-  </div>
-</section>
+  <!-- ======= Gallery / Services Today ======= -->
+  <section class="services-today">
+    <h2>خدمات اليوم</h2>
+    <div class="services-slider" id="servicesSlider">
+      <div class="service-card">
+        <img src="service1.jpg">
+        <p class="service-caption">تصليح لوحات إلكترونية</p>
+      </div>
+      <div class="service-card">
+        <img src="service2.jpg">
+        <p class="service-caption">تصليح كارت جهاز المشي</p>
+      </div>
+      <div class="service-card">
+        <img src="service3.jpg">
+        <p class="service-caption">تصليح كارت ماكينة غسيل</p>
+      </div>
+      <div class="service-card">
+        <img src="service4.jpg">
+        <p class="service-caption">تصليح كارت تلفاز</p>
+      </div>
+      <div class="service-card">
+        <img src="service5.jpg">
+        <p class="service-caption">تصليح كارت غسالة ل-ج</p>
+      </div>
+    </div>
+  </section>
 
 </main>
 
@@ -206,7 +310,7 @@
   </div>
 </footer>
 
-<div class="site-signature">
+<div class="site-signature" style="text-align:center; color:#aaa; font-size:0.9rem; margin-top:10px; padding-bottom:10px;">
   &copy; 2025 Atelier Electronique Médenine. Tous droits réservés. <br>
   Signature: RAHMANI Soufien. CHATGPT Labiba
 </div>
@@ -218,9 +322,8 @@
 </div>
 
 <script src="app.js" defer></script>
-
 <script>
-// ======= CMP Banner & Language Toggle =======
+// ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
   const cmpBanner = document.getElementById('cmp-banner');
   const consentAllow = document.getElementById('consent-allow');
@@ -228,8 +331,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if(!localStorage.getItem('cmpConsent')) cmpBanner.style.display='block';
 
-  consentAllow.addEventListener('click', () => { localStorage.setItem('cmpConsent','granted'); cmpBanner.style.display='none'; });
-  consentManage.addEventListener('click', () => { alert('يمكنك إدارة تفضيلات الكوكيز هنا.'); });
+  consentAllow.addEventListener('click', () => {
+    localStorage.setItem('cmpConsent','granted');
+    cmpBanner.style.display='none';
+  });
+
+  consentManage.addEventListener('click', () => {
+    alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
+  });
 
   const siteName = document.getElementById('site-name');
   const texts = ["Atelier Electronique Médenine", " إلكترونيك الرحمـاني"];
@@ -242,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
 
-  // ======= Weather =======
+  // ======= Weather Script =======
   let currentLanguage = 'ar';
   function updateWeather(language) {
     fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
@@ -251,46 +360,78 @@ document.addEventListener('DOMContentLoaded', () => {
       const temp = data.current_weather.temperature + "°C";
       const wind = data.current_weather.windspeed + (language==='fr' ? " km/h" : " كم/س");
       document.getElementById("weather-temp").textContent = temp;
-      if(language === 'ar') { document.querySelector(".weather-box h3").textContent = "🌦️ حالة الطقس في مدنين"; document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind; }
-      else { document.querySelector(".weather-box h3").textContent = "🌦️ Météo à Médenine"; document.getElementById("weather-desc").textContent = "🌬️ Vitesse du vent: " + wind; }
+      if(language === 'ar') {
+        document.querySelector(".weather-box h3").textContent = "🌦️ حالة الطقس في مدنين";
+        document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
+      } else if(language === 'fr') {
+        document.querySelector(".weather-box h3").textContent = "🌦️ Météo à Médenine";
+        document.getElementById("weather-desc").textContent = "🌬️ Vitesse du vent: " + wind;
+      }
     }).catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
+  }
+
+  const ratingTitle = document.getElementById('rating-title');
+  function updateLanguageTexts(lang) {
+    ratingTitle.textContent = (lang==='ar') ? 'قيم الورشة:' : 'Évaluez l’atelier :';
   }
 
   // Toggle Language
   document.getElementById('toggle-lang-btn').addEventListener('click', () => {
     currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
     updateWeather(currentLanguage);
+    updateLanguageTexts(currentLanguage);
+    updateServiceCaptions(currentLanguage);
   });
 
+  updateLanguageTexts(currentLanguage);
   updateWeather(currentLanguage);
 
-  // ======= Rating Stars =======
+  // ======= Rating =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');
   let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
 
   function updateStars(rating){
-    starsHorizontal.forEach(star=>{ star.classList.remove('selected'); if(Number(star.dataset.value)<=rating) star.classList.add('selected'); star.textContent = Number(star.dataset.value)<=rating?'★':'☆'; });
+    starsHorizontal.forEach(star=>{
+      star.classList.remove('selected'); 
+      if(Number(star.dataset.value)<=rating) star.classList.add('selected'); 
+      star.textContent = Number(star.dataset.value)<=rating?'★':'☆';
+    });
     ratingValueHorizontal.textContent = `${rating}/5`;
     ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
     ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
   }
   updateStars(selectedRatingHorizontal);
+
   starsHorizontal.forEach(star=>{
     const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold'; });
-    star.addEventListener('mouseout',()=>{ starsHorizontal.forEach(s=>s.classList.remove('hover')); updateStars(selectedRatingHorizontal); });
-    star.addEventListener('click',()=>{ selectedRatingHorizontal=val; localStorage.setItem('workshopRating',selectedRatingHorizontal); updateStars(selectedRatingHorizontal); });
+    star.addEventListener('mouseover',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
+      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); 
+      ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold';
+    });
+    star.addEventListener('mouseout',()=>{
+      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
+      updateStars(selectedRatingHorizontal); 
+    });
+    star.addEventListener('click',()=>{
+      selectedRatingHorizontal=val; 
+      localStorage.setItem('workshopRating',selectedRatingHorizontal); 
+      updateStars(selectedRatingHorizontal);
+    });
   });
 
-  // ======= PCB Header Animation =======
+  // ======= PCB Animated Header =======
   const canvas = document.getElementById('pcbCanvasHeader');
   const ctx = canvas.getContext('2d');
   function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
   window.addEventListener('resize',resizeCanvas);
   resizeCanvas();
   const traces=[];
-  for(let i=0;i<50;i++){traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}}
+  for(let i=0;i<50;i++){
+    traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
+    for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}
+  }
   let mouseX=-1000,mouseY=-1000;
   window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
   function animatePCB(){ 
@@ -308,22 +449,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }); 
     requestAnimationFrame(animatePCB); 
   }
-  window.addEventListener('load',()=>{ animatePCB(); });
+  animatePCB();
 
   // ======= Slider Drag =======
-  const slider=document.getElementById('servicesSlider');
-  let isDown=false,startX,scrollLeft;
-  slider.addEventListener('mousedown',e=>{isDown=true; startX=e.pageX-slider.offsetLeft; scrollLeft=slider.scrollLeft;});
-  ['mouseleave','mouseup'].forEach(evt=>{slider.addEventListener(evt,()=>isDown=false);});
-  slider.addEventListener('mousemove',e=>{if(!isDown)return; e.preventDefault(); const x=e.pageX-slider.offsetLeft; slider.scrollLeft=scrollLeft-(x-startX)*1.5;});
+  const slider = document.getElementById('servicesSlider');
+  let isDown = false, startX, scrollLeft;
+  slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('active'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
+  slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
+  slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
+  slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - startX; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; });
 
-  // ======= Radio Dance Button =======
+  // ======= Radio Button Dance Script =======
   const radioBtn = document.getElementById('radio-btn');
   let dancing = false;
-  radioBtn.addEventListener('click', () => { dancing = !dancing; if(dancing) { radioBtn.classList.add('dance'); } else { radioBtn.classList.remove('dance'); } });
+  radioBtn.addEventListener('click', () => {
+    dancing = !dancing;
+    if(dancing) { radioBtn.classList.add('dance'); } else { radioBtn.classList.remove('dance'); }
+  });
+
+  // ======= Service Captions Translations + Section Title =======
+  const serviceTranslations = {
+    ar: {
+      title: "خدمات اليوم",
+      captions: [
+        "تصليح لوحات إلكترونية",
+        "تصليح كارت جهاز المشي",
+        "تصليح كارت ماكينة غسيل",
+        "تصليح كارت تلفاز",
+        "تصليح كارت غسالة ل-ج"
+      ]
+    },
+    fr: {
+      title: "Services du jour",
+      captions: [
+        "réparation de cartes électroniques",
+        "réparation carte tapis roulant",
+        "réparation carte lave-linge",
+        "réparation carte television",
+        "réparation carte lave-linge LG"
+      ]
+    }
+  };
+  function updateServiceCaptions(lang){
+    document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
+    const captions = document.querySelectorAll('.service-caption');
+    captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
+  }
+  updateServiceCaptions(currentLanguage);
 
 });
 </script>
-
 </body>
 </html>

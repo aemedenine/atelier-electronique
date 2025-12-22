@@ -204,6 +204,40 @@
   padding-bottom: 10px;
   font-style: italic;
 }
+     #login-popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+#login-popup .popup-content {
+  background: #111;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+  width: 300px;
+  max-width: 90%;
+}
+
+#login-popup .popup-content button {
+  background: #4285F4;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+#login-popup .popup-content button:last-child {
+  background: #555;
+  margin-top: 5px;
+}
 </style>
 </head>
 <body>
@@ -225,6 +259,21 @@
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
+<!-- ======= User Info & Login ======= -->
+<div id="user-info" style="display:none; text-align:center; margin:15px 0;">
+  <p>مرحبا <span id="user-name"></span>!</p>
+  <button onclick="signOut()">تسجيل الخروج</button>
+</div>
+
+<button onclick="document.getElementById('login-popup').style.display='flex'" style="display:block; margin:10px auto; background:#0ff; padding:10px 20px; border:none; border-radius:5px; font-weight:bold;">تسجيل الدخول</button>
+
+<div id="login-popup">
+  <div class="popup-content">
+    <h2>تسجيل الدخول</h2>
+    <button onclick="googleSignIn()">تسجيل الدخول بواسطة Google</button>
+    <button onclick="document.getElementById('login-popup').style.display='none'">إلغاء</button>
+  </div>
+</div>
   <section class="cta-buttons">
     <a href="download" class="btn-download">تحميل البرامج  📥</a>
     <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>

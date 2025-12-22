@@ -13,6 +13,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+<script>
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBzrfz5URXi3M-deXSklvIVRr6LbQvSlpY",
+    authDomain: "atelier-electronique-medenine.firebaseapp.com",
+    projectId: "atelier-electronique-medenine",
+    storageBucket: "atelier-electronique-medenine.firebasestorage.app",
+    messagingSenderId: "545767515650",
+    appId: "1:545767515650:web:712512471b2bda736e691b",
+    measurementId: "G-E80QLYMQLX"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const analytics = firebase.analytics(app);
+</script>
+
 <style>
 /* ======= Glow متحرك للأزرار ======= */
 .cta-buttons a,
@@ -45,19 +65,9 @@
   color: #fff;
   box-shadow: 0 0 20px rgba(0,255,255,0.2);
 }
-.weather-box h3 {
-  margin-bottom: 10px;
-  color: #0ff;
-}
-.weather-temp {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 10px 0;
-}
-.weather-desc {
-  font-size: 1.1rem;
-  opacity: 0.9;
-}
+.weather-box h3 { margin-bottom: 10px; color: #0ff; }
+.weather-temp { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
+.weather-desc { font-size: 1.1rem; opacity: 0.9; }
 
 /* تقييم النجوم */
 .rating-container { margin: 40px auto; text-align: center; color: #fff; }
@@ -278,8 +288,9 @@
   <button id="consent-allow">أوافق</button>
   <button id="consent-manage">تغيير الخيارات</button>
 </div>
+
 <script>
-// ======= CMP Script + كل الكود الأصلي =======
+// ======= CMP + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
   const cmpBanner = document.getElementById('cmp-banner');
   const consentAllow = document.getElementById('consent-allow');
@@ -405,9 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }); 
     requestAnimationFrame(animatePCB); 
   }
-  window.addEventListener('load',()=>{
-  animatePCB();
-});
+  window.addEventListener('load',()=>{ animatePCB(); });
 
   // ======= Slider Drag =======
  const slider=document.getElementById('servicesSlider');
@@ -470,6 +479,7 @@ slider.addEventListener('mousemove',e=>{
 
 });
 </script>
- <script src="app.js" defer></script>
+
+<script src="app.js" defer></script>
 </body>
 </html>

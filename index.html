@@ -12,51 +12,45 @@
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
-
-<!-- Firebase SDK -->
+     <!-- Firebase SDKs (COMPAT) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 <script>
- // Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBzrfz5URXi3M-deXSklvIVRr6LbQvSlpY",
-  authDomain: "atelier-electronique-medenine.firebaseapp.com",
-  projectId: "atelier-electronique-medenine",
-  storageBucket: "atelier-electronique-medenine.appspot.com", // ✅ هنا
-  messagingSenderId: "545767515650",
-  appId: "1:545767515650:web:712512471b2bda736e691b",
-  measurementId: "G-E80QLYMQLX"
-};
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics(app);
+  const firebaseConfig = {
+    apiKey: "AIzaSyCQHnbpdN9q_W0XJm_aUrS6z2fEDxhIVx0",
+    authDomain: "atelier-electronique-medenine.firebaseapp.com",
+    projectId: "atelier-electronique-medenine",
+    storageBucket: "atelier-electronique-medenine.appspot.com",
+    messagingSenderId: "63299232230",
+    appId: "1:63299232230:web:656c24e30daee8df787627"
+  };
+
+  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
- // ===== Google Sign-In =====
+
   function googleSignIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-      .then(result => {
+      .then((result) => {
         const user = result.user;
-        alert("مرحباً " + user.displayName + "، لقد تم تسجيل الدخول بنجاح!");
         document.getElementById('login-popup').style.display = 'none';
         document.getElementById('user-name').textContent = user.displayName;
         document.getElementById('user-info').style.display = 'block';
+        alert("مرحبا " + user.displayName);
       })
-      .catch(error => {
-        console.error(error);
-        alert("حدث خطأ أثناء تسجيل الدخول: " + error.message);
+      .catch((error) => {
+        alert(error.message);
       });
   }
 
   function signOut() {
     auth.signOut().then(() => {
       document.getElementById('user-info').style.display = 'none';
-      alert("تم تسجيل الخروج بنجاح");
+      alert("تم تسجيل الخروج");
     });
   }
-     </script>
+</script>
 
 <style>
 /* ======= Glow متحرك للأزرار ======= */

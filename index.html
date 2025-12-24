@@ -33,26 +33,33 @@
   const app = firebase.initializeApp(firebaseConfig);
   const analytics = firebase.analytics(app);
   const auth = firebase.auth();
- // Google Sign-In
-  function googleSignIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
+// Firebase Sign-In Logic
+const loginPopup = document.getElementById('login-popup');
+const btnGoogle = document.getElementById('btn-google');
+const btnClosePopup = document.getElementById('btn-close-popup');
+const userInfo = document.getElementById('user-info');
+const userName = document.getElementById('user-name');
+const btnSignOut = document.getElementById('btn-signout');
+
+btnGoogle.addEventListener('click', () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
     .then(result => {
       const user = result.user;
-      alert("مرحباً " + user.displayName + "، لقد تم تسجيل الدخول بنجاح!");
-      document.getElementById('login-popup').style.display = 'none';
-      document.getElementById('user-name').textContent = user.displayName;
-      document.getElementById('user-info').style.display = 'block';
-    })
-    .catch(error => { console.error(error); alert("حدث خطأ أثناء تسجيل الدخول"); });
-  }
+      userName.textContent = user.displayName;
+      userInfo.style.display = 'block';
+      loginPopup.style.display = 'none';
+    }).catch(console.error);
+});
 
-  function signOut() {
-    auth.signOut().then(()=> {
-      document.getElementById('user-info').style.display = 'none';
-      alert("تم تسجيل الخروج بنجاح");
-    });
-  }
+btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
+
+btnSignOut.addEventListener('click', () => {
+  auth.signOut().then(() => {
+    userInfo.style.display='none';
+    alert('تم تسجيل الخروج بنجاح');
+  });
+});
 </script>
 <style>
 /* ======= Glow متحرك للأزرار ======= */
@@ -203,40 +210,33 @@
   padding-bottom: 10px;
   font-style: italic;
 }
-     #login-popup {
+/* Login Popup */
+#login-popup {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top:0; left:0; width:100%; height:100%;
   background: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
+  justify-content: center; align-items: center;
+  z-index:10000;
+  display:flex; flex-direction:column;
 }
-
 #login-popup .popup-content {
-  background: #111;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  color: #fff;
-  width: 300px;
-  max-width: 90%;
+  background:#111; padding:25px; border-radius:12px;
+  text-align:center; color:#fff; width:300px; max-width:90%;
+  box-shadow:0 0 20px #0ff;
+  animation: fadeIn 0.5s ease;
+}
+#login-popup .popup-content button {
+  background:#0ff; color:#000; padding:10px 20px;
+  border:none; border-radius:5px; cursor:pointer; margin:10px 0;
+  transition: all 0.3s ease;
+}
+#login-popup .popup-content button:hover {
+  background:#0aa; transform: scale(1.05);
 }
 
-#login-popup .popup-content button {
-  background: #4285F4;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-#login-popup .popup-content button:last-child {
-  background: #555;
-  margin-top: 5px;
-}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
 </style>
 </head>
 <body>
@@ -261,16 +261,15 @@
 <!-- ======= User Info & Login ======= -->
 <div id="user-info" style="display:none; text-align:center; margin:15px 0;">
   <p>مرحبا <span id="user-name"></span>!</p>
-  <button onclick="signOut()">تسجيل الخروج</button>
+  <button id="btn-signout">تسجيل الخروج</button>
 </div>
 
-<button onclick="document.getElementById('login-popup').style.display='flex'" style="display:block; margin:10px auto; background:#0ff; padding:10px 20px; border:none; border-radius:5px; font-weight:bold;">تسجيل الدخول</button>
-
+<!-- Login Popup -->
 <div id="login-popup">
   <div class="popup-content">
     <h2>تسجيل الدخول</h2>
-    <button onclick="googleSignIn()">تسجيل الدخول بواسطة Google</button>
-    <button onclick="document.getElementById('login-popup').style.display='none'">إلغاء</button>
+    <button id="btn-google">تسجيل الدخول بواسطة Google</button>
+    <button id="btn-close-popup">إلغاء</button>
   </div>
 </div>
   <section class="cta-buttons">

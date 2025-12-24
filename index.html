@@ -34,30 +34,34 @@
   const analytics = firebase.analytics(app);
   const auth = firebase.auth();
 // Firebase Sign-In Logic
-const loginPopup = document.getElementById('login-popup');
-const btnGoogle = document.getElementById('btn-google');
-const btnClosePopup = document.getElementById('btn-close-popup');
-const userInfo = document.getElementById('user-info');
-const userName = document.getElementById('user-name');
-const btnSignOut = document.getElementById('btn-signout');
 
-btnGoogle.addEventListener('click', () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider)
-    .then(result => {
-      const user = result.user;
-      userName.textContent = user.displayName;
-      userInfo.style.display = 'block';
-      loginPopup.style.display = 'none';
-    }).catch(console.error);
-});
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const loginPopup = document.getElementById('login-popup');
+  const btnGoogle = document.getElementById('btn-google');
+  const btnClosePopup = document.getElementById('btn-close-popup');
+  const userInfo = document.getElementById('user-info');
+  const userName = document.getElementById('user-name');
+  const btnSignOut = document.getElementById('btn-signout');
 
-btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
+  btnGoogle.addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(result => {
+        const user = result.user;
+        userName.textContent = user.displayName;
+        userInfo.style.display = 'block';
+        loginPopup.style.display = 'none';
+      }).catch(console.error);
+  });
 
-btnSignOut.addEventListener('click', () => {
-  auth.signOut().then(() => {
-    userInfo.style.display='none';
-    alert('تم تسجيل الخروج بنجاح');
+  btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
+
+  btnSignOut.addEventListener('click', () => {
+    auth.signOut().then(() => {
+      userInfo.style.display='none';
+      alert('تم تسجيل الخروج بنجاح');
+    });
   });
 });
 </script>

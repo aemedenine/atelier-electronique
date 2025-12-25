@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.btn-gallery').textContent = 'شاهد الصور  🖼️';
       document.querySelector('.btn-video').textContent = 'شاهد الفيديو  🎥';
       document.querySelector('.btn-services').textContent = 'خدمات الورشة  🛠️';
-      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو  📻';
+      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : '📻  أوقف الراديو  📻';
 
       // rebuild FAQ in Arabic (keeps markup consistent)
       faqContainer.innerHTML = `

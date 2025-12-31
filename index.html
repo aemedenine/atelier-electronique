@@ -33,8 +33,35 @@
   const app = firebase.initializeApp(firebaseConfig);
   const analytics = firebase.analytics(app);
   const auth = firebase.auth();
+     // ======= حفظ تسجيل الدخول حتى بعد refresh =======
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => {
+    console.log("🔒 Session persistente activée");
+  })
+  .catch((error) => {
+    console.error("Erreur persistence:", error);
+  });
+
 // Firebase Sign-In Logic
 document.addEventListener('DOMContentLoaded', () => {
+     // ===== مراقبة حالة تسجيل الدخول =====
+firebase.auth().onAuthStateChanged((user) => {
+  const loginPopup = document.getElementById('login-popup');
+  const userInfo = document.getElementById('user-info');
+  const userName = document.getElementById('user-name');
+
+  if (user) {
+    // المستخدم مسجل
+    userInfo.style.display = 'block';
+    loginPopup.style.display = 'none';
+    userName.textContent = user.displayName || "مستخدم";
+  } else {
+    // مش مسجل
+    userInfo.style.display = 'none';
+    loginPopup.style.display = 'flex';
+  }
+});
+
   const loginPopup = document.getElementById('login-popup');
   const btnGoogle = document.getElementById('btn-google');
   const btnClosePopup = document.getElementById('btn-close-popup');

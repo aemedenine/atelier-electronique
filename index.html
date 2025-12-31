@@ -30,7 +30,7 @@
 };
 
   // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
+  const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
   const analytics = firebase.analytics(app);
   const auth = firebase.auth();
      // ======= حفظ تسجيل الدخول حتى بعد refresh =======

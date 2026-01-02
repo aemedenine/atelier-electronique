@@ -265,7 +265,18 @@ firebase.auth().onAuthStateChanged((user) => {
 }
 
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+/* VIDEO CARDS */
+.video-card video {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
 
+.video-card video:hover {
+  transform: scale(1.05);
+}
 </style>
 </head>
 <body>
@@ -345,32 +356,44 @@ firebase.auth().onAuthStateChanged((user) => {
   <p id="rating-value">0/5</p>
 </div>
 
-  <!-- ======= Gallery / Services Today ======= -->
-  <section class="services-today">
-    <h2>خدمات اليوم</h2>
-    <div class="services-slider" id="servicesSlider">
-      <div class="service-card">
-        <img src="service1.webp">
-        <p class="service-caption">تصليح لوحات إلكترونية</p>
-      </div>
-      <div class="service-card">
-        <img src="service2.webp">
-        <p class="service-caption">تصليح كارت جهاز المشي</p>
-      </div>
-      <div class="service-card">
-        <img src="service3.webp">
-        <p class="service-caption">تصليح كارت ماكينة غسيل</p>
-      </div>
-      <div class="service-card">
-        <img src="service4.webp">
-        <p class="service-caption">تصليح كارت تلفاز</p>
-      </div>
-      <div class="service-card">
-        <img src="service5.webp">
-        <p class="service-caption">تصليح كارت غسالة ل-ج</p>
-      </div>
+ <!-- ======= خدمات اليوم ======= -->
+<section class="services-today">
+  <h2>خدمات اليوم</h2>
+
+  <!-- صور -->
+  <div class="services-slider" id="servicesSlider">
+    <div class="service-card">
+      <img src="service1.webp">
+      <p class="service-caption">تصليح لوحات إلكترونية</p>
     </div>
-  </section>
+    <div class="service-card">
+      <img src="service2.webp">
+      <p class="service-caption">تصليح كارت جهاز المشي</p>
+    </div>
+    <div class="service-card">
+      <img src="service3.webp">
+      <p class="service-caption">تصليح كارت غسالة</p>
+    </div>
+  </div>
+
+  <!-- فيديوهات -->
+  <div class="services-slider" id="videoSlider">
+    <div class="service-card video-card">
+      <video src="video1.mp4" muted loop></video>
+      <p class="service-caption">تصليح كارت تغذية</p>
+    </div>
+
+    <div class="service-card video-card">
+      <video src="video2.mp4" muted loop></video>
+      <p class="service-caption">إصلاح لوحة إلكترونية</p>
+    </div>
+
+    <div class="service-card video-card">
+      <video src="video3.mp4" muted loop></video>
+      <p class="service-caption">فحص بوردة</p>
+    </div>
+  </div>
+</section>
 
 </main>
 
@@ -528,12 +551,42 @@ document.addEventListener('DOMContentLoaded', () => {
   animatePCB();
 
   // ======= Slider Drag =======
-  const slider = document.getElementById('servicesSlider');
-  let isDown = false, startX, scrollLeft;
-  slider.addEventListener('mousedown', (e) => { isDown = true; slider.classList.add('active'); startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
-  slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
-  slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
-  slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - startX; const walk = (x - startX) * 1.5; slider.scrollLeft = scrollLeft - walk; });
+function enableDragScroll(id) {
+  const slider = document.getElementById(id);
+  if (!slider) return;
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', e => {
+    isDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => isDown = false);
+  slider.addEventListener('mouseup', () => isDown = false);
+
+  slider.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    slider.scrollLeft = scrollLeft - walk;
+  });
+}
+
+enableDragScroll('servicesSlider');
+enableDragScroll('videoSlider');
+
+document.querySelectorAll('.video-card video').forEach(video => {
+  video.addEventListener('mouseenter', () => video.play());
+  video.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+});
 
   // ======= Radio Button Dance Script =======
   const radioBtn = document.getElementById('radio-btn');
@@ -565,6 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "réparation carte lave-linge LG"
       ]
     }
+      
   };
   function updateServiceCaptions(lang){
     document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;

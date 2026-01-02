@@ -8,6 +8,36 @@
 <!-- Script AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
      crossorigin="anonymous"></script>
+/* FULLSCREEN VIEWER */
+.media-viewer {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.media-viewer img,
+.media-viewer video {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.7);
+}
+
+.media-viewer .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
@@ -410,6 +440,36 @@ firebase.auth().onAuthStateChanged((user) => {
     </div>
   </div>
 </section>
+/* FULLSCREEN VIEWER */
+.media-viewer {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.media-viewer img,
+.media-viewer video {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.7);
+}
+
+.media-viewer .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
 
 </main>
 
@@ -434,6 +494,12 @@ firebase.auth().onAuthStateChanged((user) => {
   نستخدم الكوكيز لتحسين تجربتك. 
   <button id="consent-allow">أوافق</button>
   <button id="consent-manage">تغيير الخيارات</button>
+</div>
+<!-- FULLSCREEN VIEWER -->
+<div id="mediaViewer" class="media-viewer">
+  <span class="close-btn">&times;</span>
+  <img id="viewerImg" />
+  <video id="viewerVideo" controls></video>
 </div>
 
 <script src="app.js" defer></script>

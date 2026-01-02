@@ -431,13 +431,15 @@ document.addEventListener('DOMContentLoaded', () => {
   &copy; 2025 Atelier Electronique Médenine. Tous droits réservés. <br>
   Signature: RAHMANI Soufien. CHATGPT Lbb
 </div>
-
-<div id="cmp-banner">
-  نستخدم الكوكيز لتحسين تجربتك. 
-  <button id="consent-allow">أوافق</button>
-  <button id="consent-manage">تغيير الخيارات</button>
+<!-- ======= Fullscreen Media Viewer ======= -->
+<div id="mediaViewer">
+  <span class="close-btn">&times;</span>
+  <img id="viewerImg" style="display:none" alt="صورة تكبير">
+  <video id="viewerVideo" style="display:none" controls></video>
 </div>
-/* ======= Fullscreen Media Viewer Updated ======= */
+
+<style>
+/* ======= Fullscreen Media Viewer CSS ======= */
 #mediaViewer {
   display: none;
   position: fixed;
@@ -447,12 +449,11 @@ document.addEventListener('DOMContentLoaded', () => {
   background: rgba(0,0,0,0.9);
   justify-content: center;
   align-items: center;
-  z-index: 99999; /* أهم حاجة باش يكون فوق كل حاجة */
+  z-index: 99999;
   flex-direction: column;
 }
 
-#mediaViewer img, 
-#mediaViewer video {
+#mediaViewer img, #mediaViewer video {
   max-width: 90%;
   max-height: 90%;
   border-radius: 12px;
@@ -477,11 +478,47 @@ document.addEventListener('DOMContentLoaded', () => {
   background: rgba(255,0,0,0.7);
   transform: scale(1.2);
 }
- <!-- ======= Fullscreen Media Viewer ======= -->
-<div id="mediaViewer">
-  <span class="close-btn">&times;</span>
-  <img id="viewerImg" style="display:none" alt="صورة تكبير">
-  <video id="viewerVideo" style="display:none" controls></video>
+</style>
+
+<script>
+// ======= Fullscreen Media Viewer JS =======
+document.addEventListener('DOMContentLoaded', () => {
+  const mediaViewer = document.getElementById('mediaViewer');
+  const viewerImg = document.getElementById('viewerImg');
+  const viewerVideo = document.getElementById('viewerVideo');
+  const closeBtn = mediaViewer.querySelector('.close-btn');
+
+  // فتح الصور والفيديوهات بالـ fullscreen
+  document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      mediaViewer.style.display = 'flex';
+      if(el.tagName === 'IMG'){
+        viewerImg.src = el.src;
+        viewerImg.style.display = 'block';
+        viewerVideo.style.display = 'none';
+        viewerVideo.pause();
+      } else if(el.tagName === 'VIDEO'){
+        viewerVideo.src = el.src;
+        viewerVideo.style.display = 'block';
+        viewerImg.style.display = 'none';
+        viewerVideo.play();
+      }
+    });
+  });
+
+  // زر الإغلاق
+  closeBtn.addEventListener('click', () => {
+    mediaViewer.style.display = 'none';
+    viewerVideo.pause();
+    viewerVideo.currentTime = 0;
+  });
+});
+</script>
+<div id="cmp-banner">
+  نستخدم الكوكيز لتحسين تجربتك. 
+  <button id="consent-allow">أوافق</button>
+  <button id="consent-manage">تغيير الخيارات</button>
 </div>
 
 <script src="app.js" defer></script>

@@ -44,15 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     timeEl.textContent = `${dateStr} - ${timeStr}`;
   }
 
-  /* -------------------- Visits -------------------- */
-  function updateVisits() {
-    const key = 'aem-visit-count';
-    let count = parseInt(localStorage.getItem(key)) || 0;
-    count++;
-    localStorage.setItem(key, count);
-    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
-  }
-
+ 
   /* -------------------- News rotation -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",

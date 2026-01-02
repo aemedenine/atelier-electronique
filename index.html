@@ -6,38 +6,7 @@
 <title>Atelier Electronique Médenine</title>
 <meta name="google-adsense-account" content="ca-pub-5360225987687639">
 <!-- Script AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
-     crossorigin="anonymous"></script>
-/* FULLSCREEN VIEWER */
-.media-viewer {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-.media-viewer img,
-.media-viewer video {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
-}
-
-.media-viewer .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639" crossorigin="anonymous"></script>
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
@@ -50,7 +19,7 @@
 
 <script>
  // Firebase configuration
-  const firebaseConfig = {
+ const firebaseConfig = {
   apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
   authDomain: "atelier-electronique-mednine.firebaseapp.com",
   projectId: "atelier-electronique-mednine",
@@ -59,38 +28,34 @@
   appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
 };
 
-  // Initialize Firebase
-  const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
-  const analytics = firebase.analytics(app);
-  const auth = firebase.auth();
-     // ======= حفظ تسجيل الدخول حتى بعد refresh =======
+// Initialize Firebase safely
+const app = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+const analytics = firebase.analytics(app);
+const auth = firebase.auth();
+
+// ======= حفظ تسجيل الدخول حتى بعد refresh =======
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(() => {
-    console.log("🔒 Session persistente activée");
-  })
-  .catch((error) => {
-    console.error("Erreur persistence:", error);
-  });
+  .then(() => { console.log("🔒 Session persistente activée"); })
+  .catch(error => { console.error("Erreur persistence:", error); });
 
 // Firebase Sign-In Logic
 document.addEventListener('DOMContentLoaded', () => {
-     // ===== مراقبة حالة تسجيل الدخول =====
-firebase.auth().onAuthStateChanged((user) => {
-  const loginPopup = document.getElementById('login-popup');
-  const userInfo = document.getElementById('user-info');
-  const userName = document.getElementById('user-name');
 
-  if (user) {
-    // المستخدم مسجل
-    userInfo.style.display = 'block';
-    loginPopup.style.display = 'none';
-    userName.textContent = user.displayName || "مستخدم";
-  } else {
-    // مش مسجل
-    userInfo.style.display = 'none';
-    loginPopup.style.display = 'flex';
-  }
-});
+  // مراقبة حالة تسجيل الدخول
+  firebase.auth().onAuthStateChanged((user) => {
+    const loginPopup = document.getElementById('login-popup');
+    const userInfo = document.getElementById('user-info');
+    const userName = document.getElementById('user-name');
+
+    if (user) {
+      userInfo.style.display = 'block';
+      loginPopup.style.display = 'none';
+      userName.textContent = user.displayName || "مستخدم";
+    } else {
+      userInfo.style.display = 'none';
+      loginPopup.style.display = 'flex';
+    }
+  });
 
   const loginPopup = document.getElementById('login-popup');
   const btnGoogle = document.getElementById('btn-google');
@@ -118,8 +83,16 @@ firebase.auth().onAuthStateChanged((user) => {
       alert('تم تسجيل الخروج بنجاح');
     });
   });
+
+  // ======= Video play safety =======
+  document.querySelectorAll('.video-card video').forEach(video => {
+    video.addEventListener('mouseenter', () => { video.play().catch(()=>{}); });
+    video.addEventListener('mouseleave', () => { video.pause(); video.currentTime=0; });
+  });
+
 });
 </script>
+
 <style>
 /* ======= Glow متحرك للأزرار ======= */
 .cta-buttons a,
@@ -306,8 +279,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
 .video-card video:hover {
   transform: scale(1.05);
-}
-</style>
+}</style>
 </head>
 <body>
 <header>
@@ -501,9 +473,9 @@ firebase.auth().onAuthStateChanged((user) => {
   <img id="viewerImg" />
   <video id="viewerVideo" controls></video>
 </div>
-
 <script src="app.js" defer></script>
 <script>
+
 // ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
   const cmpBanner = document.getElementById('cmp-banner');

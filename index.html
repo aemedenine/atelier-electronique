@@ -437,12 +437,53 @@ document.addEventListener('DOMContentLoaded', () => {
   <button id="consent-allow">أوافق</button>
   <button id="consent-manage">تغيير الخيارات</button>
 </div>
-<!-- FULLSCREEN VIEWER -->
-<div id="mediaViewer" class="media-viewer">
+/* ======= Fullscreen Media Viewer Updated ======= */
+#mediaViewer {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999; /* أهم حاجة باش يكون فوق كل حاجة */
+  flex-direction: column;
+}
+
+#mediaViewer img, 
+#mediaViewer video {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px #0ff;
+}
+
+#mediaViewer .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2.5rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 100000;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 12px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+#mediaViewer .close-btn:hover {
+  background: rgba(255,0,0,0.7);
+  transform: scale(1.2);
+}
+ <!-- ======= Fullscreen Media Viewer ======= -->
+<div id="mediaViewer">
   <span class="close-btn">&times;</span>
-  <img id="viewerImg" />
-  <video id="viewerVideo" controls></video>
+  <img id="viewerImg" style="display:none" alt="صورة تكبير">
+  <video id="viewerVideo" style="display:none" controls></video>
 </div>
+
 <script src="app.js" defer></script>
 <script>
 

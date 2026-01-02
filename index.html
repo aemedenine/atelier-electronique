@@ -412,36 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 </section>
-/* FULLSCREEN VIEWER */
-.media-viewer {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-.media-viewer img,
-.media-viewer video {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
-}
-
-.media-viewer .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
 
 </main>
 
@@ -478,6 +448,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
+ // ======= Fullscreen Media Viewer =======
+const mediaViewer = document.getElementById('mediaViewer');
+const viewerImg = document.getElementById('viewerImg');
+const viewerVideo = document.getElementById('viewerVideo');
+const closeBtn = mediaViewer.querySelector('.close-btn');
+
+// كل الصور والفيديوهات اللي تحب تفتح في fullscreen
+document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
+  el.style.cursor = 'pointer';
+  el.addEventListener('click', () => {
+    mediaViewer.style.display = 'flex';
+    if(el.tagName === 'IMG'){
+      viewerImg.src = el.src;
+      viewerImg.style.display = 'block';
+      viewerVideo.style.display = 'none';
+      viewerVideo.pause();
+    } else if(el.tagName === 'VIDEO'){
+      viewerVideo.src = el.src;
+      viewerVideo.style.display = 'block';
+      viewerImg.style.display = 'none';
+      viewerVideo.play();
+    }
+  });
+});
+
+// زر الإغلاق
+closeBtn.addEventListener('click', () => {
+  mediaViewer.style.display = 'none';
+  viewerVideo.pause();
+  viewerVideo.currentTime = 0;
+});
+
   const cmpBanner = document.getElementById('cmp-banner');
   const consentAllow = document.getElementById('consent-allow');
   const consentManage = document.getElementById('consent-manage');

@@ -206,6 +206,18 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size:1.8rem;
   text-shadow:0 0 8px rgba(0,255,255,0.6);
 }
+ .weather-box > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+ .prayer-times p {
+  margin: 3px 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
 .services-slider {
   display:flex;
   gap:20px;
@@ -332,12 +344,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
-  <!-- ======= Weather Section ======= -->
-  <section class="weather-box">
-    <h3>🌦️ حالة الطقس في مدنين</h3>
-    <div class="weather-temp" id="weather-temp">--°C</div>
-    <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
-  </section>
+ <section class="weather-box">
+  <h3>🌦️ حالة الطقس في مدنين</h3>
+  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+    <div>
+      <div class="weather-temp" id="weather-temp">--°C</div>
+      <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
+    </div>
+
+    <!-- ======= Prayer Times ======= -->
+    <div class="prayer-times" id="prayer-times" style="text-align:left;">
+      <p>الفجر: --:--</p>
+      <p>الشروق: --:--</p>
+      <p>الظهر: --:--</p>
+      <p>العصر: --:--</p>
+      <p>المغرب: --:--</p>
+      <p>العشاء: --:--</p>
+    </div>
+  </div>
+</section>
 
   <section class="faq">
     <h2>الأسئلة الشائعة</h2>
@@ -799,6 +824,26 @@ document.querySelectorAll('.video-card video').forEach(video => {
     captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
   }
   updateServiceCaptions(currentLanguage);
+function updatePrayerTimes() {
+  fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
+    .then(res => res.json())
+    .then(data => {
+      const times = data.data.timings;
+      const pt = document.getElementById("prayer-times");
+      pt.innerHTML = `
+        <p>الفجر: ${times.Fajr}</p>
+        <p>الشروق: ${times.Sunrise}</p>
+        <p>الظهر: ${times.Dhuhr}</p>
+        <p>العصر: ${times.Asr}</p>
+        <p>المغرب: ${times.Maghrib}</p>
+        <p>العشاء: ${times.Isha}</p>
+      `;
+    })
+    .catch(err => console.error("Erreur prayer times:", err));
+}
+
+// تنفيذها مباشرة بعد تحميل الصفحة
+updatePrayerTimes();
 
 });
 </script>

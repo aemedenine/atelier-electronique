@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Elements
   const ticker = document.getElementById('live-news');
   const toggleBtn = document.getElementById('toggle-lang-btn');
-  const visitEl = document.getElementById('visit-count');
   const timeEl = document.getElementById('current-time');
   const faqContainer = document.querySelector('.faq');
   const radio = document.getElementById('radio-stream');
@@ -43,6 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     timeEl.textContent = `${dateStr} - ${timeStr}`;
   }
+
+  /* -------------------- Visits -------------------- */
+  function updateVisits() {
+    const key = 'aem-visit-count';
+    let count = parseInt(localStorage.getItem(key)) || 0;
+    count++;
+    localStorage.setItem(key, count);
+    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
+  }
+
   /* -------------------- News rotation -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
@@ -169,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // restart related features
     startNewsRotation();
     updateTime();
-    updateVisits();
     initFAQ();
   }
 
@@ -183,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // initial calls
   updateTime();
-  updateVisits();
   startNewsRotation();
   initFAQ();
   updateEqualizerVisibility();

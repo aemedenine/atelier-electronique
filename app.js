@@ -42,22 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
       : `${day}, ${date} ${month}`;
 
     timeEl.textContent = `${dateStr} - ${timeStr}`;
-  }
-
- // ======= Total Visitors Counter =======
-const db = firebase.database(); // قاعدة البيانات
-const visitsRef = db.ref('visits');
-
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع
-visitsRef.on('value', snapshot => {
-  const total = snapshot.val() || 0;
-  const visitCountElem = document.getElementById('visit-count');
-  visitCountElem.textContent = "عدد زوار الموقع: " + total;
-
-
 
   /* -------------------- News rotation -------------------- */
   const newsAr = [

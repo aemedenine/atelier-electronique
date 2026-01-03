@@ -197,6 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
   border-radius:5px;
   font-weight:bold;
 }
+/* ======= Radio Button Dance ======= */
+.dance {
+  animation: danceMove 0.5s infinite alternate;
+  transform-origin: center;
+}
+@keyframes danceMove {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
 
 /* ======= Gallery / Services Today ======= */
 .services-today h2 {

@@ -44,7 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
     timeEl.textContent = `${dateStr} - ${timeStr}`;
   }
 
- 
+  /* -------------------- Visits -------------------- */
+  function updateVisits() {
+    const key = 'aem-visit-count';
+    let count = parseInt(localStorage.getItem(key)) || 0;
+    count++;
+    localStorage.setItem(key, count);
+    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
+  }
+
   /* -------------------- News rotation -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
@@ -136,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.btn-gallery').textContent = 'شاهد الصور  🖼️';
       document.querySelector('.btn-video').textContent = 'شاهد الفيديو  🎥';
       document.querySelector('.btn-services').textContent = 'خدمات الورشة  🛠️';
-      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : '📻  أوقف الراديو  📻';
+      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو  📻';
 
       // rebuild FAQ in Arabic (keeps markup consistent)
       faqContainer.innerHTML = `

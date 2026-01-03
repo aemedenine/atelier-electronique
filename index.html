@@ -113,6 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
   margin-left: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
+.prayer-times p {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.prayer-times p span {
+  flex-shrink: 0;
+}
+
+.prayer-times p .time {
+  font-weight: bold;
+}
 
 /* ======= Weather Box ======= */
 .weather-box {
@@ -363,15 +378,14 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <!-- ======= Prayer Times ======= -->
-    <div class="prayer-times" id="prayer-times" style="text-align:left;">
-      <p>الفجر: --:--</p>
-      <p>الشروق: --:--</p>
-      <p>الظهر: --:--</p>
-      <p>العصر: --:--</p>
-      <p>المغرب: --:--</p>
-      <p>العشاء: --:--</p>
-    </div>
-  </div>
+   <div class="prayer-times" id="prayer-times">
+  <p>🌅 الفجر: --:--</p>
+  <p>🌄 الشروق: --:--</p>
+  <p>☀️ الظهر: --:--</p>
+  <p>🕰️ العصر: --:--</p>
+  <p>🌇 المغرب: --:--</p>
+  <p>🌙 العشاء: --:--</p>
+</div>
 </section>
 
   <section class="faq">
@@ -959,14 +973,15 @@ function updatePrayerTimes() {
     .then(data => {
       const times = data.data.timings;
       const pt = document.getElementById("prayer-times");
-      pt.innerHTML = `
-  <p>🌅 الفجر: ${times.Fajr}</p>
-  <p>🌄 الشروق: ${times.Sunrise}</p>
-  <p>☀️ الظهر: ${times.Dhuhr}</p>
-  <p>🕰️ العصر: ${times.Asr}</p>
-  <p>🌇 المغرب: ${times.Maghrib}</p>
-  <p>🌙 العشاء: ${times.Isha}</p>
-   `;
+    pt.innerHTML = `
+  <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
+  <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
+  <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
+  <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
+  <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
+  <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
+`;
+
     })
     .catch(err => console.error("Erreur prayer times:", err));
 }

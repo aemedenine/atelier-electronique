@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : `${day}, ${date} ${month}`;
 
     timeEl.textContent = `${dateStr} - ${timeStr}`;
-
+  }
   /* -------------------- News rotation -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",

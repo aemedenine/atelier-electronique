@@ -415,33 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
  <!-- ======= خدمات اليوم ======= -->
 <section class="services-today">
   <h2>خدمات اليوم</h2>
-<!-- ======= Poste Soudure ======= -->
-<section class="services-today" id="poste-soudure-section">
-  <h2 id="poste-soudure-title">Réparation postes soudure</h2>
-  
-  <div class="services-slider" id="posteSoudureSlider">
-    <div class="service-card">
-      <img src="poste1.webp" alt="Poste Soudure 1">
-      <p class="service-caption">تصليح ماكينة لحام 1</p>
-    </div>
-    <div class="service-card">
-      <img src="poste2.webp" alt="Poste Soudure 2">
-      <p class="service-caption">تصليح ماكينة لحام 2</p>
-    </div>
-    <div class="service-card">
-      <img src="poste3.webp" alt="Poste Soudure 3">
-      <p class="service-caption">تصليح ماكينة لحام 3</p>
-    </div>
-    <div class="service-card">
-      <img src="poste4.webp" alt="Poste Soudure 4">
-      <p class="service-caption">تصليح ماكينة لحام 4</p>
-    </div>
-    <div class="service-card">
-      <img src="poste5.webp" alt="Poste Soudure 5">
-      <p class="service-caption">تصليح ماكينة لحام 5</p>
-    </div>
-  </div>
-</section>
+
   <!-- صور -->
   <div class="services-slider" id="servicesSlider">
     <div class="service-card">
@@ -465,7 +439,27 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="service-caption">تصليح كارت تلفاز</p>
     </div>
   </div>
+<!-- ======= Poste Soudure ======= -->
+<section class="services-today" id="poste-soudure-section">
+  <h2 id="poste-soudure-title">Réparation postes soudure</h2>
 
+  <div class="services-slider">
+    <div class="service-card">
+      <img src="poste1.webp">
+      <p class="service-caption">تصليح ماكينة لحام</p>
+    </div>
+
+    <div class="service-card">
+      <img src="poste2.webp">
+      <p class="service-caption">صيانة Poste Soudure</p>
+    </div>
+
+    <div class="service-card">
+      <img src="poste3.webp">
+      <p class="service-caption">إصلاح لوحة إلكترونية</p>
+    </div>
+  </div>
+</section>
   <!-- فيديوهات -->
   <div class="services-slider" id="videoSlider">
     <div class="service-card video-card">
@@ -682,6 +676,24 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 // ======= Fullscreen Media Viewer JS =======
 document.addEventListener('DOMContentLoaded', () => {
+ const titlesByLang = {
+  ar: {
+    services: "خدمات اليوم",
+    soudure: "تصليح ماكينات لحام"
+  },
+  fr: {
+    services: "Services du jour",
+    soudure: "Réparation postes soudure"
+  }
+};
+
+function updateTitles(lang) {
+  document.getElementById("services-title").textContent =
+    titlesByLang[lang].services;
+
+  document.getElementById("poste-soudure-title").textContent =
+    titlesByLang[lang].soudure;
+}
   const mediaViewer = document.getElementById('mediaViewer');
   const viewerImg = document.getElementById('viewerImg');
   const viewerVideo = document.getElementById('viewerVideo');

@@ -313,18 +313,18 @@ document.addEventListener('DOMContentLoaded', () => {
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
-<!-- ======= User Info & Login ======= -->
-<div id="user-info" style="display:none; text-align:center; margin:15px 0;">
-  <p>مرحبا <span id="user-name"></span>!</p>
-  <button id="btn-signout">تسجيل الخروج</button>
+<!-- User Info -->
+<div id="user-info" class="user-box" style="display:none;">
+  <p class="welcome-msg">مرحبا <span id="user-name"></span>! 👋</p>
+  <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
 </div>
 
 <!-- Login Popup -->
-<div id="login-popup">
+<div id="login-popup" class="login-popup">
   <div class="popup-content">
     <h2>تسجيل الدخول</h2>
-    <button id="btn-google">تسجيل الدخول بواسطة Google</button>
-    <button id="btn-close-popup">إلغاء</button>
+    <button id="btn-google" class="btn-google">تسجيل الدخول بـ Google</button>
+    <button id="btn-close-popup" class="btn-close">إلغاء</button>
   </div>
 </div>
   <section class="cta-buttons">
@@ -465,6 +465,125 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
 <style>
+ /* User Info Box */
+.user-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,255,255,0.1);
+  backdrop-filter: blur(6px);
+  border: 2px solid #0ff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  max-width: 400px;
+  margin: 20px auto;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0,255,255,0.4);
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.user-box:hover {
+  background: rgba(0,255,255,0.2);
+  box-shadow: 0 0 25px rgba(0,255,255,0.6);
+}
+
+.welcome-msg {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0ff;
+  text-shadow: 0 0 6px #0ff;
+}
+
+/* Sign Out Button */
+.btn-signout {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-signout:hover {
+  background: #e05520;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px #ff6b35;
+}
+
+/* Login Popup */
+.login-popup {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index:10000;
+}
+
+.login-popup .popup-content {
+  background:#111;
+  padding:30px 25px;
+  border-radius:15px;
+  text-align:center;
+  color:#fff;
+  width:320px;
+  max-width:90%;
+  box-shadow:0 0 25px #0ff;
+  font-family: 'Montserrat', sans-serif;
+  animation: fadeIn 0.5s ease;
+}
+
+.login-popup h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.btn-google {
+  background: #0ff;
+  color: #000;
+  border:none;
+  padding:10px 20px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  margin-bottom: 10px;
+  width:100%;
+  transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+  background: #00cdd7;
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px #0ff;
+}
+
+.btn-close {
+  background: #ff6b35;
+  color:#fff;
+  border:none;
+  padding:8px 20px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  width:100%;
+  transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+  background:#e05520;
+  transform: translateY(-2px);
+  box-shadow:0 0 10px #ff6b35;
+}
+
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
 /* ======= Fullscreen Media Viewer CSS ======= */
 #mediaViewer {
   display: none;

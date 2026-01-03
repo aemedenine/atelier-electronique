@@ -280,6 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
   padding-bottom: 10px;
   font-style: italic;
 }
+ #poste-soudure-section .service-card img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
 /* Login Popup */
 #login-popup {
   display: none;
@@ -411,7 +415,33 @@ document.addEventListener('DOMContentLoaded', () => {
  <!-- ======= خدمات اليوم ======= -->
 <section class="services-today">
   <h2>خدمات اليوم</h2>
-
+<!-- ======= Poste Soudure ======= -->
+<section class="services-today" id="poste-soudure-section">
+  <h2 id="poste-soudure-title">Réparation postes soudure</h2>
+  
+  <div class="services-slider" id="posteSoudureSlider">
+    <div class="service-card">
+      <img src="poste1.webp" alt="Poste Soudure 1">
+      <p class="service-caption">تصليح ماكينة لحام 1</p>
+    </div>
+    <div class="service-card">
+      <img src="poste2.webp" alt="Poste Soudure 2">
+      <p class="service-caption">تصليح ماكينة لحام 2</p>
+    </div>
+    <div class="service-card">
+      <img src="poste3.webp" alt="Poste Soudure 3">
+      <p class="service-caption">تصليح ماكينة لحام 3</p>
+    </div>
+    <div class="service-card">
+      <img src="poste4.webp" alt="Poste Soudure 4">
+      <p class="service-caption">تصليح ماكينة لحام 4</p>
+    </div>
+    <div class="service-card">
+      <img src="poste5.webp" alt="Poste Soudure 5">
+      <p class="service-caption">تصليح ماكينة لحام 5</p>
+    </div>
+  </div>
+</section>
   <!-- صور -->
   <div class="services-slider" id="servicesSlider">
     <div class="service-card">
@@ -936,7 +966,50 @@ document.querySelectorAll('.video-card video').forEach(video => {
     dancing = !dancing;
     if(dancing) { radioBtn.classList.add('dance'); } else { radioBtn.classList.remove('dance'); }
   });
+const posteSoudureTranslations = {
+  ar: {
+    title: "تصليح ماكينات لحام",
+    captions: [
+      "تصليح ماكينة لحام 1",
+      "تصليح ماكينة لحام 2",
+      "تصليح ماكينة لحام 3",
+      "تصليح ماكينة لحام 4",
+      "تصليح ماكينة لحام 5"
+    ]
+  },
+  fr: {
+    title: "Réparation postes soudure",
+    captions: [
+      "Réparation poste soudure 1",
+      "Réparation poste soudure 2",
+      "Réparation poste soudure 3",
+      "Réparation poste soudure 4",
+      "Réparation poste soudure 5"
+    ]
+  }
+};
 
+function updatePosteSoudureCaptions(lang) {
+  const section = document.getElementById("poste-soudure-section");
+  const title = document.getElementById("poste-soudure-title");
+  title.textContent = posteSoudureTranslations[lang].title;
+
+  const captions = section.querySelectorAll(".service-caption");
+  captions.forEach((cap, idx) => {
+    cap.textContent = posteSoudureTranslations[lang].captions[idx];
+  });
+}
+
+// تحديث اللغة مع زر التبديل
+document.getElementById('toggle-lang-btn').addEventListener('click', () => {
+  currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
+  updateServiceCaptions(currentLanguage);   // خدمات اليوم
+  updatePosteSoudureCaptions(currentLanguage); // Poste Soudure
+  updateWeather(currentLanguage);
+  updateVisitText(currentLanguage, totalVisits);
+  updateLanguageTexts(currentLanguage);
+});
+updatePosteSoudureCaptions(currentLanguage); // تنفيذها مباشرة بعد التحميل
   // ======= Service Captions Translations + Section Title =======
   const serviceTranslations = {
     ar: {

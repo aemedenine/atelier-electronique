@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startNewsRotation();
     updateTime();
     initFAQ();
+    updateEqualizerVisibility();
   }
 
   toggleBtn.addEventListener('click', () => {

@@ -44,14 +44,20 @@ document.addEventListener('DOMContentLoaded', () => {
     timeEl.textContent = `${dateStr} - ${timeStr}`;
   }
 
-  /* -------------------- Visits -------------------- */
-  function updateVisits() {
-    const key = 'aem-visit-count';
-    let count = parseInt(localStorage.getItem(key)) || 0;
-    count++;
-    localStorage.setItem(key, count);
-    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
-  }
+ // ======= Total Visitors Counter =======
+const db = firebase.database(); // قاعدة البيانات
+const visitsRef = db.ref('visits');
+
+// زيادة العدد تلقائياً عند كل زيارة
+visitsRef.transaction(current => (current || 0) + 1);
+
+// تحديث العدد مباشرة على الموقع
+visitsRef.on('value', snapshot => {
+  const total = snapshot.val() || 0;
+  const visitCountElem = document.getElementById('visit-count');
+  visitCountElem.textContent = "عدد زوار الموقع: " + total;
+});
+
 
   /* -------------------- News rotation -------------------- */
   const newsAr = [

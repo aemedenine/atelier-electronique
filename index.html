@@ -960,13 +960,13 @@ function updatePrayerTimes() {
       const times = data.data.timings;
       const pt = document.getElementById("prayer-times");
       pt.innerHTML = `
-       <p>الفجر: ${times.Fajr}</p>
-      <p>الشروق: ${times.Sunrise}</p>
-       <p>الظهر: ${times.Dhuhr}</p>
-      <p>العصر: ${times.Asr}</p>
-      <p>المغرب: ${times.Maghrib}</p>
-       <p>العشاء: ${times.Isha}</p>
-      `;
+  <p>🌅 الفجر: ${times.Fajr}</p>
+  <p>🌄 الشروق: ${times.Sunrise}</p>
+  <p>☀️ الظهر: ${times.Dhuhr}</p>
+  <p>🕰️ العصر: ${times.Asr}</p>
+  <p>🌇 المغرب: ${times.Maghrib}</p>
+  <p>🌙 العشاء: ${times.Isha}</p>
+   `;
     })
     .catch(err => console.error("Erreur prayer times:", err));
 }

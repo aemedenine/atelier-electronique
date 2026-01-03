@@ -496,10 +496,11 @@ const visitsRef = db.ref('visits');
 visitsRef.transaction(current => (current || 0) + 1);
 
 // تحديث العدد مباشرة على الموقع
+let totalVisits = 0;
+
 visitsRef.on('value', snapshot => {
-  const total = snapshot.val() || 0;
-  const visitCountElem = document.getElementById('visit-count');
-  visitCountElem.textContent = "عدد زوار الموقع: " + total;
+  totalVisits = snapshot.val() || 0;
+  updateVisitText(currentLanguage, totalVisits);
 });
 
   // فتح الصور والفيديوهات بالـ fullscreen
@@ -628,11 +629,21 @@ closeBtn.addEventListener('click', () => {
     updateWeather(currentLanguage);
     updateLanguageTexts(currentLanguage);
     updateServiceCaptions(currentLanguage);
+    updateVisitText(currentLanguage, totalVisits);
   });
 
   updateLanguageTexts(currentLanguage);
   updateWeather(currentLanguage);
+function updateVisitText(lang, total) {
+  const visitCountElem = document.getElementById('visit-count');
+  if (!visitCountElem) return;
 
+  if (lang === 'ar') {
+    visitCountElem.textContent = 'عدد زوار الموقع: ' + total;
+  } else {
+    visitCountElem.textContent = 'Nombre de visiteurs : ' + total;
+  }
+}
   // ======= Rating =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');

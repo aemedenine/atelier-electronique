@@ -56,7 +56,7 @@ visitsRef.on('value', snapshot => {
   const total = snapshot.val() || 0;
   const visitCountElem = document.getElementById('visit-count');
   visitCountElem.textContent = "عدد زوار الموقع: " + total;
-});
+
 
 
   /* -------------------- News rotation -------------------- */

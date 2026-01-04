@@ -73,13 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Login error:", error);
     });
 });
-        const user = result.user;
-        userName.textContent = user.displayName;
-        userInfo.style.display = 'block';
-        loginPopup.style.display = 'none';
-      }).catch(console.error);
-  });
-
   btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
 
   btnSignOut.addEventListener('click', () => {
@@ -291,12 +284,12 @@ document.addEventListener('DOMContentLoaded', () => {
 /* Login Popup */
 #login-popup {
   display: none;
-  position: fixed;
+ position:fixed;
   top:0; left:0; width:100%; height:100%;
   background: rgba(0,0,0,0.7);
   justify-content: center; align-items: center;
   z-index:10000;
-  display:flex; flex-direction:column;
+  flex-direction:column;
 }
 #login-popup .popup-content {
   background:#111; padding:25px; border-radius:12px;
@@ -700,30 +693,17 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 function updateTitles(lang) {
-  document.getElementById("services-title").textContent =
+  document.getElementById(id="services-title").textContent =
     titlesByLang[lang].services;
 
-  document.getElementById("poste-soudure-title").textContent =
+  document.getElementById(id="poste-soudure-title").textContent =
     titlesByLang[lang].soudure;
 }
   const mediaViewer = document.getElementById('mediaViewer');
   const viewerImg = document.getElementById('viewerImg');
   const viewerVideo = document.getElementById('viewerVideo');
   const closeBtn = mediaViewer.querySelector('.close-btn');
-// ======= Total Visitors Counter =======
-const db = firebase.database(); // قاعدة البيانات
-const visitsRef = db.ref('visits');
 
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع
-let totalVisits = 0;
-
-visitsRef.on('value', snapshot => {
-  totalVisits = snapshot.val() || 0;
-  updateVisitText(currentLanguage, totalVisits);
-});
 
   // فتح الصور والفيديوهات بالـ fullscreen
   document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
@@ -822,8 +802,6 @@ closeBtn.addEventListener('click', () => {
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
 
-  // ======= Weather Script =======
-  let currentLanguage = 'ar';
  // ======= Visits Counter =======
 let totalVisits = 0; // متغير عام للعدد
 
@@ -1019,7 +997,7 @@ function updatePosteSoudureCaptions(lang) {
   const title = document.getElementById("poste-soudure-title");
   title.textContent = posteSoudureTranslations[lang].title;
 
-  const captions = section.querySelectorAll(".service-caption");
+  const captions = document.querySelectorAll('.services-today:not(#poste-soudure-section) .service-caption');
   captions.forEach((cap, idx) => {
     cap.textContent = posteSoudureTranslations[lang].captions[idx];
   });

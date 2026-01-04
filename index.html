@@ -68,7 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
   btnGoogle.addEventListener('click', () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-      .then(result => {
+  })
+    .catch(error => {
+      console.error("Login error:", error);
+    });
+});
         const user = result.user;
         userName.textContent = user.displayName;
         userInfo.style.display = 'block';
@@ -759,6 +763,7 @@ visitsRef.on('value', snapshot => {
 
 // ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
+ let currentLanguage = 'ar';
  // ======= Fullscreen Media Viewer =======
 const mediaViewer = document.getElementById('mediaViewer');
 const viewerImg = document.getElementById('viewerImg');

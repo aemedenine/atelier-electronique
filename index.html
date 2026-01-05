@@ -386,35 +386,53 @@ document.addEventListener('DOMContentLoaded', () => {
   <p>🌇 المغرب: --:--</p>
   <p>🌙 العشاء: --:--</p>
 </div>
-    <!-- 🔧 Calcul Résistance -->
-  <div class="resistance-box" id="resistance-box">
-    <h4>🔧 حساب المقاومة</h4>
+   <!-- 🔧 Calcul Résistance -->
+<div id="resistance-box">
+  <h2>🔧 حساب المقاومة</h2>
 
-    <select id="resistance-type-select">
-      <option value="4">4 ألوان</option>
-      <option value="5">5 ألوان</option>
-    </select>
+  <!-- اختيار عدد الألوان -->
+  <select id="resistance-type-select">
+    <option value="4">4 ألوان</option>
+    <option value="5">5 ألوان</option>
+  </select>
 
-    <select id="band1"></select>
-    <select id="band2"></select>
-    <select id="band3"></select>
-
-    <div id="band5-container" style="display:none;">
-      <select id="band5"></select>
+  <!-- الألوان -->
+  <div class="resistance-bands">
+    <div class="band">
+      <label>الحلقة 1</label>
+      <select id="band1" class="band-select"></select>
     </div>
 
-    <select id="band4"></select>
+    <div class="band">
+      <label>الحلقة 2</label>
+      <select id="band2" class="band-select"></select>
+    </div>
 
-    <button id="calc-resistance">احسب</button>
+    <div class="band" id="band3-wrapper">
+      <label>الحلقة 3</label>
+      <select id="band3" class="band-select"></select>
+    </div>
 
-    <div class="result">
-      <p id="resistance-value">-- Ω</p>
-      <p id="resistance-conversion"></p>
-      <p id="resistance-tolerance"></p>
+    <div class="band">
+      <label>المضاعف</label>
+      <select id="band4" class="band-select"></select>
+    </div>
+
+    <div class="band" id="band5-wrapper" style="display:none;">
+      <label>التسامح</label>
+      <select id="band5" class="band-select"></select>
     </div>
   </div>
 
+  <button id="calc-resistance">احسب</button>
+
+  <div id="resistance-result">
+    <span id="resistance-value">-- Ω</span>
+    <span id="resistance-conversion"></span>
+    <span id="resistance-tolerance"></span>
+  </div>
 </div>
+
 </section>
 
   <section class="faq">

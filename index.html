@@ -734,6 +734,37 @@ visitsRef.on('value', snapshot => {
 
 <script src="app.js" defer></script>
 <script>
+let currentLanguage = 'ar'; // لغة افتراضية
+
+function updateLanguageTexts(lang){
+  // ===== تقييم الورشة =====
+  document.getElementById('rating-title').textContent = (lang==='ar') ? 'قيم الورشة:' : 'Évaluez l’atelier :';
+
+  // ===== Login Popup =====
+  const popupTitle = document.querySelector('#login-popup h2');
+  const btnGoogle = document.getElementById('btn-google');
+  const btnClose = document.getElementById('btn-close-popup');
+  if(lang==='ar'){
+    popupTitle.textContent = 'تسجيل الدخول';
+    btnGoogle.textContent = 'تسجيل الدخول بـ Google';
+    btnClose.textContent = 'إلغاء';
+  } else {
+    popupTitle.textContent = 'Connexion';
+    btnGoogle.textContent = 'Se connecter avec Google';
+    btnClose.textContent = 'Annuler';
+  }
+
+  // ===== Services Today =====
+  const serviceCaptions = document.querySelectorAll('.service-caption');
+  const captions = (lang==='ar') 
+    ? ["تصليح لوحات إلكترونية","تصليح كارت جهاز المشي","تصليح كارت ماكينة غسيل","تصليح كارت تلفاز","تصليح كارت غسالة ل-ج"]
+    : ["réparation de cartes électroniques","réparation carte tapis roulant","réparation carte lave-linge","réparation carte télévision","réparation carte lave-linge LG"];
+  serviceCaptions.forEach((el,i)=>el.textContent=captions[i]);
+
+  // ===== Weather Box =====
+  document.querySelector('.weather-box h3').textContent = (lang==='ar') ? "🌦️ حالة الطقس في مدنين" : "🌦️ Météo à Médenine";
+}
+
 
 // ======= CMP Script + كل الكود الأصلي =======
 document.addEventListener('DOMContentLoaded', () => {
@@ -811,6 +842,15 @@ visitsRef.on('value', snapshot => {
   totalVisits = snapshot.val() || 0;
   updateVisitText(currentLanguage, totalVisits);
 });
+ function updateCMPBanner(lang){
+  const cmpBanner = document.getElementById('cmp-banner');
+  if(lang==='ar'){
+    cmpBanner.innerHTML = 'نستخدم الكوكيز لتحسين تجربتك. <button id="consent-allow">أوافق</button> <button id="consent-manage">تغيير الخيارات</button>';
+  } else {
+    cmpBanner.innerHTML = 'Nous utilisons des cookies pour améliorer votre expérience. <button id="consent-allow">Accepter</button> <button id="consent-manage">Gérer</button>';
+  }
+}
+
   function updateWeather(language) {
     fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
     .then(res => res.json())
@@ -846,13 +886,10 @@ visitsRef.on('value', snapshot => {
   updateWeather(currentLanguage);
 function updateVisitText(lang, total) {
   const visitCountElem = document.getElementById('visit-count');
-  if (!visitCountElem) return;
+  if(!visitCountElem) return;
+  visitCountElem.textContent = (lang==='ar') ? 'عدد زوار الموقع: ' + total : 'Nombre de visiteurs : ' + total;
+}
 
-  if (lang === 'ar') {
-    visitCountElem.textContent = 'عدد زوار الموقع: ' + total;
-  } else {
-    visitCountElem.textContent = 'Nombre de visiteurs : ' + total;
-  }
 }
   // ======= Rating =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');

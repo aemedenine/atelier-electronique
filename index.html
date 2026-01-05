@@ -353,23 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
   <section class="cta-buttons">
-   <div id="resistance-box">
-  <h2>حاسبة المقاومة</h2>
-  <div class="resistance-bands">
-    <div class="band"><label>الرقم 1</label><select id="band1" class="band-select"></select></div>
-    <div class="band"><label>الرقم 2</label><select id="band2" class="band-select"></select></div>
-    <div class="band"><label>المضاعف</label><select id="band3" class="band-select"></select></div>
-    <div class="band"><label>التحمل</label><select id="band4" class="band-select"></select></div>
-    <div class="band" id="band5-container"><label>الرقم 3</label><select id="band5" class="band-select"></select></div>
-  </div>
-  <button id="calc-resistance">احسب المقاومة</button>
-  <div id="resistance-result">
-    <p>القيمة: <span id="resistance-value"></span></p>
-    <p>التحمل: <span id="resistance-tolerance"></span></p>
-    <p>تحويل: <span id="resistance-conversion"></span></p>
-  </div>
-</div>
-
+    <a href="download" class="btn-download">تحميل البرامج  📥</a>
     <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
     <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
     <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
@@ -401,6 +385,35 @@ document.addEventListener('DOMContentLoaded', () => {
   <p>🕰️ العصر: --:--</p>
   <p>🌇 المغرب: --:--</p>
   <p>🌙 العشاء: --:--</p>
+</div>
+    <!-- 🔧 Calcul Résistance -->
+  <div class="resistance-box" id="resistance-box">
+    <h4>🔧 حساب المقاومة</h4>
+
+    <select id="resistance-type-select">
+      <option value="4">4 ألوان</option>
+      <option value="5">5 ألوان</option>
+    </select>
+
+    <select id="band1"></select>
+    <select id="band2"></select>
+    <select id="band3"></select>
+
+    <div id="band5-container" style="display:none;">
+      <select id="band5"></select>
+    </div>
+
+    <select id="band4"></select>
+
+    <button id="calc-resistance">احسب</button>
+
+    <div class="result">
+      <p id="resistance-value">-- Ω</p>
+      <p id="resistance-conversion"></p>
+      <p id="resistance-tolerance"></p>
+    </div>
+  </div>
+
 </div>
 </section>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Atelier Electronique Médenine</title>
 
@@ -30,9 +30,12 @@ button{cursor:pointer}
 
 /* ===== BUTTONS ===== */
 .cta-buttons{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.cta-buttons a,.cta-buttons button{
+.cta-buttons a, .cta-buttons button{
 background:#ff6b35;border:none;padding:10px 15px;
-border-radius:8px;color:#fff;text-decoration:none}
+border-radius:8px;color:#fff;text-decoration:none;
+transition:0.3s
+}
+.cta-buttons a:hover, .cta-buttons button:hover{opacity:0.8}
 
 /* ===== WEATHER ===== */
 .weather-box{margin:30px auto;max-width:420px;padding:15px;
@@ -42,10 +45,11 @@ background:rgba(255,255,255,.08);border-radius:15px;text-align:center}
 .services-slider{display:flex;gap:15px;overflow-x:auto;cursor:grab}
 .service-card{min-width:220px;background:rgba(255,255,255,.08);
 border-radius:15px;padding:10px}
-.service-card img{width:100%;border-radius:10px}
+.service-card img, .service-card video{width:100%;border-radius:10px}
 
 /* ===== RATING ===== */
-.stars span{font-size:2rem;cursor:pointer}
+.stars span{font-size:2rem;cursor:pointer;transition:0.2s}
+.stars span:hover{color:#ff6b35}
 
 /* ===== LOGIN POPUP ===== */
 #login-popup{position:fixed;inset:0;background:rgba(0,0,0,.8);
@@ -59,6 +63,10 @@ display:none;justify-content:center;align-items:center;z-index:999}
 #viewer{position:fixed;inset:0;background:#000;display:none;
 justify-content:center;align-items:center;z-index:9999}
 #viewer img,#viewer video{max-width:90%;max-height:90%}
+
+/* ===== RADIO & OPTIONS ===== */
+.option-group{display:flex;gap:10px;justify-content:center;margin:15px 0}
+.option-group input[type="radio"]{margin-left:5px}
 </style>
 </head>
 
@@ -76,21 +84,31 @@ justify-content:center;align-items:center;z-index:9999}
 </div>
 
 <section class="cta-buttons container">
-  <a id="btn-soft" href="#"></a>
-  <a id="btn-photos" href="#"></a>
-  <a id="btn-videos" href="#"></a>
-  <button id="login-btn"></button>
+  <a href="#">تحميل البرامج</a>
+  <a href="#">الصور</a>
+  <a href="#">الفيديو</a>
+  <button id="login-btn">Login</button>
+</section>
+
+<!-- ===== OPTIONS / RADIO EXAMPLE ===== -->
+<section class="container">
+  <div class="option-group">
+    <label><input type="radio" name="opt" value="1"> خيار 1</label>
+    <label><input type="radio" name="opt" value="2"> خيار 2</label>
+    <label><input type="radio" name="opt" value="3"> خيار 3</label>
+  </div>
 </section>
 
 <section class="weather-box">
   <h3 id="weather-title"></h3>
   <div id="weather-temp"></div>
+  <div id="weather-desc"></div>
   <div id="prayer-times"></div>
 </section>
 
 <section class="container">
   <h2 id="services-title"></h2>
-  <div class="services-slider">
+  <div class="services-slider" id="services">
     <div class="service-card"><img src="service1.webp"><p></p></div>
     <div class="service-card"><img src="service2.webp"><p></p></div>
     <div class="service-card"><img src="service3.webp"><p></p></div>
@@ -108,7 +126,7 @@ justify-content:center;align-items:center;z-index:9999}
   </div>
 </section>
 
-<!-- LOGIN -->
+<!-- ===== LOGIN ===== -->
 <div id="login-popup">
   <div class="popup">
     <h3 id="login-title"></h3>
@@ -117,10 +135,16 @@ justify-content:center;align-items:center;z-index:9999}
   </div>
 </div>
 
-<!-- CMP -->
+<!-- ===== CMP ===== -->
 <div id="cmp">
   <span id="cmp-text"></span>
   <button id="cmp-ok">OK</button>
+</div>
+
+<!-- ===== FULLSCREEN VIEWER ===== -->
+<div id="viewer" onclick="closeViewer()">
+  <img id="viewer-img">
+  <video id="viewer-video" controls></video>
 </div>
 
 <script>
@@ -130,26 +154,22 @@ let lang = 'ar';
 /* ===== TRANSLATIONS ===== */
 const T = {
  ar:{
-  visit:"عدد الزوار: ",
   weather:"حالة الطقس في مدنين",
   services:"خدمات اليوم",
-  rating:"قيّم الورشة",
+  rating:"قيم الورشة",
   login:"تسجيل الدخول",
   cmp:"نستخدم الكوكيز لتحسين تجربتك",
-  btns:["تحميل البرامج","الصور","الفيديو"],
-  prayer:l=>`الفجر ${l.Fajr} | الظهر ${l.Dhuhr} | المغرب ${l.Maghrib}`,
-  servicesTxt:["تصليح لوحات","تصليح كارت","صيانة إلكترونية"]
+  servicesTxt:["تصليح لوحات","تصليح كارت","صيانة إلكترونية"],
+  optionTxt:["خيار 1","خيار 2","خيار 3"]
  },
  fr:{
-  visit:"Visiteurs : ",
   weather:"Météo à Médenine",
   services:"Services du jour",
   rating:"Évaluer l'atelier",
   login:"Connexion",
-  cmp:"Nous utilisons des cookies pour améliorer votre expérience",
-  btns:["Téléchargements","Photos","Vidéos"],
-  prayer:l=>`Fajr ${l.Fajr} | Dhuhr ${l.Dhuhr} | Maghrib ${l.Maghrib}`,
-  servicesTxt:["Réparation cartes","Réparation carte","Maintenance électronique"]
+  cmp:"Nous utilisons des cookies",
+  servicesTxt:["Réparation cartes","Réparation carte","Maintenance"],
+  optionTxt:["Option 1","Option 2","Option 3"]
  }
 };
 
@@ -162,55 +182,49 @@ firebase.initializeApp({
 const auth=firebase.auth();
 const db=firebase.database();
 
-/* ===== VISITS ===== */
+/* ===== VISITS COUNTER ===== */
 const ref=db.ref("visits");
 ref.transaction(v=>(v||0)+1);
 ref.on("value",s=>{
- document.getElementById("visit-count").textContent =
- T[lang].visit+(s.val()||0);
+ document.getElementById("visit-count").textContent=
+ (lang==='ar'?'عدد الزوار: ':'Visiteurs: ')+(s.val()||0);
 });
 
-/* ===== LANGUAGE APPLY ===== */
+/* ===== LANGUAGE SWITCH ===== */
 function applyLang(){
  document.getElementById("weather-title").textContent=T[lang].weather;
  document.getElementById("services-title").textContent=T[lang].services;
  document.getElementById("rating-title").textContent=T[lang].rating;
  document.getElementById("login-title").textContent=T[lang].login;
  document.getElementById("cmp-text").textContent=T[lang].cmp;
- document.getElementById("login-btn").textContent=T[lang].login;
-
- document.getElementById("btn-soft").textContent=T[lang].btns[0];
- document.getElementById("btn-photos").textContent=T[lang].btns[1];
- document.getElementById("btn-videos").textContent=T[lang].btns[2];
-
  document.querySelectorAll(".service-card p")
  .forEach((p,i)=>p.textContent=T[lang].servicesTxt[i]);
+ document.querySelectorAll(".option-group label").forEach((l,i)=>l.childNodes[1].textContent=T[lang].optionTxt[i]);
 }
 
 /* ===== WEATHER ===== */
 fetch("https://api.open-meteo.com/v1/forecast?latitude=33.35&longitude=10.5&current_weather=true")
 .then(r=>r.json()).then(d=>{
- document.getElementById("weather-temp").textContent =
- d.current_weather.temperature+"°C";
+ document.getElementById("weather-temp").textContent=d.current_weather.temperature+"°C";
 });
 
-/* ===== PRAYER ===== */
+/* ===== PRAYER TIMES ===== */
 fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia")
 .then(r=>r.json()).then(d=>{
  const t=d.data.timings;
- document.getElementById("prayer-times").textContent =
- T[lang].prayer(t);
+ document.getElementById("prayer-times").innerHTML=
+ `Fajr ${t.Fajr} | Dhuhr ${t.Dhuhr} | Maghrib ${t.Maghrib}`;
 });
 
 /* ===== RATING ===== */
 document.querySelectorAll(".stars span").forEach(s=>{
- s.onclick=()=>localStorage.setItem("rating",s.dataset.v);
+ s.onclick=()=>{
+  localStorage.setItem("rating",s.dataset.v);
+ };
 });
 
 /* ===== LOGIN ===== */
-function toggleLogin(v){
- document.getElementById("login-popup").style.display=v?'flex':'none';
-}
+function toggleLogin(v){document.getElementById("login-popup").style.display=v?'flex':'none'}
 document.getElementById("login-btn").onclick=()=>toggleLogin(true);
 document.getElementById("google-btn").onclick=()=>{
  auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
@@ -218,8 +232,7 @@ document.getElementById("google-btn").onclick=()=>{
 };
 
 /* ===== CMP ===== */
-if(localStorage.getItem("cmp"))
- document.getElementById("cmp").style.display="none";
+if(localStorage.getItem("cmp"))document.getElementById("cmp").style.display="none";
 document.getElementById("cmp-ok").onclick=()=>{
  localStorage.setItem("cmp",1);
  document.getElementById("cmp").style.display="none";
@@ -230,6 +243,13 @@ document.getElementById("lang-btn").onclick=()=>{
  lang=lang==='ar'?'fr':'ar';
  applyLang();
 };
+
+/* ===== FULLSCREEN VIEWER ===== */
+function closeViewer(){
+ document.getElementById("viewer").style.display="none";
+ document.getElementById("viewer-img").src="";
+ document.getElementById("viewer-video").src="";
+}
 
 /* ===== INIT ===== */
 applyLang();

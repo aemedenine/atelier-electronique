@@ -68,6 +68,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
   color: #fff;
   font-family: 'Montserrat', sans-serif;
   box-shadow: 0 0 15px rgba(0,255,255,0.4);
+  margin: 20px auto; /* لتوسيطه */
 }
 
 #resistance-box h2 {
@@ -85,21 +86,9 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
   margin: 15px 0;
 }
 
-.band {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.band label {
-  margin-bottom: 5px;
-}
-
-.band-select {
-  padding: 5px;
-  border-radius: 5px;
-  border: none;
-}
+.band { display: flex; flex-direction: column; align-items: center; }
+.band label { margin-bottom: 5px; }
+.band-select { padding: 5px; border-radius: 5px; border: none; }
 
 #calc-resistance {
   display: block;
@@ -112,22 +101,15 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
   cursor: pointer;
   font-weight: bold;
 }
-
 #calc-resistance:hover {
   background: #e05520;
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
 
-#resistance-result {
-  margin-top: 15px;
-  text-align: center;
-}
+#resistance-result { margin-top: 15px; text-align: center; }
+#resistance-result span { font-weight: bold; color: gold; }
 
-#resistance-result span {
-  font-weight: bold;
-  color: gold;
-}
 
 /* ================= FAQ ================= */
 .faq { max-width:800px; margin:0 auto 60px auto; }

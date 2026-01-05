@@ -965,60 +965,50 @@ document.querySelectorAll('.video-card video').forEach(video => {
 
   // ======= Service Captions Translations + Section Title =======
   const serviceTranslations = {
-     ar: {
-    title: "خدمات اليوم",
-    captions: [
-      "تصليح لوحات إلكترونية",
-      "تصليح كارت جهاز المشي",
-      "تصليح كارت ماكينة غسيل",
-      "تصليح كارت تلفاز",
-      "تصليح كارت غسالة ل-ج"
-    ],
-    title: "فيديو اليوم",
-    captions: [
-      "تصليح كارت تغذية",
-      "إصلاح لوحة إلكترونية",
-      "فحص بوردة",
-      "فحص بوردة",
-      "فحص بوردة"
-    ],
-    title: "تصليح ماكينات لحام",
-    captions: [
-      "تصليح ماكينة لحام 1",
-      "تصليح ماكينة لحام 2",
-      "تصليح ماكينة لحام 3",
-      "تصليح ماكينة لحام 4",
-      "تصليح ماكينة لحام 5"
-    ]
+    ar: {
+      title: "خدمات اليوم",
+      captions: [
+        "تصليح لوحات إلكترونية",
+        "تصليح كارت جهاز المشي",
+        "تصليح كارت ماكينة غسيل",
+        "تصليح كارت تلفاز",
+        "تصليح كارت غسالة ل-ج"
+      ]
+    },
+    fr: {
+      title: "Services du jour",
+      captions: [
+        "réparation de cartes électroniques",
+        "réparation carte tapis roulant",
+        "réparation carte lave-linge",
+        "réparation carte television",
+        "réparation carte lave-linge LG"
+      ]
+    }
+      
+  };
+ const posteSoudureTranslations = { 
+  ar: {
+   title: "تصليح ماكينات لحام",
+   captions: [
+    "تصليح ماكينة لحام 1"
+    , "تصليح ماكينة لحام 2"
+    , "تصليح ماكينة لحام 3"
+    , "تصليح ماكينة لحام 4"
+    , "تصليح ماكينة لحام 5"
+   ] 
   },
   fr: {
-    title: "Services du jour",
-    captions: [
-      "réparation de cartes électroniques",
-      "réparation carte tapis roulant",
-      "réparation carte lave-linge",
-      "réparation carte television",
-      "réparation carte lave-linge LG"
-    ],
-    title: "Vidéo du jour",
-    captions: [
-      "réparation carte alimentation",
-      "réparation carte électronique",
-      "inspection carte",
-      "inspection carte",
-      "inspection carte"
-    ],
-    title: "Réparation postes soudure",
-    captions: [
-      "Réparation poste soudure 1",
-      "Réparation poste soudure 2",
-      "Réparation poste soudure 3",
-      "Réparation poste soudure 4",
-      "Réparation poste soudure 5"
-    ]
-  }
-};
- 
+   title: "Réparation postes soudure",
+   captions: [
+    "Réparation poste soudure 1",
+    "Réparation poste soudure 2",
+    "Réparation poste soudure 3",
+    "Réparation poste soudure 4",
+    "Réparation poste soudure 5"
+   ] 
+  } 
+ };
   function updateServiceCaptions(lang){
     document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
     const captions = document.querySelectorAll('.service-caption');

@@ -676,44 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </style>
 
 <script>
- const cmpModal = document.getElementById('cmpModal');
-const cmpSave = document.getElementById('cmpSave');
-const cmpClose = document.getElementById('cmpClose');
-
-consentManage.addEventListener('click', () => {
-  cmpModal.style.display = 'flex';
-});
-
-// إغلاق الـ modal
-cmpClose.addEventListener('click', () => {
-  cmpModal.style.display = 'none';
-});
-
-// حفظ اختيارات المستخدم
-cmpSave.addEventListener('click', () => {
-  const analyticsConsent = document.getElementById('cookie-analytics').checked;
-  const marketingConsent = document.getElementById('cookie-marketing').checked;
-
-  // تخزين في localStorage
-  localStorage.setItem('cookiePreferences', JSON.stringify({
-    analytics: analyticsConsent,
-    marketing: marketingConsent
-  }));
-
-  cmpModal.style.display = 'none';
-  cmpBanner.style.display = 'none'; // اخفاء البانر بعد حفظ
-  console.log('تم حفظ تفضيلات الكوكيز:', {analytics: analyticsConsent, marketing: marketingConsent});
-});
-document.addEventListener('DOMContentLoaded', () => {
-  const prefs = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
-  if (prefs.analytics === false) {
-    console.log("🔒 التحليلات معطلة حسب اختيار المستخدم");
-  }
-  if (prefs.marketing === false) {
-    console.log("🔒 الإعلانات معطلة حسب اختيار المستخدم");
-  }
-});
-
 // ======= Fullscreen Media Viewer JS =======
 document.addEventListener('DOMContentLoaded', () => {
   const mediaViewer = document.getElementById('mediaViewer');
@@ -830,19 +792,6 @@ closeBtn.addEventListener('click', () => {
     siteName.style.transform='scale(1.2)';
     setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
   },4000);
-<!-- CMP Modal لإدارة الكوكيز -->
-<div id="cmpModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:100000;">
-  <div style="background:#111; padding:25px; border-radius:15px; width:350px; max-width:90%; color:#fff; text-align:right;">
-    <h3 style="color:#0ff; margin-bottom:15px;">تفضيلات الكوكيز</h3>
-    <div style="margin-bottom:15px;">
-      <label><input type="checkbox" id="cookie-analytics" checked> السماح بالتحليلات</label><br>
-      <label><input type="checkbox" id="cookie-marketing" checked> السماح بالتسويق والإعلانات</label>
-    </div>
-    <button id="cmpSave" style="background:#0ff; color:#000; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">حفظ التفضيلات</button>
-    <button id="cmpClose" style="background:#ff6b35; color:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin-right:10px;">إغلاق</button>
-  </div>
-</div>
 
   // ======= Weather Script =======
   let currentLanguage = 'ar';

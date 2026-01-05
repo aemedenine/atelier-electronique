@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(key, count);
     visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
   }
-document.addEventListener('DOMContentLoaded', () => {
   const colorValues = {
     noir: 0, marron: 1, rouge: 2, orange: 3, jaune: 4,
     vert: 5, bleu: 6, violet: 7, gris: 8, blanc: 9

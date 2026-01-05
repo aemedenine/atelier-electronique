@@ -964,9 +964,7 @@ document.querySelectorAll('.video-card video').forEach(video => {
   });
 
   // ======= Service Captions Translations + Section Title =======
- // ترجمة كل قسم
-// الترجمات
-const translations = {
+ const translations = {
   ar: {
     servicesTitle: "خدمات اليوم",
     servicesCaptions: [
@@ -1021,39 +1019,12 @@ const translations = {
   }
 };
 
-// الدالة العامة لتحديث أي قسم
-function updateSection(sectionSelector, titleKey, captionsKey, captionClass = '.service-caption') {
-  const section = document.querySelector(sectionSelector);
-  if(!section) return;
-  const h2 = section.querySelector('h2');
-  if(h2) h2.textContent = translations[currentLanguage][titleKey];
-  const cards = section.querySelectorAll('.service-card');
-  cards.forEach((card,i)=>{
-    const cap = card.querySelector(captionClass);
-    if(cap) cap.textContent = translations[currentLanguage][captionsKey][i] || cap.textContent;
-  });
-}
-
-// تحديث جميع الأقسام
-function updateAllCaptions(lang){
-  updateSection('.services-today', 'servicesTitle', 'servicesCaptions');
-  updateSection('.videos-today', 'videosTitle', 'videosCaptions');
-  updateSection('#postesSection', 'postesTitle', 'postesCaptions');
-}
-
-// تبديل اللغة عند الضغط على الزر
-document.getElementById('toggle-lang-btn').addEventListener('click', ()=>{
-  currentLanguage = (currentLanguage==='ar') ? 'fr' : 'ar';
-  updateWeather(currentLanguage);
-  updateLanguageTexts(currentLanguage);
-  updateVisitText(currentLanguage, totalVisits);
-  updateAllCaptions(currentLanguage);
-});
-
-// تحديث أولي
-updateAllCaptions(currentLanguage);
-
-
+  function updateServiceCaptions(lang){
+    document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
+    const captions = document.querySelectorAll('.service-caption');
+    captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
+  }
+  updateServiceCaptions(currentLanguage);
 function updatePrayerTimes() {
   fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
     .then(res => res.json())

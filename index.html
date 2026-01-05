@@ -965,6 +965,7 @@ document.querySelectorAll('.video-card video').forEach(video => {
 
   // ======= Service Captions Translations + Section Title =======
  // ترجمة كل قسم
+// الترجمات
 const translations = {
   ar: {
     servicesTitle: "خدمات اليوم",
@@ -1020,55 +1021,38 @@ const translations = {
   }
 };
 
-// دالة تحديث النصوص حسب اللغة
-function updateAllCaptions(lang){
-  // خدمات اليوم
-  const servicesH2 = document.querySelector('.services-today h2');
-  const servicesCards = document.querySelectorAll('.services-today .service-card');
-  if(servicesH2){
-    servicesH2.textContent = translations[lang].servicesTitle;
-    servicesCards.forEach((card, i)=>{
-      const cap = card.querySelector('.service-caption');
-      if(cap) cap.textContent = translations[lang].servicesCaptions[i] || cap.textContent;
-    });
-  }
-
-  // فيديو اليوم
-  const videosSection = document.querySelector('.videos-today');
-  if(videosSection){
-    const h2 = videosSection.querySelector('h2');
-    const videoCards = videosSection.querySelectorAll('.video-card');
-    if(h2) h2.textContent = translations[lang].videosTitle;
-    videoCards.forEach((card,i)=>{
-      const cap = card.querySelector('.service-caption');
-      if(cap) cap.textContent = translations[lang].videosCaptions[i] || cap.textContent;
-    });
-  }
-
-  // ماكينات اللحام
-  const postesSection = document.querySelector('.Reparation.postes.soudure') || document.querySelector('.Reparation.postes.soudure') || document.querySelector('.Reparation.postes.soudure');
-  if(postesSection){
-    const h2 = postesSection.querySelector('h2');
-    const posteCards = postesSection.querySelectorAll('.Reparation.postes.soudure .service-card, .Reparation.postes.soudure .service-card');
-    if(h2) h2.textContent = translations[lang].postesTitle;
-    posteCards.forEach((card,i)=>{
-      const cap = card.querySelector('.service-caption');
-      if(cap) cap.textContent = translations[lang].postesCaptions[i] || cap.textContent;
-    });
-  }
+// الدالة العامة لتحديث أي قسم
+function updateSection(sectionSelector, titleKey, captionsKey, captionClass = '.service-caption') {
+  const section = document.querySelector(sectionSelector);
+  if(!section) return;
+  const h2 = section.querySelector('h2');
+  if(h2) h2.textContent = translations[currentLanguage][titleKey];
+  const cards = section.querySelectorAll('.service-card');
+  cards.forEach((card,i)=>{
+    const cap = card.querySelector(captionClass);
+    if(cap) cap.textContent = translations[currentLanguage][captionsKey][i] || cap.textContent;
+  });
 }
 
-// استدعاء الدالة عند تبديل اللغة
+// تحديث جميع الأقسام
+function updateAllCaptions(lang){
+  updateSection('.services-today', 'servicesTitle', 'servicesCaptions');
+  updateSection('.videos-today', 'videosTitle', 'videosCaptions');
+  updateSection('.Reparation.postes.soudure', 'postesTitle', 'postesCaptions');
+}
+
+// تبديل اللغة عند الضغط على الزر
 document.getElementById('toggle-lang-btn').addEventListener('click', ()=>{
   currentLanguage = (currentLanguage==='ar') ? 'fr' : 'ar';
   updateWeather(currentLanguage);
   updateLanguageTexts(currentLanguage);
   updateVisitText(currentLanguage, totalVisits);
-  updateAllCaptions(currentLanguage); // 🔹 هنا
+  updateAllCaptions(currentLanguage);
 });
 
 // تحديث أولي
 updateAllCaptions(currentLanguage);
+
 
 function updatePrayerTimes() {
   fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")

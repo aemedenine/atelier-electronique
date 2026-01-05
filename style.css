@@ -1,1080 +1,262 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Atelier Electronique Médenine</title>
-<meta name="google-adsense-account" content="ca-pub-5360225987687639">
-<!-- Script AdSense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639" crossorigin="anonymous"></script>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+/* ================= Reset ================= */
 
-<script>
- // Firebase configuration
- const firebaseConfig = {
-  apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
-  authDomain: "atelier-electronique-mednine.firebaseapp.com",
-  projectId: "atelier-electronique-mednine",
-  storageBucket: "atelier-electronique-mednine.firebasestorage.app",
-  messagingSenderId: "547430908384",
-  appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
-};
+{ margin:0; padding:0; box-sizing:border-box; }
 
-// Initialize Firebase safely
-const app = firebase.initializeApp(firebaseConfig);
-const analytics = firebase.analytics(app);
-const auth = firebase.auth();
 
-// ======= حفظ تسجيل الدخول حتى بعد refresh =======
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(() => { console.log("🔒 Session persistente activée"); })
-  .catch(error => { console.error("Erreur persistence:", error); });
+body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; direction:rtl; text-align:right; line-height:1.6; font-size:16px; }
 
-// Firebase Sign-In Logic
-document.addEventListener('DOMContentLoaded', () => {
+.container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
 
-  // مراقبة حالة تسجيل الدخول
-  firebase.auth().onAuthStateChanged((user) => {
-    const loginPopup = document.getElementById('login-popup');
-    const userInfo = document.getElementById('user-info');
-    const userName = document.getElementById('user-name');
+/* ================= Header ================= */
 
-    if (user) {
-      userInfo.style.display = 'block';
-      loginPopup.style.display = 'none';
-      userName.textContent = user.displayName || "مستخدم";
-    } else {
-      userInfo.style.display = 'none';
-      loginPopup.style.display = 'flex';
-    }
-  });
+header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; position:relative; }
 
-  const loginPopup = document.getElementById('login-popup');
-  const btnGoogle = document.getElementById('btn-google');
-  const btnClosePopup = document.getElementById('btn-close-popup');
-  const userInfo = document.getElementById('user-info');
-  const userName = document.getElementById('user-name');
-  const btnSignOut = document.getElementById('btn-signout');
+.header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
 
-  btnGoogle.addEventListener('click', () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-      .then(result => {
-        const user = result.user;
-        userName.textContent = user.displayName;
-        userInfo.style.display = 'block';
-        loginPopup.style.display = 'none';
-      }).catch(console.error);
-  });
+.logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; position:relative; z-index:1; }
 
-  btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
+header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 
-  btnSignOut.addEventListener('click', () => {
-    auth.signOut().then(() => {
-      userInfo.style.display='none';
-      alert('تم تسجيل الخروج بنجاح');
-    });
-  });
+/* ================= PCB background behind logo ================= */
 
-  // ======= Video play safety =======
-  document.querySelectorAll('.video-card video').forEach(video => {
-    video.addEventListener('mouseenter', () => { video.play().catch(()=>{}); });
-    video.addEventListener('mouseleave', () => { video.pause(); video.currentTime=0; });
-  });
+.logo-wrapper::after {
 
-});
-</script>
+content: "";
 
-<style>
-/* ======= Glow متحرك للأزرار ======= */
-.cta-buttons a,
-.cta-buttons button {
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-.cta-buttons a:hover,
-.cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
-  transform: translateY(-3px);
+position: absolute;
+
+inset: -20px;
+
+border-radius: 50%;
+
+background:
+
+repeating-linear-gradient(
+
+  45deg,
+
+  rgba(0,255,255,0.15) 0,
+
+  rgba(0,255,255,0.15) 1px,
+
+  transparent 1px,
+
+  transparent 8px
+
+),
+
+repeating-linear-gradient(
+
+  -45deg,
+
+  rgba(255,107,53,0.12) 0,
+
+  rgba(255,107,53,0.12) 1px,
+
+  transparent 1px,
+
+  transparent 10px
+
+);
+
+opacity: 0.6;
+
+animation: pcbMove 12s linear infinite;
+
+z-index: -2;
+
 }
 
-/* نص الموقع يتغير تلقائياً */
-.header-inner h1 {
-  display: inline-block;
-  font-size: 1.8rem;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-.prayer-times p {
-  display: flex;
-  justify-content: space-between;
-  margin: 3px 0;
-  font-size: 1rem;
-  color: #fff;
+@keyframes pcbMove {
+
+0%   { transform: rotate(0deg); }
+
+100% { transform: rotate(360deg); }
+
 }
 
-.prayer-times p span {
-  flex-shrink: 0;
+/* ================= News ticker ================= */
+
+.news-ticker { width:100%; overflow:hidden; background:#0a1e3d; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; }
+
+.news-text { display:inline-block; padding:0 12px; min-height:1.2em; transition:opacity 0.4s ease; opacity:1; }
+
+.news-text.fade { animation:fade 0.45s linear; }
+
+@keyframes fade { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+/* ================= Info bar ================= */
+
+.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#faf7f7; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
+
+#toggle-lang-btn { background:#0a1e3d; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
+
+#toggle-lang-btn:hover { background:#d9533f; }
+
+/* ================= CTA Buttons ================= */
+
+.cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
+
+.cta-buttons a, .cta-buttons button { background:#0a1e3d; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
+
+.cta-buttons a:hover, .cta-buttons button:hover { background:#e0a800; transform:translateY(-2px); }
+
+.btn-store { background:#0a1e3d !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
+
+.btn-store:hover { background:#e0a800 !important; }
+
+/* ================= Experience badge ================= */
+
+.experience-badge { background:#007bff; color:white; font-weight:700; text-align:center; padding:12px 0; border-radius:50px; font-size:1.2rem; width:250px; margin:0 auto 40px auto; box-shadow:0 0 15px #007bff; }
+
+#resistance-box {
+
+background: rgba(0,255,255,0.08);
+
+backdrop-filter: blur(6px);
+
+border-radius: 12px;
+
+padding: 20px;
+
+max-width: 350px;
+
+color: #fff;
+
+font-family: 'Montserrat', sans-serif;
+
+box-shadow: 0 0 15px rgba(0,255,255,0.4);
+
 }
 
-.prayer-times p .time {
-  font-weight: bold;
+#resistance-box h2 {
+
+text-align: center;
+
+color: #0ff;
+
+margin-bottom: 15px;
+
+text-shadow: 0 0 8px #0ff;
+
 }
 
-/* ======= Weather Box ======= */
-.weather-box {
-  margin: 40px auto 10px;
-  padding: 20px;
-  max-width: 420px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0 0 20px rgba(0,255,255,0.2);
-}
-.weather-box h3 {
-  margin-bottom: 10px;
-  color: #0ff;
-}
-.weather-temp {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 10px 0;
-}
-.weather-desc {
-  font-size: 1.1rem;
-  opacity: 0.9;
+.resistance-bands {
+
+display: flex;
+
+flex-wrap: wrap;
+
+gap: 10px;
+
+justify-content: center;
+
+margin: 15px 0;
+
 }
 
-/* تقييم النجوم */
-.rating-container { margin: 40px auto; text-align: center; color: #fff; }
-.stars-horizontal span { font-size: 2.5rem; cursor: pointer; color: #ccc; transition: color 0.3s, transform 0.3s, text-shadow 0.3s; margin: 0 5px; display: inline-block; }
-.stars-horizontal span.selected { color: gold; text-shadow: 0 0 8px gold; }
-.stars-horizontal span.hover { color: gold; text-shadow: 0 0 8px gold; transform: scale(1.4) translateY(-5px); }
-#rating-value { margin-top: 10px; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s, transform 0.3s; }
-.rating-container:hover #rating-value { transform: translateY(-3px); }
+.band {
 
-/* PCB Animated Header */
-.header-inner { position: relative; overflow: hidden; }
-#pcbCanvasHeader { position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; }
-.header-inner img, .header-inner h1 { position: relative; z-index: 10; }
+display: flex;
 
-/* نص الخبرة بدون مستطيل */
-.experience-badge {
-  display: block;
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: yellow;
-  margin: 30px auto;
-  background: none;
-  padding: 0;
-  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
-}
-@keyframes glowExperience {
-  0% { color: yellow; text-shadow: 0 0 5px yellow; }
-  25% { color: red; text-shadow: 0 0 8px red; }
-  50% { color: cyan; text-shadow: 0 0 10px cyan; }
-  75% { color: magenta; text-shadow: 0 0 12px magenta; }
-  100% { color: yellow; text-shadow: 0 0 15px yellow; }
-}
-@keyframes floatExperience { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+flex-direction: column;
 
-/* ======= Cookie / CMP Banner ======= */
-#cmp-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.85);
-  color: #fff;
-  text-align: center;
-  padding: 15px 10px;
-  z-index: 9999;
-  font-size: 0.95rem;
-}
-#cmp-banner button {
-  background:#ff6b35;
-  border:none;
-  color:#fff;
-  padding:8px 15px;
-  margin-left:10px;
-  cursor:pointer;
-  border-radius:5px;
-  font-weight:bold;
-}
-/* ======= Radio Button Dance ======= */
-.dance {
-  animation: danceMove 0.5s infinite alternate;
-  transform-origin: center;
-}
-@keyframes danceMove {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
+align-items: center;
+
 }
 
-/* ======= Gallery / Services Today ======= */
-.services-today h2 {
-  text-align:center;
-  color:#0ff;
-  margin:30px 0;
-  font-size:1.8rem;
-  text-shadow:0 0 8px rgba(0,255,255,0.6);
+.band label {
+
+margin-bottom: 5px;
+
+/* ================= FAQ ================= */
+
+.faq { max-width:800px; margin:0 auto 60px auto; }
+
+.faq h2 { color:#f5f7fa; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:25px; }
+
+.faq-item { background:#0a1e3d; margin-bottom:12px; border-radius:8px; padding:15px 20px; cursor:pointer; transition:background-color 0.3s ease; box-shadow:0 2px 8px rgba(0,0,0,0.6); }
+
+.faq-item:hover { background:#13325b; }
+
+.faq-item h3 { font-weight:700; position:relative; color:#f5f7fa; margin-bottom:6px; }
+
+.faq-item h3::after { content:"+"; position:absolute; left:20px; top:0; font-size:1.6rem; font-weight:700; color:#ff6b35; transition:transform 0.3s ease; }
+
+.faq-item.open h3::after { content:"-"; transform:rotate(180deg); }
+
+.answer { margin-top:12px; font-weight:400; color:#ddd; display:none; line-height:1.5; }
+
+.faq-item.open .answer { display:block; }
+
+/* ================= Equalizer ================= */
+
+:root { --eq-color: #1e90ff; }
+
+.equalizer { display: flex; justify-content: center; gap: 6px; margin-top: 20px; height: 40px; align-items: flex-end; transition: opacity 0.3s ease; }
+
+.equalizer .bar { width: 6px; height: 8px; background: var(--eq-color); border-radius: 4px; }
+
+.equalizer.paused { opacity: 0.4; }
+
+/* ================= Weather box ================= */
+
+.weather-box { max-width:420px; margin:20px auto; padding:18px 22px; background: linear-gradient(135deg, #0a1e3d, #123b6d); color:#fff; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,0.25); font-family:'Montserrat',sans-serif; }
+
+.weather-main { display:flex; justify-content:space-between; align-items:center; }
+
+.weather-main .city { font-size:1rem; opacity:0.9; }
+
+.weather-main .temp { font-size:2.2rem; font-weight:700; }
+
+.weather-desc { margin-top:8px; font-size:0.95rem; opacity:0.85; }
+
+.rain-status { margin-top:12px; padding:10px; background: rgba(255,255,255,0.15); border-radius:8px; font-weight:700; text-align:center; }
+
+/* ================= Footer ================= */
+
+footer { background:#061222; color:#faf7f7; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
+
+.footer-inner p { margin-bottom:5px; }
+
+.social-icons { margin-top:10px; }
+
+.social-icons a { margin:0 12px; display:inline-block; opacity:0.75; transition:opacity 0.3s ease; }
+
+.social-icons a:hover { opacity:1; }
+
+.social-icons img { width:28px; height:28px; filter:drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
+
+/* ================= Slider ================= */
+
+.slider-container { overflow-x: auto; display:flex; gap:10px; cursor:grab; }
+
+.slider-container.active { cursor:grabbing; }
+
+.slider-item { flex:0 0 auto; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition:transform 0.2s; }
+
+.slider-item:hover { transform:scale(1.05); }
+
+/* ================= Rating stars ================= */
+
+.rating-star { font-size:1.6rem; color:#777; cursor:pointer; transition: color 0.3s; }
+
+.rating-star.active { color:#ff6b35; }
+
+/* ================= Responsive ================= */
+
+@media(max-width:768px){
+
+.header-inner { flex-direction:column;text-align:center;gap:10px; }
+
+.info-bar { flex-direction:column; gap:10px; }
+
+.cta-buttons { flex-direction:column; align-items:center; }
+
+.experience-badge { width:90%; }
+
+.faq { width:90%; }
+
 }
- .weather-box > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
- .prayer-times p {
-  margin: 3px 0;
-  font-size: 1rem;
-  color: #fff;
-}
-
-.services-slider {
-  display:flex;
-  gap:20px;
-  overflow-x:auto;
-  padding:10px;
-  cursor:grab;
-}
-.services-slider::-webkit-scrollbar { display:none; }
-.service-card {
-  min-width:220px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(6px);
-  border-radius:15px;
-  padding:10px;
-  box-shadow:0 8px 20px rgba(0,0,0,.35);
-  flex-shrink:0;
-}
-.service-card img {
-  width:100%;
-  height:140px;
-  object-fit:cover;
-  border-radius:12px;
-}
-.service-card p {
-  margin-top:10px;
-  font-weight:bold;
-  color:#fff;
-  text-align:center;
-}
-.site-signature {
-  text-align: center;
-  color: #aaa;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  padding-bottom: 10px;
-  font-style: italic;
-}
-/* Login Popup */
-#login-popup {
-  display: none;
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.7);
-  justify-content: center; align-items: center;
-  z-index:10000;
-  display:flex; flex-direction:column;
-}
-#login-popup .popup-content {
-  background:#111; padding:25px; border-radius:12px;
-  text-align:center; color:#fff; width:300px; max-width:90%;
-  box-shadow:0 0 20px #0ff;
-  animation: fadeIn 0.5s ease;
-}
-#login-popup .popup-content button {
-  background:#0ff; color:#000; padding:10px 20px;
-  border:none; border-radius:5px; cursor:pointer; margin:10px 0;
-  transition: all 0.3s ease;
-}
-#login-popup .popup-content button:hover {
-  background:#0aa; transform: scale(1.05);
-}
-
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-/* VIDEO CARDS */
-.video-card video {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-}
-
-.video-card video:hover {
-  transform: scale(1.05);
-}</style>
-</head>
-<body>
-<header>
-  <div class="container header-inner">
-    <canvas id="pcbCanvasHeader"></canvas>
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-    <h1 id="site-name">Atelier Electronique Médenine</h1>
-  </div>
-  <div class="news-ticker" aria-live="polite" style="position: relative; z-index:10;">
-    <div class="news-text" id="live-news">تحميل الأخبار...</div>
-  </div>
-</header>
-
-<main class="container main-content">
-  <section class="info-bar">
-    <div id="current-time">--:--:--</div>
-    <div id="visit-count">عدد زوار الموقع: 0</div>
-    <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
-  </section>
-
-<!-- User Info -->
-<div id="user-info" class="user-box" style="display:none;">
-  <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
-  <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
-</div>
-
-<!-- Login Popup -->
-<div id="login-popup" class="login-popup">
-  <div class="popup-content">
-    <h2>تسجيل الدخول</h2>
-    <button id="btn-google" class="btn-google">تسجيل الدخول بـ Google</button>
-    <button id="btn-close-popup" class="btn-close">إلغاء</button>
-  </div>
-</div>
-  <section class="cta-buttons">
-    <a href="download" class="btn-download">تحميل البرامج  📥</a>
-    <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>
-    <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب  📱</a>
-    <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس  📍</a>
-    <a href="photos.html" class="btn-gallery">شاهد الصور  🖼️</a>
-    <a href="videos.html" class="btn-video">شاهد الفيديو  🎥</a>
-    <a href="services.html" class="btn-services">خدمات الورشة  🛠️</a>
-    <button id="radio-btn" class="btn-radio">شغّل الراديو  📻</button>
-    <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
-    <div class="equalizer" id="equalizer" aria-hidden="true">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </div>
-  </section>
-
-  <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
- <section class="weather-box">
-  <h3>🌦️ حالة الطقس في مدنين</h3>
-  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-    <div>
-      <div class="weather-temp" id="weather-temp">--°C</div>
-      <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
-    </div>
-
-    <!-- ======= Prayer Times ======= -->
-   <div class="prayer-times" id="prayer-times">
-  <p>🌅 الفجر: --:--</p>
-  <p>🌄 الشروق: --:--</p>
-  <p>☀️ الظهر: --:--</p>
-  <p>🕰️ العصر: --:--</p>
-  <p>🌇 المغرب: --:--</p>
-  <p>🌙 العشاء: --:--</p>
-</div>
-</section>
-
-  <section class="faq">
-    <h2>الأسئلة الشائعة</h2>
-    <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
-    <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
-    <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
-    <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
-  </section>
-
- <div class="rating-container">
-  <p id="rating-title">قيم الورشة:</p>
-  <div class="stars-horizontal">
-    <span data-value="5">☆</span>
-    <span data-value="4">☆</span>
-    <span data-value="3">☆</span>
-    <span data-value="2">☆</span>
-    <span data-value="1">☆</span>
-  </div>
-  <p id="rating-value">0/5</p>
-</div>
-
- <!-- ======= خدمات اليوم ======= -->
-<section class="services-today">
-  <h2>خدمات اليوم</h2>
-
-  <!-- صور -->
-  <div class="services-slider" id="servicesSlider">
-    <div class="service-card">
-      <img src="service1.webp">
-      <p class="service-caption">تصليح لوحات إلكترونية</p>
-    </div>
-    <div class="service-card">
-      <img src="service2.webp">
-      <p class="service-caption">تصليح كارت جهاز المشي</p>
-    </div>
-    <div class="service-card">
-      <img src="service3.webp">
-      <p class="service-caption">تصليح كارت غسالة</p>
-    </div>
-       <div class="service-card">
-      <img src="service4.webp">
-      <p class="service-caption">تصليح كارت تلفاز</p>
-    </div>
-       <div class="service-card">
-      <img src="service5.webp">
-      <p class="service-caption">تصليح كارت غسالة ل-ج</p>
-    </div>
-  </div>
-  <!-- فيديوهات -->
- <section class="videos-today">
-  <h2>فيديو اليوم</h2>
-  <div class="services-slider" id="videoSlider">
-    <div class="service-card video-card">
-      <video src="video1.mp4" muted loop></video>
-      <p class="service-caption">تصليح كارت تغذية</p>
-    </div>
-
-    <div class="service-card video-card">
-      <video src="video2.mp4" muted loop></video>
-      <p class="service-caption">إصلاح لوحة إلكترونية</p>
-    </div>
-
-    <div class="service-card video-card">
-      <video src="video3.mp4" muted loop></video>
-      <p class="service-caption">فحص بوردة</p>
-    </div>
-       <div class="service-card video-card">
-      <video src="video4.mp4" muted loop></video>
-      <p class="service-caption">فحص بوردة</p>
-    </div>
-       <div class="service-card video-card">
-      <video src="video5.mp4" muted loop></video>
-      <p class="service-caption">فحص بوردة</p>
-    </div>
-  </div>
-  <!-- ======= Poste Soudure ======= -->
-  <section id="postesSection" class="Reparation postes soudure">
-  <h2>تصليح ماكينات لحام</h2>
-   <div class="services-slider">
-    <div class="service-card">
-     <img src="poste1.webp">
-     <p class="service-caption">تصليح ماكينة لحام</p>
-    </div> 
-    <div class="service-card"> 
-     <img src="poste2.webp"> 
-     <p class="service-caption">صيانة Poste Soudure</p>
-    </div> 
-    <div class="service-card">
-     <img src="poste3.webp">
-     <p class="service-caption">صيانة Poste Soudure</p>
-    </div>
-    <div class="service-card">
-     <img src="poste4.webp"> 
-     <p class="service-caption">صيانة Poste Soudure</p>
-    </div>
-    <div class="service-card"> 
-     <img src="poste5.webp">
-     <p class="service-caption">إصلاح لوحة إلكترونية</p> 
-    </div>
-   </div>
-   </section>
-           
-</main>
-
-<footer>
-  <div class="container footer-inner">
-    <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
-    <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook" /></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram" /></a>
-      <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp" /></a>
-    </div>
-  </div>
-</footer>
-
-<div class="site-signature" style="text-align:center; color:#aaa; font-size:0.9rem; margin-top:10px; padding-bottom:10px;">
-  &copy; 2025 Atelier Electronique Médenine. Tous droits réservés. <br>
-  Signature: RAHMANI Soufien. CHATGPT Lbb
-</div>
-<!-- ======= Fullscreen Media Viewer ======= -->
-<div id="mediaViewer">
-  <span class="close-btn">&times;</span>
-  <img id="viewerImg" style="display:none" alt="صورة تكبير">
-  <video id="viewerVideo" style="display:none" controls></video>
-</div>
-
-<style>
- /* User Info Box */
-.user-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(0,255,255,0.1);
-  backdrop-filter: blur(6px);
-  border: 2px solid #0ff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  max-width: 400px;
-  margin: 20px auto;
-  color: #fff;
-  box-shadow: 0 0 15px rgba(0,255,255,0.4);
-  font-family: 'Montserrat', sans-serif;
-  transition: all 0.3s ease;
-}
-
-.user-box:hover {
-  background: rgba(0,255,255,0.2);
-  box-shadow: 0 0 25px rgba(0,255,255,0.6);
-}
-
-.welcome-msg {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #0ff;
-  text-shadow: 0 0 6px #0ff;
-}
-
-/* Sign Out Button */
-.btn-signout {
-  background: #ff6b35;
-  color: #fff;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.btn-signout:hover {
-  background: #e05520;
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px #ff6b35;
-}
-
-/* Login Popup */
-.login-popup {
-  display: none;
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-  z-index:10000;
-}
-
-.login-popup .popup-content {
-  background:#111;
-  padding:30px 25px;
-  border-radius:15px;
-  text-align:center;
-  color:#fff;
-  width:320px;
-  max-width:90%;
-  box-shadow:0 0 25px #0ff;
-  font-family: 'Montserrat', sans-serif;
-  animation: fadeIn 0.5s ease;
-}
-
-.login-popup h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff;
-}
-
-.btn-google {
-  background: #0ff;
-  color: #000;
-  border:none;
-  padding:10px 20px;
-  border-radius:8px;
-  font-weight:600;
-  cursor:pointer;
-  margin-bottom: 10px;
-  width:100%;
-  transition: all 0.3s ease;
-}
-
-.btn-google:hover {
-  background: #00cdd7;
-  transform: translateY(-2px);
-  box-shadow: 0 0 12px #0ff;
-}
-
-.btn-close {
-  background: #ff6b35;
-  color:#fff;
-  border:none;
-  padding:8px 20px;
-  border-radius:8px;
-  font-weight:600;
-  cursor:pointer;
-  width:100%;
-  transition: all 0.3s ease;
-}
-
-.btn-close:hover {
-  background:#e05520;
-  transform: translateY(-2px);
-  box-shadow:0 0 10px #ff6b35;
-}
-
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-
-/* ======= Fullscreen Media Viewer CSS ======= */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  flex-direction: column;
-}
-
-#mediaViewer img, #mediaViewer video {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px #0ff;
-}
-
-#mediaViewer .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5rem;
-  color: #fff;
-  cursor: pointer;
-  z-index: 100000;
-  background: rgba(0,0,0,0.3);
-  padding: 5px 12px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-#mediaViewer .close-btn:hover {
-  background: rgba(255,0,0,0.7);
-  transform: scale(1.2);
-}
-</style>
-
-<script>
-// ======= Fullscreen Media Viewer JS =======
-document.addEventListener('DOMContentLoaded', () => {
-  const mediaViewer = document.getElementById('mediaViewer');
-  const viewerImg = document.getElementById('viewerImg');
-  const viewerVideo = document.getElementById('viewerVideo');
-  const closeBtn = mediaViewer.querySelector('.close-btn');
-// ======= Total Visitors Counter =======
-const db = firebase.database(); // قاعدة البيانات
-const visitsRef = db.ref('visits');
-
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع
-let totalVisits = 0;
-
-visitsRef.on('value', snapshot => {
-  totalVisits = snapshot.val() || 0;
-  updateVisitText(currentLanguage, totalVisits);
-});
-
-  // فتح الصور والفيديوهات بالـ fullscreen
-  document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
-    el.style.cursor = 'pointer';
-    el.addEventListener('click', () => {
-      mediaViewer.style.display = 'flex';
-      if(el.tagName === 'IMG'){
-        viewerImg.src = el.src;
-        viewerImg.style.display = 'block';
-        viewerVideo.style.display = 'none';
-        viewerVideo.pause();
-      } else if(el.tagName === 'VIDEO'){
-        viewerVideo.src = el.src;
-        viewerVideo.style.display = 'block';
-        viewerImg.style.display = 'none';
-        viewerVideo.play();
-      }
-    });
-  });
-
-  // زر الإغلاق
-  closeBtn.addEventListener('click', () => {
-    mediaViewer.style.display = 'none';
-    viewerVideo.pause();
-    viewerVideo.currentTime = 0;
-  });
-});
-</script>
-<div id="cmp-banner">
-  نستخدم الكوكيز لتحسين تجربتك. 
-  <button id="consent-allow">أوافق</button>
-  <button id="consent-manage">تغيير الخيارات</button>
-</div>
-
-<script src="app.js" defer></script>
-<script>
-
-// ======= CMP Script + كل الكود الأصلي =======
-document.addEventListener('DOMContentLoaded', () => {
- // ======= Fullscreen Media Viewer =======
-const mediaViewer = document.getElementById('mediaViewer');
-const viewerImg = document.getElementById('viewerImg');
-const viewerVideo = document.getElementById('viewerVideo');
-const closeBtn = mediaViewer.querySelector('.close-btn');
-
-// كل الصور والفيديوهات اللي تحب تفتح في fullscreen
-document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
-  el.style.cursor = 'pointer';
-  el.addEventListener('click', () => {
-    mediaViewer.style.display = 'flex';
-    if(el.tagName === 'IMG'){
-      viewerImg.src = el.src;
-      viewerImg.style.display = 'block';
-      viewerVideo.style.display = 'none';
-      viewerVideo.pause();
-    } else if(el.tagName === 'VIDEO'){
-      viewerVideo.src = el.src;
-      viewerVideo.style.display = 'block';
-      viewerImg.style.display = 'none';
-      viewerVideo.play();
-    }
-  });
-});
-
-// زر الإغلاق
-closeBtn.addEventListener('click', () => {
-  mediaViewer.style.display = 'none';
-  viewerVideo.pause();
-  viewerVideo.currentTime = 0;
-});
-
-  const cmpBanner = document.getElementById('cmp-banner');
-  const consentAllow = document.getElementById('consent-allow');
-  const consentManage = document.getElementById('consent-manage');
-
-  if(!localStorage.getItem('cmpConsent')) cmpBanner.style.display='block';
-
-  consentAllow.addEventListener('click', () => {
-    localStorage.setItem('cmpConsent','granted');
-    cmpBanner.style.display='none';
-  });
-
-  consentManage.addEventListener('click', () => {
-    alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
-  });
-
-  const siteName = document.getElementById('site-name');
-  const texts = ["Atelier Electronique Médenine", " إلكترونيك الرحمـاني"];
-  setInterval(() => {
-    const randomIndex = Math.floor(Math.random()*texts.length);
-    siteName.textContent = texts[randomIndex];
-    siteName.style.color='#ff6b35';
-    siteName.style.textShadow='0 0 10px #e0a800';
-    siteName.style.transform='scale(1.2)';
-    setTimeout(()=>{ siteName.style.color=''; siteName.style.textShadow=''; siteName.style.transform=''; },1000);
-  },4000);
-
-  // ======= Weather Script =======
-  let currentLanguage = 'ar';
- // ======= Visits Counter =======
-let totalVisits = 0; // متغير عام للعدد
-
-const db = firebase.database();
-const visitsRef = db.ref('visits');
-
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع حسب اللغة
-visitsRef.on('value', snapshot => {
-  totalVisits = snapshot.val() || 0;
-  updateVisitText(currentLanguage, totalVisits);
-});
-  function updateWeather(language) {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-    .then(res => res.json())
-    .then(data => {
-      const temp = data.current_weather.temperature + "°C";
-      const wind = data.current_weather.windspeed + (language==='fr' ? " km/h" : " كم/س");
-      document.getElementById("weather-temp").textContent = temp;
-      if(language === 'ar') {
-        document.querySelector(".weather-box h3").textContent = "🌦️ حالة الطقس في مدنين";
-        document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
-      } else if(language === 'fr') {
-        document.querySelector(".weather-box h3").textContent = "🌦️ Météo à Médenine";
-        document.getElementById("weather-desc").textContent = "🌬️ Vitesse du vent: " + wind;
-      }
-    }).catch(()=>{document.getElementById("weather-desc").textContent="⚠️ لا يمكن تحميل الطقس";});
-  }
-
-  const ratingTitle = document.getElementById('rating-title');
-  function updateLanguageTexts(lang) {
-    ratingTitle.textContent = (lang==='ar') ? 'قيم الورشة:' : 'Évaluez l’atelier :';
-  }
-
-  // Toggle Language
-  document.getElementById('toggle-lang-btn').addEventListener('click', () => {
-    currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
-    updateWeather(currentLanguage);
-    updateLanguageTexts(currentLanguage);
-    updateAllCaptions(currentLanguage);
-    updateVisitText(currentLanguage, totalVisits);
-  });
-
-  updateLanguageTexts(currentLanguage);
-  updateWeather(currentLanguage);
-function updateVisitText(lang, total) {
-  const visitCountElem = document.getElementById('visit-count');
-  if (!visitCountElem) return;
-
-  if (lang === 'ar') {
-    visitCountElem.textContent = 'عدد زوار الموقع: ' + total;
-  } else {
-    visitCountElem.textContent = 'Nombre de visiteurs : ' + total;
-  }
-}
-  // ======= Rating =======
-  const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
-  const ratingValueHorizontal = document.getElementById('rating-value');
-  let selectedRatingHorizontal = parseInt(localStorage.getItem('workshopRating')) || 0;
-
-  function updateStars(rating){
-    starsHorizontal.forEach(star=>{
-      star.classList.remove('selected'); 
-      if(Number(star.dataset.value)<=rating) star.classList.add('selected'); 
-      star.textContent = Number(star.dataset.value)<=rating?'★':'☆';
-    });
-    ratingValueHorizontal.textContent = `${rating}/5`;
-    ratingValueHorizontal.style.color = rating>0?'gold':'#fff';
-    ratingValueHorizontal.style.textShadow = rating>0?'0 0 8px gold':'none';
-  }
-  updateStars(selectedRatingHorizontal);
-
-  starsHorizontal.forEach(star=>{
-    const val = Number(star.dataset.value);
-    star.addEventListener('mouseover',()=>{
-      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
-      starsHorizontal.forEach(s=>{ if(Number(s.dataset.value)<=val) s.classList.add('hover'); }); 
-      ratingValueHorizontal.style.color='gold'; ratingValueHorizontal.style.textShadow='0 0 8px gold';
-    });
-    star.addEventListener('mouseout',()=>{
-      starsHorizontal.forEach(s=>s.classList.remove('hover')); 
-      updateStars(selectedRatingHorizontal); 
-    });
-    star.addEventListener('click',()=>{
-      selectedRatingHorizontal=val; 
-      localStorage.setItem('workshopRating',selectedRatingHorizontal); 
-      updateStars(selectedRatingHorizontal);
-    });
-  });
-
-  // ======= PCB Animated Header =======
-  const canvas = document.getElementById('pcbCanvasHeader');
-  const ctx = canvas.getContext('2d');
-  function resizeCanvas(){ canvas.width=canvas.parentElement.offsetWidth; canvas.height=canvas.parentElement.offsetHeight; }
-  window.addEventListener('resize',resizeCanvas);
-  resizeCanvas();
-  const traces=[];
-  for(let i=0;i<50;i++){
-    traces.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,length:50+Math.random()*150,speed:0.5+Math.random()*1.5,color:'rgba(0,255,255,0.5)',particles:[]});
-    for(let j=0;j<5;j++){traces[i].particles.push({offset:Math.random()*traces[i].length,speed:1+Math.random()*2,size:2+Math.random()*2});}
-  }
-  let mouseX=-1000,mouseY=-1000;
-  window.addEventListener('mousemove', e=>{mouseX=e.clientX; mouseY=e.clientY;});
-  function animatePCB(){ 
-    ctx.clearRect(0,0,canvas.width,canvas.height); 
-    traces.forEach(t=>{
-      const dx=t.x+t.length/2-mouseX, dy=t.y-mouseY, dist=Math.sqrt(dx*dx+dy*dy); 
-      let speedMultiplier=dist<200?3:1; 
-      ctx.beginPath(); ctx.moveTo(t.x,t.y); ctx.lineTo(t.x+t.length,t.y); 
-      ctx.strokeStyle=t.color; ctx.lineWidth=2; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.stroke(); 
-      t.particles.forEach(p=>{
-        let px=t.x+p.offset, py=t.y; ctx.beginPath(); ctx.arc(px,py,p.size,0,Math.PI*2); ctx.fillStyle='#0ff'; ctx.shadowColor='#0ff'; ctx.shadowBlur=10; ctx.fill(); 
-        p.offset+=p.speed*speedMultiplier; if(p.offset>t.length)p.offset=0;
-      }); 
-      t.x+=t.speed*speedMultiplier; if(t.x>canvas.width)t.x=-t.length;
-    }); 
-    requestAnimationFrame(animatePCB); 
-  }
-  animatePCB();
-
-  // ======= Slider Drag =======
-function enableDragScroll(id) {
-  const slider = document.getElementById(id);
-  if (!slider) return;
-
-  let isDown = false;
-  let startX;
-  let scrollLeft;
-
-  slider.addEventListener('mousedown', e => {
-    isDown = true;
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
-  });
-
-  slider.addEventListener('mouseleave', () => isDown = false);
-  slider.addEventListener('mouseup', () => isDown = false);
-
-  slider.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    slider.scrollLeft = scrollLeft - walk;
-  });
-}
-
-enableDragScroll('servicesSlider');
-enableDragScroll('videoSlider');
-
-document.querySelectorAll('.video-card video').forEach(video => {
-  video.addEventListener('mouseenter', () => video.play());
-  video.addEventListener('mouseleave', () => {
-    video.pause();
-    video.currentTime = 0;
-  });
-});
-
-  // ======= Radio Button Dance Script =======
-  const radioBtn = document.getElementById('radio-btn');
-  let dancing = false;
-  radioBtn.addEventListener('click', () => {
-    dancing = !dancing;
-    if(dancing) { radioBtn.classList.add('dance'); } else { radioBtn.classList.remove('dance'); }
-  });
-
-  // ======= Service Captions Translations + Section Title =======
-  const serviceTranslations = {
-  ar: {
-    title: "خدمات اليوم",
-    captions: [
-      "تصليح لوحات إلكترونية",
-      "تصليح كارت جهاز المشي",
-      "تصليح كارت ماكينة غسيل",
-      "تصليح كارت تلفاز",
-      "تصليح كارت غسالة ل-ج"
-    ]
-  },
-  fr: {
-    title: "Services du jour",
-    captions: [
-      "réparation de cartes électroniques",
-      "réparation carte tapis roulant",
-      "réparation carte lave-linge",
-      "réparation carte television",
-      "réparation carte lave-linge LG"
-    ]
-  }
-};
-
-const videoTranslations = {
-  ar: {
-    title: "فيديو اليوم",
-    captions: [
-      "تصليح كارت تغذية",
-      "إصلاح لوحة إلكترونية",
-      "فحص بوردة 1",
-      "فحص بوردة 2",
-      "فحص بوردة 3"
-    ]
-  },
-  fr: {
-    title: "Vidéo du jour",
-    captions: [
-      "réparation carte alimentation",
-      "réparation carte électronique",
-      "inspection carte 1",
-      "inspection carte 2",
-      "inspection carte 3"
-    ]
-  }
-};
-
-const posteSoudureTranslations = {
-  ar: {
-    title: "تصليح ماكينات لحام",
-    captions: [
-      "تصليح ماكينة لحام 1",
-      "تصليح ماكينة لحام 2",
-      "تصليح ماكينة لحام 3",
-      "تصليح ماكينة لحام 4",
-      "تصليح ماكينة لحام 5"
-    ]
-  },
-  fr: {
-    title: "Réparation postes soudure",
-    captions: [
-      "Réparation poste soudure 1",
-      "Réparation poste soudure 2",
-      "Réparation poste soudure 3",
-      "Réparation poste soudure 4",
-      "Réparation poste soudure 5"
-    ]
-  }
-};
-
-  function updateAllCaptions(lang) {
-  // خدمات اليوم
-  document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
-  const serviceCaptions = document.querySelectorAll('.services-today .service-caption');
-  serviceCaptions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
-
-  // فيديو اليوم
-  document.querySelector('.videos-today h2').textContent = videoTranslations[lang].title;
-  const videoCaptions = document.querySelectorAll('.videos-today .service-caption');
-  videoCaptions.forEach((cap, idx) => { cap.textContent = videoTranslations[lang].captions[idx]; });
-
-  // تصليح ماكينات لحام
-  document.querySelector('#postesSection h2').textContent = posteSoudureTranslations[lang].title;
-  const posteCaptions = document.querySelectorAll('#postesSection .service-caption');
-  posteCaptions.forEach((cap, idx) => { cap.textContent = posteSoudureTranslations[lang].captions[idx]; });
-}
-
-  updateAllCaptions(currentLanguage);
-
-function updatePrayerTimes() {
-  fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
-    .then(res => res.json())
-    .then(data => {
-      const times = data.data.timings;
-      const pt = document.getElementById("prayer-times");
-    pt.innerHTML = `
-  <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
-  <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
-  <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
-  <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
-  <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
-  <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-`;
-
-    })
-    .catch(err => console.error("Erreur prayer times:", err));
-}
-
-// تنفيذها مباشرة بعد تحميل الصفحة
-updatePrayerTimes();
-
-});
-</script>
-</body>
-</html>

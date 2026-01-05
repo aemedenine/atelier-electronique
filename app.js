@@ -144,61 +144,92 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ==================== Resistance Calculator (SAFE) ==================== */
-  const typeSelect = document.getElementById('resistance-type-select');
-  const calcBtn = document.getElementById('calc-resistance');
+ 
+/* ================= Calcul Résistance ================= */
 
-  if (typeSelect && calcBtn) {
+/* ================= Calcul Résistance ================= */
 
-    const colorValues = {
-      noir:0,marron:1,rouge:2,orange:3,jaune:4,
-      vert:5,bleu:6,violet:7,gris:8,blanc:9
-    };
+const colors = [
+  { name: "Noir", value: 0, multiplier: 1, tolerance: null },
+  { name: "Marron", value: 1, multiplier: 10, tolerance: 1 },
+  { name: "Rouge", value: 2, multiplier: 100, tolerance: 2 },
+  { name: "Orange", value: 3, multiplier: 1_000, tolerance: null },
+  { name: "Jaune", value: 4, multiplier: 10_000, tolerance: null },
+  { name: "Vert", value: 5, multiplier: 100_000, tolerance: 0.5 },
+  { name: "Bleu", value: 6, multiplier: 1_000_000, tolerance: 0.25 },
+  { name: "Violet", value: 7, multiplier: 10_000_000, tolerance: 0.1 },
+  { name: "Gris", value: 8, multiplier: null, tolerance: 0.05 },
+  { name: "Blanc", value: 9, multiplier: null, tolerance: null },
+  { name: "Or", value: null, multiplier: 0.1, tolerance: 5 },
+  { name: "Argent", value: null, multiplier: 0.01, tolerance: 10 }
+];
 
-    const multiplierValues = {
-      noir:1,marron:10,rouge:100,orange:1e3,jaune:1e4,
-      vert:1e5,bleu:1e6,violet:1e7,gris:1e8,or:0.1,argent:0.01
-    };
+const band1 = document.getElementById('band1');
+const band2 = document.getElementById('band2');
+const band3 = document.getElementById('band3');
+const band4 = document.getElementById('band4');
+const band5 = document.getElementById('band5');
 
-    const toleranceValues = {
-      marron:'±1%',rouge:'±2%',vert:'±0.5%',
-      bleu:'±0.25%',violet:'±0.1%',gris:'±0.05%',
-      or:'±5%',argent:'±10%'
-    };
+const typeSelect = document.getElementById('resistance-type-select');
+const band3Wrap = document.getElementById('band3-wrapper');
+const band5Wrap = document.getElementById('band5-wrapper');
 
-    const bands = ['band1','band2','band3','band4','band5']
-      .map(id => document.getElementById(id));
+if (typeSelect) {
 
-    typeSelect.addEventListener('change', () => {
-      const b5 = document.getElementById('band5-container');
-      if (b5) b5.style.display = typeSelect.value === '4' ? 'none' : 'block';
-    });
-
-    calcBtn.addEventListener('click', () => {
-      let value = 0;
-      let tol = '';
-
-      if (typeSelect.value === '4') {
-        value =
-          (colorValues[bands[0].value] * 10 +
-           colorValues[bands[1].value]) *
-          multiplierValues[bands[2].value];
-        tol = toleranceValues[bands[3].value];
-      } else {
-        value =
-          (colorValues[bands[0].value] * 100 +
-           colorValues[bands[1].value] * 10 +
-           colorValues[bands[4].value]) *
-          multiplierValues[bands[2].value];
-        tol = toleranceValues[bands[3].value];
-      }
-
-      document.getElementById('resistance-value').textContent = value + ' Ω';
-      document.getElementById('resistance-tolerance').textContent = tol;
-      document.getElementById('resistance-conversion').textContent =
-        value >= 1000 ? value / 1000 + ' kΩ' : value + ' Ω';
+  function fillSelect(select, filter) {
+    select.innerHTML = '';
+    colors.filter(filter).forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = JSON.stringify(c);
+      opt.textContent = c.name;
+      select.appendChild(opt);
     });
   }
+
+  function updateBands() {
+    const type = typeSelect.value;
+
+    fillSelect(band1, c => c.value !== null);
+    fillSelect(band2, c => c.value !== null);
+    fillSelect(band4, c => c.multiplier !== null);
+    fillSelect(band5, c => c.tolerance !== null);
+
+    if (type === '4') {
+      band3Wrap.style.display = 'none';
+    } else {
+      band3Wrap.style.display = 'block';
+      fillSelect(band3, c => c.value !== null);
+    }
+  }
+
+  typeSelect.addEventListener('change', updateBands);
+  updateBands();
+
+  document.getElementById('calc-resistance').addEventListener('click', () => {
+    const c1 = JSON.parse(band1.value);
+    const c2 = JSON.parse(band2.value);
+    const mult = JSON.parse(band4.value);
+    const tol = JSON.parse(band5.value);
+
+    let value;
+    if (typeSelect.value === '4') {
+      value = (c1.value * 10 + c2.value) * mult.multiplier;
+    } else {
+      const c3 = JSON.parse(band3.value);
+      value = (c1.value * 100 + c2.value * 10 + c3.value) * mult.multiplier;
+    }
+
+    const display =
+      value >= 1_000_000 ? (value / 1_000_000) + " MΩ" :
+      value >= 1_000 ? (value / 1_000) + " kΩ" :
+      value + " Ω";
+
+    document.getElementById('resistance-value').textContent = display;
+    document.getElementById('resistance-tolerance').textContent =
+      tol.tolerance ? `± ${tol.tolerance}%` : '';
+  });
+}
+
 
   /* ==================== Init ==================== */
   updateTime();

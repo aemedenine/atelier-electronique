@@ -51,6 +51,73 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(key, count);
     visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
   }
+document.addEventListener('DOMContentLoaded', () => {
+  const colorValues = {
+    noir: 0, marron: 1, rouge: 2, orange: 3, jaune: 4,
+    vert: 5, bleu: 6, violet: 7, gris: 8, blanc: 9
+  };
+
+  const multiplierValues = {
+    noir: 1, marron: 10, rouge: 100, orange: 1e3, jaune: 10e3,
+    vert: 100e3, bleu: 1e6, violet: 10e6, gris: 100e6, or: 0.1, argent: 0.01
+  };
+
+  const toleranceValues = {
+    marron: '±1%', rouge: '±2%', vert: '±0.5%', bleu: '±0.25%',
+    violet: '±0.1%', gris: '±0.05%', or: '±5%', argent: '±10%'
+  };
+
+  const bandSelects = ['band1','band2','band3','band4','band5'].map(id => document.getElementById(id));
+
+  // ملأ القوائم
+  function fillBandOptions() {
+    const digits = Object.keys(colorValues);
+    const multipliers = Object.keys(multiplierValues);
+    const tolerances = Object.keys(toleranceValues);
+
+    bandSelects[0].innerHTML = digits.map(c => `<option value="${c}">${c}</option>`).join('');
+    bandSelects[1].innerHTML = digits.map(c => `<option value="${c}">${c}</option>`).join('');
+    bandSelects[2].innerHTML = multipliers.map(c => `<option value="${c}">${c}</option>`).join('');
+    bandSelects[3].innerHTML = tolerances.map(c => `<option value="${c}">${c}</option>`).join('');
+    bandSelects[4].innerHTML = digits.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
+
+  fillBandOptions();
+
+  const typeSelect = document.getElementById('resistance-type-select');
+  typeSelect.addEventListener('change', () => {
+    if(typeSelect.value==='4'){
+      document.getElementById('band5-container').style.display='none';
+    } else {
+      document.getElementById('band5-container').style.display='block';
+    }
+  });
+
+  document.getElementById('calc-resistance').addEventListener('click', () => {
+    let type = typeSelect.value;
+    let val = 0;
+    let tol = '';
+    if(type==='4'){
+      let d1 = colorValues[bandSelects[0].value];
+      let d2 = colorValues[bandSelects[1].value];
+      let mul = multiplierValues[bandSelects[2].value];
+      tol = toleranceValues[bandSelects[3].value];
+      val = (d1*10 + d2) * mul;
+    } else {
+      let d1 = colorValues[bandSelects[0].value];
+      let d2 = colorValues[bandSelects[1].value];
+      let d3 = colorValues[bandSelects[4].value];
+      let mul = multiplierValues[bandSelects[2].value];
+      tol = toleranceValues[bandSelects[3].value];
+      val = (d1*100 + d2*10 + d3) * mul;
+    }
+
+    document.getElementById('resistance-value').textContent = val + ' Ω';
+    document.getElementById('resistance-tolerance').textContent = tol;
+    document.getElementById('resistance-conversion').textContent = (val>=1000 ? (val/1000)+' kΩ' : val+' Ω');
+  });
+
+});
 
   /* -------------------- News rotation -------------------- */
   const newsAr = [

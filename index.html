@@ -435,8 +435,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="service-caption">تصليح كارت تلفاز</p>
     </div>
   </div>
-
   <!-- فيديوهات -->
+ <section class="videos-today">
+  <h2>فيديو اليوم</h2>
   <div class="services-slider" id="videoSlider">
     <div class="service-card video-card">
       <video src="video1.mp4" muted loop></video>
@@ -461,8 +462,33 @@ document.addEventListener('DOMContentLoaded', () => {
       <p class="service-caption">فحص بوردة</p>
     </div>
   </div>
-</section>
-
+  <!-- ======= Poste Soudure ======= -->
+  <section class="services-today" id="poste-soudure-section">
+   <h2 id="poste-soudure-title">Réparation postes soudure</h2>
+   <div class="services-slider">
+    <div class="service-card">
+     <img src="poste1.webp">
+     <p class="service-caption">تصليح ماكينة لحام</p>
+    </div> 
+    <div class="service-card"> 
+     <img src="poste2.webp"> 
+     <p class="service-caption">صيانة Poste Soudure</p>
+    </div> 
+    <div class="service-card">
+     <img src="poste3.webp">
+     <p class="service-caption">صيانة Poste Soudure</p>
+    </div>
+    <div class="service-card">
+     <img src="poste4.webp"> 
+     <p class="service-caption">صيانة Poste Soudure</p>
+    </div>
+    <div class="service-card"> 
+     <img src="poste5.webp">
+     <p class="service-caption">إصلاح لوحة إلكترونية</p> 
+    </div>
+   </div>
+   </section>
+           
 </main>
 
 <footer>
@@ -961,6 +987,28 @@ document.querySelectorAll('.video-card video').forEach(video => {
     }
       
   };
+ const posteSoudureTranslations = { 
+  ar: {
+   title: "تصليح ماكينات لحام",
+   captions: [
+    "تصليح ماكينة لحام 1"
+    , "تصليح ماكينة لحام 2"
+    , "تصليح ماكينة لحام 3"
+    , "تصليح ماكينة لحام 4"
+    , "تصليح ماكينة لحام 5"
+   ] 
+  },
+  fr: {
+   title: "Réparation postes soudure",
+   captions: [
+    "Réparation poste soudure 1",
+    "Réparation poste soudure 2",
+    "Réparation poste soudure 3",
+    "Réparation poste soudure 4",
+    "Réparation poste soudure 5"
+   ] 
+  } 
+ };
   function updateServiceCaptions(lang){
     document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
     const captions = document.querySelectorAll('.service-caption');

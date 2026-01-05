@@ -1,164 +1,185 @@
 /* ================= Reset ================= */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; direction:rtl; text-align:right; line-height:1.6; font-size:16px; }
-.container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat','Open Sans',sans-serif;
+  background: linear-gradient(135deg,#0b1a27,#122f4a);
+  color: #eee;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
 
 /* ================= Header ================= */
-header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; position:relative; }
-.header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
-.logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; position:relative; z-index:1; }
-header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
-
-/* ================= PCB background behind logo ================= */
-.logo-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,255,255,0.15) 0,
-      rgba(0,255,255,0.15) 1px,
-      transparent 1px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255,107,53,0.12) 0,
-      rgba(255,107,53,0.12) 1px,
-      transparent 1px,
-      transparent 10px
-    );
-  opacity: 0.6;
-  animation: pcbMove 12s linear infinite;
-  z-index: -2;
-}
-@keyframes pcbMove {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+header {
+  background:#061222;
+  padding:15px 0;
+  box-shadow:0 2px 6px rgba(0,0,0,0.6);
+  margin-bottom:15px;
 }
 
-/* ================= News ticker ================= */
-.news-ticker { width:100%; overflow:hidden; background:#0a1e3d; color:white; white-space:nowrap; font-weight:700; padding:10px 0; margin-bottom:25px; font-size:1rem; }
-.news-text { display:inline-block; padding:0 12px; min-height:1.2em; transition:opacity 0.4s ease; opacity:1; }
-.news-text.fade { animation:fade 0.45s linear; }
-@keyframes fade { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+.header-inner {
+  display:flex;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
 
-/* ================= Info bar ================= */
-.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#faf7f7; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
-#toggle-lang-btn { background:#0a1e3d; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
-#toggle-lang-btn:hover { background:#d9533f; }
+header h1 {
+  font-weight:700;
+  font-size:1.8rem;
+  color:#1e90ff;
+  flex-grow:1;
+  text-align:center;
+}
 
-/* ================= CTA Buttons ================= */
-.cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
-.cta-buttons a, .cta-buttons button { background:#0a1e3d; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
-.cta-buttons a:hover, .cta-buttons button:hover { background:#e0a800; transform:translateY(-2px); }
-.btn-store { background:#0a1e3d !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
-.btn-store:hover { background:#e0a800 !important; }
-
-/* ================= Experience badge ================= */
-.experience-badge { background:#007bff; color:white; font-weight:700; text-align:center; padding:12px 0; border-radius:50px; font-size:1.2rem; width:250px; margin:0 auto 40px auto; box-shadow:0 0 15px #007bff; }
+/* ================= Resistance Calculator ================= */
 #resistance-box {
-  background: rgba(0,255,255,0.08);
+  background: rgba(0,255,255,0.12);
+  border-radius: 14px;
+  padding: 22px;
+  max-width: 380px;
+  margin: 30px auto;
+  box-shadow: 0 0 20px rgba(0,255,255,0.45);
   backdrop-filter: blur(6px);
-  border-radius: 12px;
-  padding: 20px;
-  max-width: 350px;
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
-  box-shadow: 0 0 15px rgba(0,255,255,0.4);
-  margin: 20px auto; /* لتوسيطه */
 }
 
 #resistance-box h2 {
   text-align: center;
-  color: #0ff;
-  margin-bottom: 15px;
-  text-shadow: 0 0 8px #0ff;
+  color: #00ffff;
+  margin-bottom: 18px;
+  text-shadow: 0 0 10px #00ffff;
 }
 
+/* type select */
+#resistance-type-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* bands */
 .resistance-bands {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
-  margin: 15px 0;
+  margin-bottom: 15px;
 }
 
-.band { display: flex; flex-direction: column; align-items: center; }
-.band label { margin-bottom: 5px; }
-.band-select { padding: 5px; border-radius: 5px; border: none; }
+.band {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90px;
+}
 
+.band label {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.band-select {
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  width: 100%;
+  text-align: center;
+}
+
+/* button */
 #calc-resistance {
   display: block;
-  margin: 15px auto;
-  padding: 8px 20px;
+  margin: 18px auto;
+  padding: 10px 25px;
   background: #ff6b35;
   border: none;
   color: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
+
 #calc-resistance:hover {
   background: #e05520;
   transform: translateY(-2px);
-  box-shadow: 0 0 10px #ff6b35;
+  box-shadow: 0 0 12px #ff6b35;
 }
 
-#resistance-result { margin-top: 15px; text-align: center; }
-#resistance-result span { font-weight: bold; color: gold; }
+/* result */
+#resistance-result {
+  margin-top: 15px;
+  text-align: center;
+  background: rgba(0,0,0,0.35);
+  padding: 12px;
+  border-radius: 10px;
+}
 
+#resistance-result span {
+  display: block;
+  font-weight: bold;
+  margin-top: 6px;
+  color: gold;
+}
 
 /* ================= FAQ ================= */
-.faq { max-width:800px; margin:0 auto 60px auto; }
-.faq h2 { color:#f5f7fa; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:25px; }
-.faq-item { background:#0a1e3d; margin-bottom:12px; border-radius:8px; padding:15px 20px; cursor:pointer; transition:background-color 0.3s ease; box-shadow:0 2px 8px rgba(0,0,0,0.6); }
-.faq-item:hover { background:#13325b; }
-.faq-item h3 { font-weight:700; position:relative; color:#f5f7fa; margin-bottom:6px; }
-.faq-item h3::after { content:"+"; position:absolute; left:20px; top:0; font-size:1.6rem; font-weight:700; color:#ff6b35; transition:transform 0.3s ease; }
-.faq-item.open h3::after { content:"-"; transform:rotate(180deg); }
-.answer { margin-top:12px; font-weight:400; color:#ddd; display:none; line-height:1.5; }
-.faq-item.open .answer { display:block; }
+.faq {
+  max-width:800px;
+  margin:40px auto;
+}
 
-/* ================= Equalizer ================= */
-:root { --eq-color: #1e90ff; }
-.equalizer { display: flex; justify-content: center; gap: 6px; margin-top: 20px; height: 40px; align-items: flex-end; transition: opacity 0.3s ease; }
-.equalizer .bar { width: 6px; height: 8px; background: var(--eq-color); border-radius: 4px; }
-.equalizer.paused { opacity: 0.4; }
+.faq h2 {
+  text-align:center;
+  margin-bottom:25px;
+  font-size:1.8rem;
+}
 
-/* ================= Weather box ================= */
-.weather-box { max-width:420px; margin:20px auto; padding:18px 22px; background: linear-gradient(135deg, #0a1e3d, #123b6d); color:#fff; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,0.25); font-family:'Montserrat',sans-serif; }
-.weather-main { display:flex; justify-content:space-between; align-items:center; }
-.weather-main .city { font-size:1rem; opacity:0.9; }
-.weather-main .temp { font-size:2.2rem; font-weight:700; }
-.weather-desc { margin-top:8px; font-size:0.95rem; opacity:0.85; }
-.rain-status { margin-top:12px; padding:10px; background: rgba(255,255,255,0.15); border-radius:8px; font-weight:700; text-align:center; }
+.faq-item {
+  background:#0a1e3d;
+  margin-bottom:12px;
+  border-radius:8px;
+  padding:15px 20px;
+  cursor:pointer;
+}
 
-/* ================= Footer ================= */
-footer { background:#061222; color:#faf7f7; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
-.footer-inner p { margin-bottom:5px; }
-.social-icons { margin-top:10px; }
-.social-icons a { margin:0 12px; display:inline-block; opacity:0.75; transition:opacity 0.3s ease; }
-.social-icons a:hover { opacity:1; }
-.social-icons img { width:28px; height:28px; filter:drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
+.faq-item h3 {
+  font-weight:700;
+}
 
-/* ================= Slider ================= */
-.slider-container { overflow-x: auto; display:flex; gap:10px; cursor:grab; }
-.slider-container.active { cursor:grabbing; }
-.slider-item { flex:0 0 auto; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.3); transition:transform 0.2s; }
-.slider-item:hover { transform:scale(1.05); }
+.answer {
+  display:none;
+  margin-top:10px;
+  color:#ddd;
+}
 
-/* ================= Rating stars ================= */
-.rating-star { font-size:1.6rem; color:#777; cursor:pointer; transition: color 0.3s; }
-.rating-star.active { color:#ff6b35; }
+.faq-item.open .answer {
+  display:block;
+}
 
 /* ================= Responsive ================= */
 @media(max-width:768px){
-  .header-inner { flex-direction:column;text-align:center;gap:10px; }
-  .info-bar { flex-direction:column; gap:10px; }
-  .cta-buttons { flex-direction:column; align-items:center; }
-  .experience-badge { width:90%; }
-  .faq { width:90%; }
+  .resistance-bands {
+    flex-direction: column;
+  }
+  .band {
+    width: 100%;
+  }
 }

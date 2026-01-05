@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
        <div class="service-card">
       <img src="service5.webp">
-      <p class="service-caption">تصليح كارت تلفاز</p>
+      <p class="service-caption">تصليح كارت غسالة ل-ج</p>
     </div>
   </div>
   <!-- فيديوهات -->
@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
   <!-- ======= Poste Soudure ======= -->
-  <section class="Reparation postes soudure">
+  <section id="postesSection" class="Reparation postes soudure">
   <h2>تصليح ماكينات لحام</h2>
    <div class="services-slider">
     <div class="service-card">
@@ -836,7 +836,7 @@ visitsRef.on('value', snapshot => {
     currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
     updateWeather(currentLanguage);
     updateLanguageTexts(currentLanguage);
-    updateServiceCaptions(currentLanguage);
+    updateAllCaptions(currentLanguage);
     updateVisitText(currentLanguage, totalVisits);
   });
 
@@ -965,56 +965,93 @@ document.querySelectorAll('.video-card video').forEach(video => {
 
   // ======= Service Captions Translations + Section Title =======
   const serviceTranslations = {
-    ar: {
-      title: "خدمات اليوم",
-      captions: [
-        "تصليح لوحات إلكترونية",
-        "تصليح كارت جهاز المشي",
-        "تصليح كارت ماكينة غسيل",
-        "تصليح كارت تلفاز",
-        "تصليح كارت غسالة ل-ج"
-      ]
-    },
-    fr: {
-      title: "Services du jour",
-      captions: [
-        "réparation de cartes électroniques",
-        "réparation carte tapis roulant",
-        "réparation carte lave-linge",
-        "réparation carte television",
-        "réparation carte lave-linge LG"
-      ]
-    }
-      
-  };
- const posteSoudureTranslations = { 
   ar: {
-   title: "تصليح ماكينات لحام",
-   captions: [
-    "تصليح ماكينة لحام 1"
-    , "تصليح ماكينة لحام 2"
-    , "تصليح ماكينة لحام 3"
-    , "تصليح ماكينة لحام 4"
-    , "تصليح ماكينة لحام 5"
-   ] 
+    title: "خدمات اليوم",
+    captions: [
+      "تصليح لوحات إلكترونية",
+      "تصليح كارت جهاز المشي",
+      "تصليح كارت ماكينة غسيل",
+      "تصليح كارت تلفاز",
+      "تصليح كارت غسالة ل-ج"
+    ]
   },
   fr: {
-   title: "Réparation postes soudure",
-   captions: [
-    "Réparation poste soudure 1",
-    "Réparation poste soudure 2",
-    "Réparation poste soudure 3",
-    "Réparation poste soudure 4",
-    "Réparation poste soudure 5"
-   ] 
-  } 
- };
-  function updateServiceCaptions(lang){
-    document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
-    const captions = document.querySelectorAll('.service-caption');
-    captions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
+    title: "Services du jour",
+    captions: [
+      "réparation de cartes électroniques",
+      "réparation carte tapis roulant",
+      "réparation carte lave-linge",
+      "réparation carte television",
+      "réparation carte lave-linge LG"
+    ]
   }
-  updateServiceCaptions(currentLanguage);
+};
+
+const videoTranslations = {
+  ar: {
+    title: "فيديو اليوم",
+    captions: [
+      "تصليح كارت تغذية",
+      "إصلاح لوحة إلكترونية",
+      "فحص بوردة 1",
+      "فحص بوردة 2",
+      "فحص بوردة 3"
+    ]
+  },
+  fr: {
+    title: "Vidéo du jour",
+    captions: [
+      "réparation carte alimentation",
+      "réparation carte électronique",
+      "inspection carte 1",
+      "inspection carte 2",
+      "inspection carte 3"
+    ]
+  }
+};
+
+const posteSoudureTranslations = {
+  ar: {
+    title: "تصليح ماكينات لحام",
+    captions: [
+      "تصليح ماكينة لحام 1",
+      "تصليح ماكينة لحام 2",
+      "تصليح ماكينة لحام 3",
+      "تصليح ماكينة لحام 4",
+      "تصليح ماكينة لحام 5"
+    ]
+  },
+  fr: {
+    title: "Réparation postes soudure",
+    captions: [
+      "Réparation poste soudure 1",
+      "Réparation poste soudure 2",
+      "Réparation poste soudure 3",
+      "Réparation poste soudure 4",
+      "Réparation poste soudure 5"
+    ]
+  }
+};
+
+  function updateAllCaptions(lang) {
+  // خدمات اليوم
+  document.querySelector('.services-today h2').textContent = serviceTranslations[lang].title;
+  const serviceCaptions = document.querySelectorAll('.services-today .service-caption');
+  serviceCaptions.forEach((cap, idx) => { cap.textContent = serviceTranslations[lang].captions[idx]; });
+
+  // فيديو اليوم
+  document.querySelector('.videos-today h2').textContent = videoTranslations[lang].title;
+  const videoCaptions = document.querySelectorAll('.videos-today .service-caption');
+  videoCaptions.forEach((cap, idx) => { cap.textContent = videoTranslations[lang].captions[idx]; });
+
+  // تصليح ماكينات لحام
+  document.querySelector('#postesSection h2').textContent = posteSoudureTranslations[lang].title;
+  const posteCaptions = document.querySelectorAll('#postesSection .service-caption');
+  posteCaptions.forEach((cap, idx) => { cap.textContent = posteSoudureTranslations[lang].captions[idx]; });
+}
+
+  updateAllCaptions(currentLanguage);
+
 function updatePrayerTimes() {
   fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
     .then(res => res.json())

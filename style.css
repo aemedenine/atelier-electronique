@@ -1,4 +1,4 @@
-
+w l cod la5er 7atito f css shih??//
 
 /* ================= Reset ================= */
 
@@ -170,6 +170,66 @@ align-items: center;
 .band label {
 
 margin-bottom: 5px;
+
+}
+
+.band-select {
+
+padding: 5px;
+
+border-radius: 5px;
+
+border: none;
+
+}
+
+#calc-resistance {
+
+display: block;
+
+margin: 15px auto;
+
+padding: 8px 20px;
+
+background: #ff6b35;
+
+border: none;
+
+color: #fff;
+
+border-radius: 8px;
+
+cursor: pointer;
+
+font-weight: bold;
+
+}
+
+#calc-resistance:hover {
+
+background: #e05520;
+
+transform: translateY(-2px);
+
+box-shadow: 0 0 10px #ff6b35;
+
+}
+
+#resistance-result {
+
+margin-top: 15px;
+
+text-align: center;
+
+}
+
+#resistance-result span {
+
+font-weight: bold;
+
+color: gold;
+
+}
 
 /* ================= FAQ ================= */
 

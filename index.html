@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <main class="container main-content">
   <section class="info-bar">
     <div id="current-time">--:--:--</div>
-    <div id="visit-count">عدد زوار الموقع: 0</div>
+    
     <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
   </section>
 
@@ -682,20 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewerImg = document.getElementById('viewerImg');
   const viewerVideo = document.getElementById('viewerVideo');
   const closeBtn = mediaViewer.querySelector('.close-btn');
-// ======= Total Visitors Counter =======
-const db = firebase.database(); // قاعدة البيانات
-const visitsRef = db.ref('visits');
 
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع
-let totalVisits = 0;
-
-visitsRef.on('value', snapshot => {
-  totalVisits = snapshot.val() || 0;
-  updateVisitText(currentLanguage, totalVisits);
-});
 
   // فتح الصور والفيديوهات بالـ fullscreen
   document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
@@ -794,21 +781,7 @@ closeBtn.addEventListener('click', () => {
   },4000);
 
   // ======= Weather Script =======
-  let currentLanguage = 'ar';
- // ======= Visits Counter =======
-let totalVisits = 0; // متغير عام للعدد
 
-const db = firebase.database();
-const visitsRef = db.ref('visits');
-
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع حسب اللغة
-visitsRef.on('value', snapshot => {
-  totalVisits = snapshot.val() || 0;
-  updateVisitText(currentLanguage, totalVisits);
-});
   function updateWeather(language) {
     fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
     .then(res => res.json())
@@ -830,28 +803,6 @@ visitsRef.on('value', snapshot => {
   function updateLanguageTexts(lang) {
     ratingTitle.textContent = (lang==='ar') ? 'قيم الورشة:' : 'Évaluez l’atelier :';
   }
-
-  // Toggle Language
-  document.getElementById('toggle-lang-btn').addEventListener('click', () => {
-    currentLanguage = (currentLanguage === 'ar') ? 'fr' : 'ar';
-    updateWeather(currentLanguage);
-    updateLanguageTexts(currentLanguage);
-    updateAllCaptions(currentLanguage);
-    updateVisitText(currentLanguage, totalVisits);
-  });
-
-  updateLanguageTexts(currentLanguage);
-  updateWeather(currentLanguage);
-function updateVisitText(lang, total) {
-  const visitCountElem = document.getElementById('visit-count');
-  if (!visitCountElem) return;
-
-  if (lang === 'ar') {
-    visitCountElem.textContent = 'عدد زوار الموقع: ' + total;
-  } else {
-    visitCountElem.textContent = 'Nombre de visiteurs : ' + total;
-  }
-}
   // ======= Rating =======
   const starsHorizontal = document.querySelectorAll('.stars-horizontal span');
   const ratingValueHorizontal = document.getElementById('rating-value');

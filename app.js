@@ -44,13 +44,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------- Visits -------------------- */
-  function updateVisits() {
-    const key = 'aem-visit-count';
-    let count = parseInt(localStorage.getItem(key)) || 0;
-    count++;
-    localStorage.setItem(key, count);
-    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
+  /* ==================== Visits (GLOBAL) ==================== */
+async function trackVisit() {
+  if (!window.firebase || !firebase.firestore) return;
+
+  const db = firebase.firestore();
+  const visitsRef = db.collection("siteStats").doc("visits");
+
+  const visitorData = {
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    platform: navigator.platform,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    visitedAt: new Date()
+  };
+
+  try {
+    await db.runTransaction(async (transaction) => {
+      const doc = await transaction.get(visitsRef);
+      if (!doc.exists) {
+        transaction.set(visitsRef, {
+          total: 1,
+          logs: [visitorData]
+        });
+      } else {
+        transaction.update(visitsRef, {
+          total: doc.data().total + 1,
+          logs: firebase.firestore.FieldValue.arrayUnion(visitorData)
+        });
+      }
+    });
+  } catch (e) {
+    console.warn("Visit tracking failed:", e);
   }
+}
+
+trackVisit();
 
   /* -------------------- News rotation -------------------- */
   const newsAr = [

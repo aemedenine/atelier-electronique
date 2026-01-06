@@ -1,4 +1,4 @@
-// app.js 
+// app.js
 // All client logic: UI, language toggle, news, time, visits, radio, equalizer, FAQ
 document.addEventListener('DOMContentLoaded', () => {
   // language initial based on html lang attribute

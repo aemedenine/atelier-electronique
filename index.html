@@ -682,20 +682,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const viewerImg = document.getElementById('viewerImg');
   const viewerVideo = document.getElementById('viewerVideo');
   const closeBtn = mediaViewer.querySelector('.close-btn');
-// ======= Total Visitors Counter =======
-const db = firebase.database(); // قاعدة البيانات
-const visitsRef = db.ref('visits');
-
-// زيادة العدد تلقائياً عند كل زيارة
-visitsRef.transaction(current => (current || 0) + 1);
-
-// تحديث العدد مباشرة على الموقع
-let totalVisits = 0;
-
-visitsRef.on('value', snapshot => {
-  totalVisits = snapshot.val() || 0;
-  updateVisitText(currentLanguage, totalVisits);
-});
 
   // فتح الصور والفيديوهات بالـ fullscreen
   document.querySelectorAll('.service-card img, .service-card video').forEach(el => {

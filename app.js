@@ -110,6 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------- Radio controls -------------------- */
+ radioBtn.addEventListener('click', () => {
+    if (radio.paused) {
+     radio.play().catch(e => {
+        // autoplay may be blocked by browser; inform user
+        console.warn('Radio play failed:', e);
+      });
+      radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
+    } else {
+      radio.pause();
+      radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
+    }
+    updateEqualizerVisibility();
+  });
+
+  radio.addEventListener('play', updateEqualizerVisibility);
+  radio.addEventListener('pause', updateEqualizerVisibility);
 
   /* -------------------- Language toggle -------------------- */
   function setLanguage(lang) {

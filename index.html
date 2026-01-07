@@ -321,35 +321,35 @@ document.addEventListener('DOMContentLoaded', () => {
 .video-card video:hover {
   transform: scale(1.05);
 }
-/* ===== TOOLS BOX CARDS (SAME EFFECT) ===== */
-.tool-card {
-  height: 260px;
-  border-radius: 18px;
-  overflow: hidden;
+/* ======= Boxes fixed size ======= */
+.tools-row .tool-card {
+  width: 5cm;        /* عرض 5cm */
+  height: 3cm;       /* ارتفاع 3cm */
+  flex: none;        /* ما يتمددش */
+  border-radius: 12px;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(8px);
   box-shadow: 0 0 25px rgba(0,255,255,0.4);
-  position: relative;
-}
-
-/* PHOTO BOX */
-.photo-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* CALC BOX CONTENT */
-.calc-box-content {
-  height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 20px;
-  color: #fff;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
+
+.tools-row .tool-card:hover {
+  box-shadow: 0 0 35px rgba(0,255,255,0.7);
+  transform: translateY(-3px);
+}
+
+/* ======= spacing between boxes ======= */
+.tools-row {
+  display: flex;
+  gap: 20px;          /* المسافة بين كل box */
+  justify-content: center; /* توسيطهم في الصفحة */
+  margin: 40px auto;
+}
+
 
 .calc-box-content h3 {
   color: #0ff;
@@ -422,6 +422,23 @@ document.addEventListener('DOMContentLoaded', () => {
  <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
 <section class="tools-row">
+
+  <!-- Box Calcul Résistance -->
+  <div class="tool-card calc-box">
+    <div class="calc-box-content">
+      <h3>Calcul Résistance</h3>
+      <p>قريباً...</p>
+    </div>
+  </div>
+
+  <!-- Box Extra (مثلاً box autre) -->
+  <div class="tool-card extra-box">
+    <div class="calc-box-content">
+      <h3>Box Résistance</h3>
+      <p>محتوى إضافي</p>
+    </div>
+  </div>
+</section>
 
   <div class="tool-card photo-box">
     <img id="autoPhoto" src="photos/photo1.jpg" alt="atelier photo">

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const radio = document.getElementById('radio-stream');
   const radioBtn = document.getElementById('radio-btn');
   const equalizer = document.getElementById('equalizer');
+  const visitEl = document.getElementById('visit-count');
 
   /* -------------------- Time -------------------- */
   function updateTime() {
@@ -136,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
       document.querySelector('.experience-badge').textContent = 'أكثر من 10 سنوات خبرة';
       toggleBtn.textContent = 'تبديل اللغة';   
-    document.querySelector('.btn-download').textContent = 'تحميل البرامج  📥';
+      document.querySelector('.btn-download').textContent = 'تحميل البرامج  📥';
       document.querySelector('.btn-store').textContent = ' َسوّق الآن  🛒';
       document.querySelector('.btn-whatsapp').textContent = 'واتساب  📱';
       document.querySelector('.btn-maps').textContent = 'موقعنا على مابس  📍';
@@ -192,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // initial calls
   updateTime();
+  updateVisits();
   startNewsRotation();
   initFAQ();
   updateEqualizerVisibility();

@@ -321,51 +321,39 @@ document.addEventListener('DOMContentLoaded', () => {
 .video-card video:hover {
   transform: scale(1.05);
 }
- /* ======= TOOLS BOX ======= */
-.tools-box {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  max-width: 900px;
-  margin: 40px auto;
-}
-
-/* PHOTO BOX */
-.photo-box {
+/* ===== TOOLS BOX CARDS (SAME EFFECT) ===== */
+.tool-card {
   height: 260px;
   border-radius: 18px;
   overflow: hidden;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
   box-shadow: 0 0 25px rgba(0,255,255,0.4);
-  background: #000;
+  position: relative;
 }
 
+/* PHOTO BOX */
 .photo-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: fadePhoto 1s ease;
 }
 
-/* CALC BOX */
-.calc-box {
-  height: 260px;
-  border-radius: 18px;
+/* CALC BOX CONTENT */
+.calc-box-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   padding: 20px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 25px rgba(255,255,255,0.15);
   color: #fff;
 }
 
-.calc-box h3 {
+.calc-box-content h3 {
   color: #0ff;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-@keyframes fadePhoto {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  margin-bottom: 10px;
 }
 
 /* RESPONSIVE */
@@ -423,20 +411,23 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="equalizer" id="equalizer" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
-  </section>
-
+ 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
  <section class="tools-box">
 
-  <!-- BOX PHOTOS -->
-  <div class="photo-box">
+ <section class="tools-box">
+
+  <!-- PHOTO BOX -->
+  <div class="tool-card photo-box">
     <img id="autoPhoto" src="photos/photo1.jpg" alt="atelier photo">
   </div>
 
-  <!-- BOX CALCUL (فارغة توة) -->
-  <div class="calc-box">
-    <h3>Calcul résistance</h3>
-    <p>قريباً...</p>
+  <!-- CALC BOX -->
+  <div class="tool-card calc-box">
+    <div class="calc-box-content">
+      <h3>Calcul résistance</h3>
+      <p>قريباً...</p>
+    </div>
   </div>
 
 </section>

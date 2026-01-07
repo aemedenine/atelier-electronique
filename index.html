@@ -320,7 +320,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
 .video-card video:hover {
   transform: scale(1.05);
-}</style>
+}
+ /* ======= TOOLS BOX ======= */
+.tools-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+/* PHOTO BOX */
+.photo-box {
+  height: 260px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,255,255,0.4);
+  background: #000;
+}
+
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fadePhoto 1s ease;
+}
+
+/* CALC BOX */
+.calc-box {
+  height: 260px;
+  border-radius: 18px;
+  padding: 20px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 25px rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.calc-box h3 {
+  color: #0ff;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+@keyframes fadePhoto {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .tools-box {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+ 
 </head>
 <body>
 <header>
@@ -371,6 +426,20 @@ document.addEventListener('DOMContentLoaded', () => {
   </section>
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
+ <section class="tools-box">
+
+  <!-- BOX PHOTOS -->
+  <div class="photo-box">
+    <img id="autoPhoto" src="photos/photo1.jpg" alt="atelier photo">
+  </div>
+
+  <!-- BOX CALCUL (فارغة توة) -->
+  <div class="calc-box">
+    <h3>Calcul résistance</h3>
+    <p>قريباً...</p>
+  </div>
+
+</section>
 
  <section class="weather-box">
   <h3>🌦️ حالة الطقس في مدنين</h3>
@@ -1078,6 +1147,22 @@ function updatePrayerTimes() {
 updatePrayerTimes();
 
 });
+<script>
+const photos = [
+  "photos/photo1.jpg",
+  "photos/photo2.jpg",
+  "photos/photo3.jpg",
+  "photos/photo4.jpg"
+];
+
+let photoIndex = 0;
+const autoPhoto = document.getElementById("autoPhoto");
+
+setInterval(() => {
+  photoIndex = (photoIndex + 1) % photos.length;
+  autoPhoto.src = photos[photoIndex];
+}, 1000); // كل 1 ثانية
 </script>
+
 </body>
 </html>

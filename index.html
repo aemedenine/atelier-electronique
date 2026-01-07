@@ -320,58 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 .video-card video:hover {
   transform: scale(1.05);
-}
-/* ======= Boxes fixed size ======= */
-.tools-row .tool-card {
-  width: 5cm;        /* عرض 5cm */
-  height: 3cm;       /* ارتفاع 3cm */
-  flex: none;        /* ما يتمددش */
-  border-radius: 12px;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 25px rgba(0,255,255,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.tools-row .tool-card:hover {
-  box-shadow: 0 0 35px rgba(0,255,255,0.7);
-  transform: translateY(-3px);
-}
-
-/* ======= spacing between boxes ======= */
-.tools-row {
-  display: flex;
-  gap: 20px;          /* المسافة بين كل box */
-  justify-content: center; /* توسيطهم في الصفحة */
-  margin: 40px auto;
-}
-
-
-.calc-box-content h3 {
-  color: #0ff;
-  margin-bottom: 10px;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .tools-box {
-    grid-template-columns: 1fr;
-  }
-}
- /* ===== TOOLS ROW LAYOUT ===== */
-.tools-row {
-  display: flex;
-  gap: 25px;
-  margin: 40px auto;
-  max-width: 1200px;
-  padding: 0 20px;
-}
-</style>
- 
+}</style>
 </head>
 <body>
 <header>
@@ -419,39 +368,9 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="equalizer" id="equalizer" aria-hidden="true">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
- <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
+  </section>
 
-<section class="tools-row">
-
-  <!-- Box Calcul Résistance -->
-  <div class="tool-card calc-box">
-    <div class="calc-box-content">
-      <h3>Calcul Résistance</h3>
-      <p>قريباً...</p>
-    </div>
-  </div>
-
-  <!-- Box Extra (مثلاً box autre) -->
-  <div class="tool-card extra-box">
-    <div class="calc-box-content">
-      <h3>Box Résistance</h3>
-      <p>محتوى إضافي</p>
-    </div>
-  </div>
-</section>
-
-  <div class="tool-card photo-box">
-    <img id="autoPhoto" src="photos/photo1.jpg" alt="atelier photo">
-  </div>
-
-  <div class="tool-card calc-box">
-    <div class="calc-box-content">
-      <h3>Calcul résistance</h3>
-      <p>قريباً...</p>
-    </div>
-  </div>
-
-</section>
+  <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
  <section class="weather-box">
   <h3>🌦️ حالة الطقس في مدنين</h3>
@@ -718,12 +637,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
- /* same width for both boxes */
-.tools-row .tool-card {
-  flex: 1;
-  height: 260px;
-}
-
 /* ======= Fullscreen Media Viewer CSS ======= */
 #mediaViewer {
   display: none;
@@ -763,7 +676,9 @@ document.addEventListener('DOMContentLoaded', () => {
   background: rgba(255,0,0,0.7);
   transform: scale(1.2);
 }
- <script>
+</style>
+
+<script>
 // ======= Fullscreen Media Viewer JS =======
 document.addEventListener('DOMContentLoaded', () => {
   const mediaViewer = document.getElementById('mediaViewer');
@@ -803,6 +718,7 @@ visitsRef.on('value', snapshot => {
       }
     });
   });
+
   // زر الإغلاق
   closeBtn.addEventListener('click', () => {
     mediaViewer.style.display = 'none';
@@ -1162,24 +1078,6 @@ function updatePrayerTimes() {
 updatePrayerTimes();
 
 });
-<script>
-const photos = [
-  "photos/photo1.jpg",
-  "photos/photo2.jpg",
-  "photos/photo3.jpg",
-  "photos/photo4.jpg"
-];
-
-let photoIndex = 0;
-const autoPhoto = document.getElementById("autoPhoto");
-
-setInterval(() => {
-  photoIndex = (photoIndex + 1) % photos.length;
-  autoPhoto.src = photos[photoIndex];
-}, 1000); // كل 1 ثانية
-
- }
- });
-</script>             
+</script>
 </body>
 </html>

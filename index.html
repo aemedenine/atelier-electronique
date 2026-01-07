@@ -154,72 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 1.1rem;
   opacity: 0.9;
 }
-/* ======= TOOLS ROW ======= */
-.tools-row {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin: 40px auto;
-  flex-wrap: wrap;
-}
-
-/* BOXS STYLE */
-.tool-box {
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0,255,255,0.35);
-  padding: 15px;
-  color: #fff;
-  text-align: center;
-}
-
-/* BIG BOX (taqs) */
-.big-box {
-  width: 320px;
-  height: 200px;
-}
-
-/* SMALL BOXES */
-.small-box {
-  width: 230px;
-  height: 200px;
-}
-
-/* SLIDER */
-.slider-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  animation: fade 1s ease;
-}
-
-/* CALCUL */
-.calc-box input {
-  width: 90%;
-  margin: 5px 0;
-  padding: 6px;
-  border-radius: 6px;
-  border: none;
-}
-.calc-box button {
-  margin-top: 6px;
-  padding: 6px 12px;
-  background: #0ff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .tools-row {
-    flex-direction: column;
-    align-items: center;
-  }
-}
 
 /* تقييم النجوم */
 .rating-container { margin: 40px auto; text-align: center; color: #fff; }
@@ -437,31 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </section>
 
   <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
- <!-- ======= TOOLS BOXES ======= -->
-<section class="tools-row">
-
-  <!-- BOX 1 : TS9S (الموجود أصلا) -->
-  <div class="tool-box big-box">
-    <h3>⚡ Tension / Courant</h3>
-    <p>Box موجودة</p>
-  </div>
-
-  <!-- BOX 2 : SLIDER PHOTOS -->
-  <div class="tool-box small-box slider-box">
-    <img id="sliderImage" src="slider/1.webp" alt="atelier">
-  </div>
-
-  <!-- BOX 3 : CALCUL RESISTANCE -->
-  <div class="tool-box small-box calc-box">
-    <h3>🔢 Calcul Résistance</h3>
-    <input type="number" id="voltage" placeholder="Voltage (V)">
-    <input type="number" id="current" placeholder="Courant (A)">
-    <button onclick="calcResistance()">Calculer</button>
-    <p id="resResult">—</p>
-  </div>
-
-</section>
-
 
  <section class="weather-box">
   <h3>🌦️ حالة الطقس في مدنين</h3>
@@ -1010,34 +919,7 @@ function updateVisitText(lang, total) {
     requestAnimationFrame(animatePCB); 
   }
   animatePCB();
-/* ===== SLIDER PHOTOS ===== */
-const images = [
-  "slider/1.webp",
-  "slider/2.webp",
-  "slider/3.webp"
-];
-let index = 0;
-setInterval(() => {
-  index = (index + 1) % images.length;
-  const img = document.getElementById("sliderImage");
-  img.style.opacity = 0;
-  setTimeout(() => {
-    img.src = images[index];
-    img.style.opacity = 1;
-  }, 300);
-}, 1000);
 
-/* ===== CALCUL RESISTANCE ===== */
-function calcResistance() {
-  const v = document.getElementById("voltage").value;
-  const i = document.getElementById("current").value;
-  if(v > 0 && i > 0) {
-    document.getElementById("resResult").textContent =
-      "R = " + (v / i).toFixed(2) + " Ω";
-  } else {
-    document.getElementById("resResult").textContent = "دخل القيم صحيحة";
-  }
-}
   // ======= Slider Drag =======
 function enableDragScroll(id) {
   const slider = document.getElementById(id);
@@ -1195,7 +1077,7 @@ function updatePrayerTimes() {
 // تنفيذها مباشرة بعد تحميل الصفحة
 updatePrayerTimes();
 
+});
 </script>
-
 </body>
 </html>

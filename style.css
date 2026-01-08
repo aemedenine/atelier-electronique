@@ -1,37 +1,38 @@
 /* ================= Reset ================= */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
 
-body {
-  font-family:'Montserrat','Open Sans',sans-serif;
-  background:linear-gradient(135deg,#0b1a27,#122f4a);
-  color:#eee;
-  direction:rtl;
-  text-align:right;
-  line-height:1.6;
-  font-size:16px;
-}
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Montserrat','Open Sans',sans-serif; background:linear-gradient(135deg,#0b1a27,#122f4a); color:#eee; direction:rtl; text-align:right; line-height:1.6; font-size:16px; }
+.container { width:90%; max-width:1100px; margin:0 auto; padding:0 12px; }
+header { background:#061222; padding:15px 0; box-shadow:0 2px 6px rgba(0,0,0,0.6); margin-bottom:15px; }
+.header-inner { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
+.logo { width:150px; border-radius:10px; box-shadow:0 0 8px #1e90ff; }
+header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 
-.container {
-  width:90%;
-  max-width:1100px;
-  margin:0 auto;
-  padding:0 12px;
-}
+<!-- Script AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639" crossorigin="anonymous"></script>
 
-/* ================= Header ================= */
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+/* ================= HEADER ================= */
 header {
   background:#061222;
   padding:15px 0;
   box-shadow:0 2px 6px rgba(0,0,0,0.6);
   margin-bottom:15px;
-  position:relative;
 }
 
 .header-inner {
+  position: relative;
+  overflow: hidden;
   display:flex;
   align-items:center;
   gap:15px;
@@ -44,13 +45,30 @@ header {
   box-shadow:0 0 8px #1e90ff;
 }
 
-header h1 {
-  font-weight:700;
+.header-inner h1 {
+  display:inline-block;
   font-size:1.8rem;
+  margin-left:15px;
+  transition:color .5s, transform .5s, text-shadow .5s;
+  font-weight:700;
   color:#1e90ff;
   flex-grow:1;
-  text-align:center;
 }
+
+#pcbCanvasHeader {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+.header-inner img,
+.header-inner h1 {
+  position:relative;
+  z-index:10;
+}
+
 
 /* ================= News ticker ================= */
 .news-ticker {
@@ -157,20 +175,38 @@ header h1 {
   background:#e0a800 !important;
 }
 
-/* ================= Experience badge ================= */
-.experience-badge {
-  background:#007bff;
-  color:white;
-  font-weight:700;
-  text-align:center;
-  padding:12px 0;
-  border-radius:50px;
-  font-size:1.2rem;
-  width:250px;
-  margin:0 auto 40px auto;
-  box-shadow:0 0 15px #007bff;
+/* Experience badge */
+.experience-badge { background:#007bff; color:white; font-weight:700; text-align:center; padding:12px 0; border-radius:50px; font-size:1.2rem; width:250px; margin:0 auto 40px auto; box-shadow:0 0 15px #007bff; }
+
+
+
+/* ================= WEATHER + PRAYER ================= */
+.weather-box {
+  margin:40px auto 10px;
+  padding:20px;
+  max-width:420px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(8px);
+  border-radius:15px;
+  color:#fff;
+  box-shadow:0 0 20px rgba(0,255,255,.2);
 }
 
+.weather-box > div {
+  display:flex;
+  justify-content:space-between;
+}
+
+.weather-temp { font-size:2.5rem; font-weight:bold; }
+
+.prayer-times p {
+  display:flex;
+  justify-content:space-between;
+  margin:3px 0;
+  color:#fff;
+}
+
+.prayer-times .time { font-weight:bold; }
 /* ================= FAQ ================= */
 .faq {
   max-width:800px;
@@ -234,6 +270,167 @@ header h1 {
   display:block;
 }
 
+/* ===== Fikra 3 : Electronic PCB background وراء اللوجو ===== */
+.logo-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,255,255,0.15) 0,
+      rgba(0,255,255,0.15) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,107,53,0.12) 0,
+      rgba(255,107,53,0.12) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.6;
+  animation: pcbMove 12s linear infinite;
+  z-index: -2;
+}
+
+/* حركة خفيفة متاع المسارات */
+@keyframes pcbMove {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+<script>
+ // Firebase configuration
+ const firebaseConfig = {
+  apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
+  authDomain: "atelier-electronique-mednine.firebaseapp.com",
+  projectId: "atelier-electronique-mednine",
+  storageBucket: "atelier-electronique-mednine.firebasestorage.app",
+  messagingSenderId: "547430908384",
+  appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
+};
+
+// Initialize Firebase safely
+const app = firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics(app);
+const auth = firebase.auth();
+
+// ======= حفظ تسجيل الدخول حتى بعد refresh =======
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => { console.log("🔒 Session persistente activée"); })
+  .catch(error => { console.error("Erreur persistence:", error); });
+
+// Firebase Sign-In Logic
+document.addEventListener('DOMContentLoaded', () => {
+
+  // مراقبة حالة تسجيل الدخول
+  firebase.auth().onAuthStateChanged((user) => {
+    const loginPopup = document.getElementById('login-popup');
+    const userInfo = document.getElementById('user-info');
+    const userName = document.getElementById('user-name');
+
+    if (user) {
+      userInfo.style.display = 'block';
+      loginPopup.style.display = 'none';
+      userName.textContent = user.displayName || "مستخدم";
+    } else {
+      userInfo.style.display = 'none';
+      loginPopup.style.display = 'flex';
+    }
+  });
+
+  const loginPopup = document.getElementById('login-popup');
+  const btnGoogle = document.getElementById('btn-google');
+  const btnClosePopup = document.getElementById('btn-close-popup');
+  const userInfo = document.getElementById('user-info');
+  const userName = document.getElementById('user-name');
+  const btnSignOut = document.getElementById('btn-signout');
+
+  btnGoogle.addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .then(result => {
+        const user = result.user;
+        userName.textContent = user.displayName;
+        userInfo.style.display = 'block';
+        loginPopup.style.display = 'none';
+      }).catch(console.error);
+  });
+
+  btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
+
+  btnSignOut.addEventListener('click', () => {
+    auth.signOut().then(() => {
+      userInfo.style.display='none';
+      alert('تم تسجيل الخروج بنجاح');
+    });
+  });
+
+  // ======= Video play safety =======
+  document.querySelectorAll('.video-card video').forEach(video => {
+    video.addEventListener('mouseenter', () => { video.play().catch(()=>{}); });
+    video.addEventListener('mouseleave', () => { video.pause(); video.currentTime=0; });
+  });
+
+});
+</script>
+
+/* Footer */
+footer { background:#061222; color:#faf7f7; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
+.footer-inner p { margin-bottom:5px; }
+.social-icons { margin-top:10px; }
+.social-icons a { margin:0 12px; display:inline-block; opacity:0.75; transition:opacity 0.3s ease; }
+.social-icons a:hover { opacity:1; }
+.social-icons img { width:28px; height:28px; filter:drop-shadow(0 0 1px rgba(0,0,0,0.8)); }
+
+<script>
+// ======= Fullscreen Media Viewer JS =======
+document.addEventListener('DOMContentLoaded', () => {
+  const mediaViewer = document.getElementById('mediaViewer');
+  const viewerImg = document.getElementById('viewerImg');
+  const viewerVideo = document.getElementById('viewerVideo');
+  const closeBtn = mediaViewer.querySelector('.close-btn');
+// فتح الصور والفيديوهات بالـ fullscreen
+  document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      mediaViewer.style.display = 'flex';
+      if(el.tagName === 'IMG'){
+        viewerImg.src = el.src;
+        viewerImg.style.display = 'block';
+        viewerVideo.style.display = 'none';
+        viewerVideo.pause();
+      } else if(el.tagName === 'VIDEO'){
+        viewerVideo.src = el.src;
+        viewerVideo.style.display = 'block';
+        viewerImg.style.display = 'none';
+        viewerVideo.play();
+      }
+    });
+  });
+
+  // زر الإغلاق
+  closeBtn.addEventListener('click', () => {
+    mediaViewer.style.display = 'none';
+    viewerVideo.pause();
+    viewerVideo.currentTime = 0;
+  });
+});
+</script>
+<div id="cmp-banner">
+  نستخدم الكوكيز لتحسين تجربتك. 
+  <button id="consent-allow">أوافق</button>
+  <button id="consent-manage">تغيير الخيارات</button>
+</div>
+
+<script src="app.js" defer></script>
+<script>
+
+
+/* Responsive */
+@media(max-width:768px){.header-inner{flex-direction:column;text-align:center;gap:10px}.info-bar{flex-direction:column;gap:10px}.cta-buttons{flex-direction:column;align-items:center}.experience-badge{width:90%}.faq{width:90%}}
 /* ================= Equalizer ================= */
 .equalizer {
   display:flex;

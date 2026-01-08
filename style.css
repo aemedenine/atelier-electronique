@@ -28,6 +28,7 @@ header {
   padding:15px 0;
   box-shadow:0 2px 6px rgba(0,0,0,0.6);
   margin-bottom:15px;
+  position:relative;
 }
 
 .header-inner {
@@ -48,6 +49,7 @@ header h1 {
   font-size:1.8rem;
   color:#1e90ff;
   flex-grow:1;
+  text-align:center;
 }
 
 /* ================= News ticker ================= */
@@ -61,6 +63,7 @@ header h1 {
   padding:10px 0;
   margin-bottom:25px;
   font-size:1rem;
+  position:relative;
 }
 
 .news-text {

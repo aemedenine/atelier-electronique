@@ -1,285 +1,132 @@
-// ======================================================
-// app.js (REFERENCE VERSION)
-// Firebase + Auth + UI + Weather + Visits + Media + Radio + News + Time + FAQ
-// ======================================================
-
 document.addEventListener('DOMContentLoaded', () => {
 
- /* -------------------- Initialization -------------------- */
-  // periodic time update
-  setInterval(updateTime, 1000);
+  // ===== Firebase Setup =====
+  const auth = firebase.auth();
+  const db = firebase.database();
 
-  // initial calls
-  updateTime();
-  startNewsRotation();
-  initFAQ();
-  updateEqualizerVisibility();
+  // ===== Session Persistence =====
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-/* -------------------- Firebase (reactions/comments) -------------------- */
-  // If you use Firebase features, keep these credentials as you provided.
-  // NOTE: these keys are visible in client code by design (Firebase config).
-  // If you don't use Firebase, you can remove this block.
-  try {
-    const firebaseConfig = {
-      apiKey: "AIzaSyD5Hrfk6tU22ITquRR3xt957WmlnvPTw5M",
-      authDomain: "aem-site-4e030.firebaseapp.com",
-      projectId: "aem-site-4e030",
-      storageBucket: "aem-site-4e030.firebasestorage.app",
-      messagingSenderId: "241838556898",
-      appId: "1:241838556898:web:9eb591e3d05405894800bb",
-      measurementId: "G-DTNBCK5H1F"
-    };
-
-    // initialize compat SDK (we included compat scripts in HTML)
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Example: attach listeners to reaction & comment buttons (if present)
-    document.querySelectorAll('.react-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const reaction = btn.dataset.reaction;
-        const mediaId = btn.closest('.reactions')?.dataset.id;
-        if (!mediaId) return;
-        db.collection("reactions").add({ mediaId, reaction, timestamp: new Date() });
-      });
-    });
-
-    document.querySelectorAll('.comment-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const parent = btn.closest('.reactions');
-        if (!parent) return;
-        const commentInput = parent.querySelector('.comment-input');
-        const mediaId = parent.dataset.id;
-        const comment = commentInput?.value.trim();
-        if (comment) {
-          db.collection("comments").add({ mediaId, comment, timestamp: new Date() });
-          if (commentInput) commentInput.value = '';
-        }
-      });
-    });
-
-  } catch (e) {
-    // if Firebase scripts not loaded or config invalid, don't break the UI
-    console.warn('Firebase init skipped or failed:', e);
-  }
-});
-   /* ===================== AUTH ===================== */
+  // ===== User Auth =====
   const loginPopup = document.getElementById('login-popup');
   const userInfo = document.getElementById('user-info');
   const userName = document.getElementById('user-name');
+  const btnGoogle = document.getElementById('btn-google');
+  const btnSignOut = document.getElementById('btn-signout');
+  const btnClosePopup = document.getElementById('btn-close-popup');
 
   auth.onAuthStateChanged(user => {
-    if (user) {
-      userInfo.style.display = 'block';
-      loginPopup.style.display = 'none';
+    if(user){
+      userInfo.style.display='block';
+      loginPopup.style.display='none';
       userName.textContent = user.displayName || 'مستخدم';
-    } else {
-      userInfo.style.display = 'none';
-      loginPopup.style.display = 'flex';
+    }else{
+      userInfo.style.display='none';
+      loginPopup.style.display='flex';
     }
   });
 
-  document.getElementById('btn-google')?.addEventListener('click', () => {
+  btnGoogle.addEventListener('click', ()=>{
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).catch(console.error);
+    auth.signInWithPopup(provider).then(res=>{
+      const user = res.user;
+      userInfo.style.display='block';
+      loginPopup.style.display='none';
+      userName.textContent = user.displayName;
+    });
   });
 
-  document.getElementById('btn-signout')?.addEventListener('click', () => {
-    auth.signOut();
+  btnSignOut.addEventListener('click', ()=>{
+    auth.signOut().then(()=> userInfo.style.display='none');
   });
 
-  /* ===================== VISITS (Firebase) ===================== */
-  let currentLanguage = 'ar';
-  let totalVisits = 0;
+  btnClosePopup.addEventListener('click', ()=> loginPopup.style.display='none');
+
+  // ===== Visits Counter =====
   const visitsRef = db.ref('visits');
-
-  visitsRef.transaction(v => (v || 0) + 1);
-  visitsRef.on('value', snap => {
-    totalVisits = snap.val() || 0;
-    updateVisitText();
+  visitsRef.transaction(current => (current||0)+1);
+  let totalVisits = 0;
+  visitsRef.on('value', snapshot => {
+    totalVisits = snapshot.val() || 0;
+    updateVisitText(totalVisits);
   });
 
-  function updateVisitText() {
-    const el = document.getElementById('visit-count');
-    if (!el) return;
-    el.textContent = currentLanguage === 'ar'
-      ? `عدد زوار الموقع: ${totalVisits}`
-      : `Nombre de visiteurs : ${totalVisits}`;
+  function updateVisitText(total){
+    const visitCountElem = document.getElementById('visit-count');
+    visitCountElem.textContent = 'عدد زوار الموقع: '+total;
   }
 
-  /* ===================== TIME ===================== */
-  const timeEl = document.getElementById('current-time');
-  function updateTime() {
-    if (!timeEl) return;
-    const now = new Date();
-    timeEl.textContent = now.toLocaleTimeString();
-  }
-  setInterval(updateTime, 1000);
-  updateTime();
-
-  /* ===================== WEATHER ===================== */
+  // ===== Weather =====
   function updateWeather() {
     fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-      .then(r => r.json())
-      .then(d => {
-        document.getElementById('weather-temp').textContent = d.current_weather.temperature + "°C";
-        document.getElementById('weather-desc').textContent =
-          (currentLanguage === 'ar'
-            ? 'سرعة الرياح: '
-            : 'Vitesse du vent: ') + d.current_weather.windspeed;
+      .then(res=>res.json())
+      .then(data=>{
+        document.getElementById('weather-temp').textContent = data.current_weather.temperature+'°C';
+        document.getElementById('weather-desc').textContent = '🌬️ سرعة الرياح: '+data.current_weather.windspeed+' كم/س';
       });
   }
   updateWeather();
 
-/* -------------------- Language toggle -------------------- */
-  function setLanguage(lang) {
-    currentLang = lang;
-    if (lang === 'ar') {
-      document.documentElement.lang = 'ar';
-      document.documentElement.dir = 'rtl';
-      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-      document.querySelector('.experience-badge').textContent = 'أكثر من 10 سنوات خبرة';
-      toggleBtn.textContent = 'تبديل اللغة';   
-    document.querySelector('.btn-download').textContent = 'تحميل البرامج  📥';
-      document.querySelector('.btn-store').textContent = ' َسوّق الآن  🛒';
-      document.querySelector('.btn-whatsapp').textContent = 'واتساب  📱';
-      document.querySelector('.btn-maps').textContent = 'موقعنا على مابس  📍';
-      document.querySelector('.btn-gallery').textContent = 'شاهد الصور  🖼️';
-      document.querySelector('.btn-video').textContent = 'شاهد الفيديو  🎥';
-      document.querySelector('.btn-services').textContent = 'خدمات الورشة  🛠️';
-      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو  📻';
-
-      // rebuild FAQ in Arabic (keeps markup consistent)
-      faqContainer.innerHTML = `
-        <h2>الأسئلة الشائعة</h2>
-        <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
-        <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
-        <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
-        <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
-      `;
-    } else {
-      document.documentElement.lang = 'fr';
-      document.documentElement.dir = 'ltr';
-      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-      document.querySelector('.experience-badge').textContent = 'Plus de 10 ans d\'expérience';
-      toggleBtn.textContent = 'Changer la langue';
-      document.querySelector('.btn-download').textContent = 'download  📥';
-      document.querySelector('.btn-store').textContent = 'store  🛒';
-      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp  📱';
-      document.querySelector('.btn-maps').textContent = 'Google Maps  📍';
-      document.querySelector('.btn-gallery').textContent = 'Voir les photos  🖼️';
-      document.querySelector('.btn-video').textContent = 'Voir les vidéos  🎥';
-      document.querySelector('.btn-services').textContent = 'Services  🛠️';
-      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio  📻';
-
-      faqContainer.innerHTML = `<h2>FAQ</h2>
-        <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
-        <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
-        <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
-        <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>`;
-    }
-
-    // restart related features
-    startNewsRotation();
-    updateTime();
-    initFAQ();
-    updateEqualizerVisibility();
-  }
-
-  toggleBtn.addEventListener('click', () => {
-    setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
-  });
-
- 
-  /* -------------------- News rotation -------------------- */
-  const newsAr = [
-    "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-    "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-    "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-    "📱 تواصل معنا عبر واتساب لأي استفسار."
-  ];
-
-  const newsFr = [
-    "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
-    "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
-    "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-    "📱 Contactez-nous via WhatsApp pour toute question."
-  ];
-
-  let newsIndex = 0;
-  let newsInterval = null;
-
-  function updateNews() {
-    const news = currentLang === 'ar' ? newsAr : newsFr;
-    // show next with fade animation class
-    ticker.classList.remove('fade');
-    void ticker.offsetWidth; // force reflow to restart animation
-    ticker.textContent = news[newsIndex];
-    ticker.classList.add('fade');
-
-    newsIndex = (newsIndex + 1) % news.length;
-  }
-
-  function startNewsRotation() {
-    if (newsInterval) clearInterval(newsInterval);
-    updateNews();
-    newsInterval = setInterval(updateNews, 5000);
-  }
-
-/* -------------------- Radio controls -------------------- */
-  radioBtn.addEventListener('click', () => {
-    if (radio.paused) {
-      radio.play().catch(e => {
-        // autoplay may be blocked by browser; inform user
-        console.warn('Radio play failed:', e);
+  // ===== Prayer Times =====
+  function updatePrayerTimes() {
+    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
+      .then(res=>res.json())
+      .then(data=>{
+        const t = data.data.timings;
+        document.getElementById("prayer-times").innerHTML = `
+          <p><span>🌅 الفجر:</span> <span class="time">${t.Fajr}</span></p>
+          <p><span>🌄 الشروق:</span> <span class="time">${t.Sunrise}</span></p>
+          <p><span>☀️ الظهر:</span> <span class="time">${t.Dhuhr}</span></p>
+          <p><span>🕰️ العصر:</span> <span class="time">${t.Asr}</span></p>
+          <p><span>🌇 المغرب:</span> <span class="time">${t.Maghrib}</span></p>
+          <p><span>🌙 العشاء:</span> <span class="time">${t.Isha}</span></p>
+        `;
       });
-      radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
-    } else {
-      radio.pause();
-      radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
-    }
-    updateEqualizerVisibility();
-  });
-
-  radio.addEventListener('play', updateEqualizerVisibility);
-  radio.addEventListener('pause', updateEqualizerVisibility);
-
-
-  /* -------------------- FAQ -------------------- */
-  function initFAQ() {
-    const items = document.querySelectorAll('.faq-item');
-    items.forEach(item => {
-      item.addEventListener('click', () => {
-        item.classList.toggle('open');
-      });
-    });
   }
+  updatePrayerTimes();
 
-  /* ===================== MEDIA VIEWER ===================== */
+  // ===== Media Viewer =====
   const mediaViewer = document.getElementById('mediaViewer');
   const viewerImg = document.getElementById('viewerImg');
   const viewerVideo = document.getElementById('viewerVideo');
+  const closeBtn = mediaViewer.querySelector('.close-btn');
 
-  document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
-    el.addEventListener('click', () => {
-      mediaViewer.style.display = 'flex';
-      if (el.tagName === 'IMG') {
-        viewerImg.src = el.src;
-        viewerImg.style.display = 'block';
-        viewerVideo.style.display = 'none';
+  document.querySelectorAll('.service-card img, .service-card video').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      mediaViewer.style.display='flex';
+      if(el.tagName==='IMG'){
+        viewerImg.src=el.src; viewerImg.style.display='block';
+        viewerVideo.style.display='none'; viewerVideo.pause();
       } else {
-        viewerVideo.src = el.src;
-        viewerVideo.style.display = 'block';
-        viewerImg.style.display = 'none';
-        viewerVideo.play();
+        viewerVideo.src=el.src; viewerVideo.style.display='block';
+        viewerImg.style.display='none'; viewerVideo.play();
       }
     });
   });
 
-  mediaViewer?.querySelector('.close-btn')?.addEventListener('click', () => {
-    mediaViewer.style.display = 'none';
-    viewerVideo.pause();
-    viewerVideo.currentTime = 0;
+  closeBtn.addEventListener('click', ()=>{
+    mediaViewer.style.display='none';
+    viewerVideo.pause(); viewerVideo.currentTime=0;
   });
+
+  // ===== Slider Drag =====
+  function enableDragScroll(id){
+    const slider = document.getElementById(id);
+    if(!slider) return;
+    let isDown=false, startX, scrollLeft;
+    slider.addEventListener('mousedown', e=>{
+      isDown=true; startX=e.pageX-slider.offsetLeft; scrollLeft=slider.scrollLeft;
+    });
+    slider.addEventListener('mouseleave',()=>isDown=false);
+    slider.addEventListener('mouseup',()=>isDown=false);
+    slider.addEventListener('mousemove', e=>{
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      slider.scrollLeft = scrollLeft - (x-startX)*1.5;
+    });
+  }
+  enableDragScroll('servicesSlider');
+  enableDragScroll('videoSlider');
 
 });

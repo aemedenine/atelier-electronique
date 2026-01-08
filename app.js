@@ -1,8 +1,3 @@
-// ======================================================
-// app.js (REFERENCE VERSION)
-// Firebase + Auth + UI + Weather + Visits + Media + Radio + News + Time + FAQ
-// ======================================================
-
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ===================== Firebase ===================== */
@@ -19,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const auth = firebase.auth();
   const db = firebase.database();
-
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
   /* ===================== AUTH ===================== */
@@ -43,11 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     auth.signInWithPopup(provider).catch(console.error);
   });
 
-  document.getElementById('btn-signout')?.addEventListener('click', () => {
-    auth.signOut();
-  });
+  document.getElementById('btn-signout')?.addEventListener('click', () => auth.signOut());
 
-  /* ===================== VISITS (Firebase) ===================== */
+  /* ===================== VISITS ===================== */
   let currentLanguage = 'ar';
   let totalVisits = 0;
   const visitsRef = db.ref('visits');
@@ -83,9 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(d => {
         document.getElementById('weather-temp').textContent = d.current_weather.temperature + "°C";
         document.getElementById('weather-desc').textContent =
-          (currentLanguage === 'ar'
-            ? 'سرعة الرياح: '
-            : 'Vitesse du vent: ') + d.current_weather.windspeed;
+          (currentLanguage === 'ar' ? 'سرعة الرياح: ' : 'Vitesse du vent: ') + d.current_weather.windspeed;
       });
   }
   updateWeather();

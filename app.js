@@ -1,22 +1,69 @@
+// ======================================================
+// app.js (REFERENCE VERSION)
+// Firebase + Auth + UI + Weather + Visits + Media + Radio + News + Time + FAQ
+// ======================================================
+
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ===================== Firebase ===================== */
-  const firebaseConfig = {
-    apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
-    authDomain: "atelier-electronique-mednine.firebaseapp.com",
-    projectId: "atelier-electronique-mednine",
-    storageBucket: "atelier-electronique-mednine.firebasestorage.app",
-    messagingSenderId: "547430908384",
-    appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
-  };
+ /* -------------------- Initialization -------------------- */
+  // periodic time update
+  setInterval(updateTime, 1000);
 
-  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  // initial calls
+  updateTime();
+  startNewsRotation();
+  initFAQ();
+  updateEqualizerVisibility();
 
-  const auth = firebase.auth();
-  const db = firebase.database();
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+/* -------------------- Firebase (reactions/comments) -------------------- */
+  // If you use Firebase features, keep these credentials as you provided.
+  // NOTE: these keys are visible in client code by design (Firebase config).
+  // If you don't use Firebase, you can remove this block.
+  try {
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5Hrfk6tU22ITquRR3xt957WmlnvPTw5M",
+      authDomain: "aem-site-4e030.firebaseapp.com",
+      projectId: "aem-site-4e030",
+      storageBucket: "aem-site-4e030.firebasestorage.app",
+      messagingSenderId: "241838556898",
+      appId: "1:241838556898:web:9eb591e3d05405894800bb",
+      measurementId: "G-DTNBCK5H1F"
+    };
 
-  /* ===================== AUTH ===================== */
+    // initialize compat SDK (we included compat scripts in HTML)
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Example: attach listeners to reaction & comment buttons (if present)
+    document.querySelectorAll('.react-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const reaction = btn.dataset.reaction;
+        const mediaId = btn.closest('.reactions')?.dataset.id;
+        if (!mediaId) return;
+        db.collection("reactions").add({ mediaId, reaction, timestamp: new Date() });
+      });
+    });
+
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parent = btn.closest('.reactions');
+        if (!parent) return;
+        const commentInput = parent.querySelector('.comment-input');
+        const mediaId = parent.dataset.id;
+        const comment = commentInput?.value.trim();
+        if (comment) {
+          db.collection("comments").add({ mediaId, comment, timestamp: new Date() });
+          if (commentInput) commentInput.value = '';
+        }
+      });
+    });
+
+  } catch (e) {
+    // if Firebase scripts not loaded or config invalid, don't break the UI
+    console.warn('Firebase init skipped or failed:', e);
+  }
+});
+   /* ===================== AUTH ===================== */
   const loginPopup = document.getElementById('login-popup');
   const userInfo = document.getElementById('user-info');
   const userName = document.getElementById('user-name');
@@ -37,9 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
     auth.signInWithPopup(provider).catch(console.error);
   });
 
-  document.getElementById('btn-signout')?.addEventListener('click', () => auth.signOut());
+  document.getElementById('btn-signout')?.addEventListener('click', () => {
+    auth.signOut();
+  });
 
-  /* ===================== VISITS ===================== */
+  /* ===================== VISITS (Firebase) ===================== */
   let currentLanguage = 'ar';
   let totalVisits = 0;
   const visitsRef = db.ref('visits');
@@ -75,63 +124,136 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(d => {
         document.getElementById('weather-temp').textContent = d.current_weather.temperature + "°C";
         document.getElementById('weather-desc').textContent =
-          (currentLanguage === 'ar' ? 'سرعة الرياح: ' : 'Vitesse du vent: ') + d.current_weather.windspeed;
+          (currentLanguage === 'ar'
+            ? 'سرعة الرياح: '
+            : 'Vitesse du vent: ') + d.current_weather.windspeed;
       });
   }
   updateWeather();
 
-  /* ===================== LANGUAGE TOGGLE ===================== */
-  document.getElementById('toggle-lang-btn')?.addEventListener('click', () => {
-    currentLanguage = currentLanguage === 'ar' ? 'fr' : 'ar';
-    document.documentElement.lang = currentLanguage;
-    document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
-    updateWeather();
-    updateVisitText();
-    updateNews();
+/* -------------------- Language toggle -------------------- */
+  function setLanguage(lang) {
+    currentLang = lang;
+    if (lang === 'ar') {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+      document.querySelector('.experience-badge').textContent = 'أكثر من 10 سنوات خبرة';
+      toggleBtn.textContent = 'تبديل اللغة';   
+    document.querySelector('.btn-download').textContent = 'تحميل البرامج  📥';
+      document.querySelector('.btn-store').textContent = ' َسوّق الآن  🛒';
+      document.querySelector('.btn-whatsapp').textContent = 'واتساب  📱';
+      document.querySelector('.btn-maps').textContent = 'موقعنا على مابس  📍';
+      document.querySelector('.btn-gallery').textContent = 'شاهد الصور  🖼️';
+      document.querySelector('.btn-video').textContent = 'شاهد الفيديو  🎥';
+      document.querySelector('.btn-services').textContent = 'خدمات الورشة  🛠️';
+      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو  📻';
+
+      // rebuild FAQ in Arabic (keeps markup consistent)
+      faqContainer.innerHTML = `
+        <h2>الأسئلة الشائعة</h2>
+        <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
+        <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
+        <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
+        <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
+      `;
+    } else {
+      document.documentElement.lang = 'fr';
+      document.documentElement.dir = 'ltr';
+      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+      document.querySelector('.experience-badge').textContent = 'Plus de 10 ans d\'expérience';
+      toggleBtn.textContent = 'Changer la langue';
+      document.querySelector('.btn-download').textContent = 'download  📥';
+      document.querySelector('.btn-store').textContent = 'store  🛒';
+      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp  📱';
+      document.querySelector('.btn-maps').textContent = 'Google Maps  📍';
+      document.querySelector('.btn-gallery').textContent = 'Voir les photos  🖼️';
+      document.querySelector('.btn-video').textContent = 'Voir les vidéos  🎥';
+      document.querySelector('.btn-services').textContent = 'Services  🛠️';
+      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio  📻';
+
+      faqContainer.innerHTML = `<h2>FAQ</h2>
+        <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
+        <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
+        <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
+        <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>`;
+    }
+
+    // restart related features
+    startNewsRotation();
+    updateTime();
+    initFAQ();
+    updateEqualizerVisibility();
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
   });
 
-  /* ===================== NEWS ===================== */
-  const ticker = document.getElementById('live-news');
-  const news = {
-    ar: [
-      "📢 ورشة إلكترونيك الرحماني تفتح أبوابها.",
-      "🔧 تصليح إلكترونيات باحتراف.",
-      "📦 توصيل لجميع الولايات."
-    ],
-    fr: [
-      "📢 Atelier Electronique Médenine.",
-      "🔧 Réparation électronique professionnelle.",
-      "📦 Livraison partout en Tunisie."
-    ]
-  };
+ 
+  /* -------------------- News rotation -------------------- */
+  const newsAr = [
+    "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+    "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+    "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+    "📱 تواصل معنا عبر واتساب لأي استفسار."
+  ];
+
+  const newsFr = [
+    "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
+    "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
+    "🌍 Livraison par courrier disponible dans toute la Tunisie.",
+    "📱 Contactez-nous via WhatsApp pour toute question."
+  ];
+
   let newsIndex = 0;
+  let newsInterval = null;
 
   function updateNews() {
-    if (!ticker) return;
-    ticker.textContent = news[currentLanguage][newsIndex];
-    newsIndex = (newsIndex + 1) % news[currentLanguage].length;
+    const news = currentLang === 'ar' ? newsAr : newsFr;
+    // show next with fade animation class
+    ticker.classList.remove('fade');
+    void ticker.offsetWidth; // force reflow to restart animation
+    ticker.textContent = news[newsIndex];
+    ticker.classList.add('fade');
+
+    newsIndex = (newsIndex + 1) % news.length;
   }
-  setInterval(updateNews, 5000);
-  updateNews();
 
-  /* ===================== RADIO ===================== */
-  const radio = document.getElementById('radio-stream');
-  const radioBtn = document.getElementById('radio-btn');
+  function startNewsRotation() {
+    if (newsInterval) clearInterval(newsInterval);
+    updateNews();
+    newsInterval = setInterval(updateNews, 5000);
+  }
 
-  radioBtn?.addEventListener('click', () => {
+/* -------------------- Radio controls -------------------- */
+  radioBtn.addEventListener('click', () => {
     if (radio.paused) {
-      radio.play();
-      radioBtn.textContent = currentLanguage === 'ar' ? 'إيقاف الراديو' : 'Arrêter la radio';
+      radio.play().catch(e => {
+        // autoplay may be blocked by browser; inform user
+        console.warn('Radio play failed:', e);
+      });
+      radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
     } else {
       radio.pause();
-      radioBtn.textContent = currentLanguage === 'ar' ? 'تشغيل الراديو' : 'Écouter la radio';
+      radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
     }
+    updateEqualizerVisibility();
   });
 
-  /* ===================== FAQ ===================== */
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('click', () => item.classList.toggle('open'));
-  });
+  radio.addEventListener('play', updateEqualizerVisibility);
+  radio.addEventListener('pause', updateEqualizerVisibility);
+
+
+  /* -------------------- FAQ -------------------- */
+  function initFAQ() {
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('open');
+      });
+    });
+  }
 
   /* ===================== MEDIA VIEWER ===================== */
   const mediaViewer = document.getElementById('mediaViewer');

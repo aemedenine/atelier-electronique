@@ -118,7 +118,7 @@ header {
 
 #toggle-lang-btn:hover { background:#d9533f; }
 
-/* ================= CTA BUTTONS (NEW EFFECT) ================= */
+/* ================= CTA BUTTONS ================= */
 .cta-buttons {
   display:flex;
   flex-wrap:wrap;
@@ -148,7 +148,7 @@ header {
   transform:translateY(-3px);
 }
 
-/* ================= EXPERIENCE BADGE (NEW) ================= */
+/* ================= EXPERIENCE BADGE ================= */
 .experience-badge {
   display:block;
   text-align:center;
@@ -200,7 +200,7 @@ header {
 
 .prayer-times .time { font-weight:bold; }
 
-/* ================= FAQ (FROM OLD) ================= */
+/* ================= FAQ ================= */
 .faq {
   max-width:800px;
   margin:0 auto 60px;
@@ -250,13 +250,6 @@ footer {
   text-align:center;
   font-size:.9rem;
 }
-
-.social-icons a {
-  margin:0 12px;
-  opacity:.75;
-}
-
-.social-icons a:hover { opacity:1; }
 
 /* ================= RESPONSIVE ================= */
 @media(max-width:768px){

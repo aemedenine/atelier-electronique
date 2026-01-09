@@ -1,33 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ================= Firebase Initialization =================
-  const firebaseConfig = {
-    apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
-    authDomain: "atelier-electronique-mednine.firebaseapp.com",
-    projectId: "atelier-electronique-mednine",
-    storageBucket: "atelier-electronique-mednine.firebasestorage.app",
-    messagingSenderId: "547430908384",
-    appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
-  };
-  
-  const app = firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics(app);
-  const auth = firebase.auth();
-  const db = firebase.database(); // قاعدة البيانات
+ // Firebase configuration
+ const firebaseConfig = {
+  apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
+  authDomain: "atelier-electronique-mednine.firebaseapp.com",
+  projectId: "atelier-electronique-mednine",
+  storageBucket: "atelier-electronique-mednine.firebasestorage.app",
+  messagingSenderId: "547430908384",
+  appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
+};
 
-  // ======= تسجيل الدخول + persistence =======
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(() => console.log("🔒 Session persistente activée"))
-    .catch(err => console.error("Erreur persistence:", err));
+// Initialize Firebase safely
+const app = firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics(app);
+const auth = firebase.auth();
 
-  const loginPopup = document.getElementById('login-popup');
-  const btnGoogle = document.getElementById('btn-google');
-  const btnClosePopup = document.getElementById('btn-close-popup');
-  const userInfo = document.getElementById('user-info');
-  const userName = document.getElementById('user-name');
-  const btnSignOut = document.getElementById('btn-signout');
+// ======= حفظ تسجيل الدخول حتى بعد refresh =======
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => { console.log("🔒 Session persistente activée"); })
+  .catch(error => { console.error("Erreur persistence:", error); });
 
-  auth.onAuthStateChanged(user => {
+  // مراقبة حالة تسجيل الدخول
+  firebase.auth().onAuthStateChanged((user) => {
+    const loginPopup = document.getElementById('login-popup');
+    const userInfo = document.getElementById('user-info');
+    const userName = document.getElementById('user-name');
+
     if (user) {
       userInfo.style.display = 'block';
       loginPopup.style.display = 'none';
@@ -37,6 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
       loginPopup.style.display = 'flex';
     }
   });
+
+  const loginPopup = document.getElementById('login-popup');
+  const btnGoogle = document.getElementById('btn-google');
+  const btnClosePopup = document.getElementById('btn-close-popup');
+  const userInfo = document.getElementById('user-info');
+  const userName = document.getElementById('user-name');
+  const btnSignOut = document.getElementById('btn-signout');
 
   btnGoogle.addEventListener('click', () => {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -49,10 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch(console.error);
   });
 
-  btnClosePopup.addEventListener('click', () => loginPopup.style.display = 'none');
+  btnClosePopup.addEventListener('click', () => loginPopup.style.display='none');
+
   btnSignOut.addEventListener('click', () => {
     auth.signOut().then(() => {
-      userInfo.style.display = 'none';
+      userInfo.style.display='none';
       alert('تم تسجيل الخروج بنجاح');
     });
   });

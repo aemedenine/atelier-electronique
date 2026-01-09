@@ -155,18 +155,6 @@
   font-size:1.8rem;
   text-shadow:0 0 8px rgba(0,255,255,0.6);
 }
- .weather-box > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
- .prayer-times p {
-  margin: 3px 0;
-  font-size: 1rem;
-  color: #fff;
-}
-
 .services-slider {
   display:flex;
   gap:20px;
@@ -204,47 +192,48 @@
   padding-bottom: 10px;
   font-style: italic;
 }
+
+/* ======= User Info Box / Login Popup ======= */
+.user-box { display:flex; justify-content:space-between; align-items:center; background: rgba(0,255,255,0.1); backdrop-filter: blur(6px); border:2px solid #0ff; border-radius:12px; padding:12px 20px; max-width:400px; margin:20px auto; color:#fff; box-shadow:0 0 15px rgba(0,255,255,0.4); font-family:'Montserrat', sans-serif; transition: all 0.3s ease; }
+.user-box:hover { background: rgba(0,255,255,0.2); box-shadow: 0 0 25px rgba(0,255,255,0.6); }
+.welcome-msg { font-size:1.1rem; font-weight:600; color:#0ff; text-shadow:0 0 6px #0ff; }
+.btn-signout { background:#ff6b35; color:#fff; border:none; padding:8px 18px; border-radius:8px; cursor:pointer; font-weight:600; transition: all 0.3s ease; }
+.btn-signout:hover { background:#e05520; transform: translateY(-2px); box-shadow:0 0 10px #ff6b35; }
+
 /* Login Popup */
-#login-popup {
-  display: none;
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.7);
-  justify-content: center; align-items: center;
-  z-index:10000;
-  display:flex; flex-direction:column;
-}
-#login-popup .popup-content {
-  background:#111; padding:25px; border-radius:12px;
-  text-align:center; color:#fff; width:300px; max-width:90%;
-  box-shadow:0 0 20px #0ff;
-  animation: fadeIn 0.5s ease;
-}
-#login-popup .popup-content button {
-  background:#0ff; color:#000; padding:10px 20px;
-  border:none; border-radius:5px; cursor:pointer; margin:10px 0;
-  transition: all 0.3s ease;
-}
-#login-popup .popup-content button:hover {
-  background:#0aa; transform: scale(1.05);
-}
-#btn-close-popup {
-  display: none;
-}
-
+.login-popup { display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:10000; }
+.login-popup .popup-content { background:#111; padding:30px 25px; border-radius:15px; text-align:center; color:#fff; width:320px; max-width:90%; box-shadow:0 0 25px #0ff; font-family: 'Montserrat', sans-serif; animation: fadeIn 0.5s ease; }
+.login-popup h2 { font-size:1.5rem; margin-bottom:20px; color:#0ff; text-shadow:0 0 10px #0ff; }
+.btn-google { background:#0ff; color:#000; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer; margin-bottom:10px; width:100%; transition: all 0.3s ease; }
+.btn-google:hover { background:#00cdd7; transform: translateY(-2px); box-shadow:0 0 12px #0ff; }
+.btn-close { background:#ff6b35; color:#fff; border:none; padding:8px 20px; border-radius:8px; font-weight:600; cursor:pointer; width:100%; transition: all 0.3s ease; }
+.btn-close:hover { background:#e05520; transform: translateY(-2px); box-shadow:0 0 10px #ff6b35; }
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-/* VIDEO CARDS */
-.video-card video {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-}
 
-.video-card video:hover {
-  transform: scale(1.05);
-}</style>
+/* ======= Fullscreen Media Viewer CSS ======= */
+#mediaViewer { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:99999; flex-direction:column; }
+#mediaViewer img, #mediaViewer video { max-width:90%; max-height:90%; border-radius:12px; box-shadow:0 0 25px #0ff; }
+#mediaViewer .close-btn { position:absolute; top:20px; right:30px; font-size:2.5rem; color:#fff; cursor:pointer; z-index:100000; background: rgba(0,0,0,0.3); padding:5px 12px; border-radius:50%; transition: all 0.3s ease; }
+#mediaViewer .close-btn:hover { background: rgba(255,0,0,0.7); transform:scale(1.2); }
+
+/* ======= Remarques / ملاحظات 15 ======= */
+/* 1- استخدم alt لكل صورة للـ SEO والوصولية */
+/* 2- ضبط preload للراديو لتحسين الأداء */
+/* 3- إضافة aria-labels للأزرار لتحسين الوصولية */
+/* 4- استخدام semantic tags <section>/<header>/<footer> ممتاز */
+/* 5- مراجعة ألوان النصوص لضمان تباين جيد مع الخلفية */
+/* 6- lazy-load للصور الثقيلة لتحسين سرعة التحميل */
+/* 7- استخدام defer في app.js جيد لتجنب حظر الـ DOM */
+/* 8- التأكد من أن كل video mute أو autoplay مناسب للسياسة */
+/* 9- مراجعة التباعد بين العناصر responsive عبر media queries */
+/* 10- إضافة favicon للموقع */
+/* 11- التحقق من عمل Firebase Analytics والتوثيق الصحيح */
+/* 12- إضافة transition سلس للعناصر عند hover */
+/* 13- التأكد من scroll-snap على sliders إن لزم */
+/* 14- تحسين accessibility للنصوص المتغيرة أو news ticker */
+/* 15- تحقق من أزرار consent للكوكيز أنها تعمل على جميع الشاشات */
+</style>
+
 </head>
 <body>
 <header>
@@ -279,6 +268,7 @@
     <button id="btn-close-popup" class="btn-close">إلغاء</button>
   </div>
 </div>
+
   <section class="cta-buttons">
     <a href="download" class="btn-download">تحميل البرامج  📥</a>
     <a href="store.html" class="btn-store">تَسوّق الآن  🛒</a>

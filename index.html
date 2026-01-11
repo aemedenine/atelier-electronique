@@ -1,69 +1,257 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Atelier Electronique Médenine</title>
-  
-  <!-- Google AdSense -->
-  <meta name="google-adsense-account" content="ca-pub-5360225987687639">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639" crossorigin="anonymous"></script>
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css" />
-  
-  <!-- Firebase (ابقيه في head لأنه مهم للـ auth مبكراً) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atelier Electronique Médenine</title>
+
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-5360225987687639">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
+        crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS externe -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
+
 <body>
 
-<header>
-  <div class="container header-inner">
-    <canvas id="pcbCanvasHeader"></canvas>
-    <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-    <h1 id="site-name">Atelier Electronique Médenine</h1>
-  </div>
-  <div class="news-ticker" aria-live="polite">
-    <div class="news-text" id="live-news">تحميل الأخبار...</div>
-  </div>
-</header>
+    <header>
+        <div class="container header-inner">
+            <canvas id="pcbCanvasHeader"></canvas>
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <h1 id="site-name">Atelier Electronique Médenine</h1>
+        </div>
 
-<main class="container main-content">
-  <!-- باقي المحتوى كما هو (info-bar, user-info, login-popup, cta-buttons, experience-badge, weather-box, faq, rating, services-today, videos-today, postesSection, ...) -->
-  <!-- ... انسخ كل المحتوى اللي تحت <main> من الكود القديم بدون أي <style> أو <script> داخلي ... -->
-</main>
+        <div class="news-ticker" aria-live="polite">
+            <div class="news-text" id="live-news">تحميل الأخبار...</div>
+        </div>
+    </header>
 
-<footer>
-  <!-- ... كما هو ... -->
-</footer>
+    <main class="container main-content">
 
-<div class="site-signature">
-  © 2025 Atelier Electronique Médenine. Tous droits réservés.<br>
-  Signature: RAHMANI Soufien.
-</div>
+        <section class="info-bar">
+            <div id="current-time">--:--:--</div>
+            <div id="visit-count">عدد زوار الموقع: 0</div>
+            <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
+        </section>
 
-<!-- Fullscreen Media Viewer -->
-<div id="mediaViewer">
-  <span class="close-btn">×</span>
-  <img id="viewerImg" style="display:none" alt="صورة تكبير">
-  <video id="viewerVideo" style="display:none" controls></video>
-</div>
+        <!-- User Info & Login Popup -->
+        <div id="user-info" class="user-box" style="display:none;">
+            <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
+            <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
+        </div>
 
-<!-- CMP Banner -->
-<div id="cmp-banner">
-  نستخدم الكوكيز لتحسين تجربتك.
-  <button id="consent-allow">أوافق</button>
-  <button id="consent-manage">تغيير الخيارات</button>
-</div>
+        <div id="login-popup" class="login-popup">
+            <div class="popup-content">
+                <h2>تسجيل الدخول</h2>
+                <button id="btn-google" class="btn-google">تسجيل الدخول بـ Google</button>
+                <button id="btn-close-popup" class="btn-close">إلغاء</button>
+            </div>
+        </div>
 
-<!-- JavaScript -->
-<script src="js/main.js" defer></script>
+        <!-- CTA Buttons -->
+        <section class="cta-buttons">
+            <a href="download" class="btn-download">تحميل البرامج 📥</a>
+            <a href="store.html" class="btn-store">تَسوّق الآن 🛒</a>
+            <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener">واتساب 📱</a>
+            <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener">موقعنا على مابس 📍</a>
+            <a href="photos.html" class="btn-gallery">شاهد الصور 🖼️</a>
+            <a href="videos.html" class="btn-video">شاهد الفيديو 🎥</a>
+            <a href="services.html" class="btn-services">خدمات الورشة 🛠️</a>
+            <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
+            <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+            <div class="equalizer" id="equalizer" aria-hidden="true">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </section>
+
+        <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
+
+        <!-- Weather + Prayer Times -->
+        <section class="weather-box">
+            <h3>🌦️ حالة الطقس في مدنين</h3>
+            <div>
+                <div>
+                    <div class="weather-temp" id="weather-temp">--°C</div>
+                    <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
+                </div>
+
+                <div class="prayer-times" id="prayer-times">
+                    <p>🌅 الفجر: --:--</p>
+                    <p>🌄 الشروق: --:--</p>
+                    <p>☀️ الظهر: --:--</p>
+                    <p>🕰️ العصر: --:--</p>
+                    <p>🌇 المغرب: --:--</p>
+                    <p>🌙 العشاء: --:--</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq">
+            <h2>الأسئلة الشائعة</h2>
+            <div class="faq-item">
+                <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
+                <div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div>
+            </div>
+            <div class="faq-item">
+                <h3>ما هي مدة التصليح المعتادة؟</h3>
+                <div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div>
+            </div>
+            <div class="faq-item">
+                <h3>هل توفرون قطع غيار أصلية؟</h3>
+                <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div>
+            </div>
+            <div class="faq-item">
+                <h3>كيف أتابع حالة الإصلاح؟</h3>
+                <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
+            </div>
+        </section>
+
+        <!-- Rating -->
+        <div class="rating-container">
+            <p id="rating-title">قيم الورشة:</p>
+            <div class="stars-horizontal">
+                <span data-value="5">☆</span>
+                <span data-value="4">☆</span>
+                <span data-value="3">☆</span>
+                <span data-value="2">☆</span>
+                <span data-value="1">☆</span>
+            </div>
+            <p id="rating-value">0/5</p>
+        </div>
+
+        <!-- خدمات اليوم -->
+        <section class="services-today">
+            <h2>خدمات اليوم</h2>
+            <div class="services-slider" id="servicesSlider">
+                <div class="service-card">
+                    <img src="service1.webp" alt="">
+                    <p class="service-caption">تصليح لوحات إلكترونية</p>
+                </div>
+                <div class="service-card">
+                    <img src="service2.webp" alt="">
+                    <p class="service-caption">تصليح كارت جهاز المشي</p>
+                </div>
+                <div class="service-card">
+                    <img src="service3.webp" alt="">
+                    <p class="service-caption">تصليح كارت غسالة</p>
+                </div>
+                <div class="service-card">
+                    <img src="service4.webp" alt="">
+                    <p class="service-caption">تصليح كارت تلفاز</p>
+                </div>
+                <div class="service-card">
+                    <img src="service5.webp" alt="">
+                    <p class="service-caption">تصليح كارت غسالة ل-ج</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- فيديو اليوم -->
+        <section class="videos-today">
+            <h2>فيديو اليوم</h2>
+            <div class="services-slider" id="videoSlider">
+                <div class="service-card video-card">
+                    <video src="video1.mp4" muted loop></video>
+                    <p class="service-caption">تصليح كارت تغذية</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video2.mp4" muted loop></video>
+                    <p class="service-caption">إصلاح لوحة إلكترونية</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video3.mp4" muted loop></video>
+                    <p class="service-caption">فحص بوردة</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video4.mp4" muted loop></video>
+                    <p class="service-caption">فحص بوردة</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video5.mp4" muted loop></video>
+                    <p class="service-caption">فحص بوردة</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- تصليح ماكينات لحام -->
+        <section id="postesSection" class="Reparation postes soudure">
+            <h2>تصليح ماكينات لحام</h2>
+            <div class="services-slider">
+                <div class="service-card">
+                    <img src="poste1.webp" alt="">
+                    <p class="service-caption">تصليح ماكينة لحام</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste2.webp" alt="">
+                    <p class="service-caption">صيانة Poste Soudure</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste3.webp" alt="">
+                    <p class="service-caption">صيانة Poste Soudure</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste4.webp" alt="">
+                    <p class="service-caption">صيانة Poste Soudure</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste5.webp" alt="">
+                    <p class="service-caption">إصلاح لوحة إلكترونية</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp:98192103</p>
+            <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook"></a>
+                <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram"></a>
+                <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="site-signature">
+        © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
+        Signature: RAHMANI Soufien.
+    </div>
+
+    <!-- Fullscreen Media Viewer -->
+    <div id="mediaViewer">
+        <span class="close-btn">×</span>
+        <img id="viewerImg" style="display:none" alt="صورة تكبير">
+        <video id="viewerVideo" style="display:none" controls></video>
+    </div>
+
+    <!-- CMP Banner -->
+    <div id="cmp-banner">
+        نستخدم الكوكيز لتحسين تجربتك.
+        <button id="consent-allow">أوافق</button>
+        <button id="consent-manage">تغيير الخيارات</button>
+    </div>
+
+    <!-- JavaScript externe -->
+    <script src="js/main.js" defer></script>
 
 </body>
 </html>

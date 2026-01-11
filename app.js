@@ -1,9 +1,8 @@
 // ==========================================================================
-// main.js - VERSION FINALE FUSIONNÉE (ancien app.js + fonctionnalités modernes)
-// Date: Janvier 2026
+// app.js - VERSION COMPLÈTE (kamil) - Janvier 2026
 // ==========================================================================
 
-// --------------------- Firebase Configuration & Init ---------------------
+// Firebase Config
 const firebaseConfig = {
     apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
     authDomain: "atelier-electronique-mednine.firebaseapp.com",
@@ -14,252 +13,296 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const analytics = firebase.analytics();
 const auth = firebase.auth();
+const db = firebase.database();
 
-// Persistance de session (reste connecté après refresh/fermeture)
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(() => console.log("Session persistante activée"))
+// Persistance session
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .catch(err => console.error("Erreur persistence:", err));
 
+// Variables globales
 let currentLanguage = document.documentElement.lang?.startsWith('ar') ? 'ar' : 'fr';
 
-// --------------------- DOM Ready ---------------------
-document.addEventListener('DOMContentLoaded', () => {
+// DOM Elements
+const elements = {
+    toggleBtn: document.getElementById('toggle-lang-btn'),
+    timeEl: document.getElementById('current-time'),
+    ticker: document.getElementById('live-news'),
+    visitCount: document.getElementById('visit-count'),
+    faqContainer: document.querySelector('.faq'),
+    radio: document.getElementById('radio-stream'),
+    radioBtn: document.getElementById('radio-btn'),
+    equalizer: document.getElementById('equalizer'),
+    loginPopup: document.getElementById('login-popup'),
+    userInfo: document.getElementById('user-info'),
+    userName: document.getElementById('user-name'),
+    btnGoogle: document.getElementById('btn-google'),
+    btnClosePopup: document.getElementById('btn-close-popup'),
+    btnSignOut: document.getElementById('btn-signout'),
+    weatherTemp: document.getElementById('weather-temp'),
+    weatherDesc: document.getElementById('weather-desc'),
+    prayerTimes: document.getElementById('prayer-times'),
+    mediaViewer: document.getElementById('mediaViewer'),
+    viewerImg: document.getElementById('viewerImg'),
+    viewerVideo: document.getElementById('viewerVideo')
+};
 
-    // Éléments communs
-    const toggleBtn      = document.getElementById('toggle-lang-btn');
-    const timeEl         = document.getElementById('current-time');
-    const ticker         = document.getElementById('live-news');
-    const faqContainer   = document.querySelector('.faq');
-    const radio          = document.getElementById('radio-stream');
-    const radioBtn       = document.getElementById('radio-btn');
-    const equalizer      = document.getElementById('equalizer');
-
-    const loginPopup     = document.getElementById('login-popup');
-    const userInfo       = document.getElementById('user-info');
-    const userName       = document.getElementById('user-name');
-    const btnGoogle      = document.getElementById('btn-google');
-    const btnClosePopup  = document.getElementById('btn-close-popup');
-    const btnSignOut     = document.getElementById('btn-signout');
-
-    // ── Authentification Google ────────────────────────────────
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            userInfo.style.display = 'block';
-            loginPopup.style.display = 'none';
-            userName.textContent = user.displayName || user.email?.split('@')[0] || "مستخدم";
-        } else {
-            userInfo.style.display = 'none';
-            loginPopup.style.display = 'flex';
-        }
-    });
-
-    btnGoogle?.addEventListener('click', () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider)
-            .then(result => {
-                userName.textContent = result.user.displayName || result.user.email?.split('@')[0];
-            })
-            .catch(console.error);
-    });
-
-    btnClosePopup?.addEventListener('click', () => loginPopup.style.display = 'none');
-
-    btnSignOut?.addEventListener('click', () => {
-        auth.signOut().then(() => {
-            alert(currentLanguage === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Déconnexion réussie');
-        });
-    });
-
-    // ── Compteur de visites (Firebase Realtime) ─────────────────
-    const db = firebase.database();
-    const visitsRef = db.ref('visits');
-    visitsRef.transaction(current => (current || 0) + 1);
-
-    visitsRef.on('value', snapshot => {
-        const total = snapshot.val() || 0;
-        document.getElementById('visit-count').textContent = 
-            currentLanguage === 'ar' 
-                ? `عدد زوار الموقع: ${total}`
-                : `Nombre de visiteurs : ${total}`;
-    });
-
-    // ── Heure actuelle (avec date) ──────────────────────────────
-    function updateTime() {
-        const now = new Date();
-        const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-        const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-        const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-        const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-        const day   = currentLanguage === 'ar' ? daysAr[now.getDay()]   : daysFr[now.getDay()];
-        const month = currentLanguage === 'ar' ? monthsAr[now.getMonth()] : monthsFr[now.getMonth()];
-        const date  = now.getDate();
-        const timeStr = now.toLocaleTimeString('fr', {hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'});
-
-        timeEl.textContent = currentLanguage === 'ar'
-            ? `${day}، ${date} ${month} - ${timeStr}`
-            : `${day}, ${date} ${month} - ${timeStr}`;
+// ==========================================================================
+// Authentification Google
+// ==========================================================================
+auth.onAuthStateChanged(user => {
+    if (user) {
+        elements.userInfo.style.display = 'block';
+        elements.loginPopup.style.display = 'none';
+        elements.userName.textContent = user.displayName || user.email?.split('@')[0] || "مستخدم";
+    } else {
+        elements.userInfo.style.display = 'none';
+        elements.loginPopup.style.display = 'flex';
     }
-
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    // ── News Ticker rotation ────────────────────────────────────
-    const newsAr = [
-        "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-        "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-        "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-        "📱 تواصل معنا عبر واتساب لأي استفسار."
-    ];
-    const newsFr = [
-        "📢 Atelier Electronique Médenine ouvert à toutes les régions.",
-        "🔧 Réparation électronique de qualité à prix compétitifs.",
-        "🌍 Livraison par courrier partout en Tunisie.",
-        "📱 Contactez-nous via WhatsApp pour toute question."
-    ];
-
-    let newsIndex = 0;
-    let newsInterval;
-
-    function updateNews() {
-        const news = currentLanguage === 'ar' ? newsAr : newsFr;
-        ticker.classList.remove('fade');
-        void ticker.offsetWidth; // reflow
-        ticker.textContent = news[newsIndex];
-        ticker.classList.add('fade');
-        newsIndex = (newsIndex + 1) % news.length;
-    }
-
-    function startNewsRotation() {
-        if (newsInterval) clearInterval(newsInterval);
-        updateNews();
-        newsInterval = setInterval(updateNews, 5000);
-    }
-
-    // ── Météo + Awa9at Salat (modernes) ─────────────────────────
-    function updateWeather() {
-        fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-            .then(r => r.json())
-            .then(data => {
-                document.getElementById("weather-temp").textContent = data.current_weather.temperature + "°C";
-                document.getElementById("weather-desc").textContent = 
-                    `🌬️ سرعة الرياح: ${data.current_weather.windspeed} كم/س`;
-            })
-            .catch(() => document.getElementById("weather-desc").textContent = "⚠️ خطأ في الطقس");
-    }
-
-    function updatePrayerTimes() {
-        fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
-            .then(r => r.json())
-            .then(data => {
-                const t = data.data.timings;
-                document.getElementById("prayer-times").innerHTML = `
-                    <p><span>🌅 الفجر:</span> <span class="time">${t.Fajr}</span></p>
-                    <p><span>🌄 الشروق:</span> <span class="time">${t.Sunrise}</span></p>
-                    <p><span>☀️ الظهر:</span> <span class="time">${t.Dhuhr}</span></p>
-                    <p><span>🕰️ العصر:</span> <span class="time">${t.Asr}</span></p>
-                    <p><span>🌇 المغرب:</span> <span class="time">${t.Maghrib}</span></p>
-                    <p><span>🌙 العشاء:</span> <span class="time">${t.Isha}</span></p>
-                `;
-            })
-            .catch(console.error);
-    }
-
-    // ── Radio + Equalizer ───────────────────────────────────────
-    function updateEqualizerVisibility() {
-        if (!equalizer) return;
-        equalizer.style.opacity = radio.paused ? '0.3' : '1';
-        equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
-    }
-
-    radioBtn?.addEventListener('click', () => {
-        if (radio.paused) {
-            radio.play().catch(e => console.warn("Lecture radio bloquée:", e));
-            radioBtn.textContent = currentLanguage === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻';
-        } else {
-            radio.pause();
-            radioBtn.textContent = currentLanguage === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻';
-        }
-        updateEqualizerVisibility();
-    });
-
-    radio?.addEventListener('play', updateEqualizerVisibility);
-    radio?.addEventListener('pause', updateEqualizerVisibility);
-
-    // ── FAQ Accordion ───────────────────────────────────────────
-    function initFAQ() {
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => item.classList.toggle('open'));
-        });
-    }
-
-    // ── Gestion complète du changement de langue ────────────────
-    function setLanguage(lang) {
-        currentLanguage = lang;
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-        // Mise à jour des textes principaux
-        document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-        document.querySelector('.experience-badge').textContent = 
-            lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
-
-        toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
-
-        // CTA buttons (simplifié - ajoute d'autres si besoin)
-        document.querySelector('.btn-download')?.textContent = lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger 📥';
-        document.querySelector('.btn-store')?.textContent     = lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒';
-
-        // Radio button text
-        radioBtn.textContent = radio.paused 
-            ? (lang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻')
-            : (lang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻');
-
-        // FAQ complète selon langue
-        faqContainer.innerHTML = lang === 'ar' ? `
-            <h2>الأسئلة الشائعة</h2>
-            <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
-            <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
-            <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
-            <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
-        ` : `
-            <h2>Questions fréquentes</h2>
-            <div class="faq-item"><h3>Comment envoyer un appareil en réparation ?</h3><div class="answer">Vous pouvez l'envoyer par courrier ou nous contacter pour organiser la prise en charge.</div></div>
-            <div class="faq-item"><h3>Quel est le délai habituel ?</h3><div class="answer">Cela dépend de la panne, généralement pas plus de 3 jours.</div></div>
-            <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous utilisons des pièces d'origine de haute qualité.</div></div>
-            <div class="faq-item"><h3>Comment suivre l'avancement ?</h3><div class="answer">Nous envoyons photos et vidéos via WhatsApp pendant la réparation.</div></div>
-        `;
-
-        // Rafraîchissement des fonctionnalités dépendantes
-        startNewsRotation();
-        updateTime();
-        initFAQ();
-        updateEqualizerVisibility();
-        updateWeather();
-    }
-
-    // Activation toggle langue
-    toggleBtn?.addEventListener('click', () => {
-        setLanguage(currentLanguage === 'ar' ? 'fr' : 'ar');
-    });
-
-    // ── Canvas PCB animation (moderne) ──────────────────────────
-    const canvas = document.getElementById('pcbCanvasHeader');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        // ... (code canvas complet comme dans la version précédente - je l'ai retiré ici pour raccourcir, ajoute-le si tu veux)
-    }
-
-    // ── Sliders drag, Fullscreen viewer, CMP banner, Rating ────
-    // → Ajoute ici les blocs correspondants de la version moderne si tu veux les garder
-    // (je les ai volontairement laissés de côté pour ne pas rendre ce fichier trop lourd)
-
-    // --------------------- Lancement initial ---------------------
-    setLanguage(currentLanguage);         // applique la langue détectée
-    startNewsRotation();
-    updateWeather();
 });
 
-// Fin du fichier
+elements.btnGoogle?.addEventListener('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(console.error);
+});
+
+elements.btnClosePopup?.addEventListener('click', () => {
+    elements.loginPopup.style.display = 'none';
+});
+
+elements.btnSignOut?.addEventListener('click', () => {
+    auth.signOut().then(() => {
+        alert(currentLanguage === 'ar' ? 'تم تسجيل الخروج' : 'Déconnexion réussie');
+    });
+});
+
+// ==========================================================================
+// Compteur de visites (Firebase)
+// ==========================================================================
+db.ref('visits').transaction(current => (current || 0) + 1);
+db.ref('visits').on('value', snapshot => {
+    const total = snapshot.val() || 0;
+    elements.visitCount.textContent = currentLanguage === 'ar' 
+        ? `عدد زوار الموقع: ${total}` 
+        : `Nombre de visiteurs : ${total}`;
+});
+
+// ==========================================================================
+// Heure actuelle
+// ==========================================================================
+function updateTime() {
+    const now = new Date();
+    const options = {
+        weekday: 'long', day: 'numeric', month: 'long',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+    };
+    elements.timeEl.textContent = now.toLocaleString(currentLanguage === 'ar' ? 'ar-TN' : 'fr-FR', options);
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// ==========================================================================
+// News Ticker
+// ==========================================================================
+const news = {
+    ar: [
+        "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+        "🔧 خدمات تصليح بجودة عالية وبأسعار منافسة.",
+        "🌍 التوصيل متوفر لكل أنحاء تونس.",
+        "📱 تواصل معنا عبر واتساب!"
+    ],
+    fr: [
+        "📢 Atelier ouvert à toutes les régions.",
+        "🔧 Réparation de qualité à prix compétitifs.",
+        "🌍 Livraison partout en Tunisie.",
+        "📱 Contactez-nous via WhatsApp!"
+    ]
+};
+
+let newsIndex = 0;
+let newsInterval;
+
+function updateNews() {
+    const currentNews = news[currentLanguage];
+    elements.ticker.textContent = currentNews[newsIndex];
+    newsIndex = (newsIndex + 1) % currentNews.length;
+}
+
+function startNews() {
+    if (newsInterval) clearInterval(newsInterval);
+    updateNews();
+    newsInterval = setInterval(updateNews, 5000);
+}
+
+// ==========================================================================
+// Météo + Awaqat Salat
+// ==========================================================================
+function updateWeather() {
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
+        .then(r => r.json())
+        .then(d => {
+            elements.weatherTemp.textContent = d.current_weather.temperature + "°C";
+            elements.weatherDesc.textContent = `سرعة الرياح: ${d.current_weather.windspeed} كم/س`;
+        })
+        .catch(() => elements.weatherDesc.textContent = "⚠️ خطأ في الطقس");
+}
+
+function updatePrayer() {
+    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
+        .then(r => r.json())
+        .then(d => {
+            const t = d.data.timings;
+            elements.prayerTimes.innerHTML = `
+                الفجر: ${t.Fajr} | الشروق: ${t.Sunrise}<br>
+                الظهر: ${t.Dhuhr} | العصر: ${t.Asr}<br>
+                المغرب: ${t.Maghrib} | العشاء: ${t.Isha}
+            `;
+        })
+        .catch(console.error);
+}
+
+// ==========================================================================
+// Radio + Equalizer
+// ==========================================================================
+function updateEqualizer() {
+    if (!elements.equalizer) return;
+    elements.equalizer.style.opacity = elements.radio.paused ? '0.4' : '1';
+}
+
+elements.radioBtn?.addEventListener('click', () => {
+    if (elements.radio.paused) {
+        elements.radio.play().catch(e => console.log("Erreur radio:", e));
+        elements.radioBtn.textContent = currentLanguage === 'ar' ? 'إيقاف الراديو' : 'Stop Radio';
+    } else {
+        elements.radio.pause();
+        elements.radioBtn.textContent = currentLanguage === 'ar' ? 'تشغيل الراديو' : 'Play Radio';
+    }
+    updateEqualizer();
+});
+
+elements.radio?.addEventListener('play', updateEqualizer);
+elements.radio?.addEventListener('pause', updateEqualizer);
+
+// ==========================================================================
+// FAQ Accordion
+// ==========================================================================
+function initFAQ() {
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => item.classList.toggle('open'));
+    });
+}
+
+// ==========================================================================
+// Rating étoiles
+// ==========================================================================
+const stars = document.querySelectorAll('.stars-horizontal span');
+const ratingValue = document.getElementById('rating-value');
+let currentRating = localStorage.getItem('rating') || 0;
+
+function updateRating() {
+    stars.forEach(s => {
+        s.classList.toggle('selected', Number(s.dataset.value) <= currentRating);
+        s.textContent = Number(s.dataset.value) <= currentRating ? '★' : '☆';
+    });
+    ratingValue.textContent = currentRating + '/5';
+}
+
+stars.forEach(s => {
+    s.addEventListener('click', () => {
+        currentRating = Number(s.dataset.value);
+        localStorage.setItem('rating', currentRating);
+        updateRating();
+    });
+});
+
+updateRating();
+
+// ==========================================================================
+// Fullscreen Viewer
+// ==========================================================================
+document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+        elements.mediaViewer.style.display = 'flex';
+        if (el.tagName === 'IMG') {
+            elements.viewerImg.src = el.src;
+            elements.viewerImg.style.display = 'block';
+            elements.viewerVideo.style.display = 'none';
+        } else {
+            elements.viewerVideo.src = el.src;
+            elements.viewerVideo.style.display = 'block';
+            elements.viewerImg.style.display = 'none';
+            elements.viewerVideo.play().catch(() => {});
+        }
+    });
+});
+
+document.querySelector('.close-btn')?.addEventListener('click', () => {
+    elements.mediaViewer.style.display = 'none';
+    elements.viewerVideo.pause();
+});
+
+// ==========================================================================
+// Horizontal Sliders Drag
+// ==========================================================================
+function enableDrag(sliderId) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+    let isDown = false, startX, scrollLeft;
+
+    slider.addEventListener('mousedown', e => {
+        isDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave mouseup', () => isDown = false);
+
+    slider.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        slider.scrollLeft = scrollLeft - (x - startX) * 1.5;
+    });
+}
+
+enableDrag('servicesSlider');
+// enableDrag('videoSlider'); // décommente si tu as un second slider
+
+// ==========================================================================
+// Changement de langue
+// ==========================================================================
+function setLanguage(lang) {
+    currentLanguage = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    // Mise à jour textes simples (ajoute d'autres si besoin)
+    document.querySelector('.experience-badge').textContent = 
+        lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
+
+    elements.toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer langue';
+
+    elements.radioBtn.textContent = elements.radio.paused 
+        ? (lang === 'ar' ? 'تشغيل الراديو' : 'Play Radio')
+        : (lang === 'ar' ? 'إيقاف الراديو' : 'Stop Radio');
+
+    startNews();
+    updateTime();
+    updateEqualizer();
+}
+
+elements.toggleBtn?.addEventListener('click', () => {
+    setLanguage(currentLanguage === 'ar' ? 'fr' : 'ar');
+});
+
+// ==========================================================================
+// Initialisation
+// ==========================================================================
+startNews();
+updateWeather();
+updatePrayer();
+initFAQ();
+updateEqualizer();
+console.log("Site chargé - app.js complet fonctionne !");

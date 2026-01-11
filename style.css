@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Reset & Base Styles
+   Reset & Base
    ========================================================================== */
 * {
     margin: 0;
@@ -9,7 +9,7 @@
 
 html, body {
     font-family: 'Montserrat', 'Open Sans', sans-serif;
-    background: linear-gradient(135deg, #0b1a27, #122f4a);
+    background: linear-gradient(135deg, #0b1a27 0%, #122f4a 100%);
     color: #eee;
     direction: rtl;
     text-align: right;
@@ -26,78 +26,61 @@ html, body {
 }
 
 /* ==========================================================================
-   Header + PCB Background Effect
+   Header + PCB Animation Background
    ========================================================================== */
 header {
     background: #061222;
     padding: 20px 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
 }
 
 .header-inner {
     position: relative;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    z-index: 2;
+    text-align: center;
+}
+
+#pcbCanvasHeader {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .logo {
     width: 140px;
     border-radius: 12px;
-    box-shadow: 0 0 12px rgba(30,144,255,0.7);
+    box-shadow: 0 0 15px #1e90ff;
+    position: relative;
+    z-index: 2;
 }
 
 header h1 {
+    font-size: 2.2rem;
     font-weight: 700;
-    font-size: clamp(1.6rem, 4vw, 2.2rem);
     color: #1e90ff;
-    text-shadow: 0 0 10px rgba(30,144,255,0.6);
-    flex-grow: 1;
-    text-align: center;
-}
-
-/* PCB subtle animated background */
-.header-inner::before {
-    content: "";
-    position: absolute;
-    inset: -50px;
-    border-radius: 50%;
-    background: 
-        repeating-linear-gradient(45deg, rgba(0,255,255,0.12) 0, rgba(0,255,255,0.12) 1px, transparent 1px, transparent 14px),
-        repeating-linear-gradient(-45deg, rgba(255,107,53,0.10) 0, rgba(255,107,53,0.10) 1px, transparent 1px, transparent 16px);
-    opacity: 0.55;
-    animation: pcbRotate 20s linear infinite;
-    z-index: -1;
-    pointer-events: none;
-}
-
-@keyframes pcbRotate {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    text-shadow: 0 0 12px rgba(30,144,255,0.6);
+    margin: 15px 0 0;
+    position: relative;
+    z-index: 2;
 }
 
 /* News Ticker */
 .news-ticker {
-    width: 100%;
-    overflow: hidden;
-    background: rgba(10,30,61,0.9);
-    color: white;
-    white-space: nowrap;
-    font-weight: 700;
+    background: rgba(255,107,53,0.15);
+    color: #ff6b35;
     padding: 12px 0;
-    margin: 15px 0;
-    font-size: 1.05rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
 }
 
-.news-text {
+#live-news {
     display: inline-block;
-    padding: 0 20px;
-    animation: ticker 25s linear infinite;
+    padding: 0 30px;
+    animation: ticker 30s linear infinite;
 }
 
 @keyframes ticker {
@@ -106,22 +89,20 @@ header h1 {
 }
 
 /* ==========================================================================
-   Info Bar
+   Info Bar + Language Toggle
    ========================================================================== */
 .info-bar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     background: rgba(10,30,61,0.7);
     backdrop-filter: blur(8px);
-    color: #fff;
     padding: 12px 20px;
     border-radius: 10px;
-    margin-bottom: 25px;
-    font-weight: 600;
-    flex-wrap: wrap;
-    gap: 12px;
-    border: 1px solid rgba(30,144,255,0.25);
+    margin: 20px 0;
+    border: 1px solid rgba(30,144,255,0.3);
+    gap: 15px;
 }
 
 #toggle-lang-btn {
@@ -130,9 +111,9 @@ header h1 {
     padding: 10px 18px;
     border-radius: 8px;
     color: white;
-    font-weight: 700;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
 }
 
 #toggle-lang-btn:hover {
@@ -146,35 +127,32 @@ header h1 {
 .cta-buttons {
     display: flex;
     flex-wrap: wrap;
+    gap: 15px;
     justify-content: center;
-    gap: 16px;
     margin: 30px 0;
 }
 
 .cta-buttons a,
 .cta-buttons button {
-    background: rgba(30,144,255,0.15);
-    backdrop-filter: blur(6px);
+    background: #0f3460;
     color: white;
     padding: 14px 22px;
     border-radius: 10px;
-    font-weight: 700;
-    font-size: 1rem;
-    border: 1px solid rgba(30,144,255,0.4);
-    cursor: pointer;
+    font-weight: bold;
     text-decoration: none;
-    min-width: 150px;
+    border: none;
+    cursor: pointer;
+    min-width: 160px;
     text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(30,144,255,0.3);
+    transition: all 0.35s;
+    box-shadow: 0 4px 15px rgba(30,144,255,0.4);
 }
 
 .cta-buttons a:hover,
 .cta-buttons button:hover {
-    background: rgba(224,168,0,0.25);
+    background: #e94560;
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(224,168,0,0.4);
-    border-color: #e0a800;
+    box-shadow: 0 10px 25px rgba(233,69,96,0.5);
 }
 
 /* ==========================================================================
@@ -183,110 +161,214 @@ header h1 {
 .experience-badge {
     background: linear-gradient(90deg, #007bff, #00c6ff);
     color: white;
-    font-weight: 700;
+    font-weight: bold;
     text-align: center;
-    padding: 14px 0;
+    padding: 14px;
     border-radius: 50px;
     font-size: 1.3rem;
-    width: 90%;
-    max-width: 320px;
+    width: 320px;
     margin: 0 auto 40px;
-    box-shadow: 0 0 25px rgba(0,123,255,0.5);
-    animation: glowPulse 2.5s infinite alternate;
-}
-
-@keyframes glowPulse {
-    from { box-shadow: 0 0 15px rgba(0,123,255,0.5); }
-    to   { box-shadow: 0 0 35px rgba(0,123,255,0.8); }
+    box-shadow: 0 0 25px rgba(0,123,255,0.6);
 }
 
 /* ==========================================================================
-   Weather & Prayer Box
+   Weather + Prayer Box
    ========================================================================== */
 .weather-box {
-    margin: 40px auto;
-    padding: 25px;
-    max-width: 450px;
-    background: rgba(10,30,61,0.6);
+    background: rgba(10,30,61,0.65);
     backdrop-filter: blur(12px);
     border-radius: 16px;
-    border: 1px solid rgba(30,144,255,0.3);
+    padding: 25px;
+    margin: 40px auto;
+    max-width: 500px;
     text-align: center;
-    box-shadow: 0 8px 30px rgba(30,144,255,0.25);
+    border: 1px solid rgba(30,144,255,0.4);
+    box-shadow: 0 10px 30px rgba(30,144,255,0.3);
 }
 
 .weather-box h3 {
     color: #1e90ff;
     margin-bottom: 15px;
-    font-size: 1.4rem;
 }
 
 .weather-temp {
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    color: white;
+}
+
+.weather-desc {
+    font-size: 1.2rem;
+    color: #ddd;
+    margin: 10px 0;
+}
+
+#prayer-times p {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+#prayer-times .time {
+    color: #ff6b35;
+    font-weight: bold;
 }
 
 /* ==========================================================================
-   FAQ Section
+   FAQ
    ========================================================================== */
 .faq {
     max-width: 900px;
-    margin: 0 auto 60px;
+    margin: 50px auto;
 }
 
 .faq h2 {
-    color: #1e90ff;
-    font-weight: 700;
-    font-size: 2rem;
     text-align: center;
+    color: #1e90ff;
     margin-bottom: 30px;
+    font-size: 2rem;
 }
 
 .faq-item {
-    background: rgba(10,30,61,0.6);
+    background: #0f3460;
     margin-bottom: 15px;
     border-radius: 10px;
     padding: 18px 24px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(30,144,255,0.2);
+    transition: all 0.3s;
 }
 
 .faq-item:hover {
-    background: rgba(19,50,91,0.8);
+    background: #16213e;
     transform: translateY(-4px);
 }
 
 .faq-item h3 {
     color: #1e90ff;
     margin-bottom: 10px;
-    position: relative;
-    padding-right: 40px;
-}
-
-.faq-item h3::after {
-    content: "+";
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.8rem;
-    color: #ff6b35;
-    transition: transform 0.3s ease;
-}
-
-.faq-item.open h3::after {
-    content: "−";
-    transform: translateY(-50%) rotate(180deg);
 }
 
 .answer {
-    margin-top: 12px;
-    color: #ddd;
     display: none;
+    margin-top: 12px;
+    color: #ccc;
     line-height: 1.7;
+}
+
+.faq-item.open .answer {
+    display: block;
+}
+
+/* ==========================================================================
+   Rating Stars
+   ========================================================================== */
+.rating-container {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.stars-horizontal span {
+    font-size: 3rem;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.3s;
+    margin: 0 8px;
+}
+
+.stars-horizontal span.selected,
+.stars-horizontal span:hover {
+    color: gold;
+    transform: scale(1.2);
+}
+
+/* ==========================================================================
+   Sliders (Services / Videos)
+   ========================================================================== */
+.services-today h2,
+.videos-today h2 {
+    text-align: center;
+    color: #1e90ff;
+    margin: 40px 0 20px;
+    font-size: 1.9rem;
+}
+
+.services-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 15px 0;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.services-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.service-card {
+    min-width: 240px;
+    background: rgba(15,52,96,0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}
+
+.service-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.service-card p {
+    margin-top: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* ==========================================================================
+   Fullscreen Viewer
+   ========================================================================== */
+#mediaViewer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#mediaViewer img,
+#mediaViewer video {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(30,144,255,0.6);
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ==========================================================================
@@ -294,62 +376,20 @@ header h1 {
    ========================================================================== */
 footer {
     background: #061222;
-    color: #faf7f7;
-    padding: 35px 0;
+    color: #aaa;
     text-align: center;
-    font-weight: 500;
-    font-size: 0.95rem;
-    border-top: 1px solid rgba(30,144,255,0.15);
-}
-
-.footer-inner p {
-    margin-bottom: 10px;
-}
-
-.social-icons a {
-    margin: 0 15px;
-    display: inline-block;
-    transition: transform 0.3s ease;
-}
-
-.social-icons a:hover {
-    transform: scale(1.15);
-}
-
-.social-icons img {
-    width: 32px;
-    height: 32px;
-    filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+    padding: 30px 0;
+    margin-top: 60px;
+    border-top: 1px solid rgba(30,144,255,0.2);
 }
 
 /* ==========================================================================
-   Responsive Design
+   Responsive
    ========================================================================== */
 @media (max-width: 768px) {
-    .header-inner {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .info-bar {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .experience-badge {
-        width: 95%;
-    }
-    
-    .weather-box {
-        padding: 20px;
-    }
-    
-    .faq {
-        padding: 0 10px;
-    }
+    header h1 { font-size: 1.8rem; }
+    .cta-buttons { flex-direction: column; }
+    .weather-box { max-width: 100%; padding: 20px 15px; }
+    .services-slider { gap: 15px; }
+    .service-card { min-width: 200px; }
 }

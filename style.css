@@ -14,15 +14,15 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 @keyframes fade { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
 /* Info bar */
-.info-bar { display:flex; justify-content:space-between; align-items:center; background:#0a1e3d; color:#faf7f7; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
+.info-bar { display:flex; justify-content:space-between; align-items:center; background:#164a14; color:#faf7f7; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
 #toggle-lang-btn { background:#0a1e3d; border:none; padding:10px 15px; border-radius:6px; color:white; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
 #toggle-lang-btn:hover { background:#d9533f; }
 
 /* CTA Buttons */
 .cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
-.cta-buttons a, .cta-buttons button { background:#0a1e3d; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
+.cta-buttons a, .cta-buttons button { background:#164a14; color:white; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
 .cta-buttons a:hover, .cta-buttons button:hover { background:#e0a800; transform:translateY(-2px); }
-.btn-store { background:#0a1e3d !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
+.btn-store { background:#164a14 !important; color:#f5eded !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
 .btn-store:hover { background:#e0a800 !important; }
 
 /* Experience badge */
@@ -31,7 +31,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 /* FAQ */
 .faq { max-width:800px; margin:0 auto 60px auto; }
 .faq h2 { color:#007bff; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:25px; }
-.faq-item { background:#0a1e3d; margin-bottom:12px; border-radius:8px; padding:15px 20px; cursor:pointer; transition:background-color 0.3s ease; box-shadow:0 2px 8px rgba(0,0,0,0.6); }
+.faq-item { background:#164a14; margin-bottom:12px; border-radius:8px; padding:15px 20px; cursor:pointer; transition:background-color 0.3s ease; box-shadow:0 2px 8px rgba(0,0,0,0.6); }
 .faq-item:hover { background:#13325b; }
 .faq-item h3 { font-weight:700; position:relative; color:#1e90ff; margin-bottom:6px; }
 .faq-item h3::after { content:"+"; position:absolute; left:20px; top:0; font-size:1.6rem; font-weight:700; color:#ff6b35; transition:transform 0.3s ease; }

@@ -149,7 +149,7 @@ header {
 }
 
 .news-ticker {
-  background: rgba(255,107,53,0.2);
+  background: #f03f0a;
   padding: 10px;
   text-align: center;
   overflow: hidden;

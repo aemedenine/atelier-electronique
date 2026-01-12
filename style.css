@@ -176,7 +176,7 @@ header {
   margin: 40px auto 10px;
   padding: 20px;
   max-width: 420px;
-  background: rgba(255,255,255,0.08);
+  background: #a9b7c6;
   backdrop-filter: blur(8px);
   border-radius: 15px;
   text-align: center;

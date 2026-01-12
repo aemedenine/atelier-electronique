@@ -381,8 +381,8 @@ header {
 .welcome-msg {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0ff;
-  text-shadow: 0 0 6px #0ff;
+  color: #282c34;
+  text-shadow: 0 0 6px #a9b7c6;
 }
 
 .btn-signout {

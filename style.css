@@ -48,7 +48,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 .btn-store:hover { background:#3a3a3a !important; }
 
 /* Experience badge */
-.experience-badge { background:#007bff; color:white; font-weight:700; text-align:center; padding:12px 0; border-radius:50px; font-size:1.2rem; width:250px; margin:0 auto 40px auto; box-shadow:0 0 15px #007bff; }
+.experience-badge { background:#007bff; color:white; font-weight:700; text-align:center; padding:12px 0; border-radius:50px; font-size:1rem; width:250px; margin:0 auto 40px auto; box-shadow:0 0 15px #007bff; }
 
 /* FAQ */
 .faq { max-width:800px; margin:0 auto 60px auto; }

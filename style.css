@@ -44,7 +44,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 .cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }
 .cta-buttons a, .cta-buttons button { background:#fff;color:#3a3a3a; padding:14px 18px; border-radius:8px; font-weight:700; font-size:16px; border:none; cursor:pointer; text-decoration:none; min-width:140px; text-align:center; transition:background-color 0.3s ease, transform 0.08s ease; box-shadow:0 2px 6px rgba(30,144,255,0.7); }
 .cta-buttons a:hover, .cta-buttons button:hover { background:#fff; transform:translateY(-2px); }
-.btn-store { background:#3a3a3a !important; color:#fff !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
+.btn-store { background:#fff !important; color:#3a3a3a !important; padding:14px 25px; min-width:160px; font-size:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.18); }
 .btn-store:hover { background:#3a3a3a !important; }
 
 /* Experience badge */

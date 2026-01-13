@@ -407,7 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
             star.textContent = val <= rating ? '★' : '☆';
         });
         ratingValue.textContent = `${rating}/5`;
-        ratingValue.style.color = rating > 0 ? 'gold' : '#fff';
+        ratingValue.style.color = rating > 0 ? '#0a3af0' : '#fff';
     }
 
     updateStars(selectedRating);
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.lineTo(t.x + t.length, t.y);
                 ctx.strokeStyle = t.color;
                 ctx.lineWidth = 2;
-                ctx.shadowColor = '#0ff';
+                ctx.shadowColor = '#0a3af0';
                 ctx.shadowBlur = 10;
                 ctx.stroke();
 
@@ -488,8 +488,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const py = t.y;
                     ctx.beginPath();
                     ctx.arc(px, py, p.size, 0, Math.PI*2);
-                    ctx.fillStyle = '#0ff';
-                    ctx.shadowColor = '#0ff';
+                    ctx.fillStyle = '#0a3af0';
+                    ctx.shadowColor = '#0a3af0';
                     ctx.shadowBlur = 10;
                     ctx.fill();
                     p.offset += p.speed * multiplier;

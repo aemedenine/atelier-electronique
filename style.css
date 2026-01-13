@@ -38,7 +38,7 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 /* Info bar */
 .info-bar { display:flex; justify-content:space-between; align-items:center; background:#fff; color:#282c34; padding:12px 20px; border-radius:8px; margin-bottom:25px; font-weight:600; font-size:1rem; flex-wrap:wrap; gap:10px; }
 #toggle-lang-btn { background:#fff; border:none; padding:10px 15px; border-radius:6px; color:#3a3a3a; font-weight:700; cursor:pointer; transition:background-color 0.3s ease; }
-#toggle-lang-btn:hover { background:#d9533f; }
+#toggle-lang-btn:hover { background:#409eff; }
 
 /* CTA Buttons */
 .cta-buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-bottom:30px; }

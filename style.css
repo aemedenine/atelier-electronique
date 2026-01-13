@@ -375,8 +375,8 @@ header {
 }
 
 .user-box:hover {
-  background: rgba(0,255,255,0.2);
-  box-shadow: 0 0 25px rgba(0,255,255,0.6);
+  background: #409effbd;
+  box-shadow: #409effbd;
 }
 
 .welcome-msg {

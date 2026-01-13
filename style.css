@@ -100,7 +100,8 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 }
 
 /* Footer */
-footer { background:#a9b7c6; color:#faf7f7; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
+footer { background:#f8f8f8;
+; color:#282c34; padding:25px 0; text-align:center; font-weight:500; font-size:0.9rem; box-shadow:inset 0 1px 3px rgba(255,255,255,0.03); }
 .footer-inner p { margin-bottom:5px; }
 .social-icons { margin-top:10px; }
 .social-icons a { margin:0 12px; display:inline-block; opacity:0.75; transition:opacity 0.3s ease; }

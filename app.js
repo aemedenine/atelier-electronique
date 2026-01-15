@@ -621,4 +621,37 @@ document.addEventListener('DOMContentLoaded', () => {
         radioBtn.classList.toggle('dance');
   
 });
+    /* ===== Auto Slide for Services, Photos, Videos ===== */
+function autoSlide(sliderId, interval = 3000) {
+  const slider = document.getElementById(sliderId);
+  if (!slider) return;
+
+  let scrollAmount = 0;
+
+  setInterval(() => {
+    const cardWidth = slider.children[0].offsetWidth + 20; // 20px gap
+    scrollAmount += cardWidth;
+
+    if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
+      scrollAmount = 0;
+    }
+
+    slider.scrollTo({
+      left: scrollAmount,
+      behavior: 'smooth'
+    });
+  }, interval);
+}
+
+// تفعيل الحركة لكل slider
+autoSlide("servicesSlider", 3000); // خدمات اليوم
+autoSlide("videoSlider", 3500);    // فيديو اليوم
+autoSlide("postesSection", 3000);  // ماكينات اللحام
+
+// تشغيل الفيديوهات تلقائياً mute
+document.querySelectorAll(".video-card video").forEach(video => {
+  video.muted = true;
+  video.play().catch(()=>{});
+});
+
   });

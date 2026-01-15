@@ -61,6 +61,41 @@ header h1 { font-weight:700; font-size:1.8rem; color:#1e90ff; flex-grow:1; }
 .faq-item.open h3::after { content:"-"; transform:rotate(180deg); }
 .answer { margin-top:12px; font-weight:400; color:#000; display:none; line-height:1.5; }
 .faq-item.open .answer { display:block; }
+/* ===== Slider Automatique ===== */
+.services-slider {
+  display: flex;
+  gap: 15px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.service-card {
+  min-width: 260px;
+  background: #0f2a44; /* نفس الجو متاع الموقع */
+  border-radius: 14px;
+  padding: 10px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.service-card img,
+.service-card video {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.service-caption {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #fff;
+}
+
+/* video autoplay effect */
+.video-card video {
+  pointer-events: none;
+}
 
 /* Equalizer */
 .equalizer { display:flex; justify-content:center; gap:6px; margin-top:20px; height:40px; align-items:flex-end; transition:opacity 0.3s ease; }

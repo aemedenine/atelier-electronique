@@ -619,5 +619,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const radioBtn = document.getElementById('radio-btn');
     radioBtn?.addEventListener('click', () => {
         radioBtn.classList.toggle('dance');
-    });
+  
 });
+/* ===== Auto Slider Function ===== */
+function autoSlider(containerId, interval = 3000) {
+  const slider = document.getElementById(containerId);
+  let scrollAmount = 0;
+
+  setInterval(() => {
+    if (!slider) return;
+
+    scrollAmount += slider.children[0].offsetWidth + 15;
+
+    if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
+      scrollAmount = 0;
+    }
+
+    slider.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth"
+    });
+  }, interval);
+}
+
+/* تشغيل السلايدرز */
+autoSlider("servicesSlider", 2500);
+autoSlider("videoSlider", 3500);
+
+/* تشغيل الفيديو تلقائيا */
+document.querySelectorAll(".video-card video").forEach(video => {
+  video.play();
+});
+  });

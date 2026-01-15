@@ -621,90 +621,32 @@ document.addEventListener('DOMContentLoaded', () => {
         radioBtn.classList.toggle('dance');
   
 });
- // ==========================================================================
-// Auto Slide for Services, Photos, Videos
-// ==========================================================================
-
-function autoSlide(sliderId, interval = 3000) {
+// ───────────── Auto Slide 100% بدون أي تفاعل ─────────────
+function autoSlideContinuous(sliderId, interval = 1000) {
     const slider = document.getElementById(sliderId);
-    if (!slider) return;
+    if (!slider || !slider.children.length) return;
 
-    let scrollAmount = 0;
+    let index = 0;
+    const total = slider.children.length;
 
     setInterval(() => {
-        if (!slider.children.length) return;
-
-        const cardWidth = slider.children[0].offsetWidth + 20; // 20px gap
-        scrollAmount += cardWidth;
-
-        if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
-            scrollAmount = 0;
-        }
-
         slider.scrollTo({
-            left: scrollAmount,
+            left: slider.children[index].offsetLeft,
             behavior: 'smooth'
         });
+        index = (index + 1) % total;
     }, interval);
 }
 
 // ───────────── تفعيل الحركة لكل slider ─────────────
-autoSlide("servicesSlider", 3000); // خدمات اليوم
-autoSlide("videoSlider", 3500);    // فيديو اليوم
-autoSlide("postesSection", 3000);  // ماكينات اللحام
+autoSlideContinuous("servicesSlider", 1000); // خدمات اليوم
+autoSlideContinuous("videoSlider", 1000);    // فيديو اليوم
+autoSlideContinuous("postesSection", 1000);  // ماكينات اللحام
 
-// ───────────── تشغيل الفيديوهات تلقائياً mute ─────────────
+// ───────────── تشغيل كل الفيديوهات mute تلقائياً ─────────────
 document.querySelectorAll(".video-card video").forEach(video => {
     video.muted = true;
     video.play().catch(() => {});
-});
-
-// ───────────── Drag & Scroll (اختياري) ─────────────
-function enableDragScroll(sliderId) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
-
-    let isDown = false;
-    let startX, scrollLeft;
-
-    slider.addEventListener('mousedown', e => {
-        isDown = true;
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-        slider.style.cursor = 'grabbing';
-    });
-
-    slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
-
-    slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
-
-    slider.addEventListener('mousemove', e => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        slider.scrollLeft = scrollLeft - walk;
-    });
-}
-
-// ───────────── تفعيل Drag لكل slider ─────────────
-enableDragScroll("servicesSlider");
-enableDragScroll("videoSlider");
-enableDragScroll("postesSection");
-
-// ───────────── فيديو hover play/pause ─────────────
-document.querySelectorAll('.video-card video').forEach(video => {
-    video.addEventListener('mouseenter', () => video.play().catch(() => {}));
-    video.addEventListener('mouseleave', () => {
-        video.pause();
-        video.currentTime = 0;
-    });
 });
 
 

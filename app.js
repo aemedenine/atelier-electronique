@@ -641,7 +641,7 @@ function autoSlideContinuous(sliderId, interval = 1000) {
 // ───────────── تفعيل الحركة لكل slider ─────────────
 autoSlideContinuous("servicesSlider", 1000); // خدمات اليوم
 autoSlideContinuous("videoSlider", 1000);    // فيديو اليوم
-autoSlideContinuous("postesSection", 1000);  // ماكينات اللحام
+autoSlideContinuous("postesSoudure", 1000);  // ماكينات اللحام
 
 // ───────────── تشغيل كل الفيديوهات mute تلقائياً ─────────────
 document.querySelectorAll(".video-card video").forEach(video => {

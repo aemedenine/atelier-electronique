@@ -621,13 +621,6 @@ document.addEventListener('DOMContentLoaded', () => {
         radioBtn.classList.toggle('dance');
   
 });
-document.querySelectorAll(".services-slider").forEach(slider => {
-  const track = slider.querySelector(".slider-track");
-  if (!track) return;
-
-  // ننسخو المحتوى باش تولي دَوْرة لا نهائية
-  track.innerHTML += track.innerHTML;
-});
 
 
   });

@@ -614,7 +614,10 @@ function autoSlideContinuous(sliderId, speed = 0.5) {
         }
     }, 16); // حركة ناعمة 60fps
 }
-
+// ✅ فعّل الدوران الآلي
+autoSlideContinuous("servicesSlider", 0.6);
+autoSlideContinuous("videoSlider", 0.6);
+autoSlideContinuous("postesSection", 0.6);
     // ── Site Name Animation ───────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     const texts = ["Atelier Electronique Médenine", "إلكترونيك الرحماني"];

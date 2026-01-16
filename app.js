@@ -597,34 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
-// ==========================================================================
-// AUTO CONTINUOUS SLIDER (services / videos / postes)
-// ==========================================================================
-function autoSlideContinuous(containerId, speed = 0.5) {
-  const slider = document.getElementById(containerId);
-  if (!slider) return; // <<< أهم سطر
-
-  let scrollAmount = 0;
-
-  function slide() {
-    scrollAmount += speed;
-    slider.scrollLeft = scrollAmount;
-
-    if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth) {
-      scrollAmount = 0;
-      slider.scrollLeft = 0;
-    }
-
-    requestAnimationFrame(slide);
-  }
-
-  slide();
-}
-
-// تشغيل السلايدرز (نفس الاتجاه ديما)
-autoSlideContinuous("servicesSlider", 0.4);
-autoSlideContinuous("videoSlider", 0.4);
-autoSlideContinuous("postesSection", 0.4);
 
     // ── Site Name Animation ───────────────────────────────────────────
     const siteName = document.getElementById('site-name');

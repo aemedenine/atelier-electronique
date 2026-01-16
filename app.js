@@ -597,6 +597,23 @@ document.addEventListener('DOMContentLoaded', () => {
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
+// ───────────── Auto Slide CONTINUOUS (كيف عقرب الثواني) ─────────────
+function autoSlideContinuous(sliderId, speed = 0.5) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+
+    let scrollPos = 0;
+
+    setInterval(() => {
+        scrollPos += speed;
+        slider.scrollLeft = scrollPos;
+
+        // كي يوصل للآخر يرجع بسلاسة
+        if (scrollPos >= slider.scrollWidth - slider.clientWidth) {
+            scrollPos = 0;
+        }
+    }, 16); // حركة ناعمة 60fps
+}
 
     // ── Site Name Animation ───────────────────────────────────────────
     const siteName = document.getElementById('site-name');

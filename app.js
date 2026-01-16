@@ -597,27 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
-// ───────────── Auto Slide CONTINUOUS (كيف عقرب الثواني) ─────────────
-function autoSlideContinuous(sliderId, speed = 0.5) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
 
-    let scrollPos = 0;
-
-    setInterval(() => {
-        scrollPos += speed;
-        slider.scrollLeft = scrollPos;
-
-        // كي يوصل للآخر يرجع بسلاسة
-        if (scrollPos >= slider.scrollWidth - slider.clientWidth) {
-            scrollPos = 0;
-        }
-    }, 16); // حركة ناعمة 60fps
-}
-// ✅ فعّل الدوران الآلي
-autoSlideContinuous("servicesSlider", 0.6);
-autoSlideContinuous("videoSlider", 0.6);
-autoSlideContinuous("postesSection", 0.6);
     // ── Site Name Animation ───────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     const texts = ["Atelier Electronique Médenine", "إلكترونيك الرحماني"];
@@ -641,6 +621,26 @@ autoSlideContinuous("postesSection", 0.6);
         radioBtn.classList.toggle('dance');
   
 });
+// ───────────── Auto Slide CONTINUOUS (كيف عقرب الثواني) ─────────────
+function autoSlideContinuous(sliderId, speed = 0.5) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
 
+    let scrollPos = 0;
+
+    setInterval(() => {
+        scrollPos += speed;
+        slider.scrollLeft = scrollPos;
+
+        // كي يوصل للآخر يرجع بسلاسة
+        if (scrollPos >= slider.scrollWidth - slider.clientWidth) {
+            scrollPos = 0;
+        }
+    }, 16); // حركة ناعمة 60fps
+}
+// ✅ فعّل الدوران الآلي
+autoSlideContinuous("servicesSlider", 0.6);
+autoSlideContinuous("videoSlider", 0.6);
+autoSlideContinuous("postesSection", 0.6);
 
   });

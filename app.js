@@ -620,4 +620,96 @@ document.addEventListener('DOMContentLoaded', () => {
     radioBtn?.addEventListener('click', () => {
         radioBtn.classList.toggle('dance');
     });
+    // ── Daily Featured Items Rotation ─────────────────────────────────────────────
+function initDailyRotation() {
+  // حساب رقم اليوم في السنة (يبقى ثابت طول الـ 24 ساعة)
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 0);
+  const diff = now - startOfYear;
+  const oneDay = 1000 * 60 * 60 * 24;
+  const dayOfYear = Math.floor(diff / oneDay);
+
+  // خدمات اليوم
+  const serviceCards = document.querySelectorAll('.service-card:not(#daily-service-card)'); // كل الكروت ما عدا المميز
+  if (serviceCards.length > 0) {
+    const index = dayOfYear % serviceCards.length;
+    const selected = serviceCards[index].cloneNode(true); // نسخ الكارد
+    const dailyContainer = document.getElementById('daily-service-card');
+    if (dailyContainer) {
+      dailyContainer.innerHTML = ''; // نظف
+      dailyContainer.appendChild(selected);
+      // أعد تفعيل click للـ fullscreen viewer إذا موجود
+      const media = selected.querySelector('img, video');
+      if (media) {
+        media.style.cursor = 'pointer';
+        media.addEventListener('click', () => {
+          if (media.tagName === 'IMG') {
+            viewerImg.src = media.src;
+            viewerImg.style.display = 'block';
+            viewerVideo.style.display = 'none';
+          } else {
+            viewerVideo.src = media.src;
+            viewerVideo.style.display = 'block';
+            viewerImg.style.display = 'none';
+            viewerVideo.play().catch(() => {});
+          }
+          mediaViewer.style.display = 'flex';
+        });
+      }
+    }
+  }
+
+  // فيديو اليوم
+  const videoCards = document.querySelectorAll('.video-card:not(#daily-video-card)');
+  if (videoCards.length > 0) {
+    const index = dayOfYear % videoCards.length;
+    const selected = videoCards[index].cloneNode(true);
+    const dailyVideo = document.getElementById('daily-video-card');
+    if (dailyVideo) {
+      dailyVideo.innerHTML = '';
+      dailyVideo.appendChild(selected);
+      const videoEl = selected.querySelector('video');
+      if (videoEl) {
+        videoEl.controls = true;
+        videoEl.addEventListener('mouseenter', () => videoEl.play().catch(() => {}));
+        videoEl.addEventListener('mouseleave', () => {
+          videoEl.pause();
+          videoEl.currentTime = 0;
+        });
+        // fullscreen click
+        videoEl.addEventListener('click', () => {
+          viewerVideo.src = videoEl.src;
+          viewerVideo.style.display = 'block';
+          viewerImg.style.display = 'none';
+          viewerVideo.play().catch(() => {});
+          mediaViewer.style.display = 'flex';
+        });
+      }
+    }
+  }
+
+  // تصليح ماكينة اليوم
+  const repairCards = document.querySelectorAll('#postesSection .service-card:not(#daily-repair-card)');
+  if (repairCards.length > 0) {
+    const index = dayOfYear % repairCards.length;
+    const selected = repairCards[index].cloneNode(true);
+    const dailyRepair = document.getElementById('daily-repair-card');
+    if (dailyRepair) {
+      dailyRepair.innerHTML = '';
+      dailyRepair.appendChild(selected);
+      const img = selected.querySelector('img');
+      if (img) {
+        img.addEventListener('click', () => {
+          viewerImg.src = img.src;
+          viewerImg.style.display = 'block';
+          viewerVideo.style.display = 'none';
+          mediaViewer.style.display = 'flex';
+        });
+      }
+    }
+  }
+}
+
+// شغل الدالة بعد التحميل
+initDailyRotation();
 });

@@ -467,35 +467,6 @@ header {
   color: #282c34;
   text-align: center;
 }
-/* ===== Slider Continuous Rotation (Clockwise) ===== */
-.services-slider {
-  display: flex;
-  gap: 20px;
-  overflow: hidden;
-  position: relative;
-}
-
-.services-slider .service-card {
-  flex: 0 0 auto;
-  width: 280px;
-}
-
-/* المسار المتحرك */
-.slider-track {
-  display: flex;
-  gap: 20px;
-  animation: slideClockwise 20s linear infinite;
-}
-
-/* دوران كيف عقرب الثواني */
-@keyframes slideClockwise {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
 /* ==========================================================================
    Fullscreen Media Viewer

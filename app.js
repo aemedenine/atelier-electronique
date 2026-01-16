@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================================
 function autoSlideContinuous(containerId, speed = 0.5) {
   const slider = document.getElementById(containerId);
-  if (!slider) return;
+  if (!slider) return; // <<< أهم سطر
 
   let scrollAmount = 0;
 
@@ -610,7 +610,6 @@ function autoSlideContinuous(containerId, speed = 0.5) {
     scrollAmount += speed;
     slider.scrollLeft = scrollAmount;
 
-    // كي يوصل للآخر يرجع للبداية
     if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth) {
       scrollAmount = 0;
       slider.scrollLeft = 0;

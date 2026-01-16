@@ -621,26 +621,31 @@ document.addEventListener('DOMContentLoaded', () => {
         radioBtn.classList.toggle('dance');
   
 });
-// ───────────── Auto Slide CONTINUOUS (كيف عقرب الثواني) ─────────────
 function autoSlideContinuous(sliderId, speed = 0.5) {
     const slider = document.getElementById(sliderId);
     if (!slider) return;
 
-    let scrollPos = 0;
+    let scrollAmount = 0;
 
-    setInterval(() => {
-        scrollPos += speed;
-        slider.scrollLeft = scrollPos;
+    function slide() {
+        scrollAmount += speed;
+        slider.scrollLeft = scrollAmount;
 
-        // كي يوصل للآخر يرجع بسلاسة
-        if (scrollPos >= slider.scrollWidth - slider.clientWidth) {
-            scrollPos = 0;
+        if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
+            scrollAmount = 0;
+            slider.scrollLeft = 0;
         }
-    }, 16); // حركة ناعمة 60fps
+
+        requestAnimationFrame(slide);
+    }
+
+    slide();
 }
-// ✅ فعّل الدوران الآلي
-autoSlideContinuous("servicesSlider", 0.6);
-autoSlideContinuous("videoSlider", 0.6);
-autoSlideContinuous("postesSection", 0.6);
+
+// تشغيل الدوران المتواصل (نفس الإتجاه ديما)
+autoSlideContinuous("servicesSlider", 0.5);
+autoSlideContinuous("videoSlider", 0.5);
+autoSlideContinuous("postesSlider", 0.5);
+
 
   });

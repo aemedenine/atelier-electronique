@@ -621,32 +621,12 @@ document.addEventListener('DOMContentLoaded', () => {
         radioBtn.classList.toggle('dance');
   
 });
-// ───────────── Auto Slide 100% بدون أي تفاعل ─────────────
-function autoSlideContinuous(sliderId, interval = 1000) {
-    const slider = document.getElementById(sliderId);
-    if (!slider || !slider.children.length) return;
+document.querySelectorAll(".services-slider").forEach(slider => {
+  const track = slider.querySelector(".slider-track");
+  if (!track) return;
 
-    let index = 0;
-    const total = slider.children.length;
-
-    setInterval(() => {
-        slider.scrollTo({
-            left: slider.children[index].offsetLeft,
-            behavior: 'smooth'
-        });
-        index = (index + 1) % total;
-    }, interval);
-}
-
-// ───────────── تفعيل الحركة لكل slider ─────────────
-autoSlideContinuous("servicesSlider", 1000); // خدمات اليوم
-autoSlideContinuous("videoSlider", 1000);    // فيديو اليوم
-autoSlideContinuous("postesSlider", 1000);  // ماكينات اللحام
-
-// ───────────── تشغيل كل الفيديوهات mute تلقائياً ─────────────
-document.querySelectorAll(".video-card video").forEach(video => {
-    video.muted = true;
-    video.play().catch(() => {});
+  // ننسخو المحتوى باش تولي دَوْرة لا نهائية
+  track.innerHTML += track.innerHTML;
 });
 
 

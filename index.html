@@ -136,88 +136,104 @@
             <p id="rating-value"style="color: #409eff;">0/5</p>
         </div>
 
-        <!-- خدمات اليوم -->
-        <section class="services-today">
-            <h2>خدمات اليوم</h2>
-            <div class="services-slider" id="servicesSlider">
-                <div class="service-card">
-                    <img src="service1.webp" alt="">
-                    <p class="service-caption">تصليح لوحات إلكترونية</p>
-                </div>
-                <div class="service-card">
-                    <img src="service2.webp" alt="">
-                    <p class="service-caption">تصليح كارت جهاز المشي</p>
-                </div>
-                <div class="service-card">
-                    <img src="service3.webp" alt="">
-                    <p class="service-caption">تصليح كارت غسالة</p>
-                </div>
-                <div class="service-card">
-                    <img src="service4.webp" alt="">
-                    <p class="service-caption">تصليح كارت تلفاز</p>
-                </div>
-                <div class="service-card">
-                    <img src="service5.webp" alt="">
-                    <p class="service-caption">تصليح كارت غسالة ل-ج</p>
-                </div>
-            </div>
-        </section>
- <!-- تصليح ماكينات لحام -->
-        <section id="postesSection" class="Reparation postes soudure">
-            <h2>تصليح ماكينات لحام</h2>
-            <div class="services-slider">
-                <div class="service-card">
-                    <img src="poste1.webp" alt="">
-                    <p class="service-caption">تصليح ماكينة لحام</p>
-                </div>
-                <div class="service-card">
-                    <img src="poste2.webp" alt="">
-                    <p class="service-caption">صيانة Poste Soudure</p>
-                </div>
-                <div class="service-card">
-                    <img src="poste3.webp" alt="">
-                    <p class="service-caption">صيانة Poste Soudure</p>
-                </div>
-                <div class="service-card">
-                    <img src="poste4.webp" alt="">
-                    <p class="service-caption">صيانة Poste Soudure</p>
-                </div>
-                <div class="service-card">
-                    <img src="poste5.webp" alt="">
-                    <p class="service-caption">إصلاح لوحة إلكترونية</p>
-                </div>
-            </div>
-        </section>
+       <!-- خدمات اليوم -->
+<section class="services-today">
+    <h2>خدمات اليوم</h2>
+    
+    <!-- ← هنا نضيف الكارد المميز اليومي -->
+    <div id="daily-service" class="service-card highlighted">
+        <!-- سيتم ملؤه تلقائياً بالجافاسكريبت -->
+    </div>
 
+    <div class="services-slider" id="servicesSlider">
+        <div class="service-card daily-candidate">
+            <img src="service1.webp" alt="">
+            <p class="service-caption">تصليح لوحات إلكترونية</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="service2.webp" alt="">
+            <p class="service-caption">تصليح كارت جهاز المشي</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="service3.webp" alt="">
+            <p class="service-caption">تصليح كارت غسالة</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="service4.webp" alt="">
+            <p class="service-caption">تصليح كارت تلفاز</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="service5.webp" alt="">
+            <p class="service-caption">تصليح كارت غسالة ل-ج</p>
+        </div>
+    </div>
+</section>
 
+<!-- تصليح ماكينات لحام -->
+<section id="postesSection" class="Reparation postes soudure">
+    <h2>تصليح ماكينات لحام اليوم</h2>
+    
+    <!-- ← هنا الكارد المميز -->
+    <div id="daily-repair" class="service-card highlighted">
+        <!-- سيتم ملؤه تلقائياً -->
+    </div>
 
-        <!-- فيديو اليوم -->
-        <section class="videos-today">
-            <h2>فيديو اليوم</h2>
-            <div class="services-slider" id="videoSlider">
-                <div class="service-card video-card">
-                    <video src="video1.mp4" muted loop></video>
-                    <p class="service-caption">تصليح كارت تغذية</p>
-                </div>
-                <div class="service-card video-card">
-                    <video src="video2.mp4" muted loop></video>
-                    <p class="service-caption">إصلاح لوحة إلكترونية</p>
-                </div>
-                <div class="service-card video-card">
-                    <video src="video3.mp4" muted loop></video>
-                    <p class="service-caption">فحص بوردة</p>
-                </div>
-                <div class="service-card video-card">
-                    <video src="video4.mp4" muted loop></video>
-                    <p class="service-caption">فحص بوردة</p>
-                </div>
-                <div class="service-card video-card">
-                    <video src="video5.mp4" muted loop></video>
-                    <p class="service-caption">فحص بوردة</p>
-                </div>
-            </div>
-        </section>
+    <div class="services-slider">
+        <div class="service-card daily-candidate">
+            <img src="poste1.webp" alt="">
+            <p class="service-caption">تصليح ماكينة لحام</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="poste2.webp" alt="">
+            <p class="service-caption">صيانة Poste Soudure</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="poste3.webp" alt="">
+            <p class="service-caption">صيانة Poste Soudure</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="poste4.webp" alt="">
+            <p class="service-caption">صيانة Poste Soudure</p>
+        </div>
+        <div class="service-card daily-candidate">
+            <img src="poste5.webp" alt="">
+            <p class="service-caption">إصلاح لوحة إلكترونية</p>
+        </div>
+    </div>
+</section>
 
+<!-- فيديو اليوم -->
+<section class="videos-today">
+    <h2>فيديو اليوم</h2>
+    
+    <!-- ← هنا الفيديو المميز -->
+    <div id="daily-video" class="service-card video-card highlighted">
+        <!-- سيتم ملؤه تلقائياً -->
+    </div>
+
+    <div class="services-slider" id="videoSlider">
+        <div class="service-card video-card daily-candidate">
+            <video src="video1.mp4" muted loop></video>
+            <p class="service-caption">تصليح كارت تغذية</p>
+        </div>
+        <div class="service-card video-card daily-candidate">
+            <video src="video2.mp4" muted loop></video>
+            <p class="service-caption">إصلاح لوحة إلكترونية</p>
+        </div>
+        <div class="service-card video-card daily-candidate">
+            <video src="video3.mp4" muted loop></video>
+            <p class="service-caption">فحص بوردة</p>
+        </div>
+        <div class="service-card video-card daily-candidate">
+            <video src="video4.mp4" muted loop></video>
+            <p class="service-caption">فحص بوردة</p>
+        </div>
+        <div class="service-card video-card daily-candidate">
+            <video src="video5.mp4" muted loop></video>
+            <p class="service-caption">فحص بوردة</p>
+        </div>
+    </div>
+</section>
     </main>
 
     <footer>

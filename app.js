@@ -63,15 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     timeEl.textContent = `${dateStr} - ${timeStr}`;
   }
 
-  /* -------------------- Visits -------------------- */
-  function updateVisits() {
-    const key = 'aem-visit-count';
-    let count = parseInt(localStorage.getItem(key)) || 0;
-    count++;
-    localStorage.setItem(key, count);
-    visitEl.textContent = currentLang === 'ar' ? `عدد زياراتك: ${count}` : `Nombre de visites: ${count}`;
-  }
-
   /* -------------------- News rotation -------------------- */
   const newsAr = [
     "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
@@ -315,22 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(console.error);
     });
 
-    // ── Visitors Counter ──────────────────────────────────────────────
-    const db = firebase.database();
-    const visitsRef = db.ref('visits');
-    
-    // Incrémenter le compteur
-    visitsRef.transaction(current => (current || 0) + 1);
-
-    // Afficher en temps réel
-    visitsRef.on('value', snapshot => {
-        const total = snapshot.val() || 0;
-        document.getElementById('visit-count').textContent = 
-            currentLanguage === 'ar' 
-                ? `عدد زوار الموقع: ${total}` 
-                : `Nombre de visiteurs : ${total}`;
-    });
-
+ 
     // ── Weather API ───────────────────────────────────────────────────
     function updateWeather(lang) {
         fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")

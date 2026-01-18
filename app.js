@@ -1,4 +1,3 @@
-// ==========================================================================
 // Firebase Configuration & Initialization
 // ==========================================================================
 const firebaseConfig = {
@@ -8,13 +7,11 @@ const firebaseConfig = {
     storageBucket: "atelier-electronique-mednine.firebasestorage.app",
     messagingSenderId: "547430908384",
     appId: "1:547430908384:web:4caa4cf3869491bd14eb85",
-    databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
+    databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"  // ← أضف هذا السطر بالضبط
 };
-
 firebase.initializeApp(firebaseConfig);
 const analytics = firebase.analytics();
 const auth = firebase.auth();
-const db = firebase.database();
 
 // Garder la session même après refresh/fermeture
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -25,24 +22,21 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 // Variables globales
 // ==========================================================================
 let currentLang = document.documentElement.lang?.startsWith('ar') ? 'ar' : 'fr';
-let currentUserRating = 0;
-let isLoggedIn = false;
-
-const LOCAL_RATING_KEY = 'aem_workshop_rating';
 
 // ==========================================================================
-// DOM Ready
+// DOM Ready - كل المنطق هنا
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     // ── Éléments DOM récurrents ───────────────────────────────────────────
     const ticker       = document.getElementById('live-news');
     const toggleBtn    = document.getElementById('toggle-lang-btn');
     const timeEl       = document.getElementById('current-time');
-    const visitEl      = document.getElementById('visit-count');
+    const visitEl      = document.getElementById('visit-count'); // ← تم تعريفه هنا
     const faqContainer = document.querySelector('.faq');
     const radio        = document.getElementById('radio-stream');
     const radioBtn     = document.getElementById('radio-btn');
     const equalizer    = document.getElementById('equalizer');
+
     const loginPopup   = document.getElementById('login-popup');
     const userInfo     = document.getElementById('user-info');
     const userName     = document.getElementById('user-name');
@@ -56,13 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
             userInfo.style.display = 'block';
             loginPopup.style.display = 'none';
             userName.textContent = user.displayName || "مستخدم";
-            isLoggedIn = true;
         } else {
             userInfo.style.display = 'none';
             loginPopup.style.display = 'flex';
-            isLoggedIn = false;
         }
-        loadUserRating();
     });
 
     btnGoogle?.addEventListener('click', () => {
@@ -87,8 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(console.error);
     });
 
-    // ── Compteur de visites ────────────────────────────────────────────────
+    // ── Compteur de visites (Firebase Realtime) ───────────────────────────
     if (visitEl) {
+        const db = firebase.database();
         const visitsRef = db.ref('visits');
         visitsRef.transaction(current => (current || 0) + 1);
         visitsRef.on('value', snapshot => {
@@ -102,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Mise à jour de l'heure ────────────────────────────────────────────
     function updateTime() {
         const now = new Date();
-        const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+        const daysAr   = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
         const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-        const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+        const daysFr   = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
         const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
         const day   = currentLang === 'ar' ? daysAr[now.getDay()]   : daysFr[now.getDay()];
@@ -139,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateNews() {
         const news = currentLang === 'ar' ? newsAr : newsFr;
         ticker.classList.remove('fade');
-        void ticker.offsetWidth;
+        void ticker.offsetWidth; // force reflow
         ticker.textContent = news[newsIndex];
         ticker.classList.add('fade');
         newsIndex = (newsIndex + 1) % news.length;
@@ -160,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Radio + Equalizer Pro ───────────────────────────────────────────────
+      // ── Radio + Equalizer Pro ───────────────────────────────────────────────
     if (radioBtn && radio && equalizer) {
         radioBtn.addEventListener('click', () => {
             if (radio.paused) {
@@ -209,10 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.lang = lang;
         document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
+        // Textes principaux
         document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
         document.querySelector('.experience-badge').textContent = lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
         toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
 
+        // CTA buttons (avec vérification existence)
         const ctaMap = {
             '.btn-download': lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger les programmes 📥',
             '.btn-store'   : lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒',
@@ -227,12 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el) el.textContent = txt;
         });
 
+        // Radio button
         if (radioBtn) {
             radioBtn.textContent = radio.paused
                 ? (lang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio')
                 : (lang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio');
         }
 
+        // Rebuild FAQ + re-attach events
         if (faqContainer) {
             faqContainer.innerHTML = lang === 'ar' ? `
                 <h2>الأسئلة الشائعة</h2>
@@ -247,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
                 <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>
             `;
-            initFAQ();
+            initFAQ(); // ré-attacher les listeners
         }
 
         startNewsRotation();
@@ -303,159 +299,161 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Autres titres (services, vidéos, postes) ──────────────────────────
     function updateLanguageTexts(lang) {
-        document.querySelector('.services-today h2')?.textContent =
+        document.querySelector('.services-today h2').textContent =
             lang === 'ar' ? "خدمات اليوم" : "Services du jour";
-        document.querySelector('.videos-today h2')?.textContent =
+        document.querySelector('.videos-today h2').textContent =
             lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
-        document.querySelector('#postesSection h2')?.textContent =
+        document.querySelector('#postesSection h2').textContent =
             lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
-        document.getElementById('rating-title')?.textContent =
+        document.getElementById('rating-title').textContent =
             lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
     }
 
-    // ── Rating System ─────────────────────────────────────────────────────
-    const stars = document.querySelectorAll('.stars-horizontal span');
-    const ratingValue = document.getElementById('rating-value');
-    const ratingMessage = document.getElementById('rating-message');
-    const avgStarsEl = document.getElementById('avg-stars');
-    const voteCountEl = document.getElementById('vote-count');
-    const breakdownEl = document.getElementById('rating-breakdown');
+// ── Rating System: مرة واحدة فقط لكل حساب Google (من أي جهاز) ──────────
+const stars = document.querySelectorAll('.stars-horizontal span');
+const ratingValue = document.getElementById('rating-value');
+const ratingMessage = document.getElementById('rating-message');
+const avgStarsEl = document.getElementById('avg-stars');
+const voteCountEl = document.getElementById('vote-count');
+const breakdownEl = document.getElementById('rating-breakdown');
 
-    const ratingsRef = db.ref('ratings');
-    const userRatingsRef = db.ref('userRatings');
+let currentUserRating = 0;
 
-    function loadRatings() {
-        ratingsRef.on('value', snapshot => {
-            const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
-            const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
+// مرجع Firebase
+const ratingsRef = firebase.database().ref('ratings');
+const userRatingsRef = firebase.database().ref('userRatings');
 
-            if (avgStarsEl) avgStarsEl.textContent = avg;
-            if (voteCountEl) voteCountEl.textContent = data.count;
+// تحميل المتوسط + Breakdown
+function loadRatings() {
+    ratingsRef.on('value', snapshot => {
+        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
 
-            if (breakdownEl) {
-                let html = '';
-                for (let i = 5; i >= 1; i--) {
-                    const count = data.breakdown?.[i] || 0;
-                    html += `
-                        <div>
-                            <span class="stars">${'★'.repeat(i)}</span>
-                            <span class="count">${count} صوت</span>
-                        </div>
-                    `;
-                }
-                breakdownEl.innerHTML = html;
-            }
-        });
+        avgStarsEl.textContent = avg;
+        voteCountEl.textContent = data.count;
+
+        let html = '';
+        for (let i = 5; i >= 1; i--) {
+            const count = data.breakdown?.[i] || 0;
+            html += `
+                <div>
+                    <span class="stars">${'★'.repeat(i)}</span>
+                    <span class="count">${count} صوت</span>
+                </div>
+            `;
+        }
+        breakdownEl.innerHTML = html;
+    });
+}
+
+// تحديث عرض النجوم
+function updateStars(rating) {
+    stars.forEach(star => {
+        const val = Number(star.dataset.value);
+        star.classList.toggle('selected', val <= rating);
+        star.textContent = val <= rating ? '★' : '☆';
+    });
+    ratingValue.textContent = `${rating}/5`;
+}
+
+// التحقق من تقييم المستخدم الحالي (يشتغل حتى بعد refresh أو جهاز آخر)
+function checkUserRating(user) {
+    if (!user) {
+        updateStars(0);
+        ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+        ratingMessage.classList.add('show');
+        stars.forEach(s => s.style.pointerEvents = 'none'); // معطل
+        return;
     }
 
-    function updateStars(rating) {
-        stars.forEach(star => {
-            const val = Number(star.dataset.value);
-            star.classList.toggle('selected', val <= rating);
-            star.textContent = val <= rating ? '★' : '☆';
-        });
-        if (ratingValue) ratingValue.textContent = `${rating}/5`;
-    }
-
-    function checkUserRating(user) {
-        if (!user) {
+    const uid = user.uid;
+    userRatingsRef.child(uid).once('value').then(snap => {
+        if (snap.exists()) {
+            const data = snap.val();
+            currentUserRating = data.rating;
+            updateStars(currentUserRating);
+            ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+            ratingMessage.classList.add('show');
+            stars.forEach(s => s.style.pointerEvents = 'none'); // ممنوع يعدل
+        } else {
+            currentUserRating = 0;
             updateStars(0);
-            if (ratingMessage) {
-                ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
-                ratingMessage.classList.add('show');
-            }
-            stars.forEach(s => s.style.pointerEvents = 'none');
+            stars.forEach(s => s.style.pointerEvents = 'auto'); // يقدر يقيم
+        }
+    });
+}
+
+// عند تغيير حالة الدخول (أو refresh)
+auth.onAuthStateChanged(user => {
+    checkUserRating(user);
+});
+
+// Hover (فقط إذا ما قيمش بعد)
+stars.forEach(star => {
+    const val = Number(star.dataset.value);
+
+    star.addEventListener('mouseover', () => {
+        if (auth.currentUser && currentUserRating === 0) {
+            stars.forEach(s => {
+                const sVal = Number(s.dataset.value);
+                s.classList.toggle('selected', sVal <= val);
+                s.textContent = sVal <= val ? '★' : '☆';
+            });
+        }
+    });
+
+    star.addEventListener('mouseout', () => {
+        if (auth.currentUser && currentUserRating === 0) {
+            updateStars(0);
+        }
+    });
+
+    star.addEventListener('click', () => {
+        if (!auth.currentUser) {
+            alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
+            document.getElementById('btn-google')?.click();
             return;
         }
 
-        const uid = user.uid;
-        userRatingsRef.child(uid).once('value').then(snap => {
-            if (snap.exists()) {
-                currentUserRating = snap.val().rating;
-                updateStars(currentUserRating);
-                if (ratingMessage) {
-                    ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
-                    ratingMessage.classList.add('show');
-                }
-                stars.forEach(s => s.style.pointerEvents = 'none');
-            } else {
-                currentUserRating = 0;
-                updateStars(0);
-                stars.forEach(s => s.style.pointerEvents = 'auto');
-            }
-        });
-    }
+        if (currentUserRating > 0) {
+            ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
+            ratingMessage.classList.add('show');
+            return;
+        }
 
-    auth.onAuthStateChanged(user => {
-        checkUserRating(user);
+        const uid = auth.currentUser.uid;
+        const name = auth.currentUser.displayName || 'مجهول';
+
+        // حفظ تقييم المستخدم (مرة واحدة)
+        userRatingsRef.child(uid).set({
+            rating: val,
+            name: name,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        // تحديث الإجمالي + breakdown
+        ratingsRef.transaction(current => {
+            const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+            data.sum += val;
+            data.count += 1;
+            data.breakdown[val] = (data.breakdown[val] || 0) + 1;
+            return data;
+        });
+
+        currentUserRating = val;
+        updateStars(val);
+
+        ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
+        ratingMessage.classList.add('show');
+        setTimeout(() => ratingMessage.classList.remove('show'), 8000);
+
+        // تعطيل النجوم نهائياً لهذا المستخدم
+        stars.forEach(s => s.style.pointerEvents = 'none');
     });
+});
 
-    stars.forEach(star => {
-        const val = Number(star.dataset.value);
-
-        star.addEventListener('mouseover', () => {
-            if (auth.currentUser && currentUserRating === 0) {
-                stars.forEach(s => {
-                    const sVal = Number(s.dataset.value);
-                    s.classList.toggle('selected', sVal <= val);
-                    s.textContent = sVal <= val ? '★' : '☆';
-                });
-            }
-        });
-
-        star.addEventListener('mouseout', () => {
-            if (auth.currentUser && currentUserRating === 0) {
-                updateStars(0);
-            }
-        });
-
-        star.addEventListener('click', () => {
-            if (!auth.currentUser) {
-                alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
-                btnGoogle?.click();
-                return;
-            }
-
-            if (currentUserRating > 0) {
-                if (ratingMessage) {
-                    ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
-                    ratingMessage.classList.add('show');
-                }
-                return;
-            }
-
-            const uid = auth.currentUser.uid;
-            const name = auth.currentUser.displayName || 'مجهول';
-
-            userRatingsRef.child(uid).set({
-                rating: val,
-                name: name,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            });
-
-            ratingsRef.transaction(current => {
-                const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
-                data.sum += val;
-                data.count += 1;
-                data.breakdown[val] = (data.breakdown[val] || 0) + 1;
-                return data;
-            });
-
-            currentUserRating = val;
-            updateStars(val);
-
-            if (ratingMessage) {
-                ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
-                ratingMessage.classList.add('show');
-                setTimeout(() => ratingMessage.classList.remove('show'), 8000);
-            }
-
-            stars.forEach(s => s.style.pointerEvents = 'none');
-        });
-    });
-
-    loadRatings();
-
+// تحميل البيانات الأولية
+loadRatings();
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {

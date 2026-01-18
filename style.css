@@ -825,8 +825,8 @@ footer {
 }
 
 .copyright-signature {
-  margin-top: 15px;
-  font-size: 0.8rem;                    /* الـ copyright أصغر */
+  margin-top: 30px;
+  font-size: 0.65rem;                    /* الـ copyright أصغر */
   color: #555;
   font-style: italic;
 }

@@ -177,7 +177,7 @@ function updateEqualizerVisibility() {
     }
 
     // ── Language toggle ───────────────────────────────────────────────────
-  function setLanguage(lang) {
+ function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -191,7 +191,7 @@ function updateEqualizerVisibility() {
     // Toggle button
     toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
 
-    // CTA buttons (اللي عندك موجودة + تأكيد)
+    // CTA buttons
     const ctaMap = {
         '.btn-download': lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger les programmes 📥',
         '.btn-store'   : lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒',
@@ -221,29 +221,34 @@ function updateEqualizerVisibility() {
             : `Nombre de visiteurs : ${total}`;
     }
 
+    // User info (مرحبا)
+    if (userInfo && userName && userInfo.style.display !== 'none') {
+        const welcomeMsg = userInfo.querySelector('.welcome-msg');
+        if (welcomeMsg) {
+            welcomeMsg.textContent = lang === 'ar' ? `مرحبا ${userName.textContent}! 👋` : `Bonjour ${userName.textContent}! 👋`;
+        }
+    }
+
     // Rating title
-    document.getElementById('rating-title').textContent =
+    document.getElementById('rating-title')?.textContent =
         lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
 
     // Services du jour
-    document.querySelector('.services-today h2').textContent =
+    document.querySelector('.services-today h2')?.textContent =
         lang === 'ar' ? "خدمات اليوم" : "Services du jour";
 
     // Vidéo du jour
-    document.querySelector('.videos-today h2').textContent =
+    document.querySelector('.videos-today h2')?.textContent =
         lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
 
     // Réparation postes soudure
-    document.querySelector('#postesSection h2').textContent =
+    document.querySelector('#postesSection h2')?.textContent =
         lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
-
-    // FAQ (اللي عندك موجودة، خليها زي ما هي)
 
     startNewsRotation();
     updateTime();
     updateEqualizerVisibility();
 }
-
         // Rebuild FAQ + re-attach events
         if (faqContainer) {
             faqContainer.innerHTML = lang === 'ar' ? `

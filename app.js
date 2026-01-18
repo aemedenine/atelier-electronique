@@ -293,125 +293,112 @@ document.addEventListener('DOMContentLoaded', () => {
             lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
     }
 
-   // ── Rating Stars - تقييم مرة واحدة فقط (مع Google Login) ───────────────
-const stars = document.querySelectorAll('.stars-horizontal span');
-const ratingValue = document.getElementById('rating-value');
-const ratingMessage = document.getElementById('rating-message');
-const avgStarsEl = document.getElementById('avg-stars');
-const voteCountEl = document.getElementById('vote-count');
-
-let userHasRated = false; // هل المستخدم قيم من قبل؟
-let currentUserRating = 0; // تقييمه الحالي (إذا قيم)
-
-// مرجع Firebase
-const ratingsRef = firebase.database().ref('ratings');
-
-// تحميل المتوسط العام
-ratingsRef.on('value', snapshot => {
-    const data = snapshot.val() || { sum: 0, count: 0 };
-    const average = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
-    avgStarsEl.textContent = average;
-    voteCountEl.textContent = data.count;
-});
-
-// تحديث النجوم
-function updateStars(rating) {
-    stars.forEach(star => {
-        const val = Number(star.dataset.value);
-        star.classList.toggle('selected', val <= rating);
-        star.textContent = val <= rating ? '★' : '☆';
-    });
-    ratingValue.textContent = `${rating}/5`;
+/* ==========================================================================
+   Rating Stars - Version Pro, Blanc, Smaller Size & Balanced
+   ========================================================================== */
+.rating-container {
+  margin: 40px auto;                    /* صغّرنا المارجن شوية */
+  text-align: center;
+  background: #ffffff;                  /* blanc زي بوكس الطقس */
+  backdrop-filter: blur(8px);           /* نفس التأثير اللي في الطقس */
+  border-radius: 15px;
+  padding: 20px;                        /* صغّرنا البادينغ */
+  box-shadow: 0 0 20px #409eff;         /* نفس الشادو اللي في الطقس */
+  max-width: 380px;                     /* أصغر من بوكس الطقس (420px) */
+  color: #282c34;                       /* لون نص داكن على blanc */
 }
 
-// تحقق إذا المستخدم قيم من قبل (بناءً على UID)
-function checkIfUserRated(uid) {
-    const userRatingRef = firebase.database().ref(`userRatings/${uid}`);
-    userRatingRef.once('value', snap => {
-        if (snap.exists()) {
-            const userData = snap.val();
-            currentUserRating = userData.rating;
-            userHasRated = true;
-            updateStars(currentUserRating);
-            ratingMessage.textContent = 'لقد قيّمت الورشة من قبل، شكراً!';
-            ratingMessage.classList.add('show');
-        } else {
-            userHasRated = false;
-            updateStars(0);
-        }
-    });
+.rating-title {
+  font-size: 1.3rem;                    /* صغّرنا العنوان */
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #409eff;
 }
 
-// عند تغيير حالة الدخول
-auth.onAuthStateChanged(user => {
-    if (user) {
-        // المستخدم مسجل → نشوف إذا قيم من قبل
-        checkIfUserRated(user.uid);
-        stars.forEach(star => star.style.cursor = 'pointer'); // يقدر يقيم
-    } else {
-        // ما مسجلش → نعطل التقييم
-        updateStars(0);
-        stars.forEach(star => star.style.cursor = 'not-allowed');
-        ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة 🌟';
-        ratingMessage.classList.add('show');
-    }
-});
+.stars-horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 10px;                            /* مسافة أقل بين النجوم */
+}
 
-// Click على النجوم
-stars.forEach(star => {
-    const val = Number(star.dataset.value);
+.stars-horizontal span {
+  font-size: 2.6rem;                    /* النجوم أصغر (كان 3.4rem) */
+  cursor: pointer;
+  color: #777;                          /* رمادي متوسط على blanc */
+  transition: all 0.35s ease;
+}
 
-    star.addEventListener('mouseover', () => {
-        if (auth.currentUser && !userHasRated) {
-            stars.forEach(s => {
-                const sVal = Number(s.dataset.value);
-                s.classList.toggle('selected', sVal <= val);
-                s.textContent = sVal <= val ? '★' : '☆';
-            });
-        }
-    });
+.stars-horizontal span:hover {
+  color: #ffca28;
+  transform: scale(1.25);
+  text-shadow: 0 0 12px rgba(255,202,40,0.6);
+}
 
-    star.addEventListener('mouseout', () => {
-        if (auth.currentUser && !userHasRated) {
-            updateStars(currentUserRating);
-        }
-    });
+.stars-horizontal span.selected {
+  color: #ffca28;
+  text-shadow: 0 0 10px rgba(255,202,40,0.5);
+  transform: scale(1.12);
+}
 
-    star.addEventListener('click', () => {
-        if (!auth.currentUser) {
-            alert('يرجى تسجيل الدخول عبر Google لتقييم الورشة');
-            document.getElementById('btn-google')?.click(); // نفتح popup الدخول تلقائياً
-            return;
-        }
+#rating-value {
+  margin: 15px 0;
+  font-size: 1.8rem;                    /* صغّرنا الرقم */
+  font-weight: 800;
+  color: #ffca28;
+}
 
-        if (userHasRated) {
-            ratingMessage.textContent = 'لقد قيّمت من قبل، شكراً على دعمك!';
-            ratingMessage.classList.add('show');
-            return;
-        }
+#rating-average {
+  color: #555;
+  font-size: 1rem;
+  margin: 12px 0;
+}
 
-        // حفظ التقييم
-        const uid = auth.currentUser.uid;
-        const userRatingRef = firebase.database().ref(`userRatings/${uid}`);
-        userRatingRef.set({ rating: val, name: auth.currentUser.displayName || 'مجهول' });
+#avg-stars {
+  color: #ffca28;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
 
-        // تحديث الإجمالي
-        ratingsRef.transaction(current => {
-            const data = current || { sum: 0, count: 0 };
-            data.sum += val;
-            data.count += 1;
-            return data;
-        });
+#vote-count {
+  color: #409eff;
+  font-weight: bold;
+}
 
-        userHasRated = true;
-        currentUserRating = val;
-        updateStars(val);
+/* Breakdown (عدد الأصوات لكل نجمة) */
+.rating-breakdown {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #666;
+  text-align: right;
+}
 
-        ratingMessage.textContent = 'شكراً على تقييمك المميز! 🌟';
-        ratingMessage.classList.add('show');
-        setTimeout(() => ratingMessage.classList.remove('show'), 6000);
-    });
-});
+.rating-breakdown div {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-breakdown .stars {
+  color: #ffca28;
+  font-size: 1.1rem;
+}
+
+.rating-breakdown .count {
+  color: #409eff;
+}
+
+/* رسالة شكر */
+.rating-message {
+  margin-top: 15px;
+  font-size: 1.05rem;
+  color: #409eff;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.rating-message.show {
+  opacity: 1;
+}
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {

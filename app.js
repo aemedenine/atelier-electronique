@@ -221,6 +221,7 @@ if (visitEl) {
             if (welcomeMsg) {
                 welcomeMsg.textContent = lang === 'ar' ? `مرحبا ${userName.textContent}! 👋` : `Bonjour ${userName.textContent}! 👋`;
             }
+            }
         // Rebuild FAQ + re-attach events
         if (faqContainer) {
             faqContainer.innerHTML = lang === 'ar' ? `

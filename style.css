@@ -409,37 +409,75 @@ header h1 {
 .rating-container {
   margin: 40px auto;
   text-align: center;
-  color: #282c34;
+  color: #fff;
+  position: relative;
+}
+
+.rating-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #409eff;
+}
+
+.stars-horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 .stars-horizontal span {
-  font-size: 2.5rem;
+  font-size: 3rem;                    /* زاد الحجم شوية باش يبان pro */
   cursor: pointer;
   color: #ccc;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-  margin: 0 5px;
-  display: inline-block;
+  transition: all 0.4s ease;          /* transition smooth */
+  transform: scale(1);
+  text-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.stars-horizontal span:hover {
+  color: gold;
+  transform: scale(1.35);             /* zoom smooth */
+  text-shadow: 0 0 15px gold, 0 0 25px gold;
 }
 
 .stars-horizontal span.selected {
-  color: #005aff;
-  text-shadow: 0 0 8px #409eff;
+  color: #ffd700;                     /* gold pro */
+  text-shadow: 0 0 12px #ffd700, 0 0 20px #ffaa00;
+  transform: scale(1.15);
 }
 
-.stars-horizontal span.hover {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-  transform: scale(1.4) translateY(-5px);
+.stars-horizontal span.selected:hover {
+  transform: scale(1.45);             /* zoom akther ki hover 3la selected */
 }
 
+/* Message merci après vote */
+.rating-message {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #ffd700;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(10px);
+}
+
+.rating-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Rating value glow */
 #rating-value {
-  margin-top: 10px;
-  font-size: 1.2rem;
-  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
+  margin-top: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: all 0.4s ease;
 }
 
-.rating-container:hover #rating-value {
-  transform: translateY(-3px);
+#rating-value.updated {
+  color: #ffd700 !important;
+  text-shadow: 0 0 15px #ffd700;
+  transform: scale(1.2);
 }
 
 /* ==========================================================================

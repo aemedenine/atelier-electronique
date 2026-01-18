@@ -294,37 +294,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ── Rating Stars ──────────────────────────────────────────────────────
-    const stars = document.querySelectorAll('.stars-horizontal span');
-    const ratingValue = document.getElementById('rating-value');
-    let selectedRating = parseInt(localStorage.getItem('workshopRating')) || 0;
+ 
+const stars = document.querySelectorAll('.stars-horizontal span');
+const ratingValue = document.getElementById('rating-value');
+const ratingMessage = document.getElementById('rating-message');
+let selectedRating = parseInt(localStorage.getItem('workshopRating')) || 0;
 
-    function updateStars(rating) {
-        stars.forEach(star => {
-            const val = Number(star.dataset.value);
-            star.classList.toggle('selected', val <= rating);
-            star.textContent = val <= rating ? '★' : '☆';
-        });
-        ratingValue.textContent = `${rating}/5`;
-        ratingValue.style.color = rating > 0 ? '#0a3af0' : '#fff';
-    }
-
-    updateStars(selectedRating);
-
+function updateStars(rating) {
     stars.forEach(star => {
         const val = Number(star.dataset.value);
-        star.addEventListener('mouseover', () => {
-            stars.forEach(s => s.classList.toggle('hover', Number(s.dataset.value) <= val));
-        });
-        star.addEventListener('mouseout', () => {
-            stars.forEach(s => s.classList.remove('hover'));
-            updateStars(selectedRating);
-        });
-        star.addEventListener('click', () => {
-            selectedRating = val;
-            localStorage.setItem('workshopRating', selectedRating);
-            updateStars(selectedRating);
+        star.classList.toggle('selected', val <= rating);
+        star.textContent = val <= rating ? '★' : '☆';
+    });
+
+    ratingValue.textContent = `${rating}/5`;
+    ratingValue.classList.add('updated');
+    setTimeout(() => ratingValue.classList.remove('updated'), 800);
+
+    // Show thank you message only on click (not on load)
+    if (rating > 0) {
+        ratingMessage.classList.add('show');
+        setTimeout(() => ratingMessage.classList.remove('show'), 4000);
+    }
+}
+
+updateStars(selectedRating);
+
+stars.forEach(star => {
+    const val = Number(star.dataset.value);
+
+    star.addEventListener('mouseover', () => {
+        stars.forEach(s => {
+            const sVal = Number(s.dataset.value);
+            s.classList.toggle('selected', sVal <= val);
+            s.textContent = sVal <= val ? '★' : '☆';
         });
     });
+
+    star.addEventListener('mouseout', () => {
+        updateStars(selectedRating);
+    });
+
+    star.addEventListener('click', () => {
+        selectedRating = val;
+        localStorage.setItem('workshopRating', selectedRating);
+        updateStars(selectedRating);
+    });
+});
 
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');

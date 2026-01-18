@@ -210,7 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? (lang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio')
                 : (lang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio');
         }
-
+if (visitEl) {
+            const total = visitEl.textContent.match(/\d+/)?.[0] || '0';
+            visitEl.textContent = lang === 'ar'
+                ? `عدد زوار الموقع: ${total}`
+                : `Nombre de visiteurs : ${total}`;
+        }
         // Rebuild FAQ + re-attach events
         if (faqContainer) {
             faqContainer.innerHTML = lang === 'ar' ? `

@@ -27,7 +27,7 @@ html, body {
 }
 
 /* ==========================================================================
-   Header + Logo + PCB Animation
+   Header + PCB Canvas + Logo Background
    ========================================================================== */
 header {
   position: relative;
@@ -41,7 +41,6 @@ header {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 15px;
   flex-wrap: wrap;
   overflow: hidden;
@@ -108,7 +107,7 @@ header h1 {
 }
 
 @keyframes pcbMove {
-  0%   { transform: rotate(0deg); }
+  0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
@@ -118,11 +117,11 @@ header h1 {
 .news-ticker {
   width: 100%;
   overflow: hidden;
-  background: #0a3af0;          /* ← تم تعديل اللون هنا في جزء لاحق */
+  background: #0a3af0;
   color: white;
   white-space: nowrap;
   font-weight: 700;
-  padding: 10px 0;
+  padding: 10px;
   margin-bottom: 25px;
   font-size: 1rem;
   text-align: center;
@@ -237,10 +236,7 @@ header h1 {
   color: yellow;
   margin: 30px auto;
   background: none;
-  padding: 12px 0;
-  width: 250px;
-  border-radius: 50px;
-  box-shadow: 0 0 15px #007bff;
+  padding: 0;
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
 
@@ -524,7 +520,7 @@ header h1 {
   padding: 12px 20px;
   max-width: 400px;
   margin: 20px auto;
-  color: #282c34;
+  color: #ffffff;
   box-shadow: 0 0 15px #409eff;
   transition: all 0.3s ease;
 }
@@ -695,7 +691,7 @@ header h1 {
 }
 
 /* ==========================================================================
-   Radio Dance Animation
+   Radio Button Dance Animation
    ========================================================================== */
 .dance {
   animation: danceMove 0.5s infinite alternate;
@@ -755,7 +751,7 @@ footer {
 }
 
 /* ==========================================================================
-   Responsive Design
+   Responsive
    ========================================================================== */
 @media (max-width: 768px) {
   .header-inner {
@@ -780,7 +776,7 @@ footer {
 }
 
 /* ==========================================================================
-   RTL Specific Adjustments (if needed)
+   RTL Specific
    ========================================================================== */
 [dir="rtl"] .container {
   direction: rtl;

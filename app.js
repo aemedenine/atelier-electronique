@@ -177,7 +177,7 @@ function updateEqualizerVisibility() {
     }
 
     // ── Language toggle ───────────────────────────────────────────────────
- function setLanguage(lang) {
+function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -215,7 +215,7 @@ function updateEqualizerVisibility() {
 
     // Visite count (عدد الزوار)
     if (visitEl) {
-        const total = visitEl.textContent.match(/\d+/)?.[0] || '0'; // نحافظ على الرقم
+        const total = visitEl.textContent.match(/\d+/)?.[0] || '0';
         visitEl.textContent = lang === 'ar'
             ? `عدد زوار الموقع: ${total}`
             : `Nombre de visiteurs : ${total}`;
@@ -245,32 +245,28 @@ function updateEqualizerVisibility() {
     document.querySelector('#postesSection h2')?.textContent =
         lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
 
+    // FAQ rebuild
+    if (faqContainer) {
+        faqContainer.innerHTML = lang === 'ar' ? `
+            <h2>الأسئلة الشائعة</h2>
+            <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
+            <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
+            <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
+            <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
+        ` : `
+            <h2>FAQ</h2>
+            <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
+            <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
+            <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
+            <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>
+        `;
+        initFAQ();
+    }
+
     startNewsRotation();
     updateTime();
     updateEqualizerVisibility();
 }
-        // Rebuild FAQ + re-attach events
-        if (faqContainer) {
-            faqContainer.innerHTML = lang === 'ar' ? `
-                <h2>الأسئلة الشائعة</h2>
-                <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
-                <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
-                <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
-                <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
-            ` : `
-                <h2>FAQ</h2>
-                <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
-                <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
-                <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
-                <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>
-            `;
-            initFAQ(); // ré-attacher les listeners
-        }
-
-        startNewsRotation();
-        updateTime();
-        updateEqualizerVisibility();
-    }
 
     toggleBtn?.addEventListener('click', () => {
         setLanguage(currentLang === 'ar' ? 'fr' : 'ar');

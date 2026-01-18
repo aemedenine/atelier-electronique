@@ -177,21 +177,18 @@ function updateEqualizerVisibility() {
     }
 
     // ── Language toggle ───────────────────────────────────────────────────
+
 function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-    // Header
     document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
 
-    // Experience badge
     document.querySelector('.experience-badge').textContent = lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
 
-    // Toggle button
     toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
 
-    // CTA buttons
     const ctaMap = {
         '.btn-download': lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger les programmes 📥',
         '.btn-store'   : lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒',
@@ -206,14 +203,12 @@ function setLanguage(lang) {
         if (el) el.textContent = txt;
     });
 
-    // Radio button
     if (radioBtn) {
         radioBtn.textContent = radio.paused
             ? (lang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻')
             : (lang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻');
     }
 
-    // Visite count (عدد الزوار)
     if (visitEl) {
         const total = visitEl.textContent.match(/\d+/)?.[0] || '0';
         visitEl.textContent = lang === 'ar'
@@ -221,7 +216,6 @@ function setLanguage(lang) {
             : `Nombre de visiteurs : ${total}`;
     }
 
-    // User info (مرحبا)
     if (userInfo && userName && userInfo.style.display !== 'none') {
         const welcomeMsg = userInfo.querySelector('.welcome-msg');
         if (welcomeMsg) {
@@ -229,23 +223,18 @@ function setLanguage(lang) {
         }
     }
 
-    // Rating title
     document.getElementById('rating-title')?.textContent =
         lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
 
-    // Services du jour
     document.querySelector('.services-today h2')?.textContent =
         lang === 'ar' ? "خدمات اليوم" : "Services du jour";
 
-    // Vidéo du jour
     document.querySelector('.videos-today h2')?.textContent =
         lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
 
-    // Réparation postes soudure
     document.querySelector('#postesSection h2')?.textContent =
         lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
 
-    // FAQ rebuild
     if (faqContainer) {
         faqContainer.innerHTML = lang === 'ar' ? `
             <h2>الأسئلة الشائعة</h2>
@@ -267,11 +256,6 @@ function setLanguage(lang) {
     updateTime();
     updateEqualizerVisibility();
 }
-
-    toggleBtn?.addEventListener('click', () => {
-        setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
-    });
-
     // ── Initialisation ────────────────────────────────────────────────────
     setInterval(updateTime, 1000);
     updateTime();

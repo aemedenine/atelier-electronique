@@ -301,18 +301,13 @@ const avgStarsEl = document.getElementById('avg-stars');
 const voteCountEl = document.getElementById('vote-count');
 const breakdownEl = document.getElementById('rating-breakdown');
 
-let currentUserRating = 0;
-let isLoggedIn = false;
-
-// مفتاح localStorage للزوار غير المسجلين
 const LOCAL_RATING_KEY = 'aem_workshop_rating';
-const hasRatedLocally = localStorage.getItem(LOCAL_RATING_KEY) !== null;
 
 // مرجع Firebase
 const ratingsRef = firebase.database().ref('ratings');
 const userRatingsRef = firebase.database().ref('userRatings');
 
-// تحميل المتوسط + Breakdown
+// تحميل المتوسط + Breakdown (دائماً)
 function loadRatings() {
     ratingsRef.on('value', snapshot => {
         const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
@@ -335,7 +330,7 @@ function loadRatings() {
     });
 }
 
-// تحديث عرض النجوم
+// تحديث النجوم
 function updateStars(rating) {
     stars.forEach(star => {
         const val = Number(star.dataset.value);
@@ -345,24 +340,30 @@ function updateStars(rating) {
     ratingValue.textContent = `${rating}/5`;
 }
 
-// التحقق من حالة المستخدم
-function checkUserRating(user) {
-    isLoggedIn = !!user;
+// تعطيل النجوم بعد التقييم
+function disableRating() {
+    stars.forEach(s => {
+        s.style.pointerEvents = 'none';
+        s.style.cursor = 'default';
+    });
+}
+
+// التحقق من تقييم المستخدم (يشتغل عند كل تحميل/refresh)
+function checkAndLoadRating() {
+    const user = auth.currentUser;
 
     if (user) {
-        // مستخدم مسجل → نشوف تقييمه في Firebase
+        // مسجل دخول → نشوف في Firebase
         const uid = user.uid;
         userRatingsRef.child(uid).once('value').then(snap => {
             if (snap.exists()) {
                 const data = snap.val();
-                currentUserRating = data.rating;
-                updateStars(currentUserRating);
-                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك محفوظ`;
+                updateStars(data.rating);
+                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك محفوظ (${data.rating} نجوم)`;
                 ratingMessage.classList.add('show');
                 disableRating();
             } else {
                 // يقدر يقيم
-                currentUserRating = 0;
                 updateStars(0);
             }
         });
@@ -370,29 +371,83 @@ function checkUserRating(user) {
         // زائر عادي → نشوف localStorage
         const localRating = localStorage.getItem(LOCAL_RATING_KEY);
         if (localRating) {
-            currentUserRating = parseInt(localRating);
-            updateStars(currentUserRating);
+            updateStars(parseInt(localRating));
             ratingMessage.textContent = 'شكراً، لقد قيّمت الورشة من قبل';
             ratingMessage.classList.add('show');
             disableRating();
         } else {
-            currentUserRating = 0;
             updateStars(0);
         }
     }
 }
 
-// تعطيل النجوم بعد التقييم
-function disableRating() {
-    stars.forEach(s => s.style.pointerEvents = 'none');
-    stars.forEach(s => s.style.cursor = 'default');
-}
-
-// عند تغيير حالة الدخول
+// عند تغيير حالة الدخول أو تحميل الصفحة
 auth.onAuthStateChanged(user => {
-    checkUserRating(user);
+    checkAndLoadRating();
 });
 
+// Hover (فقط إذا ما قيمش)
+stars.forEach(star => {
+    const val = Number(star.dataset.value);
+
+    star.addEventListener('mouseover', () => {
+        if (currentUserRating === 0 && (auth.currentUser || !localStorage.getItem(LOCAL_RATING_KEY))) {
+            stars.forEach(s => {
+                const sVal = Number(s.dataset.value);
+                s.classList.toggle('selected', sVal <= val);
+                s.textContent = sVal <= val ? '★' : '☆';
+            });
+        }
+    });
+
+    star.addEventListener('mouseout', () => {
+        if (currentUserRating === 0) {
+            updateStars(0);
+        }
+    });
+
+    star.addEventListener('click', () => {
+        if (currentUserRating > 0) {
+            ratingMessage.textContent = 'لقد قيّمت من قبل، شكراً!';
+            ratingMessage.classList.add('show');
+            return;
+        }
+
+        currentUserRating = val;
+        updateStars(val);
+
+        // حفظ التقييم
+        if (auth.currentUser) {
+            const uid = auth.currentUser.uid;
+            userRatingsRef.child(uid).set({
+                rating: val,
+                name: auth.currentUser.displayName || 'مجهول',
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+        } else {
+            localStorage.setItem(LOCAL_RATING_KEY, val);
+        }
+
+        // تحديث الإجمالي
+        ratingsRef.transaction(current => {
+            const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+            data.sum += val;
+            data.count += 1;
+            data.breakdown[val] = (data.breakdown[val] || 0) + 1;
+            return data;
+        });
+
+        ratingMessage.textContent = `شكراً على تقييمك بـ ${val} نجوم! 🌟`;
+        ratingMessage.classList.add('show');
+        setTimeout(() => ratingMessage.classList.remove('show'), 7000);
+
+        disableRating();
+    });
+});
+
+// تحميل أولي عند فتح الصفحة
+loadRatings();
+checkAndLoadRating();
 // Hover & Click
 stars.forEach(star => {
     const val = Number(star.dataset.value);

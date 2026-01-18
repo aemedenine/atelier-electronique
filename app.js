@@ -216,6 +216,11 @@ if (visitEl) {
                 ? `عدد زوار الموقع: ${total}`
                 : `Nombre de visiteurs : ${total}`;
         }
+        if (userInfo && userName && userInfo.style.display !== 'none') {
+            const welcomeMsg = userInfo.querySelector('.welcome-msg');
+            if (welcomeMsg) {
+                welcomeMsg.textContent = lang === 'ar' ? `مرحبا ${userName.textContent}! 👋` : `Bonjour ${userName.textContent}! 👋`;
+            }
         // Rebuild FAQ + re-attach events
         if (faqContainer) {
             faqContainer.innerHTML = lang === 'ar' ? `

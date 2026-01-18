@@ -9,7 +9,7 @@
 
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: linear-gradient(135deg, #fdfdfd 0%, #1b263b 100%);
+  background: linear-gradient(135deg, #fff 0%, #fff 100%);
   color: #fff;
   min-height: 100vh;
   overflow-x: hidden;

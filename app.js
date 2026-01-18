@@ -185,6 +185,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
         // Textes principaux
+                document.getElementById('rating-title')?.textContent =
+            lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
+
+        document.querySelector('.services-today h2')?.textContent =
+            lang === 'ar' ? "خدمات اليوم" : "Services du jour";
+
+        document.querySelector('.videos-today h2')?.textContent =
+            lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
+
+        document.querySelector('#postesSection h2')?.textContent =
+            lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
         document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
         document.querySelector('.experience-badge').textContent = lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
         toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
@@ -222,17 +233,7 @@ if (visitEl) {
                 welcomeMsg.textContent = lang === 'ar' ? `مرحبا ${userName.textContent}! 👋` : `Mara7ba ${userName.textContent}! 👋`;
             }
             }
-        document.getElementById('rating-title')?.textContent =
-            lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
-
-        document.querySelector('.services-today h2')?.textContent =
-            lang === 'ar' ? "خدمات اليوم" : "Services du jour";
-
-        document.querySelector('.videos-today h2')?.textContent =
-            lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
-
-        document.querySelector('#postesSection h2')?.textContent =
-            lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
+    
         // Rebuild FAQ + re-attach events
         if (faqContainer) {
             faqContainer.innerHTML = lang === 'ar' ? `

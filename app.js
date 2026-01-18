@@ -294,59 +294,158 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ── Rating Stars ──────────────────────────────────────────────────────
- 
+
 const stars = document.querySelectorAll('.stars-horizontal span');
 const ratingValue = document.getElementById('rating-value');
 const ratingMessage = document.getElementById('rating-message');
-let selectedRating = parseInt(localStorage.getItem('workshopRating')) || 0;
+const avgStarsEl = document.getElementById('avg-stars');
+const voteCountEl = document.getElementById('vote-count');
+const breakdownEl = document.getElementById('rating-breakdown');
 
+let userHasRated = false;
+let currentUserRating = 0;
+
+// مرجع Firebase
+const ratingsRef = firebase.database().ref('ratings');
+const userRatingsRef = firebase.database().ref('userRatings');
+
+// تحميل المتوسط + Breakdown
+function loadRatings() {
+    ratingsRef.on('value', snapshot => {
+        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
+
+        avgStarsEl.textContent = avg;
+        voteCountEl.textContent = data.count;
+
+        // عرض عدد الأصوات لكل نجمة
+        if (breakdownEl) {
+            let html = '';
+            for (let i = 5; i >= 1; i--) {
+                const count = data.breakdown?.[i] || 0;
+                html += `
+                    <div>
+                        <span class="stars">${'★'.repeat(i)}</span>
+                        <span class="count">${count} صوت</span>
+                    </div>
+                `;
+            }
+            breakdownEl.innerHTML = html;
+        }
+    });
+}
+
+// تحقق إذا المستخدم قيم من قبل
+function checkUserRating(user) {
+    if (!user) {
+        ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط';
+        ratingMessage.classList.add('show');
+        stars.forEach(s => s.style.cursor = 'not-allowed');
+        return;
+    }
+
+    const uid = user.uid;
+    userRatingsRef.child(uid).once('value', snap => {
+        if (snap.exists()) {
+            const data = snap.val();
+            currentUserRating = data.rating;
+            userHasRated = true;
+            updateStars(currentUserRating);
+            ratingMessage.textContent = `شكراً ${user.displayName || ''}، لقد قيّمت بـ ${currentUserRating} نجوم`;
+            ratingMessage.classList.add('show');
+            stars.forEach(s => s.style.cursor = 'default');
+        } else {
+            userHasRated = false;
+            updateStars(0);
+            stars.forEach(s => s.style.cursor = 'pointer');
+        }
+    });
+}
+
+// تحديث النجوم
 function updateStars(rating) {
     stars.forEach(star => {
         const val = Number(star.dataset.value);
         star.classList.toggle('selected', val <= rating);
         star.textContent = val <= rating ? '★' : '☆';
     });
-
     ratingValue.textContent = `${rating}/5`;
-    // Show thank you message only when user actually clicks
-if (rating > 0 && event && event.type === 'click') {
-    ratingMessage.classList.add('show');
-    setTimeout(() => ratingMessage.classList.remove('show'), 5000);
 }
-    ratingValue.classList.add('updated');
-    setTimeout(() => ratingValue.classList.remove('updated'), 800);
 
-    // Show thank you message only on click (not on load)
-    if (rating > 0) {
+// عند تغيير حالة المستخدم
+auth.onAuthStateChanged(user => {
+    if (user) {
+        checkUserRating(user);
+    } else {
+        updateStars(0);
+        userHasRated = false;
+        ratingMessage.textContent = 'سجل الدخول لتقييم الورشة (مرة واحدة فقط)';
         ratingMessage.classList.add('show');
-        setTimeout(() => ratingMessage.classList.remove('show'), 4000);
     }
-}
+});
 
-updateStars(selectedRating);
-
+// Hover & Click
 stars.forEach(star => {
     const val = Number(star.dataset.value);
 
     star.addEventListener('mouseover', () => {
-        stars.forEach(s => {
-            const sVal = Number(s.dataset.value);
-            s.classList.toggle('selected', sVal <= val);
-            s.textContent = sVal <= val ? '★' : '☆';
-        });
+        if (auth.currentUser && !userHasRated) {
+            stars.forEach(s => {
+                const sVal = Number(s.dataset.value);
+                s.classList.toggle('selected', sVal <= val);
+                s.textContent = sVal <= val ? '★' : '☆';
+            });
+        }
     });
 
     star.addEventListener('mouseout', () => {
-        updateStars(selectedRating);
+        if (auth.currentUser && !userHasRated) {
+            updateStars(currentUserRating);
+        }
     });
 
     star.addEventListener('click', () => {
-        selectedRating = val;
-        localStorage.setItem('workshopRating', selectedRating);
-        updateStars(selectedRating);
+        if (!auth.currentUser) {
+            alert('يرجى تسجيل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
+            document.getElementById('btn-google')?.click();
+            return;
+        }
+
+        if (userHasRated) {
+            ratingMessage.textContent = 'لقد قيّمت من قبل، شكراً على دعمك!';
+            ratingMessage.classList.add('show');
+            return;
+        }
+
+        const uid = auth.currentUser.uid;
+        userRatingsRef.child(uid).set({
+            rating: val,
+            name: auth.currentUser.displayName || 'مجهول',
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        // تحديث الإجمالي + breakdown
+        ratingsRef.transaction(current => {
+            const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+            data.sum += val;
+            data.count += 1;
+            data.breakdown = data.breakdown || {1:0,2:0,3:0,4:0,5:0};
+            data.breakdown[val] = (data.breakdown[val] || 0) + 1;
+            return data;
+        });
+
+        userHasRated = true;
+        currentUserRating = val;
+        updateStars(val);
+
+        ratingMessage.textContent = `شكراً ${auth.currentUser.displayName || ''} على تقييمك بـ ${val} نجوم! 🌟`;
+        ratingMessage.classList.add('show');
+        setTimeout(() => ratingMessage.classList.remove('show'), 7000);
     });
 });
 
+// تحميل البيانات الأولية
+loadRatings();
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {

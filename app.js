@@ -177,37 +177,72 @@ function updateEqualizerVisibility() {
     }
 
     // ── Language toggle ───────────────────────────────────────────────────
-    function setLanguage(lang) {
-        currentLang = lang;
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
-        // Textes principaux
-        document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-        document.querySelector('.experience-badge').textContent = lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
-        toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
+    // Header
+    document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
 
-        // CTA buttons (avec vérification existence)
-        const ctaMap = {
-            '.btn-download': lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger les programmes 📥',
-            '.btn-store'   : lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒',
-            '.btn-whatsapp': lang === 'ar' ? 'واتساب 📱' : 'WhatsApp 📱',
-            '.btn-maps'    : lang === 'ar' ? 'موقعنا على مابس 📍' : 'Google Maps 📍',
-            '.btn-gallery' : lang === 'ar' ? 'شاهد الصور 🖼️' : 'Voir les photos 🖼️',
-            '.btn-video'   : lang === 'ar' ? 'شاهد الفيديو 🎥' : 'Voir les vidéos 🎥',
-            '.btn-services': lang === 'ar' ? 'خدمات الورشة 🛠️' : 'Services de l’atelier 🛠️'
-        };
-        Object.entries(ctaMap).forEach(([sel, txt]) => {
-            const el = document.querySelector(sel);
-            if (el) el.textContent = txt;
-        });
+    // Experience badge
+    document.querySelector('.experience-badge').textContent = lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
 
-        // Radio button
-        if (radioBtn) {
-            radioBtn.textContent = radio.paused
-                ? (lang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio')
-                : (lang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio');
-        }
+    // Toggle button
+    toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
+
+    // CTA buttons (اللي عندك موجودة + تأكيد)
+    const ctaMap = {
+        '.btn-download': lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger les programmes 📥',
+        '.btn-store'   : lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒',
+        '.btn-whatsapp': lang === 'ar' ? 'واتساب 📱' : 'WhatsApp 📱',
+        '.btn-maps'    : lang === 'ar' ? 'موقعنا على مابس 📍' : 'Google Maps 📍',
+        '.btn-gallery' : lang === 'ar' ? 'شاهد الصور 🖼️' : 'Voir les photos 🖼️',
+        '.btn-video'   : lang === 'ar' ? 'شاهد الفيديو 🎥' : 'Voir les vidéos 🎥',
+        '.btn-services': lang === 'ar' ? 'خدمات الورشة 🛠️' : 'Services de l’atelier 🛠️'
+    };
+    Object.entries(ctaMap).forEach(([sel, txt]) => {
+        const el = document.querySelector(sel);
+        if (el) el.textContent = txt;
+    });
+
+    // Radio button
+    if (radioBtn) {
+        radioBtn.textContent = radio.paused
+            ? (lang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻')
+            : (lang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻');
+    }
+
+    // Visite count (عدد الزوار)
+    if (visitEl) {
+        const total = visitEl.textContent.match(/\d+/)?.[0] || '0'; // نحافظ على الرقم
+        visitEl.textContent = lang === 'ar'
+            ? `عدد زوار الموقع: ${total}`
+            : `Nombre de visiteurs : ${total}`;
+    }
+
+    // Rating title
+    document.getElementById('rating-title').textContent =
+        lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
+
+    // Services du jour
+    document.querySelector('.services-today h2').textContent =
+        lang === 'ar' ? "خدمات اليوم" : "Services du jour";
+
+    // Vidéo du jour
+    document.querySelector('.videos-today h2').textContent =
+        lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
+
+    // Réparation postes soudure
+    document.querySelector('#postesSection h2').textContent =
+        lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
+
+    // FAQ (اللي عندك موجودة، خليها زي ما هي)
+
+    startNewsRotation();
+    updateTime();
+    updateEqualizerVisibility();
+}
 
         // Rebuild FAQ + re-attach events
         if (faqContainer) {

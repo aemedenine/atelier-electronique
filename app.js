@@ -293,112 +293,151 @@ document.addEventListener('DOMContentLoaded', () => {
             lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
     }
 
-/* ==========================================================================
-   Rating Stars - Version Pro, Blanc, Smaller Size & Balanced
-   ========================================================================== */
-.rating-container {
-  margin: 40px auto;                    /* صغّرنا المارجن شوية */
-  text-align: center;
-  background: #ffffff;                  /* blanc زي بوكس الطقس */
-  backdrop-filter: blur(8px);           /* نفس التأثير اللي في الطقس */
-  border-radius: 15px;
-  padding: 20px;                        /* صغّرنا البادينغ */
-  box-shadow: 0 0 20px #409eff;         /* نفس الشادو اللي في الطقس */
-  max-width: 380px;                     /* أصغر من بوكس الطقس (420px) */
-  color: #282c34;                       /* لون نص داكن على blanc */
+// ── Rating System: مرة واحدة فقط لكل حساب Google (من أي جهاز) ──────────
+const stars = document.querySelectorAll('.stars-horizontal span');
+const ratingValue = document.getElementById('rating-value');
+const ratingMessage = document.getElementById('rating-message');
+const avgStarsEl = document.getElementById('avg-stars');
+const voteCountEl = document.getElementById('vote-count');
+const breakdownEl = document.getElementById('rating-breakdown');
+
+let currentUserRating = 0;
+
+// مرجع Firebase
+const ratingsRef = firebase.database().ref('ratings');
+const userRatingsRef = firebase.database().ref('userRatings');
+
+// تحميل المتوسط + Breakdown
+function loadRatings() {
+    ratingsRef.on('value', snapshot => {
+        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
+
+        avgStarsEl.textContent = avg;
+        voteCountEl.textContent = data.count;
+
+        let html = '';
+        for (let i = 5; i >= 1; i--) {
+            const count = data.breakdown?.[i] || 0;
+            html += `
+                <div>
+                    <span class="stars">${'★'.repeat(i)}</span>
+                    <span class="count">${count} صوت</span>
+                </div>
+            `;
+        }
+        breakdownEl.innerHTML = html;
+    });
 }
 
-.rating-title {
-  font-size: 1.3rem;                    /* صغّرنا العنوان */
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: #409eff;
+// تحديث عرض النجوم
+function updateStars(rating) {
+    stars.forEach(star => {
+        const val = Number(star.dataset.value);
+        star.classList.toggle('selected', val <= rating);
+        star.textContent = val <= rating ? '★' : '☆';
+    });
+    ratingValue.textContent = `${rating}/5`;
 }
 
-.stars-horizontal {
-  display: flex;
-  justify-content: center;
-  gap: 10px;                            /* مسافة أقل بين النجوم */
+// التحقق من تقييم المستخدم الحالي (يشتغل حتى بعد refresh أو جهاز آخر)
+function checkUserRating(user) {
+    if (!user) {
+        updateStars(0);
+        ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+        ratingMessage.classList.add('show');
+        stars.forEach(s => s.style.pointerEvents = 'none'); // معطل
+        return;
+    }
+
+    const uid = user.uid;
+    userRatingsRef.child(uid).once('value').then(snap => {
+        if (snap.exists()) {
+            const data = snap.val();
+            currentUserRating = data.rating;
+            updateStars(currentUserRating);
+            ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+            ratingMessage.classList.add('show');
+            stars.forEach(s => s.style.pointerEvents = 'none'); // ممنوع يعدل
+        } else {
+            currentUserRating = 0;
+            updateStars(0);
+            stars.forEach(s => s.style.pointerEvents = 'auto'); // يقدر يقيم
+        }
+    });
 }
 
-.stars-horizontal span {
-  font-size: 2.6rem;                    /* النجوم أصغر (كان 3.4rem) */
-  cursor: pointer;
-  color: #777;                          /* رمادي متوسط على blanc */
-  transition: all 0.35s ease;
-}
+// عند تغيير حالة الدخول (أو refresh)
+auth.onAuthStateChanged(user => {
+    checkUserRating(user);
+});
 
-.stars-horizontal span:hover {
-  color: #ffca28;
-  transform: scale(1.25);
-  text-shadow: 0 0 12px rgba(255,202,40,0.6);
-}
+// Hover (فقط إذا ما قيمش بعد)
+stars.forEach(star => {
+    const val = Number(star.dataset.value);
 
-.stars-horizontal span.selected {
-  color: #ffca28;
-  text-shadow: 0 0 10px rgba(255,202,40,0.5);
-  transform: scale(1.12);
-}
+    star.addEventListener('mouseover', () => {
+        if (auth.currentUser && currentUserRating === 0) {
+            stars.forEach(s => {
+                const sVal = Number(s.dataset.value);
+                s.classList.toggle('selected', sVal <= val);
+                s.textContent = sVal <= val ? '★' : '☆';
+            });
+        }
+    });
 
-#rating-value {
-  margin: 15px 0;
-  font-size: 1.8rem;                    /* صغّرنا الرقم */
-  font-weight: 800;
-  color: #ffca28;
-}
+    star.addEventListener('mouseout', () => {
+        if (auth.currentUser && currentUserRating === 0) {
+            updateStars(0);
+        }
+    });
 
-#rating-average {
-  color: #555;
-  font-size: 1rem;
-  margin: 12px 0;
-}
+    star.addEventListener('click', () => {
+        if (!auth.currentUser) {
+            alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
+            document.getElementById('btn-google')?.click();
+            return;
+        }
 
-#avg-stars {
-  color: #ffca28;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
+        if (currentUserRating > 0) {
+            ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
+            ratingMessage.classList.add('show');
+            return;
+        }
 
-#vote-count {
-  color: #409eff;
-  font-weight: bold;
-}
+        const uid = auth.currentUser.uid;
+        const name = auth.currentUser.displayName || 'مجهول';
 
-/* Breakdown (عدد الأصوات لكل نجمة) */
-.rating-breakdown {
-  margin-top: 15px;
-  font-size: 0.95rem;
-  color: #666;
-  text-align: right;
-}
+        // حفظ تقييم المستخدم (مرة واحدة)
+        userRatingsRef.child(uid).set({
+            rating: val,
+            name: name,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
 
-.rating-breakdown div {
-  margin: 6px 0;
-  display: flex;
-  justify-content: space-between;
-}
+        // تحديث الإجمالي + breakdown
+        ratingsRef.transaction(current => {
+            const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+            data.sum += val;
+            data.count += 1;
+            data.breakdown[val] = (data.breakdown[val] || 0) + 1;
+            return data;
+        });
 
-.rating-breakdown .stars {
-  color: #ffca28;
-  font-size: 1.1rem;
-}
+        currentUserRating = val;
+        updateStars(val);
 
-.rating-breakdown .count {
-  color: #409eff;
-}
+        ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
+        ratingMessage.classList.add('show');
+        setTimeout(() => ratingMessage.classList.remove('show'), 8000);
 
-/* رسالة شكر */
-.rating-message {
-  margin-top: 15px;
-  font-size: 1.05rem;
-  color: #409eff;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
+        // تعطيل النجوم نهائياً لهذا المستخدم
+        stars.forEach(s => s.style.pointerEvents = 'none');
+    });
+});
 
-.rating-message.show {
-  opacity: 1;
-}
+// تحميل البيانات الأولية
+loadRatings();
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {

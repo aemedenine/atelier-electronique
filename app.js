@@ -1,540 +1,697 @@
-// ==========================================================================
-// Firebase Configuration & Initialization
-// ==========================================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
-    authDomain: "atelier-electronique-mednine.firebaseapp.com",
-    projectId: "atelier-electronique-mednine",
-    storageBucket: "atelier-electronique-mednine.firebasestorage.app",
-    messagingSenderId: "547430908384",
-    appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
-};
-firebase.initializeApp(firebaseConfig);
-const analytics = firebase.analytics();
-const auth = firebase.auth();
-// Garder la session même après refresh/fermeture
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(() => console.log("🔒 Session persistente activée"))
-    .catch(error => console.error("Erreur persistence:", error));
+/* ==========================================================================
+   Base & Reset
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-// Variables globales
-let currentLanguage = 'ar';
+html, body {
+  font-family: 'Montserrat', 'Open Sans', sans-serif;
+  background: linear-gradient(135deg, #fdfdfd 0%, #1b263b 100%);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  direction: rtl;
+  text-align: right;
+  line-height: 1.6;
+  font-size: 16px;
+}
 
-// All client logic: UI, language toggle, news, time, visits, radio, equalizer, FAQ
-document.addEventListener('DOMContentLoaded', () => {
-  // language initial based on html lang attribute
-  let currentLang = document.documentElement.lang && document.documentElement.lang.startsWith('ar') ? 'ar' : 'fr';
-  // Elements
-  const ticker = document.getElementById('live-news');
-  const toggleBtn = document.getElementById('toggle-lang-btn');
-  const timeEl = document.getElementById('current-time');
-  const faqContainer = document.querySelector('.faq');
-  const radio = document.getElementById('radio-stream');
-  const radioBtn = document.getElementById('radio-btn');
-  const equalizer = document.getElementById('equalizer');
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
 
-  /* -------------------- Time -------------------- */
-  function updateTime() {
-    const now = new Date();
-    const daysAr = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-    const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-    const daysFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-    const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    let day, month;
-    if(currentLang === 'ar'){
-      day = daysAr[now.getDay()];
-      month = monthsAr[now.getMonth()];
-    } else {
-      day = daysFr[now.getDay()];
-      month = monthsFr[now.getMonth()];
-    }
-    const date = now.getDate();
-    const hours = now.getHours().toString().padStart(2,'0');
-    const minutes = now.getMinutes().toString().padStart(2,'0');
-    const seconds = now.getSeconds().toString().padStart(2,'0');
-    const timeStr = `${hours}:${minutes}:${seconds}`;
-    const dateStr = currentLang === 'ar'
-      ? `${day}، ${date} ${month}`
-      : `${day}, ${date} ${month}`;
-    timeEl.textContent = `${dateStr} - ${timeStr}`;
-  }
+/* ==========================================================================
+   Header
+   ========================================================================== */
+header {
+  position: relative;
+  background: #fdfdfd;
+  padding: 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  margin-bottom: 15px;
+}
 
-  /* -------------------- News rotation -------------------- */
-  const newsAr = [
-    "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-    "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-    "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-    "📱 تواصل معنا عبر واتساب لأي استفسار."
-  ];
-  const newsFr = [
-    "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
-    "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
-    "🌍 Livraison par courrier disponible dans toute la Tunisie.",
-    "📱 Contactez-nous via WhatsApp pour toute question."
-  ];
-  let newsIndex = 0;
-  let newsInterval = null;
-  function updateNews() {
-    const news = currentLang === 'ar' ? newsAr : newsFr;
-    ticker.classList.remove('fade');
-    void ticker.offsetWidth; // force reflow
-    ticker.textContent = news[newsIndex];
-    ticker.classList.add('fade');
-    newsIndex = (newsIndex + 1) % news.length;
-  }
-  function startNewsRotation() {
-    if (newsInterval) clearInterval(newsInterval);
-    updateNews();
-    newsInterval = setInterval(updateNews, 5000);
-  }
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  text-align: center;
+  padding: 30px 0;
+}
 
-  /* -------------------- FAQ -------------------- */
-  function initFAQ() {
-    const items = document.querySelectorAll('.faq-item');
-    items.forEach(item => {
-      item.addEventListener('click', () => {
-        item.classList.toggle('open');
-      });
-    });
-  }
+.logo {
+  width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #1e90ff;
+}
 
-  /* -------------------- Equalizer visibility -------------------- */
-  function updateEqualizerVisibility() {
-    if (!equalizer) return;
-    if (radio.paused) {
-      equalizer.style.opacity = '0.25';
-      equalizer.style.pointerEvents = 'none';
-    } else {
-      equalizer.style.opacity = '1';
-      equalizer.style.pointerEvents = 'auto';
-    }
-  }
+header h1 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #1e90ff;
+  flex-grow: 1;
+  position: relative;
+  z-index: 10;
+  display: inline-block;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
 
-  /* -------------------- Radio controls -------------------- */
-  radioBtn.addEventListener('click', () => {
-    if (radio.paused) {
-      radio.play().catch(e => console.warn('Radio play failed:', e));
-      radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
-    } else {
-      radio.pause();
-      radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
-    }
-    updateEqualizerVisibility();
-  });
-  radio.addEventListener('play', updateEqualizerVisibility);
-  radio.addEventListener('pause', updateEqualizerVisibility);
+/* PCB Canvas Background في الـ Header */
+#pcbCanvasHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
 
-  /* -------------------- Language toggle -------------------- */
-  function setLanguage(lang) {
-    currentLang = lang;
-    if (lang === 'ar') {
-      document.documentElement.lang = 'ar';
-      document.documentElement.dir = 'rtl';
-      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-      document.querySelector('.experience-badge').textContent = 'أكثر من 10 سنوات خبرة';
-      toggleBtn.textContent = 'تبديل اللغة';
-      document.querySelector('.btn-download').textContent = 'تحميل البرامج 📥';
-      document.querySelector('.btn-store').textContent = ' َسوّق الآن 🛒';
-      document.querySelector('.btn-whatsapp').textContent = 'واتساب 📱';
-      document.querySelector('.btn-maps').textContent = 'موقعنا على مابس 📍';
-      document.querySelector('.btn-gallery').textContent = 'شاهد الصور 🖼️';
-      document.querySelector('.btn-video').textContent = 'شاهد الفيديو 🎥';
-      document.querySelector('.btn-services').textContent = 'خدمات الورشة 🛠️';
-      radioBtn.textContent = radio.paused ? 'شغّل الراديو' : 'أوقف الراديو 📻';
-      faqContainer.innerHTML = `
-        <h2>الأسئلة الشائعة</h2>
-        <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div></div>
-        <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div></div>
-        <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div></div>
-        <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div></div>
-      `;
-    } else {
-      document.documentElement.lang = 'fr';
-      document.documentElement.dir = 'ltr';
-      document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
-      document.querySelector('.experience-badge').textContent = 'Plus de 10 ans d\'expérience';
-      toggleBtn.textContent = 'Changer la langue';
-      document.querySelector('.btn-download').textContent = 'download 📥';
-      document.querySelector('.btn-store').textContent = 'store 🛒';
-      document.querySelector('.btn-whatsapp').textContent = 'WhatsApp 📱';
-      document.querySelector('.btn-maps').textContent = 'Google Maps 📍';
-      document.querySelector('.btn-gallery').textContent = 'Voir les photos 🖼️';
-      document.querySelector('.btn-video').textContent = 'Voir les vidéos 🎥';
-      document.querySelector('.btn-services').textContent = 'Services 🛠️';
-      radioBtn.textContent = radio.paused ? 'Écouter la radio' : 'Arrêter la radio 📻';
-      faqContainer.innerHTML = `<h2>FAQ</h2>
-        <div class="faq-item"><h3>Comment puis-je envoyer un appareil pour réparation ?</h3><div class="answer">Vous pouvez envoyer l'appareil par courrier à l'atelier ou nous contacter pour organiser la collecte.</div></div>
-        <div class="faq-item"><h3>Quel est le délai moyen de réparation ?</h3><div class="answer">Le délai dépend du type de panne, mais généralement pas plus de 3 jours ouvrables.</div></div>
-        <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine et de haute qualité pour tous les appareils.</div></div>
-        <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons des photos et vidéos de l'état de l'appareil pendant la réparation via WhatsApp.</div></div>`;
-    }
-    startNewsRotation();
-    updateTime();
-    initFAQ();
-    updateEqualizerVisibility();
-  }
-  toggleBtn.addEventListener('click', () => {
-    setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
-  });
+.header-inner img.logo,
+.header-inner h1 {
+  position: relative;
+  z-index: 10;
+}
 
-  /* -------------------- Initialization -------------------- */
-  setInterval(updateTime, 1000);
-  updateTime();
-  startNewsRotation();
-  initFAQ();
-  updateEqualizerVisibility();
+/* PCB Animation خلف اللوجو */
+.logo-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(45deg, rgba(0,255,255,0.15) 0, rgba(0,255,255,0.15) 1px, transparent 1px, transparent 8px),
+    repeating-linear-gradient(-45deg, rgba(255,107,53,0.12) 0, rgba(255,107,53,0.12) 1px, transparent 1px, transparent 10px);
+  opacity: 0.6;
+  animation: pcbMove 12s linear infinite;
+  z-index: -2;
+}
 
-  /* -------------------- Visitors Counter (Firebase Realtime) -------------------- */
-  const db = firebase.database();
-  const visitsRef = db.ref('visits');
+@keyframes pcbMove {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
-  // Incrémenter seulement une fois par session (pas à chaque refresh)
-  if (!sessionStorage.getItem('hasVisited')) {
-    visitsRef.transaction(current => (current || 0) + 1)
-      .then(() => {
-        console.log("زيارة جديدة تم تسجيلها");
-        sessionStorage.setItem('hasVisited', 'true');
-      })
-      .catch(err => console.error("Erreur incrément visits:", err));
-  }
+/* ==========================================================================
+   News Ticker
+   ========================================================================== */
+.news-ticker {
+  width: 100%;
+  overflow: hidden;
+  background: #0a1e3d;
+  color: white;
+  white-space: nowrap;
+  font-weight: 700;
+  padding: 10px 0;
+  margin-bottom: 25px;
+  font-size: 1rem;
+  text-align: center;
+}
 
-  // Affichage en temps réel
-  visitsRef.on('value', snapshot => {
-    const total = snapshot.val() || 0;
-    const visitEl = document.getElementById('visit-count');
-    if (visitEl) {
-      visitEl.textContent = currentLanguage === 'ar'
-        ? `عدد زوار الموقع: ${total}`
-        : `Nombre de visiteurs : ${total}`;
-    }
-  });
+.news-text {
+  display: inline-block;
+  padding: 0 12px;
+  min-height: 1.2em;
+  transition: opacity 0.4s ease;
+  opacity: 1;
+}
 
-  /* -------------------- Firebase (reactions/comments) -------------------- */
-  try {
-    const secondaryConfig = {
-      apiKey: "AIzaSyD5Hrfk6tU22ITquRR3xt957WmlnvPTw5M",
-      authDomain: "aem-site-4e030.firebaseapp.com",
-      projectId: "aem-site-4e030",
-      storageBucket: "aem-site-4e030.firebasestorage.app",
-      messagingSenderId: "241838556898",
-      appId: "1:241838556898:web:9eb591e3d05405894800bb",
-      measurementId: "G-DTNBCK5H1F"
-    };
-    firebase.initializeApp(secondaryConfig, "secondary");
-    const secondaryDb = firebase.firestore(firebase.app("secondary"));
-    document.querySelectorAll('.react-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const reaction = btn.dataset.reaction;
-        const mediaId = btn.closest('.reactions')?.dataset.id;
-        if (!mediaId) return;
-        secondaryDb.collection("reactions").add({ mediaId, reaction, timestamp: new Date() });
-      });
-    });
-    document.querySelectorAll('.comment-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const parent = btn.closest('.reactions');
-        if (!parent) return;
-        const commentInput = parent.querySelector('.comment-input');
-        const mediaId = parent.dataset.id;
-        const comment = commentInput?.value.trim();
-        if (comment) {
-          secondaryDb.collection("comments").add({ mediaId, comment, timestamp: new Date() });
-          if (commentInput) commentInput.value = '';
-        }
-      });
-    });
-  } catch (e) {
-    console.warn('Firebase secondary init skipped or failed:', e);
-  }
+.news-text.fade { animation: fade 0.45s linear; }
 
-  // ── Authentification Google ───────────────────────────────────────
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      document.getElementById('user-info').style.display = 'block';
-      document.getElementById('login-popup').style.display = 'none';
-      document.getElementById('user-name').textContent = user.displayName || "مستخدم";
-    } else {
-      document.getElementById('user-info').style.display = 'none';
-      document.getElementById('login-popup').style.display = 'flex';
-    }
-  });
-  document.getElementById('btn-google')?.addEventListener('click', () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-      .then(result => {
-        document.getElementById('user-name').textContent = result.user.displayName;
-        document.getElementById('user-info').style.display = 'block';
-        document.getElementById('login-popup').style.display = 'none';
-      })
-      .catch(console.error);
-  });
-  document.getElementById('btn-close-popup')?.addEventListener('click', () => {
-    document.getElementById('login-popup').style.display = 'none';
-  });
-  document.getElementById('btn-signout')?.addEventListener('click', () => {
-    auth.signOut().then(() => {
-      document.getElementById('user-info').style.display = 'none';
-      alert('تم تسجيل الخروج بنجاح');
-    }).catch(console.error);
-  });
+@keyframes fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  // ── Weather API ───────────────────────────────────────────────────
-  function updateWeather(lang) {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-      .then(res => res.json())
-      .then(data => {
-        const temp = data.current_weather.temperature + "°C";
-        const wind = data.current_weather.windspeed + (lang === 'fr' ? " km/h" : " كم/س");
-        document.getElementById("weather-temp").textContent = temp;
-        document.getElementById("weather-desc").textContent =
-          lang === 'ar' ? "🌬️ سرعة الرياح: " + wind : "🌬️ Vitesse du vent: " + wind;
-      })
-      .catch(() => {
-        document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
-      });
-  }
+/* ==========================================================================
+   Info Bar
+   ========================================================================== */
+.info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  color: #282c34;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-  // ── Prayer Times ──────────────────────────────────────────────────
-  function updatePrayerTimes() {
-    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
-      .then(res => res.json())
-      .then(data => {
-        const times = data.data.timings;
-        document.getElementById("prayer-times").innerHTML = `
-          <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
-          <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
-          <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
-          <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
-          <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
-          <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-        `;
-      })
-      .catch(err => console.error("Erreur prayer times:", err));
-  }
+#toggle-lang-btn {
+  background: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  color: #3a3a3a;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  // ── Language Toggle & Translations ────────────────────────────────
-  function updateLanguageTexts(lang) {
-    document.querySelector('.services-today h2').textContent =
-      lang === 'ar' ? "خدمات اليوم" : "Services du jour";
-    document.querySelector('.videos-today h2').textContent =
-      lang === 'ar' ? "فيديو اليوم" : "Vidéo du jour";
-    document.querySelector('#postesSection h2').textContent =
-      lang === 'ar' ? "تصليح ماكينات لحام" : "Réparation postes soudure";
-    document.getElementById('rating-title').textContent =
-      lang === 'ar' ? 'قيم الورشة:' : 'Évaluez l’atelier :';
-  }
-  document.getElementById('toggle-lang-btn')?.addEventListener('click', () => {
-    currentLanguage = currentLanguage === 'ar' ? 'fr' : 'ar';
-    updateWeather(currentLanguage);
-    updateLanguageTexts(currentLanguage);
-  });
+#toggle-lang-btn:hover {
+  background: #409eff;
+  color: white;
+}
 
-  // Initialisation
-  updateWeather(currentLanguage);
-  updatePrayerTimes();
-  updateLanguageTexts(currentLanguage);
+/* ==========================================================================
+   CTA Buttons
+   ========================================================================== */
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
 
-  // ── Rating Stars ──────────────────────────────────────────────────
-  const stars = document.querySelectorAll('.stars-horizontal span');
-  const ratingValue = document.getElementById('rating-value');
-  let selectedRating = parseInt(localStorage.getItem('workshopRating')) || 0;
-  function updateStars(rating) {
-    stars.forEach(star => {
-      const val = Number(star.dataset.value);
-      star.classList.toggle('selected', val <= rating);
-      star.textContent = val <= rating ? '★' : '☆';
-    });
-    ratingValue.textContent = `${rating}/5`;
-    ratingValue.style.color = rating > 0 ? '#0a3af0' : '#fff';
-  }
-  updateStars(selectedRating);
-  stars.forEach(star => {
-    const val = Number(star.dataset.value);
-    star.addEventListener('mouseover', () => {
-      stars.forEach(s => s.classList.toggle('hover', Number(s.dataset.value) <= val));
-    });
-    star.addEventListener('mouseout', () => {
-      stars.forEach(s => s.classList.remove('hover'));
-      updateStars(selectedRating);
-    });
-    star.addEventListener('click', () => {
-      selectedRating = val;
-      localStorage.setItem('workshopRating', selectedRating);
-      updateStars(selectedRating);
-    });
-  });
+.cta-buttons a,
+.cta-buttons button {
+  background: #fff;
+  color: #3a3a3a;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  min-width: 140px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(30,144,255,0.7);
+}
 
-  // ── PCB Animated Header ───────────────────────────────────────────
-  const canvas = document.getElementById('pcbCanvasHeader');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      canvas.width = canvas.parentElement.offsetWidth;
-      canvas.height = canvas.parentElement.offsetHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    const traces = [];
-    for (let i = 0; i < 50; i++) {
-      traces.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        length: 50 + Math.random() * 150,
-        speed: 0.5 + Math.random() * 1.5,
-        color: 'rgba(0,255,255,0.5)',
-        particles: Array.from({length: 5}, () => ({
-          offset: Math.random() * 200,
-          speed: 1 + Math.random() * 2,
-          size: 2 + Math.random() * 2
-        }))
-      });
-    }
-    let mouseX = -1000, mouseY = -1000;
-    window.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-    function animatePCB() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      traces.forEach(t => {
-        const dx = t.x + t.length/2 - mouseX;
-        const dy = t.y - mouseY;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        const multiplier = dist < 200 ? 3 : 1;
-        ctx.beginPath();
-        ctx.moveTo(t.x, t.y);
-        ctx.lineTo(t.x + t.length, t.y);
-        ctx.strokeStyle = t.color;
-        ctx.lineWidth = 2;
-        ctx.shadowColor = '#0a3af0';
-        ctx.shadowBlur = 10;
-        ctx.stroke();
-        t.particles.forEach(p => {
-          const px = t.x + p.offset;
-          const py = t.y;
-          ctx.beginPath();
-          ctx.arc(px, py, p.size, 0, Math.PI*2);
-          ctx.fillStyle = '#0a3af0';
-          ctx.shadowColor = '#0a3af0';
-          ctx.shadowBlur = 10;
-          ctx.fill();
-          p.offset += p.speed * multiplier;
-          if (p.offset > t.length) p.offset = 0;
-        });
-        t.x += t.speed * multiplier;
-        if (t.x > canvas.width) t.x = -t.length;
-      });
-      requestAnimationFrame(animatePCB);
-    }
-    animatePCB();
-  }
+.cta-buttons a:hover,
+.cta-buttons button:hover {
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  transform: translateY(-3px);
+}
 
-  // ── Horizontal Sliders Drag ───────────────────────────────────────
-  function enableDragScroll(sliderId) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
-    let isDown = false;
-    let startX, scrollLeft;
-    slider.addEventListener('mousedown', e => {
-      isDown = true;
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-      slider.style.cursor = 'grabbing';
-    });
-    slider.addEventListener('mouseleave', () => {
-      isDown = false;
-      slider.style.cursor = 'grab';
-    });
-    slider.addEventListener('mouseup', () => {
-      isDown = false;
-      slider.style.cursor = 'grab';
-    });
-    slider.addEventListener('mousemove', e => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      slider.scrollLeft = scrollLeft - walk;
-    });
-  }
-  enableDragScroll('servicesSlider');
-  enableDragScroll('videoSlider');
+.btn-store {
+  background: #fff !important;
+  color: #3a3a3a !important;
+  padding: 14px 25px;
+  min-width: 160px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
 
-  // ── Video hover play/pause ────────────────────────────────────────
-  document.querySelectorAll('.video-card video').forEach(video => {
-    video.addEventListener('mouseenter', () => video.play().catch(() => {}));
-    video.addEventListener('mouseleave', () => {
-      video.pause();
-      video.currentTime = 0;
-    });
-  });
+.btn-store:hover {
+  background: #3a3a3a !important;
+  color: white !important;
+}
 
-  // ── Fullscreen Media Viewer ───────────────────────────────────────
-  const mediaViewer = document.getElementById('mediaViewer');
-  const viewerImg = document.getElementById('viewerImg');
-  const viewerVideo = document.getElementById('viewerVideo');
-  const closeBtn = mediaViewer?.querySelector('.close-btn');
-  document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
-    el.style.cursor = 'pointer';
-    el.addEventListener('click', () => {
-      mediaViewer.style.display = 'flex';
-      if (el.tagName === 'IMG') {
-        viewerImg.src = el.src;
-        viewerImg.style.display = 'block';
-        viewerVideo.style.display = 'none';
-        viewerVideo.pause();
-      } else if (el.tagName === 'VIDEO') {
-        viewerVideo.src = el.src;
-        viewerVideo.style.display = 'block';
-        viewerImg.style.display = 'none';
-        viewerVideo.play();
-      }
-    });
-  });
-  closeBtn?.addEventListener('click', () => {
-    mediaViewer.style.display = 'none';
-    viewerVideo.pause();
-    viewerVideo.currentTime = 0;
-  });
+/* ==========================================================================
+   Experience Badge (متحرك)
+   ========================================================================== */
+.experience-badge {
+  display: block;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: yellow;
+  margin: 30px auto;
+  padding: 12px 0;
+  width: 250px;
+  background: none;
+  border-radius: 50px;
+  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
+}
 
-  // ── CMP Cookie Banner ─────────────────────────────────────────────
-  const cmpBanner = document.getElementById('cmp-banner');
-  const consentAllow = document.getElementById('consent-allow');
-  const consentManage = document.getElementById('consent-manage');
-  if (!localStorage.getItem('cmpConsent')) {
-    cmpBanner.style.display = 'block';
-  }
-  consentAllow?.addEventListener('click', () => {
-    localStorage.setItem('cmpConsent', 'granted');
-    cmpBanner.style.display = 'none';
-  });
-  consentManage?.addEventListener('click', () => {
-    alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
-  });
+@keyframes glowExperience {
+  0%   { color: yellow;   text-shadow: 0 0 5px yellow; }
+  25%  { color: red;      text-shadow: 0 0 8px red; }
+  50%  { color: cyan;     text-shadow: 0 0 10px cyan; }
+  75%  { color: magenta;  text-shadow: 0 0 12px magenta; }
+  100% { color: yellow;   text-shadow: 0 0 15px yellow; }
+}
 
-  // ── Site Name Animation ───────────────────────────────────────────
-  const siteName = document.getElementById('site-name');
-  const texts = ["Atelier Electronique Médenine", "إلكترونيك الرحماني"];
-  setInterval(() => {
-    const randomIndex = Math.floor(Math.random() * texts.length);
-    siteName.textContent = texts[randomIndex];
-    siteName.style.color = '#ff6b35';
-    siteName.style.textShadow = '0 0 10px #e0a800';
-    siteName.style.transform = 'scale(1.2)';
-    setTimeout(() => {
-      siteName.style.color = '';
-      siteName.style.textShadow = '';
-      siteName.style.transform = '';
-    }, 1000);
-  }, 4000);
+@keyframes floatExperience {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
-  // ── Radio Button Dance ────────────────────────────────────────────
-  radioBtn?.addEventListener('click', () => {
-    radioBtn.classList.toggle('dance');
-  });
+/* ==========================================================================
+   Weather & Prayer Times Box
+   ========================================================================== */
+.weather-box {
+  margin: 40px auto 10px;
+  padding: 20px;
+  max-width: 420px;
+  background: #ffffff;
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  text-align: center;
+  color: #282c34;
+  box-shadow: 0 0 20px #409eff;
+}
 
-  // ── Daily Featured Items Rotation (إذا كنت تستعملها) ───────────────
-  // إذا ما زلت تستعمل initDailyRotation، ضيفها هنا أو قلي باش نرجعها
+.weather-box h3 { margin-bottom: 10px; color: #222; }
+.weather-temp { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
+.weather-desc { font-size: 1.1rem; opacity: 0.9; }
 
-  console.log("app.js chargé avec succès !");
-});
+.prayer-times p {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+  font-size: 1rem;
+  color: #282c34;
+}
+
+.prayer-times p .time { font-weight: bold; }
+
+/* ==========================================================================
+   Rating Stars (Horizontal)
+   ========================================================================== */
+.rating-container {
+  margin: 40px auto;
+  text-align: center;
+  color: #fff;
+}
+
+.stars-horizontal span {
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
+  margin: 0 5px;
+  display: inline-block;
+}
+
+.stars-horizontal span.selected {
+  color: #005aff;
+  text-shadow: 0 0 8px #409eff;
+}
+
+.stars-horizontal span.hover {
+  color: gold;
+  text-shadow: 0 0 8px gold;
+  transform: scale(1.4) translateY(-5px);
+}
+
+#rating-value {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
+}
+
+/* ==========================================================================
+   FAQ Section
+   ========================================================================== */
+.faq {
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+}
+
+.faq h2 {
+  color: #282c34;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.faq-item {
+  background: #ffffff;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 8px #409eff;
+}
+
+.faq-item h3 {
+  font-weight: 700;
+  position: relative;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+.faq-item h3::after {
+  content: "+";
+  position: absolute;
+  left: 20px;
+  top: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ff6b35;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.open h3::after {
+  content: "-";
+  transform: rotate(180deg);
+}
+
+.answer {
+  margin-top: 12px;
+  font-weight: 400;
+  color: #000;
+  display: none;
+  line-height: 1.5;
+}
+
+.faq-item.open .answer { display: block; }
+
+/* ==========================================================================
+   Equalizer Animation
+   ========================================================================== */
+.equalizer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  height: 40px;
+  align-items: flex-end;
+  transition: opacity 0.3s ease;
+}
+
+.equalizer .bar {
+  width: 6px;
+  background: #409eff47;
+  border-radius: 3px;
+  animation: bounce 1s infinite ease-in-out;
+  height: 8px;
+}
+
+.equalizer .bar:nth-child(1) { animation-delay: 0s; }
+.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
+.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
+.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
+.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 100% { height: 8px; }
+  50% { height: 36px; }
+}
+
+/* ==========================================================================
+   Services / Videos / Postes Sliders
+   ========================================================================== */
+.services-today h2,
+.videos-today h2,
+#postesSection h2 {
+  text-align: center;
+  color: #0a1e3d;
+  margin: 30px 0;
+  font-size: 1.8rem;
+  text-shadow: 0 0 5px #a9b7c6;
+}
+
+.services-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+  cursor: grab;
+  scroll-behavior: smooth;
+}
+
+.services-slider::-webkit-scrollbar { display: none; }
+
+.service-card {
+  min-width: 220px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover { transform: translateY(-8px); }
+
+.service-card img,
+.video-card video {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.video-card video {
+  height: 160px;
+  transition: transform 0.3s ease;
+}
+
+.video-card video:hover { transform: scale(1.05); }
+
+.service-card p.service-caption {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #282c34;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Fullscreen Media Viewer
+   ========================================================================== */
+#mediaViewer {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  flex-direction: column;
+}
+
+#mediaViewer img,
+#mediaViewer video {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px #0ff;
+}
+
+#mediaViewer .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2.5rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 100000;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 12px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+#mediaViewer .close-btn:hover {
+  background: rgba(255,0,0,0.7);
+  transform: scale(1.2);
+}
+
+/* ==========================================================================
+   Login Popup & User Info
+   ========================================================================== */
+#login-popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  flex-direction: column;
+}
+
+.login-popup .popup-content {
+  background: #111;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+  width: 300px;
+  max-width: 90%;
+  box-shadow: 0 0 20px #0ff;
+  animation: fadeIn 0.5s ease;
+}
+
+.login-popup h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.btn-google, .btn-close {
+  background: #0ff;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px 0;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+  background: #00cdd7;
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px #0ff;
+}
+
+.btn-close { background: #ff6b35; color: #fff; }
+.btn-close:hover { background: #e05520; }
+
+.user-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  backdrop-filter: blur(6px);
+  border: 2px solid #409eff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  max-width: 400px;
+  margin: 20px auto;
+  color: #282c34;
+  box-shadow: 0 0 15px #409eff;
+  transition: all 0.3s ease;
+}
+
+.user-box:hover {
+  background: #409effbd;
+  box-shadow: 0 0 20px #409eff;
+}
+
+.welcome-msg {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #282c34;
+  text-shadow: 0 0 6px #a9b7c6;
+}
+
+.btn-signout {
+  background: #409eff;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-signout:hover {
+  background: #e05520;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px #ff6b35;
+}
+
+/* ==========================================================================
+   Cookie Banner (CMP)
+   ========================================================================== */
+#cmp-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #409effbd;
+  color: #fff;
+  text-align: center;
+  padding: 15px 10px;
+  z-index: 9999;
+  font-size: 0.95rem;
+}
+
+#cmp-banner button {
+  background: #ff6b35;
+  border: none;
+  color: #fff;
+  padding: 8px 15px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer {
+  background: #f8f8f8;
+  color: #282c34;
+  padding: 25px 0;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
+}
+
+.footer-inner p { margin-bottom: 5px; }
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a {
+  margin: 0 12px;
+  display: inline-block;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.social-icons a:hover { opacity: 1; }
+
+.social-icons img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.8));
+}
+
+/* ==========================================================================
+   Radio Dance Animation
+   ========================================================================== */
+.dance {
+  animation: danceMove 0.5s infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes danceMove {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+/* ==========================================================================
+   General Animations
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 768px) {
+  .header-inner { flex-direction: column; text-align: center; gap: 10px; }
+  .info-bar { flex-direction: column; gap: 10px; }
+  .cta-buttons { flex-direction: column; align-items: center; }
+  .experience-badge { width: 90%; }
+  .faq { width: 90%; }
+}

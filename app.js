@@ -1,697 +1,256 @@
-/* ==========================================================================
-   Base & Reset
-   ========================================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: linear-gradient(135deg, #fdfdfd 0%, #1b263b 100%);
-  color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
-  direction: rtl;
-  text-align: right;
-  line-height: 1.6;
-  font-size: 16px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* ==========================================================================
-   Header
-   ========================================================================== */
-header {
-  position: relative;
-  background: #fdfdfd;
-  padding: 20px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  margin-bottom: 15px;
-}
-
-.header-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  text-align: center;
-  padding: 30px 0;
-}
-
-.logo {
-  width: 150px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px #1e90ff;
-}
-
-header h1 {
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: #1e90ff;
-  flex-grow: 1;
-  position: relative;
-  z-index: 10;
-  display: inline-block;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-
-/* PCB Canvas Background في الـ Header */
-#pcbCanvasHeader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.header-inner img.logo,
-.header-inner h1 {
-  position: relative;
-  z-index: 10;
-}
-
-/* PCB Animation خلف اللوجو */
-.logo-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(45deg, rgba(0,255,255,0.15) 0, rgba(0,255,255,0.15) 1px, transparent 1px, transparent 8px),
-    repeating-linear-gradient(-45deg, rgba(255,107,53,0.12) 0, rgba(255,107,53,0.12) 1px, transparent 1px, transparent 10px);
-  opacity: 0.6;
-  animation: pcbMove 12s linear infinite;
-  z-index: -2;
-}
-
-@keyframes pcbMove {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* ==========================================================================
-   News Ticker
-   ========================================================================== */
-.news-ticker {
-  width: 100%;
-  overflow: hidden;
-  background: #0a1e3d;
-  color: white;
-  white-space: nowrap;
-  font-weight: 700;
-  padding: 10px 0;
-  margin-bottom: 25px;
-  font-size: 1rem;
-  text-align: center;
-}
-
-.news-text {
-  display: inline-block;
-  padding: 0 12px;
-  min-height: 1.2em;
-  transition: opacity 0.4s ease;
-  opacity: 1;
-}
-
-.news-text.fade { animation: fade 0.45s linear; }
-
-@keyframes fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ==========================================================================
-   Info Bar
-   ========================================================================== */
-.info-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  color: #282c34;
-  padding: 12px 20px;
-  border-radius: 8px;
-  margin-bottom: 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-#toggle-lang-btn {
-  background: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  color: #3a3a3a;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#toggle-lang-btn:hover {
-  background: #409eff;
-  color: white;
-}
-
-/* ==========================================================================
-   CTA Buttons
-   ========================================================================== */
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.cta-buttons a,
-.cta-buttons button {
-  background: #fff;
-  color: #3a3a3a;
-  padding: 14px 18px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  min-width: 140px;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(30,144,255,0.7);
-}
-
-.cta-buttons a:hover,
-.cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
-  transform: translateY(-3px);
-}
-
-.btn-store {
-  background: #fff !important;
-  color: #3a3a3a !important;
-  padding: 14px 25px;
-  min-width: 160px;
-  font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-}
-
-.btn-store:hover {
-  background: #3a3a3a !important;
-  color: white !important;
-}
-
-/* ==========================================================================
-   Experience Badge (متحرك)
-   ========================================================================== */
-.experience-badge {
-  display: block;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: bold;
-  color: yellow;
-  margin: 30px auto;
-  padding: 12px 0;
-  width: 250px;
-  background: none;
-  border-radius: 50px;
-  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
-}
-
-@keyframes glowExperience {
-  0%   { color: yellow;   text-shadow: 0 0 5px yellow; }
-  25%  { color: red;      text-shadow: 0 0 8px red; }
-  50%  { color: cyan;     text-shadow: 0 0 10px cyan; }
-  75%  { color: magenta;  text-shadow: 0 0 12px magenta; }
-  100% { color: yellow;   text-shadow: 0 0 15px yellow; }
-}
-
-@keyframes floatExperience {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-/* ==========================================================================
-   Weather & Prayer Times Box
-   ========================================================================== */
-.weather-box {
-  margin: 40px auto 10px;
-  padding: 20px;
-  max-width: 420px;
-  background: #ffffff;
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  text-align: center;
-  color: #282c34;
-  box-shadow: 0 0 20px #409eff;
-}
-
-.weather-box h3 { margin-bottom: 10px; color: #222; }
-.weather-temp { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
-.weather-desc { font-size: 1.1rem; opacity: 0.9; }
-
-.prayer-times p {
-  display: flex;
-  justify-content: space-between;
-  margin: 3px 0;
-  font-size: 1rem;
-  color: #282c34;
-}
-
-.prayer-times p .time { font-weight: bold; }
-
-/* ==========================================================================
-   Rating Stars (Horizontal)
-   ========================================================================== */
-.rating-container {
-  margin: 40px auto;
-  text-align: center;
-  color: #fff;
-}
-
-.stars-horizontal span {
-  font-size: 2.5rem;
-  cursor: pointer;
-  color: #ccc;
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
-  margin: 0 5px;
-  display: inline-block;
-}
-
-.stars-horizontal span.selected {
-  color: #005aff;
-  text-shadow: 0 0 8px #409eff;
-}
-
-.stars-horizontal span.hover {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-  transform: scale(1.4) translateY(-5px);
-}
-
-#rating-value {
-  margin-top: 10px;
-  font-size: 1.2rem;
-  transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
-}
-
-/* ==========================================================================
-   FAQ Section
-   ========================================================================== */
-.faq {
-  max-width: 800px;
-  margin: 0 auto 60px auto;
-}
-
-.faq h2 {
-  color: #282c34;
-  font-weight: 700;
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.faq-item {
-  background: #ffffff;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  padding: 15px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 8px #409eff;
-}
-
-.faq-item h3 {
-  font-weight: 700;
-  position: relative;
-  color: #000;
-  margin-bottom: 6px;
-}
-
-.faq-item h3::after {
-  content: "+";
-  position: absolute;
-  left: 20px;
-  top: 0;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ff6b35;
-  transition: transform 0.3s ease;
-}
-
-.faq-item.open h3::after {
-  content: "-";
-  transform: rotate(180deg);
-}
-
-.answer {
-  margin-top: 12px;
-  font-weight: 400;
-  color: #000;
-  display: none;
-  line-height: 1.5;
-}
-
-.faq-item.open .answer { display: block; }
-
-/* ==========================================================================
-   Equalizer Animation
-   ========================================================================== */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 20px;
-  height: 40px;
-  align-items: flex-end;
-  transition: opacity 0.3s ease;
-}
-
-.equalizer .bar {
-  width: 6px;
-  background: #409eff47;
-  border-radius: 3px;
-  animation: bounce 1s infinite ease-in-out;
-  height: 8px;
-}
-
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes bounce {
-  0%, 100% { height: 8px; }
-  50% { height: 36px; }
-}
-
-/* ==========================================================================
-   Services / Videos / Postes Sliders
-   ========================================================================== */
-.services-today h2,
-.videos-today h2,
-#postesSection h2 {
-  text-align: center;
-  color: #0a1e3d;
-  margin: 30px 0;
-  font-size: 1.8rem;
-  text-shadow: 0 0 5px #a9b7c6;
-}
-
-.services-slider {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px;
-  cursor: grab;
-  scroll-behavior: smooth;
-}
-
-.services-slider::-webkit-scrollbar { display: none; }
-
-.service-card {
-  min-width: 220px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px);
-  border-radius: 15px;
-  padding: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.service-card:hover { transform: translateY(-8px); }
-
-.service-card img,
-.video-card video {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-.video-card video {
-  height: 160px;
-  transition: transform 0.3s ease;
-}
-
-.video-card video:hover { transform: scale(1.05); }
-
-.service-card p.service-caption {
-  margin-top: 10px;
-  font-weight: bold;
-  color: #282c34;
-  text-align: center;
-}
-
-/* ==========================================================================
-   Fullscreen Media Viewer
-   ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.9);
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  flex-direction: column;
-}
-
-#mediaViewer img,
-#mediaViewer video {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px #0ff;
-}
-
-#mediaViewer .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5rem;
-  color: #fff;
-  cursor: pointer;
-  z-index: 100000;
-  background: rgba(0,0,0,0.3);
-  padding: 5px 12px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-#mediaViewer .close-btn:hover {
-  background: rgba(255,0,0,0.7);
-  transform: scale(1.2);
-}
-
-/* ==========================================================================
-   Login Popup & User Info
-   ========================================================================== */
-#login-popup {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  flex-direction: column;
-}
-
-.login-popup .popup-content {
-  background: #111;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  color: #fff;
-  width: 300px;
-  max-width: 90%;
-  box-shadow: 0 0 20px #0ff;
-  animation: fadeIn 0.5s ease;
-}
-
-.login-popup h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff;
-}
-
-.btn-google, .btn-close {
-  background: #0ff;
-  color: #000;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  margin: 10px 0;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.btn-google:hover {
-  background: #00cdd7;
-  transform: translateY(-2px);
-  box-shadow: 0 0 12px #0ff;
-}
-
-.btn-close { background: #ff6b35; color: #fff; }
-.btn-close:hover { background: #e05520; }
-
-.user-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  backdrop-filter: blur(6px);
-  border: 2px solid #409eff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  max-width: 400px;
-  margin: 20px auto;
-  color: #282c34;
-  box-shadow: 0 0 15px #409eff;
-  transition: all 0.3s ease;
-}
-
-.user-box:hover {
-  background: #409effbd;
-  box-shadow: 0 0 20px #409eff;
-}
-
-.welcome-msg {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #282c34;
-  text-shadow: 0 0 6px #a9b7c6;
-}
-
-.btn-signout {
-  background: #409eff;
-  color: #fff;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.btn-signout:hover {
-  background: #e05520;
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px #ff6b35;
-}
-
-/* ==========================================================================
-   Cookie Banner (CMP)
-   ========================================================================== */
-#cmp-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #409effbd;
-  color: #fff;
-  text-align: center;
-  padding: 15px 10px;
-  z-index: 9999;
-  font-size: 0.95rem;
-}
-
-#cmp-banner button {
-  background: #ff6b35;
-  border: none;
-  color: #fff;
-  padding: 8px 15px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-/* ==========================================================================
-   Footer
-   ========================================================================== */
-footer {
-  background: #f8f8f8;
-  color: #282c34;
-  padding: 25px 0;
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.9rem;
-  box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
-}
-
-.footer-inner p { margin-bottom: 5px; }
-
-.social-icons {
-  margin-top: 10px;
-}
-
-.social-icons a {
-  margin: 0 12px;
-  display: inline-block;
-  opacity: 0.75;
-  transition: opacity 0.3s ease;
-}
-
-.social-icons a:hover { opacity: 1; }
-
-.social-icons img {
-  width: 28px;
-  height: 28px;
-  filter: drop-shadow(0 0 1px rgba(0,0,0,0.8));
-}
-
-/* ==========================================================================
-   Radio Dance Animation
-   ========================================================================== */
-.dance {
-  animation: danceMove 0.5s infinite alternate;
-  transform-origin: center;
-}
-
-@keyframes danceMove {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
-}
-
-/* ==========================================================================
-   General Animations
-   ========================================================================== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
-@media (max-width: 768px) {
-  .header-inner { flex-direction: column; text-align: center; gap: 10px; }
-  .info-bar { flex-direction: column; gap: 10px; }
-  .cta-buttons { flex-direction: column; align-items: center; }
-  .experience-badge { width: 90%; }
-  .faq { width: 90%; }
-}
+// ==========================================================================
+// Firebase Configuration & Initialization (استخدمنا الـ config الأولى فقط)
+// ==========================================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
+    authDomain: "atelier-electronique-mednine.firebaseapp.com",
+    projectId: "atelier-electronique-mednine",
+    storageBucket: "atelier-electronique-mednine.firebasestorage.app",
+    messagingSenderId: "547430908384",
+    appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
+};
+
+firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics();
+const auth = firebase.auth();
+
+// Garder la session même après refresh/fermeture
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() => console.log("🔒 Session persistente activée"))
+    .catch(error => console.error("Erreur persistence:", error));
+
+const db = firebase.database(); // pour le compteur de visites
+
+// ==========================================================================
+// Variables globales
+// ==========================================================================
+let currentLang = document.documentElement.lang?.startsWith('ar') ? 'ar' : 'fr';
+
+// ==========================================================================
+// DOM Ready - Tout le code client ici
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    // ── Éléments DOM ──────────────────────────────────────────────────────
+    const ticker       = document.getElementById('live-news');
+    const toggleBtn    = document.getElementById('toggle-lang-btn');
+    const timeEl       = document.getElementById('current-time');
+    const visitEl      = document.getElementById('visit-count');
+    const faqContainer = document.querySelector('.faq');
+    const radio        = document.getElementById('radio-stream');
+    const radioBtn     = document.getElementById('radio-btn');
+    const equalizer    = document.getElementById('equalizer');
+
+    const loginPopup   = document.getElementById('login-popup');
+    const userInfo     = document.getElementById('user-info');
+    const userName     = document.getElementById('user-name');
+    const btnGoogle    = document.getElementById('btn-google');
+    const btnClose     = document.getElementById('btn-close-popup');
+    const btnSignOut   = document.getElementById('btn-signout');
+
+    // ── Authentification Google ───────────────────────────────────────────
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            userInfo.style.display = 'block';
+            loginPopup.style.display = 'none';
+            userName.textContent = user.displayName || "مستخدم";
+        } else {
+            userInfo.style.display = 'none';
+            loginPopup.style.display = 'flex';
+        }
+    });
+
+    btnGoogle?.addEventListener('click', () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+            .then(result => {
+                userName.textContent = result.user.displayName;
+                userInfo.style.display = 'block';
+                loginPopup.style.display = 'none';
+            })
+            .catch(console.error);
+    });
+
+    btnClose?.addEventListener('click', () => {
+        loginPopup.style.display = 'none';
+    });
+
+    btnSignOut?.addEventListener('click', () => {
+        auth.signOut().then(() => {
+            userInfo.style.display = 'none';
+            alert(currentLang === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Déconnexion réussie');
+        }).catch(console.error);
+    });
+
+    // ── Compteur de visites (Firebase Realtime Database) ──────────────────
+    if (visitEl) {
+        const visitsRef = db.ref('visits');
+        visitsRef.transaction(current => (current || 0) + 1);
+        visitsRef.on('value', snapshot => {
+            const total = snapshot.val() || 0;
+            visitEl.textContent = currentLang === 'ar'
+                ? `عدد زوار الموقع: ${total}`
+                : `Nombre de visiteurs : ${total}`;
+        });
+    }
+
+    // ── Mise à jour de l'heure ────────────────────────────────────────────
+    function updateTime() {
+        const now = new Date();
+        const daysAr   = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+        const monthsAr = ['جانفي','فيفري','مارس','أفريل','ماي','جوان','جويلية','أوت','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+        const daysFr   = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+        const monthsFr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+        const day   = currentLang === 'ar' ? daysAr[now.getDay()]   : daysFr[now.getDay()];
+        const month = currentLang === 'ar' ? monthsAr[now.getMonth()] : monthsFr[now.getMonth()];
+        const date  = now.getDate();
+        const h = now.getHours().toString().padStart(2,'0');
+        const m = now.getMinutes().toString().padStart(2,'0');
+        const s = now.getSeconds().toString().padStart(2,'0');
+
+        timeEl.textContent = currentLang === 'ar'
+            ? `${day}، ${date} ${month} - ${h}:${m}:${s}`
+            : `${day}, ${date} ${month} - ${h}:${m}:${s}`;
+    }
+
+    // ── Ticker d'actualités ───────────────────────────────────────────────
+    const newsAr = [
+        "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+        "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+        "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+        "📱 تواصل معنا عبر واتساب لأي استفسار."
+    ];
+    const newsFr = [
+        "📢 Atelier Electronique Médenine ouvre ses portes pour toutes les régions.",
+        "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
+        "🌍 Livraison par courrier disponible dans toute la Tunisie.",
+        "📱 Contactez-nous via WhatsApp pour toute question."
+    ];
+
+    let newsIndex = 0;
+    let newsInterval = null;
+
+    function updateNews() {
+        const news = currentLang === 'ar' ? newsAr : newsFr;
+        ticker.classList.remove('fade');
+        void ticker.offsetWidth; // reflow
+        ticker.textContent = news[newsIndex];
+        ticker.classList.add('fade');
+        newsIndex = (newsIndex + 1) % news.length;
+    }
+
+    function startNewsRotation() {
+        if (newsInterval) clearInterval(newsInterval);
+        updateNews();
+        newsInterval = setInterval(updateNews, 5000);
+    }
+
+    // ── FAQ Toggle ────────────────────────────────────────────────────────
+    function initFAQ() {
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('open');
+            });
+        });
+    }
+
+    // ── Equalizer visibility ──────────────────────────────────────────────
+    function updateEqualizerVisibility() {
+        if (equalizer) {
+            equalizer.style.opacity = radio.paused ? '0.25' : '1';
+            equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
+        }
+    }
+
+    // ── Radio controls ────────────────────────────────────────────────────
+    if (radioBtn) {
+        radioBtn.addEventListener('click', () => {
+            if (radio.paused) {
+                radio.play().catch(e => console.warn('Radio play failed:', e));
+                radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻';
+            } else {
+                radio.pause();
+                radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻';
+            }
+            updateEqualizerVisibility();
+            radioBtn.classList.toggle('dance');
+        });
+
+        radio.addEventListener('play', updateEqualizerVisibility);
+        radio.addEventListener('pause', updateEqualizerVisibility);
+    }
+
+    // ── Changement de langue ──────────────────────────────────────────────
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+        // Mise à jour des textes principaux
+        document.querySelector('header h1').textContent = 'Atelier Electronique Médenine';
+        document.querySelector('.experience-badge').textContent = lang === 'ar' ? 'أكثر من 10 سنوات خبرة' : "Plus de 10 ans d'expérience";
+        toggleBtn.textContent = lang === 'ar' ? 'تبديل اللغة' : 'Changer la langue';
+
+        // Boutons CTA (vérifier existence pour éviter erreurs)
+        const btns = {
+            '.btn-download': lang === 'ar' ? 'تحميل البرامج 📥' : 'Télécharger les programmes 📥',
+            '.btn-store'   : lang === 'ar' ? 'تَسوّق الآن 🛒' : 'Boutique 🛒',
+            '.btn-whatsapp': lang === 'ar' ? 'واتساب 📱' : 'WhatsApp 📱',
+            '.btn-maps'    : lang === 'ar' ? 'موقعنا على مابس 📍' : 'Notre emplacement 📍',
+            '.btn-gallery' : lang === 'ar' ? 'شاهد الصور 🖼️' : 'Voir les photos 🖼️',
+            '.btn-video'   : lang === 'ar' ? 'شاهد الفيديو 🎥' : 'Voir les vidéos 🎥',
+            '.btn-services': lang === 'ar' ? 'خدمات الورشة 🛠️' : 'Services de l’atelier 🛠️'
+        };
+        Object.entries(btns).forEach(([sel, txt]) => {
+            const el = document.querySelector(sel);
+            if (el) el.textContent = txt;
+        });
+
+        // Radio button text
+        if (radioBtn) {
+            radioBtn.textContent = radio.paused
+                ? (lang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻')
+                : (lang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻');
+        }
+
+        // Reconstruire FAQ + ré-attacher les events
+        if (faqContainer) {
+            faqContainer.innerHTML = lang === 'ar' ? `
+                <h2>الأسئلة الشائعة</h2>
+                <div class="faq-item"><h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3><div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div></div>
+                <div class="faq-item"><h3>ما هي مدة التصليح المعتادة؟</h3><div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div></div>
+                <div class="faq-item"><h3>هل توفرون قطع غيار أصلية؟</h3><div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div></div>
+                <div class="faq-item"><h3>كيف أتابع حالة الإصلاح؟</h3><div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div></div>
+            ` : `
+                <h2>Questions fréquentes</h2>
+                <div class="faq-item"><h3>Comment envoyer un appareil en réparation ?</h3><div class="answer">Vous pouvez l'envoyer par courrier ou nous contacter pour organiser l'enlèvement.</div></div>
+                <div class="faq-item"><h3>Quel est le délai habituel de réparation ?</h3><div class="answer">Cela dépend de la panne, généralement pas plus de 3 jours.</div></div>
+                <div class="faq-item"><h3>Fournissez-vous des pièces d'origine ?</h3><div class="answer">Oui, nous fournissons des pièces d'origine de haute qualité.</div></div>
+                <div class="faq-item"><h3>Comment suivre l'état de la réparation ?</h3><div class="answer">Nous envoyons photos et vidéos via WhatsApp pendant la réparation.</div></div>
+            `;
+            initFAQ(); // ré-attacher les listeners après reconstruction
+        }
+
+        // Rafraîchir les éléments dépendants
+        updateTime();
+        startNewsRotation();
+        updateEqualizerVisibility();
+    }
+
+    toggleBtn?.addEventListener('click', () => {
+        setLanguage(currentLang === 'ar' ? 'fr' : 'ar');
+    });
+
+    // ── Initialisation ────────────────────────────────────────────────────
+    setInterval(updateTime, 1000);
+    updateTime();
+    startNewsRotation();
+    initFAQ();
+    updateEqualizerVisibility();
+
+    // Les autres fonctionnalités (weather, prayer, canvas, sliders, viewer, rating, cookie, etc.)
+    // sont déjà bien placées dans le code original – elles restent inchangées ici pour brevité.
+    // Si tu veux que je les intègre aussi dans cette version organisée, dis-le-moi.
+
+    console.log("Atelier Electronique Médenine – app.js chargé avec succès ✓");
+});

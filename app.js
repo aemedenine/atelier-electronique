@@ -308,6 +308,11 @@ function updateStars(rating) {
     });
 
     ratingValue.textContent = `${rating}/5`;
+    // Show thank you message only when user actually clicks
+if (rating > 0 && event && event.type === 'click') {
+    ratingMessage.classList.add('show');
+    setTimeout(() => ratingMessage.classList.remove('show'), 5000);
+}
     ratingValue.classList.add('updated');
     setTimeout(() => ratingValue.classList.remove('updated'), 800);
 

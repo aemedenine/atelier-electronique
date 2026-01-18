@@ -74,7 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSignOut?.addEventListener('click', () => {
         auth.signOut().then(() => {
             userInfo.style.display = 'none';
-            alert('تم تسجيل الخروج بنجاح');
+           alert(
+    currentLang === 'ar'
+        ? 'تم تسجيل الخروج بنجاح'
+        : 'Déconnexion réussie'
+);
+
         }).catch(console.error);
     });
 
@@ -269,7 +274,11 @@ if (visitEl) {
                     lang === 'ar' ? "🌬️ سرعة الرياح: " + wind : "🌬️ Vitesse du vent: " + wind;
             })
             .catch(() => {
-                document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
+               document.getElementById("weather-desc").textContent =
+    currentLang === 'ar'
+        ? "⚠️ لا يمكن تحميل الطقس"
+        : "⚠️ Impossible de charger la météo";
+
             });
     }
 
@@ -330,12 +339,13 @@ function loadRatings() {
         let html = '';
         for (let i = 5; i >= 1; i--) {
             const count = data.breakdown?.[i] || 0;
-            html += `
-                <div>
-                    <span class="stars">${'★'.repeat(i)}</span>
-                    <span class="count">${count} صوت</span>
-                </div>
-            `;
+           html += `
+    <div>
+        <span class="stars">${'★'.repeat(i)}</span>
+        <span class="count">${count} ${currentLang === 'ar' ? 'صوت' : 'votes'}</span>
+    </div>
+`;
+
         }
         breakdownEl.innerHTML = html;
     });
@@ -355,7 +365,11 @@ function updateStars(rating) {
 function checkUserRating(user) {
     if (!user) {
         updateStars(0);
-        ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+       ratingMessage.textContent =
+    currentLang === 'ar'
+        ? 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)'
+        : 'Connectez-vous avec Google pour évaluer l’atelier (une seule fois)';
+
         ratingMessage.classList.add('show');
         stars.forEach(s => s.style.pointerEvents = 'none'); // معطل
         return;
@@ -405,13 +419,22 @@ stars.forEach(star => {
 
     star.addEventListener('click', () => {
         if (!auth.currentUser) {
-            alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
+           alert(
+    currentLang === 'ar'
+        ? 'سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط'
+        : 'Connectez-vous avec Google pour évaluer l’atelier une seule fois'
+);
+
             document.getElementById('btn-google')?.click();
             return;
         }
 
         if (currentUserRating > 0) {
-            ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
+            ratingMessage.textContent =
+    currentLang === 'ar'
+        ? 'لقد قيّمت من قبل، لا يمكن التعديل'
+        : 'Vous avez déjà évalué, modification impossible';
+
             ratingMessage.classList.add('show');
             return;
         }
@@ -613,7 +636,12 @@ loadRatings();
     });
 
     consentManage?.addEventListener('click', () => {
-        alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
+       alert(
+    currentLang === 'ar'
+        ? 'يمكنك إدارة تفضيلات الكوكيز هنا.'
+        : 'Vous pouvez gérer vos préférences de cookies ici.'
+);
+
     });
 
     // ── Site Name Animation ───────────────────────────────────────────────

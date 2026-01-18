@@ -152,56 +152,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-     // ── Radio + Equalizer Pro (يظهر تلقائياً ويختفي بسلاسة) ────────────────
-const radioBtn = document.getElementById('radio-btn');
-const radio = document.getElementById('radio-stream');
-const equalizer = document.getElementById('equalizer');
-
-if (radioBtn && radio && equalizer) {
-    radioBtn.addEventListener('click', () => {
-        if (radio.paused) {
-            radio.play().then(() => {
-                console.log("Radio playing → equalizer active");
-                radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻';
-                equalizer.classList.add('active');
-            }).catch(e => {
-                console.warn("Auto-play blocked:", e);
-                alert(currentLang === 'ar' ? 
-                    'اضغط على الصفحة أولاً أو اسمح بالصوت' : 
-                    'Please interact with the page or allow audio');
-            });
-        } else {
-            radio.pause();
-            radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻';
-            equalizer.classList.remove('active');
+    // ── Equalizer visibility ──────────────────────────────────────────────
+    function updateEqualizerVisibility() {
+        if (equalizer) {
+            equalizer.style.opacity = radio.paused ? '0.25' : '1';
+            equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
         }
-        radioBtn.classList.toggle('dance');
-    });
+    }
 
-    // تأكيد الظهور لما الصوت يبدأ فعلياً (حل لمشكل auto-play)
-    radio.addEventListener('playing', () => {
-        equalizer.classList.add('active');
-        console.log("Playing event → equalizer shown");
-    });
+    // ── Radio controls ────────────────────────────────────────────────────
+    if (radioBtn) {
+        radioBtn.addEventListener('click', () => {
+            if (radio.paused) {
+                radio.play().catch(e => console.warn('Radio play failed:', e));
+                radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
+            } else {
+                radio.pause();
+                radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
+            }
+            updateEqualizerVisibility();
+            radioBtn.classList.toggle('dance');
+        });
 
-    radio.addEventListener('pause', () => {
-        equalizer.classList.remove('active');
-        console.log("Pause event → equalizer hidden");
-    });
+        radio.addEventListener('play', updateEqualizerVisibility);
+        radio.addEventListener('pause', updateEqualizerVisibility);
+    }
 
-    radio.addEventListener('ended', () => {
-        equalizer.classList.remove('active');
-        radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻';
-    });
-
-    radio.addEventListener('error', (e) => {
-        console.error("Radio error:", e);
-        equalizer.classList.remove('active');
-        alert(currentLang === 'ar' ? 
-            'مشكل في الراديو، تحقق من الإنترنت' : 
-            'Radio error, check internet');
-    });
-}
     // ── Language toggle ───────────────────────────────────────────────────
     function setLanguage(lang) {
         currentLang = lang;

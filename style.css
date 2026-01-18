@@ -407,66 +407,66 @@ header h1 {
    Rating Stars (Horizontal)
    ========================================================================== */
 .rating-container {
-  margin: 50px auto;
+  margin: 40px auto;                    /* صغّرنا المارجن شوية */
   text-align: center;
-  background: rgba(0,0,0,0.4);
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  max-width: 450px;
+  background: #ffffff;                  /* blanc زي بوكس الطقس */
+  backdrop-filter: blur(8px);           /* نفس التأثير اللي في الطقس */
+  border-radius: 15px;
+  padding: 20px;                        /* صغّرنا البادينغ */
+  box-shadow: 0 0 20px #409eff;         /* نفس الشادو اللي في الطقس */
+  max-width: 380px;                     /* أصغر من بوكس الطقس (420px) */
+  color: #282c34;                       /* لون نص داكن على blanc */
 }
 
 .rating-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;                    /* صغّرنا العنوان */
   font-weight: 700;
-  color: #e0e0e0;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  margin-bottom: 15px;
+  color: #409eff;
 }
 
 .stars-horizontal {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 10px;                            /* مسافة أقل بين النجوم */
 }
 
 .stars-horizontal span {
-  font-size: 3.4rem;
+  font-size: 2.6rem;                    /* النجوم أصغر (كان 3.4rem) */
   cursor: pointer;
-  color: #444;                        /* رمادي غامق (noir-ish) */
-  transition: all 0.4s ease;
+  color: #777;                          /* رمادي متوسط على blanc */
+  transition: all 0.35s ease;
 }
 
 .stars-horizontal span:hover {
-  color: #ffd700;                     /* ذهبي للـ hover */
-  transform: scale(1.35);
-  text-shadow: 0 0 20px rgba(255,215,0,0.7);
+  color: #ffca28;
+  transform: scale(1.25);
+  text-shadow: 0 0 12px rgba(255,202,40,0.6);
 }
 
 .stars-horizontal span.selected {
-  color: #ffd700;
-  text-shadow: 0 0 15px rgba(255,215,0,0.6);
-  transform: scale(1.18);
+  color: #ffca28;
+  text-shadow: 0 0 10px rgba(255,202,40,0.5);
+  transform: scale(1.12);
 }
 
 #rating-value {
-  margin: 20px 0;
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: #ffd700;
-  text-shadow: 0 0 15px rgba(255,215,0,0.5);
+  margin: 15px 0;
+  font-size: 1.8rem;                    /* صغّرنا الرقم */
+  font-weight: 800;
+  color: #ffca28;
 }
 
 #rating-average {
-  color: #cccccc;
-  font-size: 1.15rem;
-  margin: 15px 0;
+  color: #555;
+  font-size: 1rem;
+  margin: 12px 0;
 }
 
 #avg-stars {
-  color: #ffd700;
+  color: #ffca28;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 #vote-count {
@@ -474,39 +474,36 @@ header h1 {
   font-weight: bold;
 }
 
-/* قائمة الأصوات لكل نجمة */
+/* Breakdown (عدد الأصوات لكل نجمة) */
 .rating-breakdown {
-  margin-top: 20px;
-  color: #aaaaaa;
-  font-size: 1rem;
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #666;
   text-align: right;
-  direction: rtl;
 }
 
 .rating-breakdown div {
-  margin: 8px 0;
+  margin: 6px 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .rating-breakdown .stars {
-  color: #ffd700;
-  font-size: 1.2rem;
+  color: #ffca28;
+  font-size: 1.1rem;
 }
 
 .rating-breakdown .count {
   color: #409eff;
-  font-weight: bold;
 }
 
 /* رسالة شكر */
 .rating-message {
-  margin-top: 20px;
-  font-size: 1.2rem;
-  color: #ffd700;
+  margin-top: 15px;
+  font-size: 1.05rem;
+  color: #409eff;
   opacity: 0;
-  transition: all 0.6s ease;
+  transition: opacity 0.6s ease;
 }
 
 .rating-message.show {

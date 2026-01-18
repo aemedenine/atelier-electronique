@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Base & Reset
+   Base & Reset + Fonts + Direction
    ========================================================================== */
 * {
   margin: 0;
@@ -20,13 +20,14 @@ html, body {
 }
 
 .container {
+  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 /* ==========================================================================
-   Header
+   Header + Logo + PCB Animation
    ========================================================================== */
 header {
   position: relative;
@@ -48,25 +49,6 @@ header {
   padding: 30px 0;
 }
 
-.logo {
-  width: 150px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px #1e90ff;
-}
-
-header h1 {
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: #1e90ff;
-  flex-grow: 1;
-  position: relative;
-  z-index: 10;
-  display: inline-block;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-
-/* PCB Canvas Background في الـ Header */
 #pcbCanvasHeader {
   position: absolute;
   top: 0;
@@ -83,22 +65,50 @@ header h1 {
   z-index: 10;
 }
 
-/* PCB Animation خلف اللوجو */
+.logo {
+  width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #1e90ff;
+}
+
+header h1 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #1e90ff;
+  flex-grow: 1;
+  display: inline-block;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
+
+/* PCB background behind logo */
 .logo-wrapper::after {
   content: "";
   position: absolute;
   inset: -20px;
   border-radius: 50%;
   background:
-    repeating-linear-gradient(45deg, rgba(0,255,255,0.15) 0, rgba(0,255,255,0.15) 1px, transparent 1px, transparent 8px),
-    repeating-linear-gradient(-45deg, rgba(255,107,53,0.12) 0, rgba(255,107,53,0.12) 1px, transparent 1px, transparent 10px);
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,255,255,0.15) 0,
+      rgba(0,255,255,0.15) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,107,53,0.12) 0,
+      rgba(255,107,53,0.12) 1px,
+      transparent 1px,
+      transparent 10px
+    );
   opacity: 0.6;
   animation: pcbMove 12s linear infinite;
   z-index: -2;
 }
 
 @keyframes pcbMove {
-  0% { transform: rotate(0deg); }
+  0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
@@ -108,7 +118,7 @@ header h1 {
 .news-ticker {
   width: 100%;
   overflow: hidden;
-  background: #0a1e3d;
+  background: #0a3af0;          /* ← تم تعديل اللون هنا في جزء لاحق */
   color: white;
   white-space: nowrap;
   font-weight: 700;
@@ -126,11 +136,13 @@ header h1 {
   opacity: 1;
 }
 
-.news-text.fade { animation: fade 0.45s linear; }
+.news-text.fade {
+  animation: fade 0.45s linear;
+}
 
 @keyframes fade {
   from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================================================
@@ -164,11 +176,10 @@ header h1 {
 
 #toggle-lang-btn:hover {
   background: #409eff;
-  color: white;
 }
 
 /* ==========================================================================
-   CTA Buttons
+   CTA Buttons + Glow Effect
    ========================================================================== */
 .cta-buttons {
   display: flex;
@@ -191,14 +202,15 @@ header h1 {
   text-decoration: none;
   min-width: 140px;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.08s ease, box-shadow 0.3s ease;
   box-shadow: 0 2px 6px rgba(30,144,255,0.7);
 }
 
 .cta-buttons a:hover,
 .cta-buttons button:hover {
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+  background: #fff;
   transform: translateY(-3px);
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
 }
 
 .btn-store {
@@ -212,11 +224,10 @@ header h1 {
 
 .btn-store:hover {
   background: #3a3a3a !important;
-  color: white !important;
 }
 
 /* ==========================================================================
-   Experience Badge (متحرك)
+   Experience Badge (Animated)
    ========================================================================== */
 .experience-badge {
   display: block;
@@ -225,10 +236,11 @@ header h1 {
   font-weight: bold;
   color: yellow;
   margin: 30px auto;
+  background: none;
   padding: 12px 0;
   width: 250px;
-  background: none;
   border-radius: 50px;
+  box-shadow: 0 0 15px #007bff;
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
 
@@ -242,7 +254,7 @@ header h1 {
 
 @keyframes floatExperience {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50%      { transform: translateY(-6px); }
 }
 
 /* ==========================================================================
@@ -260,9 +272,27 @@ header h1 {
   box-shadow: 0 0 20px #409eff;
 }
 
-.weather-box h3 { margin-bottom: 10px; color: #222; }
-.weather-temp { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
-.weather-desc { font-size: 1.1rem; opacity: 0.9; }
+.weather-box h3 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.weather-temp {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.weather-desc {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.weather-box > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
 .prayer-times p {
   display: flex;
@@ -272,7 +302,110 @@ header h1 {
   color: #282c34;
 }
 
-.prayer-times p .time { font-weight: bold; }
+.prayer-times p span {
+  flex-shrink: 0;
+}
+
+.prayer-times p .time {
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   FAQ Section
+   ========================================================================== */
+.faq {
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+}
+
+.faq h2 {
+  color: #282c34;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.faq-item {
+  background: #ffffff;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 8px #409eff;
+}
+
+.faq-item:hover {
+  background: #ffffff;
+}
+
+.faq-item h3 {
+  font-weight: 700;
+  position: relative;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+.faq-item h3::after {
+  content: "+";
+  position: absolute;
+  left: 20px;
+  top: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ff6b35;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.open h3::after {
+  content: "-";
+  transform: rotate(180deg);
+}
+
+.answer {
+  margin-top: 12px;
+  font-weight: 400;
+  color: #000;
+  display: none;
+  line-height: 1.5;
+}
+
+.faq-item.open .answer {
+  display: block;
+}
+
+/* ==========================================================================
+   Equalizer Animation
+   ========================================================================== */
+.equalizer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  height: 40px;
+  align-items: flex-end;
+  transition: opacity 0.3s ease;
+}
+
+.equalizer .bar {
+  width: 6px;
+  background: #409eff47;
+  border-radius: 3px;
+  animation: bounce 1s infinite ease-in-out;
+  height: 8px;
+}
+
+.equalizer .bar:nth-child(1) { animation-delay: 0s; }
+.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
+.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
+.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
+.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 100% { height: 8px; }
+  50%      { height: 36px; }
+}
 
 /* ==========================================================================
    Rating Stars (Horizontal)
@@ -309,206 +442,20 @@ header h1 {
   transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
 }
 
-/* ==========================================================================
-   FAQ Section
-   ========================================================================== */
-.faq {
-  max-width: 800px;
-  margin: 0 auto 60px auto;
-}
-
-.faq h2 {
-  color: #282c34;
-  font-weight: 700;
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.faq-item {
-  background: #ffffff;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  padding: 15px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 8px #409eff;
-}
-
-.faq-item h3 {
-  font-weight: 700;
-  position: relative;
-  color: #000;
-  margin-bottom: 6px;
-}
-
-.faq-item h3::after {
-  content: "+";
-  position: absolute;
-  left: 20px;
-  top: 0;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ff6b35;
-  transition: transform 0.3s ease;
-}
-
-.faq-item.open h3::after {
-  content: "-";
-  transform: rotate(180deg);
-}
-
-.answer {
-  margin-top: 12px;
-  font-weight: 400;
-  color: #000;
-  display: none;
-  line-height: 1.5;
-}
-
-.faq-item.open .answer { display: block; }
-
-/* ==========================================================================
-   Equalizer Animation
-   ========================================================================== */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 20px;
-  height: 40px;
-  align-items: flex-end;
-  transition: opacity 0.3s ease;
-}
-
-.equalizer .bar {
-  width: 6px;
-  background: #409eff47;
-  border-radius: 3px;
-  animation: bounce 1s infinite ease-in-out;
-  height: 8px;
-}
-
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes bounce {
-  0%, 100% { height: 8px; }
-  50% { height: 36px; }
+.rating-container:hover #rating-value {
+  transform: translateY(-3px);
 }
 
 /* ==========================================================================
-   Services / Videos / Postes Sliders
-   ========================================================================== */
-.services-today h2,
-.videos-today h2,
-#postesSection h2 {
-  text-align: center;
-  color: #0a1e3d;
-  margin: 30px 0;
-  font-size: 1.8rem;
-  text-shadow: 0 0 5px #a9b7c6;
-}
-
-.services-slider {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px;
-  cursor: grab;
-  scroll-behavior: smooth;
-}
-
-.services-slider::-webkit-scrollbar { display: none; }
-
-.service-card {
-  min-width: 220px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px);
-  border-radius: 15px;
-  padding: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-}
-
-.service-card:hover { transform: translateY(-8px); }
-
-.service-card img,
-.video-card video {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-.video-card video {
-  height: 160px;
-  transition: transform 0.3s ease;
-}
-
-.video-card video:hover { transform: scale(1.05); }
-
-.service-card p.service-caption {
-  margin-top: 10px;
-  font-weight: bold;
-  color: #282c34;
-  text-align: center;
-}
-
-/* ==========================================================================
-   Fullscreen Media Viewer
-   ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.9);
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  flex-direction: column;
-}
-
-#mediaViewer img,
-#mediaViewer video {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px #0ff;
-}
-
-#mediaViewer .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5rem;
-  color: #fff;
-  cursor: pointer;
-  z-index: 100000;
-  background: rgba(0,0,0,0.3);
-  padding: 5px 12px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-#mediaViewer .close-btn:hover {
-  background: rgba(255,0,0,0.7);
-  transform: scale(1.2);
-}
-
-/* ==========================================================================
-   Login Popup & User Info
+   Login Popup + User Box
    ========================================================================== */
 #login-popup {
   display: none;
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.85);
   justify-content: center;
   align-items: center;
@@ -535,7 +482,8 @@ header h1 {
   text-shadow: 0 0 10px #0ff;
 }
 
-.btn-google, .btn-close {
+.btn-google,
+.btn-close {
   background: #0ff;
   color: #000;
   border: none;
@@ -554,8 +502,16 @@ header h1 {
   box-shadow: 0 0 12px #0ff;
 }
 
-.btn-close { background: #ff6b35; color: #fff; }
-.btn-close:hover { background: #e05520; }
+.btn-close {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.btn-close:hover {
+  background: #e05520;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px #ff6b35;
+}
 
 .user-box {
   display: flex;
@@ -603,6 +559,115 @@ header h1 {
 }
 
 /* ==========================================================================
+   Services / Videos / Postes Sliders
+   ========================================================================== */
+.services-today h2,
+.videos-today h2,
+#postesSection h2 {
+  text-align: center;
+  color: #0a1e3d;
+  margin: 30px 0;
+  font-size: 1.8rem;
+  text-shadow: 0 0 5px #a9b7c6;
+}
+
+.services-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+  cursor: grab;
+  scroll-behavior: smooth;
+}
+
+.services-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.service-card {
+  min-width: 220px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+}
+
+.service-card img,
+.video-card video {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.video-card video {
+  height: 160px;
+  transition: transform 0.3s ease;
+}
+
+.video-card video:hover {
+  transform: scale(1.05);
+}
+
+.service-card p.service-caption {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #282c34;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Fullscreen Media Viewer
+   ========================================================================== */
+#mediaViewer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  flex-direction: column;
+}
+
+#mediaViewer img,
+#mediaViewer video {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px #0ff;
+}
+
+#mediaViewer .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2.5rem;
+  color: #fff;
+  cursor: pointer;
+  z-index: 100000;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 12px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+#mediaViewer .close-btn:hover {
+  background: rgba(255,0,0,0.7);
+  transform: scale(1.2);
+}
+
+/* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */
 #cmp-banner {
@@ -630,6 +695,28 @@ header h1 {
 }
 
 /* ==========================================================================
+   Radio Dance Animation
+   ========================================================================== */
+.dance {
+  animation: danceMove 0.5s infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes danceMove {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+/* ==========================================================================
+   General Animations
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 footer {
@@ -642,7 +729,9 @@ footer {
   box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
 }
 
-.footer-inner p { margin-bottom: 5px; }
+.footer-inner p {
+  margin-bottom: 5px;
+}
 
 .social-icons {
   margin-top: 10px;
@@ -655,7 +744,9 @@ footer {
   transition: opacity 0.3s ease;
 }
 
-.social-icons a:hover { opacity: 1; }
+.social-icons a:hover {
+  opacity: 1;
+}
 
 .social-icons img {
   width: 28px;
@@ -664,34 +755,33 @@ footer {
 }
 
 /* ==========================================================================
-   Radio Dance Animation
-   ========================================================================== */
-.dance {
-  animation: danceMove 0.5s infinite alternate;
-  transform-origin: center;
-}
-
-@keyframes danceMove {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
-}
-
-/* ==========================================================================
-   General Animations
-   ========================================================================== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* ==========================================================================
-   Responsive
+   Responsive Design
    ========================================================================== */
 @media (max-width: 768px) {
-  .header-inner { flex-direction: column; text-align: center; gap: 10px; }
-  .info-bar { flex-direction: column; gap: 10px; }
-  .cta-buttons { flex-direction: column; align-items: center; }
-  .experience-badge { width: 90%; }
-  .faq { width: 90%; }
+  .header-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  .info-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .experience-badge {
+    width: 90%;
+  }
+  .faq {
+    width: 90%;
+  }
+}
+
+/* ==========================================================================
+   RTL Specific Adjustments (if needed)
+   ========================================================================== */
+[dir="rtl"] .container {
+  direction: rtl;
 }

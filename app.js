@@ -8,7 +8,7 @@ const firebaseConfig = {
     storageBucket: "atelier-electronique-mednine.firebasestorage.app",
     messagingSenderId: "547430908384",
     appId: "1:547430908384:web:4caa4cf3869491bd14eb85",
-    databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
+    databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"  // ← أضف هذا السطر بالضبط
 };
 
 firebase.initializeApp(firebaseConfig);

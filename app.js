@@ -152,31 +152,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ── Equalizer visibility ──────────────────────────────────────────────
-    function updateEqualizerVisibility() {
-        if (equalizer) {
-            equalizer.style.opacity = radio.paused ? '0.25' : '1';
-            equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
+   // ── Radio controls + Equalizer pro ────────────────────────────────────────
+if (radioBtn && equalizer && radio) {
+    radioBtn.addEventListener('click', () => {
+        if (radio.paused) {
+            radio.play().catch(e => {
+                console.warn('Radio play failed:', e);
+                alert('الرجاء الضغط على الصفحة أولاً أو السماح بالصوت في المتصفح');
+            });
+            radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو 📻' : 'Arrêter la radio 📻';
+            equalizer.classList.add('active'); // يظهر الـ equalizer
+            radio.classList.add('playing');    // للتأثير الإضافي في CSS
+        } else {
+            radio.pause();
+            radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻';
+            equalizer.classList.remove('active'); // يختفي
+            radio.classList.remove('playing');
         }
-    }
+        radioBtn.classList.toggle('dance');
+    });
 
-    // ── Radio controls ────────────────────────────────────────────────────
-    if (radioBtn) {
-        radioBtn.addEventListener('click', () => {
-            if (radio.paused) {
-                radio.play().catch(e => console.warn('Radio play failed:', e));
-                radioBtn.textContent = currentLang === 'ar' ? 'أوقف الراديو' : 'Arrêter la radio';
-            } else {
-                radio.pause();
-                radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو' : 'Écouter la radio';
-            }
-            updateEqualizerVisibility();
-            radioBtn.classList.toggle('dance');
-        });
+    // إذا الراديو بدا يشتغل تلقائياً (في بعض المتصفحات)
+    radio.addEventListener('play', () => {
+        equalizer.classList.add('active');
+        radio.classList.add('playing');
+    });
 
-        radio.addEventListener('play', updateEqualizerVisibility);
-        radio.addEventListener('pause', updateEqualizerVisibility);
-    }
+    radio.addEventListener('pause', () => {
+        equalizer.classList.remove('active');
+        radio.classList.remove('playing');
+    });
+
+    // إذا توقف بسبب مشكلة (ended أو error)
+    radio.addEventListener('ended', () => {
+        equalizer.classList.remove('active');
+        radio.classList.remove('playing');
+        radioBtn.textContent = currentLang === 'ar' ? 'شغّل الراديو 📻' : 'Écouter la radio 📻';
+    });
+
+    radio.addEventListener('error', (e) => {
+        console.error('Radio error:', e);
+        equalizer.classList.remove('active');
+        alert('مشكل في تشغيل الراديو، جرب متصفح آخر أو تحقق من الإنترنت');
+    });
+}
 
     // ── Language toggle ───────────────────────────────────────────────────
     function setLanguage(lang) {

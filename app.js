@@ -44,66 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut   = document.getElementById('btn-signout');
 
-  // ── Daily Rotation ────────────────────────────────────────
-const dailyServiceEl = document.getElementById('daily-service');
-const dailyVideoEl   = document.getElementById('daily-video');
-const dailyMachineEl = document.getElementById('daily-machine');
-
-// حساب رقم اليوم في السنة (يتغير كل يوم تلقائي)
-const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-
-function showDailyItems() {
-    const isAr = currentLang === 'ar';
-
-    // 1. خدمات اليوم (كروت التصليح)
-    if (dailyServiceEl) {
-        const services = [
-            { title: isAr ? "تصليح كارت تلفاز" : "Réparation carte TV", img: "images/tv-card.jpg" },
-            { title: isAr ? "تصليح كارت غسالة" : "Réparation carte lave-linge", img: "images/washer-card.jpg" },
-            { title: isAr ? "تصليح كارت جهاز مشي" : "Réparation carte tapis roulant", img: "images/treadmill-card.jpg" },
-            { title: isAr ? "تصليح لوحات إلكترونية" : "Réparation cartes électroniques", img: "images/electronic-board.jpg" }
-            // أضف صور/عناوين أخرى هنا لو عندك
-        ];
-        const item = services[dayOfYear % services.length];
-        dailyServiceEl.innerHTML = `
-            <img src="${item.img}" alt="${item.title}" loading="lazy">
-            <p>${item.title}</p>
-        `;
-    }
-
-    // 2. فيديو اليوم (صور تمثل فيديوهات حالياً)
-    if (dailyVideoEl) {
-        const videos = [
-            { title: isAr ? "فحص بوردة" : "Test de carte", img: "images/board-test1.jpg" },
-            { title: isAr ? "إصلاح لوحة إلكترونية" : "Réparation carte électronique", img: "images/board-repair.jpg" },
-            { title: isAr ? "فحص تغذية كارت" : "Test alimentation carte", img: "images/power-test.jpg" }
-            // أضف المزيد، أو غيّر img إلى embed يوتيوب لو تحب فيديو حقيقي
-        ];
-        const item = videos[dayOfYear % videos.length];
-        dailyVideoEl.innerHTML = `
-            <img src="${item.img}" alt="${item.title}" loading="lazy">
-            <p>${item.title}</p>
-        `;
-    }
-
-    // 3. تصليح ماكينات لحام
-    if (dailyMachineEl) {
-        const machines = [
-            { title: isAr ? "Inverter MMA-300s" : "Inverter MMA-300s", img: "images/inverter-mma300.jpg" },
-            { title: isAr ? "OXOUXIANG MMA 185" : "OXOUXIANG MMA 185", img: "images/oxouxiang-185.jpg" },
-            { title: isAr ? "Telwin machine" : "Machine Telwin", img: "images/telwin.jpg" }
-            // أضف صور ماكينات أخرى
-        ];
-        const item = machines[dayOfYear % machines.length];
-        dailyMachineEl.innerHTML = `
-            <img src="${item.img}" alt="${item.title}" loading="lazy">
-            <p>${item.title}</p>
-        `;
-    }
-}
-
-// نفذها أول مرة
-showDailyItems();
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {

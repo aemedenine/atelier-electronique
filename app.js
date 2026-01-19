@@ -30,6 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Éléments DOM récurrents ───────────────────────────────────────────
     const ticker       = document.getElementById('live-news');
     const toggleBtn    = document.getElementById('toggle-lang-btn');
+    toggleBtn?.addEventListener('click', () => {
+  currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+
+  updateLanguageTexts(currentLang);
+  updateTime();
+  startNewsRotation();
+});
     const timeEl       = document.getElementById('current-time');
     const visitEl      = document.getElementById('visit-count'); // ← تم تعريفه هنا
     const faqContainer = document.querySelector('.faq');
@@ -182,7 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('play', updateEqualizerVisibility);
         radio.addEventListener('pause', updateEqualizerVisibility);
     }
-
+/* ⭐ Initialisation après chargement de la page ⭐ */
+updateLanguageTexts(currentLang);
+updateTime();
+startNewsRotation();
+initFAQ();
     // ── Language toggle ───────────────────────────────────────────────────
     function setLanguage(lang) {
         currentLang = lang;
@@ -683,7 +694,22 @@ function updateLanguageTexts(lang) {
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
-        const texts = ["Atelier Electronique Médenine", "إلكترونيك الرحماني"];
+        setInterval(() => {
+  siteName.textContent =
+    currentLang === 'ar'
+      ? 'إلكترونيك الرحماني'
+      : 'Atelier Electronique Médenine';
+
+  siteName.style.color = '#ff6b35';
+  siteName.style.textShadow = '0 0 10px #e0a800';
+  siteName.style.transform = 'scale(1.2)';
+
+  setTimeout(() => {
+    siteName.style.color = '';
+    siteName.style.textShadow = '';
+    siteName.style.transform = '';
+  }, 1000);
+}, 4000);
         setInterval(() => {
             const randomIndex = Math.floor(Math.random() * texts.length);
             siteName.textContent = texts[randomIndex];

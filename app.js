@@ -643,7 +643,43 @@ loadRatings();
 );
 
     });
+/* -------------------- Language texts -------------------- */
+function updateLanguageTexts(lang) {
 
+  // خدمات اليوم
+  const servicesTitle = document.querySelector('.services-today h2');
+  if (servicesTitle) {
+    servicesTitle.textContent =
+      lang === 'ar' ? 'خدمات اليوم' : 'Services du jour';
+  }
+
+  // فيديو اليوم
+  const videosTitle = document.querySelector('.videos-today h2');
+  if (videosTitle) {
+    videosTitle.textContent =
+      lang === 'ar' ? 'فيديو اليوم' : 'Vidéo du jour';
+  }
+
+  // تصليح ماكينات لحام
+  const postesTitle = document.querySelector('#postesSection h2');
+  if (postesTitle) {
+    postesTitle.textContent =
+      lang === 'ar'
+        ? 'تصليح ماكينات لحام'
+        : 'Réparation postes de soudure';
+  }
+
+  // عنوان التقييم
+  const ratingTitle = document.getElementById('rating-title');
+  if (ratingTitle) {
+    ratingTitle.textContent =
+      lang === 'ar' ? 'قيّم الورشة:' : 'Évaluez l’atelier :';
+  }
+
+  // اتجاه الصفحة
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+}
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {

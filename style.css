@@ -9,8 +9,8 @@
 
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
-  color: #1a1a1a; /* نصوص داكنة على خلفية فاتحة */
+  background: linear-gradient(135deg, #fff 0%, #fff 100%);
+  color: #fff;
   min-height: 100vh;
   overflow-x: hidden;
   direction: rtl;
@@ -31,21 +31,21 @@ html, body {
    ========================================================================== */
 header {
   position: relative;
-  background: #ffffff;
-  padding: 25px 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-bottom: 20px;
+  background: #fdfdfd;
+  padding: 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  margin-bottom: 15px;
 }
 
 .header-inner {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
   flex-wrap: wrap;
+  overflow: hidden;
   text-align: center;
   padding: 30px 0;
-  z-index: 1;
 }
 
 #pcbCanvasHeader {
@@ -58,47 +58,90 @@ header {
   pointer-events: none;
 }
 
-.logo {
-  width: 140px;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(30, 144, 255, 0.5);
+.header-inner img.logo,
+.header-inner h1 {
+  position: relative;
   z-index: 10;
 }
 
+.logo {
+  width: 150px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #1e90ff;
+}
+
 header h1 {
-  font-weight: 800;
-  font-size: 2.2rem;
-  color: #0d47a1;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #1e90ff;
   flex-grow: 1;
-  z-index: 10;
-  margin: 0;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  display: inline-block;
+  margin-left: 15px;
+  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
+}
+
+/* PCB background behind logo */
+.logo-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,255,255,0.15) 0,
+      rgba(0,255,255,0.15) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,107,53,0.12) 0,
+      rgba(255,107,53,0.12) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.6;
+  animation: pcbMove 12s linear infinite;
+  z-index: -2;
+}
+
+@keyframes pcbMove {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ==========================================================================
    News Ticker
    ========================================================================== */
 .news-ticker {
-  background: linear-gradient(90deg, #0d47a1, #1976d2);
-  color: white;
-  padding: 12px 0;
+  width: 100%;
   overflow: hidden;
+  background: #0a3af0;
+  color: white;
+  white-space: nowrap;
   font-weight: 700;
-  font-size: 1.1rem;
+  padding: 10px;
+  margin-bottom: 25px;
+  font-size: 1rem;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(13,71,161,0.3);
 }
 
 .news-text {
   display: inline-block;
-  padding: 0 40px;
-  white-space: nowrap;
-  animation: ticker 30s linear infinite;
+  padding: 0 12px;
+  min-height: 1.2em;
+  transition: opacity 0.4s ease;
+  opacity: 1;
 }
 
-@keyframes ticker {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+.news-text.fade {
+  animation: fade 0.45s linear;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================================================
@@ -108,428 +151,725 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
-  padding: 14px 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  background: #fff;
+  color: #282c34;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  font-weight: 600;
+  font-size: 1rem;
   flex-wrap: wrap;
-  gap: 15px;
-  color: #333;
+  gap: 10px;
+}
+
+#toggle-lang-btn {
+  background: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  color: #3a3a3a;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#toggle-lang-btn:hover {
+  background: #409eff;
 }
 
 /* ==========================================================================
-   CTA Buttons
+   CTA Buttons + Glow Effect
    ========================================================================== */
 .cta-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
-  margin: 30px 0;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
 .cta-buttons a,
 .cta-buttons button {
-  background: #ffffff;
-  color: #0d47a1;
-  padding: 14px 22px;
-  border-radius: 10px;
+  background: #fff;
+  color: #3a3a3a;
+  padding: 14px 18px;
+  border-radius: 8px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
   text-decoration: none;
-  border: 2px solid #1976d2;
-  transition: all 0.3s ease;
-  min-width: 160px;
+  min-width: 140px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  transition: background-color 0.3s ease, transform 0.08s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(30,144,255,0.7);
 }
 
 .cta-buttons a:hover,
 .cta-buttons button:hover {
-  background: #1976d2;
-  color: white;
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
+  background: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
+}
+
+.btn-store {
+  background: #fff !important;
+  color: #3a3a3a !important;
+  padding: 14px 25px;
+  min-width: 160px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+
+.btn-store:hover {
+  background: #3a3a3a !important;
 }
 
 /* ==========================================================================
-   Experience Badge
+   Experience Badge (Animated)
    ========================================================================== */
 .experience-badge {
+  display: block;
   text-align: center;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #ff9800;
-  margin: 35px auto;
-  padding: 12px 30px;
-  background: rgba(255, 152, 0, 0.1);
-  border-radius: 50px;
-  border: 2px dashed #ff9800;
-  max-width: 420px;
-  animation: pulse 2s infinite;
+  font-size: 1rem;
+  font-weight: bold;
+  color: yellow;
+  margin: 30px auto;
+  background: none;
+  padding: 0;
+  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+@keyframes glowExperience {
+  0%   { color: yellow;   text-shadow: 0 0 5px yellow; }
+  25%  { color: red;      text-shadow: 0 0 8px red; }
+  50%  { color: cyan;     text-shadow: 0 0 10px cyan; }
+  75%  { color: magenta;  text-shadow: 0 0 12px magenta; }
+  100% { color: yellow;   text-shadow: 0 0 15px yellow; }
+}
+
+@keyframes floatExperience {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
 }
 
 /* ==========================================================================
-   Weather & Prayer Times
+   Weather & Prayer Times Box
    ========================================================================== */
 .weather-box {
+  margin: 40px auto 10px;
+  padding: 20px;
+  max-width: 420px;
   background: #ffffff;
-  border-radius: 16px;
-  padding: 25px;
-  margin: 40px auto;
-  max-width: 460px;
-  box-shadow: 0 8px 30px rgba(25, 118, 210, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
   text-align: center;
-  color: #1a1a1a;
+  color: #282c34;
+  box-shadow: 0 0 20px #409eff;
 }
 
 .weather-box h3 {
-  color: #0d47a1;
-  margin-bottom: 15px;
-  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #222;
 }
 
 .weather-temp {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #ff5722;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 .weather-desc {
   font-size: 1.1rem;
-  margin: 10px 0;
-  color: #555;
+  opacity: 0.9;
+}
+
+.weather-box > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .prayer-times p {
   display: flex;
   justify-content: space-between;
-  margin: 8px 0;
-  font-size: 1.05rem;
+  margin: 3px 0;
+  font-size: 1rem;
+  color: #282c34;
 }
 
-.prayer-times .time {
+.prayer-times p span {
+  flex-shrink: 0;
+}
+
+.prayer-times p .time {
   font-weight: bold;
-  color: #1976d2;
 }
 
 /* ==========================================================================
-   FAQ
+   FAQ Section
    ========================================================================== */
 .faq {
-  max-width: 850px;
-  margin: 50px auto;
+  max-width: 800px;
+  margin: 0 auto 60px auto;
 }
 
 .faq h2 {
+  color: #282c34;
+  font-weight: 700;
+  font-size: 1.8rem;
   text-align: center;
-  color: #0d47a1;
-  margin-bottom: 30px;
-  font-size: 2rem;
+  margin-bottom: 25px;
 }
 
 .faq-item {
   background: #ffffff;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  overflow: hidden;
-  transition: all 0.3s ease;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 8px #409eff;
 }
 
 .faq-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  background: #ffffff;
 }
 
 .faq-item h3 {
-  padding: 18px 25px;
-  margin: 0;
-  cursor: pointer;
-  background: #f5f9ff;
-  color: #0d47a1;
   font-weight: 700;
   position: relative;
+  color: #000;
+  margin-bottom: 6px;
 }
 
 .faq-item h3::after {
   content: "+";
   position: absolute;
   left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.8rem;
-  color: #ff9800;
-  transition: transform 0.3s;
+  top: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ff6b35;
+  transition: transform 0.3s ease;
 }
 
 .faq-item.open h3::after {
-  transform: translateY(-50%) rotate(45deg);
+  content: "-";
+  transform: rotate(180deg);
 }
 
 .answer {
-  padding: 0 25px 20px;
+  margin-top: 12px;
+  font-weight: 400;
+  color: #000;
   display: none;
-  color: #333;
+  line-height: 1.5;
+}
+
+.faq-item.open .answer {
+  display: block;
 }
 
 /* ==========================================================================
-   Daily Highlight (المحتوى اليومي المميز)
+   Equalizer - Pro & Smooth (يظهر فقط لما الراديو شغال)
    ========================================================================== */
-.daily-highlight {
-  background: linear-gradient(135deg, #fff8e1, #fffde7);
-  border: 3px dashed #ff9800;
-  border-radius: 16px;
-  padding: 25px;
-  margin: 25px auto;
-  max-width: 500px;
+.equalizer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 5px;
+  height: 35px;                    /* أصغر وأنيق */
+  margin: 15px auto 0;
+  opacity: 0;                      /* مخفي في البداية */
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.equalizer.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.equalizer .bar {
+  width: 5px;                      /* أرفع شوية */
+  background: linear-gradient(to top, #409eff, #00d4ff);  /* gradient أزرق pro */
+  border-radius: 4px 4px 0 0;
+  animation: bounce 1.2s infinite ease-in-out;
+  transform-origin: bottom;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
+}
+
+.equalizer .bar:nth-child(1) { animation-delay: 0s; }
+.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
+.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
+.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
+.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 100% { height: 6px; }
+  50%      { height: 32px; }
+}
+
+/* لما الراديو يشتغل، يصير فيه glow خفيف */
+#radio-stream.playing + .equalizer {
+  filter: drop-shadow(0 0 10px #409eff);
+}
+/* ==========================================================================
+   Rating Stars (Horizontal)
+   ========================================================================== */
+.rating-container {
+  margin: 40px auto;                    /* صغّرنا المارجن شوية */
   text-align: center;
-  box-shadow: 0 8px 30px rgba(255,152,0,0.25);
-  position: relative;
+  background: #ffffff;                  /* blanc زي بوكس الطقس */
+  backdrop-filter: blur(8px);           /* نفس التأثير اللي في الطقس */
+  border-radius: 15px;
+  padding: 20px;                        /* صغّرنا البادينغ */
+  box-shadow: 0 0 20px #409eff;         /* نفس الشادو اللي في الطقس */
+  max-width: 380px;                     /* أصغر من بوكس الطقس (420px) */
+  color: #282c34;                       /* لون نص داكن على blanc */
 }
 
-.daily-highlight::before {
-  content: "★ اليوم فقط ★";
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ff9800;
-  color: white;
-  padding: 6px 18px;
-  border-radius: 30px;
-  font-size: 0.9rem;
-  font-weight: bold;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-}
-
-.daily-highlight img {
-  max-width: 100%;
-  border-radius: 12px;
+.rating-title {
+  font-size: 1.3rem;                    /* صغّرنا العنوان */
+  font-weight: 700;
   margin-bottom: 15px;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.15);
-  transition: transform 0.4s ease;
+  color: #409eff;
 }
 
-.daily-highlight img:hover {
-  transform: scale(1.05);
+.stars-horizontal {
+  display: flex;
+  justify-content: center;
+  gap: 10px;                            /* مسافة أقل بين النجوم */
 }
 
-.daily-highlight p {
-  font-size: 1.2rem;
+.stars-horizontal span {
+  font-size: 2.6rem;                    /* النجوم أصغر (كان 3.4rem) */
+  cursor: pointer;
+  color: #777;                          /* رمادي متوسط على blanc */
+  transition: all 0.35s ease;
+}
+
+.stars-horizontal span:hover {
+  color: #ffca28;
+  transform: scale(1.25);
+  text-shadow: 0 0 12px rgba(255,202,40,0.6);
+}
+
+.stars-horizontal span.selected {
+  color: #ffca28;
+  text-shadow: 0 0 10px rgba(255,202,40,0.5);
+  transform: scale(1.12);
+}
+
+#rating-value {
+  margin: 15px 0;
+  font-size: 1.8rem;                    /* صغّرنا الرقم */
+  font-weight: 800;
+  color: #ffca28;
+}
+
+#rating-average {
+  color: #555;
+  font-size: 1rem;
+  margin: 12px 0;
+}
+
+#avg-stars {
+  color: #ffca28;
   font-weight: bold;
-  color: #e65100;
-  margin: 0;
+  font-size: 1.2rem;
+}
+
+#vote-count {
+  color: #409eff;
+  font-weight: bold;
+}
+
+/* Breakdown (عدد الأصوات لكل نجمة) */
+.rating-breakdown {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #666;
+  text-align: right;
+}
+
+.rating-breakdown div {
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-breakdown .stars {
+  color: #ffca28;
+  font-size: 1.1rem;
+}
+
+.rating-breakdown .count {
+  color: #409eff;
+}
+
+/* رسالة شكر */
+.rating-message {
+  margin-top: 15px;
+  font-size: 1.05rem;
+  color: #409eff;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.rating-message.show {
+  opacity: 1;
+}
+/* ==========================================================================
+   Login Popup + User Box
+   ========================================================================== */
+#login-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  flex-direction: column;
+}
+
+.login-popup .popup-content {
+  background: #111;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+  width: 300px;
+  max-width: 90%;
+  box-shadow: 0 0 20px #0ff;
+  animation: fadeIn 0.5s ease;
+}
+
+.login-popup h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.btn-google,
+.btn-close {
+  background: #0ff;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 10px 0;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+  background: #00cdd7;
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px #0ff;
+}
+
+.btn-close {
+  background: #ff6b35;
+  color: #fff;
+}
+
+.btn-close:hover {
+  background: #e05520;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px #ff6b35;
+}
+
+.user-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  backdrop-filter: blur(6px);
+  border: 2px solid #409eff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  max-width: 400px;
+  margin: 20px auto;
+  color: #ffffff;
+  box-shadow: 0 0 15px #409eff;
+  transition: all 0.3s ease;
+}
+
+.user-box:hover {
+  background: #409effbd;
+  box-shadow: 0 0 20px #409eff;
+}
+
+.welcome-msg {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #282c34;
+  text-shadow: 0 0 6px #a9b7c6;
+}
+
+.btn-signout {
+  background: #409eff;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-signout:hover {
+  background: #e05520;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px #ff6b35;
 }
 
 /* ==========================================================================
-   Sliders (خدمات + فيديو + ماكينات)
+   Services / Videos / Postes Sliders
    ========================================================================== */
 .services-today h2,
 .videos-today h2,
 #postesSection h2 {
   text-align: center;
-  color: #0d47a1;
-  margin: 40px 0 20px;
-  font-size: 2.1rem;
-  position: relative;
-}
-
-.services-today h2::after,
-.videos-today h2::after,
-#postesSection h2::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 5px;
-  background: linear-gradient(90deg, #ff9800, #1976d2);
-  border-radius: 3px;
+  color: #0a1e3d;
+  margin: 30px 0;
+  font-size: 1.8rem;
+  text-shadow: 0 0 5px #a9b7c6;
 }
 
 .services-slider {
   display: flex;
   gap: 20px;
   overflow-x: auto;
-  padding: 15px 0;
-  scroll-snap-type: x mandatory;
+  padding: 10px;
+  cursor: grab;
   scroll-behavior: smooth;
 }
 
 .services-slider::-webkit-scrollbar {
-  height: 10px;
-}
-
-.services-slider::-webkit-scrollbar-thumb {
-  background: #1976d2;
-  border-radius: 10px;
+  display: none;
 }
 
 .service-card {
-  min-width: 240px;
-  background: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  transition: all 0.35s ease;
-  scroll-snap-align: start;
+  min-width: 220px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 15px 40px rgba(25,118,210,0.3);
+  transform: translateY(-8px);
 }
 
 .service-card img,
 .video-card video {
   width: 100%;
-  height: 160px;
+  height: 140px;
   object-fit: cover;
+  border-radius: 12px;
 }
 
-.service-caption {
-  padding: 12px;
-  text-align: center;
-  font-weight: 700;
-  color: #0d47a1;
-  background: rgba(255,255,255,0.9);
+.video-card video {
+  height: 160px;
+  transition: transform 0.3s ease;
 }
 
-/* ==========================================================================
-   Equalizer
-   ========================================================================== */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  height: 40px;
-  margin: 10px auto;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+.video-card video:hover {
+  transform: scale(1.05);
 }
 
-.equalizer.active {
-  opacity: 1;
-}
-
-.equalizer .bar {
-  width: 6px;
-  background: linear-gradient(to top, #1976d2, #64b5f6);
-  border-radius: 4px;
-  animation: bar 1.4s infinite ease-in-out;
-  transform-origin: bottom;
-}
-
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.15s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.45s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.6s; }
-
-@keyframes bar {
-  0%, 100% { height: 8px; }
-  50% { height: 38px; }
-}
-
-/* ==========================================================================
-   Rating Container
-   ========================================================================== */
-.rating-container {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 25px;
-  margin: 50px auto;
-  max-width: 420px;
-  box-shadow: 0 8px 30px rgba(25,118,210,0.15);
+.service-card p.service-caption {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #282c34;
   text-align: center;
 }
 
-.rating-title {
-  color: #0d47a1;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.stars-horizontal {
-  display: flex;
+/* ==========================================================================
+   Fullscreen Media Viewer
+   ========================================================================== */
+#mediaViewer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
   justify-content: center;
-  gap: 12px;
-  font-size: 2.8rem;
-  margin-bottom: 15px;
+  align-items: center;
+  z-index: 99999;
+  flex-direction: column;
 }
 
-.stars-horizontal span {
+#mediaViewer img,
+#mediaViewer video {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px #0ff;
+}
+
+#mediaViewer .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2.5rem;
+  color: #fff;
   cursor: pointer;
-  color: #ddd;
+  z-index: 100000;
+  background: rgba(0,0,0,0.3);
+  padding: 5px 12px;
+  border-radius: 50%;
   transition: all 0.3s ease;
 }
 
-.stars-horizontal span:hover,
-.stars-horizontal span.selected {
-  color: #ffc107;
+#mediaViewer .close-btn:hover {
+  background: rgba(255,0,0,0.7);
   transform: scale(1.2);
 }
 
 /* ==========================================================================
-   Footer
+   Cookie Banner (CMP)
+   ========================================================================== */
+#cmp-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #409effbd;
+  color: #fff;
+  text-align: center;
+  padding: 15px 10px;
+  z-index: 9999;
+  font-size: 0.95rem;
+}
+
+#cmp-banner button {
+  background: #ff6b35;
+  border: none;
+  color: #fff;
+  padding: 8px 15px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   Radio Button Dance Animation
+   ========================================================================== */
+.dance {
+  animation: danceMove 0.5s infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes danceMove {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+/* ==========================================================================
+   General Animations
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ==========================================================================
+   Footer - Version Smaller & Cleaner
    ========================================================================== */
 footer {
-  background: #0d47a1;
-  color: white;
-  padding: 30px 0;
-  margin-top: 60px;
+  background: #f8f8f8;
+  color: #282c34;
+  padding: 20px 0;                      /* صغّرنا من 25px لـ 20px */
   text-align: center;
+  font-weight: 500;
+  font-size: 0.85rem;                   /* صغّرنا الخط شوية (كان 0.9rem) */
+  box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
+}
+
+.footer-inner {
+  max-width: 900px;                     /* أضيق شوية باش يبقى مركز */
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 .footer-inner p {
-  margin: 8px 0;
+  margin-bottom: 8px;                   /* مسافة أقل بين السطور */
+  line-height: 1.4;
 }
 
-.social-icons a img {
-  width: 32px;
-  margin: 0 12px;
-  filter: brightness(0) invert(1);
-  transition: transform 0.3s;
+.social-icons {
+  margin-top: 12px;                     /* مسافة أقل */
 }
 
-.social-icons a:hover img {
-  transform: scale(1.2);
+.social-icons a {
+  margin: 0 10px;                       /* أقرب شوية */
+  display: inline-block;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
 }
 
+.social-icons a:hover {
+  opacity: 1;
+}
+
+.social-icons img {
+  width: 24px;                          /* صغّرنا الأيقونات من 28px لـ 24px */
+  height: 24px;
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.8));
+}
+
+.copyright-signature {
+  margin-top: 30px;
+  font-size: 0.65rem;                    /* الـ copyright أصغر */
+  color: #555;
+  font-style: italic;
+}
 /* ==========================================================================
    Responsive
    ========================================================================== */
 @media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  .info-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
   .cta-buttons {
     flex-direction: column;
+    align-items: center;
   }
-  
-  .services-slider {
-    gap: 15px;
+  .experience-badge {
+    width: 90%;
   }
-  
-  .service-card {
-    min-width: 200px;
-  }
-  
-  .daily-highlight {
-    margin: 20px 10px;
-    padding: 20px 15px;
+  .faq {
+    width: 90%;
   }
 }
 
 /* ==========================================================================
    RTL Specific
    ========================================================================== */
-[dir="rtl"] * {
+[dir="rtl"] .container {
   direction: rtl;
 }

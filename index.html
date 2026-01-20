@@ -3,55 +3,45 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Atelier Electronique Médenine</title>
-
+    <title>إلكترونيك الرحماني مدنين</title>
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-5360225987687639">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
         crossorigin="anonymous"></script>
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
         rel="stylesheet">
-
     <!-- CSS externe -->
     <link rel="stylesheet" href="style.css" />
-
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
-
 <body>
-
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
-            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-            <h1 id="site-name">Atelier Electronique Médenine</h1>
+            <img src="logo.png" alt="إلكترونيك الرحماني مدنين" class="logo" />
+            <h1 id="site-name">إلكترونيك الرحماني مدنين</h1>
         </div>
-
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
         </div>
     </header>
 
     <main class="container main-content">
-
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
-            <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
-            <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
+            <p class="welcome-msg">مرحبا <span id="user-name"></span>! 👋</p>
             <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
         </div>
-
         <div id="login-popup" class="login-popup">
             <div class="popup-content">
                 <h2>تسجيل الدخول</h2>
@@ -70,14 +60,14 @@
             <a href="videos.html" class="btn-video">شاهد الفيديو 🎥</a>
             <a href="services.html" class="btn-services">خدمات الورشة 🛠️</a>
             <button id="radio-btn" class="btn-radio">شغّل الراديو 📻</button>
-             <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+            <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
             <div id="equalizer" class="equalizer">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-           </div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </section>
 
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
@@ -90,7 +80,6 @@
                     <div class="weather-temp" id="weather-temp">--°C</div>
                     <div class="weather-desc" id="weather-desc">جاري التحميل...</div>
                 </div>
-
                 <div class="prayer-times" id="prayer-times">
                     <p>🌅 الفجر: --:--</p>
                     <p>🌄 الشروق: --:--</p>
@@ -107,47 +96,44 @@
             <h2>الأسئلة الشائعة</h2>
             <div class="faq-item">
                 <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
-                <div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div>
+                <div class="answer">يمكنك إرسال الجهاز عبر البريد إلى عنوان الورشة أو التواصل معنا لترتيب خدمة الاستلام.</div>
             </div>
             <div class="faq-item">
                 <h3>ما هي مدة التصليح المعتادة؟</h3>
-                <div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div>
+                <div class="answer">مدة التصليح تختلف حسب نوع العطل، لكن غالباً لا تتجاوز 3 أيام عمل.</div>
             </div>
             <div class="faq-item">
                 <h3>هل توفرون قطع غيار أصلية؟</h3>
-                <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div>
+                <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية لجميع الأجهزة.</div>
             </div>
             <div class="faq-item">
                 <h3>كيف أتابع حالة الإصلاح؟</h3>
-                <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
+                <div class="answer">نقوم بإرسال صور وفيديوهات لحالة الجهاز أثناء مراحل التصليح عبر واتساب.</div>
             </div>
         </section>
 
         <!-- Rating -->
-       <div class="rating-container">
-  <div class="rating-title" id="rating-title">قيم الورشة</div>
-  <div class="stars-horizontal">
-    <span data-value="5">☆</span>
-    <span data-value="4">☆</span>
-    <span data-value="3">☆</span>
-    <span data-value="2">☆</span>
-    <span data-value="1">☆</span>
-  </div>
-  <div id="rating-value">0/5</div>
-  <div id="rating-average">
-    متوسط التقييمات: <span id="avg-stars">0.0</span> ★ من <span id="vote-count">0</span> صوت
-  </div>
-
-  <!-- عرض عدد الأصوات لكل نجمة -->
-  <div class="rating-breakdown" id="rating-breakdown"></div>
-
-  <!-- رسالة شكر أو تسجيل دخول -->
-  <div class="rating-message" id="rating-message"></div>
-</div>
+        <div class="rating-container">
+            <div class="rating-title" id="rating-title">قيم الورشة</div>
+            <div class="stars-horizontal">
+                <span data-value="5">☆</span>
+                <span data-value="4">☆</span>
+                <span data-value="3">☆</span>
+                <span data-value="2">☆</span>
+                <span data-value="1">☆</span>
+            </div>
+            <div id="rating-value">0/5</div>
+            <div id="rating-average">
+                متوسط التقييمات: <span id="avg-stars">0.0</span> ★ من <span id="vote-count">0</span> صوت
+            </div>
+            <div class="rating-breakdown" id="rating-breakdown"></div>
+            <div class="rating-message" id="rating-message"></div>
+        </div>
 
         <!-- خدمات اليوم -->
         <section class="services-today">
             <h2>خدمات اليوم</h2>
+            <div id="daily-service" class="daily-highlight"></div>
             <div class="services-slider" id="servicesSlider">
                 <div class="service-card">
                     <img src="service1.webp" alt="">
@@ -175,6 +161,7 @@
         <!-- فيديو اليوم -->
         <section class="videos-today">
             <h2>فيديو اليوم</h2>
+            <div id="daily-video" class="daily-highlight"></div>
             <div class="services-slider" id="videoSlider">
                 <div class="service-card video-card">
                     <video src="video1.mp4" muted loop></video>
@@ -200,8 +187,9 @@
         </section>
 
         <!-- تصليح ماكينات لحام -->
-        <section id="postesSection" class="Reparation postes soudure">
+        <section id="postesSection" class="reparation-postes-soudure">
             <h2>تصليح ماكينات لحام</h2>
+            <div id="daily-machine" class="daily-highlight"></div>
             <div class="services-slider">
                 <div class="service-card">
                     <img src="poste1.webp" alt="">
@@ -209,15 +197,15 @@
                 </div>
                 <div class="service-card">
                     <img src="poste2.webp" alt="">
-                    <p class="service-caption">صيانة Poste Soudure</p>
+                    <p class="service-caption">صيانة ماكينة لحام</p>
                 </div>
                 <div class="service-card">
                     <img src="poste3.webp" alt="">
-                    <p class="service-caption">صيانة Poste Soudure</p>
+                    <p class="service-caption">صيانة ماكينة لحام</p>
                 </div>
                 <div class="service-card">
                     <img src="poste4.webp" alt="">
-                    <p class="service-caption">صيانة Poste Soudure</p>
+                    <p class="service-caption">صيانة ماكينة لحام</p>
                 </div>
                 <div class="service-card">
                     <img src="poste5.webp" alt="">
@@ -225,23 +213,24 @@
                 </div>
             </div>
         </section>
-
     </main>
-<footer>
-  <div class="container footer-inner">
-    <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
-    <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook"></a>
-      <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram"></a>
-      <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
-    </div>
-    <p class="copyright-signature">
-      © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
-      Signature: RAHMANI Soufien.
-    </p>
-  </div>
-</footer>
+
+    <footer>
+        <div class="container footer-inner">
+            <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 واتساب: 98192103</p>
+            <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="فيسبوك"></a>
+                <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="إنستغرام"></a>
+                <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="واتساب"></a>
+            </div>
+            <p class="copyright-signature">
+                © 2026 إلكترونيك الرحماني مدنين. جميع الحقوق محفوظة.<br>
+                Signature: RAHMANI Soufien.
+            </p>
+        </div>
+    </footer>
+
     <!-- Fullscreen Media Viewer -->
     <div id="mediaViewer">
         <span class="close-btn">×</span>
@@ -258,6 +247,5 @@
 
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
-
 </body>
 </html>

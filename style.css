@@ -416,110 +416,42 @@ header h1 {
   filter: drop-shadow(0 0 10px #409eff);
 }
 /* ==========================================================================
-   Rating Stars (Horizontal)
+   Rating Container
    ========================================================================== */
 .rating-container {
-  margin: 40px auto;                    /* صغّرنا المارجن شوية */
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px;
+  margin: 50px auto;
+  max-width: 420px;
+  box-shadow: 0 8px 30px rgba(25,118,210,0.15);
   text-align: center;
-  background: #ffffff;                  /* blanc زي بوكس الطقس */
-  backdrop-filter: blur(8px);           /* نفس التأثير اللي في الطقس */
-  border-radius: 15px;
-  padding: 20px;                        /* صغّرنا البادينغ */
-  box-shadow: 0 0 20px #409eff;         /* نفس الشادو اللي في الطقس */
-  max-width: 380px;                     /* أصغر من بوكس الطقس (420px) */
-  color: #282c34;                       /* لون نص داكن على blanc */
 }
 
 .rating-title {
-  font-size: 1.3rem;                    /* صغّرنا العنوان */
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: #409eff;
+  color: #0d47a1;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .stars-horizontal {
   display: flex;
   justify-content: center;
-  gap: 10px;                            /* مسافة أقل بين النجوم */
+  gap: 12px;
+  font-size: 2.8rem;
+  margin-bottom: 15px;
 }
 
 .stars-horizontal span {
-  font-size: 2.6rem;                    /* النجوم أصغر (كان 3.4rem) */
   cursor: pointer;
-  color: #777;                          /* رمادي متوسط على blanc */
-  transition: all 0.35s ease;
+  color: #ddd;
+  transition: all 0.3s ease;
 }
 
-.stars-horizontal span:hover {
-  color: #ffca28;
-  transform: scale(1.25);
-  text-shadow: 0 0 12px rgba(255,202,40,0.6);
-}
-
+.stars-horizontal span:hover,
 .stars-horizontal span.selected {
-  color: #ffca28;
-  text-shadow: 0 0 10px rgba(255,202,40,0.5);
-  transform: scale(1.12);
-}
-
-#rating-value {
-  margin: 15px 0;
-  font-size: 1.8rem;                    /* صغّرنا الرقم */
-  font-weight: 800;
-  color: #ffca28;
-}
-
-#rating-average {
-  color: #555;
-  font-size: 1rem;
-  margin: 12px 0;
-}
-
-#avg-stars {
-  color: #ffca28;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-#vote-count {
-  color: #409eff;
-  font-weight: bold;
-}
-
-/* Breakdown (عدد الأصوات لكل نجمة) */
-.rating-breakdown {
-  margin-top: 15px;
-  font-size: 0.95rem;
-  color: #666;
-  text-align: right;
-}
-
-.rating-breakdown div {
-  margin: 6px 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.rating-breakdown .stars {
-  color: #ffca28;
-  font-size: 1.1rem;
-}
-
-.rating-breakdown .count {
-  color: #409eff;
-}
-
-/* رسالة شكر */
-.rating-message {
-  margin-top: 15px;
-  font-size: 1.05rem;
-  color: #409eff;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.rating-message.show {
-  opacity: 1;
+  color: #ffc107;
+  transform: scale(1.2);
 }
 /* ==========================================================================
    Login Popup + User Box

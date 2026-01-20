@@ -30,13 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Éléments DOM récurrents ───────────────────────────────────────────
     const ticker       = document.getElementById('live-news');
     const toggleBtn    = document.getElementById('toggle-lang-btn');
-    toggleBtn?.addEventListener('click', () => {
-  currentLang = currentLang === 'ar' ? 'fr' : 'ar';
-
-  updateLanguageTexts(currentLang);
-  updateTime();
-  startNewsRotation();
-});
     const timeEl       = document.getElementById('current-time');
     const visitEl      = document.getElementById('visit-count'); // ← تم تعريفه هنا
     const faqContainer = document.querySelector('.faq');
@@ -189,11 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('play', updateEqualizerVisibility);
         radio.addEventListener('pause', updateEqualizerVisibility);
     }
-/* ⭐ Initialisation après chargement de la page ⭐ */
-updateLanguageTexts(currentLang);
-updateTime();
-startNewsRotation();
-initFAQ();
+
     // ── Language toggle ───────────────────────────────────────────────────
     function setLanguage(lang) {
         currentLang = lang;
@@ -654,62 +643,11 @@ loadRatings();
 );
 
     });
-/* -------------------- Language texts -------------------- */
-function updateLanguageTexts(lang) {
 
-  // خدمات اليوم
-  const servicesTitle = document.querySelector('.services-today h2');
-  if (servicesTitle) {
-    servicesTitle.textContent =
-      lang === 'ar' ? 'خدمات اليوم' : 'Services du jour';
-  }
-
-  // فيديو اليوم
-  const videosTitle = document.querySelector('.videos-today h2');
-  if (videosTitle) {
-    videosTitle.textContent =
-      lang === 'ar' ? 'فيديو اليوم' : 'Vidéo du jour';
-  }
-
-  // تصليح ماكينات لحام
-  const postesTitle = document.querySelector('#postesSection h2');
-  if (postesTitle) {
-    postesTitle.textContent =
-      lang === 'ar'
-        ? 'تصليح ماكينات لحام'
-        : 'Réparation postes de soudure';
-  }
-
-  // عنوان التقييم
-  const ratingTitle = document.getElementById('rating-title');
-  if (ratingTitle) {
-    ratingTitle.textContent =
-      lang === 'ar' ? 'قيّم الورشة:' : 'Évaluez l’atelier :';
-  }
-
-  // اتجاه الصفحة
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.documentElement.lang = lang;
-}
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
-        setInterval(() => {
-  siteName.textContent =
-    currentLang === 'ar'
-      ? 'إلكترونيك الرحماني'
-      : 'Atelier Electronique Médenine';
-
-  siteName.style.color = '#ff6b35';
-  siteName.style.textShadow = '0 0 10px #e0a800';
-  siteName.style.transform = 'scale(1.2)';
-
-  setTimeout(() => {
-    siteName.style.color = '';
-    siteName.style.textShadow = '';
-    siteName.style.transform = '';
-  }, 1000);
-}, 4000);
+        const texts = ["Atelier Electronique Médenine", "إلكترونيك الرحماني"];
         setInterval(() => {
             const randomIndex = Math.floor(Math.random() * texts.length);
             siteName.textContent = texts[randomIndex];

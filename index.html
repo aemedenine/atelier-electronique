@@ -113,30 +113,26 @@
         </section>
 
         <!-- Rating -->
-        <div class="rating-container">
-    <div class="rating-title">قيّم الورشة وخلّينا نتحسن! 🌟</div>
-    
-    <div class="stars-horizontal" id="rating-stars">
-        <span data-value="1">☆</span>
-        <span data-value="2">☆</span>
-        <span data-value="3">☆</span>
-        <span data-value="4">☆</span>
-        <span data-value="5">☆</span>
-    </div>
+       <div class="rating-container">
+ <div class="rating-title">قيّم الورشة وخلّينا نتحسن! 🌟</div>
+  <div class="stars-horizontal">
+    <span data-value="5">☆</span>
+    <span data-value="4">☆</span>
+    <span data-value="3">☆</span>
+    <span data-value="2">☆</span>
+    <span data-value="1">☆</span>
+  </div>
+  <div id="rating-value">0/5</div>
+  <div id="rating-average">
+    متوسط التقييمات: <span id="avg-stars">0.0</span> ★ من <span id="vote-count">0</span> صوت
+  </div>
 
-    <div class="rating-value" id="rating-value">0 / 5</div>
+  <!-- عرض عدد الأصوات لكل نجمة -->
+  <div class="rating-breakdown" id="rating-breakdown"></div>
 
-    <div class="rating-average">
-        متوسط التقييم: <span id="avg-stars">0.0</span> 
-        <span class="avg-icon">★</span> 
-        من <span id="vote-count">0</span> صوت
-    </div>
-
-    <div class="rating-breakdown" id="rating-breakdown"></div>
-
-    <div class="rating-message" id="rating-message"></div>
+  <!-- رسالة شكر أو تسجيل دخول -->
+  <div class="rating-message" id="rating-message"></div>
 </div>
-
         <!-- خدمات اليوم -->
         <section class="services-today">
             <h2>خدمات اليوم</h2>

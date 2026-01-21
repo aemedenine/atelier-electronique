@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
-        const texts = ["إلكترونيك الرحماني مدنين"];
+        const texts = ["Atelier Electronique Médenine"];
         setInterval(() => {
             siteName.textContent = texts[0];
             siteName.style.color = '#ff6b35';

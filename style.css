@@ -420,143 +420,110 @@ header h1 {
    Rating Container - نسخة PRO 2026 🔥
    ========================================================================== */
 .rating-container {
-    background: linear-gradient(145deg, #ffffff, #f8fbff);
-    border-radius: 20px;
-    padding: 35px 25px;
-    margin: 50px auto;
-    max-width: 460px;
-    box-shadow: 
-        0 10px 30px rgba(13, 71, 161, 0.15),
-        inset 0 0 15px rgba(255, 193, 7, 0.08);
-    text-align: center;
-    border: 1px solid rgba(25, 118, 210, 0.15);
-    position: relative;
-    overflow: hidden;
-}
-
-.rating-container::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 60%);
-    pointer-events: none;
-    animation: shine 8s infinite linear;
-}
-
-@keyframes shine {
-    0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
-    100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+  background: linear-gradient(145deg, #ffffff, #f0f7ff);
+  border-radius: 16px;
+  padding: 22px 18px;           /* حجم داخلي صغير */
+  margin: 40px auto;
+  max-width: 340px;             /* box صغير ومركّز */
+  box-shadow: 0 6px 20px rgba(13, 71, 161, 0.15);
+  text-align: center;
+  border: 1px solid rgba(13, 71, 161, 0.1);
 }
 
 .rating-title {
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: #0d47a1;
-    margin-bottom: 25px;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1976d2;               /* زرقاوي للعنوان */
+  margin-bottom: 16px;
 }
 
 .stars-horizontal {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin: 20px 0 25px;
-    direction: ltr; /* النجوم تترتب من اليسار لليمين زي المواقع العالمية */
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0 20px;
 }
 
 .stars-horizontal span {
-    font-size: 3.4rem;
-    cursor: pointer;
-    color: #e0e0e0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 2.6rem;
+  cursor: pointer;
+  color: #e0e0e0;               /* رمادي فاتح قبل التحديد */
+  transition: all 0.35s ease;
 }
 
 .stars-horizontal span:hover {
-    color: #ffd700;
-    transform: scale(1.35) rotate(15deg);
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+  color: #ffc107;               /* أصفر ذهبي عند الـ hover */
+  transform: scale(1.25);
+  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
 
 .stars-horizontal span.selected {
-    color: #ffd700;
-    transform: scale(1.2);
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  color: #ffc107;               /* نجوم تبقى أصفر ذهبي كيما طلبك */
+  transform: scale(1.15);
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
 }
 
 .rating-value {
-    font-size: 2.4rem;
-    font-weight: 900;
-    color: #ffd700;
-    margin: 15px 0 20px;
-    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: #1976d2;               /* زرقاوي للقيمة */
+  margin: 12px 0 16px;
 }
 
 .rating-average {
-    font-size: 1.2rem;
-    color: #444;
-    margin: 15px 0;
-}
-
-.avg-icon {
-    color: #ffd700;
-    font-size: 1.4rem;
-    margin: 0 4px;
+  font-size: 1rem;
+  color: #1976d2;               /* زرقاوي للمتوسط */
+  margin: 10px 0;
 }
 
 #avg-stars {
-    color: #0d47a1;
-    font-weight: bold;
+  color: #1976d2;
+  font-weight: bold;
 }
 
 #vote-count {
-    color: #1976d2;
-    font-weight: 700;
+  color: #0d47a1;               /* زرقاوي غامق للعدد */
+  font-weight: 700;
 }
 
 .rating-breakdown {
-    margin: 25px 0;
-    font-size: 1.05rem;
-    color: #555;
+  margin: 18px 0 8px;
+  font-size: 0.95rem;
+  color: #1976d2;               /* زرقاوي للـ breakdown */
 }
 
 .rating-breakdown div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 6px 0;
 }
 
 .rating-breakdown .stars {
-    color: #ffd700;
-    font-size: 1.5rem;
+  color: #ffc107;               /* نجوم في الـ breakdown تبقى أصفر */
+  font-size: 1.2rem;
 }
 
 .rating-breakdown .count {
-    color: #0d47a1;
-    font-weight: 600;
-    min-width: 60px;
-    text-align: left;
+  color: #0d47a1;
+  font-weight: 600;
+  min-width: 50px;
+  text-align: left;
 }
 
 .rating-message {
-    margin-top: 25px;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #1976d2;
-    min-height: 1.6em;
-    opacity: 0;
-    transition: opacity 0.7s ease, transform 0.5s ease;
-    transform: translateY(10px);
+  margin-top: 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1976d2;               /* زرقاوي للرسالة */
+  opacity: 0;
+  transition: all 0.6s ease;
+  min-height: 1.4em;
 }
 
 .rating-message.show {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
 }
 /* ==========================================================================
    Login Popup + User Box

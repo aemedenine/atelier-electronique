@@ -6,10 +6,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
-  color: #1a1a1a; /* نصوص داكنة عشان تبقى واضحة */
+  background: linear-gradient(135deg, #fff 0%, #fff 100%);
+  color: #fff;
   min-height: 100vh;
   overflow-x: hidden;
   direction: rtl;
@@ -17,12 +18,14 @@ html, body {
   line-height: 1.6;
   font-size: 16px;
 }
+
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
+
 /* ==========================================================================
    Header + PCB Canvas + Logo Background
    ========================================================================== */
@@ -33,6 +36,7 @@ header {
   box-shadow: 0 2px 6px rgba(0,0,0,0.6);
   margin-bottom: 15px;
 }
+
 .header-inner {
   position: relative;
   display: flex;
@@ -43,6 +47,7 @@ header {
   text-align: center;
   padding: 30px 0;
 }
+
 #pcbCanvasHeader {
   position: absolute;
   top: 0;
@@ -52,16 +57,19 @@ header {
   z-index: 0;
   pointer-events: none;
 }
+
 .header-inner img.logo,
 .header-inner h1 {
   position: relative;
   z-index: 10;
 }
+
 .logo {
   width: 150px;
   border-radius: 10px;
   box-shadow: 0 0 8px #1e90ff;
 }
+
 header h1 {
   font-weight: 700;
   font-size: 1.8rem;
@@ -71,6 +79,7 @@ header h1 {
   margin-left: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
+
 /* PCB background behind logo */
 .logo-wrapper::after {
   content: "";
@@ -96,10 +105,12 @@ header h1 {
   animation: pcbMove 12s linear infinite;
   z-index: -2;
 }
+
 @keyframes pcbMove {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
 /* ==========================================================================
    News Ticker
    ========================================================================== */
@@ -115,6 +126,7 @@ header h1 {
   font-size: 1rem;
   text-align: center;
 }
+
 .news-text {
   display: inline-block;
   padding: 0 12px;
@@ -122,13 +134,16 @@ header h1 {
   transition: opacity 0.4s ease;
   opacity: 1;
 }
+
 .news-text.fade {
   animation: fade 0.45s linear;
 }
+
 @keyframes fade {
   from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
 /* ==========================================================================
    Info Bar
    ========================================================================== */
@@ -146,6 +161,7 @@ header h1 {
   flex-wrap: wrap;
   gap: 10px;
 }
+
 #toggle-lang-btn {
   background: #fff;
   border: none;
@@ -156,9 +172,11 @@ header h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 #toggle-lang-btn:hover {
   background: #409eff;
 }
+
 /* ==========================================================================
    CTA Buttons + Glow Effect
    ========================================================================== */
@@ -169,6 +187,7 @@ header h1 {
   gap: 15px;
   margin-bottom: 30px;
 }
+
 .cta-buttons a,
 .cta-buttons button {
   background: #fff;
@@ -185,12 +204,14 @@ header h1 {
   transition: background-color 0.3s ease, transform 0.08s ease, box-shadow 0.3s ease;
   box-shadow: 0 2px 6px rgba(30,144,255,0.7);
 }
+
 .cta-buttons a:hover,
 .cta-buttons button:hover {
   background: #fff;
   transform: translateY(-3px);
   box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
 }
+
 .btn-store {
   background: #fff !important;
   color: #3a3a3a !important;
@@ -199,9 +220,11 @@ header h1 {
   font-size: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.18);
 }
+
 .btn-store:hover {
   background: #3a3a3a !important;
 }
+
 /* ==========================================================================
    Experience Badge (Animated)
    ========================================================================== */
@@ -216,17 +239,20 @@ header h1 {
   padding: 0;
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
 }
+
 @keyframes glowExperience {
-  0% { color: yellow; text-shadow: 0 0 5px yellow; }
-  25% { color: red; text-shadow: 0 0 8px red; }
-  50% { color: cyan; text-shadow: 0 0 10px cyan; }
-  75% { color: magenta; text-shadow: 0 0 12px magenta; }
-  100% { color: yellow; text-shadow: 0 0 15px yellow; }
+  0%   { color: yellow;   text-shadow: 0 0 5px yellow; }
+  25%  { color: red;      text-shadow: 0 0 8px red; }
+  50%  { color: cyan;     text-shadow: 0 0 10px cyan; }
+  75%  { color: magenta;  text-shadow: 0 0 12px magenta; }
+  100% { color: yellow;   text-shadow: 0 0 15px yellow; }
 }
+
 @keyframes floatExperience {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50%      { transform: translateY(-6px); }
 }
+
 /* ==========================================================================
    Weather & Prayer Times Box
    ========================================================================== */
@@ -238,28 +264,32 @@ header h1 {
   backdrop-filter: blur(8px);
   border-radius: 15px;
   text-align: center;
-  color: #282c34;
+  color: #ff4740;
   box-shadow: 0 0 20px #409eff;
 }
+
 .weather-box h3 {
   margin-bottom: 10px;
   color: #222;
 }
+
 .weather-temp {
   font-size: 2.5rem;
   font-weight: bold;
   margin: 10px 0;
 }
+
 .weather-desc {
   font-size: 1.1rem;
   opacity: 0.9;
-  color: #1976d2; /* زرقاوي عشان يتناسق */
 }
+
 .weather-box > div {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .prayer-times p {
   display: flex;
   justify-content: space-between;
@@ -267,12 +297,15 @@ header h1 {
   font-size: 1rem;
   color: #282c34;
 }
+
 .prayer-times p span {
   flex-shrink: 0;
 }
+
 .prayer-times p .time {
   font-weight: bold;
 }
+
 /* ==========================================================================
    FAQ Section
    ========================================================================== */
@@ -280,6 +313,7 @@ header h1 {
   max-width: 800px;
   margin: 0 auto 60px auto;
 }
+
 .faq h2 {
   color: #282c34;
   font-weight: 700;
@@ -287,6 +321,7 @@ header h1 {
   text-align: center;
   margin-bottom: 25px;
 }
+
 .faq-item {
   background: #ffffff;
   margin-bottom: 12px;
@@ -296,15 +331,18 @@ header h1 {
   transition: background-color 0.3s ease;
   box-shadow: 0 2px 8px #409eff;
 }
+
 .faq-item:hover {
-  background: #f8f9ff;
+  background: #ffffff;
 }
+
 .faq-item h3 {
   font-weight: 700;
   position: relative;
   color: #000;
   margin-bottom: 6px;
 }
+
 .faq-item h3::after {
   content: "+";
   position: absolute;
@@ -315,10 +353,12 @@ header h1 {
   color: #ff6b35;
   transition: transform 0.3s ease;
 }
+
 .faq-item.open h3::after {
   content: "-";
   transform: rotate(180deg);
 }
+
 .answer {
   margin-top: 12px;
   font-weight: 400;
@@ -326,122 +366,140 @@ header h1 {
   display: none;
   line-height: 1.5;
 }
+
 .faq-item.open .answer {
   display: block;
 }
+
 /* ==========================================================================
-   Equalizer - Pro & Smooth
+   Equalizer - Pro & Smooth (يظهر فقط لما الراديو شغال)
    ========================================================================== */
 .equalizer {
   display: flex;
   justify-content: center;
   align-items: flex-end;
   gap: 5px;
-  height: 35px;
+  height: 35px;                    /* أصغر وأنيق */
   margin: 15px auto 0;
-  opacity: 0;
+  opacity: 0;                      /* مخفي في البداية */
   visibility: hidden;
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
+
 .equalizer.active {
   opacity: 1;
   visibility: visible;
 }
+
 .equalizer .bar {
-  width: 5px;
-  background: linear-gradient(to top, #409eff, #00d4ff);
+  width: 5px;                      /* أرفع شوية */
+  background: linear-gradient(to top, #409eff, #00d4ff);  /* gradient أزرق pro */
   border-radius: 4px 4px 0 0;
   animation: bounce 1.2s infinite ease-in-out;
   transform-origin: bottom;
   box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
 }
+
 .equalizer .bar:nth-child(1) { animation-delay: 0s; }
 .equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
 .equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
 .equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
 .equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
+
 @keyframes bounce {
   0%, 100% { height: 6px; }
-  50% { height: 32px; }
+  50%      { height: 32px; }
 }
+
+/* لما الراديو يشتغل، يصير فيه glow خفيف */
+#radio-stream.playing + .equalizer {
+  filter: drop-shadow(0 0 10px #409eff);
+}
+
 /* ==========================================================================
-   Rating & Promo Section
+   Rating Container - نسخة PRO 2026 🔥
    ========================================================================== */
-.rating-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-  justify-content: center;
-  margin: 40px auto;
-  max-width: 740px;
-}
-.rating-container,
-.promo-box {
-  flex: 1;
-  min-width: 300px;
-  max-width: 340px;
-}
-/* Rating Container */
 .rating-container {
-  background: linear-gradient(145deg, #ffffff, #f0f7ff);
-  border-radius: 16px;
-  padding: 22px 18px;
-  box-shadow: 0 6px 20px rgba(13, 71, 161, 0.15);
+  background: linear-gradient(145deg, #ffffff, #f4f8ff);
+  border-radius: 14px;
+  padding: 14px 12px;          /* أخف */
+  margin: 30px auto;
+  max-width: 260px;            /* أصغر وواضح */
+  box-shadow: 0 4px 14px rgba(13, 71, 161, 0.12);
   text-align: center;
-  border: 1px solid rgba(13, 71, 161, 0.1);
+  border: 1px solid rgba(13, 71, 161, 0.08);
 }
+
+
 .rating-title {
-  font-size: 1.35rem;
-  font-weight: 800;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: #1976d2;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
+
+
 .stars-horizontal {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 16px 0 20px;
+  gap: 8px;
+  margin: 10px 0 12px;
 }
+
+.stars-horizontal span {
+  font-size: 2rem;
+}
+
+
 .stars-horizontal span {
   font-size: 2.6rem;
   cursor: pointer;
-  color: #e0e0e0;
+  color: #e0e0e0;               /* رمادي فاتح قبل التحديد */
   transition: all 0.35s ease;
 }
+
 .stars-horizontal span:hover {
-  color: #ffc107;
+  color: #ffc107;               /* أصفر ذهبي عند الـ hover */
   transform: scale(1.25);
   text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
 }
+
 .stars-horizontal span.selected {
-  color: #ffc107;
+  color: #ffc107;               /* نجوم تبقى أصفر ذهبي كيما طلبك */
   transform: scale(1.15);
   text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
 }
+
 .rating-value {
   font-size: 1.9rem;
   font-weight: 900;
-  color: #1976d2;
+  color: #1976d2;               /* زرقاوي للقيمة */
   margin: 12px 0 16px;
 }
+
 .rating-average {
-  font-size: 1rem;
-  color: #1976d2;
-  margin: 10px 0;
+  font-size: 0.8rem;
+  margin-top: 6px;
 }
+
 #avg-stars {
   color: #1976d2;
   font-weight: bold;
 }
-#vote-count {
-  color: #0d47a1;
+#rating-average {
+  color: #1976d2; /* أزرق */
   font-weight: 700;
 }
-.rating-breakdown {
-  margin: 18px 0 8px;
-  font-size: 0.95rem;
-  color: #1976d2;
+
+#vote-count {
+  color: #0d47a1;               /* زرقاوي غامق للعدد */
+  font-weight: 700;
 }
+
+.rating-breakdown {
+  margin: 10px 0 4px;
+  font-size: 0.8rem;
+}
+
+
 .rating-breakdown div {
   display: flex;
   align-items: center;
@@ -449,55 +507,31 @@ header h1 {
   gap: 8px;
   margin: 6px 0;
 }
+
 .rating-breakdown .stars {
-  color: #ffc107;
+  color: #ffc107;               /* نجوم في الـ breakdown تبقى أصفر */
   font-size: 1.2rem;
 }
+
 .rating-breakdown .count {
   color: #0d47a1;
   font-weight: 600;
   min-width: 50px;
   text-align: left;
 }
+
 .rating-message {
   margin-top: 18px;
   font-size: 1rem;
   font-weight: 600;
-  color: #1976d2;
+  color: #1976d2;               /* زرقاوي للرسالة */
   opacity: 0;
   transition: all 0.6s ease;
   min-height: 1.4em;
 }
+
 .rating-message.show {
   opacity: 1;
-}
-/* Promo Box */
-.promo-box {
-  background: linear-gradient(145deg, #ffffff, #f0f7ff);
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 6px 20px rgba(13, 71, 161, 0.15);
-  border: 1px solid rgba(13, 71, 161, 0.1);
-  height: 220px;
-}
-#promo-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.8s ease-in-out;
-}
-.promo-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(13, 71, 161, 0.75);
-  color: white;
-  padding: 12px;
-  text-align: center;
-  font-size: 1.05rem;
-  font-weight: 700;
 }
 /* ==========================================================================
    Login Popup + User Box
@@ -515,6 +549,7 @@ header h1 {
   z-index: 10000;
   flex-direction: column;
 }
+
 .login-popup .popup-content {
   background: #111;
   padding: 25px;
@@ -526,12 +561,14 @@ header h1 {
   box-shadow: 0 0 20px #0ff;
   animation: fadeIn 0.5s ease;
 }
+
 .login-popup h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
   color: #0ff;
   text-shadow: 0 0 10px #0ff;
 }
+
 .btn-google,
 .btn-close {
   background: #0ff;
@@ -545,20 +582,24 @@ header h1 {
   width: 100%;
   transition: all 0.3s ease;
 }
+
 .btn-google:hover {
   background: #00cdd7;
   transform: translateY(-2px);
   box-shadow: 0 0 12px #0ff;
 }
+
 .btn-close {
   background: #ff6b35;
   color: #fff;
 }
+
 .btn-close:hover {
   background: #e05520;
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
+
 .user-box {
   display: flex;
   justify-content: space-between;
@@ -574,16 +615,19 @@ header h1 {
   box-shadow: 0 0 15px #409eff;
   transition: all 0.3s ease;
 }
+
 .user-box:hover {
   background: #409effbd;
   box-shadow: 0 0 20px #409eff;
 }
+
 .welcome-msg {
   font-size: 1.1rem;
   font-weight: 600;
   color: #282c34;
   text-shadow: 0 0 6px #a9b7c6;
 }
+
 .btn-signout {
   background: #409eff;
   color: #fff;
@@ -594,11 +638,13 @@ header h1 {
   font-weight: 600;
   transition: all 0.3s ease;
 }
+
 .btn-signout:hover {
   background: #e05520;
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
+
 /* ==========================================================================
    Services / Videos / Postes Sliders
    ========================================================================== */
@@ -611,6 +657,7 @@ header h1 {
   font-size: 1.8rem;
   text-shadow: 0 0 5px #a9b7c6;
 }
+
 .services-slider {
   display: flex;
   gap: 20px;
@@ -619,9 +666,11 @@ header h1 {
   cursor: grab;
   scroll-behavior: smooth;
 }
+
 .services-slider::-webkit-scrollbar {
   display: none;
 }
+
 .service-card {
   min-width: 220px;
   background: rgba(255,255,255,0.08);
@@ -632,9 +681,11 @@ header h1 {
   flex-shrink: 0;
   transition: transform 0.3s ease;
 }
+
 .service-card:hover {
   transform: translateY(-8px);
 }
+
 .service-card img,
 .video-card video {
   width: 100%;
@@ -642,19 +693,23 @@ header h1 {
   object-fit: cover;
   border-radius: 12px;
 }
+
 .video-card video {
   height: 160px;
   transition: transform 0.3s ease;
 }
+
 .video-card video:hover {
   transform: scale(1.05);
 }
+
 .service-card p.service-caption {
   margin-top: 10px;
   font-weight: bold;
   color: #282c34;
   text-align: center;
 }
+
 /* ==========================================================================
    Fullscreen Media Viewer
    ========================================================================== */
@@ -671,6 +726,7 @@ header h1 {
   z-index: 99999;
   flex-direction: column;
 }
+
 #mediaViewer img,
 #mediaViewer video {
   max-width: 90%;
@@ -678,6 +734,7 @@ header h1 {
   border-radius: 12px;
   box-shadow: 0 0 25px #0ff;
 }
+
 #mediaViewer .close-btn {
   position: absolute;
   top: 20px;
@@ -691,10 +748,12 @@ header h1 {
   border-radius: 50%;
   transition: all 0.3s ease;
 }
+
 #mediaViewer .close-btn:hover {
   background: rgba(255,0,0,0.7);
   transform: scale(1.2);
 }
+
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */
@@ -710,6 +769,7 @@ header h1 {
   z-index: 9999;
   font-size: 0.95rem;
 }
+
 #cmp-banner button {
   background: #ff6b35;
   border: none;
@@ -720,6 +780,7 @@ header h1 {
   border-radius: 5px;
   font-weight: bold;
 }
+
 /* ==========================================================================
    Radio Button Dance Animation
    ========================================================================== */
@@ -727,59 +788,69 @@ header h1 {
   animation: danceMove 0.5s infinite alternate;
   transform-origin: center;
 }
+
 @keyframes danceMove {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(10deg); }
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(10deg); }
   100% { transform: rotate(-10deg); }
 }
+
 /* ==========================================================================
    General Animations
    ========================================================================== */
 @keyframes fadeIn {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
+
 /* ==========================================================================
    Footer - Version Smaller & Cleaner
    ========================================================================== */
 footer {
   background: #f8f8f8;
   color: #282c34;
-  padding: 20px 0;
+  padding: 20px 0;                      /* صغّرنا من 25px لـ 20px */
   text-align: center;
   font-weight: 500;
-  font-size: 0.85rem;
+  font-size: 0.85rem;                   /* صغّرنا الخط شوية (كان 0.9rem) */
   box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
 }
+
 .footer-inner {
-  max-width: 900px;
+  max-width: 900px;                     /* أضيق شوية باش يبقى مركز */
   margin: 0 auto;
   padding: 0 15px;
 }
+
 .footer-inner p {
-  margin-bottom: 8px;
+  margin-bottom: 8px;                   /* مسافة أقل بين السطور */
   line-height: 1.4;
 }
+
 .social-icons {
-  margin-top: 12px;
+  margin-top: 12px;                     /* مسافة أقل */
 }
+
 .social-icons a {
-  margin: 0 10px;
+  margin: 0 10px;                       /* أقرب شوية */
   display: inline-block;
   opacity: 0.75;
   transition: opacity 0.3s ease;
 }
+
 .social-icons a:hover {
   opacity: 1;
 }
+
 .social-icons img {
-  width: 24px;
+  width: 24px;                          /* صغّرنا الأيقونات من 28px لـ 24px */
   height: 24px;
   filter: drop-shadow(0 0 1px rgba(0,0,0,0.8));
 }
+
 .copyright-signature {
   margin-top: 30px;
-  font-size: 0.65rem;
+  font-size: 0.65rem;                    /* الـ copyright أصغر */
   color: #555;
   font-style: italic;
 }
@@ -806,25 +877,11 @@ footer {
   .faq {
     width: 90%;
   }
-  .rating-section {
-    flex-direction: column;
-    align-items: center;
-  }
 }
+
 /* ==========================================================================
    RTL Specific
    ========================================================================== */
 [dir="rtl"] .container {
   direction: rtl;
-}
-/* Force side-by-side on larger screens */
-@media (min-width: 769px) {
-  .rating-section {
-    flex-wrap: nowrap; /* ما ينزلوش تحت بعض */
-  }
-  
-  .rating-container,
-  .promo-box {
-    flex: 1; /* يتساواو في العرض */
-  }
 }

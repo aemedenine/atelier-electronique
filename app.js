@@ -180,6 +180,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
             });
     }
+function updateWeatherTip(temp, rain, wind) {
+  const tipEl = document.getElementById("weather-tip");
+  let tip = "";
+  let color = "";
+
+  if (temp >= 35) {
+    tip = "🔥 الجو حار برشة… تأكّد من تبريد الأجهزة!";
+    color = "#ff4500";
+  } else if (temp >= 25) {
+    tip = "🌞 الجو دافئ… استمتع بيومك!";
+    color = "#ffa500";
+  } else if (temp >= 15) {
+    tip = "🌤 الجو معتدل… يوم ممتاز للخروج!";
+    color = "#00bfff";
+  } else {
+    tip = "❄️ الجو بارد… التدفئة مطلوبة!";
+    color = "#1e90ff";
+  }
+
+  if (rain >= 50) {
+    tip += " 🌧 ممكن مطر… خد معاك مظلة!";
+  }
+
+  if (wind >= 25) {
+    tip += " 🌬️ ريح قوية… ثبّت أي حاجات خارجية!";
+  }
+
+  tipEl.textContent = tip;
+  tipEl.style.color = color;
+  tipEl.classList.add("animate-tip");
+}
+
+// مثال بالبيانات الحالية
+let currentTemp = 28;
+let currentRain = 10;
+let currentWind = 22;
+
+updateWeatherTip(currentTemp, currentRain, currentWind);
 
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {

@@ -480,6 +480,10 @@ header h1 {
   color: #1976d2;
   font-weight: bold;
 }
+#rating-average {
+  color: #1976d2; /* أزرق */
+  font-weight: 700;
+}
 
 #vote-count {
   color: #0d47a1;               /* زرقاوي غامق للعدد */

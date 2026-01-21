@@ -422,9 +422,9 @@ header h1 {
 .rating-container {
   background: linear-gradient(145deg, #ffffff, #f0f7ff);
   border-radius: 16px;
-  padding: 22px 18px;           /* حجم داخلي صغير */
+  padding: 20px 16px;           /* حجم داخلي صغير */
   margin: 40px auto;
-  max-width: 340px;             /* box صغير ومركّز */
+  max-width: 320px;             /* box صغير ومركّز */
   box-shadow: 0 6px 20px rgba(13, 71, 161, 0.15);
   text-align: center;
   border: 1px solid rgba(13, 71, 161, 0.1);

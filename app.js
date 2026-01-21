@@ -166,61 +166,20 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     updateEqualizerVisibility();
 
-   // ── Weather + Tips (عربي) ─────────────────────────────────────────────
-function updateWeather() {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-        .then(res => res.json())
-        .then(data => {
-            const temp = data.current_weather.temperature;      // درجة الحرارة الحالية
-            const wind = data.current_weather.windspeed;        // سرعة الرياح
-            const rain = data.current_weather.precipitation ?? 0; // الأمطار (ممكن تجي صفر)
-
-            // عرض الطقس في DOM
-            document.getElementById("weather-temp").textContent = temp + "°C";
-            document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind + " كم/س";
-
-            // تحديث نصائح الطقس تلقائياً
-            updateWeatherTip(temp, rain, wind);
-        })
-        .catch(() => {
-            document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
-            document.getElementById("weather-tip").textContent = "";
-        });
-}
-
-function updateWeatherTip(temp, rain, wind) {
-    const tipEl = document.getElementById("weather-tip");
-    let tip = "";
-    let color = "";
-
-    // نصيحة حسب درجة الحرارة
-    if (temp >= 35) {
-        tip = "🔥 الجو حار… تأكّد من تبريد الأجهزة!";
-        color = "#ff4500";
-    } else if (temp >= 25) {
-        tip = "🌞 الجو دافئ… استمتع بيومك!";
-        color = "#ffa500";
-    } else if (temp >= 15) {
-        tip = "🌤 الجو معتدل… يوم ممتاز للخروج!";
-        color = "#00bfff";
-    } else {
-        tip = "❄️ الجو بارد… التدفئة مطلوبة!";
-        color = "#1e90ff";
+    // ── Weather API (عربي فقط) ───────────────────────────────────────────
+    function updateWeather() {
+        fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
+            .then(res => res.json())
+            .then(data => {
+                const temp = data.current_weather.temperature + "°C";
+                const wind = data.current_weather.windspeed + " كم/س";
+                document.getElementById("weather-temp").textContent = temp;
+                document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
+            })
+            .catch(() => {
+                document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
+            });
     }
-
-    // نصائح إضافية حسب المطر والريح
-    if (rain >= 50) tip += " 🌧 ممكن مطر… خد معاك مظلة!";
-    if (wind >= 25) tip += " 🌬️ ريح قوية… ثبّت أي حاجات خارجية!";
-
-    // عرض النصيحة
-    tipEl.textContent = tip;
-    tipEl.style.color = color;
-    tipEl.classList.add("animate-tip");
-}
-
-// ── تحديث الطقس تلقائياً كل دقيقة ─────────────────────────────────
-updateWeather();
-setInterval(updateWeather, 60000); // كل 60000 ملي ثانية = 1 دقيقة
 
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {

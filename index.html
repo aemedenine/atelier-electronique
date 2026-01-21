@@ -124,10 +124,10 @@
         </section>
 
        <div class="rating-section">
-    <!-- Box التقييم -->
+   <div class="rating-section">
+    <!-- Box التقييم الكامل -->
     <div class="rating-container">
-        <!-- كل محتوى التقييم متاعك هنا: title, stars, value, average, breakdown, message -->
-        <div class="rating-title">قيم الورشة</div>
+        <div class="rating-title" id="rating-title">قيم الورشة</div>
         <div class="stars-horizontal">
             <span data-value="5">☆</span>
             <span data-value="4">☆</span>
@@ -135,10 +135,15 @@
             <span data-value="2">☆</span>
             <span data-value="1">☆</span>
         </div>
-        <!-- ... باقي العناصر ... -->
+        <div id="rating-value">0/5</div>
+        <div id="rating-average">
+            متوسط التقييمات: <span id="avg-stars">0.0</span> ★ من <span id="vote-count">0</span> صوت
+        </div>
+        <div class="rating-breakdown" id="rating-breakdown"></div>
+        <div class="rating-message" id="rating-message"></div>
     </div>
 
-    <!-- Box الجديد (الصور اللي تتبدل) -->
+    <!-- Box الجديد (صور تتبدل كل 2 ثواني) -->
     <div class="promo-box">
         <img id="promo-image" src="images/promo1.webp" alt="عرض خاص" loading="lazy">
         <div class="promo-overlay">

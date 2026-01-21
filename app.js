@@ -382,7 +382,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadRatings();
 
-    document.addEventListener("DOMContentLoaded", () => {
 
   const rain = document.querySelector('.electronics-rain');
   if (!rain) return;

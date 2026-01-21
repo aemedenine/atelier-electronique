@@ -382,6 +382,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadRatings();
 
+    document.addEventListener("DOMContentLoaded", () => {
+
+  const rain = document.querySelector('.electronics-rain');
+  if (!rain) return;
+
+  const icons = [
+    'resistor.svg',
+    'ic.svg',
+    'capacitor.svg',
+    'diode.svg'
+  ];
+
+  for (let i = 0; i < 25; i++) {
+    const drop = document.createElement('span');
+    drop.style.left = Math.random() * 100 + 'vw';
+    drop.style.animationDuration = (10 + Math.random() * 10) + 's';
+    drop.style.backgroundImage =
+      `url(images/electronics/${icons[Math.floor(Math.random() * icons.length)]})`;
+    rain.appendChild(drop);
+  }
+
+});
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {

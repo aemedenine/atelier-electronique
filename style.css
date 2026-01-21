@@ -271,6 +271,33 @@ header h1 {
 .prayer-times p .time {
   font-weight: bold;
 }
+/* ==================== تحسين spacing داخل weather-box ==================== */
+.weather-box > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* فرق بين المجموعات */
+}
+
+.weather-box .prayer-times p {
+  margin: 4px 0;   /* فرق بين كل صلاة */
+}
+
+.weather-extra p {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;   /* فرق بين كل info */
+  font-weight: 600;
+}
+
+.weather-tip {
+  margin-top: 10px;      /* فراغ فوق النص */
+  padding: 8px 10px;     /* padding داخلي للنص */
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+  box-shadow: inset 0 0 6px rgba(64,158,255,0.25);
+  font-weight: 600;
+}
+
 /* ==========================================================================
    Weather Extra Infos + Tip (استغلال الفراغ السفلي)
    ========================================================================== */

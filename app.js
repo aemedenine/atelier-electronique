@@ -259,7 +259,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     showDailyItems();
+// ── Promo Box - صور تتبدل كل 2 ثواني ────────────────────────────────────────
+const promoImages = [
+    "images/promo1.webp",   // غيّر حسب صورك الحقيقية
+    "images/promo2.webp",
+    "images/promo3.webp",
+    "images/promo4.webp"
+    // أضف أكثر لو تحب
+];
 
+let promoIndex = 0;
+const promoImgEl = document.getElementById('promo-image');
+
+function changePromoImage() {
+    promoIndex = (promoIndex + 1) % promoImages.length;
+    promoImgEl.style.opacity = 0;
+    setTimeout(() => {
+        promoImgEl.src = promoImages[promoIndex];
+        promoImgEl.style.opacity = 1;
+    }, 800);
+}
+
+if (promoImgEl) {
+    setInterval(changePromoImage, 2000); // كل 2 ثواني
+    promoImgEl.src = promoImages[0]; // ابدأ بالأولى
+}
     // ── Rating System (عربي فقط) ─────────────────────────────────────────
     const stars = document.querySelectorAll('.stars-horizontal span');
     const ratingValue = document.getElementById('rating-value');

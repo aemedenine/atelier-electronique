@@ -420,29 +420,34 @@ header h1 {
    Rating Container - نسخة PRO 2026 🔥
    ========================================================================== */
 .rating-container {
-  background: linear-gradient(145deg, #ffffff, #f0f7ff);
-  border-radius: 16px;
-  padding: 20px 16px;           /* حجم داخلي صغير */
-  margin: 40px auto;
-  max-width: 320px;             /* box صغير ومركّز */
-  box-shadow: 0 6px 20px rgba(13, 71, 161, 0.15);
+  background: linear-gradient(145deg, #ffffff, #f4f8ff);
+  border-radius: 14px;
+  padding: 14px 12px;          /* أخف */
+  margin: 30px auto;
+  max-width: 260px;            /* أصغر وواضح */
+  box-shadow: 0 4px 14px rgba(13, 71, 161, 0.12);
   text-align: center;
-  border: 1px solid rgba(13, 71, 161, 0.1);
+  border: 1px solid rgba(13, 71, 161, 0.08);
 }
+
 
 .rating-title {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #1976d2;               /* زرقاوي للعنوان */
-  margin-bottom: 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 8px;
 }
 
+
 .stars-horizontal {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 16px 0 20px;
+  gap: 8px;
+  margin: 10px 0 12px;
 }
+
+.stars-horizontal span {
+  font-size: 2rem;
+}
+
 
 .stars-horizontal span {
   font-size: 2.6rem;
@@ -471,9 +476,8 @@ header h1 {
 }
 
 .rating-average {
-  font-size: 1rem;
-  color: #1976d2;               /* زرقاوي للمتوسط */
-  margin: 10px 0;
+  font-size: 0.8rem;
+  margin-top: 6px;
 }
 
 #avg-stars {
@@ -491,10 +495,10 @@ header h1 {
 }
 
 .rating-breakdown {
-  margin: 18px 0 8px;
-  font-size: 0.95rem;
-  color: #1976d2;               /* زرقاوي للـ breakdown */
+  margin: 10px 0 4px;
+  font-size: 0.8rem;
 }
+
 
 .rating-breakdown div {
   display: flex;

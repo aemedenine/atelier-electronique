@@ -475,7 +475,9 @@ header h1 {
   color: #1976d2;               /* زرقاوي للمتوسط */
   margin: 10px 0;
 }
-
+.rating-container,
+.rating-container * {
+  color: #1976d2 !important;
 #avg-stars {
   color: #1976d2;
   font-weight: bold;

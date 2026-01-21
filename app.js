@@ -167,19 +167,24 @@ document.addEventListener('DOMContentLoaded', () => {
     updateEqualizerVisibility();
 
     // ── Weather API (عربي فقط) ───────────────────────────────────────────
-    function updateWeather() {
-        fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-            .then(res => res.json())
-            .then(data => {
-                const temp = data.current_weather.temperature + "°C";
-                const wind = data.current_weather.windspeed + " كم/س";
-                document.getElementById("weather-temp").textContent = temp;
-                document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
-            })
-            .catch(() => {
-                document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
-            });
-    }
+   function updateWeather() {
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
+        .then(res => res.json())
+        .then(data => {
+            const temp = data.current_weather.temperature;
+            const wind = data.current_weather.windspeed;
+            const rain = data.current_weather.precipitation ?? 0; // بعض الأحيان ممكن يجي 0
+            document.getElementById("weather-temp").textContent = temp + "°C";
+            document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind + " كم/س";
+
+            // استدعاء نصائح الطقس مباشرة
+            updateWeatherTip(temp, rain, wind);
+        })
+        .catch(() => {
+            document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
+        });
+}
+
 function updateWeatherTip(temp, rain, wind) {
   const tipEl = document.getElementById("weather-tip");
   let tip = "";

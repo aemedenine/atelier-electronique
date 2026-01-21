@@ -817,3 +817,14 @@ footer {
 [dir="rtl"] .container {
   direction: rtl;
 }
+/* Force side-by-side on larger screens */
+@media (min-width: 769px) {
+  .rating-section {
+    flex-wrap: nowrap; /* ما ينزلوش تحت بعض */
+  }
+  
+  .rating-container,
+  .promo-box {
+    flex: 1; /* يتساواو في العرض */
+  }
+}

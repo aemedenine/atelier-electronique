@@ -24,6 +24,16 @@ html, body {
   padding: 0 20px;
 }
 /* ==========================================================================
+   Electronics Rain Background (always under everything)
+   ========================================================================== */
+.electronics-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;  /* تحت كل العناصر */
+  overflow: hidden;
+}
+/* ==========================================================================
    Header + PCB Canvas + Logo Background
    ========================================================================== */
 header {

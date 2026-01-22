@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ورشة إلكترونيك الرحماني</title>
+    <title> ورشة إلكترونيك الرحماني</title>
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-5360225987687639">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
@@ -20,14 +20,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-    <!-- خلفية المطر الإلكتروني -->
-    <div id="rain-container"></div>
-
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
-            <img src="logo.png" alt="ورشة إلكترونيك الرحماني" class="logo" />
-            <h1 id="site-name">ورشة إلكترونيك الرحماني</h1>
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <h1 id="site-name">Atelier Electronique Médenine</h1>
         </div>
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
@@ -37,10 +34,11 @@
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
+            <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
-            <p class="welcome-msg">مرحبا <span id="user-name"></span>! 👋</p>
+            <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
             <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
         </div>
         <div id="login-popup" class="login-popup">
@@ -71,8 +69,9 @@
         </section>
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
-        <!-- Weather + Rating جنب بعض -->
+        <!-- Weather + Rating جنب بعض (هذا القسم اللي تحب) -->
         <div class="weather-rating-grid">
+            <!-- Box الطقس -->
             <div class="weather-box">
                 <h3>🌦️ حالة الطقس في مدنين</h3>
                 <div>
@@ -91,6 +90,7 @@
                 </div>
             </div>
 
+            <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
                 <div class="stars-horizontal">
@@ -244,33 +244,5 @@
 
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
-
-    <!-- المطر الإلكتروني بالصور الحقيقية -->
-    <script>
-      const realComponents = [
-        'resistor.png',
-        'diode.png',
-        'capacitor.png',
-        'transistor.png',
-        'ic.png'
-      ];
-
-      function createComponent() {
-        const el = document.createElement('div');
-        el.className = 'falling-component';
-        el.style.left = Math.random() * 100 + 'vw';
-        const randomImg = realComponents[Math.floor(Math.random() * realComponents.length)];
-        el.style.backgroundImage = `url(${randomImg})`;
-        const duration = Math.random() * 8 + 6;
-        el.style.animationDuration = duration + 's';
-        const size = Math.random() * 20 + 30;
-        el.style.width = size + 'px';
-        el.style.height = size + 'px';
-        document.getElementById('rain-container').appendChild(el);
-        setTimeout(() => el.remove(), duration * 1000 + 1000);
-      }
-
-      setInterval(createComponent, 350);
-    </script>
 </body>
 </html>

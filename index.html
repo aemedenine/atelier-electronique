@@ -240,13 +240,14 @@
 
     <!-- المطر الإلكتروني (تحت كل شيء) -->
    <!-- المطر الإلكتروني – مكونات أكبر وأوضح -->
+<!-- المطر الإلكتروني – بدون إطار رمادي أو cage -->
 <script>
   const components = [
     'resistor.png',
     'diode.png',
     'capacitor.png',
     'transistor.png',
-    'ic.png'  // لو موجود، وإلا احذف السطر هذا
+    'ic.png'
   ];
 
   function createComponent() {
@@ -254,29 +255,31 @@
     el.className = 'falling-component';
     
     el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-80px';  // نبدأ من فوق شوية
     
     const img = components[Math.floor(Math.random() * components.length)];
     el.style.backgroundImage = `url(${img})`;
     
-    // حجم أكبر وأوضح (60 إلى 120px)
+    // حجم أكبر وواضح (60 إلى 120px)
     const size = Math.random() * 60 + 60;
     el.style.width = size + 'px';
     el.style.height = size + 'px';
     
-    // سرعة بطيئة نسبياً عشان يبانوا مليح
-    const speed = Math.random() * 8 + 12; // 12 إلى 20 ثانية
-    el.style.animationDuration = speed + 's';
+    // سرعة معقولة
+    const duration = Math.random() * 8 + 10;
+    el.style.animationDuration = duration + 's';
     
-    // شوية شفافية خفيفة عشان ما يبقاوش قويين بزاف
-    el.style.opacity = Math.random() * 0.3 + 0.6; // بين 0.6 و 0.9
+    // تأكيد: بدون خلفية ولا إطار
+    el.style.backgroundColor = 'transparent';
+    el.style.border = 'none';
+    el.style.boxShadow = 'none';
     
     document.getElementById('rain-container').appendChild(el);
     
-    setTimeout(() => el.remove(), speed * 1000 + 2000);
+    setTimeout(() => el.remove(), duration * 1000 + 2000);
   }
 
-  // نبدأ المطر (كل 600ms مكون جديد – كثافة مريحة)
-  setInterval(createComponent, 600);
+  setInterval(createComponent, 500);
 </script>
 </body>
 </html>

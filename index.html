@@ -240,51 +240,63 @@
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
 
-    <!-- المطر الإلكتروني (resistances, diodes, condensateurs, circuits) -->
+    <!-- المطر الإلكتروني بصور حقيقية (composants réels) -->
     <script>
-    tsParticles.load("particles-js", {
-      fullScreen: { enable: true, zIndex: -1 },
-      particles: {
-        number: { value: 60, density: { enable: true, value_area: 800 } },
-        color: { value: ["#00bfff", "#ff4500", "#32cd32", "#ffd700", "#ff1493"] },
-        shape: {
-          type: ["circle", "triangle", "polygon", "star"],
-          options: {
-            polygon: { nb_sides: 5 },
-            star: { nb_sides: 5 }
-          }
-        },
-        opacity: { value: 0.7, random: true },
-        size: { value: 8, random: true },
-        line_linked: {
-          enable: true,
-          distance: 120,
-          color: "#00bfff",
-          opacity: 0.3,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 2.5,
-          direction: "bottom",
-          random: false,
-          straight: false,
-          out_mode: "out",
-          bounce: false
-        }
-      },
-      interactivity: {
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" }
-        },
-        modes: {
-          repulse: { distance: 100 },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
+    // قائمة صور المكونات الحقيقية (غيّرها بصورك أو استخدم روابط خارجية)
+    const realComponents = [
+      'https://i.imgur.com/5jK8QvL.png', // مقاومة (resistor)
+      'https://i.imgur.com/9zL8QvL.png', // ديود (diode)
+      'https://i.imgur.com/3kP9QvL.png', // كاباسيتور (capacitor)
+      'https://i.imgur.com/7mN8QvL.png', // ترانزستور (transistor)
+      'https://i.imgur.com/2pR9QvL.png'  // IC صغيرة
+    ];
+
+    function createRealComponent() {
+      const el = document.createElement('div');
+      el.className = 'falling-real-component';
+      
+      // موقع عشوائي في الأعلى
+      el.style.left = Math.random() * 100 + 'vw';
+      
+      // صورة مكون حقيقي عشوائي
+      el.style.backgroundImage = `url(${realComponents[Math.floor(Math.random() * realComponents.length)]})`;
+      
+      // سرعة عشوائية + حجم عشوائي
+      const duration = Math.random() * 8 + 6; // 6 إلى 14 ثانية
+      el.style.animationDuration = duration + 's';
+      
+      const size = Math.random() * 20 + 30; // 30px إلى 50px
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      
+      document.body.appendChild(el); // نضيفه مباشرة في body
+      
+      // حذف بعد ما ينزل
+      setTimeout(() => el.remove(), duration * 1000 + 1000);
+    }
+
+    // ابدأ المطر الإلكتروني بالصور الحقيقية
+    setInterval(createRealComponent, 350); // كل 0.35 ثانية ينزل مكون جديد
     </script>
+
+    <!-- CSS للمكونات الحقيقية اللي بتنزل -->
+    <style>
+      .falling-real-component {
+        position: fixed;
+        top: -50px; /* نبدأ من فوق الشاشة */
+        background-size: contain;
+        background-repeat: no-repeat;
+        pointer-events: none;
+        z-index: -1;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh); /* ينزل لتحت الشاشة */
+          opacity: 0;
+        }
+      }
+    </style>
 </body>
 </html>

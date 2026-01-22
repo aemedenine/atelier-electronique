@@ -9,7 +9,7 @@
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
   background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
-  color: #1a1a1a; /* نصوص داكنة واضحة بدل #fff */
+  color: #1a1a1a;
   min-height: 100vh;
   overflow-x: hidden;
   direction: rtl;
@@ -272,127 +272,6 @@ header h1 {
   font-weight: bold;
 }
 /* ==========================================================================
-   Weather Extra Infos + Tip (استغلال الفراغ السفلي)
-   ========================================================================== */
-.weather-extra {
-  margin-top: 8px;
-  padding-top: 6px;
-  border-top: 1px dashed rgba(64,158,255,0.4);
-  font-size: 0.8rem;
-  color: #0d47a1;
-}
-.weather-extra p {
-  display: flex;
-  justify-content: space-between;
-  margin: 3px 0;
-  font-weight: 600;
-}
-.weather-tip {
-  margin-top: 10px;
-  padding: 8px 10px;
-  background: linear-gradient(135deg, #e3f2fd, #ffffff);
-  border-radius: 10px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #0d47a1;
-  box-shadow: inset 0 0 6px rgba(64,158,255,0.25);
-}
-/* ==========================================================================
-   FAQ Section
-   ========================================================================== */
-.faq {
-  max-width: 800px;
-  margin: 0 auto 60px auto;
-}
-.faq h2 {
-  color: #282c34;
-  font-weight: 700;
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 25px;
-}
-.faq-item {
-  background: #ffffff;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  padding: 15px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 8px #409eff;
-}
-.faq-item:hover {
-  background: #ffffff;
-}
-.faq-item h3 {
-  font-weight: 700;
-  position: relative;
-  color: #000;
-  margin-bottom: 6px;
-}
-.faq-item h3::after {
-  content: "+";
-  position: absolute;
-  left: 20px;
-  top: 0;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ff6b35;
-  transition: transform 0.3s ease;
-}
-.faq-item.open h3::after {
-  content: "-";
-  transform: rotate(180deg);
-}
-.answer {
-  margin-top: 12px;
-  font-weight: 400;
-  color: #000;
-  display: none;
-  line-height: 1.5;
-}
-.faq-item.open .answer {
-  display: block;
-}
-/* ==========================================================================
-   Equalizer - Pro & Smooth (يظهر فقط لما الراديو شغال)
-   ========================================================================== */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 5px;
-  height: 35px;
-  margin: 15px auto 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-.equalizer.active {
-  opacity: 1;
-  visibility: visible;
-}
-.equalizer .bar {
-  width: 5px;
-  background: linear-gradient(to top, #409eff, #00d4ff);
-  border-radius: 4px 4px 0 0;
-  animation: bounce 1.2s infinite ease-in-out;
-  transform-origin: bottom;
-  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
-}
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
-@keyframes bounce {
-  0%, 100% { height: 6px; }
-  50% { height: 32px; }
-}
-/* لما الراديو يشتغل، يصير فيه glow خفيف */
-#radio-stream.playing + .equalizer {
-  filter: drop-shadow(0 0 10px #409eff);
-}
-/* ==========================================================================
    Weather + Rating Grid - جنب بعض ونفس الحجم
    ========================================================================== */
 .weather-rating-grid {
@@ -403,19 +282,16 @@ header h1 {
   margin: 50px auto;
   padding: 0 20px;
 }
-/* في الشاشات الكبيرة: اثنين جنب بعض */
 @media (min-width: 769px) {
   .weather-rating-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
-/* في الموبايل: فوق بعض */
 @media (max-width: 768px) {
   .weather-rating-grid {
     grid-template-columns: 1fr;
   }
 }
-/* حجم متساوي للـ boxين */
 .weather-box,
 .rating-container {
   width: 100%;
@@ -426,14 +302,13 @@ header h1 {
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(13,71,161,0.15);
 }
-/* تحسين بصري */
 .weather-box:hover,
 .rating-container:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 30px rgba(13,71,161,0.2);
 }
 /* ==========================================================================
-   Rating Container - نسخة PRO 2026 🔥
+   Rating Container - PRO 2026
    ========================================================================== */
 .rating-container {
   background: linear-gradient(145deg, #ffffff, #f4f8ff);
@@ -765,7 +640,7 @@ header h1 {
   to { opacity: 1; }
 }
 /* ==========================================================================
-   Footer - Version Smaller & Cleaner
+   Footer
    ========================================================================== */
 footer {
   background: #f8f8f8;
@@ -837,4 +712,32 @@ footer {
    ========================================================================== */
 [dir="rtl"] .container {
   direction: rtl;
+}
+
+/* ==========================================================================
+   Falling Components (المطر الإلكتروني)
+   ========================================================================== */
+#rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -9999;
+  overflow: hidden;
+}
+.falling-component {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0.2;
+  }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title> ورشة إلكترونيك الرحماني</title>
+    <title>ورشة إلكترونيك الرحماني</title>
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-5360225987687639">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
@@ -26,8 +26,8 @@
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
-            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-            <h1 id="site-name">Atelier Electronique Médenine</h1>
+            <img src="logo.png" alt="ورشة إلكترونيك الرحماني" class="logo" />
+            <h1 id="site-name">ورشة إلكترونيك الرحماني</h1>
         </div>
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
@@ -37,11 +37,10 @@
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
-            <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
-            <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
+            <p class="welcome-msg">مرحبا <span id="user-name"></span>! 👋</p>
             <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
         </div>
         <div id="login-popup" class="login-popup">
@@ -71,6 +70,7 @@
             </div>
         </section>
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
+
         <!-- Weather + Rating جنب بعض -->
         <div class="weather-rating-grid">
             <!-- Box الطقس -->
@@ -91,6 +91,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
@@ -109,6 +110,7 @@
                 <div class="rating-message" id="rating-message"></div>
             </div>
         </div>
+
         <!-- FAQ -->
         <section class="faq">
             <h2>الأسئلة الشائعة</h2>
@@ -129,6 +131,7 @@
                 <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
             </div>
         </section>
+
         <!-- خدمات اليوم -->
         <section class="services-today">
             <h2>خدمات اليوم</h2>
@@ -155,6 +158,7 @@
                 </div>
             </div>
         </section>
+
         <!-- فيديو اليوم -->
         <section class="videos-today">
             <h2>فيديو اليوم</h2>
@@ -181,6 +185,7 @@
                 </div>
             </div>
         </section>
+
         <!-- تصليح ماكينات لحام -->
         <section id="postesSection" class="Reparation postes soudure">
             <h2>تصليح ماكينات لحام</h2>
@@ -208,6 +213,7 @@
             </div>
         </section>
     </main>
+
     <footer>
         <div class="container footer-inner">
             <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
@@ -218,17 +224,19 @@
                 <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
             </div>
             <p class="copyright-signature">
-                © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
+                © 2026 ورشة إلكترونيك الرحماني. جميع الحقوق محفوظة.<br>
                 Signature: RAHMANI Soufien.
             </p>
         </div>
     </footer>
+
     <!-- Fullscreen Media Viewer -->
     <div id="mediaViewer">
         <span class="close-btn">×</span>
         <img id="viewerImg" style="display:none" alt="صورة تكبير">
         <video id="viewerVideo" style="display:none" controls></video>
     </div>
+
     <!-- CMP Banner -->
     <div id="cmp-banner">
         نستخدم الكوكيز لتحسين تجربتك.
@@ -239,15 +247,15 @@
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
 
-    <!-- المطر الإلكتروني بالصور الحقيقية (بدون ما نغيّر أي حاجة قديمة) -->
+    <!-- المطر الإلكتروني بصورك الحقيقية (من الـ root مباشرة) -->
     <script>
-      // قائمة صورك الحقيقية – غيّر المسارات حسب مكان الصور عندك
+      // قائمة الصور (في الـ root)
       const realComponents = [
-        'images/resistor.png',       // غيّر المسار هنا
-        'images/diode.png',
-        'images/capacitor.png',
-        'images/transistor.png',
-        'images/ic-small.png'        // اختياري
+        'resistor.png',
+        'diode.png',
+        'capacitor.png',
+        'transistor.png',
+        'ic.png'  // لو موجود
       ];
 
       function createComponent() {
@@ -259,10 +267,10 @@
         const randomImg = realComponents[Math.floor(Math.random() * realComponents.length)];
         el.style.backgroundImage = `url(${randomImg})`;
         
-        const duration = Math.random() * 8 + 6; // سرعة بين 6 و 14 ثانية
+        const duration = Math.random() * 8 + 6;
         el.style.animationDuration = duration + 's';
         
-        const size = Math.random() * 20 + 30; // حجم بين 30 و 50px
+        const size = Math.random() * 20 + 30;
         el.style.width = size + 'px';
         el.style.height = size + 'px';
         
@@ -271,11 +279,10 @@
         setTimeout(() => el.remove(), duration * 1000 + 1000);
       }
 
-      // ابدأ المطر
-      setInterval(createComponent, 350); // كل 0.35 ثانية ينزل مكون جديد
+      setInterval(createComponent, 350);
     </script>
 
-    <!-- CSS للمكونات الحقيقية اللي بتنزل -->
+    <!-- CSS للمطر -->
     <style>
       .falling-component {
         position: fixed;

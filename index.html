@@ -239,45 +239,44 @@
     <script src="app.js" defer></script>
 
     <!-- المطر الإلكتروني (تحت كل شيء) -->
-    <script>
-      // قائمة الصور (في نفس المجلد الرئيسي)
-      const realComponents = [
-        'resistor.png',
-        'diode.png',
-        'capacitor.png',
-        'transistor.png',
-        'ic.png'  // لو موجود، وإلا احذف السطر هذا
-      ];
+   <!-- المطر الإلكتروني – مكونات أكبر وأوضح -->
+<script>
+  const components = [
+    'resistor.png',
+    'diode.png',
+    'capacitor.png',
+    'transistor.png',
+    'ic.png'  // لو موجود، وإلا احذف السطر هذا
+  ];
 
-      function createComponent() {
-        const el = document.createElement('div');
-        el.className = 'falling-component';
-        
-        // موقع عشوائي في العرض
-        el.style.left = Math.random() * 100 + 'vw';
-        
-        // صورة عشوائية من القائمة
-        const randomImg = realComponents[Math.floor(Math.random() * realComponents.length)];
-        el.style.backgroundImage = `url(${randomImg})`;
-        
-        // سرعة عشوائية (8 إلى 14 ثانية)
-        const duration = Math.random() * 6 + 8;
-        el.style.animationDuration = duration + 's';
-        
-        // حجم عشوائي (25 إلى 50px)
-        const size = Math.random() * 25 + 25;
-        el.style.width = size + 'px';
-        el.style.height = size + 'px';
-        
-        // نضيف المكون داخل rain-container
-        document.getElementById('rain-container').appendChild(el);
-        
-        // نحذف بعد ما ينزل
-        setTimeout(() => el.remove(), duration * 1000 + 1000);
-      }
+  function createComponent() {
+    const el = document.createElement('div');
+    el.className = 'falling-component';
+    
+    el.style.left = Math.random() * 100 + 'vw';
+    
+    const img = components[Math.floor(Math.random() * components.length)];
+    el.style.backgroundImage = `url(${img})`;
+    
+    // حجم أكبر وأوضح (60 إلى 120px)
+    const size = Math.random() * 60 + 60;
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    
+    // سرعة بطيئة نسبياً عشان يبانوا مليح
+    const speed = Math.random() * 8 + 12; // 12 إلى 20 ثانية
+    el.style.animationDuration = speed + 's';
+    
+    // شوية شفافية خفيفة عشان ما يبقاوش قويين بزاف
+    el.style.opacity = Math.random() * 0.3 + 0.6; // بين 0.6 و 0.9
+    
+    document.getElementById('rain-container').appendChild(el);
+    
+    setTimeout(() => el.remove(), speed * 1000 + 2000);
+  }
 
-      // نبدأ المطر (كل 0.4 ثانية مكون جديد)
-      setInterval(createComponent, 400);
-    </script>
+  // نبدأ المطر (كل 600ms مكون جديد – كثافة مريحة)
+  setInterval(createComponent, 600);
+</script>
 </body>
 </html>

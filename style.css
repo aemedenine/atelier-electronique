@@ -24,16 +24,6 @@ html, body {
   padding: 0 20px;
 }
 /* ==========================================================================
-   Electronics Rain Background (always under everything)
-   ========================================================================== */
-.electronics-rain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;  /* تحت كل العناصر */
-  overflow: hidden;
-}
-/* ==========================================================================
    Header + PCB Canvas + Logo Background
    ========================================================================== */
 header {
@@ -818,30 +808,6 @@ footer {
   }
   .faq {
     width: 90%;
-  }
-}
-.electronics-rain {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
-}
-
-.electronics-rain span {
-  position: absolute;
-  top: -40px;
-  width: 20px;
-  height: 20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh);
   }
 }
 /* ==========================================================================

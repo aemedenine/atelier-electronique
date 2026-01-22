@@ -272,6 +272,32 @@ header h1 {
   font-weight: bold;
 }
 /* ==========================================================================
+   Weather Extra Infos + Tip (استغلال الفراغ السفلي)
+   ========================================================================== */
+.weather-extra {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(64,158,255,0.4);
+  font-size: 0.8rem;
+  color: #0d47a1;
+}
+.weather-extra p {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+  font-weight: 600;
+}
+.weather-tip {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0d47a1;
+  box-shadow: inset 0 0 6px rgba(64,158,255,0.25);
+}
+/* ==========================================================================
    FAQ Section
    ========================================================================== */
 .faq {
@@ -377,21 +403,18 @@ header h1 {
   margin: 50px auto;
   padding: 0 20px;
 }
-
 /* في الشاشات الكبيرة: اثنين جنب بعض */
 @media (min-width: 769px) {
   .weather-rating-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
-
 /* في الموبايل: فوق بعض */
 @media (max-width: 768px) {
   .weather-rating-grid {
     grid-template-columns: 1fr;
   }
 }
-
 /* حجم متساوي للـ boxين */
 .weather-box,
 .rating-container {
@@ -403,7 +426,6 @@ header h1 {
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(13,71,161,0.15);
 }
-
 /* تحسين بصري */
 .weather-box:hover,
 .rating-container:hover {
@@ -809,16 +831,6 @@ footer {
   .faq {
     width: 90%;
   }
-}
-#rain-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -2;
-  overflow: hidden;
 }
 /* ==========================================================================
    RTL Specific

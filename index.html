@@ -20,7 +20,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-    <!-- خلفية المطر الإلكتروني بالصور الحقيقية -->
+    <!-- خلفية المطر الإلكتروني -->
     <div id="rain-container"></div>
 
     <header>
@@ -73,7 +73,6 @@
 
         <!-- Weather + Rating جنب بعض -->
         <div class="weather-rating-grid">
-            <!-- Box الطقس -->
             <div class="weather-box">
                 <h3>🌦️ حالة الطقس في مدنين</h3>
                 <div>
@@ -92,7 +91,6 @@
                 </div>
             </div>
 
-            <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
                 <div class="stars-horizontal">
@@ -224,7 +222,7 @@
                 <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
             </div>
             <p class="copyright-signature">
-                © 2026 ورشة إلكترونيك الرحماني. جميع الحقوق محفوظة.<br>
+                © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
                 Signature: RAHMANI Soufien.
             </p>
         </div>
@@ -247,60 +245,32 @@
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
 
-    <!-- المطر الإلكتروني بصورك الحقيقية (من الـ root مباشرة) -->
+    <!-- المطر الإلكتروني -->
     <script>
-      // قائمة الصور (في الـ root)
       const realComponents = [
         'resistor.png',
         'diode.png',
         'capacitor.png',
         'transistor.png',
-        'ic.png'  // لو موجود
+        'ic.png'
       ];
 
       function createComponent() {
         const el = document.createElement('div');
         el.className = 'falling-component';
-        
         el.style.left = Math.random() * 100 + 'vw';
-        
         const randomImg = realComponents[Math.floor(Math.random() * realComponents.length)];
         el.style.backgroundImage = `url(${randomImg})`;
-        
         const duration = Math.random() * 8 + 6;
         el.style.animationDuration = duration + 's';
-        
         const size = Math.random() * 20 + 30;
         el.style.width = size + 'px';
         el.style.height = size + 'px';
-        
-        document.body.appendChild(el);
-        
+        document.getElementById('rain-container').appendChild(el);
         setTimeout(() => el.remove(), duration * 1000 + 1000);
       }
 
       setInterval(createComponent, 350);
     </script>
-
-    <!-- CSS للمطر -->
-    <style>
-      .falling-component {
-        position: fixed;
-        top: -60px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        pointer-events: none;
-        z-index: -1;
-        animation: fall linear forwards;
-      }
-
-      @keyframes fall {
-        to {
-          transform: translateY(110vh);
-          opacity: 0.2;
-        }
-      }
-    </style>
 </body>
 </html>

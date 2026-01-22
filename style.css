@@ -8,7 +8,7 @@
 }
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: transparent; /* مهم جداً: شفاف عشان المطر يبان من تحت */
+  background: transparent; /* شفاف عشان المطر يبان من تحت */
   color: #1a1a1a; /* نصوص داكنة واضحة بدل #fff */
   min-height: 100vh;
   overflow-x: hidden;
@@ -22,18 +22,18 @@ html, body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  background: transparent; /* شفاف كمان */
+  background: transparent;
 }
 /* ==========================================================================
    Header + PCB Canvas + Logo Background
    ========================================================================== */
 header {
   position: relative;
-  background: rgba(253, 253, 253, 0.95); /* خفيف شفاف عشان المطر يبان من تحته */
+  background: rgba(253, 253, 253, 0.95);
   padding: 20px 0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.6);
   margin-bottom: 15px;
-  z-index: 10; /* فوق المطر */
+  z-index: 10;
 }
 .header-inner {
   position: relative;
@@ -830,29 +830,41 @@ footer {
 }
 
 /* ==========================================================================
-   Falling Components (المطر الإلكتروني تحت كل شيء)
+   Falling Components (المطر الإلكتروني – بدون cage رمادي، أكبر شوية)
    ========================================================================== */
 #rain-container {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: -9999; /* تحت كل العناصر */
+  z-index: -9999; /* تحت كل شيء */
   overflow: hidden;
 }
+
 .falling-component {
   position: absolute;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   pointer-events: none;
   animation: fall linear forwards;
 }
+
+/* حجم أكبر وأوضح (60 إلى 120px) */
+.falling-component {
+  width: 60px;
+  height: 60px;
+  animation-duration: 12s; /* بطيء عشان يبان مليح */
+}
+
+/* الحركة */
 @keyframes fall {
   to {
     transform: translateY(110vh);
-    opacity: 0.2;
+    opacity: 0.3;
   }
 }

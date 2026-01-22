@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ورشة إلكترونيك الرحماني</title>
+    <title> ورشة إلكترونيك الرحماني</title>
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-5360225987687639">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5360225987687639"
@@ -18,13 +18,18 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <!-- tsParticles للمطر الإلكتروني -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
 </head>
 <body>
+    <!-- خلفية المطر الإلكتروني -->
+    <div id="particles-js"></div>
+
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
-            <img src="logo.png" alt="ورشة إلكترونيك الرحماني" class="logo" />
-            <h1 id="site-name">ورشة إلكترونيك الرحماني</h1>
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <h1 id="site-name">Atelier Electronique Médenine</h1>
         </div>
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
@@ -34,10 +39,11 @@
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
+            <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
-            <p class="welcome-msg">مرحبا <span id="user-name"></span>! 👋</p>
+            <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
             <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
         </div>
         <div id="login-popup" class="login-popup">
@@ -67,8 +73,7 @@
             </div>
         </section>
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
-        <!-- Weather + Rating جنب بعض -->
+        <!-- Weather + Rating جنب بعض (هذا القسم اللي تحب) -->
         <div class="weather-rating-grid">
             <!-- Box الطقس -->
             <div class="weather-box">
@@ -88,7 +93,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
@@ -107,7 +111,6 @@
                 <div class="rating-message" id="rating-message"></div>
             </div>
         </div>
-
         <!-- FAQ -->
         <section class="faq">
             <h2>الأسئلة الشائعة</h2>
@@ -128,7 +131,6 @@
                 <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
             </div>
         </section>
-
         <!-- خدمات اليوم -->
         <section class="services-today">
             <h2>خدمات اليوم</h2>
@@ -155,7 +157,6 @@
                 </div>
             </div>
         </section>
-
         <!-- فيديو اليوم -->
         <section class="videos-today">
             <h2>فيديو اليوم</h2>
@@ -182,7 +183,6 @@
                 </div>
             </div>
         </section>
-
         <!-- تصليح ماكينات لحام -->
         <section id="postesSection" class="Reparation postes soudure">
             <h2>تصليح ماكينات لحام</h2>
@@ -210,7 +210,6 @@
             </div>
         </section>
     </main>
-
     <footer>
         <div class="container footer-inner">
             <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
@@ -221,27 +220,71 @@
                 <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
             </div>
             <p class="copyright-signature">
-                © 2026 ورشة إلكترونيك الرحماني. جميع الحقوق محفوظة.<br>
+                © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
                 Signature: RAHMANI Soufien.
             </p>
         </div>
     </footer>
-
     <!-- Fullscreen Media Viewer -->
     <div id="mediaViewer">
         <span class="close-btn">×</span>
         <img id="viewerImg" style="display:none" alt="صورة تكبير">
         <video id="viewerVideo" style="display:none" controls></video>
     </div>
-
     <!-- CMP Banner -->
     <div id="cmp-banner">
         نستخدم الكوكيز لتحسين تجربتك.
         <button id="consent-allow">أوافق</button>
         <button id="consent-manage">تغيير الخيارات</button>
     </div>
-
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
+
+    <!-- المطر الإلكتروني (resistances, diodes, condensateurs, circuits) -->
+    <script>
+    tsParticles.load("particles-js", {
+      fullScreen: { enable: true, zIndex: -1 },
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: ["#00bfff", "#ff4500", "#32cd32", "#ffd700", "#ff1493"] },
+        shape: {
+          type: ["circle", "triangle", "polygon", "star"],
+          options: {
+            polygon: { nb_sides: 5 },
+            star: { nb_sides: 5 }
+          }
+        },
+        opacity: { value: 0.7, random: true },
+        size: { value: 8, random: true },
+        line_linked: {
+          enable: true,
+          distance: 120,
+          color: "#00bfff",
+          opacity: 0.3,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2.5,
+          direction: "bottom",
+          random: false,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+    </script>
 </body>
 </html>

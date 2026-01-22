@@ -20,6 +20,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
+    <!-- خلفية المطر الإلكتروني – أول حاجة عشان يبقى تحت الكل -->
+    <div id="rain-container"></div>
+
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
@@ -68,7 +71,6 @@
             </div>
         </section>
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
         <!-- Weather + Rating جنب بعض (هذا القسم اللي تحب) -->
         <div class="weather-rating-grid">
             <!-- Box الطقس -->
@@ -89,7 +91,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
@@ -108,7 +109,6 @@
                 <div class="rating-message" id="rating-message"></div>
             </div>
         </div>
-
         <!-- FAQ -->
         <section class="faq">
             <h2>الأسئلة الشائعة</h2>
@@ -129,7 +129,6 @@
                 <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
             </div>
         </section>
-
         <!-- خدمات اليوم -->
         <section class="services-today">
             <h2>خدمات اليوم</h2>
@@ -156,7 +155,6 @@
                 </div>
             </div>
         </section>
-
         <!-- فيديو اليوم -->
         <section class="videos-today">
             <h2>فيديو اليوم</h2>
@@ -183,7 +181,6 @@
                 </div>
             </div>
         </section>
-
         <!-- تصليح ماكينات لحام -->
         <section id="postesSection" class="Reparation postes soudure">
             <h2>تصليح ماكينات لحام</h2>
@@ -211,7 +208,6 @@
             </div>
         </section>
     </main>
-
     <footer>
         <div class="container footer-inner">
             <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
@@ -227,22 +223,61 @@
             </p>
         </div>
     </footer>
-
     <!-- Fullscreen Media Viewer -->
     <div id="mediaViewer">
         <span class="close-btn">×</span>
         <img id="viewerImg" style="display:none" alt="صورة تكبير">
         <video id="viewerVideo" style="display:none" controls></video>
     </div>
-
     <!-- CMP Banner -->
     <div id="cmp-banner">
         نستخدم الكوكيز لتحسين تجربتك.
         <button id="consent-allow">أوافق</button>
         <button id="consent-manage">تغيير الخيارات</button>
     </div>
-
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
+
+    <!-- المطر الإلكتروني (تحت كل شيء) -->
+    <script>
+      // قائمة الصور (في نفس المجلد الرئيسي)
+      const realComponents = [
+        'resistor.png',
+        'diode.png',
+        'capacitor.png',
+        'transistor.png',
+        'ic.png'  // لو موجود، وإلا احذف السطر هذا
+      ];
+
+      function createComponent() {
+        const el = document.createElement('div');
+        el.className = 'falling-component';
+        
+        // موقع عشوائي في العرض
+        el.style.left = Math.random() * 100 + 'vw';
+        
+        // صورة عشوائية من القائمة
+        const randomImg = realComponents[Math.floor(Math.random() * realComponents.length)];
+        el.style.backgroundImage = `url(${randomImg})`;
+        
+        // سرعة عشوائية (8 إلى 14 ثانية)
+        const duration = Math.random() * 6 + 8;
+        el.style.animationDuration = duration + 's';
+        
+        // حجم عشوائي (25 إلى 50px)
+        const size = Math.random() * 25 + 25;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        
+        // نضيف المكون داخل rain-container
+        document.getElementById('rain-container').appendChild(el);
+        
+        // نحذف بعد ما ينزل
+        setTimeout(() => el.remove(), duration * 1000 + 1000);
+      }
+
+      // نبدأ المطر (كل 0.4 ثانية مكون جديد)
+      setInterval(createComponent, 400);
+    </script>
 </body>
 </html>

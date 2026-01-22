@@ -8,7 +8,7 @@
 }
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+  background: transparent; /* مهم جداً: شفاف عشان المطر يبان من تحت */
   color: #1a1a1a; /* نصوص داكنة واضحة بدل #fff */
   min-height: 100vh;
   overflow-x: hidden;
@@ -22,16 +22,18 @@ html, body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  background: transparent; /* شفاف كمان */
 }
 /* ==========================================================================
    Header + PCB Canvas + Logo Background
    ========================================================================== */
 header {
   position: relative;
-  background: #fdfdfd;
+  background: rgba(253, 253, 253, 0.95); /* خفيف شفاف عشان المطر يبان من تحته */
   padding: 20px 0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.6);
   margin-bottom: 15px;
+  z-index: 10; /* فوق المطر */
 }
 .header-inner {
   position: relative;
@@ -114,6 +116,7 @@ header h1 {
   margin-bottom: 25px;
   font-size: 1rem;
   text-align: center;
+  z-index: 10;
 }
 .news-text {
   display: inline-block;
@@ -136,7 +139,7 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
+  background: rgba(255,255,255,0.95);
   color: #282c34;
   padding: 12px 20px;
   border-radius: 8px;
@@ -145,6 +148,7 @@ header h1 {
   font-size: 1rem;
   flex-wrap: wrap;
   gap: 10px;
+  z-index: 10;
 }
 #toggle-lang-btn {
   background: #fff;
@@ -168,6 +172,7 @@ header h1 {
   justify-content: center;
   gap: 15px;
   margin-bottom: 30px;
+  z-index: 10;
 }
 .cta-buttons a,
 .cta-buttons button {
@@ -215,6 +220,7 @@ header h1 {
   background: none;
   padding: 0;
   animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
+  z-index: 10;
 }
 @keyframes glowExperience {
   0% { color: yellow; text-shadow: 0 0 5px yellow; }
@@ -233,12 +239,13 @@ header h1 {
 .weather-box {
   margin: 0;
   padding: 20px;
-  background: #ffffff;
+  background: rgba(255,255,255,0.95);
   backdrop-filter: blur(8px);
   border-radius: 15px;
   text-align: center;
   color: #282c34;
   box-shadow: 0 0 20px #409eff;
+  z-index: 10;
 }
 .weather-box h3 {
   margin-bottom: 10px;
@@ -277,6 +284,7 @@ header h1 {
 .faq {
   max-width: 800px;
   margin: 0 auto 60px auto;
+  z-index: 10;
 }
 .faq h2 {
   color: #282c34;
@@ -286,7 +294,7 @@ header h1 {
   margin-bottom: 25px;
 }
 .faq-item {
-  background: #ffffff;
+  background: rgba(255,255,255,0.95);
   margin-bottom: 12px;
   border-radius: 8px;
   padding: 15px 20px;
@@ -295,7 +303,7 @@ header h1 {
   box-shadow: 0 2px 8px #409eff;
 }
 .faq-item:hover {
-  background: #ffffff;
+  background: rgba(255,255,255,0.98);
 }
 .faq-item h3 {
   font-weight: 700;
@@ -340,6 +348,7 @@ header h1 {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.6s ease, visibility 0.6s ease;
+  z-index: 10;
 }
 .equalizer.active {
   opacity: 1;
@@ -376,22 +385,20 @@ header h1 {
   max-width: 800px;
   margin: 50px auto;
   padding: 0 20px;
+  z-index: 10;
 }
-
 /* في الشاشات الكبيرة: اثنين جنب بعض */
 @media (min-width: 769px) {
   .weather-rating-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
-
 /* في الموبايل: فوق بعض */
 @media (max-width: 768px) {
   .weather-rating-grid {
     grid-template-columns: 1fr;
   }
 }
-
 /* حجم متساوي للـ boxين */
 .weather-box,
 .rating-container {
@@ -402,8 +409,8 @@ header h1 {
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(13,71,161,0.15);
+  z-index: 10;
 }
-
 /* تحسين بصري */
 .weather-box:hover,
 .rating-container:hover {
@@ -414,12 +421,13 @@ header h1 {
    Rating Container - نسخة PRO 2026 🔥
    ========================================================================== */
 .rating-container {
-  background: linear-gradient(145deg, #ffffff, #f4f8ff);
+  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
   border-radius: 14px;
   padding: 14px 12px;
   box-shadow: 0 4px 14px rgba(13, 71, 161, 0.12);
   text-align: center;
   border: 1px solid rgba(13, 71, 161, 0.08);
+  z-index: 10;
 }
 .rating-title {
   font-size: 1.05rem;
@@ -566,7 +574,7 @@ header h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
+  background: rgba(255,255,255,0.95);
   backdrop-filter: blur(6px);
   border: 2px solid #409eff;
   border-radius: 12px;
@@ -576,6 +584,7 @@ header h1 {
   color: #ffffff;
   box-shadow: 0 0 15px #409eff;
   transition: all 0.3s ease;
+  z-index: 10;
 }
 .user-box:hover {
   background: #409effbd;
@@ -613,6 +622,7 @@ header h1 {
   margin: 30px 0;
   font-size: 1.8rem;
   text-shadow: 0 0 5px #a9b7c6;
+  z-index: 10;
 }
 .services-slider {
   display: flex;
@@ -627,13 +637,14 @@ header h1 {
 }
 .service-card {
   min-width: 220px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.95);
   backdrop-filter: blur(6px);
   border-radius: 15px;
   padding: 10px;
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
   flex-shrink: 0;
   transition: transform 0.3s ease;
+  z-index: 10;
 }
 .service-card:hover {
   transform: translateY(-8px);
@@ -746,13 +757,14 @@ header h1 {
    Footer - Version Smaller & Cleaner
    ========================================================================== */
 footer {
-  background: #f8f8f8;
+  background: rgba(248,248,248,0.95);
   color: #282c34;
   padding: 20px 0;
   text-align: center;
   font-weight: 500;
   font-size: 0.85rem;
   box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
+  z-index: 10;
 }
 .footer-inner {
   max-width: 900px;
@@ -815,4 +827,32 @@ footer {
    ========================================================================== */
 [dir="rtl"] .container {
   direction: rtl;
+}
+
+/* ==========================================================================
+   Falling Components (المطر الإلكتروني تحت كل شيء)
+   ========================================================================== */
+#rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -9999; /* تحت كل العناصر */
+  overflow: hidden;
+}
+.falling-component {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+    opacity: 0.2;
+  }
 }

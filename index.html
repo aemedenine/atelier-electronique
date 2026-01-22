@@ -20,11 +20,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
+    <!-- خلفية المطر الإلكتروني بالصور الحقيقية -->
+    <div id="rain-container"></div>
+
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
-            <img src="logo.png" alt="ورشة إلكترونيك الرحماني" class="logo" />
-            <h1 id="site-name">ورشة إلكترونيك الرحماني</h1>
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <h1 id="site-name">Atelier Electronique Médenine</h1>
         </div>
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
@@ -68,7 +71,7 @@
             </div>
         </section>
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-        <!-- Weather + Rating جنب بعض (هذا القسم اللي تحب) -->
+        <!-- Weather + Rating جنب بعض -->
         <div class="weather-rating-grid">
             <!-- Box الطقس -->
             <div class="weather-box">
@@ -236,15 +239,15 @@
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
 
-    <!-- المطر الإلكتروني بصورك الحقيقية (resistances, diodes, condensateurs, circuits) -->
+    <!-- المطر الإلكتروني بالصور الحقيقية (بدون ما نغيّر أي حاجة قديمة) -->
     <script>
-      // قائمة صورك الحقيقية (غيّر الروابط حسب مكان الصور عندك)
+      // قائمة صورك الحقيقية – غيّر المسارات حسب مكان الصور عندك
       const realComponents = [
-        'images/resistor.png',      // صورة المقاومة
-        'images/diode.png',         // صورة الديود
-        'images/capacitor.png',     // صورة الكوندانساتير
-        'images/transistor.png',    // صورة الترانزستور
-        'images/ic.png'             // صورة IC صغيرة (اختياري)
+        'images/resistor.png',       // غيّر المسار هنا
+        'images/diode.png',
+        'images/capacitor.png',
+        'images/transistor.png',
+        'images/ic-small.png'        // اختياري
       ];
 
       function createComponent() {
@@ -256,10 +259,10 @@
         const randomImg = realComponents[Math.floor(Math.random() * realComponents.length)];
         el.style.backgroundImage = `url(${randomImg})`;
         
-        const duration = Math.random() * 8 + 6; // 6 إلى 14 ثانية
+        const duration = Math.random() * 8 + 6; // سرعة بين 6 و 14 ثانية
         el.style.animationDuration = duration + 's';
         
-        const size = Math.random() * 20 + 30; // 30 إلى 50px
+        const size = Math.random() * 20 + 30; // حجم بين 30 و 50px
         el.style.width = size + 'px';
         el.style.height = size + 'px';
         

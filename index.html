@@ -33,12 +33,14 @@
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
         </div>
     </header>
+
     <main class="container main-content">
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
             <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
+
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
             <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
@@ -51,6 +53,7 @@
                 <button id="btn-close-popup" class="btn-close">إلغاء</button>
             </div>
         </div>
+
         <!-- CTA Buttons -->
         <section class="cta-buttons">
             <a href="download" class="btn-download">تحميل البرامج 📥</a>
@@ -70,11 +73,12 @@
                 <div class="bar"></div>
             </div>
         </section>
+
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
 
-        <!-- Weather + Rating جنب بعض -->
+        <!-- Weather + Rating جنب بعض – تنظيم pro -->
         <div class="weather-rating-grid">
-            <!-- Box الطقس – تنظيم pro -->
+            <!-- Box الطقس -->
             <div class="weather-box">
                 <h3>🌦️ حالة الطقس في مدنين</h3>
                 <div class="weather-inner">
@@ -84,7 +88,12 @@
                     </div>
 
                     <div class="prayer-times" id="prayer-times">
-                        <!-- أوقات الصلاة تبقى هنا زي ما هي -->
+                        <p>🌅 الفجر: --:--</p>
+                        <p>🌄 الشروق: --:--</p>
+                        <p>☀️ الظهر: --:--</p>
+                        <p>🕰️ العصر: --:--</p>
+                        <p>🌇 المغرب: --:--</p>
+                        <p>🌙 العشاء: --:--</p>
                     </div>
 
                     <div class="mini-info">
@@ -92,6 +101,7 @@
                             <span id="today-miladi">جاري التحميل...</span>
                             <span id="today-hijri">جاري التحميل...</span>
                         </div>
+
                         <div class="daily-tips">
                             <p class="tips-title">نصيحة اليوم</p>
                             <ul id="tips-list"></ul>
@@ -119,21 +129,172 @@
             </div>
         </div>
 
-        <!-- باقي الموقع زي ما هو (FAQ, خدمات, فيديوهات, ماكينات لحام...) -->
-        <!-- ... (ما غيّرناش فيهم شيء) ... -->
+        <!-- FAQ -->
+        <section class="faq">
+            <h2>الأسئلة الشائعة</h2>
+            <div class="faq-item">
+                <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
+                <div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div>
+            </div>
+            <div class="faq-item">
+                <h3>ما هي مدة التصليح المعتادة؟</h3>
+                <div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div>
+            </div>
+            <div class="faq-item">
+                <h3>هل توفرون قطع غيار أصلية؟</h3>
+                <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div>
+            </div>
+            <div class="faq-item">
+                <h3>كيف أتابع حالة الإصلاح؟</h3>
+                <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
+            </div>
+        </section>
 
+        <!-- خدمات اليوم -->
+        <section class="services-today">
+            <h2>خدمات اليوم</h2>
+            <div class="services-slider" id="servicesSlider">
+                <div class="service-card">
+                    <img src="service1.webp" alt="">
+                    <p class="service-caption">تصليح لوحات إلكترونية</p>
+                </div>
+                <div class="service-card">
+                    <img src="service2.webp" alt="">
+                    <p class="service-caption">تصليح كارت جهاز المشي</p>
+                </div>
+                <div class="service-card">
+                    <img src="service3.webp" alt="">
+                    <p class="service-caption">تصليح كارت غسالة</p>
+                </div>
+                <div class="service-card">
+                    <img src="service4.webp" alt="">
+                    <p class="service-caption">تصليح كارت تلفاز</p>
+                </div>
+                <div class="service-card">
+                    <img src="service5.webp" alt="">
+                    <p class="service-caption">تصليح كارت غسالة ل-ج</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- فيديو اليوم -->
+        <section class="videos-today">
+            <h2>فيديو اليوم</h2>
+            <div class="services-slider" id="videoSlider">
+                <div class="service-card video-card">
+                    <video src="video1.mp4" muted loop></video>
+                    <p class="service-caption">تصليح كارت تغذية</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video2.mp4" muted loop></video>
+                    <p class="service-caption">إصلاح لوحة إلكترونية</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video3.mp4" muted loop></video>
+                    <p class="service-caption">فحص بوردة</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video4.mp4" muted loop></video>
+                    <p class="service-caption">فحص بوردة</p>
+                </div>
+                <div class="service-card video-card">
+                    <video src="video5.mp4" muted loop></video>
+                    <p class="service-caption">فحص بوردة</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- تصليح ماكينات لحام -->
+        <section id="postesSection" class="Reparation postes soudure">
+            <h2>تصليح ماكينات لحام</h2>
+            <div class="services-slider">
+                <div class="service-card">
+                    <img src="poste1.webp" alt="">
+                    <p class="service-caption">تصليح ماكينة لحام</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste2.webp" alt="">
+                    <p class="service-caption">صيانة Poste Soudure</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste3.webp" alt="">
+                    <p class="service-caption">صيانة Poste Soudure</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste4.webp" alt="">
+                    <p class="service-caption">صيانة Poste Soudure</p>
+                </div>
+                <div class="service-card">
+                    <img src="poste5.webp" alt="">
+                    <p class="service-caption">إصلاح لوحة إلكترونية</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <!-- footer زي ما هو -->
+        <div class="container footer-inner">
+            <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
+            <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook"></a>
+                <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram"></a>
+                <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
+            </div>
+            <p class="copyright-signature">
+                © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
+                Signature: RAHMANI Soufien.
+            </p>
+        </div>
     </footer>
 
-    <!-- Fullscreen Media Viewer, CMP Banner, Scripts... -->
-    <!-- ... (ما تغيّرش) ... -->
+    <!-- Fullscreen Media Viewer -->
+    <div id="mediaViewer">
+        <span class="close-btn">×</span>
+        <img id="viewerImg" style="display:none" alt="صورة تكبير">
+        <video id="viewerVideo" style="display:none" controls></video>
+    </div>
 
-    <!-- المطر الإلكتروني (ما تغيّرش) -->
+    <!-- CMP Banner -->
+    <div id="cmp-banner">
+        نستخدم الكوكيز لتحسين تجربتك.
+        <button id="consent-allow">أوافق</button>
+        <button id="consent-manage">تغيير الخيارات</button>
+    </div>
+
+    <!-- JavaScript externe -->
+    <script src="app.js" defer></script>
+
+    <!-- المطر الإلكتروني (كثافة خفيفة) -->
     <script>
-      // السكريبت متاع المطر زي ما هو عندك
+      const components = [
+        'resistor.png',
+        'diode.png',
+        'capacitor.png',
+        'transistor.png',
+        'ic.png'
+      ];
+
+      function createComponent() {
+        const el = document.createElement('div');
+        el.className = 'falling-component';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-80px';
+        const img = components[Math.floor(Math.random() * components.length)];
+        el.style.backgroundImage = `url(${img})`;
+        const size = Math.random() * 60 + 60;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        const duration = Math.random() * 8 + 10;
+        el.style.animationDuration = duration + 's';
+        el.style.backgroundColor = 'transparent';
+        el.style.border = 'none';
+        el.style.boxShadow = 'none';
+        document.getElementById('rain-container').appendChild(el);
+        setTimeout(() => el.remove(), duration * 1000 + 2000);
+      }
+
+      setInterval(createComponent, 2500);
     </script>
 </body>
 </html>

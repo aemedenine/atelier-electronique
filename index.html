@@ -241,6 +241,7 @@
     <!-- المطر الإلكتروني (تحت كل شيء) -->
    <!-- المطر الإلكتروني – مكونات أكبر وأوضح -->
 <!-- المطر الإلكتروني – بدون إطار رمادي أو cage -->
+<!-- المطر الإلكتروني – كثافة أقل (ينزل أبطأ وأقل عدد) -->
 <script>
   const components = [
     'resistor.png',
@@ -255,21 +256,18 @@
     el.className = 'falling-component';
     
     el.style.left = Math.random() * 100 + 'vw';
-    el.style.top = '-80px';  // نبدأ من فوق شوية
+    el.style.top = '-80px';
     
     const img = components[Math.floor(Math.random() * components.length)];
     el.style.backgroundImage = `url(${img})`;
     
-    // حجم أكبر وواضح (60 إلى 120px)
     const size = Math.random() * 60 + 60;
     el.style.width = size + 'px';
     el.style.height = size + 'px';
     
-    // سرعة معقولة
     const duration = Math.random() * 8 + 10;
     el.style.animationDuration = duration + 's';
     
-    // تأكيد: بدون خلفية ولا إطار
     el.style.backgroundColor = 'transparent';
     el.style.border = 'none';
     el.style.boxShadow = 'none';
@@ -279,7 +277,9 @@
     setTimeout(() => el.remove(), duration * 1000 + 2000);
   }
 
-  setInterval(createComponent, 500);
+  // كثافة أقل: كل 1200ms (1.2 ثانية) مكون جديد بدل 500ms
+  // لو تحب أقل كثير: جرب 2000 أو 3000
+  setInterval(createComponent, 1200);
 </script>
 </body>
 </html>

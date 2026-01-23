@@ -185,24 +185,44 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateMiniCalendar() {
   const today = new Date();
 
-  /* =========================
-     التاريخ الميلادي
-  ========================= */
-  const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
   const miladiEl = document.getElementById('today-miladi');
-  miladiEl.textContent = miladiStr;
+  const hijriEl  = document.getElementById('today-hijri');
 
-  // الجمعة = day 5
-  if (today.getDay() === 5) {
-    miladiEl.classList.add('friday');
+  /* =========================
+     1️⃣ التاريخ الميلادي
+  ========================= */
+  const miladiOptions = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  };
+  miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
+
+  miladiEl.classList.toggle('friday', today.getDay() === 5);
+
+  /* =========================
+     2️⃣ Animation خفيفة
+  ========================= */
+  miladiEl.classList.remove('fade');
+  hijriEl.classList.remove('fade');
+  void miladiEl.offsetWidth; // reflow
+  miladiEl.classList.add('fade');
+  hijriEl.classList.add('fade');
+
+  /* =========================
+     3️⃣ Cache (يومي)
+  ========================= */
+  const cacheKey = `hijri-${today.toDateString()}`;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    hijriEl.textContent = cached;
+    return;
   }
 
   /* =========================
-     التاريخ الهجري (API صحيح)
+     4️⃣ API الهجري (صحيح)
   ========================= */
-
-  // API يقبل: DD-MM-YYYY
   const d = String(today.getDate()).padStart(2, '0');
   const m = String(today.getMonth() + 1).padStart(2, '0');
   const y = today.getFullYear();
@@ -210,41 +230,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
     .then(res => {
-      if (!res.ok) throw new Error(`API Error: ${res.status}`);
+      if (!res.ok) throw new Error("API down");
       return res.json();
     })
     .then(data => {
-      const hijri = data.data.hijri;
+      const h = data.data.hijri;
+      const icon = hijriIcon(h.month.number);
 
-      document.getElementById('today-hijri').textContent =
-        `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
+      const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
+      hijriEl.textContent = text;
+      localStorage.setItem(cacheKey, text);
     })
-    .catch(err => {
-      console.error("مشكل في API الهجري:", err);
-
+    .catch(() => {
       /* =========================
-         fallback ذكي (بدون API)
-         باستخدام محول هجري حقيقي
+         5️⃣ fallback ذكي (Intl)
       ========================= */
-
       try {
-        const hijriFormatter = new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        });
-
-        const hijriStr = hijriFormatter.format(today);
-
-        document.getElementById('today-hijri').textContent =
-          `${hijriStr} هـ 🕌 (تقريبي)`;
-      } catch (e) {
-        // fallback أخير جداً
-        document.getElementById('today-hijri').textContent =
-          `التاريخ الهجري غير متوفر حالياً 🕌`;
+        const fmt = new Intl.DateTimeFormat(
+          'ar-TN-u-ca-islamic',
+          { day: 'numeric', month: 'long', year: 'numeric' }
+        );
+        const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
+        hijriEl.textContent = text;
+        localStorage.setItem(cacheKey, text);
+      } catch {
+        hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
       }
     });
 }
+
+/* =========================
+   أيقونة حسب الشهر الهجري
+========================= */
+function hijriIcon(month) {
+  if (month === 9) return "🌙";        // رمضان
+  if (month === 12) return "🕋";       // ذو الحجة
+  if (month === 1) return "✨";        // محرم
+  if (month === 8) return "🌾";        // شعبان
+  return "🕌";
+}
+
+/* =========================
+   Auto refresh
+========================= */
+updateMiniCalendar();
+setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
+  
     // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
     function updateDailyTips() {
       const tips = [

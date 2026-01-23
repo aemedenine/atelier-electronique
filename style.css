@@ -879,6 +879,39 @@ footer {
   color: #2e7d32; /* أخضر للجمعة */
   font-weight: 700;
 }
+.daily-tips {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(64,158,255,0.4);
+  font-size: 0.85rem;
+  color: #0d47a1;
+  text-align: right;
+}
+
+.daily-tips p {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #1976d2;
+}
+
+.daily-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.daily-tips li {
+  margin: 4px 0;
+  padding-right: 20px;
+  position: relative;
+}
+
+.daily-tips li:before {
+  content: "⚡";
+  position: absolute;
+  right: 0;
+  color: #ff6b35;
+}
 /* الحركة */
 @keyframes fall {
   to {

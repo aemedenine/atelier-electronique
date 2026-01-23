@@ -860,7 +860,25 @@ footer {
   height: 60px;
   animation-duration: 12s; /* بطيء عشان يبان مليح */
 }
+.mini-calendar {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(64,158,255,0.3);
+  font-size: 0.85rem;
+  color: #0d47a1;
+  text-align: center;
+  font-weight: 600;
+  line-height: 1.4;
+}
 
+.mini-calendar p {
+  margin: 3px 0;
+}
+
+.mini-calendar .friday {
+  color: #2e7d32; /* أخضر للجمعة */
+  font-weight: 700;
+}
 /* الحركة */
 @keyframes fall {
   to {

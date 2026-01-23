@@ -182,45 +182,69 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error("Erreur prayer times:", err));
     }
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
- // Mini Calendar (تقويم صغير داخل box الطقس – مع API أفضل وfallback قوي)
-function updateMiniCalendar() {
-  const today = new Date();
-  
-  // التاريخ الميلادي (دائماً شغال)
-  const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
-  document.getElementById('today-miladi').textContent = miladiStr;
-  
-  if (today.getDay() === 5) {
-    document.getElementById('today-miladi').classList.add('friday');
-  }
+    function updateMiniCalendar() {
+      const today = new Date();
+     
+      // التاريخ الميلادي (دائماً شغال)
+      const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
+      document.getElementById('today-miladi').textContent = miladiStr;
+     
+      if (today.getDay() === 5) {
+        document.getElementById('today-miladi').classList.add('friday');
+      }
 
-  // محاولة مع API موثوق (myquran أو aladhan مع adjustment)
-  const dateStr = today.toISOString().split('T')[0];
-  fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&adjustment=0`)
-    .then(res => {
-      if (!res.ok) throw new Error(`API رد خطأ: ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      const hijri = data.data.hijri;
-      document.getElementById('today-hijri').textContent = 
-        `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
-    })
-    .catch(err => {
-      console.error("مشكل في API الهجري:", err);
-      
-      // fallback أفضل: حساب تقريبي أدق شوية
-      const gregYear = today.getFullYear();
-      const hijriYear = gregYear - 622;
-      const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
-      const hijriMonth = hijriMonths[today.getMonth()];
-      const hijriDay = Math.floor(today.getDate() * 1.03); // تقريبي بسيط
-      
-      document.getElementById('today-hijri').textContent = 
-        `تقريباً ${hijriDay} ${hijriMonth} ${hijriYear} هـ 🕌 (تقريبي)`;
-    });
-}
+      // محاولة مع API موثوق
+      const dateStr = today.toISOString().split('T')[0];
+      fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&adjustment=0`)
+        .then(res => {
+          if (!res.ok) throw new Error(`API رد خطأ: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          const hijri = data.data.hijri;
+          document.getElementById('today-hijri').textContent =
+            `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
+        })
+        .catch(err => {
+          console.error("مشكل في API الهجري:", err);
+         
+          // fallback أفضل: حساب تقريبي
+          const gregYear = today.getFullYear();
+          const hijriYear = gregYear - 622;
+          const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+          const hijriMonth = hijriMonths[today.getMonth()];
+          const hijriDay = Math.floor(today.getDate() * 1.03);
+         
+          document.getElementById('today-hijri').textContent =
+            `تقريباً ${hijriDay} ${hijriMonth} ${hijriYear} هـ 🕌 (تقريبي)`;
+        });
+    }
+    // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
+    function updateDailyTips() {
+      const tips = [
+        "🔧 نظّف المكثفات من الغبار كل 6 أشهر باش تطول عمر الجهاز.",
+        "⚡ شغّل الأجهزة على فولطاج مستقر (استعمل منظم جهد) عشان تحمي اللوحة.",
+        "🔋 غيّر بطاريات الريموت قبل ما تنفجر في الشتاء أو الصيف.",
+        "🛠️ لو الجهاز يسخن بزاف، فحص المروحة ونظّفها من التراب.",
+        "💡 استعمل لحام جيد الجودة وتجنّب اللحام البارد (cold joint).",
+        "🔌 افصل الجهاز من الكهرباء قبل ما تفتحو، السلامة أولاً.",
+        "📱 لو الكارت ما يشتغلش، فحص أولاً الكونكتورات والكوابل.",
+        "🧼 استعمل كحول إيزوبروبيل لتنظيف اللوحات، مش ماء عادي."
+      ];
+
+      // نختار 3-4 نصائح عشوائية
+      const shuffled = tips.sort(() => 0.5 - Math.random());
+      const selectedTips = shuffled.slice(0, 4);
+
+      const list = document.getElementById('tips-list');
+      list.innerHTML = '';
+      selectedTips.forEach(tip => {
+        const li = document.createElement('li');
+        li.textContent = tip;
+        list.appendChild(li);
+      });
+    }
     // ── Titres des sections (ثابت عربي) ────────────────────────────────
     document.querySelector('.services-today h2').textContent = "خدمات اليوم";
     document.querySelector('.videos-today h2').textContent = "فيديو اليوم";
@@ -550,6 +574,7 @@ function updateMiniCalendar() {
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
-    updateMiniCalendar(); // إضافة التقويم الصغير
+    updateMiniCalendar();
+    updateDailyTips(); // إضافة نصائح الإلكترونيك اليومية
     console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
 });

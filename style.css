@@ -988,6 +988,83 @@ footer {
     width: 90%;
   }
 }
+/* ====== بداية CSS البوكسات الجديدة ====== */
+.calculators-grid {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.calculator-box {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+  min-width: 280px;
+  max-width: 320px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+.calculator-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+}
+
+.calculator-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+
+.calculator-box input:hover {
+  border-color: #f39c12;
+  box-shadow: 0 0 10px #f39c12;
+}
+
+/* Capacitor Visual */
+.cap-visual {
+  width: 60px;
+  height: 120px;
+  margin: 10px auto;
+  border: 3px solid #d35400;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.cap-fill {
+  background: #e67e22;
+  width: 100%;
+  height: 0%;
+  position: absolute;
+  bottom: 0;
+  transition: height 0.5s ease;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Power Visual */
+.power-bar {
+  width: 100%;
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+.power-fill {
+  background: #2980b9;
+  width: 0%;
+  height: 100%;
+  transition: width 0.5s ease;
+}
+/* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific
    ========================================================================== */

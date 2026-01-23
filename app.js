@@ -12,17 +12,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const analytics = firebase.analytics();
 const auth = firebase.auth();
-
 // Garder la session même après refresh/fermeture
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
-
 // ==========================================================================
 // Variables globales
 // ==========================================================================
 // ما عادش نحتاج currentLang، كل شيء عربي ثابت
-
 // ==========================================================================
 // DOM Ready
 // ==========================================================================
@@ -41,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoogle = document.getElementById('btn-google');
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
-
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -53,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loginPopup.style.display = 'flex';
         }
     });
-
     btnGoogle?.addEventListener('click', () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider)
@@ -64,18 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(console.error);
     });
-
     btnClosePopup?.addEventListener('click', () => {
         loginPopup.style.display = 'none';
     });
-
     btnSignOut?.addEventListener('click', () => {
         auth.signOut().then(() => {
             userInfo.style.display = 'none';
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-
     // ── Compteur de visites (Firebase Realtime) ───────────────────────────
     if (visitEl) {
         const db = firebase.database();
@@ -86,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
             visitEl.textContent = `عدد زوار الموقع: ${total}`;
         });
     }
-
     // ── Mise à jour de l'heure (عربي فقط) ─────────────────────────────────
     function updateTime() {
         const now = new Date();
@@ -100,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const s = now.getSeconds().toString().padStart(2,'0');
         timeEl.textContent = `${day}، ${date} ${month} - ${h}:${m}:${s}`;
     }
-
     // ── Ticker d'actualités (عربي فقط) ────────────────────────────────────
     const news = [
         "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
@@ -110,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     let newsIndex = 0;
     let newsInterval = null;
-
     function updateNews() {
         ticker.classList.remove('fade');
         void ticker.offsetWidth; // force reflow
@@ -118,13 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ticker.classList.add('fade');
         newsIndex = (newsIndex + 1) % news.length;
     }
-
     function startNewsRotation() {
         if (newsInterval) clearInterval(newsInterval);
         updateNews();
         newsInterval = setInterval(updateNews, 5000);
     }
-
     // ── FAQ Toggle ────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-item').forEach(item => {
@@ -133,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
     // ── Equalizer visibility ──────────────────────────────────────────────
     function updateEqualizerVisibility() {
         if (equalizer) {
@@ -141,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
         }
     }
-
     // ── Radio controls ────────────────────────────────────────────────────
     if (radioBtn) {
         radioBtn.addEventListener('click', () => {
@@ -158,14 +143,12 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('play', updateEqualizerVisibility);
         radio.addEventListener('pause', updateEqualizerVisibility);
     }
-
     // ── Initialisation ────────────────────────────────────────────────────
     setInterval(updateTime, 1000);
     updateTime();
     startNewsRotation();
     initFAQ();
     updateEqualizerVisibility();
-
     // ── Weather API (عربي فقط) ───────────────────────────────────────────
     function updateWeather() {
         fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
@@ -180,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
             });
     }
-
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {
         fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
@@ -199,20 +181,42 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => console.error("Erreur prayer times:", err));
     }
+    // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
+    function updateMiniCalendar() {
+        const today = new Date();
+        
+        // التاريخ الميلادي (مختصر وأنيق)
+        const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
+        document.getElementById('today-miladi').textContent = miladiStr;
+        
+        // إذا جمعة، نلونها بلون أخضر
+        if (today.getDay() === 5) {
+            document.getElementById('today-miladi').classList.add('friday');
+        }
 
+        // التاريخ الهجري (من API موثوق)
+        fetch('https://api.aladhan.com/v1/gToH?date=' + today.toISOString().split('T')[0])
+            .then(res => res.json())
+            .then(data => {
+                const hijri = data.data.hijri;
+                document.getElementById('today-hijri').textContent = 
+                    `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
+            })
+            .catch(() => {
+                document.getElementById('today-hijri').textContent = 'التاريخ الهجري غير متوفر';
+            });
+    }
     // ── Titres des sections (ثابت عربي) ────────────────────────────────
     document.querySelector('.services-today h2').textContent = "خدمات اليوم";
     document.querySelector('.videos-today h2').textContent = "فيديو اليوم";
     document.querySelector('#postesSection h2').textContent = "تصليح ماكينات لحام";
     document.getElementById('rating-title').textContent = 'قيم الورشة:';
-
     // ── Daily Rotation (عربي فقط) ────────────────────────────────────────
     const dailyServiceEl = document.getElementById('daily-service');
-    const dailyVideoEl   = document.getElementById('daily-video');
+    const dailyVideoEl = document.getElementById('daily-video');
     const dailyMachineEl = document.getElementById('daily-machine');
-
     const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-
     function showDailyItems() {
         // خدمات اليوم
         if (dailyServiceEl) {
@@ -228,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>${item.title}</p>
             `;
         }
-
         // فيديو اليوم
         if (dailyVideoEl) {
             const videos = [
@@ -242,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>${item.title}</p>
             `;
         }
-
         // تصليح ماكينات لحام
         if (dailyMachineEl) {
             const machines = [
@@ -257,9 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
     }
-
     showDailyItems();
-
     // ── Rating System (عربي فقط) ─────────────────────────────────────────
     const stars = document.querySelectorAll('.stars-horizontal span');
     const ratingValue = document.getElementById('rating-value');
@@ -268,10 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const voteCountEl = document.getElementById('vote-count');
     const breakdownEl = document.getElementById('rating-breakdown');
     let currentUserRating = 0;
-
     const ratingsRef = firebase.database().ref('ratings');
     const userRatingsRef = firebase.database().ref('userRatings');
-
     function loadRatings() {
         ratingsRef.on('value', snapshot => {
             const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
@@ -291,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
             breakdownEl.innerHTML = html;
         });
     }
-
     function updateStars(rating) {
         stars.forEach(star => {
             const val = Number(star.dataset.value);
@@ -300,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         ratingValue.textContent = `${rating}/5`;
     }
-
     function checkUserRating(user) {
         if (!user) {
             updateStars(0);
@@ -325,11 +321,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     auth.onAuthStateChanged(user => {
         checkUserRating(user);
     });
-
     stars.forEach(star => {
         const val = Number(star.dataset.value);
         star.addEventListener('mouseover', () => {
@@ -379,9 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stars.forEach(s => s.style.pointerEvents = 'none');
         });
     });
-
     loadRatings();
-
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {
@@ -446,7 +438,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animatePCB();
     }
-
     // ── Horizontal Sliders Drag ───────────────────────────────────────────
     function enableDragScroll(sliderId) {
         const slider = document.getElementById(sliderId);
@@ -477,7 +468,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     enableDragScroll('servicesSlider');
     enableDragScroll('videoSlider');
-
     // ── Video hover play/pause ────────────────────────────────────────────
     document.querySelectorAll('.video-card video').forEach(video => {
         video.addEventListener('mouseenter', () => video.play().catch(() => {}));
@@ -486,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
             video.currentTime = 0;
         });
     });
-
     // ── Fullscreen Media Viewer ───────────────────────────────────────────
     const mediaViewer = document.getElementById('mediaViewer');
     const viewerImg = document.getElementById('viewerImg');
@@ -514,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
         viewerVideo.pause();
         viewerVideo.currentTime = 0;
     });
-
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');
@@ -529,7 +517,6 @@ document.addEventListener('DOMContentLoaded', () => {
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
-
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
@@ -546,9 +533,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000);
         }, 4000);
     }
-
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
+    updateMiniCalendar(); // إضافة التقويم الصغير
     console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
 });

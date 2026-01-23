@@ -182,9 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error("Erreur prayer times:", err));
     }
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
-  function updateMiniCalendar() {
+ // Mini Calendar (تقويم صغير داخل box الطقس – مع API أفضل وfallback قوي)
+function updateMiniCalendar() {
   const today = new Date();
   
+  // التاريخ الميلادي (دائماً شغال)
   const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
   const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
   document.getElementById('today-miladi').textContent = miladiStr;
@@ -193,13 +195,31 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('today-miladi').classList.add('friday');
   }
 
-  // حساب تقريبي بسيط (مش دقيق 100% لكن يشتغل دايماً)
-  const hijriYear = today.getFullYear() - 622;
-  const hijriMonth = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'][today.getMonth()];
-  const hijriDay = today.getDate();
-  
-  document.getElementById('today-hijri').textContent = 
-    `${hijriDay} ${hijriMonth} ${hijriYear} هـ (تقريبي) 🕌`;
+  // محاولة مع API موثوق (myquran أو aladhan مع adjustment)
+  const dateStr = today.toISOString().split('T')[0];
+  fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&adjustment=0`)
+    .then(res => {
+      if (!res.ok) throw new Error(`API رد خطأ: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      const hijri = data.data.hijri;
+      document.getElementById('today-hijri').textContent = 
+        `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
+    })
+    .catch(err => {
+      console.error("مشكل في API الهجري:", err);
+      
+      // fallback أفضل: حساب تقريبي أدق شوية
+      const gregYear = today.getFullYear();
+      const hijriYear = gregYear - 622;
+      const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+      const hijriMonth = hijriMonths[today.getMonth()];
+      const hijriDay = Math.floor(today.getDate() * 1.03); // تقريبي بسيط
+      
+      document.getElementById('today-hijri').textContent = 
+        `تقريباً ${hijriDay} ${hijriMonth} ${hijriYear} هـ 🕌 (تقريبي)`;
+    });
 }
     // ── Titres des sections (ثابت عربي) ────────────────────────────────
     document.querySelector('.services-today h2').textContent = "خدمات اليوم";

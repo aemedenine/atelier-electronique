@@ -235,6 +235,31 @@ header h1 {
 /* ==========================================================================
    Weather & Prayer Times Box – نقلّصنا الطول شوية
    ========================================================================== */
+#today-miladi,
+#today-hijri {
+  transition: all 0.4s ease;
+}
+
+.fade {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* الجمعة */
+.friday {
+  color: #0a7d5a;
+  font-weight: 700;
+}
 .weather-box {
   margin: 0;
   padding: 16px; /* نقلّص الـ padding عشان يساعد في الطول */

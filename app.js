@@ -627,6 +627,53 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
             }, 1000);
         }, 4000);
     }
+    // Format Ω → KΩ → MΩ
+function formatResistance(value){
+  if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
+  if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
+  return value+' Ω';
+}
+
+// Update Color Resistor + Visual
+function updateColorResistorVisual() {
+  const b1 = document.getElementById("band1");
+  const b2 = document.getElementById("band2");
+  const mult = document.getElementById("multiplier");
+
+  const val1 = parseInt(b1.value);
+  const val2 = parseInt(b2.value);
+  const mul = parseInt(mult.value);
+
+  // Update result
+  const value = (val1 * 10 + val2) * mul;
+  document.getElementById("resistor-result").textContent = formatResistance(value);
+
+  // Update visual colors
+  document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
+  document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
+  document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
+}
+
+["band1","band2","multiplier"].forEach(id=>{
+  document.getElementById(id).addEventListener("change", updateColorResistorVisual);
+});
+
+updateColorResistorVisual();
+
+// ===== SMD Resistor Ultra Max =====
+document.getElementById("smdCode").addEventListener("input", function(){
+  const code = this.value.trim().toUpperCase();
+  let result = "— Ω";
+
+  if(/^\d{3}$/.test(code)){
+    result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
+    result = formatResistance(result);
+  } else if(/^\dR\d$/.test(code)){
+    result = code.replace("R",".") + " Ω";
+  }
+
+  document.getElementById("smd-result").textContent = result;
+});
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

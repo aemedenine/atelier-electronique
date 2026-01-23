@@ -8,7 +8,7 @@
 }
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: transparent; /* شفاف عشان المطر يبان من تحت */
+  background: transparent;
   color: #1a1a1a;
   min-height: 100vh;
   overflow-x: hidden;
@@ -73,7 +73,6 @@ header h1 {
   margin-left: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
-/* PCB background behind logo */
 .logo-wrapper::after {
   content: "";
   position: absolute;
@@ -234,11 +233,11 @@ header h1 {
   50% { transform: translateY(-6px); }
 }
 /* ==========================================================================
-   Weather & Prayer Times Box – تنظيم PRO 100% مرتب ومتناسق
+   Weather & Prayer Times Box – نقلّصنا الطول شوية
    ========================================================================== */
 .weather-box {
   margin: 0;
-  padding: 20px;
+  padding: 16px; /* نقلّص الـ padding عشان يساعد في الطول */
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(8px);
   border-radius: 15px;
@@ -246,7 +245,7 @@ header h1 {
   z-index: 10;
 }
 .weather-box h3 {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   color: #222;
   font-size: 1.3rem;
   text-align: center;
@@ -254,7 +253,7 @@ header h1 {
 .weather-inner {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px; /* مسافات داخلية أقل شوية */
   align-items: center;
 }
 .weather-main {
@@ -262,26 +261,26 @@ header h1 {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .temp-big {
-  font-size: 2.5rem;
+  font-size: 2.4rem;
   font-weight: 900;
   color: #1976d2;
 }
 .wind-small {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: #0d47a1;
 }
 .prayer-times {
   width: 100%;
-  margin: 8px 0;
+  margin: 6px 0;
 }
 .prayer-times p {
   display: flex;
   justify-content: space-between;
-  margin: 4px 0;
-  font-size: 0.95rem;
+  margin: 3px 0;
+  font-size: 0.92rem;
   color: #282c34;
 }
 .prayer-times p span {
@@ -292,15 +291,15 @@ header h1 {
 }
 .mini-info {
   width: 100%;
-  margin-top: 8px;
-  padding-top: 8px;
+  margin-top: 6px;
+  padding-top: 6px;
   border-top: 1px dashed rgba(64,158,255,0.3);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #0d47a1;
 }
 .mini-calendar {
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .mini-calendar span {
   display: block;
@@ -317,7 +316,7 @@ header h1 {
 .tips-title {
   font-weight: 700;
   color: #1976d2;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
   text-align: center;
 }
 .daily-tips ul {
@@ -326,12 +325,12 @@ header h1 {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 .daily-tips li {
-  padding-right: 20px;
+  padding-right: 18px;
   position: relative;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 .daily-tips li:before {
   content: "⚡";
@@ -399,7 +398,7 @@ header h1 {
   display: block;
 }
 /* ==========================================================================
-   Equalizer - Pro & Smooth
+   Equalizer
    ========================================================================== */
 .equalizer {
   display: flex;
@@ -438,7 +437,7 @@ header h1 {
   filter: drop-shadow(0 0 10px #409eff);
 }
 /* ==========================================================================
-   Weather + Rating Grid
+   Weather + Rating Grid – نقلّصنا الطول هنا
    ========================================================================== */
 .weather-rating-grid {
   display: grid;
@@ -463,12 +462,13 @@ header h1 {
 .rating-container {
   width: 100%;
   max-width: 380px;
-  min-height: 280px;
+  min-height: 220px; /* نقلّصنا من 280px إلى 220px */
   box-sizing: border-box;
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(13,71,161,0.15);
   z-index: 10;
+  padding: 15px;
 }
 .weather-box:hover,
 .rating-container:hover {
@@ -476,7 +476,7 @@ header h1 {
   box-shadow: 0 10px 30px rgba(13,71,161,0.2);
 }
 /* ==========================================================================
-   Rating Container - PRO 2026
+   Rating Container
    ========================================================================== */
 .rating-container {
   background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));

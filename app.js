@@ -674,6 +674,58 @@ document.getElementById("smdCode").addEventListener("input", function(){
 
   document.getElementById("smd-result").textContent = result;
 });
+    /* ====== بداية JS البوكسات الجديدة ====== */
+// Capacitor Calculator + Visual
+const capValue = document.getElementById("cap-value");
+const capVoltage = document.getElementById("cap-voltage");
+const capResult = document.getElementById("cap-result");
+const capFill = document.querySelector(".cap-fill");
+
+[capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
+
+function updateCap(){
+  const value = parseFloat(capValue.value);
+  const voltage = parseFloat(capVoltage.value);
+  if(!value || !voltage){
+    capResult.textContent = "—";
+    capFill.style.height = "0%";
+    return;
+  }
+  capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
+  let fillHeight = Math.min(100, value); // limit 100%
+  capFill.style.height = `${fillHeight}%`;
+}
+
+// Power Calculator + Visual
+const volt = document.getElementById("volt");
+const resistance = document.getElementById("resistance");
+const current = document.getElementById("current");
+const powerResult = document.getElementById("power-result");
+const powerFill = document.querySelector(".power-fill");
+
+[volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
+
+function updatePower(){
+  const V = parseFloat(volt.value);
+  const R = parseFloat(resistance.value);
+  const I = parseFloat(current.value);
+  let P = null;
+
+  if(V && R){
+    P = (V*V)/R;
+  } else if(I && R){
+    P = I*I*R;
+  } else if(V && I){
+    P = V*I;
+  }
+
+  powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
+
+  // Visual: نسبة 100 وات = 100%
+  const fillPercent = P ? Math.min(100, P) : 0;
+  powerFill.style.width = fillPercent + "%";
+}
+/* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

@@ -183,43 +183,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
     function updateMiniCalendar() {
-      const today = new Date();
-    
-      // التاريخ الميلادي (دائماً شغال)
-      const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-      const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
-      document.getElementById('today-miladi').textContent = miladiStr;
-    
-      if (today.getDay() === 5) {
-        document.getElementById('today-miladi').classList.add('friday');
-      }
+  const today = new Date();
 
-      // محاولة مع API موثوق
-      const dateStr = today.toISOString().split('T')[0];
-      fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&adjustment=0`)
-        .then(res => {
-          if (!res.ok) throw new Error(`API رد خطأ: ${res.status}`);
-          return res.json();
-        })
-        .then(data => {
-          const hijri = data.data.hijri;
-          document.getElementById('today-hijri').textContent =
-            `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
-        })
-        .catch(err => {
-          console.error("مشكل في API الهجري:", err);
-        
-          // fallback أفضل: حساب تقريبي
-          const gregYear = today.getFullYear();
-          const hijriYear = gregYear - 622;
-          const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
-          const hijriMonth = hijriMonths[today.getMonth()];
-          const hijriDay = Math.floor(today.getDate() * 1.03);
-        
-          document.getElementById('today-hijri').textContent =
-            `تقريباً ${hijriDay} ${hijriMonth} ${hijriYear} هـ 🕌 (تقريبي)`;
+  /* =========================
+     التاريخ الميلادي
+  ========================= */
+  const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
+  const miladiEl = document.getElementById('today-miladi');
+  miladiEl.textContent = miladiStr;
+
+  // الجمعة = day 5
+  if (today.getDay() === 5) {
+    miladiEl.classList.add('friday');
+  }
+
+  /* =========================
+     التاريخ الهجري (API صحيح)
+  ========================= */
+
+  // API يقبل: DD-MM-YYYY
+  const d = String(today.getDate()).padStart(2, '0');
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const y = today.getFullYear();
+  const dateStr = `${d}-${m}-${y}`;
+
+  fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
+    .then(res => {
+      if (!res.ok) throw new Error(`API Error: ${res.status}`);
+      return res.json();
+    })
+    .then(data => {
+      const hijri = data.data.hijri;
+
+      document.getElementById('today-hijri').textContent =
+        `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
+    })
+    .catch(err => {
+      console.error("مشكل في API الهجري:", err);
+
+      /* =========================
+         fallback ذكي (بدون API)
+         باستخدام محول هجري حقيقي
+      ========================= */
+
+      try {
+        const hijriFormatter = new Intl.DateTimeFormat('ar-TN-u-ca-islamic', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
         });
-    }
+
+        const hijriStr = hijriFormatter.format(today);
+
+        document.getElementById('today-hijri').textContent =
+          `${hijriStr} هـ 🕌 (تقريبي)`;
+      } catch (e) {
+        // fallback أخير جداً
+        document.getElementById('today-hijri').textContent =
+          `التاريخ الهجري غير متوفر حالياً 🕌`;
+      }
+    });
+}
     // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
     function updateDailyTips() {
       const tips = [

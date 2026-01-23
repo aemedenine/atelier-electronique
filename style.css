@@ -9,7 +9,7 @@
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
   background: transparent; /* شفاف عشان المطر يبان من تحت */
-  color: #1a1a1a; /* نصوص داكنة واضحة بدل #fff */
+  color: #1a1a1a;
   min-height: 100vh;
   overflow-x: hidden;
   direction: rtl;
@@ -234,7 +234,7 @@ header h1 {
   50% { transform: translateY(-6px); }
 }
 /* ==========================================================================
-   Weather & Prayer Times Box
+   Weather & Prayer Times Box – تنظيم PRO ومرتب
    ========================================================================== */
 .weather-box {
   margin: 0;
@@ -242,33 +242,44 @@ header h1 {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(8px);
   border-radius: 15px;
-  text-align: center;
-  color: #282c34;
   box-shadow: 0 0 20px #409eff;
   z-index: 10;
 }
 .weather-box h3 {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   color: #222;
+  font-size: 1.3rem;
+  text-align: center;
 }
-.weather-temp {
-  font-size: 2.2rem;
-  font-weight: bold;
-  margin: 10px 0;
-}
-.weather-desc {
-  font-size: 1rem;
-  opacity: 0.9;
-}
-.weather-box > div {
+.weather-inner {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.weather-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.temp-big {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #1976d2;
+}
+.wind-small {
+  font-size: 0.95rem;
+  color: #0d47a1;
+}
+.prayer-times {
+  width: 100%;
+  margin: 8px 0;
 }
 .prayer-times p {
   display: flex;
   justify-content: space-between;
-  margin: 3px 0;
+  margin: 4px 0;
   font-size: 0.95rem;
   color: #282c34;
 }
@@ -277,6 +288,56 @@ header h1 {
 }
 .prayer-times p .time {
   font-weight: bold;
+}
+.mini-info {
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(64,158,255,0.3);
+  font-size: 0.85rem;
+  color: #0d47a1;
+}
+.mini-calendar {
+  text-align: center;
+  margin-bottom: 6px;
+}
+.mini-calendar span {
+  display: block;
+  margin: 2px 0;
+}
+.mini-calendar .friday {
+  color: #2e7d32;
+  font-weight: 700;
+}
+.daily-tips {
+  text-align: right;
+}
+.tips-title {
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 4px;
+  text-align: center;
+}
+.daily-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.daily-tips li {
+  padding-right: 20px;
+  position: relative;
+  line-height: 1.3;
+}
+.daily-tips li:before {
+  content: "⚡";
+  position: absolute;
+  right: 0;
+  top: 2px;
+  color: #ff6b35;
+  font-size: 0.9rem;
 }
 /* ==========================================================================
    FAQ Section
@@ -387,19 +448,16 @@ header h1 {
   padding: 0 20px;
   z-index: 10;
 }
-/* في الشاشات الكبيرة: اثنين جنب بعض */
 @media (min-width: 769px) {
   .weather-rating-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
-/* في الموبايل: فوق بعض */
 @media (max-width: 768px) {
   .weather-rating-grid {
     grid-template-columns: 1fr;
   }
 }
-/* حجم متساوي للـ boxين */
 .weather-box,
 .rating-container {
   width: 100%;
@@ -411,7 +469,6 @@ header h1 {
   box-shadow: 0 6px 20px rgba(13,71,161,0.15);
   z-index: 10;
 }
-/* تحسين بصري */
 .weather-box:hover,
 .rating-container:hover {
   transform: translateY(-6px);
@@ -828,7 +885,6 @@ footer {
 [dir="rtl"] .container {
   direction: rtl;
 }
-
 /* ==========================================================================
    Falling Components (المطر الإلكتروني – بدون cage رمادي، أكبر شوية)
    ========================================================================== */
@@ -838,10 +894,9 @@ footer {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: -9999; /* تحت كل شيء */
+  z-index: -9999;
   overflow: hidden;
 }
-
 .falling-component {
   position: absolute;
   background-size: contain;
@@ -853,66 +908,11 @@ footer {
   pointer-events: none;
   animation: fall linear forwards;
 }
-
-/* حجم أكبر وأوضح (60 إلى 120px) */
 .falling-component {
   width: 60px;
   height: 60px;
-  animation-duration: 12s; /* بطيء عشان يبان مليح */
+  animation-duration: 12s;
 }
-.mini-calendar {
-  margin-top: 12px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(64,158,255,0.3);
-  font-size: 0.85rem;
-  color: #0d47a1;
-  text-align: center;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.mini-calendar p {
-  margin: 3px 0;
-}
-
-.mini-calendar .friday {
-  color: #2e7d32; /* أخضر للجمعة */
-  font-weight: 700;
-}
-.daily-tips {
-  margin-top: 12px;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(64,158,255,0.4);
-  font-size: 0.85rem;
-  color: #0d47a1;
-  text-align: right;
-}
-
-.daily-tips p {
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #1976d2;
-}
-
-.daily-tips ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.daily-tips li {
-  margin: 4px 0;
-  padding-right: 20px;
-  position: relative;
-}
-
-.daily-tips li:before {
-  content: "⚡";
-  position: absolute;
-  right: 0;
-  color: #ff6b35;
-}
-/* الحركة */
 @keyframes fall {
   to {
     transform: translateY(110vh);

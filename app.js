@@ -182,31 +182,42 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error("Erreur prayer times:", err));
     }
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
-    function updateMiniCalendar() {
-        const today = new Date();
-        
-        // التاريخ الميلادي (مختصر وأنيق)
-        const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
-        document.getElementById('today-miladi').textContent = miladiStr;
-        
-        // إذا جمعة، نلونها بلون أخضر
-        if (today.getDay() === 5) {
-            document.getElementById('today-miladi').classList.add('friday');
-        }
+   function updateMiniCalendar() {
+  const today = new Date();
+  
+  // الميلادي
+  const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  const miladiStr = today.toLocaleDateString('ar-TN', miladiOptions);
+  document.getElementById('today-miladi').textContent = miladiStr;
+  
+  if (today.getDay() === 5) {
+    document.getElementById('today-miladi').classList.add('friday');
+  }
 
-        // التاريخ الهجري (من API موثوق)
-        fetch('https://api.aladhan.com/v1/gToH?date=' + today.toISOString().split('T')[0])
-            .then(res => res.json())
-            .then(data => {
-                const hijri = data.data.hijri;
-                document.getElementById('today-hijri').textContent = 
-                    `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
-            })
-            .catch(() => {
-                document.getElementById('today-hijri').textContent = 'التاريخ الهجري غير متوفر';
-            });
-    }
+  // الهجري من API أكثر استقرار
+  const dateStr = today.toISOString().split('T')[0];
+  fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&adjustment=0`)
+    .then(res => {
+      if (!res.ok) {
+        console.log("aladhan رد خطأ:", res.status);
+        throw new Error('aladhan failed');
+      }
+      return res.json();
+    })
+    .then(data => {
+      const hijri = data.data.hijri;
+      document.getElementById('today-hijri').textContent = 
+        `${hijri.day} ${hijri.month.ar} ${hijri.year} هـ 🕌`;
+    })
+    .catch(() => {
+      // حل احتياطي: حساب تقريبي بسيط
+      const hijriYear = today.getFullYear() - 622;
+      const hijriMonth = Math.floor((today.getMonth() + 1) * 1.03);
+      document.getElementById('today-hijri').textContent = 
+        `تقريباً ${today.getDate()} شهر ${hijriMonth} ${hijriYear} هـ 🕌`;
+      console.log("استعملنا الحساب التقريبي");
+    });
+}
     // ── Titres des sections (ثابت عربي) ────────────────────────────────
     document.querySelector('.services-today h2').textContent = "خدمات اليوم";
     document.querySelector('.videos-today h2').textContent = "فيديو اليوم";

@@ -234,7 +234,7 @@ header h1 {
   50% { transform: translateY(-6px); }
 }
 /* ==========================================================================
-   Weather & Prayer Times Box – تنظيم PRO ومرتب
+   Weather & Prayer Times Box – تنظيم PRO 100% مرتب ومتناسق
    ========================================================================== */
 .weather-box {
   margin: 0;
@@ -262,9 +262,10 @@ header h1 {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  margin-bottom: 8px;
 }
 .temp-big {
-  font-size: 2.4rem;
+  font-size: 2.5rem;
   font-weight: 900;
   color: #1976d2;
 }
@@ -311,6 +312,7 @@ header h1 {
 }
 .daily-tips {
   text-align: right;
+  width: 100%;
 }
 .tips-title {
   font-weight: 700;
@@ -397,7 +399,7 @@ header h1 {
   display: block;
 }
 /* ==========================================================================
-   Equalizer - Pro & Smooth (يظهر فقط لما الراديو شغال)
+   Equalizer - Pro & Smooth
    ========================================================================== */
 .equalizer {
   display: flex;
@@ -432,12 +434,11 @@ header h1 {
   0%, 100% { height: 6px; }
   50% { height: 32px; }
 }
-/* لما الراديو يشتغل، يصير فيه glow خفيف */
 #radio-stream.playing + .equalizer {
   filter: drop-shadow(0 0 10px #409eff);
 }
 /* ==========================================================================
-   Weather + Rating Grid - جنب بعض ونفس الحجم
+   Weather + Rating Grid
    ========================================================================== */
 .weather-rating-grid {
   display: grid;
@@ -475,7 +476,7 @@ header h1 {
   box-shadow: 0 10px 30px rgba(13,71,161,0.2);
 }
 /* ==========================================================================
-   Rating Container - نسخة PRO 2026 🔥
+   Rating Container - PRO 2026
    ========================================================================== */
 .rating-container {
   background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
@@ -811,7 +812,7 @@ header h1 {
   to { opacity: 1; }
 }
 /* ==========================================================================
-   Footer - Version Smaller & Cleaner
+   Footer
    ========================================================================== */
 footer {
   background: rgba(248,248,248,0.95);
@@ -886,7 +887,7 @@ footer {
   direction: rtl;
 }
 /* ==========================================================================
-   Falling Components (المطر الإلكتروني – بدون cage رمادي، أكبر شوية)
+   Falling Components (المطر الإلكتروني)
    ========================================================================== */
 #rain-container {
   position: fixed;

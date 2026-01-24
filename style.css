@@ -910,103 +910,94 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
-/* ==========================================================================
-   Services / Videos / Postes Sliders
-   ========================================================================== */
-.services-today h2,
-.videos-today h2,
-#postesSection h2 {
+/* Headers موج بحر لكل الأقسام */
+.services-header, .videos-header, .postes-header {
+  background: linear-gradient(90deg, #0f766e, #14b8a6, #22d3ee, #60a5fa, #a5b4fc);
+  background-size: 300% 100%;
+  animation: gradientFlow 22s ease infinite;
+  padding: 20px;
   text-align: center;
-  color: #0a1e3d;
-  margin: 30px 0;
-  font-size: 1.8rem;
-  text-shadow: 0 0 5px #a9b7c6;
-  z-index: 10;
-}
-.services-slider {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 6px 20px rgba(26,156,156,0.3);
   display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 10px;
-  cursor: grab;
-  scroll-behavior: smooth;
-}
-.services-slider::-webkit-scrollbar {
-  display: none;
-}
-.service-card {
-  min-width: 220px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(6px);
-  border-radius: 15px;
-  padding: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
-  z-index: 10;
-}
-.service-card:hover {
-  transform: translateY(-8px);
-}
-.service-card img,
-.video-card video {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-.video-card video {
-  height: 160px;
-  transition: transform 0.3s ease;
-}
-.video-card video:hover {
-  transform: scale(1.05);
-}
-.service-card p.service-caption {
-  margin-top: 10px;
-  font-weight: bold;
-  color: #282c34;
-  text-align: center;
-}
-/* ==========================================================================
-   Fullscreen Media Viewer
-   ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #fff;
   justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  flex-direction: column;
+  gap: 0.6em;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
-#mediaViewer img,
-#mediaViewer video {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 25px #0ff;
+
+.wave-word {
+  animation: wordWave 5s ease-in-out infinite;
+  animation-delay: var(--delay);
+  white-space: nowrap;
 }
-#mediaViewer .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 2.5rem;
-  color: #fff;
+
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes wordWave {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-10px) scale(1.04); }
+}
+
+/* Grids موحدة pro */
+.services-grid, .videos-grid, .postes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* Cards pro */
+.service-pro-card, .video-pro-card, .poste-pro-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
   cursor: pointer;
-  z-index: 100000;
-  background: rgba(0,0,0,0.3);
-  padding: 5px 12px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
 }
-#mediaViewer .close-btn:hover {
-  background: rgba(255,0,0,0.7);
-  transform: scale(1.2);
+
+.service-pro-card:hover, .video-pro-card:hover, .poste-pro-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.service-pro-card img, .poste-pro-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.video-pro-card video {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.service-overlay, .video-overlay, .poste-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.85));
+  color: white;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  transition: background 0.4s;
+}
+
+.service-pro-card:hover .service-overlay,
+.video-pro-card:hover .video-overlay,
+.poste-pro-card:hover .poste-overlay {
+  background: linear-gradient(to bottom, transparent 40%, rgba(20,184,166,0.9));
 }
 /* ==========================================================================
    Cookie Banner (CMP)

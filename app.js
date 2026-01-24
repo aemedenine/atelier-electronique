@@ -12,18 +12,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const analytics = firebase.analytics();
 const auth = firebase.auth();
-
 // Garder la session même après refresh/fermeture
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
-
 // ==========================================================================
 // Variables globales
 // ==========================================================================
 // ما عادش نحتاج currentLang، كل شيء عربي ثابت
 // ==========================================================================
-
 // DOM Ready
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -41,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoogle = document.getElementById('btn-google');
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
-    const mediaViewer = document.getElementById('mediaViewer');
-
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -54,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             loginPopup.style.display = 'flex';
         }
     });
-
     btnGoogle?.addEventListener('click', () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider)
@@ -65,18 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(console.error);
     });
-
     btnClosePopup?.addEventListener('click', () => {
         loginPopup.style.display = 'none';
     });
-
     btnSignOut?.addEventListener('click', () => {
         auth.signOut().then(() => {
             userInfo.style.display = 'none';
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-
     // ── Compteur de visites (Firebase Realtime) ───────────────────────────
     if (visitEl) {
         const db = firebase.database();
@@ -87,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
             visitEl.textContent = `عدد زوار الموقع: ${total}`;
         });
     }
-
     // ── Mise à jour de l'heure (عربي فقط) ─────────────────────────────────
     function updateTime() {
         const now = new Date();
@@ -101,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const s = now.getSeconds().toString().padStart(2,'0');
         timeEl.textContent = `${day}، ${date} ${month} - ${h}:${m}:${s}`;
     }
-
     // ── Ticker d'actualités (عربي فقط) ────────────────────────────────────
     const news = [
         "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
@@ -112,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let newsIndex = 0;
     let newsInterval = null;
     function updateNews() {
-        if (!ticker) return;
         ticker.classList.remove('fade');
         void ticker.offsetWidth; // force reflow
         ticker.textContent = news[newsIndex];
@@ -124,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         newsInterval = setInterval(updateNews, 5000);
     }
-
     // ── FAQ Toggle ────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {
@@ -133,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 parent.classList.toggle('active');
             });
         });
+        // زر إغلاق الكل
         const closeAllBtn = document.getElementById('faq-close-all');
         if (closeAllBtn) {
             closeAllBtn.addEventListener('click', () => {
@@ -142,16 +130,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-
-    // ── Wave Animation لعنوان FAQ (حرف بحرف) ─────────────────────────────────
+// ── Wave Animation لعنوان FAQ ────────────────────────────────────────────────
     const faqHeader = document.querySelector('.faq-header');
     if (faqHeader) {
+        // 1. نأخذ النص الأصلي ونقسمه إلى spans
         const waveContainer = document.createElement('span');
         waveContainer.className = 'wave-text';
-        const originalText = faqHeader.textContent.trim();
-        faqHeader.textContent = '';
+        const originalText = faqHeader.textContent.trim(); // "الأسئلة اللي في بالك"
+        faqHeader.textContent = ''; // نفرغ العنوان
         faqHeader.appendChild(waveContainer);
 
+        // 2. تقسيم الحروف أوتوماتيكيًا
         [...originalText].forEach((char, index) => {
             const span = document.createElement('span');
             span.textContent = char === ' ' ? '\u00A0' : char;
@@ -159,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             waveContainer.appendChild(span);
         });
 
+        // 3. إضافة class للتحكم في الـ CSS
         faqHeader.classList.add('wave-header');
     }
 
@@ -169,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
             equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
         }
     }
-
     // ── Radio controls ────────────────────────────────────────────────────
     if (radioBtn) {
         radioBtn.addEventListener('click', () => {
@@ -186,29 +175,26 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('play', updateEqualizerVisibility);
         radio.addEventListener('pause', updateEqualizerVisibility);
     }
-
     // ── Initialisation ────────────────────────────────────────────────────
     setInterval(updateTime, 1000);
     updateTime();
     startNewsRotation();
     initFAQ();
     updateEqualizerVisibility();
-
-    // ── Weather API ───────────────────────────────────────────────────────
+    // ── Weather API (عربي فقط) ───────────────────────────────────────────
     function updateWeather() {
         fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
             .then(res => res.json())
             .then(data => {
                 const temp = data.current_weather.temperature + "°C";
                 const wind = data.current_weather.windspeed + " كم/س";
-                document.getElementById("weather-temp")?.textContent = temp;
-                document.getElementById("weather-desc")?.textContent = "🌬️ سرعة الرياح: " + wind;
+                document.getElementById("weather-temp").textContent = temp;
+                document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
             })
             .catch(() => {
-                document.getElementById("weather-desc")?.textContent = "⚠️ لا يمكن تحميل الطقس";
+                document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
             });
     }
-
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {
         fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
@@ -216,117 +202,137 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const times = data.data.timings;
                 const pt = document.getElementById("prayer-times");
-                if (pt) {
-                    pt.innerHTML = `
-                        <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
-                        <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
-                        <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
-                        <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
-                        <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
-                        <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-                    `;
-                }
+                pt.innerHTML = `
+                    <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
+                    <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
+                    <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
+                    <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
+                    <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
+                    <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
+                `;
             })
             .catch(err => console.error("Erreur prayer times:", err));
     }
-
-    // ── Mini Calendar ─────────────────────────────────────────────────────
+    // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
     function updateMiniCalendar() {
-        const today = new Date();
-        const miladiEl = document.getElementById('today-miladi');
-        const hijriEl = document.getElementById('today-hijri');
+  const today = new Date();
 
-        if (miladiEl) {
-            const miladiOptions = {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            };
-            miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
-            miladiEl.classList.toggle('friday', today.getDay() === 5);
+  const miladiEl = document.getElementById('today-miladi');
+  const hijriEl  = document.getElementById('today-hijri');
 
-            miladiEl.classList.remove('fade');
-            if (hijriEl) hijriEl.classList.remove('fade');
-            void miladiEl.offsetWidth;
-            miladiEl.classList.add('fade');
-            if (hijriEl) hijriEl.classList.add('fade');
-        }
+  /* =========================
+     1️⃣ التاريخ الميلادي
+  ========================= */
+  const miladiOptions = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  };
+  miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
 
-        const cacheKey = `hijri-${today.toDateString()}`;
-        const cached = localStorage.getItem(cacheKey);
-        if (cached && hijriEl) {
-            hijriEl.textContent = cached;
-            return;
-        }
+  miladiEl.classList.toggle('friday', today.getDay() === 5);
 
-        const d = String(today.getDate()).padStart(2, '0');
-        const m = String(today.getMonth() + 1).padStart(2, '0');
-        const y = today.getFullYear();
-        const dateStr = `${d}-${m}-${y}`;
-        fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
-            .then(res => {
-                if (!res.ok) throw new Error("API down");
-                return res.json();
-            })
-            .then(data => {
-                const h = data.data.hijri;
-                const icon = hijriIcon(h.month.number);
-                const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
-                if (hijriEl) hijriEl.textContent = text;
-                localStorage.setItem(cacheKey, text);
-            })
-            .catch(() => {
-                try {
-                    const fmt = new Intl.DateTimeFormat(
-                        'ar-TN-u-ca-islamic',
-                        { day: 'numeric', month: 'long', year: 'numeric' }
-                    );
-                    const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
-                    if (hijriEl) hijriEl.textContent = text;
-                    localStorage.setItem(cacheKey, text);
-                } catch {
-                    if (hijriEl) hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
-                }
-            });
-    }
+  /* =========================
+     2️⃣ Animation خفيفة
+  ========================= */
+  miladiEl.classList.remove('fade');
+  hijriEl.classList.remove('fade');
+  void miladiEl.offsetWidth; // reflow
+  miladiEl.classList.add('fade');
+  hijriEl.classList.add('fade');
 
-    function hijriIcon(month) {
-        if (month === 9) return "🌙";
-        if (month === 12) return "🕋";
-        if (month === 1) return "✨";
-        if (month === 8) return "🌾";
-        return "🕌";
-    }
+  /* =========================
+     3️⃣ Cache (يومي)
+  ========================= */
+  const cacheKey = `hijri-${today.toDateString()}`;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    hijriEl.textContent = cached;
+    return;
+  }
 
-    updateMiniCalendar();
-    setInterval(updateMiniCalendar, 60 * 1000);
+  /* =========================
+     4️⃣ API الهجري (صحيح)
+  ========================= */
+  const d = String(today.getDate()).padStart(2, '0');
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const y = today.getFullYear();
+  const dateStr = `${d}-${m}-${y}`;
 
-    // ── نصائح إلكترونيكية يومية ─────────────────────────────────────────────
+  fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
+    .then(res => {
+      if (!res.ok) throw new Error("API down");
+      return res.json();
+    })
+    .then(data => {
+      const h = data.data.hijri;
+      const icon = hijriIcon(h.month.number);
+
+      const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
+      hijriEl.textContent = text;
+      localStorage.setItem(cacheKey, text);
+    })
+    .catch(() => {
+      /* =========================
+         5️⃣ fallback ذكي (Intl)
+      ========================= */
+      try {
+        const fmt = new Intl.DateTimeFormat(
+          'ar-TN-u-ca-islamic',
+          { day: 'numeric', month: 'long', year: 'numeric' }
+        );
+        const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
+        hijriEl.textContent = text;
+        localStorage.setItem(cacheKey, text);
+      } catch {
+        hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
+      }
+    });
+}
+
+/* =========================
+   أيقونة حسب الشهر الهجري
+========================= */
+function hijriIcon(month) {
+  if (month === 9) return "🌙";        // رمضان
+  if (month === 12) return "🕋";       // ذو الحجة
+  if (month === 1) return "✨";        // محرم
+  if (month === 8) return "🌾";        // شعبان
+  return "🕌";
+}
+
+/* =========================
+   Auto refresh
+========================= */
+updateMiniCalendar();
+setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
+  
+    // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
     function updateDailyTips() {
-        const tips = [
-            "نظّف المكثفات من الغبار كل 6 أشهر.",
-            "استعمل منظم فولطاج لحماية اللوحة.",
-            "غيّر بطاريات الريموت قبل ما تنفجر.",
-            "فحص المروحة لو الجهاز يسخن بزاف.",
-            "تجنّب اللحام البارد في التصليح.",
-            "افصل الكهرباء قبل فتح الجهاز.",
-            "فحص الكونكتورات أولاً لو ما يشتغلش.",
-            "نظف اللوحات بكحول إيزوبروبيل فقط."
-        ];
-        const shuffled = tips.sort(() => 0.5 - Math.random());
-        const selectedTips = shuffled.slice(0, 3);
-        const list = document.getElementById('tips-list');
-        if (list) {
-            list.innerHTML = '';
-            selectedTips.forEach(tip => {
-                const li = document.createElement('li');
-                li.textContent = tip;
-                list.appendChild(li);
-            });
-        }
-    }
+      const tips = [
+        "نظّف المكثفات من الغبار كل 6 أشهر.",
+        "استعمل منظم فولطاج لحماية اللوحة.",
+        "غيّر بطاريات الريموت قبل ما تنفجر.",
+        "فحص المروحة لو الجهاز يسخن بزاف.",
+        "تجنّب اللحام البارد في التصليح.",
+        "افصل الكهرباء قبل فتح الجهاز.",
+        "فحص الكونكتورات أولاً لو ما يشتغلش.",
+        "نظف اللوحات بكحول إيزوبروبيل فقط."
+      ];
 
+      // نختار 3 نصائح فقط عشان ما يطولش الـ box
+      const shuffled = tips.sort(() => 0.5 - Math.random());
+      const selectedTips = shuffled.slice(0, 3);
+
+      const list = document.getElementById('tips-list');
+      list.innerHTML = '';
+      selectedTips.forEach(tip => {
+        const li = document.createElement('li');
+        li.textContent = tip;
+        list.appendChild(li);
+      });
+    }
     // ── Titres des sections (آمن – ما يفشلش لو العنصر مش موجود) ───────────────
    const serviceTitle = document.querySelector('.services-today h2');
 if (serviceTitle) serviceTitle.textContent = "خدمات اليوم";
@@ -388,8 +394,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
         }
     }
     showDailyItems();
-
-    // ── Rating System ────────────────────────────────────────────────────────
+    // ── Rating System (عربي فقط) ─────────────────────────────────────────
     const stars = document.querySelectorAll('.stars-horizontal span');
     const ratingValue = document.getElementById('rating-value');
     const ratingMessage = document.getElementById('rating-message');
@@ -399,13 +404,12 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
     let currentUserRating = 0;
     const ratingsRef = firebase.database().ref('ratings');
     const userRatingsRef = firebase.database().ref('userRatings');
-
     function loadRatings() {
         ratingsRef.on('value', snapshot => {
             const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
             const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
-            if (avgStarsEl) avgStarsEl.textContent = avg;
-            if (voteCountEl) voteCountEl.textContent = data.count;
+            avgStarsEl.textContent = avg;
+            voteCountEl.textContent = data.count;
             let html = '';
             for (let i = 5; i >= 1; i--) {
                 const count = data.breakdown?.[i] || 0;
@@ -416,26 +420,22 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                     </div>
                 `;
             }
-            if (breakdownEl) breakdownEl.innerHTML = html;
+            breakdownEl.innerHTML = html;
         });
     }
-
     function updateStars(rating) {
         stars.forEach(star => {
             const val = Number(star.dataset.value);
             star.classList.toggle('selected', val <= rating);
             star.textContent = val <= rating ? '★' : '☆';
         });
-        if (ratingValue) ratingValue.textContent = `${rating}/5`;
+        ratingValue.textContent = `${rating}/5`;
     }
-
     function checkUserRating(user) {
         if (!user) {
             updateStars(0);
-            if (ratingMessage) {
-                ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
-                ratingMessage.classList.add('show');
-            }
+            ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+            ratingMessage.classList.add('show');
             stars.forEach(s => s.style.pointerEvents = 'none');
             return;
         }
@@ -445,10 +445,8 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 const data = snap.val();
                 currentUserRating = data.rating;
                 updateStars(currentUserRating);
-                if (ratingMessage) {
-                    ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
-                    ratingMessage.classList.add('show');
-                }
+                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+                ratingMessage.classList.add('show');
                 stars.forEach(s => s.style.pointerEvents = 'none');
             } else {
                 currentUserRating = 0;
@@ -457,11 +455,9 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             }
         });
     }
-
     auth.onAuthStateChanged(user => {
         checkUserRating(user);
     });
-
     stars.forEach(star => {
         const val = Number(star.dataset.value);
         star.addEventListener('mouseover', () => {
@@ -485,10 +481,8 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 return;
             }
             if (currentUserRating > 0) {
-                if (ratingMessage) {
-                    ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
-                    ratingMessage.classList.add('show');
-                }
+                ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
+                ratingMessage.classList.add('show');
                 return;
             }
             const uid = auth.currentUser.uid;
@@ -507,17 +501,13 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             });
             currentUserRating = val;
             updateStars(val);
-            if (ratingMessage) {
-                ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
-                ratingMessage.classList.add('show');
-                setTimeout(() => ratingMessage.classList.remove('show'), 8000);
-            }
+            ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
+            ratingMessage.classList.add('show');
+            setTimeout(() => ratingMessage.classList.remove('show'), 8000);
             stars.forEach(s => s.style.pointerEvents = 'none');
         });
     });
-
     loadRatings();
-
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {
@@ -528,7 +518,6 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-
         const traces = [];
         for (let i = 0; i < 50; i++) {
             traces.push({
@@ -544,13 +533,11 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 }))
             });
         }
-
         let mouseX = -1000, mouseY = -1000;
         window.addEventListener('mousemove', e => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
-
         function animatePCB() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             traces.forEach(t => {
@@ -585,7 +572,6 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
         }
         animatePCB();
     }
-
     // ── Horizontal Sliders Drag ───────────────────────────────────────────
     function enableDragScroll(sliderId) {
         const slider = document.getElementById(sliderId);
@@ -616,7 +602,6 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
     }
     enableDragScroll('servicesSlider');
     enableDragScroll('videoSlider');
-
     // ── Video hover play/pause ────────────────────────────────────────────
     document.querySelectorAll('.video-card video').forEach(video => {
         video.addEventListener('mouseenter', () => video.play().catch(() => {}));
@@ -625,45 +610,33 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             video.currentTime = 0;
         });
     });
-
     // ── Fullscreen Media Viewer ───────────────────────────────────────────
+    const mediaViewer = document.getElementById('mediaViewer');
     const viewerImg = document.getElementById('viewerImg');
     const viewerVideo = document.getElementById('viewerVideo');
     const closeBtn = mediaViewer?.querySelector('.close-btn');
-
     document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
         el.style.cursor = 'pointer';
         el.addEventListener('click', () => {
-            if (!mediaViewer) return;
             mediaViewer.style.display = 'flex';
             if (el.tagName === 'IMG') {
-                if (viewerImg) {
-                    viewerImg.src = el.src;
-                    viewerImg.style.display = 'block';
-                }
-                if (viewerVideo) {
-                    viewerVideo.style.display = 'none';
-                    viewerVideo.pause();
-                }
+                viewerImg.src = el.src;
+                viewerImg.style.display = 'block';
+                viewerVideo.style.display = 'none';
+                viewerVideo.pause();
             } else if (el.tagName === 'VIDEO') {
-                if (viewerVideo) {
-                    viewerVideo.src = el.src;
-                    viewerVideo.style.display = 'block';
-                    viewerVideo.play();
-                }
-                if (viewerImg) viewerImg.style.display = 'none';
+                viewerVideo.src = el.src;
+                viewerVideo.style.display = 'block';
+                viewerImg.style.display = 'none';
+                viewerVideo.play();
             }
         });
     });
-
     closeBtn?.addEventListener('click', () => {
-        if (mediaViewer) mediaViewer.style.display = 'none';
-        if (viewerVideo) {
-            viewerVideo.pause();
-            viewerVideo.currentTime = 0;
-        }
+        mediaViewer.style.display = 'none';
+        viewerVideo.pause();
+        viewerVideo.currentTime = 0;
     });
-
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');
@@ -673,12 +646,11 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
     }
     consentAllow?.addEventListener('click', () => {
         localStorage.setItem('cmpConsent', 'granted');
-        if (cmpBanner) cmpBanner.style.display = 'none';
+        cmpBanner.style.display = 'none';
     });
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
-
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
@@ -695,100 +667,109 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             }, 1000);
         }, 4000);
     }
-
     // Format Ω → KΩ → MΩ
-    function formatResistance(value){
-        if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
-        if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
-        return value+' Ω';
-    }
+function formatResistance(value){
+  if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
+  if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
+  return value+' Ω';
+}
 
-    // Update Color Resistor + Visual
-    function updateColorResistorVisual() {
-        const b1 = document.getElementById("band1");
-        const b2 = document.getElementById("band2");
-        const mult = document.getElementById("multiplier");
-        if (!b1 || !b2 || !mult) return;
+// Update Color Resistor + Visual
+function updateColorResistorVisual() {
+  const b1 = document.getElementById("band1");
+  const b2 = document.getElementById("band2");
+  const mult = document.getElementById("multiplier");
 
-        const val1 = parseInt(b1.value);
-        const val2 = parseInt(b2.value);
-        const mul = parseInt(mult.value);
-        const value = (val1 * 10 + val2) * mul;
-        document.getElementById("resistor-result")?.textContent = formatResistance(value);
+  const val1 = parseInt(b1.value);
+  const val2 = parseInt(b2.value);
+  const mul = parseInt(mult.value);
 
-        document.getElementById("vis-band1")?.style.background = b1.selectedOptions[0]?.dataset.color;
-        document.getElementById("vis-band2")?.style.background = b2.selectedOptions[0]?.dataset.color;
-        document.getElementById("vis-mult")?.style.background = mult.selectedOptions[0]?.dataset.color;
-    }
-    ["band1","band2","multiplier"].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener("change", updateColorResistorVisual);
-    });
-    updateColorResistorVisual();
+  // Update result
+  const value = (val1 * 10 + val2) * mul;
+  document.getElementById("resistor-result").textContent = formatResistance(value);
 
-    // SMD Resistor
-    const smdCode = document.getElementById("smdCode");
-    if (smdCode) {
-        smdCode.addEventListener("input", function(){
-            const code = this.value.trim().toUpperCase();
-            let result = "— Ω";
-            if(/^\d{3}$/.test(code)){
-                result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
-                result = formatResistance(result);
-            } else if(/^\dR\d$/.test(code)){
-                result = code.replace("R",".") + " Ω";
-            }
-            document.getElementById("smd-result")?.textContent = result;
-        });
-    }
+  // Update visual colors
+  document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
+  document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
+  document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
+}
 
-    // Capacitor Calculator
-    const capValue = document.getElementById("cap-value");
-    const capVoltage = document.getElementById("cap-voltage");
-    const capResult = document.getElementById("cap-result");
-    const capFill = document.querySelector(".cap-fill");
-    if (capValue && capVoltage && capResult && capFill) {
-        [capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
-        function updateCap(){
-            const value = parseFloat(capValue.value);
-            const voltage = parseFloat(capVoltage.value);
-            if(!value || !voltage){
-                capResult.textContent = "—";
-                capFill.style.height = "0%";
-                return;
-            }
-            capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
-            let fillHeight = Math.min(100, value);
-            capFill.style.height = `${fillHeight}%`;
-        }
-    }
+["band1","band2","multiplier"].forEach(id=>{
+  document.getElementById(id).addEventListener("change", updateColorResistorVisual);
+});
 
-    // Power Calculator
-    const volt = document.getElementById("volt");
-    const resistance = document.getElementById("resistance");
-    const current = document.getElementById("current");
-    const powerResult = document.getElementById("power-result");
-    const powerFill = document.querySelector(".power-fill");
-    if (volt && resistance && current && powerResult && powerFill) {
-        [volt, resistance, current].forEach(el => el.addEventListener("input", updatePower));
-        function updatePower(){
-            const V = parseFloat(volt.value);
-            const R = parseFloat(resistance.value);
-            const I = parseFloat(current.value);
-            let P = null;
-            if(V && R) P = (V*V)/R;
-            else if(I && R) P = I*I*R;
-            else if(V && I) P = V*I;
-            powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
-            const fillPercent = P ? Math.min(100, P) : 0;
-            powerFill.style.width = fillPercent + "%";
-        }
-    }
+updateColorResistorVisual();
 
+// ===== SMD Resistor Ultra Max =====
+document.getElementById("smdCode").addEventListener("input", function(){
+  const code = this.value.trim().toUpperCase();
+  let result = "— Ω";
+
+  if(/^\d{3}$/.test(code)){
+    result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
+    result = formatResistance(result);
+  } else if(/^\dR\d$/.test(code)){
+    result = code.replace("R",".") + " Ω";
+  }
+
+  document.getElementById("smd-result").textContent = result;
+});
+    /* ====== بداية JS البوكسات الجديدة ====== */
+// Capacitor Calculator + Visual
+const capValue = document.getElementById("cap-value");
+const capVoltage = document.getElementById("cap-voltage");
+const capResult = document.getElementById("cap-result");
+const capFill = document.querySelector(".cap-fill");
+
+[capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
+
+function updateCap(){
+  const value = parseFloat(capValue.value);
+  const voltage = parseFloat(capVoltage.value);
+  if(!value || !voltage){
+    capResult.textContent = "—";
+    capFill.style.height = "0%";
+    return;
+  }
+  capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
+  let fillHeight = Math.min(100, value); // limit 100%
+  capFill.style.height = `${fillHeight}%`;
+}
+
+// Power Calculator + Visual
+const volt = document.getElementById("volt");
+const resistance = document.getElementById("resistance");
+const current = document.getElementById("current");
+const powerResult = document.getElementById("power-result");
+const powerFill = document.querySelector(".power-fill");
+
+[volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
+
+function updatePower(){
+  const V = parseFloat(volt.value);
+  const R = parseFloat(resistance.value);
+  const I = parseFloat(current.value);
+  let P = null;
+
+  if(V && R){
+    P = (V*V)/R;
+  } else if(I && R){
+    P = I*I*R;
+  } else if(V && I){
+    P = V*I;
+  }
+
+  powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
+
+  // Visual: نسبة 100 وات = 100%
+  const fillPercent = P ? Math.min(100, P) : 0;
+  powerFill.style.width = fillPercent + "%";
+}
+/* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
     updateMiniCalendar();
-    updateDailyTips();
+    updateDailyTips(); // إضافة نصائح الإلكترونيك اليومية
     console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
 });

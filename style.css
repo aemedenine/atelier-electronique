@@ -363,101 +363,146 @@ header h1 {
   font-size: 0.9rem;
 }
 /* ==========================================================================
-   FAQ Section (النسخة المدمجة والمصلحة)
+   FAQ Section – نسخة أخف وأكثر دفء (2025 style)
    ========================================================================== */
 .faq {
-  max-width: 900px;
-  margin: 0 auto 60px auto;
+  max-width: 920px;
+  margin: 0 auto 70px auto;
   z-index: 10;
 }
+
 .faq-container {
   background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* ظل أخف */
   overflow: hidden;
-  padding: 20px;
+  padding: 0; /* نحذف الـ padding العام باش نتحكم في كل جزء */
 }
+
 .faq-header {
-  background: linear-gradient(135deg, #1e90ff, #00bfff);
+  background: linear-gradient(135deg, #2563eb, #60a5fa); /* أزرق أنعم وحديث */
   color: white;
-  padding: 25px;
+  padding: 20px 15px;
   text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  border-bottom: 2px solid #ffffff;
+  font-size: 1.85rem; /* أصغر من 32px باش ما يبقاش صارخ */
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  letter-spacing: 0.4px;
 }
+
 .faq-close-all-btn {
   display: block;
-  margin: 15px auto;
-  padding: 10px 20px;
-  background: #ff6b35;
+  margin: 18px auto 24px;
+  padding: 10px 28px;
+  background: #f97316; /* برتقالي دافئ */
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px; /* مدور كامل = شكل عصري وأخف */
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.25);
+  transition: all 0.28s ease;
 }
+
 .faq-close-all-btn:hover {
-  background: #e05520;
+  background: #ea580c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
 }
+
 .faq-item {
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 8px rgba(64,158,255,0.1);
+  border-bottom: 1px solid #e5e7eb; /* رمادي فاتح أنعم */
+  margin: 0;
+  transition: background-color 0.25s ease;
 }
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
 .faq-item:hover {
-  background: #f0f8ff;
+  background: #f8fafc; /* hover خفيف جدًا */
 }
+
 .faq-question {
   cursor: pointer;
-  padding: 18px;
-  font-weight: bold;
-  font-size: 20px;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 1.15rem; /* أصغر وأريح للقراءة */
   display: flex;
   align-items: center;
-  transition: background 0.3s, color 0.3s;
-  color: #333;
+  color: #1f2937;
   position: relative;
+  transition: color 0.25s ease, padding-left 0.3s ease;
 }
+
 .faq-question i {
-  margin-left: 15px;
-  font-size: 22px;
-  color: #1e90ff;
+  margin-left: 12px;
+  font-size: 1.4rem;
+  color: #3b82f6;
+  transition: color 0.3s, transform 0.3s;
 }
+
 .faq-question:hover {
-  color: #1e90ff;
+  color: #2563eb;
+  padding-left: 24px; /* تأثير خفيف لما يمر الماوس */
 }
+
 .faq-question::before {
   content: '❓';
-  margin-left: 10px;
-  font-size: 20px;
+  margin-left: 8px;
+  font-size: 1.25rem;
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s;
 }
+
+.faq-item.active .faq-question::before {
+  content: '✅';
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.faq-item.active .faq-question i {
+  color: #f97316;
+  transform: rotate(90deg); /* دوران الأيقونة لما يفتح = إشارة واضحة */
+}
+
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  padding: 0 18px;
-  transition: max-height 0.6s ease, padding 0.6s ease, opacity 0.6s ease;
-  background: #fafafa;
+  padding: 0 20px;
+  transition: max-height 0.55s ease-out, padding 0.55s ease-out, opacity 0.4s ease;
+  background: #f9fafb;
   opacity: 0;
   font-weight: 400;
-  color: #000;
-  line-height: 1.5;
-}
-.faq-item.active .faq-answer {
-  max-height: 400px;
-  padding: 18px;
-  opacity: 1;
-}
-.faq-item.active .faq-question::before {
-  content: '✅';
-}
-.faq-item.active .faq-question i {
-  color: #ff6b35;
+  color: #374151;
+  line-height: 1.65;
 }
 
+.faq-item.active .faq-answer {
+  max-height: 500px; /* زد شوية إذا عندك إجابات طويلة */
+  padding: 20px;
+  opacity: 1;
+}
+
+/* Responsive – تحسين على الموبايل */
+@media (max-width: 768px) {
+  .faq-header {
+    font-size: 1.55rem;
+    padding: 16px 12px;
+  }
+  
+  .faq-question {
+    font-size: 1.05rem;
+    padding: 14px 16px;
+  }
+  
+  .faq-close-all-btn {
+    padding: 9px 24px;
+    font-size: 0.95rem;
+  }
+}
 /* Ultra Max Resistor Calculators */
 .calculators-grid {
   display: grid;

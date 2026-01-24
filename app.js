@@ -674,22 +674,6 @@ document.getElementById("smdCode").addEventListener("input", function(){
 
   document.getElementById("smd-result").textContent = result;
 });
-    function showResult(value) {
-  const resultEl = document.getElementById("result-resistance");
-
-  // نحط النتيجة
-  resultEl.textContent = value + " Ω";
-
-  // نحي animation القديمة لو كانت موجودة
-  resultEl.classList.remove("tremble");
-
-  // hack صغير باش animation تعاود تخدم
-  void resultEl.offsetWidth;
-
-  // نضيف animation
-  resultEl.classList.add("tremble");
-}
-
     /* ====== بداية JS البوكسات الجديدة ====== */
 // Capacitor Calculator + Visual
 const capValue = document.getElementById("cap-value");

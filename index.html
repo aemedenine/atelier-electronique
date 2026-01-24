@@ -22,7 +22,6 @@
 <body>
     <!-- خلفية المطر الإلكتروني – أول حاجة عشان يبقى تحت الكل -->
     <div id="rain-container"></div>
-
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
@@ -33,14 +32,12 @@
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
         </div>
     </header>
-
     <main class="container main-content">
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
             <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
-
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
             <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
@@ -53,7 +50,6 @@
                 <button id="btn-close-popup" class="btn-close">إلغاء</button>
             </div>
         </div>
-
         <!-- CTA Buttons -->
         <section class="cta-buttons">
             <a href="download" class="btn-download">تحميل البرامج 📥</a>
@@ -73,9 +69,7 @@
                 <div class="bar"></div>
             </div>
         </section>
-
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
         <!-- Weather + Rating جنب بعض – تنظيم pro -->
         <div class="weather-rating-grid">
             <!-- Box الطقس -->
@@ -86,7 +80,6 @@
                         <div class="temp-big" id="weather-temp">--°C</div>
                         <div class="wind-small" id="weather-desc">جاري التحميل...</div>
                     </div>
-
                     <div class="prayer-times" id="prayer-times">
                         <p>🌅 الفجر: --:--</p>
                         <p>🌄 الشروق: --:--</p>
@@ -95,13 +88,11 @@
                         <p>🌇 المغرب: --:--</p>
                         <p>🌙 العشاء: --:--</p>
                     </div>
-
                     <div class="mini-info">
                         <div class="mini-calendar">
                             <span id="today-miladi">جاري التحميل...</span>
                             <span id="today-hijri">جاري التحميل...</span>
                         </div>
-
                         <div class="daily-tips">
                             <p class="tips-title">نصيحة اليوم</p>
                             <ul id="tips-list"></ul>
@@ -109,7 +100,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
@@ -128,30 +118,44 @@
                 <div class="rating-message" id="rating-message"></div>
             </div>
         </div>
-
-        <!-- FAQ -->
+        <!-- FAQ الجديد الألترا -->
         <section class="faq">
-            <h2>الأسئلة الشائعة</h2>
-            <div class="faq-item">
-                <h3>كيف يمكنني إرسال جهاز للإصلاح؟</h3>
-                <div class="answer">يمكنك إرسال الجهاز عبر البريد أو التواصل معنا لترتيب الاستلام.</div>
-            </div>
-            <div class="faq-item">
-                <h3>ما هي مدة التصليح المعتادة؟</h3>
-                <div class="answer">تختلف حسب العطل، غالباً لا تتجاوز 3 أيام.</div>
-            </div>
-            <div class="faq-item">
-                <h3>هل توفرون قطع غيار أصلية؟</h3>
-                <div class="answer">نعم، نوفر قطع غيار أصلية وذات جودة عالية.</div>
-            </div>
-            <div class="faq-item">
-                <h3>كيف أتابع حالة الإصلاح؟</h3>
-                <div class="answer">نرسل صور وفيديوهات لحالة الجهاز أثناء التصليح عبر واتساب.</div>
+            <div class="faq-container">
+                <div class="faq-header">الأسئلة الشائعة (FAQ) - ورشة إلكترونيك الرحماني</div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">كيف يمكنني إرسال جهازي للإصلاح؟</div>
+                    <div class="faq-answer">نقدم خدمة إصلاح سهلة وآمنة لأجهزتكم. يمكنكم زيارة أقرب فرع لنا، أو طلب الشحن عبر موقعنا الإلكتروني. سنقوم بتقييم الجهاز مجانًا ونبلغكم بالتكاليف المقترحة قبل البدء في العمل. 🚀</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">ما هي المدة المتوقعة للإصلاح؟</div>
+                    <div class="faq-answer">تعتمد المدة على نوع العطل، لكن معظم الإصلاحات تتم في غضون 2-3 أيام عمل. سنبقيكم على اطلاع دائم عبر الرسائل النصية أو التطبيق الخاص بنا لتتبع التقدم. ⏱️</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">هل توفرون قطع غيار أصلية؟</div>
+                    <div class="faq-answer">نعم، نحرص على استخدام قطع غيار أصلية 100% من الشركات المصنعة الرسمية، مع ضمان لمدة شهر على جميع الإصلاحات. هذا يضمن أداءً مثاليًا وطول عمر لجهازكم. 🔧</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">كيف أعرف حالة الإصلاح الخاص بي؟</div>
+                    <div class="faq-answer">يمكنكم تتبع حالة الإصلاح في أي وقت عبر حسابكم الشخصي على موقعنا أو تطبيقنا المحمول. سنرسل تحديثات دورية لضمان الشفافية التامة. 📱</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">ما هي التكاليف التقريبية للإصلاح؟</div>
+                    <div class="faq-answer">التكاليف تبدأ من 50 دينارًا حسب نوع الجهاز والعطل، مع خصومات للعملاء الدائمين. نقدم تقديرًا مجانيًا قبل أي عمل! 💰</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">هل تقدمون خدمة إصلاح في المنزل؟</div>
+                    <div class="faq-answer">نعم، للأجهزة الكبيرة مثل التلفزيونات أو الحواسيب المكتبية، نوفر خدمة زيارة منزلية في تونس الكبرى. اتصل بنا للحجز! 🏠</div>
+                </div>
             </div>
         </section>
 <section class="calculators-section">
   <div class="calculators-grid">
-
     <!-- Color Resistor Visual Ultra Max -->
     <div class="calculator-box color-resistor">
       <h3>🔴🟡🔵 حساب المقاومة بالألوان</h3>
@@ -168,7 +172,6 @@
           <option value="8" data-color="#808080">رمادي</option>
           <option value="9" data-color="#FFF">أبيض</option>
         </select>
-
         <select id="band2">
           <option value="0" data-color="#000000">أسود</option>
           <option value="1" data-color="#8B4513">بني</option>
@@ -181,7 +184,6 @@
           <option value="8" data-color="#808080">رمادي</option>
           <option value="9" data-color="#FFF">أبيض</option>
         </select>
-
         <select id="multiplier">
           <option value="1" data-color="#000">×1</option>
           <option value="10" data-color="#8B4513">×10</option>
@@ -192,30 +194,25 @@
           <option value="1000000" data-color="#0000FF">×1M</option>
         </select>
       </div>
-
       <!-- Visual Bands -->
       <div class="resistor-visual">
         <div id="vis-band1" class="vis-band"></div>
         <div id="vis-band2" class="vis-band"></div>
         <div id="vis-mult" class="vis-band"></div>
       </div>
-
       <p id="resistor-result">— Ω</p>
     </div>
-
     <!-- SMD Resistor -->
     <div class="calculator-box smd-resistor">
       <h3>📦 حساب مقاومة SMD</h3>
       <input type="text" id="smdCode" placeholder="مثال: 103 أو 4R7" />
       <p id="smd-result">— Ω</p>
     </div>
-
   </div>
 </section>
         <!-- ====== بداية البوكسات الجديدة ====== -->
 <section class="calculators-section">
   <div class="calculators-grid">
-
     <!-- Capacitor Calculator -->
     <div class="calculator-box capacitor-calc">
       <h3>⚡ حساب المكثفات</h3>
@@ -226,7 +223,6 @@
       </div>
       <p id="cap-result">—</p>
     </div>
-
     <!-- Power Calculator -->
     <div class="calculator-box power-calc">
       <h3>🔌 حساب الطاقة (Watts)</h3>
@@ -238,7 +234,6 @@
       </div>
       <p id="power-result">— وات</p>
     </div>
-
   </div>
 </section>
 <!-- ====== نهاية البوكسات الجديدة ====== -->
@@ -268,7 +263,6 @@
                 </div>
             </div>
         </section>
-
         <!-- فيديو اليوم -->
         <section class="videos-today">
             <h2>فيديو اليوم</h2>
@@ -295,7 +289,6 @@
                 </div>
             </div>
         </section>
-
         <!-- تصليح ماكينات لحام -->
         <section id="postesSection" class="Reparation postes soudure">
             <h2>تصليح ماكينات لحام</h2>
@@ -323,7 +316,6 @@
             </div>
         </section>
     </main>
-
     <footer>
         <div class="container footer-inner">
             <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
@@ -339,24 +331,20 @@
             </p>
         </div>
     </footer>
-
     <!-- Fullscreen Media Viewer -->
     <div id="mediaViewer">
         <span class="close-btn">×</span>
         <img id="viewerImg" style="display:none" alt="صورة تكبير">
         <video id="viewerVideo" style="display:none" controls></video>
     </div>
-
     <!-- CMP Banner -->
     <div id="cmp-banner">
         نستخدم الكوكيز لتحسين تجربتك.
         <button id="consent-allow">أوافق</button>
         <button id="consent-manage">تغيير الخيارات</button>
     </div>
-
     <!-- JavaScript externe -->
     <script src="app.js" defer></script>
-
     <!-- المطر الإلكتروني (كثافة خفيفة) -->
     <script>
       const components = [
@@ -366,7 +354,6 @@
         'transistor.png',
         'ic.png'
       ];
-
       function createComponent() {
         const el = document.createElement('div');
         el.className = 'falling-component';
@@ -385,7 +372,6 @@
         document.getElementById('rain-container').appendChild(el);
         setTimeout(() => el.remove(), duration * 1000 + 2000);
       }
-
       setInterval(createComponent, 2500);
     </script>
 </body>

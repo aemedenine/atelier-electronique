@@ -1028,6 +1028,19 @@ footer {
   border-color: #f39c12;
   box-shadow: 0 0 10px #f39c12;
 }
+/* Animation tremble */
+@keyframes tremble {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-4px); }
+  40%  { transform: translateX(4px); }
+  60%  { transform: translateX(-3px); }
+  80%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+.tremble {
+  animation: tremble 0.4s ease;
+}
 
 /* Capacitor Visual */
 .cap-visual {

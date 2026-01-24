@@ -112,25 +112,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         newsInterval = setInterval(updateNews, 5000);
     }
-  
-   // ── FAQ Toggle ────────────────────────────────────────────────────────
-function initFAQ() {
-    document.querySelectorAll('.faq-question').forEach(item => {
-        item.addEventListener('click', () => {
-            const parent = item.parentElement;
-            parent.classList.toggle('active');
-        });
-    });
-    // زر إغلاق الكل
-    const closeAllBtn = document.getElementById('faq-close-all');
-    if (closeAllBtn) {
-        closeAllBtn.addEventListener('click', () => {
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.classList.remove('active');
+ 
+    // ── FAQ Toggle ────────────────────────────────────────────────────────
+    function initFAQ() {
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
             });
         });
+        // زر إغلاق الكل
+        const closeAllBtn = document.getElementById('faq-close-all');
+        if (closeAllBtn) {
+            closeAllBtn.addEventListener('click', () => {
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            });
+        }
     }
-}
+
     // ── Equalizer visibility ──────────────────────────────────────────────
     function updateEqualizerVisibility() {
         if (equalizer) {
@@ -138,6 +139,7 @@ function initFAQ() {
             equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
         }
     }
+
     // ── Radio controls ────────────────────────────────────────────────────
     if (radioBtn) {
         radioBtn.addEventListener('click', () => {
@@ -154,12 +156,14 @@ function initFAQ() {
         radio.addEventListener('play', updateEqualizerVisibility);
         radio.addEventListener('pause', updateEqualizerVisibility);
     }
+
     // ── Initialisation ────────────────────────────────────────────────────
     setInterval(updateTime, 1000);
     updateTime();
     startNewsRotation();
     initFAQ();
     updateEqualizerVisibility();
+
     // ── Weather API (عربي فقط) ───────────────────────────────────────────
     function updateWeather() {
         fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
@@ -174,6 +178,7 @@ function initFAQ() {
                 document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
             });
     }
+
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {
         fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
@@ -192,119 +197,124 @@ function initFAQ() {
             })
             .catch(err => console.error("Erreur prayer times:", err));
     }
+
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
     function updateMiniCalendar() {
-  const today = new Date();
-  const miladiEl = document.getElementById('today-miladi');
-  const hijriEl = document.getElementById('today-hijri');
-  /* =========================
-     1️⃣ التاريخ الميلادي
-  ========================= */
-  const miladiOptions = {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  };
-  miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
-  miladiEl.classList.toggle('friday', today.getDay() === 5);
-  /* =========================
-     2️⃣ Animation خفيفة
-  ========================= */
-  miladiEl.classList.remove('fade');
-  hijriEl.classList.remove('fade');
-  void miladiEl.offsetWidth; // reflow
-  miladiEl.classList.add('fade');
-  hijriEl.classList.add('fade');
-  /* =========================
-     3️⃣ Cache (يومي)
-  ========================= */
-  const cacheKey = `hijri-${today.toDateString()}`;
-  const cached = localStorage.getItem(cacheKey);
-  if (cached) {
-    hijriEl.textContent = cached;
-    return;
-  }
-  /* =========================
-     4️⃣ API الهجري (صحيح)
-  ========================= */
-  const d = String(today.getDate()).padStart(2, '0');
-  const m = String(today.getMonth() + 1).padStart(2, '0');
-  const y = today.getFullYear();
-  const dateStr = `${d}-${m}-${y}`;
-  fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
-    .then(res => {
-      if (!res.ok) throw new Error("API down");
-      return res.json();
-    })
-    .then(data => {
-      const h = data.data.hijri;
-      const icon = hijriIcon(h.month.number);
-      const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
-      hijriEl.textContent = text;
-      localStorage.setItem(cacheKey, text);
-    })
-    .catch(() => {
-      /* =========================
-         5️⃣ fallback ذكي (Intl)
-      ========================= */
-      try {
-        const fmt = new Intl.DateTimeFormat(
-          'ar-TN-u-ca-islamic',
-          { day: 'numeric', month: 'long', year: 'numeric' }
-        );
-        const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
-        hijriEl.textContent = text;
-        localStorage.setItem(cacheKey, text);
-      } catch {
-        hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
-      }
-    });
-}
-/* =========================
-   أيقونة حسب الشهر الهجري
-========================= */
-function hijriIcon(month) {
-  if (month === 9) return "🌙"; // رمضان
-  if (month === 12) return "🕋"; // ذو الحجة
-  if (month === 1) return "✨"; // محرم
-  if (month === 8) return "🌾"; // شعبان
-  return "🕌";
-}
-/* =========================
-   Auto refresh
-========================= */
-updateMiniCalendar();
-setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
- 
+        const today = new Date();
+        const miladiEl = document.getElementById('today-miladi');
+        const hijriEl = document.getElementById('today-hijri');
+        /* =========================
+           1️⃣ التاريخ الميلادي
+        ========================= */
+        const miladiOptions = {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        };
+        miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
+        miladiEl.classList.toggle('friday', today.getDay() === 5);
+        /* =========================
+           2️⃣ Animation خفيفة
+        ========================= */
+        miladiEl.classList.remove('fade');
+        hijriEl.classList.remove('fade');
+        void miladiEl.offsetWidth; // reflow
+        miladiEl.classList.add('fade');
+        hijriEl.classList.add('fade');
+        /* =========================
+           3️⃣ Cache (يومي)
+        ========================= */
+        const cacheKey = `hijri-${today.toDateString()}`;
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+            hijriEl.textContent = cached;
+            return;
+        }
+        /* =========================
+           4️⃣ API الهجري (صحيح)
+        ========================= */
+        const d = String(today.getDate()).padStart(2, '0');
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const y = today.getFullYear();
+        const dateStr = `${d}-${m}-${y}`;
+        fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
+            .then(res => {
+                if (!res.ok) throw new Error("API down");
+                return res.json();
+            })
+            .then(data => {
+                const h = data.data.hijri;
+                const icon = hijriIcon(h.month.number);
+                const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
+                hijriEl.textContent = text;
+                localStorage.setItem(cacheKey, text);
+            })
+            .catch(() => {
+                /* =========================
+                   5️⃣ fallback ذكي (Intl)
+                ========================= */
+                try {
+                    const fmt = new Intl.DateTimeFormat(
+                        'ar-TN-u-ca-islamic',
+                        { day: 'numeric', month: 'long', year: 'numeric' }
+                    );
+                    const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
+                    hijriEl.textContent = text;
+                    localStorage.setItem(cacheKey, text);
+                } catch {
+                    hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
+                }
+            });
+    }
+
+    /* =========================
+       أيقونة حسب الشهر الهجري
+    ========================= */
+    function hijriIcon(month) {
+        if (month === 9) return "🌙"; // رمضان
+        if (month === 12) return "🕋"; // ذو الحجة
+        if (month === 1) return "✨"; // محرم
+        if (month === 8) return "🌾"; // شعبان
+        return "🕌";
+    }
+
+    /* =========================
+       Auto refresh
+    ========================= */
+    updateMiniCalendar();
+    setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
+
     // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
     function updateDailyTips() {
-      const tips = [
-        "نظّف المكثفات من الغبار كل 6 أشهر.",
-        "استعمل منظم فولطاج لحماية اللوحة.",
-        "غيّر بطاريات الريموت قبل ما تنفجر.",
-        "فحص المروحة لو الجهاز يسخن بزاف.",
-        "تجنّب اللحام البارد في التصليح.",
-        "افصل الكهرباء قبل فتح الجهاز.",
-        "فحص الكونكتورات أولاً لو ما يشتغلش.",
-        "نظف اللوحات بكحول إيزوبروبيل فقط."
-      ];
-      // نختار 3 نصائح فقط عشان ما يطولش الـ box
-      const shuffled = tips.sort(() => 0.5 - Math.random());
-      const selectedTips = shuffled.slice(0, 3);
-      const list = document.getElementById('tips-list');
-      list.innerHTML = '';
-      selectedTips.forEach(tip => {
-        const li = document.createElement('li');
-        li.textContent = tip;
-        list.appendChild(li);
-      });
+        const tips = [
+            "نظّف المكثفات من الغبار كل 6 أشهر.",
+            "استعمل منظم فولطاج لحماية اللوحة.",
+            "غيّر بطاريات الريموت قبل ما تنفجر.",
+            "فحص المروحة لو الجهاز يسخن بزاف.",
+            "تجنّب اللحام البارد في التصليح.",
+            "افصل الكهرباء قبل فتح الجهاز.",
+            "فحص الكونكتورات أولاً لو ما يشتغلش.",
+            "نظف اللوحات بكحول إيزوبروبيل فقط."
+        ];
+        // نختار 3 نصائح فقط عشان ما يطولش الـ box
+        const shuffled = tips.sort(() => 0.5 - Math.random());
+        const selectedTips = shuffled.slice(0, 3);
+        const list = document.getElementById('tips-list');
+        list.innerHTML = '';
+        selectedTips.forEach(tip => {
+            const li = document.createElement('li');
+            li.textContent = tip;
+            list.appendChild(li);
+        });
     }
+
     // ── Titres des sections (ثابت عربي) ────────────────────────────────
     document.querySelector('.services-today h2').textContent = "خدمات اليوم";
     document.querySelector('.videos-today h2').textContent = "فيديو اليوم";
     document.querySelector('#postesSection h2').textContent = "تصليح ماكينات لحام";
     document.getElementById('rating-title').textContent = 'قيم الورشة:';
+
     // ── Daily Rotation (عربي فقط) ────────────────────────────────────────
     const dailyServiceEl = document.getElementById('daily-service');
     const dailyVideoEl = document.getElementById('daily-video');
@@ -353,6 +363,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
         }
     }
     showDailyItems();
+
     // ── Rating System (عربي فقط) ─────────────────────────────────────────
     const stars = document.querySelectorAll('.stars-horizontal span');
     const ratingValue = document.getElementById('rating-value');
@@ -467,6 +478,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
         });
     });
     loadRatings();
+
     // ── PCB Animated Header Canvas ────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {
@@ -531,6 +543,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
         }
         animatePCB();
     }
+
     // ── Horizontal Sliders Drag ───────────────────────────────────────────
     function enableDragScroll(sliderId) {
         const slider = document.getElementById(sliderId);
@@ -561,6 +574,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
     }
     enableDragScroll('servicesSlider');
     enableDragScroll('videoSlider');
+
     // ── Video hover play/pause ────────────────────────────────────────────
     document.querySelectorAll('.video-card video').forEach(video => {
         video.addEventListener('mouseenter', () => video.play().catch(() => {}));
@@ -569,6 +583,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
             video.currentTime = 0;
         });
     });
+
     // ── Fullscreen Media Viewer ───────────────────────────────────────────
     const mediaViewer = document.getElementById('mediaViewer');
     const viewerImg = document.getElementById('viewerImg');
@@ -596,6 +611,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
         viewerVideo.pause();
         viewerVideo.currentTime = 0;
     });
+
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');
@@ -610,6 +626,7 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
+
     // ── Site Name Animation ───────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
@@ -626,88 +643,116 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
             }, 1000);
         }, 4000);
     }
+
     // Format Ω → KΩ → MΩ
-function formatResistance(value){
-  if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
-  if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
-  return value+' Ω';
-}
-// Update Color Resistor + Visual
-function updateColorResistorVisual() {
-  const b1 = document.getElementById("band1");
-  const b2 = document.getElementById("band2");
-  const mult = document.getElementById("multiplier");
-  const val1 = parseInt(b1.value);
-  const val2 = parseInt(b2.value);
-  const mul = parseInt(mult.value);
-  // Update result
-  const value = (val1 * 10 + val2) * mul;
-  document.getElementById("resistor-result").textContent = formatResistance(value);
-  // Update visual colors
-  document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
-  document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
-  document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
-}
-["band1","band2","multiplier"].forEach(id=>{
-  document.getElementById(id).addEventListener("change", updateColorResistorVisual);
-});
-updateColorResistorVisual();
-// ===== SMD Resistor Ultra Max =====
-document.getElementById("smdCode").addEventListener("input", function(){
-  const code = this.value.trim().toUpperCase();
-  let result = "— Ω";
-  if(/^\d{3}$/.test(code)){
-    result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
-    result = formatResistance(result);
-  } else if(/^\dR\d$/.test(code)){
-    result = code.replace("R",".") + " Ω";
-  }
-  document.getElementById("smd-result").textContent = result;
-});
+    function formatResistance(value){
+        if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
+        if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
+        return value+' Ω';
+    }
+
+    // Update Color Resistor + Visual
+    function updateColorResistorVisual() {
+        const b1 = document.getElementById("band1");
+        const b2 = document.getElementById("band2");
+        const mult = document.getElementById("multiplier");
+        const val1 = parseInt(b1.value);
+        const val2 = parseInt(b2.value);
+        const mul = parseInt(mult.value);
+        // Update result
+        const value = (val1 * 10 + val2) * mul;
+        document.getElementById("resistor-result").textContent = formatResistance(value);
+        // Update visual colors
+        document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
+        document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
+        document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
+    }
+    ["band1","band2","multiplier"].forEach(id=>{
+        document.getElementById(id).addEventListener("change", updateColorResistorVisual);
+    });
+    updateColorResistorVisual();
+
+    // ===== SMD Resistor Ultra Max =====
+    document.getElementById("smdCode").addEventListener("input", function(){
+        const code = this.value.trim().toUpperCase();
+        let result = "— Ω";
+        if(/^\d{3}$/.test(code)){
+            result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
+            result = formatResistance(result);
+        } else if(/^\dR\d$/.test(code)){
+            result = code.replace("R",".") + " Ω";
+        }
+        document.getElementById("smd-result").textContent = result;
+    });
+
     /* ====== بداية JS البوكسات الجديدة ====== */
-// Capacitor Calculator + Visual
-const capValue = document.getElementById("cap-value");
-const capVoltage = document.getElementById("cap-voltage");
-const capResult = document.getElementById("cap-result");
-const capFill = document.querySelector(".cap-fill");
-[capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
-function updateCap(){
-  const value = parseFloat(capValue.value);
-  const voltage = parseFloat(capVoltage.value);
-  if(!value || !voltage){
-    capResult.textContent = "—";
-    capFill.style.height = "0%";
-    return;
-  }
-  capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
-  let fillHeight = Math.min(100, value); // limit 100%
-  capFill.style.height = `${fillHeight}%`;
-}
-// Power Calculator + Visual
-const volt = document.getElementById("volt");
-const resistance = document.getElementById("resistance");
-const current = document.getElementById("current");
-const powerResult = document.getElementById("power-result");
-const powerFill = document.querySelector(".power-fill");
-[volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
-function updatePower(){
-  const V = parseFloat(volt.value);
-  const R = parseFloat(resistance.value);
-  const I = parseFloat(current.value);
-  let P = null;
-  if(V && R){
-    P = (V*V)/R;
-  } else if(I && R){
-    P = I*I*R;
-  } else if(V && I){
-    P = V*I;
-  }
-  powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
-  // Visual: نسبة 100 وات = 100%
-  const fillPercent = P ? Math.min(100, P) : 0;
-  powerFill.style.width = fillPercent + "%";
-}
-/* ====== نهاية JS البوكسات الجديدة ====== */
+    // Capacitor Calculator + Visual
+    const capValue = document.getElementById("cap-value");
+    const capVoltage = document.getElementById("cap-voltage");
+    const capResult = document.getElementById("cap-result");
+    const capFill = document.querySelector(".cap-fill");
+    [capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
+    function updateCap(){
+        const value = parseFloat(capValue.value);
+        const voltage = parseFloat(capVoltage.value);
+        if(!value || !voltage){
+            capResult.textContent = "—";
+            capFill.style.height = "0%";
+            return;
+        }
+        capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
+        let fillHeight = Math.min(100, value); // limit 100%
+        capFill.style.height = `${fillHeight}%`;
+    }
+
+    // Power Calculator + Visual
+    const volt = document.getElementById("volt");
+    const resistance = document.getElementById("resistance");
+    const current = document.getElementById("current");
+    const powerResult = document.getElementById("power-result");
+    const powerFill = document.querySelector(".power-fill");
+    [volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
+    function updatePower(){
+        const V = parseFloat(volt.value);
+        const R = parseFloat(resistance.value);
+        const I = parseFloat(current.value);
+        let P = null;
+        if(V && R){
+            P = (V*V)/R;
+        } else if(I && R){
+            P = I*I*R;
+        } else if(V && I){
+            P = V*I;
+        }
+        powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
+        // Visual: نسبة 100 وات = 100%
+        const fillPercent = P ? Math.min(100, P) : 0;
+        powerFill.style.width = fillPercent + "%";
+    }
+    /* ====== نهاية JS البوكسات الجديدة ====== */
+
+    // ── Wave Animation لعنوان FAQ ────────────────────────────────────────────────
+    const faqHeader = document.querySelector('.faq-header');
+    if (faqHeader) {
+        // 1. نأخذ النص الأصلي ونقسمه إلى spans
+        const waveContainer = document.createElement('span');
+        waveContainer.className = 'wave-text';
+        const originalText = faqHeader.textContent.trim(); // "الأسئلة اللي في بالك"
+        faqHeader.textContent = ''; // نفرغ العنوان
+        faqHeader.appendChild(waveContainer);
+
+        // 2. تقسيم الحروف أوتوماتيكيًا
+        [...originalText].forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.setProperty('--i', index);
+            waveContainer.appendChild(span);
+        });
+
+        // 3. إضافة class للتحكم في الـ CSS
+        faqHeader.classList.add('wave-header');
+    }
+
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

@@ -329,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Titres des sections (آمن – ما يفشلش لو العنصر مش موجود) ───────────────
     document.querySelector('.services-today h2')?.textContent = "خدمات اليوم";
-    document.querySelector('.videos-today h2')?.textContent = "فيديو اليوم";
-    document.querySelector('#postesSection h2')?.textContent = "تصليح ماكينات لحام";
+document.querySelector('.videos-today h2')?.textContent = "فيديو اليوم";
+document.querySelector('#postesSection h2')?.textContent = "تصليح ماكينات لحام";
     document.getElementById('rating-title')?.textContent = 'قيم الورشة:';
 
     // ── Daily Rotation ────────────────────────────────────────────────────────

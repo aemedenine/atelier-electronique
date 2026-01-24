@@ -112,15 +112,25 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         newsInterval = setInterval(updateNews, 5000);
     }
-    // ── FAQ Toggle ────────────────────────────────────────────────────────
-    function initFAQ() {
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => {
-                const parent = item.parentElement;
-                parent.classList.toggle('active');
+  
+   // ── FAQ Toggle ────────────────────────────────────────────────────────
+function initFAQ() {
+    document.querySelectorAll('.faq-question').forEach(item => {
+        item.addEventListener('click', () => {
+            const parent = item.parentElement;
+            parent.classList.toggle('active');
+        });
+    });
+    // زر إغلاق الكل
+    const closeAllBtn = document.getElementById('faq-close-all');
+    if (closeAllBtn) {
+        closeAllBtn.addEventListener('click', () => {
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
             });
         });
     }
+}
     // ── Equalizer visibility ──────────────────────────────────────────────
     function updateEqualizerVisibility() {
         if (equalizer) {

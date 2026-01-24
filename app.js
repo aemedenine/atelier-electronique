@@ -114,9 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // ── FAQ Toggle ────────────────────────────────────────────────────────
     function initFAQ() {
-        document.querySelectorAll('.faq-item').forEach(item => {
+        document.querySelectorAll('.faq-question').forEach(item => {
             item.addEventListener('click', () => {
-                item.classList.toggle('open');
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
             });
         });
     }
@@ -184,10 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
     function updateMiniCalendar() {
   const today = new Date();
-
   const miladiEl = document.getElementById('today-miladi');
-  const hijriEl  = document.getElementById('today-hijri');
-
+  const hijriEl = document.getElementById('today-hijri');
   /* =========================
      1️⃣ التاريخ الميلادي
   ========================= */
@@ -198,9 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     year: 'numeric'
   };
   miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
-
   miladiEl.classList.toggle('friday', today.getDay() === 5);
-
   /* =========================
      2️⃣ Animation خفيفة
   ========================= */
@@ -209,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
   void miladiEl.offsetWidth; // reflow
   miladiEl.classList.add('fade');
   hijriEl.classList.add('fade');
-
   /* =========================
      3️⃣ Cache (يومي)
   ========================= */
@@ -219,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
     hijriEl.textContent = cached;
     return;
   }
-
   /* =========================
      4️⃣ API الهجري (صحيح)
   ========================= */
@@ -227,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const m = String(today.getMonth() + 1).padStart(2, '0');
   const y = today.getFullYear();
   const dateStr = `${d}-${m}-${y}`;
-
   fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
     .then(res => {
       if (!res.ok) throw new Error("API down");
@@ -236,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => {
       const h = data.data.hijri;
       const icon = hijriIcon(h.month.number);
-
       const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
       hijriEl.textContent = text;
       localStorage.setItem(cacheKey, text);
@@ -258,24 +251,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 }
-
 /* =========================
    أيقونة حسب الشهر الهجري
 ========================= */
 function hijriIcon(month) {
-  if (month === 9) return "🌙";        // رمضان
-  if (month === 12) return "🕋";       // ذو الحجة
-  if (month === 1) return "✨";        // محرم
-  if (month === 8) return "🌾";        // شعبان
+  if (month === 9) return "🌙"; // رمضان
+  if (month === 12) return "🕋"; // ذو الحجة
+  if (month === 1) return "✨"; // محرم
+  if (month === 8) return "🌾"; // شعبان
   return "🕌";
 }
-
 /* =========================
    Auto refresh
 ========================= */
 updateMiniCalendar();
 setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
-  
+ 
     // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
     function updateDailyTips() {
       const tips = [
@@ -288,11 +279,9 @@ setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
         "فحص الكونكتورات أولاً لو ما يشتغلش.",
         "نظف اللوحات بكحول إيزوبروبيل فقط."
       ];
-
       // نختار 3 نصائح فقط عشان ما يطولش الـ box
       const shuffled = tips.sort(() => 0.5 - Math.random());
       const selectedTips = shuffled.slice(0, 3);
-
       const list = document.getElementById('tips-list');
       list.innerHTML = '';
       selectedTips.forEach(tip => {
@@ -633,45 +622,36 @@ function formatResistance(value){
   if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
   return value+' Ω';
 }
-
 // Update Color Resistor + Visual
 function updateColorResistorVisual() {
   const b1 = document.getElementById("band1");
   const b2 = document.getElementById("band2");
   const mult = document.getElementById("multiplier");
-
   const val1 = parseInt(b1.value);
   const val2 = parseInt(b2.value);
   const mul = parseInt(mult.value);
-
   // Update result
   const value = (val1 * 10 + val2) * mul;
   document.getElementById("resistor-result").textContent = formatResistance(value);
-
   // Update visual colors
   document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
   document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
   document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
 }
-
 ["band1","band2","multiplier"].forEach(id=>{
   document.getElementById(id).addEventListener("change", updateColorResistorVisual);
 });
-
 updateColorResistorVisual();
-
 // ===== SMD Resistor Ultra Max =====
 document.getElementById("smdCode").addEventListener("input", function(){
   const code = this.value.trim().toUpperCase();
   let result = "— Ω";
-
   if(/^\d{3}$/.test(code)){
     result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
     result = formatResistance(result);
   } else if(/^\dR\d$/.test(code)){
     result = code.replace("R",".") + " Ω";
   }
-
   document.getElementById("smd-result").textContent = result;
 });
     /* ====== بداية JS البوكسات الجديدة ====== */
@@ -680,9 +660,7 @@ const capValue = document.getElementById("cap-value");
 const capVoltage = document.getElementById("cap-voltage");
 const capResult = document.getElementById("cap-result");
 const capFill = document.querySelector(".cap-fill");
-
 [capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
-
 function updateCap(){
   const value = parseFloat(capValue.value);
   const voltage = parseFloat(capVoltage.value);
@@ -695,22 +673,18 @@ function updateCap(){
   let fillHeight = Math.min(100, value); // limit 100%
   capFill.style.height = `${fillHeight}%`;
 }
-
 // Power Calculator + Visual
 const volt = document.getElementById("volt");
 const resistance = document.getElementById("resistance");
 const current = document.getElementById("current");
 const powerResult = document.getElementById("power-result");
 const powerFill = document.querySelector(".power-fill");
-
 [volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
-
 function updatePower(){
   const V = parseFloat(volt.value);
   const R = parseFloat(resistance.value);
   const I = parseFloat(current.value);
   let P = null;
-
   if(V && R){
     P = (V*V)/R;
   } else if(I && R){
@@ -718,9 +692,7 @@ function updatePower(){
   } else if(V && I){
     P = V*I;
   }
-
   powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
-
   // Visual: نسبة 100 وات = 100%
   const fillPercent = P ? Math.min(100, P) : 0;
   powerFill.style.width = fillPercent + "%";

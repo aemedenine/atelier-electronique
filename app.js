@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let newsIndex = 0;
     let newsInterval = null;
     function updateNews() {
+        if (!ticker) return;
         ticker.classList.remove('fade');
         void ticker.offsetWidth; // force reflow
         ticker.textContent = news[newsIndex];
@@ -142,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ── Wave Animation لعنوان FAQ (نسخة حرف بحرف – يمكنك تغييرها لكلمة بكلمة لاحقاً إذا حبيت) ───────────────
+    // ── Wave Animation لعنوان FAQ (حرف بحرف) ─────────────────────────────────
     const faqHeader = document.querySelector('.faq-header');
     if (faqHeader) {
         const waveContainer = document.createElement('span');
@@ -193,18 +194,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     updateEqualizerVisibility();
 
-    // ── Weather API (عربي فقط) ───────────────────────────────────────────
+    // ── Weather API ───────────────────────────────────────────────────────
     function updateWeather() {
         fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
             .then(res => res.json())
             .then(data => {
                 const temp = data.current_weather.temperature + "°C";
                 const wind = data.current_weather.windspeed + " كم/س";
-                document.getElementById("weather-temp").textContent = temp;
-                document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
+                document.getElementById("weather-temp")?.textContent = temp;
+                document.getElementById("weather-desc")?.textContent = "🌬️ سرعة الرياح: " + wind;
             })
             .catch(() => {
-                document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
+                document.getElementById("weather-desc")?.textContent = "⚠️ لا يمكن تحميل الطقس";
             });
     }
 
@@ -215,14 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const times = data.data.timings;
                 const pt = document.getElementById("prayer-times");
-                pt.innerHTML = `
-                    <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
-                    <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
-                    <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
-                    <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
-                    <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
-                    <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-                `;
+                if (pt) {
+                    pt.innerHTML = `
+                        <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
+                        <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
+                        <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
+                        <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
+                        <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
+                        <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
+                    `;
+                }
             })
             .catch(err => console.error("Erreur prayer times:", err));
     }
@@ -233,24 +236,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const miladiEl = document.getElementById('today-miladi');
         const hijriEl = document.getElementById('today-hijri');
 
-        const miladiOptions = {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-        };
-        miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
-        miladiEl.classList.toggle('friday', today.getDay() === 5);
+        if (miladiEl) {
+            const miladiOptions = {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            };
+            miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
+            miladiEl.classList.toggle('friday', today.getDay() === 5);
 
-        miladiEl.classList.remove('fade');
-        hijriEl.classList.remove('fade');
-        void miladiEl.offsetWidth;
-        miladiEl.classList.add('fade');
-        hijriEl.classList.add('fade');
+            miladiEl.classList.remove('fade');
+            if (hijriEl) hijriEl.classList.remove('fade');
+            void miladiEl.offsetWidth;
+            miladiEl.classList.add('fade');
+            if (hijriEl) hijriEl.classList.add('fade');
+        }
 
         const cacheKey = `hijri-${today.toDateString()}`;
         const cached = localStorage.getItem(cacheKey);
-        if (cached) {
+        if (cached && hijriEl) {
             hijriEl.textContent = cached;
             return;
         }
@@ -268,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const h = data.data.hijri;
                 const icon = hijriIcon(h.month.number);
                 const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
-                hijriEl.textContent = text;
+                if (hijriEl) hijriEl.textContent = text;
                 localStorage.setItem(cacheKey, text);
             })
             .catch(() => {
@@ -278,10 +283,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         { day: 'numeric', month: 'long', year: 'numeric' }
                     );
                     const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
-                    hijriEl.textContent = text;
+                    if (hijriEl) hijriEl.textContent = text;
                     localStorage.setItem(cacheKey, text);
                 } catch {
-                    hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
+                    if (hijriEl) hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
                 }
             });
     }
@@ -312,21 +317,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const shuffled = tips.sort(() => 0.5 - Math.random());
         const selectedTips = shuffled.slice(0, 3);
         const list = document.getElementById('tips-list');
-        list.innerHTML = '';
-        selectedTips.forEach(tip => {
-            const li = document.createElement('li');
-            li.textContent = tip;
-            list.appendChild(li);
-        });
+        if (list) {
+            list.innerHTML = '';
+            selectedTips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                list.appendChild(li);
+            });
+        }
     }
 
-    // ── Titres des sections (ثابت عربي) ──────────────────────────────────────
-    document.querySelector('.services-today h2').textContent = "خدمات اليوم";
-    document.querySelector('.videos-today h2').textContent = "فيديو اليوم";
-    document.querySelector('#postesSection h2').textContent = "تصليح ماكينات لحام";
-    document.getElementById('rating-title').textContent = 'قيم الورشة:';
+    // ── Titres des sections (آمن – ما يفشلش لو العنصر مش موجود) ───────────────
+    document.querySelector('.services-today h2')?.textContent = "خدمات اليوم";
+    document.querySelector('.videos-today h2')?.textContent = "فيديو اليوم";
+    document.querySelector('#postesSection h2')?.textContent = "تصليح ماكينات لحام";
+    document.getElementById('rating-title')?.textContent = 'قيم الورشة:';
 
-    // ── Daily Rotation (عربي فقط) ────────────────────────────────────────────
+    // ── Daily Rotation ────────────────────────────────────────────────────────
     const dailyServiceEl = document.getElementById('daily-service');
     const dailyVideoEl = document.getElementById('daily-video');
     const dailyMachineEl = document.getElementById('daily-machine');
@@ -390,8 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ratingsRef.on('value', snapshot => {
             const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
             const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
-            avgStarsEl.textContent = avg;
-            voteCountEl.textContent = data.count;
+            if (avgStarsEl) avgStarsEl.textContent = avg;
+            if (voteCountEl) voteCountEl.textContent = data.count;
             let html = '';
             for (let i = 5; i >= 1; i--) {
                 const count = data.breakdown?.[i] || 0;
@@ -402,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
             }
-            breakdownEl.innerHTML = html;
+            if (breakdownEl) breakdownEl.innerHTML = html;
         });
     }
 
@@ -412,14 +419,16 @@ document.addEventListener('DOMContentLoaded', () => {
             star.classList.toggle('selected', val <= rating);
             star.textContent = val <= rating ? '★' : '☆';
         });
-        ratingValue.textContent = `${rating}/5`;
+        if (ratingValue) ratingValue.textContent = `${rating}/5`;
     }
 
     function checkUserRating(user) {
         if (!user) {
             updateStars(0);
-            ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
-            ratingMessage.classList.add('show');
+            if (ratingMessage) {
+                ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+                ratingMessage.classList.add('show');
+            }
             stars.forEach(s => s.style.pointerEvents = 'none');
             return;
         }
@@ -429,8 +438,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = snap.val();
                 currentUserRating = data.rating;
                 updateStars(currentUserRating);
-                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
-                ratingMessage.classList.add('show');
+                if (ratingMessage) {
+                    ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+                    ratingMessage.classList.add('show');
+                }
                 stars.forEach(s => s.style.pointerEvents = 'none');
             } else {
                 currentUserRating = 0;
@@ -467,8 +478,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             if (currentUserRating > 0) {
-                ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
-                ratingMessage.classList.add('show');
+                if (ratingMessage) {
+                    ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
+                    ratingMessage.classList.add('show');
+                }
                 return;
             }
             const uid = auth.currentUser.uid;
@@ -487,9 +500,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             currentUserRating = val;
             updateStars(val);
-            ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
-            ratingMessage.classList.add('show');
-            setTimeout(() => ratingMessage.classList.remove('show'), 8000);
+            if (ratingMessage) {
+                ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
+                ratingMessage.classList.add('show');
+                setTimeout(() => ratingMessage.classList.remove('show'), 8000);
+            }
             stars.forEach(s => s.style.pointerEvents = 'none');
         });
     });
@@ -506,6 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
+
         const traces = [];
         for (let i = 0; i < 50; i++) {
             traces.push({
@@ -521,11 +537,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }))
             });
         }
+
         let mouseX = -1000, mouseY = -1000;
         window.addEventListener('mousemove', e => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
+
         function animatePCB() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             traces.forEach(t => {
@@ -601,33 +619,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ── Fullscreen Media Viewer (محدث لدعم الصور والفيديوهات مع إغلاق أفضل) ────────────────
+    // ── Fullscreen Media Viewer ───────────────────────────────────────────
     const viewerImg = document.getElementById('viewerImg');
     const viewerVideo = document.getElementById('viewerVideo');
     const closeBtn = mediaViewer?.querySelector('.close-btn');
 
-    document.querySelectorAll('.service-card img, .service-card video, .service-pro-card img, .video-pro-card video, .poste-pro-card img').forEach(el => {
+    document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
         el.style.cursor = 'pointer';
         el.addEventListener('click', () => {
+            if (!mediaViewer) return;
             mediaViewer.style.display = 'flex';
             if (el.tagName === 'IMG') {
-                viewerImg.src = el.src;
-                viewerImg.style.display = 'block';
-                viewerVideo.style.display = 'none';
-                viewerVideo.pause();
+                if (viewerImg) {
+                    viewerImg.src = el.src;
+                    viewerImg.style.display = 'block';
+                }
+                if (viewerVideo) {
+                    viewerVideo.style.display = 'none';
+                    viewerVideo.pause();
+                }
             } else if (el.tagName === 'VIDEO') {
-                viewerVideo.src = el.src;
-                viewerVideo.style.display = 'block';
-                viewerImg.style.display = 'none';
-                viewerVideo.play();
+                if (viewerVideo) {
+                    viewerVideo.src = el.src;
+                    viewerVideo.style.display = 'block';
+                    viewerVideo.play();
+                }
+                if (viewerImg) viewerImg.style.display = 'none';
             }
         });
     });
 
     closeBtn?.addEventListener('click', () => {
-        mediaViewer.style.display = 'none';
-        viewerVideo.pause();
-        viewerVideo.currentTime = 0;
+        if (mediaViewer) mediaViewer.style.display = 'none';
+        if (viewerVideo) {
+            viewerVideo.pause();
+            viewerVideo.currentTime = 0;
+        }
     });
 
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
@@ -639,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     consentAllow?.addEventListener('click', () => {
         localStorage.setItem('cmpConsent', 'granted');
-        cmpBanner.style.display = 'none';
+        if (cmpBanner) cmpBanner.style.display = 'none';
     });
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
@@ -674,50 +701,59 @@ document.addEventListener('DOMContentLoaded', () => {
         const b1 = document.getElementById("band1");
         const b2 = document.getElementById("band2");
         const mult = document.getElementById("multiplier");
+        if (!b1 || !b2 || !mult) return;
+
         const val1 = parseInt(b1.value);
         const val2 = parseInt(b2.value);
         const mul = parseInt(mult.value);
         const value = (val1 * 10 + val2) * mul;
-        document.getElementById("resistor-result").textContent = formatResistance(value);
-        document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
-        document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
-        document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
+        document.getElementById("resistor-result")?.textContent = formatResistance(value);
+
+        document.getElementById("vis-band1")?.style.background = b1.selectedOptions[0]?.dataset.color;
+        document.getElementById("vis-band2")?.style.background = b2.selectedOptions[0]?.dataset.color;
+        document.getElementById("vis-mult")?.style.background = mult.selectedOptions[0]?.dataset.color;
     }
     ["band1","band2","multiplier"].forEach(id => {
-        document.getElementById(id).addEventListener("change", updateColorResistorVisual);
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("change", updateColorResistorVisual);
     });
     updateColorResistorVisual();
 
     // SMD Resistor
-    document.getElementById("smdCode").addEventListener("input", function(){
-        const code = this.value.trim().toUpperCase();
-        let result = "— Ω";
-        if(/^\d{3}$/.test(code)){
-            result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
-            result = formatResistance(result);
-        } else if(/^\dR\d$/.test(code)){
-            result = code.replace("R",".") + " Ω";
-        }
-        document.getElementById("smd-result").textContent = result;
-    });
+    const smdCode = document.getElementById("smdCode");
+    if (smdCode) {
+        smdCode.addEventListener("input", function(){
+            const code = this.value.trim().toUpperCase();
+            let result = "— Ω";
+            if(/^\d{3}$/.test(code)){
+                result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
+                result = formatResistance(result);
+            } else if(/^\dR\d$/.test(code)){
+                result = code.replace("R",".") + " Ω";
+            }
+            document.getElementById("smd-result")?.textContent = result;
+        });
+    }
 
     // Capacitor Calculator
     const capValue = document.getElementById("cap-value");
     const capVoltage = document.getElementById("cap-voltage");
     const capResult = document.getElementById("cap-result");
     const capFill = document.querySelector(".cap-fill");
-    [capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
-    function updateCap(){
-        const value = parseFloat(capValue.value);
-        const voltage = parseFloat(capVoltage.value);
-        if(!value || !voltage){
-            capResult.textContent = "—";
-            capFill.style.height = "0%";
-            return;
+    if (capValue && capVoltage && capResult && capFill) {
+        [capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
+        function updateCap(){
+            const value = parseFloat(capValue.value);
+            const voltage = parseFloat(capVoltage.value);
+            if(!value || !voltage){
+                capResult.textContent = "—";
+                capFill.style.height = "0%";
+                return;
+            }
+            capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
+            let fillHeight = Math.min(100, value);
+            capFill.style.height = `${fillHeight}%`;
         }
-        capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
-        let fillHeight = Math.min(100, value);
-        capFill.style.height = `${fillHeight}%`;
     }
 
     // Power Calculator
@@ -726,18 +762,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const current = document.getElementById("current");
     const powerResult = document.getElementById("power-result");
     const powerFill = document.querySelector(".power-fill");
-    [volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
-    function updatePower(){
-        const V = parseFloat(volt.value);
-        const R = parseFloat(resistance.value);
-        const I = parseFloat(current.value);
-        let P = null;
-        if(V && R) P = (V*V)/R;
-        else if(I && R) P = I*I*R;
-        else if(V && I) P = V*I;
-        powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
-        const fillPercent = P ? Math.min(100, P) : 0;
-        powerFill.style.width = fillPercent + "%";
+    if (volt && resistance && current && powerResult && powerFill) {
+        [volt, resistance, current].forEach(el => el.addEventListener("input", updatePower));
+        function updatePower(){
+            const V = parseFloat(volt.value);
+            const R = parseFloat(resistance.value);
+            const I = parseFloat(current.value);
+            let P = null;
+            if(V && R) P = (V*V)/R;
+            else if(I && R) P = I*I*R;
+            else if(V && I) P = V*I;
+            powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
+            const fillPercent = P ? Math.min(100, P) : 0;
+            powerFill.style.width = fillPercent + "%";
+        }
     }
 
     // ── Initial calls ─────────────────────────────────────────────────────

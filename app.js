@@ -691,7 +691,7 @@ function updateCap(){
     capFill.style.height = "0%";
     return;
   }
-  capResult.textContent = `السعة: ${value} µF @ ${voltage} V`;
+  capResult.textContent = ' ${value} µF @ ${voltage} V`:السعة;
   let fillHeight = Math.min(100, value); // limit 100%
   capFill.style.height = `${fillHeight}%`;
 }

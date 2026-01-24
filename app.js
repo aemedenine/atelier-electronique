@@ -602,41 +602,58 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
     }
     enableDragScroll('servicesSlider');
     enableDragScroll('videoSlider');
-    // ── Video hover play/pause ────────────────────────────────────────────
-    document.querySelectorAll('.video-card video').forEach(video => {
-        video.addEventListener('mouseenter', () => video.play().catch(() => {}));
-        video.addEventListener('mouseleave', () => {
-            video.pause();
-            video.currentTime = 0;
-        });
-    });
-    // ── Fullscreen Media Viewer ───────────────────────────────────────────
-    const mediaViewer = document.getElementById('mediaViewer');
-    const viewerImg = document.getElementById('viewerImg');
-    const viewerVideo = document.getElementById('viewerVideo');
-    const closeBtn = mediaViewer?.querySelector('.close-btn');
-    document.querySelectorAll('.service-card img, .service-card video').forEach(el => {
-        el.style.cursor = 'pointer';
-        el.addEventListener('click', () => {
-            mediaViewer.style.display = 'flex';
-            if (el.tagName === 'IMG') {
-                viewerImg.src = el.src;
-                viewerImg.style.display = 'block';
-                viewerVideo.style.display = 'none';
-                viewerVideo.pause();
-            } else if (el.tagName === 'VIDEO') {
-                viewerVideo.src = el.src;
-                viewerVideo.style.display = 'block';
-                viewerImg.style.display = 'none';
-                viewerVideo.play();
-            }
-        });
-    });
-    closeBtn?.addEventListener('click', () => {
-        mediaViewer.style.display = 'none';
-        viewerVideo.pause();
-        viewerVideo.currentTime = 0;
-    });
+    // ── Video hover play / pause (Video اليوم) ───────────────────────
+document.querySelectorAll('.video-pro-card video').forEach(video => {
+  video.addEventListener('mouseenter', () => {
+    video.play().catch(() => {});
+  });
+
+  video.addEventListener('mouseleave', () => {
+    video.pause();
+    video.currentTime = 0;
+  });
+});
+
+
+// ── Fullscreen Media Viewer (Services + Videos + Postes) ─────────
+const mediaViewer = document.getElementById('mediaViewer');
+const viewerImg = document.getElementById('viewerImg');
+const viewerVideo = document.getElementById('viewerVideo');
+const closeBtn = mediaViewer?.querySelector('.close-btn');
+
+document.querySelectorAll(
+  '.service-pro-card img, \
+   .video-pro-card video, \
+   .poste-pro-card img'
+).forEach(el => {
+
+  el.style.cursor = 'pointer';
+
+  el.addEventListener('click', () => {
+    mediaViewer.style.display = 'flex';
+
+    if (el.tagName === 'IMG') {
+      viewerImg.src = el.src;
+      viewerImg.style.display = 'block';
+      viewerVideo.style.display = 'none';
+      viewerVideo.pause();
+    } else {
+      viewerVideo.src = el.src;
+      viewerVideo.style.display = 'block';
+      viewerImg.style.display = 'none';
+      viewerVideo.play();
+    }
+  });
+});
+
+
+// ── Close viewer ────────────────────────────────────────────────
+closeBtn?.addEventListener('click', () => {
+  mediaViewer.style.display = 'none';
+  viewerVideo.pause();
+  viewerVideo.currentTime = 0;
+});
+
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');

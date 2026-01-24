@@ -328,10 +328,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ── Titres des sections (آمن – ما يفشلش لو العنصر مش موجود) ───────────────
-    document.querySelector('.services-today h2')?.textContent = "خدمات اليوم";
-document.querySelector('.videos-today h2')?.textContent = "فيديو اليوم";
-document.querySelector('#postesSection h2')?.textContent = "تصليح ماكينات لحام";
-    document.getElementById('rating-title')?.textContent = 'قيم الورشة:';
+   const serviceTitle = document.querySelector('.services-today h2');
+if (serviceTitle) serviceTitle.textContent = "خدمات اليوم";
+
+const videoTitle = document.querySelector('.videos-today h2');
+if (videoTitle) videoTitle.textContent = "فيديو اليوم";
+
+const postesTitle = document.querySelector('#postesSection h2');
+if (postesTitle) postesTitle.textContent = "تصليح ماكينات لحام";
+
+const ratingTitle = document.getElementById('rating-title');
+if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
 
     // ── Daily Rotation ────────────────────────────────────────────────────────
     const dailyServiceEl = document.getElementById('daily-service');

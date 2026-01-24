@@ -239,11 +239,9 @@ header h1 {
 #today-hijri {
   transition: all 0.4s ease;
 }
-
 .fade {
   animation: fadeIn 0.5s ease;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -254,7 +252,6 @@ header h1 {
     transform: translateY(0);
   }
 }
-
 /* الجمعة */
 .friday {
   color: #0a7d5a;
@@ -428,7 +425,6 @@ header h1 {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
-
 .calculator-box {
   background: rgba(255,255,255,0.95);
   border-radius: 16px;
@@ -436,19 +432,16 @@ header h1 {
   box-shadow: 0 8px 20px rgba(64,158,255,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .calculator-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 28px rgba(64,158,255,0.25);
 }
-
 .calculator-box h3 {
   margin-bottom: 16px;
   font-size: 1.2rem;
   color: #0a7d5a;
   text-align: center;
 }
-
 /* Bands Select Styling */
 .calculator-box select,
 .calculator-box input {
@@ -461,13 +454,11 @@ header h1 {
   font-size: 1rem;
   transition: all 0.25s ease;
 }
-
 .calculator-box select:hover,
 .calculator-box input:hover {
   border-color: #409eff;
   box-shadow: 0 0 8px #409eff;
 }
-
 /* Visual Bands */
 .resistor-visual {
   display: flex;
@@ -476,7 +467,6 @@ header h1 {
   margin-top: 15px;
   gap: 10px;
 }
-
 .vis-band {
   width: 30px;
   height: 60px;
@@ -484,12 +474,10 @@ header h1 {
   background: #ccc;
   transition: background 0.3s ease, transform 0.3s ease;
 }
-
 .resistor-visual .vis-band:hover {
   transform: scale(1.2);
   box-shadow: 0 0 10px #409eff;
 }
-
 /* Result */
 .calculator-box p {
   margin-top: 12px;
@@ -498,7 +486,6 @@ header h1 {
   color: #1976d2;
   text-align: center;
 }
-
 /* Responsive */
 @media (max-width:768px){
   .calculators-grid{
@@ -996,7 +983,6 @@ footer {
   justify-content: center;
   margin-bottom: 50px;
 }
-
 .calculator-box {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(6px);
@@ -1012,7 +998,6 @@ footer {
   transform: translateY(-6px);
   box-shadow: 0 10px 35px rgba(0,0,0,0.35);
 }
-
 .calculator-box input {
   width: 100%;
   padding: 12px;
@@ -1023,12 +1008,10 @@ footer {
   font-size: 1rem;
   transition: all 0.25s ease;
 }
-
 .calculator-box input:hover {
   border-color: #f39c12;
   box-shadow: 0 0 10px #f39c12;
 }
-
 /* Capacitor Visual */
 .cap-visual {
   width: 60px;
@@ -1048,7 +1031,6 @@ footer {
   transition: height 0.5s ease;
   border-radius: 4px 4px 0 0;
 }
-
 /* Power Visual */
 .power-bar {
   width: 100%;
@@ -1104,4 +1086,65 @@ footer {
     transform: translateY(110vh);
     opacity: 0.3;
   }
+}
+/* ==========================================================================
+   الإضافة الجديدة للـ FAQ الألترا (مع الأنيميشن)
+   ========================================================================== */
+.faq-container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.faq-header {
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.faq-item {
+    border-bottom: 1px solid #eee;
+}
+
+.faq-question {
+    cursor: pointer;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.faq-question:hover {
+    background: #e6f7ff;
+}
+
+.faq-question::before {
+    content: '❓';
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 15px;
+    transition: max-height 0.5s ease, padding 0.5s ease;
+    background: #f9f9f9;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px;
+    padding: 15px;
+}
+
+.faq-item.active .faq-question::before {
+    content: '✅';
 }

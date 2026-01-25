@@ -696,30 +696,42 @@ function formatResistance(value){
 }
 
 // Update Color Resistor + Visual
-function updateColorResistorVisual() {
-  const b1 = document.getElementById("band1");
-  const b2 = document.getElementById("band2");
-  const mult = document.getElementById("multiplier");
+const band1 = document.getElementById("band1");
+const band2 = document.getElementById("band2");
+const multiplier = document.getElementById("multiplier");
+const tolerance = document.getElementById("tolerance");
 
-  const val1 = parseInt(b1.value);
-  const val2 = parseInt(b2.value);
-  const mul = parseInt(mult.value);
+const vis1 = document.getElementById("vis-band1");
+const vis2 = document.getElementById("vis-band2");
+const visMult = document.getElementById("vis-mult");
+const visTol = document.getElementById("vis-tol");
+const result = document.getElementById("resistor-result");
 
-  // Update result
-  const value = (val1 * 10 + val2) * mul;
-  document.getElementById("resistor-result").textContent = formatResistance(value);
+function updateResistor() {
+  // تحديث الألوان على الباند
+  vis1.style.backgroundColor = band1.selectedOptions[0].dataset.color;
+  vis2.style.backgroundColor = band2.selectedOptions[0].dataset.color;
+  visMult.style.backgroundColor = multiplier.selectedOptions[0].dataset.color;
+  visTol.style.backgroundColor = tolerance.selectedOptions[0].dataset.color;
 
-  // Update visual colors
-  document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
-  document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
-  document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
+  // حساب القيمة
+  const val1 = parseInt(band1.value);
+  const val2 = parseInt(band2.value);
+  const mult = parseInt(multiplier.value);
+  const tol = tolerance.value;
+
+  const ohm = ((val1 * 10) + val2) * mult;
+  result.textContent = `${ohm} Ω ±${tol}%`;
 }
 
-["band1","band2","multiplier"].forEach(id=>{
-  document.getElementById(id).addEventListener("change", updateColorResistorVisual);
+// Event Listener
+[band1, band2, multiplier, tolerance].forEach(el => {
+  el.addEventListener("change", updateResistor);
 });
 
-updateColorResistorVisual();
+// تحديث أول مرة
+updateResistor();
+
 
 // ===== SMD Resistor Ultra Max =====
 document.getElementById("smdCode").addEventListener("input", function(){

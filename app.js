@@ -786,75 +786,7 @@ function updatePower(){
   const fillPercent = P ? Math.min(100, P) : 0;
   powerFill.style.width = fillPercent + "%";
 }
-// ── Modal نتيجة الحساب (pro max) ────────────────────────────────────────────
-const calcModal = document.getElementById('calcResultModal');
-const calcResultTitle = document.getElementById('calc-result-title');
-const calcResultValue = document.getElementById('calc-result-value');
-const calcResultDesc = document.getElementById('calc-result-desc');
-const calcCloseBtn = document.getElementById('calc-close-btn');
-const calcClose = document.querySelector('.calc-close');
-
-function showCalcResult(title, value, desc = '') {
-  if (!calcModal) return;
-
-  calcResultTitle.textContent = title;
-  calcResultValue.textContent = value;
-  calcResultDesc.textContent = desc;
-  calcModal.classList.add('active');
-}
-
-// إغلاق الـ modal
-if (calcClose) {
-  calcClose.onclick = () => calcModal.classList.remove('active');
-}
-if (calcCloseBtn) {
-  calcCloseBtn.onclick = () => calcModal.classList.remove('active');
-}
-calcModal.onclick = e => {
-  if (e.target === calcModal) calcModal.classList.remove('active');
-};
-
-// مثال: تعديل حاسبة المقاومة بالألوان (استبدل الجزء القديم)
-function updateColorResistorVisual() {
-  const b1 = document.getElementById("band1");
-  const b2 = document.getElementById("band2");
-  const mult = document.getElementById("multiplier");
-  if (!b1 || !b2 || !mult) return;
-
-  const val1 = parseInt(b1.value);
-  const val2 = parseInt(b2.value);
-  const mul = parseInt(mult.value);
-  const value = (val1 * 10 + val2) * mul;
-  const resultText = formatResistance(value);
-
-  document.getElementById("resistor-result").textContent = resultText;
-
-  // تحديث الألوان
-  document.getElementById("vis-band1").style.background = b1.selectedOptions[0].dataset.color;
-  document.getElementById("vis-band2").style.background = b2.selectedOptions[0].dataset.color;
-  document.getElementById("vis-mult").style.background = mult.selectedOptions[0].dataset.color;
-
-  // إظهار النتيجة في الـ modal الجميل
-  showCalcResult("قيمة المقاومة", resultText, "القيمة محسوبة حسب الألوان المختارة");
-}
-
-// نفس الشيء لباقي الحاسبات (SMD، مكثف، وات)
-// أضف showCalcResult في نهاية كل function update بعد الحساب
-// مثال للمكثف:
-function updateCap() {
-  const value = parseFloat(capValue.value);
-  const voltage = parseFloat(capVoltage.value);
-  if (!value || !voltage) {
-    capResult.textContent = "—";
-    capFill.style.height = "0%";
-    return;
-  }
-  const resultText = `${value} µF @ ${voltage} V`;
-  capResult.textContent = resultText;
-  capFill.style.height = Math.min(100, value) + "%";
-
-  showCalcResult("سعة المكثف", resultText, "الجهد المسموح به آمن");
-}
+/* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

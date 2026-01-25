@@ -615,45 +615,92 @@ document.querySelectorAll('.video-pro-card video').forEach(video => {
 });
 
 
-// ── Fullscreen Media Viewer (Services + Videos + Postes) ─────────
-const mediaViewer = document.getElementById('mediaViewer');
-const viewerImg = document.getElementById('viewerImg');
-const viewerVideo = document.getElementById('viewerVideo');
+// ── Fullscreen Viewer للخدمات + الفيديوهات + ماكينات اللحام (لون بحري) ────────
+document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const title = card.dataset.title;
+        const desc = card.dataset.desc;
+        const price = card.dataset.price || '';
+        const media = card.querySelector('img, video');
+        const isVideo = media.tagName === 'VIDEO';
 
-if (mediaViewer && viewerImg && viewerVideo) {
-  const closeBtn = mediaViewer.querySelector('.close-btn');
+        const viewer = document.getElementById('mediaViewer');
+        viewer.innerHTML = `
+            <span class="viewer-close">×</span>
+            <div class="viewer-media">
+                ${isVideo ? `<video src="${media.src}" controls autoplay></video>` : `<img src="${media.src}" alt="${title}">`}
+            </div>
+            <div class="viewer-info">
+                <h3>${title}</h3>
+                <p>${desc}</p>
+                ${price ? `<p class="price">${price}</p>` : ''}
+            </div>
+        `;
 
-  document.querySelectorAll(
-    '.service-pro-card img, .video-pro-card video, .poste-pro-card img'
-  ).forEach(el => {
+        viewer.classList.add('active');
 
-    el.style.cursor = 'pointer';
-
-    el.addEventListener('click', () => {
-      mediaViewer.style.display = 'flex';
-
-      if (el.tagName === 'IMG') {
-        viewerImg.src = el.src;
-        viewerImg.style.display = 'block';
-        viewerVideo.style.display = 'none';
-        viewerVideo.pause();
-      } else {
-        viewerVideo.src = el.src;
-        viewerVideo.style.display = 'block';
-        viewerImg.style.display = 'none';
-        viewerVideo.play();
-      }
+        // إغلاق
+        viewer.querySelector('.viewer-close').onclick = () => viewer.classList.remove('active');
+        viewer.onclick = e => {
+            if (e.target === viewer) viewer.classList.remove('active');
+        };
     });
-  });
+});
 
-  closeBtn?.addEventListener('click', () => {
-    mediaViewer.style.display = 'none';
-    viewerVideo.pause();
-    viewerVideo.currentTime = 0;
-  });
+// ── Drag للسلايدرات الأفقية ────────────────────────────────────────────────
+function enableHorizontalDrag(sliderId) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+    let isDown = false;
+    let startX, scrollLeft;
+
+    slider.addEventListener('mousedown', e => {
+        isDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+        slider.style.cursor = 'grabbing';
+    });
+
+    slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.style.cursor = 'grab';
+    });
+
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.style.cursor = 'grab';
+    });
+
+    slider.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2; // سرعة السحب
+        slider.scrollLeft = scrollLeft - walk;
+    });
+
+    // دعم اللمس للموبايل
+    slider.addEventListener('touchstart', e => {
+        isDown = true;
+        startX = e.touches[0].pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('touchend', () => {
+        isDown = false;
+    });
+
+    slider.addEventListener('touchmove', e => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2;
+        slider.scrollLeft = scrollLeft - walk;
+    });
 }
 
-
+enableHorizontalDrag('servicesSlider');
+enableHorizontalDrag('videoSlider');
+enableHorizontalDrag('postesSlider');
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');

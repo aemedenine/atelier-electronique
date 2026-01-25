@@ -165,7 +165,7 @@
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-phone"></i> نقدر نتصل قبل ما نجي؟</div>
                     <div class="faq-answer">
-                        أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على <strong>130 192 98</strong>، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.
+                        أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على <strong>103.192.98</strong>، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.
                     </div>
                 </div>
 
@@ -195,7 +195,7 @@
   <div class="calculators-grid">
 
     <!-- Color Resistor Visual Ultra Max -->
-    <div class="calculator-box color-resistor" data-type="resistance">
+    <div class="calculator-box color-resistor">
       <h3>🔴🟡🔵 حساب المقاومة بالألوان</h3>
       <div class="bands-select">
         <select id="band1">
@@ -246,7 +246,7 @@
     </div>
 
     <!-- SMD Resistor -->
-    <div class="calculator-box smd-resistor" data-type="smd">
+    <div class="calculator-box smd-resistor">
       <h3>📦 حساب مقاومة SMD</h3>
       <input type="text" id="smdCode" placeholder="مثال: 103 أو 4R7" />
       <p id="smd-result">— Ω</p>
@@ -259,7 +259,7 @@
   <div class="calculators-grid">
 
     <!-- Capacitor Calculator -->
-    <div class="calculator-box capacitor-calc" data-type="condensateur">
+    <div class="calculator-box capacitor-calc">
       <h3>⚡ حساب المكثفات</h3>
       <input type="number" id="cap-value" placeholder="القيمة (µF)" />
       <input type="number" id="cap-voltage" placeholder="الجهد (V)" />
@@ -270,7 +270,7 @@
     </div>
 
     <!-- Power Calculator -->
-    <div class="calculator-box power-calc" data-type="watt">
+    <div class="calculator-box power-calc">
       <h3>🔌 حساب الطاقة (Watts)</h3>
       <input type="number" id="volt" placeholder="V (فولت)" />
       <input type="number" id="resistance" placeholder="R (أوم)" />
@@ -437,7 +437,8 @@
 
     <footer>
         <div class="container footer-inner">
-            <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103</p>
+            <p>📍 مدنين – نخدمو في كامل أنحاء تونس |
+                📲 WhatsApp: 98192103</p>
             <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
             <div class="social-icons">
                 <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook"></a>
@@ -499,17 +500,5 @@
 
       setInterval(createComponent, 2500);
     </script>
-    <div class="calc-modal" id="calcModal">
-  <div class="calc-modal-content">
-    
-    <button class="sortie-btn" id="sortieBtn">
-      ⬅️ Sortie
-    </button>
-
-    <div id="calcContent"></div>
-
-  </div>
-</div>
-
 </body>
 </html>

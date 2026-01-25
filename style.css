@@ -1238,7 +1238,108 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-/* ====== نهاية CSS البوكسات الجديدة ====== */
+/* ==========================================================================
+   Modal نتيجة الحساب – pro max بحري
+   ========================================================================== */
+.calc-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+.calc-modal.active {
+  display: flex;
+}
+.calc-modal-content {
+  background: linear-gradient(135deg, rgba(15,118,110,0.95), rgba(20,184,166,0.95));
+  color: white;
+  padding: 40px;
+  border-radius: 24px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(20,184,166,0.6);
+  position: relative;
+  animation: modalPop 0.4s ease-out;
+  border: 2px solid rgba(165,243,252,0.4);
+}
+@keyframes modalPop {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.calc-close {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 3.5rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.calc-close:hover {
+  color: #ff6b6b;
+  transform: rotate(90deg);
+}
+.calc-result-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  color: #a5f3fc;
+  text-shadow: 0 0 15px rgba(165,243,252,0.7);
+  animation: pulseIcon 2s infinite;
+}
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.calc-result-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #a5f3fc;
+  text-shadow: 0 0 10px rgba(165,243,252,0.6);
+}
+.calc-big-value {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: white;
+  margin: 20px 0;
+  text-shadow: 0 0 20px rgba(255,255,255,0.8);
+}
+.calc-desc {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #e0f7fa;
+}
+.calc-close-btn {
+  background: linear-gradient(135deg, #ff6b6b, #e53e3e);
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(229,62,62,0.4);
+  transition: all 0.3s ease;
+}
+.calc-close-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(229,62,62,0.6);
+}
+
+/* على الموبايل */
+@media (max-width: 768px) {
+  .calc-modal-content {
+    padding: 30px 20px;
+  }
+  .calc-big-value {
+    font-size: 2.8rem;
+  }
+}
 /* ==========================================================================
    RTL Specific
    ========================================================================== */

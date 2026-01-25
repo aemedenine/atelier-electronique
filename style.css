@@ -1276,6 +1276,22 @@ footer {
     font-size: 3rem;
   }
 }
+.sortie-btn {
+  background: none;
+  border: none;
+  color: #0077cc;
+  font-size: 15px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sortie-btn:hover {
+  text-decoration: underline;
+}
+
 
 /* ==========================================================================
    RTL Specific

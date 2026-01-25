@@ -619,40 +619,40 @@ document.querySelectorAll('.video-pro-card video').forEach(video => {
 const mediaViewer = document.getElementById('mediaViewer');
 const viewerImg = document.getElementById('viewerImg');
 const viewerVideo = document.getElementById('viewerVideo');
-const closeBtn = mediaViewer?.querySelector('.close-btn');
 
-document.querySelectorAll(
-  '.service-pro-card img, \
-   .video-pro-card video, \
-   .poste-pro-card img'
-).forEach(el => {
+if (mediaViewer && viewerImg && viewerVideo) {
+  const closeBtn = mediaViewer.querySelector('.close-btn');
 
-  el.style.cursor = 'pointer';
+  document.querySelectorAll(
+    '.service-pro-card img, .video-pro-card video, .poste-pro-card img'
+  ).forEach(el => {
 
-  el.addEventListener('click', () => {
-    mediaViewer.style.display = 'flex';
+    el.style.cursor = 'pointer';
 
-    if (el.tagName === 'IMG') {
-      viewerImg.src = el.src;
-      viewerImg.style.display = 'block';
-      viewerVideo.style.display = 'none';
-      viewerVideo.pause();
-    } else {
-      viewerVideo.src = el.src;
-      viewerVideo.style.display = 'block';
-      viewerImg.style.display = 'none';
-      viewerVideo.play();
-    }
+    el.addEventListener('click', () => {
+      mediaViewer.style.display = 'flex';
+
+      if (el.tagName === 'IMG') {
+        viewerImg.src = el.src;
+        viewerImg.style.display = 'block';
+        viewerVideo.style.display = 'none';
+        viewerVideo.pause();
+      } else {
+        viewerVideo.src = el.src;
+        viewerVideo.style.display = 'block';
+        viewerImg.style.display = 'none';
+        viewerVideo.play();
+      }
+    });
   });
-});
 
+  closeBtn?.addEventListener('click', () => {
+    mediaViewer.style.display = 'none';
+    viewerVideo.pause();
+    viewerVideo.currentTime = 0;
+  });
+}
 
-// ── Close viewer ────────────────────────────────────────────────
-closeBtn?.addEventListener('click', () => {
-  mediaViewer.style.display = 'none';
-  viewerVideo.pause();
-  viewerVideo.currentTime = 0;
-});
 
     // ── CMP Cookie Banner ─────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');

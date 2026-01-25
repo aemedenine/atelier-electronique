@@ -24,7 +24,6 @@ html, body {
   padding: 0 20px;
   background: transparent;
 }
-
 /* ==========================================================================
    Header + PCB Canvas + Logo Background
    ========================================================================== */
@@ -74,34 +73,62 @@ header h1 {
   margin-left: 15px;
   transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
 }
-
+.logo-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,255,255,0.15) 0,
+      rgba(0,255,255,0.15) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,107,53,0.12) 0,
+      rgba(255,107,53,0.12) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.6;
+  animation: pcbMove 12s linear infinite;
+  z-index: -2;
+}
+@keyframes pcbMove {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 /* ==========================================================================
-   News Ticker – نفس gradient الـ FAQ (بحري متحرك)
+   News Ticker
    ========================================================================== */
 .news-ticker {
   width: 100%;
   overflow: hidden;
   background: linear-gradient(90deg, #0f766e, #14b8a6, #22d3ee, #60a5fa, #a5b4fc);
   background-size: 300% 100%;
-  animation: gradientFlow 22s ease infinite;
+  animation: gradientFlow 22s ease infinite; /* نفس سرعة ونوع الـ animation اللي في FAQ */
   color: white;
   white-space: nowrap;
   font-weight: 700;
-  padding: 14px 0;
+  padding: 12px 0;
   margin-bottom: 25px;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   text-align: center;
   z-index: 10;
-  box-shadow: 0 4px 15px rgba(20,184,166,0.4);
-  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 15px rgba(20,184,166,0.35);
+  border-radius: 0 0 12px 12px; /* شوية انحناء تحت عشان يبقى أنيق */
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
+
+/* نفس الـ keyframes اللي مستعمل في wave-header */
 @keyframes gradientFlow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
 /* ==========================================================================
    Info Bar
    ========================================================================== */
@@ -133,7 +160,6 @@ header h1 {
 #toggle-lang-btn:hover {
   background: #409eff;
 }
-
 /* ==========================================================================
    CTA Buttons + Glow Effect
    ========================================================================== */
@@ -178,7 +204,6 @@ header h1 {
 .btn-store:hover {
   background: #3a3a3a !important;
 }
-
 /* ==========================================================================
    Experience Badge (Animated)
    ========================================================================== */
@@ -205,17 +230,18 @@ header h1 {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-
 /* ==========================================================================
-   Weather & Prayer Times Box
+   Weather & Prayer Times Box – نقلّصنا الطول شوية
    ========================================================================== */
 #today-miladi,
 #today-hijri {
   transition: all 0.4s ease;
 }
+
 .fade {
   animation: fadeIn 0.5s ease;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -226,13 +252,15 @@ header h1 {
     transform: translateY(0);
   }
 }
+
+/* الجمعة */
 .friday {
   color: #0a7d5a;
   font-weight: 700;
 }
 .weather-box {
   margin: 0;
-  padding: 16px;
+  padding: 16px; /* نقلّص الـ padding عشان يساعد في الطول */
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(8px);
   border-radius: 15px;
@@ -248,7 +276,7 @@ header h1 {
 .weather-inner {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 8px; /* مسافات داخلية أقل شوية */
   align-items: center;
 }
 .weather-main {
@@ -277,6 +305,9 @@ header h1 {
   margin: 3px 0;
   font-size: 0.92rem;
   color: #282c34;
+}
+.prayer-times p span {
+  flex-shrink: 0;
 }
 .prayer-times p .time {
   font-weight: bold;
@@ -332,9 +363,8 @@ header h1 {
   color: #ff6b35;
   font-size: 0.9rem;
 }
-
 /* ==========================================================================
-   FAQ Section + Wave Header (حرف بحرف)
+   FAQ Section
    ========================================================================== */
 .faq {
   max-width: 920px;
@@ -362,7 +392,7 @@ header h1 {
   display: block;
   margin: 18px auto 24px;
   padding: 10px 28px;
-  background: #409eff;
+  background: #f97316;
   color: white;
   border: none;
   border-radius: 999px;
@@ -442,7 +472,22 @@ header h1 {
   opacity: 1;
 }
 
-/* موج البحر للعناوين (حرف بحرف) */
+/* Responsive – FAQ على الموبايل */
+@media (max-width: 768px) {
+  .faq-header {
+    font-size: 1.55rem;
+    padding: 16px 12px;
+  }
+  .faq-question {
+    font-size: 1.05rem;
+    padding: 14px 16px;
+  }
+  .faq-close-all-btn {
+    padding: 9px 24px;
+    font-size: 0.95rem;
+  }
+}
+/* ── FAQ Header – موج البحر بالكلمات الكاملة ──────────────────────────────── */
 .wave-header {
   background: linear-gradient(90deg, #0f766e, #14b8a6, #22d3ee, #60a5fa, #a5b4fc);
   background-size: 300% 100%;
@@ -459,32 +504,29 @@ header h1 {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.6em;
+  gap: 0.6em; /* مسافة بين الكلمات */
 }
+
 @keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+/* كل كلمة تتحرك كوحدة كاملة */
 .wave-word {
   display: inline-block;
   animation: wordWave 5s ease-in-out infinite;
   animation-delay: var(--delay);
   white-space: nowrap;
 }
+
 @keyframes wordWave {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-10px) scale(1.04); }
+  0%, 100%   { transform: translateY(0) scale(1); }
+  50%        { transform: translateY(-10px) scale(1.04); }
 }
-.wave-text span {
-  display: inline-block;
-  animation: waveLetter 1.8s ease-in-out infinite;
-  animation-delay: calc(var(--i) * 0.08s);
-}
-@keyframes waveLetter {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-12px) scale(1.08); }
-}
+
+/* على الموبايل نجعل الحركة أخف */
 @media (max-width: 768px) {
   .wave-header {
     font-size: 1.55rem;
@@ -492,19 +534,32 @@ header h1 {
     gap: 0.4em;
   }
   @keyframes wordWave {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-6px) scale(1.02); }
+    0%, 100%   { transform: translateY(0) scale(1); }
+    50%        { transform: translateY(-6px) scale(1.02); }
   }
 }
 
-/* ==========================================================================
-   Calculators Section
-   ========================================================================== */
+.wave-text span:nth-child(odd)  { animation-duration: 3.9s; }
+.wave-text span:nth-child(even) { animation-duration: 4.5s; }
+
+/* أخف على الموبايل */
+@media (max-width: 768px) {
+  .wave-header {
+    font-size: 1.55rem;
+    padding: 16px 12px;
+  }
+  @keyframes softWave {
+    0%, 100%   { transform: translateY(0) scaleY(1); }
+    50%        { transform: translateY(-4px) scaleY(1.02); }
+  }
+}
+/* Ultra Max Resistor Calculators */
 .calculators-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
+
 .calculator-box {
   background: rgba(255,255,255,0.95);
   border-radius: 16px;
@@ -512,16 +567,20 @@ header h1 {
   box-shadow: 0 8px 20px rgba(64,158,255,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .calculator-box:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 28px rgba(64,158,255,0.25);
 }
+
 .calculator-box h3 {
   margin-bottom: 16px;
   font-size: 1.2rem;
   color: #0a7d5a;
   text-align: center;
 }
+
+/* Bands Select Styling */
 .calculator-box select,
 .calculator-box input {
   width: 100%;
@@ -533,17 +592,14 @@ header h1 {
   font-size: 1rem;
   transition: all 0.25s ease;
 }
+
 .calculator-box select:hover,
 .calculator-box input:hover {
   border-color: #409eff;
   box-shadow: 0 0 8px #409eff;
 }
-.calculator-box input:focus,
-.calculator-box select:focus {
-  border-color: #14b8a6;
-  box-shadow: 0 0 12px rgba(20,184,166,0.5);
-  outline: none;
-}
+
+/* Visual Bands */
 .resistor-visual {
   display: flex;
   justify-content: center;
@@ -551,6 +607,7 @@ header h1 {
   margin-top: 15px;
   gap: 10px;
 }
+
 .vis-band {
   width: 30px;
   height: 60px;
@@ -558,10 +615,13 @@ header h1 {
   background: #ccc;
   transition: background 0.3s ease, transform 0.3s ease;
 }
+
 .resistor-visual .vis-band:hover {
   transform: scale(1.2);
   box-shadow: 0 0 10px #409eff;
 }
+
+/* Result */
 .calculator-box p {
   margin-top: 12px;
   font-size: 1.3rem;
@@ -569,12 +629,13 @@ header h1 {
   color: #1976d2;
   text-align: center;
 }
+
+/* Responsive */
 @media (max-width:768px){
   .calculators-grid{
     grid-template-columns:1fr;
   }
-}
-
+                              }
 /* ==========================================================================
    Equalizer
    ========================================================================== */
@@ -611,9 +672,11 @@ header h1 {
   0%, 100% { height: 6px; }
   50% { height: 32px; }
 }
-
+#radio-stream.playing + .equalizer {
+  filter: drop-shadow(0 0 10px #409eff);
+}
 /* ==========================================================================
-   Weather + Rating Grid
+   Weather + Rating Grid – نقلّصنا الطول هنا
    ========================================================================== */
 .weather-rating-grid {
   display: grid;
@@ -624,11 +687,21 @@ header h1 {
   padding: 0 20px;
   z-index: 10;
 }
+@media (min-width: 769px) {
+  .weather-rating-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .weather-rating-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .weather-box,
 .rating-container {
   width: 100%;
   max-width: 380px;
-  min-height: 220px;
+  min-height: 220px; /* نقلّصنا من 280px إلى 220px */
   box-sizing: border-box;
   margin: 0 auto;
   border-radius: 16px;
@@ -641,7 +714,6 @@ header h1 {
   transform: translateY(-6px);
   box-shadow: 0 10px 30px rgba(13,71,161,0.2);
 }
-
 /* ==========================================================================
    Rating Container
    ========================================================================== */
@@ -735,7 +807,6 @@ header h1 {
 .rating-message.show {
   opacity: 1;
 }
-
 /* ==========================================================================
    Login Popup + User Box
    ========================================================================== */
@@ -837,9 +908,8 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
-
 /* ==========================================================================
-   Sliders أفقية pro
+   Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
    ========================================================================== */
 .services-slider,
 .videos-slider,
@@ -979,7 +1049,6 @@ header h1 {
   background: #e53e3e;
   transform: rotate(90deg);
 }
-
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */
@@ -1005,7 +1074,6 @@ header h1 {
   border-radius: 5px;
   font-weight: bold;
 }
-
 /* ==========================================================================
    Radio Button Dance Animation
    ========================================================================== */
@@ -1018,7 +1086,6 @@ header h1 {
   50% { transform: rotate(10deg); }
   100% { transform: rotate(-10deg); }
 }
-
 /* ==========================================================================
    General Animations
    ========================================================================== */
@@ -1026,7 +1093,6 @@ header h1 {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 /* ==========================================================================
    Footer
    ========================================================================== */
@@ -1072,7 +1138,6 @@ footer {
   color: #555;
   font-style: italic;
 }
-
 /* ==========================================================================
    Responsive
    ========================================================================== */
@@ -1096,17 +1161,8 @@ footer {
   .faq {
     width: 90%;
   }
-  .service-pro-card,
-  .video-pro-card,
-  .poste-pro-card {
-    flex: 0 0 280px;
-    min-width: 280px;
-  }
 }
-
-/* ==========================================================================
-   Calculators Section (بوكسات الحسابات)
-   ========================================================================== */
+/* ====== بداية CSS البوكسات الجديدة ====== */
 .calculators-grid {
   display: flex;
   gap: 30px;
@@ -1114,6 +1170,7 @@ footer {
   justify-content: center;
   margin-bottom: 50px;
 }
+
 .calculator-box {
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(6px);
@@ -1129,6 +1186,7 @@ footer {
   transform: translateY(-6px);
   box-shadow: 0 10px 35px rgba(0,0,0,0.35);
 }
+
 .calculator-box input {
   width: 100%;
   padding: 12px;
@@ -1139,10 +1197,13 @@ footer {
   font-size: 1rem;
   transition: all 0.25s ease;
 }
+
 .calculator-box input:hover {
   border-color: #f39c12;
   box-shadow: 0 0 10px #f39c12;
 }
+
+/* Capacitor Visual */
 .cap-visual {
   width: 60px;
   height: 120px;
@@ -1161,6 +1222,8 @@ footer {
   transition: height 0.5s ease;
   border-radius: 4px 4px 0 0;
 }
+
+/* Power Visual */
 .power-bar {
   width: 100%;
   height: 20px;
@@ -1175,136 +1238,13 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-
-/* ==========================================================================
-   Modal نتيجة الحساب – pro max بحري
-   ========================================================================== */
-.calc-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-}
-.calc-modal.active {
-  display: flex;
-}
-.calc-modal-content {
-  background: linear-gradient(135deg, rgba(15,118,110,0.95), rgba(20,184,166,0.95));
-  color: white;
-  padding: 40px;
-  border-radius: 24px;
-  max-width: 520px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(20,184,166,0.6);
-  position: relative;
-  animation: modalPop 0.4s ease-out;
-  border: 2px solid rgba(165,243,252,0.4);
-}
-@keyframes modalPop {
-  from { transform: scale(0.7); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.calc-close {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 3.5rem;
-  color: white;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.calc-close:hover {
-  color: #ff6b6b;
-  transform: rotate(90deg);
-}
-.calc-result-icon {
-  font-size: 5rem;
-  margin-bottom: 20px;
-  color: #a5f3fc;
-  text-shadow: 0 0 15px rgba(165,243,252,0.7);
-  animation: pulseIcon 2s infinite;
-}
-@keyframes pulseIcon {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-}
-.calc-result-title {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #a5f3fc;
-  text-shadow: 0 0 10px rgba(165,243,252,0.6);
-}
-.calc-big-value {
-  font-size: 4rem;
-  font-weight: 900;
-  color: white;
-  margin: 25px 0;
-  text-shadow: 0 0 20px rgba(255,255,255,0.8);
-}
-.calc-desc {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  margin-bottom: 30px;
-  color: #e0f7fa;
-}
-.calc-close-btn {
-  background: linear-gradient(135deg, #ff6b6b, #e53e3e);
-  color: white;
-  border: none;
-  padding: 14px 40px;
-  border-radius: 50px;
-  font-size: 1.2rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(229,62,62,0.4);
-  transition: all 0.3s ease;
-}
-.calc-close-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(229,62,62,0.6);
-}
-@media (max-width: 768px) {
-  .calc-modal-content {
-    padding: 30px 20px;
-  }
-  .calc-big-value {
-    font-size: 3rem;
-  }
-}
-.sortie-btn {
-  background: none;
-  border: none;
-  color: #0077cc;
-  font-size: 15px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.sortie-btn:hover {
-  text-decoration: underline;
-}
-.modal-box {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-}
-
-
+/* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific
    ========================================================================== */
 [dir="rtl"] .container {
   direction: rtl;
 }
-
 /* ==========================================================================
    Falling Components (المطر الإلكتروني)
    ========================================================================== */
@@ -1327,6 +1267,11 @@ footer {
   box-shadow: none !important;
   pointer-events: none;
   animation: fall linear forwards;
+}
+.falling-component {
+  width: 60px;
+  height: 60px;
+  animation-duration: 12s;
 }
 @keyframes fall {
   to {

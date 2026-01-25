@@ -1291,6 +1291,11 @@ footer {
 .sortie-btn:hover {
   text-decoration: underline;
 }
+.modal-box {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
 
 
 /* ==========================================================================

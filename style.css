@@ -513,18 +513,17 @@ header h1 {
   100% { background-position: 0% 50%; }
 }
 
-/* كل كلمة تتحرك كوحدة كاملة */
-.wave-word {
+.wave-text {
   display: inline-block;
-  animation: wordWave 5s ease-in-out infinite;
-  animation-delay: var(--delay);
-  white-space: nowrap;
+  animation: wave 1s ease-in-out infinite alternate;
 }
 
-@keyframes wordWave {
-  0%, 100%   { transform: translateY(0) scale(1); }
-  50%        { transform: translateY(-10px) scale(1.04); }
+@keyframes wave {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
+
 
 /* على الموبايل نجعل الحركة أخف */
 @media (max-width: 768px) {

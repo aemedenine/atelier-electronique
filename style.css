@@ -967,6 +967,18 @@ header h1 {
 .poste-pro-card:hover .poste-overlay {
   background: linear-gradient(to top, rgba(38,99,235,0.9), transparent);
 }
+.wave-full {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 2rem; /* حسب ذوقك */
+  animation: waveFull 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes waveFull {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); } /* ارتفاع الموجة */
+  100% { transform: translateY(0); }
+}
 
 /* ==========================================================================
    Fullscreen Viewer (لون بحري pro)

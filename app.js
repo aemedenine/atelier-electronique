@@ -786,58 +786,39 @@ function updatePower(){
   const fillPercent = P ? Math.min(100, P) : 0;
   powerFill.style.width = fillPercent + "%";
 }
-    // 1) نربط العناصر
-const modal = document.getElementById("calcModal");
-const content = document.getElementById("calcContent");
+  const modal = document.getElementById("calcModal");
+const modalContent = document.getElementById("calcContent");
 const sortieBtn = document.getElementById("sortieBtn");
 
-// 2) نسمعو للكليك على كل calculator
-document.querySelectorAll(".calculator-box").forEach(el => {
-  el.addEventListener("click", function () {
-    openCalculator(this.dataset.type);
+let originalBox = null;
+
+// كي تكليكي على أي calculator-box
+document.querySelectorAll(".calculator-box").forEach(box => {
+  box.addEventListener("click", () => {
+
+    // نحفظ النسخة الأصلية
+    originalBox = box;
+
+    // ننسخو clone
+    const clone = box.cloneNode(true);
+    clone.classList.add("modal-box");
+
+    // نفرغ المحتوى القديم
+    modalContent.innerHTML = "";
+    modalContent.appendChild(clone);
+
+    // نطلع الـ modal
+    modal.classList.add("active");
   });
 });
 
-// 3) نبدلو المحتوى حسب النوع
-function openCalculator(type) {
-
-  if (type === "resistance") {
-    content.innerHTML =
-      "<h2>Résistance</h2>" +
-      "<input type='number' placeholder='Ω'>" +
-      "<button>Calculer</button>";
-  }
-
-  if (type === "watt") {
-    content.innerHTML =
-      "<h2>Watt</h2>" +
-      "<input type='number' placeholder='W'>" +
-      "<button>Calculer</button>";
-  }
-
-  if (type === "smd") {
-    content.innerHTML =
-      "<h2>SMD</h2>" +
-      "<input type='text' placeholder='103'>" +
-      "<button>Convertir</button>";
-  }
-
-  if (type === "condensateur") {
-    content.innerHTML =
-      "<h2>Condensateur</h2>" +
-      "<input type='number' placeholder='µF'>" +
-      "<button>Calculer</button>";
-  }
-
-  // 4) نطلّعو البوكس
-  modal.classList.add("active");
-}
-
-// 5) زر sortie
-sortieBtn.addEventListener("click", function () {
+// زر Sortie
+sortieBtn.addEventListener("click", () => {
   modal.classList.remove("active");
-  content.innerHTML = "";
+  modalContent.innerHTML = "";
+  originalBox = null;
 });
+
 
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────

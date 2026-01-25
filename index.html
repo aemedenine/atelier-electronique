@@ -195,7 +195,7 @@
   <div class="calculators-grid">
 
     <!-- Color Resistor Visual Ultra Max -->
-    <div class="calculator-box color-resistor">
+    <div class="calculator-box color-resistor" data-type="resistance">
       <h3>🔴🟡🔵 حساب المقاومة بالألوان</h3>
       <div class="bands-select">
         <select id="band1">
@@ -246,7 +246,7 @@
     </div>
 
     <!-- SMD Resistor -->
-    <div class="calculator-box smd-resistor">
+    <div class="calculator-box smd-resistor" data-type="smd">
       <h3>📦 حساب مقاومة SMD</h3>
       <input type="text" id="smdCode" placeholder="مثال: 103 أو 4R7" />
       <p id="smd-result">— Ω</p>
@@ -259,7 +259,7 @@
   <div class="calculators-grid">
 
     <!-- Capacitor Calculator -->
-    <div class="calculator-box capacitor-calc">
+    <div class="calculator-box capacitor-calc" data-type="condensateur">
       <h3>⚡ حساب المكثفات</h3>
       <input type="number" id="cap-value" placeholder="القيمة (µF)" />
       <input type="number" id="cap-voltage" placeholder="الجهد (V)" />
@@ -270,7 +270,7 @@
     </div>
 
     <!-- Power Calculator -->
-    <div class="calculator-box power-calc">
+    <div class="calculator-box power-calc" data-type="watt">
       <h3>🔌 حساب الطاقة (Watts)</h3>
       <input type="number" id="volt" placeholder="V (فولت)" />
       <input type="number" id="resistance" placeholder="R (أوم)" />

@@ -195,55 +195,65 @@
   <div class="calculators-grid">
 
     <!-- Color Resistor Visual Ultra Max -->
-    <div class="calculator-box color-resistor">
-      <h3>🔴🟡🔵 حساب المقاومة بالألوان</h3>
-      <div class="bands-select">
-        <select id="band1">
-          <option value="0" data-color="#000000">أسود</option>
-          <option value="1" data-color="#8B4513">بني</option>
-          <option value="2" data-color="#FF0000">أحمر</option>
-          <option value="3" data-color="#FFA500">برتقالي</option>
-          <option value="4" data-color="#FFFF00">أصفر</option>
-          <option value="5" data-color="#008000">أخضر</option>
-          <option value="6" data-color="#0000FF">أزرق</option>
-          <option value="7" data-color="#800080">بنفسجي</option>
-          <option value="8" data-color="#808080">رمادي</option>
-          <option value="9" data-color="#FFF">أبيض</option>
-        </select>
+  <div class="calculator-box color-resistor">
+  <h3>🔴🟡 حساب المقاومة بالألوان (4 بانز)</h3>
 
-        <select id="band2">
-          <option value="0" data-color="#000000">أسود</option>
-          <option value="1" data-color="#8B4513">بني</option>
-          <option value="2" data-color="#FF0000">أحمر</option>
-          <option value="3" data-color="#FFA500">برتقالي</option>
-          <option value="4" data-color="#FFFF00">أصفر</option>
-          <option value="5" data-color="#008000">أخضر</option>
-          <option value="6" data-color="#0000FF">أزرق</option>
-          <option value="7" data-color="#800080">بنفسجي</option>
-          <option value="8" data-color="#808080">رمادي</option>
-          <option value="9" data-color="#FFF">أبيض</option>
-        </select>
+  <div class="bands-select">
+    <select id="band1">
+      <option value="0" data-color="#000000">أسود</option>
+      <option value="1" data-color="#8B4513">بني</option>
+      <option value="2" data-color="#FF0000">أحمر</option>
+      <option value="3" data-color="#FFA500">برتقالي</option>
+      <option value="4" data-color="#FFFF00">أصفر</option>
+      <option value="5" data-color="#008000">أخضر</option>
+      <option value="6" data-color="#0000FF">أزرق</option>
+      <option value="7" data-color="#800080">بنفسجي</option>
+      <option value="8" data-color="#808080">رمادي</option>
+      <option value="9" data-color="#FFF">أبيض</option>
+    </select>
 
-        <select id="multiplier">
-          <option value="1" data-color="#000">×1</option>
-          <option value="10" data-color="#8B4513">×10</option>
-          <option value="100" data-color="#FF0000">×100</option>
-          <option value="1000" data-color="#FFA500">×1K</option>
-          <option value="10000" data-color="#FFFF00">×10K</option>
-          <option value="100000" data-color="#008000">×100K</option>
-          <option value="1000000" data-color="#0000FF">×1M</option>
-        </select>
-      </div>
+    <select id="band2">
+      <!-- نفس الخيارات -->
+      <option value="0" data-color="#000000">أسود</option>
+      <option value="1" data-color="#8B4513">بني</option>
+      <option value="2" data-color="#FF0000">أحمر</option>
+      <option value="3" data-color="#FFA500">برتقالي</option>
+      <option value="4" data-color="#FFFF00">أصفر</option>
+      <option value="5" data-color="#008000">أخضر</option>
+      <option value="6" data-color="#0000FF">أزرق</option>
+      <option value="7" data-color="#800080">بنفسجي</option>
+      <option value="8" data-color="#808080">رمادي</option>
+      <option value="9" data-color="#FFF">أبيض</option>
+    </select>
 
-      <!-- Visual Bands -->
-      <div class="resistor-visual">
-        <div id="vis-band1" class="vis-band"></div>
-        <div id="vis-band2" class="vis-band"></div>
-        <div id="vis-mult" class="vis-band"></div>
-      </div>
+    <select id="multiplier">
+      <option value="1" data-color="#000">×1</option>
+      <option value="10" data-color="#8B4513">×10</option>
+      <option value="100" data-color="#FF0000">×100</option>
+      <option value="1000" data-color="#FFA500">×1K</option>
+      <option value="10000" data-color="#FFFF00">×10K</option>
+      <option value="100000" data-color="#008000">×100K</option>
+      <option value="1000000" data-color="#0000FF">×1M</option>
+    </select>
 
-      <p id="resistor-result">— Ω</p>
-    </div>
+    <select id="tolerance">
+      <option value="1" data-color="#008000">±1%</option>
+      <option value="2" data-color="#FF0000">±2%</option>
+      <option value="5" data-color="#FFFF00">±5%</option>
+      <option value="10" data-color="#808080">±10%</option>
+    </select>
+  </div>
+
+  <!-- Visual Bands -->
+  <div class="resistor-visual">
+    <div id="vis-band1" class="vis-band"></div>
+    <div id="vis-band2" class="vis-band"></div>
+    <div id="vis-mult" class="vis-band"></div>
+    <div id="vis-tol" class="vis-band"></div>
+  </div>
+
+  <p id="resistor-result">— Ω</p>
+</div>
 
     <!-- SMD Resistor -->
     <div class="calculator-box smd-resistor">

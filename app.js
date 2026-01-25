@@ -718,40 +718,54 @@ function updateColorResistorVisual() {
 updateColorResistorVisual();
 
 // ===== SMD Resistor Ultra Max =====
-document.getElementById("smdCode").addEventListener("input", function(){
-  const code = this.value.trim().toUpperCase();
-  let result = "— Ω";
+const smdInput = document.getElementById("smdCode");
+const smdResult = document.getElementById("smd-result");
 
-  if(/^\d{3}$/.test(code)){
-    result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
-    result = formatResistance(result);
-  } else if(/^\dR\d$/.test(code)){
-    result = code.replace("R",".") + " Ω";
-  }
+if (smdInput && smdResult) {
+  smdInput.addEventListener("input", function(){
+    const code = this.value.trim().toUpperCase();
+    let result = "— Ω";
 
-  document.getElementById("smd-result").textContent = result;
-});
+    if(/^\d{3}$/.test(code)){
+      result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
+      result = formatResistance(result);
+    } else if(/^\dR\d$/.test(code)){
+      result = code.replace("R",".") + " Ω";
+    }
+
+    smdResult.textContent = result;
+  });
+}
+
     /* ====== بداية JS البوكسات الجديدة ====== */
 // Capacitor Calculator + Visual
+// Capacitor Calculator
 const capValue = document.getElementById("cap-value");
 const capVoltage = document.getElementById("cap-voltage");
-const capResult = document.getElementById("cap-result");
-const capFill = document.querySelector(".cap-fill");
 
-[capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
+if (capValue && capVoltage) {
+  const capResult = document.getElementById("cap-result");
+  const capFill = document.querySelector(".cap-fill");
 
-function updateCap(){
-  const value = parseFloat(capValue.value);
-  const voltage = parseFloat(capVoltage.value);
-  if(!value || !voltage){
-    capResult.textContent = "—";
-    capFill.style.height = "0%";
-    return;
+  function updateCap(){
+    const value = parseFloat(capValue.value);
+    const voltage = parseFloat(capVoltage.value);
+
+    if(!value || !voltage){
+      capResult.textContent = "—";
+      capFill.style.height = "0%";
+      return;
+    }
+
+    capResult.textContent = `${value} µF @ ${voltage} V`;
+    capFill.style.height = Math.min(100, value) + "%";
   }
-  capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
-  let fillHeight = Math.min(100, value); // limit 100%
-  capFill.style.height = `${fillHeight}%`;
+
+  [capValue, capVoltage].forEach(el =>
+    el.addEventListener("input", updateCap)
+  );
 }
+
 
 // Power Calculator + Visual
 const volt = document.getElementById("volt");

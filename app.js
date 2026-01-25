@@ -790,34 +790,30 @@ function updatePower(){
 const modalContent = document.getElementById("calcContent");
 const sortieBtn = document.getElementById("sortieBtn");
 
-let originalBox = null;
+let activeBox = null;
 
-// كي تكليكي على أي calculator-box
 document.querySelectorAll(".calculator-box").forEach(box => {
   box.addEventListener("click", () => {
+    activeBox = box;
 
-    // نحفظ النسخة الأصلية
-    originalBox = box;
-
-    // ننسخو clone
-    const clone = box.cloneNode(true);
-    clone.classList.add("modal-box");
-
-    // نفرغ المحتوى القديم
+    // ننقل الـ box للأعلى داخل modal
     modalContent.innerHTML = "";
-    modalContent.appendChild(clone);
+    modalContent.appendChild(box);
 
-    // نطلع الـ modal
     modal.classList.add("active");
   });
 });
 
-// زر Sortie
 sortieBtn.addEventListener("click", () => {
   modal.classList.remove("active");
-  modalContent.innerHTML = "";
-  originalBox = null;
+
+  // نرجّع الـ box لمكانه الأصلي
+  if (activeBox) {
+    document.querySelector(".calculators-grid").appendChild(activeBox);
+    activeBox = null;
+  }
 });
+
 
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

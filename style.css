@@ -1247,6 +1247,66 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
+.projects-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 40px;
+}
+
+.project-box {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.project-box h2 {
+  margin-bottom: 10px;
+  color: #0d47a1;
+}
+
+.box-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.projects-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.project-card {
+  background: #f5f7fa;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.project-card h3 {
+  margin-bottom: 5px;
+}
+
+.project-card p {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.project-card button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.project-card button:hover {
+  background: #0d47a1;
+}
+
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

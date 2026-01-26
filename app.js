@@ -798,6 +798,17 @@ function updatePower(){
   const fillPercent = P ? Math.min(100, P) : 0;
   powerFill.style.width = fillPercent + "%";
 }
+    document.querySelectorAll("button[data-file]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const file = btn.getAttribute("data-file");
+    const link = document.createElement("a");
+    link.href = file;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+});
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();

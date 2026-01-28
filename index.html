@@ -11,6 +11,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
         rel="stylesheet">
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS externe -->
     <link rel="stylesheet" href="style.css" />
     <!-- Firebase SDK -->
@@ -22,25 +24,22 @@
 <body>
     <!-- خلفية المطر الإلكتروني – أول حاجة عشان يبقى تحت الكل -->
     <div id="rain-container"></div>
-
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
-            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" loading="lazy" />
             <h1 id="site-name">Atelier Electronique Médenine</h1>
         </div>
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news">تحميل الأخبار...</div>
         </div>
     </header>
-
     <main class="container main-content">
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count">عدد زوار الموقع: 0</div>
             <button id="toggle-lang-btn" class="btn-primary">تبديل اللغة</button>
         </section>
-
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
             <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
@@ -53,7 +52,6 @@
                 <button id="btn-close-popup" class="btn-close">إلغاء</button>
             </div>
         </div>
-
         <!-- CTA Buttons -->
         <section class="cta-buttons">
             <a href="download" class="btn-download">تحميل البرامج 📥</a>
@@ -73,9 +71,7 @@
                 <div class="bar"></div>
             </div>
         </section>
-
         <section class="experience-badge">أكثر من 10 سنوات خبرة</section>
-
         <!-- Weather + Rating جنب بعض – تنظيم pro -->
         <div class="weather-rating-grid">
             <!-- Box الطقس -->
@@ -86,7 +82,6 @@
                         <div class="temp-big" id="weather-temp">--°C</div>
                         <div class="wind-small" id="weather-desc">جاري التحميل...</div>
                     </div>
-
                     <div class="prayer-times" id="prayer-times">
                         <p>🌅 الفجر: --:--</p>
                         <p>🌄 الشروق: --:--</p>
@@ -95,13 +90,11 @@
                         <p>🌇 المغرب: --:--</p>
                         <p>🌙 العشاء: --:--</p>
                     </div>
-
                     <div class="mini-info">
                         <div class="mini-calendar">
                             <span id="today-miladi">جاري التحميل...</span>
                             <span id="today-hijri">جاري التحميل...</span>
                         </div>
-
                         <div class="daily-tips">
                             <p class="tips-title">نصيحة اليوم</p>
                             <ul id="tips-list"></ul>
@@ -109,7 +102,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Box التقييم -->
             <div class="rating-container">
                 <div class="rating-title" id="rating-title">قيم الورشة</div>
@@ -128,7 +120,6 @@
                 <div class="rating-message" id="rating-message"></div>
             </div>
         </div>
-
         <!-- FAQ الجديد – مع الأمواج -->
         <section class="faq">
             <div class="faq-container">
@@ -138,10 +129,9 @@
                         <span style="--i:0">ا</span><span style="--i:1">ل</span><span style="--i:2">أ</span><span style="--i:3">س</span><span style="--i:4">ئ</span><span style="--i:5">ل</span><span style="--i:6">ة</span><span style="--i:7"> </span><span style="--i:8">ا</span><span style="--i:9">ل</span><span style="--i:10">ل</span><span style="--i:11">ي</span><span style="--i:12"> </span><span style="--i:13">ف</span><span style="--i:14">ي</span><span style="--i:15"> </span><span style="--i:16">ب</span><span style="--i:17">ا</span><span style="--i:18">ل</span><span style="--i:19">ك</span>
                     </span>
                 </div>
-               
+              
                 <!-- الزر -->
                 <button id="faq-close-all" class="faq-close-all-btn">إخفاء الإجابات</button>
-
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-tools"></i> شنوّا الخدمات اللي عندكم يا خويا؟</div>
                     <div class="faq-answer">
@@ -154,35 +144,30 @@
                         <strong>ما نخدموش في</strong>: الراديو، التلفزيونات، التلفونات.
                     </div>
                 </div>
-<!-- FAQ الجديد – مع الأمواج -->
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-map-marker-alt"></i> وينكم بالضبط؟</div>
                     <div class="faq-answer">
                         مدنين – نهج ليبيا، بعد كوشة شامخ، في أول طلعة على يمينك . لو ضيّعت الطريق، اتصل!
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-phone"></i> نقدر نتصل قبل ما نجي؟</div>
                     <div class="faq-answer">
                         أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على <strong>98.192.103</strong>، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-clock"></i> كم ياخذ الوقت باش نصلح الكارت؟</div>
                     <div class="faq-answer">
                         يعتمد على العطل: تشخيص مجاني في الغالب، تصليح بسيط (تغيير كومبوننت) 1-3 أيام، مشاكل كبيرة (reballing، بورد معقدة...) ممكن 5-7 أيام. نتصل بيك دايما باش نعلمك.
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-shield-alt"></i> الضمان كيفاه؟</div>
                     <div class="faq-answer">
                         كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question"><i class="fas fa-tags"></i> الأسعار معقولة ولا غالية؟</div>
                     <div class="faq-answer">
@@ -191,13 +176,12 @@
                 </div>
             </div>
         </section>
-<section class="calculators-section">
-  <div class="calculators-grid">
 
+        <section class="calculators-section">
+  <div class="calculators-grid">
     <!-- Color Resistor Visual Ultra Max -->
   <div class="calculator-box color-resistor">
   <h3>🔴🟡🟢حساب المقاومة بالألوان </h3>
-
   <div class="bands-select">
     <select id="band1">
       <option value="0" data-color="#000000">أسود</option>
@@ -209,11 +193,9 @@
       <option value="6" data-color="#0000FF">أزرق</option>
       <option value="7" data-color="#800080">بنفسجي</option>
       <option value="8" data-color="#808080">رمادي</option>
-      <option value="9" data-color="#FFF">أبيض</option>
+      <option value="9" data-color="#FFFFFF">أبيض</option>
     </select>
-
     <select id="band2">
-      <!-- نفس الخيارات -->
       <option value="0" data-color="#000000">أسود</option>
       <option value="1" data-color="#8B4513">بني</option>
       <option value="2" data-color="#FF0000">أحمر</option>
@@ -223,11 +205,10 @@
       <option value="6" data-color="#0000FF">أزرق</option>
       <option value="7" data-color="#800080">بنفسجي</option>
       <option value="8" data-color="#808080">رمادي</option>
-      <option value="9" data-color="#FFF">أبيض</option>
+      <option value="9" data-color="#FFFFFF">أبيض</option>
     </select>
-
     <select id="multiplier">
-      <option value="1" data-color="#000">×1</option>
+      <option value="1" data-color="#000000">×1</option>
       <option value="10" data-color="#8B4513">×10</option>
       <option value="100" data-color="#FF0000">×100</option>
       <option value="1000" data-color="#FFA500">×1K</option>
@@ -235,7 +216,6 @@
       <option value="100000" data-color="#008000">×100K</option>
       <option value="1000000" data-color="#0000FF">×1M</option>
     </select>
-
     <select id="tolerance">
       <option value="1" data-color="#008000">±1%</option>
       <option value="2" data-color="#FF0000">±2%</option>
@@ -243,7 +223,6 @@
       <option value="10" data-color="#808080">±10%</option>
     </select>
   </div>
-
   <!-- Visual Bands -->
   <div class="resistor-visual">
     <div id="vis-band1" class="vis-band"></div>
@@ -251,23 +230,20 @@
     <div id="vis-mult" class="vis-band"></div>
     <div id="vis-tol" class="vis-band"></div>
   </div>
-
   <p id="resistor-result">— Ω</p>
 </div>
-
     <!-- SMD Resistor -->
     <div class="calculator-box smd-resistor">
       <h3>📦 حساب مقاومة SMD</h3>
       <input type="text" id="smdCode" placeholder="مثال: 103 أو 4R7" />
       <p id="smd-result">— Ω</p>
     </div>
-
   </div>
 </section>
+
         <!-- ====== بداية البوكسات الجديدة ====== -->
 <section class="calculators-section">
   <div class="calculators-grid">
-
     <!-- Capacitor Calculator -->
     <div class="calculator-box capacitor-calc">
       <h3>⚡ حساب المكثفات</h3>
@@ -278,7 +254,6 @@
       </div>
       <p id="cap-result">—</p>
     </div>
-
     <!-- Power Calculator -->
     <div class="calculator-box power-calc">
       <h3>🔌 حساب الطاقة (Watts)</h3>
@@ -290,16 +265,15 @@
       </div>
       <p id="power-result">— وات</p>
     </div>
-
   </div>
 </section>
+
 <!-- خدمات اليوم – slider أفقي pro + موج بحر -->
 <section class="services-today">
     <div class="services-header wave-header">
         <span class="wave-word" style="--delay: 0s">خدمات</span>
         <span class="wave-word" style="--delay: 0.3s">اليوم</span>
     </div>
-
     <div class="services-slider" id="servicesSlider">
         <div class="service-pro-card"
              data-title="تصليح لوحات إلكترونية"
@@ -308,7 +282,6 @@
             <img src="service1.webp" alt="تصليح لوحات إلكترونية" loading="lazy">
             <div class="service-overlay">لوحات إلكترونية</div>
         </div>
-
         <div class="service-pro-card"
              data-title="تصليح كارت جهاز المشي"
              data-desc="إصلاح كروت التحكم والمحركات لكل ماركات أجهزة المشي"
@@ -316,7 +289,6 @@
             <img src="service2.webp" alt="كارت جهاز مشي" loading="lazy">
             <div class="service-overlay">جهاز مشي</div>
         </div>
-
         <div class="service-pro-card"
              data-title="تصليح كارت غسالة"
              data-desc="إصلاح كروت الغسالات الأوتوماتيكية – كل الماركات"
@@ -324,7 +296,6 @@
             <img src="service3.webp" alt="تصليح كارت غسالة" loading="lazy">
             <div class="service-overlay">كارت غسالة</div>
         </div>
-
         <div class="service-pro-card"
              data-title="تصليح كارت تلفاز"
              data-desc="إصلاح لوحات التغذية والـ T-Con لجميع أنواع التلفزيونات"
@@ -332,7 +303,6 @@
             <img src="service4.webp" alt="تصليح كارت تلفاز" loading="lazy">
             <div class="service-overlay">كارت تلفاز</div>
         </div>
-
         <div class="service-pro-card"
              data-title="تصليح كارت غسالة LG"
              data-desc="تخصص في كروت LG – إصلاح سريع مع ضمان"
@@ -342,93 +312,78 @@
         </div>
     </div>
 </section>
+
 <section class="projects-section" id="arduino-projects">
   <h2 class="section-title">🔧 مشاريع أردوينو</h2>
-
   <div class="projects-grid">
-
     <!-- مشروع 1 -->
     <div class="project-card">
       <h3>نظام إنذار بالحركة</h3>
       <p>مشروع أردوينو باستعمال حساس PIR لتنبيه عند وجود حركة.</p>
-
       <a href="files/arduino/pir-alarm.pdf"
          class="download-btn"
          data-id="arduino-pir-alarm"
          target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-arduino-pir-alarm">0</span>
       </div>
     </div>
-
     <!-- مشروع 2 -->
     <div class="project-card">
       <h3>التحكم في الإضاءة عن بعد</h3>
       <p>تشغيل وإيقاف المصابيح عبر البلوتوث باستخدام Arduino.</p>
-
       <a href="files/arduino/bluetooth-light.pdf"
          class="download-btn"
          data-id="arduino-bluetooth-light"
          target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-arduino-bluetooth-light">0</span>
       </div>
     </div>
-
   </div>
 </section>
+
 <section class="projects-section" id="pfe-projects">
   <h2 class="section-title">🎓 مشاريع نهاية الدراسة</h2>
-
   <div class="projects-grid">
-
     <!-- مشروع 1 -->
     <div class="project-card">
       <h3>نظام مراقبة استهلاك الكهرباء</h3>
       <p>مشروع تخرج لقياس وتحليل استهلاك الطاقة في المنازل.</p>
-
       <a href="files/pfe/energy-monitoring.pdf"
          class="download-btn"
          data-id="pfe-energy-monitoring"
          target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-pfe-energy-monitoring">0</span>
       </div>
     </div>
-
     <!-- مشروع 2 -->
     <div class="project-card">
       <h3>نظام تحكم ذكي في المنازل</h3>
       <p>مشروع نهاية دراسة للتحكم في الأجهزة المنزلية عبر الهاتف.</p>
-
       <a href="files/pfe/smart-home.pdf"
          class="download-btn"
          data-id="pfe-smart-home"
          target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-pfe-smart-home">0</span>
       </div>
     </div>
-
   </div>
 </section>
-
 
 <!-- فيديو اليوم – slider أفقي pro -->
 <section class="videos-today">
@@ -436,7 +391,6 @@
         <span class="wave-word" style="--delay: 0s">فيديو</span>
         <span class="wave-word" style="--delay: 0.3s">اليوم</span>
     </div>
-
     <div class="videos-slider" id="videoSlider">
         <div class="video-pro-card"
              data-title="فحص بوردة كامل"
@@ -445,7 +399,6 @@
             <video src="video1.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">فحص بوردة</div>
         </div>
-
         <div class="video-pro-card"
              data-title="إصلاح لوحة إلكترونية"
              data-desc="خطوات إصلاح لوحة تغذية مع أدوات دقيقة"
@@ -453,7 +406,6 @@
             <video src="video2.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">إصلاح لوحة</div>
         </div>
-
         <div class="video-pro-card"
              data-title="فحص تغذية كارت"
              data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
@@ -461,7 +413,6 @@
             <video src="video3.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">تغذية كارت</div>
         </div>
-
         <div class="video-pro-card"
              data-title="فحص تغذية كارت"
              data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
@@ -469,7 +420,6 @@
             <video src="video4.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">تغذية كارت</div>
         </div>
-
         <div class="video-pro-card"
              data-title="فحص تغذية كارت"
              data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
@@ -479,116 +429,97 @@
         </div>
     </div>
 </section>
-<section class="projects-section" id="electronic-courses">
 
+<section class="projects-section" id="electronic-courses">
   <h2 class="section-title">📚 كورسات إلكترونية</h2>
   <p class="section-desc">
     تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية وتمارين.
   </p>
-
   <div class="projects-grid">
-
     <!-- كورس 1 -->
     <div class="project-card">
       <h3>أساسيات المقاومة والمكثف</h3>
       <p>شرح كيفية استخدام المقاومات والمكثفات في الدوائر البسيطة.</p>
-
       <a href="files/cours-resistor-capacitor.pdf"
          class="download-btn"
          data-id="course-resistor-capacitor"
          target="_blank" rel="noopener">
         📥 تحميل الدرس
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-course-resistor-capacitor">0</span>
       </div>
     </div>
-
     <!-- كورس 2 -->
     <div class="project-card">
       <h3>الترانزستور والديود</h3>
       <p>فهم الترانزستورات والديودات وكيفية ربطها في الدوائر.</p>
-
       <a href="files/cours-transistor-diode.pdf"
          class="download-btn"
          data-id="course-transistor-diode"
          target="_blank" rel="noopener">
         📥 تحميل الدرس
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-course-transistor-diode">0</span>
       </div>
     </div>
-
   </div>
 </section>
-<section class="projects-section" id="electronic-schematics">
 
+<section class="projects-section" id="electronic-schematics">
   <h2 class="section-title">💡 شيمات إلكترونية</h2>
   <p class="section-desc">
     مجموعة شيمات حقيقية لكروت الغسالات، الكليما، وأجهزة أخرى للرجوع إليها أثناء التصليح.
   </p>
-
   <div class="projects-grid">
-
     <!-- شيم 1 -->
     <div class="project-card">
       <h3>كارت غسالة Samsung</h3>
       <p>الشيم الكامل لكارت الغسالات Samsung.</p>
-
       <a href="files/schematics/samsung-washer.pdf"
          class="download-btn"
          data-id="schema-samsung-washer"
          target="_blank" rel="noopener">
         📥 تحميل الشيم
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-schema-samsung-washer">0</span>
       </div>
     </div>
-
     <!-- شيم 2 -->
     <div class="project-card">
       <h3>كارت كليما LG</h3>
       <p>الدائرة الكهربائية لكارت الكليما LG.</p>
-
       <a href="files/schematics/lg-ac.pdf"
          class="download-btn"
          data-id="schema-lg-ac"
          target="_blank" rel="noopener">
         📥 تحميل الشيم
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-schema-lg-ac">0</span>
       </div>
     </div>
-
     <!-- شيم 3 -->
     <div class="project-card">
       <h3>كروت صناعية</h3>
       <p>شيمات لمختلف الكروت الإلكترونية الصناعية.</p>
-
       <a href="files/schematics/industrial-boards.pdf"
          class="download-btn"
          data-id="schema-industrial-boards"
          target="_blank" rel="noopener">
         📥 تحميل الشيم
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-schema-industrial-boards">0</span>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -599,7 +530,6 @@
         <span class="wave-word" style="--delay: 0.3s">ماكينات</span>
         <span class="wave-word" style="--delay: 0.6s">لحام</span>
     </div>
-
     <div class="postes-slider" id="postesSlider">
         <div class="poste-pro-card"
              data-title="Inverter MMA-300s"
@@ -608,7 +538,6 @@
             <img src="poste1.webp" alt="Inverter MMA-300s" loading="lazy">
             <div class="poste-overlay">MMA-300s</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="OXOUXIANG MMA 185"
              data-desc="إصلاح سريع لماكينات اللحام الصغيرة والمتوسطة"
@@ -616,7 +545,6 @@
             <img src="poste2.webp" alt="OXOUXIANG MMA 185" loading="lazy">
             <div class="poste-overlay">MMA 185</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="Telwin Machine"
              data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
@@ -624,7 +552,6 @@
             <img src="poste3.webp" alt="Telwin Machine" loading="lazy">
             <div class="poste-overlay">Telwin</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="Telwin Machine"
              data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
@@ -632,7 +559,6 @@
             <img src="poste4.webp" alt="Telwin Machine" loading="lazy">
             <div class="poste-overlay">Telwin</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="Telwin Machine"
              data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
@@ -642,15 +568,13 @@
         </div>
     </div>
 </section>
-     <section class="projects-section" id="useful-tools">
 
+     <section class="projects-section" id="useful-tools">
   <h2 class="section-title">🧰 أدوات مفيدة</h2>
   <p class="section-desc">
     روابط تحميل رسمية وآمنة لأهم الأدوات المستعملة على الحاسوب.
   </p>
-
   <div class="projects-grid">
-
     <div class="project-card">
       <h3>Google Chrome</h3>
       <p>متصفح سريع وآمن من Google.</p>
@@ -665,7 +589,6 @@
         <span id="count-tool-chrome">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>Mozilla Firefox</h3>
       <p>متصفح مفتوح المصدر من Mozilla.</p>
@@ -680,7 +603,6 @@
         <span id="count-tool-firefox">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>Adobe Reader</h3>
       <p>قارئ ملفات PDF.</p>
@@ -695,7 +617,6 @@
         <span id="count-tool-adobe-reader">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>VLC Media Player</h3>
       <p>مشغل فيديو وصوت مفتوح المصدر.</p>
@@ -710,7 +631,6 @@
         <span id="count-tool-vlc">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>WinRAR</h3>
       <p>ضغط وفك ضغط الملفات.</p>
@@ -725,18 +645,15 @@
         <span id="count-tool-winrar">0</span>
       </div>
     </div>
-
   </div>
 </section>
-<section class="projects-section" id="educational-software">
 
+<section class="projects-section" id="educational-software">
   <h2 class="section-title">💻 برامج تعليمية و تصميم</h2>
   <p class="section-desc">
     برامج مفيدة للتعلم، البرمجة، والتصميم.
   </p>
-
   <div class="projects-grid">
-
     <div class="project-card">
       <h3>Scratch</h3>
       <p>تعلم البرمجة للمبتدئين بطريقة سهلة.</p>
@@ -751,7 +668,6 @@
         <span id="count-software-scratch">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>Arduino IDE</h3>
       <p>برمجة لوحات Arduino.</p>
@@ -766,7 +682,6 @@
         <span id="count-software-arduino">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>Adobe Photoshop</h3>
       <p>برنامج احترافي لتعديل الصور.</p>
@@ -781,7 +696,6 @@
         <span id="count-software-photoshop">0</span>
       </div>
     </div>
-
     <div class="project-card">
       <h3>Canva</h3>
       <p>تصميم سهل للصور والمنشورات.</p>
@@ -796,7 +710,6 @@
         <span id="count-software-canva">0</span>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -804,7 +717,7 @@
 
     <footer>
         <div class="container footer-inner">
-            <p>📍 مدنين – نخدمو في كامل أنحاء تونس | 
+            <p>📍 مدنين – نخدمو في كامل أنحاء تونس |
                 📲 WhatsApp: 98192103</p>
             <p>⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة</p>
             <div class="social-icons">
@@ -845,7 +758,6 @@
         'transistor.png',
         'ic.png'
       ];
-
       function createComponent() {
         const el = document.createElement('div');
         el.className = 'falling-component';
@@ -864,7 +776,6 @@
         document.getElementById('rain-container').appendChild(el);
         setTimeout(() => el.remove(), duration * 1000 + 2000);
       }
-
       setInterval(createComponent, 2500);
     </script>
 </body>

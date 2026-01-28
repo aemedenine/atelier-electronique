@@ -809,6 +809,22 @@ function updatePower(){
     document.body.removeChild(link);
   });
 });
+    document.querySelectorAll('.download-btn').forEach(btn => {
+  const id = btn.dataset.id;
+  const counter = document.getElementById(`count-${id}`);
+
+  // قراءة العداد
+  let count = localStorage.getItem(`downloads_${id}`) || 0;
+  counter.textContent = count;
+
+  // عند الضغط
+  btn.addEventListener('click', () => {
+    count++;
+    localStorage.setItem(`downloads_${id}`, count);
+    counter.textContent = count;
+  });
+});
+
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();

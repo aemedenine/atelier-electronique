@@ -809,30 +809,97 @@ function updatePower(){
     document.body.removeChild(link);
   });
 });
-// ===== Download Counter with Firebase =====
+// ===== Download avec animation + compteur + redirect =====
 document.addEventListener('DOMContentLoaded', () => {
   const db = firebase.database();
 
   document.querySelectorAll('.download-btn').forEach(btn => {
-    const id = btn.dataset.id;
-    const counter = document.getElementById(`count-${id}`);
-    if (!counter) return;
+    const id          = btn.dataset.id;               // ex: "fichier1", "schéma-v2", etc.
+    const fileUrl     = btn.dataset.file || btn.href; // ← important : mets data-file="https://..." dans HTML
+    const counterEl   = document.getElementById(`count-${id}`);
+    const btnText     = btn.querySelector('span') || btn; // si tu as <span> dans le bouton
 
-    const ref = db.ref(`downloads/${id}`);
+    if (!id || !fileUrl || !counterEl) {
+      console.warn("Bouton download incomplet →", btn);
+      return;
+    }
 
-    // قراءة العدد من Firebase
-    ref.on('value', snap => {
-      counter.textContent = snap.val() || 0;
+    const downloadsRef = db.ref(`downloads/${id}`);
+
+    // Afficher compteur live
+    downloadsRef.on('value', snap => {
+      counterEl.textContent = snap.val() || 0;
     });
 
-    // عند الكليك
-    btn.addEventListener('click', e => {
-      // نخلي التحميل يمشي عادي
-      ref.transaction(val => (val || 0) + 1);
+    // Click → animation + +1 + redirect
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault(); // empêche le href direct si y a un <a>
+
+      if (btn.classList.contains('downloading')) return;
+
+      // ── État downloading ────────────────────────────────
+      btn.classList.add('downloading');
+      const originalText = btnText.textContent;
+      btnText.textContent = 'جاري التحميل...';
+      btn.disabled = true;
+
+      // ── Progress bar (optionnel – si tu as .progress dans le bouton ou ailleurs)
+      let progressEl = btn.querySelector('.progress') || document.createElement('div');
+      if (!btn.querySelector('.progress')) {
+        progressEl.className = 'progress';
+        btn.appendChild(progressEl);
+      }
+      progressEl.style.width = '0%';
+
+      // Simulation progression
+      let percent = 0;
+      const fakeInterval = setInterval(() => {
+        percent += Math.random() * 18 + 5;
+        if (percent > 92) percent = 92;
+        progressEl.style.width = percent + '%';
+      }, 220);
+
+      try {
+        // +1 atomique dans Firebase
+        await downloadsRef.transaction(val => (val || 0) + 1);
+
+        // Attendre un minimum pour le feeling (1.8 à 3 secondes)
+        await new Promise(resolve => setTimeout(resolve, 1800 + Math.random() * 800));
+
+        // Fin simulation
+        clearInterval(fakeInterval);
+        progressEl.style.width = '100%';
+
+        await new Promise(r => setTimeout(r, 400));
+
+        // Redirect / download réel
+        if (fileUrl.startsWith('http')) {
+          window.open(fileUrl, '_blank');          // ouvre nouvel onglet (recommandé)
+          // OU : window.location.href = fileUrl;  // change la page actuelle
+        } else {
+          console.warn("Lien invalide:", fileUrl);
+        }
+
+      } catch (err) {
+        console.error("Erreur download counter:", err);
+        clearInterval(fakeInterval);
+        btnText.textContent = 'خطأ – حاول مرة أخرى';
+        setTimeout(() => {
+          btnText.textContent = originalText;
+          progressEl.style.width = '0%';
+        }, 3000);
+      } finally {
+        // Reset bouton après 1 seconde supplémentaire
+        setTimeout(() => {
+          btn.classList.remove('downloading');
+          btnText.textContent = originalText;
+          btn.disabled = false;
+          if (progressEl.parentNode) progressEl.style.width = '0%';
+        }, 1200);
+      }
     });
   });
 });
-
 
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

@@ -342,13 +342,12 @@
         </div>
     </div>
 </section>
-<!-- قسم المشاريع – قبل الفوتر مباشرة -->
-
-<section class="projects-section">
+<section class="projects-section" id="arduino-projects">
   <h2 class="section-title">🔧 مشاريع أردوينو</h2>
 
   <div class="projects-grid">
 
+    <!-- مشروع 1 -->
     <div class="project-card">
       <h3>نظام إنذار بالحركة</h3>
       <p>مشروع أردوينو باستعمال حساس PIR لتنبيه عند وجود حركة.</p>
@@ -356,15 +355,17 @@
       <a href="files/arduino/pir-alarm.pdf"
          class="download-btn"
          data-id="arduino-pir-alarm"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
 
       <div class="download-count">
-        🔢 عدد التحميلات: <span id="count-arduino-pir-alarm">0</span>
+        🔢 عدد التحميلات:
+        <span id="count-arduino-pir-alarm">0</span>
       </div>
     </div>
 
+    <!-- مشروع 2 -->
     <div class="project-card">
       <h3>التحكم في الإضاءة عن بعد</h3>
       <p>تشغيل وإيقاف المصابيح عبر البلوتوث باستخدام Arduino.</p>
@@ -372,23 +373,24 @@
       <a href="files/arduino/bluetooth-light.pdf"
          class="download-btn"
          data-id="arduino-bluetooth-light"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
 
       <div class="download-count">
-        🔢 عدد التحميلات: <span id="count-arduino-bluetooth-light">0</span>
+        🔢 عدد التحميلات:
+        <span id="count-arduino-bluetooth-light">0</span>
       </div>
     </div>
+
   </div>
 </section>
-
-  <!-- BOX PROJETS FIN D'ÉTUDES -->
-  <section class="projects-section">
+<section class="projects-section" id="pfe-projects">
   <h2 class="section-title">🎓 مشاريع نهاية الدراسة</h2>
 
   <div class="projects-grid">
 
+    <!-- مشروع 1 -->
     <div class="project-card">
       <h3>نظام مراقبة استهلاك الكهرباء</h3>
       <p>مشروع تخرج لقياس وتحليل استهلاك الطاقة في المنازل.</p>
@@ -396,15 +398,17 @@
       <a href="files/pfe/energy-monitoring.pdf"
          class="download-btn"
          data-id="pfe-energy-monitoring"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
 
       <div class="download-count">
-        🔢 عدد التحميلات: <span id="count-pfe-energy-monitoring">0</span>
+        🔢 عدد التحميلات:
+        <span id="count-pfe-energy-monitoring">0</span>
       </div>
     </div>
 
+    <!-- مشروع 2 -->
     <div class="project-card">
       <h3>نظام تحكم ذكي في المنازل</h3>
       <p>مشروع نهاية دراسة للتحكم في الأجهزة المنزلية عبر الهاتف.</p>
@@ -412,17 +416,19 @@
       <a href="files/pfe/smart-home.pdf"
          class="download-btn"
          data-id="pfe-smart-home"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل المشروع
       </a>
 
       <div class="download-count">
-        🔢 عدد التحميلات: <span id="count-pfe-smart-home">0</span>
+        🔢 عدد التحميلات:
+        <span id="count-pfe-smart-home">0</span>
       </div>
     </div>
 
   </div>
 </section>
+
 
 <!-- فيديو اليوم – slider أفقي pro -->
 <section class="videos-today">
@@ -473,40 +479,55 @@
         </div>
     </div>
 </section>
-<!-- ====== قسم الكورسات و الشيمات – بعد خدمات اليوم ====== -->
-<section class="projects-section">
-  <!-- BOX COURS ÉLECTRONIQUE -->
-  <div class="project-box">
-    <h2>📚 كورسات إلكترونية</h2>
-    <p class="box-desc">
-      تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية وتمارين.
-    </p>
+<section class="projects-section" id="electronic-courses">
 
-    <div class="projects-grid">
-      <div class="project-card">
-        <h3>أساسيات المقاومة والمكثف</h3>
-        <p>شرح كيفية استخدام المقاومات والمكثفات في الدوائر البسيطة.</p>
-        <button data-file="files/cours-resistor-capacitor.pdf">📥 تحميل الدرس</button>
-      </div>
-<div class="download-count">
-  🔢 عدد التحميلات: <span id="count-chrome">0</span>
-</div>
+  <h2 class="section-title">📚 كورسات إلكترونية</h2>
+  <p class="section-desc">
+    تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية وتمارين.
+  </p>
 
-      <div class="project-card">
-        <h3>الترانزستور والديود</h3>
-        <p>فهم الترانزستورات والديودات وكيفية ربطها في الدوائر.</p>
-        <button data-file="files/cours-transistor-diode.pdf">📥 تحميل الدرس</button>
+  <div class="projects-grid">
+
+    <!-- كورس 1 -->
+    <div class="project-card">
+      <h3>أساسيات المقاومة والمكثف</h3>
+      <p>شرح كيفية استخدام المقاومات والمكثفات في الدوائر البسيطة.</p>
+
+      <a href="files/cours-resistor-capacitor.pdf"
+         class="download-btn"
+         data-id="course-resistor-capacitor"
+         target="_blank" rel="noopener">
+        📥 تحميل الدرس
+      </a>
+
+      <div class="download-count">
+        🔢 عدد التحميلات:
+        <span id="count-course-resistor-capacitor">0</span>
       </div>
-        <div class="download-count">
-  🔢 عدد التحميلات: <span id="count-chrome">0</span>
-</div>
     </div>
+
+    <!-- كورس 2 -->
+    <div class="project-card">
+      <h3>الترانزستور والديود</h3>
+      <p>فهم الترانزستورات والديودات وكيفية ربطها في الدوائر.</p>
+
+      <a href="files/cours-transistor-diode.pdf"
+         class="download-btn"
+         data-id="course-transistor-diode"
+         target="_blank" rel="noopener">
+        📥 تحميل الدرس
+      </a>
+
+      <div class="download-count">
+        🔢 عدد التحميلات:
+        <span id="count-course-transistor-diode">0</span>
+      </div>
+    </div>
+
   </div>
 </section>
+<section class="projects-section" id="electronic-schematics">
 
-
-  <!-- BOX SCHÉMAS ÉLECTRONIQUES -->
-<section class="projects-section">
   <h2 class="section-title">💡 شيمات إلكترونية</h2>
   <p class="section-desc">
     مجموعة شيمات حقيقية لكروت الغسالات، الكليما، وأجهزة أخرى للرجوع إليها أثناء التصليح.
@@ -514,6 +535,7 @@
 
   <div class="projects-grid">
 
+    <!-- شيم 1 -->
     <div class="project-card">
       <h3>كارت غسالة Samsung</h3>
       <p>الشيم الكامل لكارت الغسالات Samsung.</p>
@@ -521,7 +543,7 @@
       <a href="files/schematics/samsung-washer.pdf"
          class="download-btn"
          data-id="schema-samsung-washer"
-         target="_blank">
+         target="_blank" rel="noopener">
         📥 تحميل الشيم
       </a>
 
@@ -531,6 +553,7 @@
       </div>
     </div>
 
+    <!-- شيم 2 -->
     <div class="project-card">
       <h3>كارت كليما LG</h3>
       <p>الدائرة الكهربائية لكارت الكليما LG.</p>
@@ -538,7 +561,7 @@
       <a href="files/schematics/lg-ac.pdf"
          class="download-btn"
          data-id="schema-lg-ac"
-         target="_blank">
+         target="_blank" rel="noopener">
         📥 تحميل الشيم
       </a>
 
@@ -547,9 +570,8 @@
         <span id="count-schema-lg-ac">0</span>
       </div>
     </div>
-  </div>
-</section>
 
+    <!-- شيم 3 -->
     <div class="project-card">
       <h3>كروت صناعية</h3>
       <p>شيمات لمختلف الكروت الإلكترونية الصناعية.</p>
@@ -557,7 +579,7 @@
       <a href="files/schematics/industrial-boards.pdf"
          class="download-btn"
          data-id="schema-industrial-boards"
-         target="_blank">
+         target="_blank" rel="noopener">
         📥 تحميل الشيم
       </a>
 
@@ -620,7 +642,8 @@
         </div>
     </div>
 </section>
-       <section class="projects-section">
+     <section class="projects-section" id="useful-tools">
+
   <h2 class="section-title">🧰 أدوات مفيدة</h2>
   <p class="section-desc">
     روابط تحميل رسمية وآمنة لأهم الأدوات المستعملة على الحاسوب.
@@ -631,14 +654,12 @@
     <div class="project-card">
       <h3>Google Chrome</h3>
       <p>متصفح سريع وآمن من Google.</p>
-
       <a href="https://www.google.com/chrome/"
          class="download-btn"
          data-id="tool-chrome"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-tool-chrome">0</span>
@@ -648,14 +669,12 @@
     <div class="project-card">
       <h3>Mozilla Firefox</h3>
       <p>متصفح مفتوح المصدر من Mozilla.</p>
-
       <a href="https://www.mozilla.org/firefox/"
          class="download-btn"
          data-id="tool-firefox"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-tool-firefox">0</span>
@@ -665,14 +684,12 @@
     <div class="project-card">
       <h3>Adobe Reader</h3>
       <p>قارئ ملفات PDF.</p>
-
       <a href="https://get.adobe.com/reader/"
          class="download-btn"
          data-id="tool-adobe-reader"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-tool-adobe-reader">0</span>
@@ -682,14 +699,12 @@
     <div class="project-card">
       <h3>VLC Media Player</h3>
       <p>مشغل فيديو وصوت مفتوح المصدر.</p>
-
       <a href="https://www.videolan.org/vlc/"
          class="download-btn"
          data-id="tool-vlc"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-tool-vlc">0</span>
@@ -699,23 +714,22 @@
     <div class="project-card">
       <h3>WinRAR</h3>
       <p>ضغط وفك ضغط الملفات.</p>
-
       <a href="https://www.win-rar.com/download.html"
          class="download-btn"
          data-id="tool-winrar"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-tool-winrar">0</span>
       </div>
     </div>
+
   </div>
 </section>
+<section class="projects-section" id="educational-software">
 
-<section class="projects-section">
   <h2 class="section-title">💻 برامج تعليمية و تصميم</h2>
   <p class="section-desc">
     برامج مفيدة للتعلم، البرمجة، والتصميم.
@@ -726,14 +740,12 @@
     <div class="project-card">
       <h3>Scratch</h3>
       <p>تعلم البرمجة للمبتدئين بطريقة سهلة.</p>
-
       <a href="https://scratch.mit.edu/download"
          class="download-btn"
          data-id="software-scratch"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-software-scratch">0</span>
@@ -743,14 +755,12 @@
     <div class="project-card">
       <h3>Arduino IDE</h3>
       <p>برمجة لوحات Arduino.</p>
-
       <a href="https://www.arduino.cc/en/software"
          class="download-btn"
          data-id="software-arduino"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-software-arduino">0</span>
@@ -760,14 +770,12 @@
     <div class="project-card">
       <h3>Adobe Photoshop</h3>
       <p>برنامج احترافي لتعديل الصور.</p>
-
       <a href="https://www.adobe.com/products/photoshop.html"
          class="download-btn"
          data-id="software-photoshop"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-software-photoshop">0</span>
@@ -777,14 +785,12 @@
     <div class="project-card">
       <h3>Canva</h3>
       <p>تصميم سهل للصور والمنشورات.</p>
-
       <a href="https://www.canva.com/"
          class="download-btn"
          data-id="software-canva"
-         target="_blank">
+         target="_blank" rel="noopener">
         ⬇️ تحميل ملف
       </a>
-
       <div class="download-count">
         🔢 عدد التحميلات:
         <span id="count-software-canva">0</span>
@@ -793,7 +799,6 @@
 
   </div>
 </section>
-
 
   </main>
 

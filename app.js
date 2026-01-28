@@ -809,30 +809,29 @@ function updatePower(){
     document.body.removeChild(link);
   });
 });
-    document.querySelectorAll('.download-btn').forEach(btn => {
+   // ===== Download Counter (Event Delegation) =====
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.download-btn');
+  if (!btn) return;
+
   const id = btn.dataset.id;
   const counter = document.getElementById(`count-${id}`);
+  if (!counter) return;
 
-  // قراءة العداد
-  let count = localStorage.getItem(`downloads_${id}`) || 0;
-  counter.textContent = count;
+  e.preventDefault();
 
-  btn.addEventListener('click', (e) => {
-  e.preventDefault(); // نحبس التنقل مؤقتاً
-
+  let count = parseInt(localStorage.getItem(`downloads_${id}`)) || 0;
   count++;
+
   localStorage.setItem(`downloads_${id}`, count);
   counter.textContent = count;
 
   const url = btn.href;
-
-  // نفتح الرابط بعد 200ms
   setTimeout(() => {
     window.open(url, '_blank');
   }, 200);
 });
 
-});
 
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────

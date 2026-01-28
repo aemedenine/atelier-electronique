@@ -809,28 +809,30 @@ function updatePower(){
     document.body.removeChild(link);
   });
 });
-   // ===== Download Counter (Event Delegation) =====
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.download-btn');
-  if (!btn) return;
+// ===== Download Counter with Firebase =====
+document.addEventListener('DOMContentLoaded', () => {
+  const db = firebase.database();
 
-  const id = btn.dataset.id;
-  const counter = document.getElementById(`count-${id}`);
-  if (!counter) return;
+  document.querySelectorAll('.download-btn').forEach(btn => {
+    const id = btn.dataset.id;
+    const counter = document.getElementById(`count-${id}`);
+    if (!counter) return;
 
-  e.preventDefault();
+    const ref = db.ref(`downloads/${id}`);
 
-  let count = parseInt(localStorage.getItem(`downloads_${id}`)) || 0;
-  count++;
+    // قراءة العدد من Firebase
+    ref.on('value', snap => {
+      counter.textContent = snap.val() || 0;
+    });
 
-  localStorage.setItem(`downloads_${id}`, count);
-  counter.textContent = count;
-
-  const url = btn.href;
-  setTimeout(() => {
-    window.open(url, '_blank');
-  }, 200);
+    // عند الكليك
+    btn.addEventListener('click', e => {
+      // نخلي التحميل يمشي عادي
+      ref.transaction(val => (val || 0) + 1);
+    });
+  });
 });
+
 
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

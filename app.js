@@ -817,12 +817,21 @@ function updatePower(){
   let count = localStorage.getItem(`downloads_${id}`) || 0;
   counter.textContent = count;
 
-  // عند الضغط
-  btn.addEventListener('click', () => {
-    count++;
-    localStorage.setItem(`downloads_${id}`, count);
-    counter.textContent = count;
-  });
+  btn.addEventListener('click', (e) => {
+  e.preventDefault(); // نحبس التنقل مؤقتاً
+
+  count++;
+  localStorage.setItem(`downloads_${id}`, count);
+  counter.textContent = count;
+
+  const url = btn.href;
+
+  // نفتح الرابط بعد 200ms
+  setTimeout(() => {
+    window.open(url, '_blank');
+  }, 200);
+});
+
 });
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

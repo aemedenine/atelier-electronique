@@ -342,59 +342,112 @@
         </div>
     </div>
 </section>
-<!-- قسم المشاريع – قبل الفوتر مباشرة -->
+<!-- خدمات اليوم – slider أفقي pro + موج بحر -->
+<section class="services-today">
+    <div class="services-header wave-header">
+        <span class="wave-word" style="--delay: 0s">خدمات</span>
+        <span class="wave-word" style="--delay: 0.3s">اليوم</span>
+    </div>
+    <div class="services-slider" id="servicesSlider">
+        <div class="service-pro-card"
+             data-title="تصليح لوحات إلكترونية"
+             data-desc="فحص دقيق وإصلاح كامل للبوردات المعقدة بأحدث الأجهزة"
+             data-price="من 35 دينار">
+            <img src="service1.webp" alt="تصليح لوحات إلكترونية" loading="lazy">
+            <div class="service-overlay">لوحات إلكترونية</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت جهاز المشي"
+             data-desc="إصلاح كروت التحكم والمحركات لكل ماركات أجهزة المشي"
+             data-price="من 50 دينار">
+            <img src="service2.webp" alt="كارت جهاز مشي" loading="lazy">
+            <div class="service-overlay">جهاز مشي</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت غسالة"
+             data-desc="إصلاح كروت الغسالات الأوتوماتيكية – كل الماركات"
+             data-price="من 45 دينار">
+            <img src="service3.webp" alt="تصليح كارت غسالة" loading="lazy">
+            <div class="service-overlay">كارت غسالة</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت تلفاز"
+             data-desc="إصلاح لوحات التغذية والـ T-Con لجميع أنواع التلفزيونات"
+             data-price="من 60 دينار">
+            <img src="service4.webp" alt="تصليح كارت تلفاز" loading="lazy">
+            <div class="service-overlay">كارت تلفاز</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت غسالة LG"
+             data-desc="تخصص في كروت LG – إصلاح سريع مع ضمان"
+             data-price="من 55 دينار">
+            <img src="service5.webp" alt="كارت غسالة LG" loading="lazy">
+            <div class="service-overlay">كارت LG</div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم المشاريع -->
 <section class="projects-section">
-  <!-- BOX PROJETS ARDUINO -->
+  <!-- مشاريع أردوينو -->
   <div class="project-box">
     <h2>🔧 مشاريع أردوينو</h2>
-    <p class="box-desc">
-      مجموعة مشاريع أردوينو مفسّرة خطوة بخطوة، مع الكود، الدائرة الإلكترونية، وملف التحميل.
-    </p>
-
+    <p class="box-desc">مجموعة مشاريع أردوينو مفسّرة خطوة بخطوة، مع الكود، الدائرة الإلكترونية، وملف التحميل.</p>
     <div class="projects-grid">
       <div class="project-card">
         <h3>تشغيل إضاءة ذكية</h3>
         <p>مشروع تشغيل وإطفاء مصباح باستعمال Arduino و Relay.</p>
-        <button data-file="files/arduino-smart-light.pdf">📥 تحميل المشروع</button>
+        <button class="download-btn" data-id="arduino-smart-light" data-file="files/arduino-smart-light.pdf">
+          📥 تحميل المشروع
+          <small>(<span id="count-arduino-smart-light">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-arduino-smart-light"></div></div>
       </div>
-
       <div class="project-card">
         <h3>قياس درجة الحرارة</h3>
         <p>قراءة درجة الحرارة وعرضها على شاشة LCD.</p>
-        <button data-file="files/arduino-temperature.pdf">📥 تحميل المشروع</button>
+        <button class="download-btn" data-id="arduino-temperature" data-file="files/arduino-temperature.pdf">
+          📥 تحميل المشروع
+          <small>(<span id="count-arduino-temperature">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-arduino-temperature"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- BOX PROJETS FIN D'ÉTUDES -->
+  <!-- مشاريع التخرج -->
   <div class="project-box">
     <h2>🎓 مشاريع التخرّج</h2>
-    <p class="box-desc">
-      مشاريع تخرّج جاهزة للطلبة (PDF أو Word) للاستئناس والمراجعة.
-    </p>
-
+    <p class="box-desc">مشاريع تخرّج جاهزة للطلبة (PDF أو Word) للاستئناس والمراجعة.</p>
     <div class="projects-grid">
       <div class="project-card">
         <h3>نظام إدارة المخزون</h3>
         <p>مشروع لإدارة المخزون مع تقرير كامل وقاعدة بيانات.</p>
-        <button data-file="files/pfe-gestion-stock.pdf">📥 تحميل المشروع</button>
+        <button class="download-btn" data-id="pfe-gestion-stock" data-file="files/pfe-gestion-stock.pdf">
+          📥 تحميل المشروع
+          <small>(<span id="count-pfe-gestion-stock">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-pfe-gestion-stock"></div></div>
       </div>
-
       <div class="project-card">
         <h3>منزل ذكي (Smart Home)</h3>
         <p>مشروع منزل ذكي باستعمال Arduino و ESP8266.</p>
-        <button data-file="files/pfe-smart-home.docx">📥 تحميل المشروع</button>
+        <button class="download-btn" data-id="pfe-smart-home" data-file="files/pfe-smart-home.docx">
+          📥 تحميل المشروع
+          <small>(<span id="count-pfe-smart-home">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-pfe-smart-home"></div></div>
       </div>
     </div>
   </div>
 </section>
-<!-- فيديو اليوم – slider أفقي pro -->
+
+<!-- فيديو اليوم -->
 <section class="videos-today">
     <div class="videos-header wave-header">
         <span class="wave-word" style="--delay: 0s">فيديو</span>
         <span class="wave-word" style="--delay: 0.3s">اليوم</span>
     </div>
-
     <div class="videos-slider" id="videoSlider">
         <div class="video-pro-card"
              data-title="فحص بوردة كامل"
@@ -403,7 +456,6 @@
             <video src="video1.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">فحص بوردة</div>
         </div>
-
         <div class="video-pro-card"
              data-title="إصلاح لوحة إلكترونية"
              data-desc="خطوات إصلاح لوحة تغذية مع أدوات دقيقة"
@@ -411,7 +463,6 @@
             <video src="video2.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">إصلاح لوحة</div>
         </div>
-
         <div class="video-pro-card"
              data-title="فحص تغذية كارت"
              data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
@@ -419,7 +470,6 @@
             <video src="video3.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">تغذية كارت</div>
         </div>
-
         <div class="video-pro-card"
              data-title="فحص تغذية كارت"
              data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
@@ -427,7 +477,6 @@
             <video src="video4.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">تغذية كارت</div>
         </div>
-
         <div class="video-pro-card"
              data-title="فحص تغذية كارت"
              data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
@@ -437,67 +486,80 @@
         </div>
     </div>
 </section>
-<!-- ====== قسم الكورسات و الشيمات – بعد خدمات اليوم ====== -->
+
+<!-- كورسات و شيمات -->
 <section class="projects-section">
-  <!-- BOX COURS ÉLECTRONIQUE -->
   <div class="project-box">
     <h2>📚 كورسات إلكترونية</h2>
     <p class="box-desc">
       تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية وتمارين.
     </p>
-
     <div class="projects-grid">
       <div class="project-card">
         <h3>أساسيات المقاومة والمكثف</h3>
         <p>شرح كيفية استخدام المقاومات والمكثفات في الدوائر البسيطة.</p>
-        <button data-file="files/cours-resistor-capacitor.pdf">📥 تحميل الدرس</button>
+        <button class="download-btn" data-id="cours-resistor-capacitor" data-file="files/cours-resistor-capacitor.pdf">
+          📥 تحميل الدرس
+          <small>(<span id="count-cours-resistor-capacitor">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-cours-resistor-capacitor"></div></div>
       </div>
-
       <div class="project-card">
         <h3>الترانزستور والديود</h3>
         <p>فهم الترانزستورات والديودات وكيفية ربطها في الدوائر.</p>
-        <button data-file="files/cours-transistor-diode.pdf">📥 تحميل الدرس</button>
+        <button class="download-btn" data-id="cours-transistor-diode" data-file="files/cours-transistor-diode.pdf">
+          📥 تحميل الدرس
+          <small>(<span id="count-cours-transistor-diode">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-cours-transistor-diode"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- BOX SCHÉMAS ÉLECTRONIQUES -->
   <div class="project-box">
     <h2>💡 شيمات إلكترونية</h2>
     <p class="box-desc">
       مجموعة شيمات حقيقية لكروت الغسالات، الكليما، أجهزة أخرى – للرجوع إليها أثناء التصليح.
     </p>
-
     <div class="projects-grid">
       <div class="project-card">
         <h3>كارت غسالة Samsung</h3>
         <p>الشيم الكامل لكارت الغسالات Samsung.</p>
-        <button data-file="files/schema-washing-samsung.pdf">📥 تحميل الشيم</button>
+        <button class="download-btn" data-id="schema-washing-samsung" data-file="files/schema-washing-samsung.pdf">
+          📥 تحميل الشيم
+          <small>(<span id="count-schema-washing-samsung">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-schema-washing-samsung"></div></div>
       </div>
-
       <div class="project-card">
         <h3>كارت كليما LG</h3>
         <p>الدائرة الكهربائية لكارت الكليما LG.</p>
-        <button data-file="files/schema-clim-lg.pdf">📥 تحميل الشيم</button>
+        <button class="download-btn" data-id="schema-clim-lg" data-file="files/schema-clim-lg.pdf">
+          📥 تحميل الشيم
+          <small>(<span id="count-schema-clim-lg">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-schema-clim-lg"></div></div>
       </div>
-
       <div class="project-card">
         <h3>كروت صناعية</h3>
         <p>شيمات لمختلف الكروت الإلكترونية الصناعية.</p>
-        <button data-file="files/schema-industrial.pdf">📥 تحميل الشيم</button>
+        <button class="download-btn" data-id="schema-industrial" data-file="files/schema-industrial.pdf">
+          📥 تحميل الشيم
+          <small>(<span id="count-schema-industrial">0</span>)</small>
+        </button>
+        <div class="progress-container"><div class="progress-bar" id="progress-schema-industrial"></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- تصليح ماكينات لحام – slider أفقي pro -->
+<!-- تصليح ماكينات لحام -->
 <section id="postesSection" class="postes-today">
     <div class="postes-header wave-header">
         <span class="wave-word" style="--delay: 0s">تصليح</span>
         <span class="wave-word" style="--delay: 0.3s">ماكينات</span>
         <span class="wave-word" style="--delay: 0.6s">لحام</span>
     </div>
-
     <div class="postes-slider" id="postesSlider">
         <div class="poste-pro-card"
              data-title="Inverter MMA-300s"
@@ -506,7 +568,6 @@
             <img src="poste1.webp" alt="Inverter MMA-300s" loading="lazy">
             <div class="poste-overlay">MMA-300s</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="OXOUXIANG MMA 185"
              data-desc="إصلاح سريع لماكينات اللحام الصغيرة والمتوسطة"
@@ -514,7 +575,6 @@
             <img src="poste2.webp" alt="OXOUXIANG MMA 185" loading="lazy">
             <div class="poste-overlay">MMA 185</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="Telwin Machine"
              data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
@@ -522,7 +582,6 @@
             <img src="poste3.webp" alt="Telwin Machine" loading="lazy">
             <div class="poste-overlay">Telwin</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="Telwin Machine"
              data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
@@ -530,7 +589,6 @@
             <img src="poste4.webp" alt="Telwin Machine" loading="lazy">
             <div class="poste-overlay">Telwin</div>
         </div>
-
         <div class="poste-pro-card"
              data-title="Telwin Machine"
              data-desc="صيانة احترافية لموديلات Telwin مع ضمان"

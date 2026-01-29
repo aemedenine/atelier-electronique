@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     updateEqualizerVisibility();
     // ── Weather API (عربي فقط) ───────────────────────────────────────────
-   function updateWeather() {
+  function updateWeather() {
     const url = "https://api.open-meteo.com/v1/forecast?" +
                 "latitude=33.3549&longitude=10.5055" +
                 "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m" +
@@ -206,6 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // وصف الطقس الحالي (من WMO codes اللي يستعملها open-meteo)
             const weatherDesc = getWeatherDescription(weatherCode);
+
+            document.getElementById("weather-temp").textContent = `${temp} (ا ${feelsLike})`;
             document.getElementById("weather-desc").innerHTML = 
                 `${weatherDesc} • 🌬️ ${windSpeed}`;
 

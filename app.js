@@ -839,7 +839,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
 
         if (btn.classList.contains('downloading')) return;
 
-        // منع التكرار عبر LocalStorage
+        // منع التكرار عبر LocalStorage (one download per browser)
         const spamKey = `downloaded-${id}`;
         if (localStorage.getItem(spamKey)) {
             alert('سبق لك تحميل هذا الملف');
@@ -866,6 +866,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
         }
 
         progressBar.style.width = '0%';
+
         let p = 0;
         const timer = setInterval(() => {
             p = Math.min(90, p + Math.random() * 15);
@@ -876,13 +877,13 @@ document.querySelectorAll('.download-btn').forEach(btn => {
             // زيادة العدد في Firebase
             await downloadsRef.transaction(v => (v || 0) + 1);
 
-            // Simulate download
+            // محاكاة وقت التحميل (يمكنك إزالته لاحقاً)
             await new Promise(r => setTimeout(r, 1500));
 
             clearInterval(timer);
             progressBar.style.width = '100%';
 
-            // فتح الملف فعلياً
+            // التحميل الفعلي
             window.open(fileUrl, '_blank');
         } catch (err) {
             console.error(err);
@@ -892,7 +893,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
                 btn.classList.remove('downloading');
                 btn.disabled = false;
                 btnText.textContent = '📥 تحميل المشروع';
-                progressBar.style.width = '0%';
+                if (progressBar) progressBar.style.width = '0%';
             }, 1200);
         }
     });

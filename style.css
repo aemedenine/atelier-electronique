@@ -1374,26 +1374,25 @@ footer {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, #00ff9d, #00d4ff);
-  transition: width 0.5s ease-out;
+  transition: width 0.5s ease;
 }
 
-/* Pour le petit texte compteur */
 .download-btn small {
   font-size: 0.85rem;
   opacity: 0.9;
   margin-right: 8px;
 }
-/* ===== Download button disabled ===== */
+
 .download-btn:disabled {
   opacity: 0.75;
   cursor: not-allowed;
 }
 
-/* ===== RTL fix ===== */
 [dir="rtl"] .download-btn small {
   margin-right: 0;
   margin-left: 8px;
 }
+
 
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

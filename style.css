@@ -8,7 +8,7 @@
 }
 html, body {
   font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: transparent;
+  background: #00000000;
   color: #1a1a1a;
   min-height: 100vh;
   overflow-x: hidden;

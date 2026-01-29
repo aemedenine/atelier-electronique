@@ -804,117 +804,98 @@ const db = firebase.database();
 
 // نلقى كل الزرارات اللي فيها download-btn
 document.querySelectorAll('.download-btn').forEach(btn => {
-  const id = btn.dataset.id;
-  const fileUrl = btn.dataset.file;
+    const id = btn.dataset.id;
+    const fileUrl = btn.dataset.file;
+    if (!id || !fileUrl) return;
 
-  if (!id || !fileUrl) return;
-
-  // عنصر عدد التحميلات
-  let counterEl = btn.querySelector('small span');
-  if (!counterEl) {
-    counterEl = document.createElement('span');
-    counterEl.textContent = '0';
-    const small = document.createElement('small');
-    small.appendChild(counterEl);
-    btn.appendChild(small);
-  }
-
-  // نص الزر
-  let btnText = btn.querySelector('.label');
-  if (!btnText) {
-    btnText = document.createElement('span');
-    btnText.className = 'label';
-    btnText.textContent = '📥 تحميل المشروع';
-    btn.prepend(btnText);
-  }
-
-  const downloadsRef = db.ref(`downloads/${id}/count`);
-
-  // تحديث العدد live من Firebase
-  downloadsRef.on('value', snap => {
-    counterEl.textContent = snap.val() || 0;
-  });
-
-  btn.addEventListener('click', async e => {
-    e.preventDefault();
-
-    if (btn.classList.contains('downloading')) return;
-
-    // منع التكرار عبر LocalStorage
-    const spamKey = `downloaded-${id}`;
-    if (localStorage.getItem(spamKey)) {
-      alert('سبق لك تحميل هذا الملف');
-      return;
-    }
-    localStorage.setItem(spamKey, 'true');
-
-    btn.classList.add('downloading');
-    btn.disabled = true;
-    btnText.textContent = 'جاري التحميل...';
-
-    // إعداد progress bar
-    let progressContainer = btn.querySelector('.progress-container');
-    let progressBar = progressContainer ? progressContainer.querySelector('.progress-bar') : null;
-
-    if (!progressContainer) {
-      progressContainer = document.createElement('div');
-      progressContainer.className = 'progress-container';
-      progressBar = document.createElement('div');
-      progressBar.className = 'progress-bar';
-      progressContainer.appendChild(progressBar);
-      btn.appendChild(progressContainer);
+    // عنصر عدد التحميلات
+    let counterEl = btn.querySelector('small span');
+    if (!counterEl) {
+        counterEl = document.createElement('span');
+        counterEl.textContent = '0';
+        const small = document.createElement('small');
+        small.appendChild(counterEl);
+        btn.appendChild(small);
     }
 
-    progressBar.style.width = '0%';
-    let p = 0;
-    const timer = setInterval(() => {
-      p = Math.min(90, p + Math.random() * 15);
-      progressBar.style.width = p + '%';
-    }, 200);
-
-    try {
-      // زيادة العدد في Firebase
-      await downloadsRef.transaction(v => (v || 0) + 1);
-
-      // Simulate download
-      await new Promise(r => setTimeout(r, 1500));
-
-      clearInterval(timer);
-      progressBar.style.width = '100%';
-
-      // فتح الملف
-      window.open(fileUrl, '_blank');
-
-    } catch (err) {
-      console.error(err);
-      btnText.textContent = 'خطأ!';
-    } finally {
-      setTimeout(() => {
-        btn.classList.remove('downloading');
-        btn.disabled = false;
+    // نص الزر
+    let btnText = btn.querySelector('.label');
+    if (!btnText) {
+        btnText = document.createElement('span');
+        btnText.className = 'label';
         btnText.textContent = '📥 تحميل المشروع';
+        btn.prepend(btnText);
+    }
+
+    const downloadsRef = db.ref(`downloads/${id}/count`);
+
+    // تحديث العدد live من Firebase
+    downloadsRef.on('value', snap => {
+        counterEl.textContent = snap.val() || 0;
+    });
+
+    btn.addEventListener('click', async e => {
+        e.preventDefault();
+
+        if (btn.classList.contains('downloading')) return;
+
+        // منع التكرار عبر LocalStorage
+        const spamKey = `downloaded-${id}`;
+        if (localStorage.getItem(spamKey)) {
+            alert('سبق لك تحميل هذا الملف');
+            return;
+        }
+
+        localStorage.setItem(spamKey, 'true');
+
+        btn.classList.add('downloading');
+        btn.disabled = true;
+        btnText.textContent = 'جاري التحميل...';
+
+        // إعداد progress bar
+        let progressContainer = btn.querySelector('.progress-container');
+        let progressBar = progressContainer ? progressContainer.querySelector('.progress-bar') : null;
+
+        if (!progressContainer) {
+            progressContainer = document.createElement('div');
+            progressContainer.className = 'progress-container';
+            progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            progressContainer.appendChild(progressBar);
+            btn.appendChild(progressContainer);
+        }
+
         progressBar.style.width = '0%';
-      }, 1200);
-    }
-  });
+        let p = 0;
+        const timer = setInterval(() => {
+            p = Math.min(90, p + Math.random() * 15);
+            progressBar.style.width = p + '%';
+        }, 200);
 
-  downloadBtn.classList.add("downloading");
-  downloadBtn.disabled = true;
+        try {
+            // زيادة العدد في Firebase
+            await downloadsRef.transaction(v => (v || 0) + 1);
 
-  let width = 0;
-  const interval = setInterval(() => {
-    width += 2; // تزيد 2٪ كل مرة
-    progressBar.style.width = width + "%";
+            // Simulate download
+            await new Promise(r => setTimeout(r, 1500));
 
-    if (width >= 100) {
-      clearInterval(interval);
-      downloadBtn.classList.remove("downloading");
-      downloadBtn.disabled = false;
-      progressBar.style.width = "0%";
-      alert("تم التحميل ✅"); // هنا ممكن تغيّرها لتحميل ملف حقيقي
-    }
-  }, 50); // كل 50ms
+            clearInterval(timer);
+            progressBar.style.width = '100%';
 
+            // فتح الملف فعلياً
+            window.open(fileUrl, '_blank');
+        } catch (err) {
+            console.error(err);
+            btnText.textContent = 'خطأ!';
+        } finally {
+            setTimeout(() => {
+                btn.classList.remove('downloading');
+                btn.disabled = false;
+                btnText.textContent = '📥 تحميل المشروع';
+                progressBar.style.width = '0%';
+            }, 1200);
+        }
+    });
 });
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────

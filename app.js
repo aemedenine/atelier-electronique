@@ -898,6 +898,23 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     }
   });
 });
+  downloadBtn.classList.add("downloading");
+  downloadBtn.disabled = true;
+
+  let width = 0;
+  const interval = setInterval(() => {
+    width += 2; // تزيد 2٪ كل مرة
+    progressBar.style.width = width + "%";
+
+    if (width >= 100) {
+      clearInterval(interval);
+      downloadBtn.classList.remove("downloading");
+      downloadBtn.disabled = false;
+      progressBar.style.width = "0%";
+      alert("تم التحميل ✅"); // هنا ممكن تغيّرها لتحميل ملف حقيقي
+    }
+  }, 50); // كل 50ms
+});
 
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

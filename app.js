@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // وصف الطقس الحالي (من WMO codes اللي يستعملها open-meteo)
             const weatherDesc = getWeatherDescription(weatherCode);
 
-            document.getElementById("weather-temp").textContent = `${temp} (ا ${feelsLike})`;
+            document.getElementById("weather-temp").textContent = `${temp} `;
             document.getElementById("weather-desc").innerHTML = 
                 `${weatherDesc} • 🌬️ ${windSpeed}`;
 

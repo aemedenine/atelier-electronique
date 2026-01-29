@@ -805,10 +805,28 @@ const db = firebase.database();
 document.querySelectorAll('.download-btn').forEach(btn => {
   const id        = btn.dataset.id;
   const fileUrl   = btn.dataset.file;
-  const counterEl = document.getElementById(`count-${id}`);
-  const btnText   = btn.querySelector('.label');
 
-  if (!id || !fileUrl || !counterEl || !btnText) return;
+  // إذا ما فماش id أو رابط ملف، تجاهل الزر
+  if (!id || !fileUrl) return;
+
+  // عنصر العدد (span) للعرض
+  let counterEl = btn.querySelector('small span');
+  if (!counterEl) {
+    counterEl = document.createElement('span');
+    counterEl.textContent = '0';
+    const small = document.createElement('small');
+    small.appendChild(counterEl);
+    btn.appendChild(small);
+  }
+
+  // نص الزر (label) أو default
+  let btnText = btn.querySelector('.label');
+  if (!btnText) {
+    btnText = document.createElement('span');
+    btnText.className = 'label';
+    btnText.textContent = '📥 تحميل المشروع';
+    btn.prepend(btnText);
+  }
 
   const downloadsRef = db.ref(`downloads/${id}/count`);
 
@@ -819,9 +837,10 @@ document.querySelectorAll('.download-btn').forEach(btn => {
 
   btn.addEventListener('click', async e => {
     e.preventDefault();
+
     if (btn.classList.contains('downloading')) return;
 
-    // منع التكرار
+    // منع التكرار عبر LocalStorage
     const spamKey = `downloaded-${id}`;
     if (localStorage.getItem(spamKey)) {
       alert('سبق لك تحميل هذا الملف');
@@ -833,7 +852,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     btn.disabled = true;
     btnText.textContent = 'جاري التحميل...';
 
-    // progress مطابق للـ CSS
+    // إعداد progress bar
     let progressContainer = btn.querySelector('.progress-container');
     let progressBar;
 
@@ -851,7 +870,6 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     }
 
     progressBar.style.width = '0%';
-
     let p = 0;
     const timer = setInterval(() => {
       p = Math.min(90, p + Math.random() * 15);
@@ -859,12 +877,16 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     }, 200);
 
     try {
+      // زيادة العدد في Firebase
       await downloadsRef.transaction(v => (v || 0) + 1);
-      await new Promise(r => setTimeout(r, 2000));
+
+      // Simulate download time
+      await new Promise(r => setTimeout(r, 1500));
 
       clearInterval(timer);
       progressBar.style.width = '100%';
 
+      // فتح الملف
       window.open(fileUrl, '_blank');
 
     } catch (err) {
@@ -880,6 +902,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     }
   });
 });
+
 
 
 

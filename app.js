@@ -799,17 +799,17 @@ function updatePower(){
   powerFill.style.width = fillPercent + "%";
 }
 
-// ===== Download + Firebase counter + progress =====
+// ===== Firebase Download Counter + Progress =====
 const db = firebase.database();
 
+// نلقى كل الزرارات اللي فيها download-btn
 document.querySelectorAll('.download-btn').forEach(btn => {
-  const id        = btn.dataset.id;
-  const fileUrl   = btn.dataset.file;
+  const id = btn.dataset.id;
+  const fileUrl = btn.dataset.file;
 
-  // إذا ما فماش id أو رابط ملف، تجاهل الزر
   if (!id || !fileUrl) return;
 
-  // عنصر العدد (span) للعرض
+  // عنصر عدد التحميلات
   let counterEl = btn.querySelector('small span');
   if (!counterEl) {
     counterEl = document.createElement('span');
@@ -819,7 +819,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     btn.appendChild(small);
   }
 
-  // نص الزر (label) أو default
+  // نص الزر
   let btnText = btn.querySelector('.label');
   if (!btnText) {
     btnText = document.createElement('span');
@@ -830,7 +830,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
 
   const downloadsRef = db.ref(`downloads/${id}/count`);
 
-  // Live counter
+  // تحديث العدد live من Firebase
   downloadsRef.on('value', snap => {
     counterEl.textContent = snap.val() || 0;
   });
@@ -854,19 +854,15 @@ document.querySelectorAll('.download-btn').forEach(btn => {
 
     // إعداد progress bar
     let progressContainer = btn.querySelector('.progress-container');
-    let progressBar;
+    let progressBar = progressContainer ? progressContainer.querySelector('.progress-bar') : null;
 
     if (!progressContainer) {
       progressContainer = document.createElement('div');
       progressContainer.className = 'progress-container';
-
       progressBar = document.createElement('div');
       progressBar.className = 'progress-bar';
-
       progressContainer.appendChild(progressBar);
       btn.appendChild(progressContainer);
-    } else {
-      progressBar = progressContainer.querySelector('.progress-bar');
     }
 
     progressBar.style.width = '0%';
@@ -880,7 +876,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
       // زيادة العدد في Firebase
       await downloadsRef.transaction(v => (v || 0) + 1);
 
-      // Simulate download time
+      // Simulate download
       await new Promise(r => setTimeout(r, 1500));
 
       clearInterval(timer);
@@ -902,8 +898,6 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     }
   });
 });
-
-
 
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

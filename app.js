@@ -897,7 +897,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
       }, 1200);
     }
   });
-});
+
   downloadBtn.classList.add("downloading");
   downloadBtn.disabled = true;
 
@@ -916,7 +916,7 @@ document.querySelectorAll('.download-btn').forEach(btn => {
   }, 50); // كل 50ms
 });
 
-
+});
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
     updateWeather();

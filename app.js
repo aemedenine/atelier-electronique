@@ -799,97 +799,88 @@ function updatePower(){
   powerFill.style.width = fillPercent + "%";
 }
 
-// ===== Download avec animation + compteur + redirect =====
-document.addEventListener('DOMContentLoaded', () => {
-  const db = firebase.database();
+// ===== Download + Firebase counter + progress =====
+const db = firebase.database();
 
-  document.querySelectorAll('.download-btn').forEach(btn => {
-    const id          = btn.dataset.id;               // ex: "fichier1", "schéma-v2", etc.
-    const fileUrl     = btn.dataset.file || btn.href; // ← important : mets data-file="https://..." dans HTML
-    const counterEl   = document.getElementById(`count-${id}`);
-    const btnText     = btn.querySelector('span') || btn; // si tu as <span> dans le bouton
+document.querySelectorAll('.download-btn').forEach(btn => {
+  const id        = btn.dataset.id;
+  const fileUrl   = btn.dataset.file;
+  const counterEl = document.getElementById(`count-${id}`);
+  const btnText   = btn.querySelector('.label');
 
-    if (!id || !fileUrl || !counterEl) {
-      console.warn("Bouton download incomplet →", btn);
+  if (!id || !fileUrl || !counterEl || !btnText) return;
+
+  const downloadsRef = db.ref(`downloads/${id}/count`);
+
+  // Live counter
+  downloadsRef.on('value', snap => {
+    counterEl.textContent = snap.val() || 0;
+  });
+
+  btn.addEventListener('click', async e => {
+    e.preventDefault();
+    if (btn.classList.contains('downloading')) return;
+
+    // منع التكرار
+    const spamKey = `downloaded-${id}`;
+    if (localStorage.getItem(spamKey)) {
+      alert('سبق لك تحميل هذا الملف');
       return;
     }
+    localStorage.setItem(spamKey, 'true');
 
-    const downloadsRef = db.ref(`downloads/${id}`);
+    btn.classList.add('downloading');
+    btn.disabled = true;
+    btnText.textContent = 'جاري التحميل...';
 
-    // Afficher compteur live
-    downloadsRef.on('value', snap => {
-      counterEl.textContent = snap.val() || 0;
-    });
+    // progress مطابق للـ CSS
+    let progressContainer = btn.querySelector('.progress-container');
+    let progressBar;
 
-    // Click → animation + +1 + redirect
-    btn.addEventListener('click', async (e) => {
-      e.preventDefault(); // empêche le href direct si y a un <a>
+    if (!progressContainer) {
+      progressContainer = document.createElement('div');
+      progressContainer.className = 'progress-container';
 
-      if (btn.classList.contains('downloading')) return;
+      progressBar = document.createElement('div');
+      progressBar.className = 'progress-bar';
 
-      // ── État downloading ────────────────────────────────
-      btn.classList.add('downloading');
-      const originalText = btnText.textContent;
-      btnText.textContent = 'جاري التحميل...';
-      btn.disabled = true;
+      progressContainer.appendChild(progressBar);
+      btn.appendChild(progressContainer);
+    } else {
+      progressBar = progressContainer.querySelector('.progress-bar');
+    }
 
-      // ── Progress bar (optionnel – si tu as .progress dans le bouton ou ailleurs)
-      let progressEl = btn.querySelector('.progress') || document.createElement('div');
-      if (!btn.querySelector('.progress')) {
-        progressEl.className = 'progress';
-        btn.appendChild(progressEl);
-      }
-      progressEl.style.width = '0%';
+    progressBar.style.width = '0%';
 
-      // Simulation progression
-      let percent = 0;
-      const fakeInterval = setInterval(() => {
-        percent += Math.random() * 18 + 5;
-        if (percent > 92) percent = 92;
-        progressEl.style.width = percent + '%';
-      }, 220);
+    let p = 0;
+    const timer = setInterval(() => {
+      p = Math.min(90, p + Math.random() * 15);
+      progressBar.style.width = p + '%';
+    }, 200);
 
-      try {
-        // +1 atomique dans Firebase
-        await downloadsRef.transaction(val => (val || 0) + 1);
+    try {
+      await downloadsRef.transaction(v => (v || 0) + 1);
+      await new Promise(r => setTimeout(r, 2000));
 
-        // Attendre un minimum pour le feeling (1.8 à 3 secondes)
-        await new Promise(resolve => setTimeout(resolve, 1800 + Math.random() * 800));
+      clearInterval(timer);
+      progressBar.style.width = '100%';
 
-        // Fin simulation
-        clearInterval(fakeInterval);
-        progressEl.style.width = '100%';
+      window.open(fileUrl, '_blank');
 
-        await new Promise(r => setTimeout(r, 400));
-
-        // Redirect / download réel
-        if (fileUrl.startsWith('http')) {
-          window.open(fileUrl, '_blank');          // ouvre nouvel onglet (recommandé)
-          // OU : window.location.href = fileUrl;  // change la page actuelle
-        } else {
-          console.warn("Lien invalide:", fileUrl);
-        }
-
-      } catch (err) {
-        console.error("Erreur download counter:", err);
-        clearInterval(fakeInterval);
-        btnText.textContent = 'خطأ – حاول مرة أخرى';
-        setTimeout(() => {
-          btnText.textContent = originalText;
-          progressEl.style.width = '0%';
-        }, 3000);
-      } finally {
-        // Reset bouton après 1 seconde supplémentaire
-        setTimeout(() => {
-          btn.classList.remove('downloading');
-          btnText.textContent = originalText;
-          btn.disabled = false;
-          if (progressEl.parentNode) progressEl.style.width = '0%';
-        }, 1200);
-      }
-    });
+    } catch (err) {
+      console.error(err);
+      btnText.textContent = 'خطأ!';
+    } finally {
+      setTimeout(() => {
+        btn.classList.remove('downloading');
+        btn.disabled = false;
+        btnText.textContent = '📥 تحميل المشروع';
+        progressBar.style.width = '0%';
+      }, 1200);
+    }
   });
 });
+
 
 
 /* ====== نهاية JS البوكسات الجديدة ====== */

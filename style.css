@@ -1383,6 +1383,18 @@ footer {
   opacity: 0.9;
   margin-right: 8px;
 }
+/* ===== Download button disabled ===== */
+.download-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/* ===== RTL fix ===== */
+[dir="rtl"] .download-btn small {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

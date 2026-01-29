@@ -206,8 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // وصف الطقس الحالي (من WMO codes اللي يستعملها open-meteo)
             const weatherDesc = getWeatherDescription(weatherCode);
-
-            document.getElementById("weather-temp").textContent = `${temp} (يشعر بها ${feelsLike})`;
             document.getElementById("weather-desc").innerHTML = 
                 `${weatherDesc} • 🌬️ ${windSpeed}`;
 
@@ -249,16 +247,23 @@ function getWeatherDescription(code) {
     return "غير معروف 🌤️"; // fallback
 }
     // ── Prayer Times ──────────────────────────────────────────────────────
-    function updatePrayerTimes() {
-    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")  // ← غيّر 2 إلى 5
+   function updatePrayerTimes() {
+    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")
         .then(res => res.json())
         .then(data => {
             if (data.code !== 200) {
                 console.error("API error:", data.status);
                 return;
             }
+
             const times = data.data.timings;
             const pt = document.getElementById("prayer-times");
+
+            if (!pt) {
+                console.warn("العنصر #prayer-times مش موجود في الصفحة");
+                return;
+            }
+
             pt.innerHTML = `
                 <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
                 <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
@@ -266,10 +271,20 @@ function getWeatherDescription(code) {
                 <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
                 <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
                 <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-                <small>طريقة الحساب: ${data.data.meta.method.name || 'غير معروف'}</small>  // ← إضافة للتوضيح
-            `;
+            `;   // ← الـ ; هنا خارج الـ backticks
+
+            // إضافة اختيارية: إظهار اسم الطريقة تحت بشكل مرتب
+            // pt.innerHTML += `<small style="display:block; text-align:center; margin-top:10px; color:#777;">
+            //     طريقة الحساب: ${data.data.meta.method.name || 'مصرية'}
+            // </small>`;
         })
-        .catch(err => console.error("Erreur prayer times:", err));
+        .catch(err => {
+            console.error("Erreur prayer times:", err);
+            const pt = document.getElementById("prayer-times");
+            if (pt) {
+                pt.innerHTML = '<p style="color:red;">⚠️ خطأ في تحميل أوقات الصلاة</p>';
+            }
+        });
 }
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
     function updateMiniCalendar() {

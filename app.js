@@ -182,19 +182,72 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     updateEqualizerVisibility();
     // ── Weather API (عربي فقط) ───────────────────────────────────────────
-    function updateWeather() {
-        fetch("https://api.open-meteo.com/v1/forecast?latitude=33.3549&longitude=10.5055&current_weather=true")
-            .then(res => res.json())
-            .then(data => {
-                const temp = data.current_weather.temperature + "°C";
-                const wind = data.current_weather.windspeed + " كم/س";
-                document.getElementById("weather-temp").textContent = temp;
-                document.getElementById("weather-desc").textContent = "🌬️ سرعة الرياح: " + wind;
-            })
-            .catch(() => {
-                document.getElementById("weather-desc").textContent = "⚠️ لا يمكن تحميل الطقس";
-            });
-    }
+   function updateWeather() {
+    const url = "https://api.open-meteo.com/v1/forecast?" +
+                "latitude=33.3549&longitude=10.5055" +
+                "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m" +
+                "&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max" +
+                "&timezone=Africa%2FTunis" +  // مهم للتوقيت التونسي
+                "&forecast_days=2";  // اليوم + الغد
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.current || !data.daily) {
+                throw new Error("No data");
+            }
+
+            // ── الطقس الحالي ────────────────────────────────────────
+            const now = data.current;
+            const temp = Math.round(now.temperature_2m) + "°C";
+            const feelsLike = Math.round(now.apparent_temperature) + "°C";
+            const windSpeed = Math.round(now.wind_speed_10m) + " كم/س";
+            const weatherCode = now.weather_code;
+
+            // وصف الطقس الحالي (من WMO codes اللي يستعملها open-meteo)
+            const weatherDesc = getWeatherDescription(weatherCode);
+
+            document.getElementById("weather-temp").textContent = `${temp} (يشعر بها ${feelsLike})`;
+            document.getElementById("weather-desc").innerHTML = 
+                `${weatherDesc} • 🌬️ ${windSpeed}`;
+
+            // ── الغد (demain) ────────────────────────────────────────
+            const tomorrow = data.daily;
+            const dayIndex = 1; // اليوم التالي
+            const tMax = Math.round(tomorrow.temperature_2m_max[dayIndex]) + "°C";
+            const tMin = Math.round(tomorrow.temperature_2m_min[dayIndex]) + "°C";
+            const windMax = Math.round(tomorrow.wind_speed_10m_max[dayIndex]) + " كم/س";
+            const tomorrowCode = tomorrow.weather_code[dayIndex];
+            const tomorrowDesc = getWeatherDescription(tomorrowCode);
+
+            // يمكنك تضيف عنصر HTML جديد للغد، مثلاً:
+            // document.getElementById("weather-tomorrow").innerHTML = 
+            //     `غداً: ${tomorrowDesc} • ${tMin} → ${tMax} • 🌬️ ${windMax}`;
+
+            // أو تضيفه تحت الحالي
+            const weatherEl = document.getElementById("weather-desc");
+            weatherEl.innerHTML += `<br><small>غداً: ${tomorrowDesc} ${tMin}–${tMax} • رياح ${windMax}</small>`;
+        })
+        .catch(err => {
+            console.error("Weather error:", err);
+            document.getElementById("weather-desc").textContent = "⚠️ مشكلة في تحميل الطقس";
+        });
+}
+
+// دالة مساعدة لترجمة weather_code إلى وصف عربي (من WMO codes)
+function getWeatherDescription(code) {
+    // أهم الكودات الشائعة (يمكن توسيعها)
+    if (code === 0) return "مشمس ☀️";
+    if ([1,2,3].includes(code)) return "غائم جزئياً ⛅";
+    if (code >= 45 && code <= 48) return "ضباب 🌫️";
+    if (code >= 51 && code <= 57) return "رذاذ خفيف 🌦️";
+    if (code >= 61 && code <= 67) return "مطر 💧";
+    if (code >= 71 && code <= 77) return "ثلج ❄️";
+    if (code >= 80 && code <= 82) return "زخات مطر 🚿";
+    if (code >= 95 && code <= 99) return "عواصف رعدية ⚡";
+
+    return "غير معروف 🌤️"; // fallback
+}
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {
     fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")  // ← غيّر 2 إلى 5

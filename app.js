@@ -197,22 +197,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // ── Prayer Times ──────────────────────────────────────────────────────
     function updatePrayerTimes() {
-        fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=2")
-            .then(res => res.json())
-            .then(data => {
-                const times = data.data.timings;
-                const pt = document.getElementById("prayer-times");
-                pt.innerHTML = `
-                    <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
-                    <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
-                    <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
-                    <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
-                    <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
-                    <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-                `;
-            })
-            .catch(err => console.error("Erreur prayer times:", err));
-    }
+    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")  // ← غيّر 2 إلى 5
+        .then(res => res.json())
+        .then(data => {
+            if (data.code !== 200) {
+                console.error("API error:", data.status);
+                return;
+            }
+            const times = data.data.timings;
+            const pt = document.getElementById("prayer-times");
+            pt.innerHTML = `
+                <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
+                <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
+                <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
+                <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
+                <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
+                <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
+                <small>طريقة الحساب: ${data.data.meta.method.name || 'غير معروف'}</small>  // ← إضافة للتوضيح
+            `;
+        })
+        .catch(err => console.error("Erreur prayer times:", err));
+}
     // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
     function updateMiniCalendar() {
   const today = new Date();

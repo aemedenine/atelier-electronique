@@ -1032,7 +1032,32 @@ document.addEventListener('DOMContentLoaded', () => {
         capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
         capFill.style.height = Math.min(100, value) + "%";
     }));
+// ===== SMD Resistor =====
+const smdInput = document.getElementById("smdCode");
+if (smdInput) {
+    smdInput.addEventListener("input", function() {
+        const code = this.value.trim().toUpperCase();
+        let resultText = "— Ω";
 
+        // 3 أرقام → مثل 103 = 10 × 10^3 = 10kΩ
+        if (/^\d{3}$/.test(code)) {
+            const base = parseInt(code.slice(0, 2));
+            const exp = parseInt(code[2]);
+            const value = base * Math.pow(10, exp);
+            resultText = formatResistance(value);
+        }
+        // شكل XRX مثل 4R7 = 4.7 Ω
+        else if (/^\dR\d$/.test(code)) {
+            resultText = code.replace("R", ".") + " Ω";
+        }
+        // شكل RX مثل 2R2 = 2.2 Ω (اختياري)
+        else if (/^R\d{1,2}$/.test(code)) {
+            resultText = "0." + code.slice(1) + " Ω";
+        }
+
+        document.getElementById("smd-result").textContent = resultText;
+    });
+}
     // Power Calculator
     const volt = document.getElementById("volt");
     const resistance = document.getElementById("resistance");

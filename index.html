@@ -244,40 +244,55 @@
         <!-- Color Resistor – حساب المقاومة بالألوان -->
         <div class="calculator-box color-resistor">
             <h3 data-i18n="color_resistor_title">🔴🟡🟢حساب المقاومة بالألوان</h3>
-            <div class="bands-select">
-                <select id="band1">
-                    <option value="0" data-color="#000000" data-i18n="color_black">أسود</option>
-                    <option value="1" data-color="#8B4513" data-i18n="color_brown">بني</option>
-                    <option value="2" data-color="#FF0000" data-i18n="color_red">أحمر</option>
-                    <option value="3" data-color="#FFA500" data-i18n="color_orange">برتقالي</option>
-                    <option value="4" data-color="#FFFF00" data-i18n="color_yellow">أصفر</option>
-                    <option value="5" data-color="#008000" data-i18n="color_green">أخضر</option>
-                    <option value="6" data-color="#0000FF" data-i18n="color_blue">أزرق</option>
-                    <option value="7" data-color="#800080" data-i18n="color_purple">بنفسجي</option>
-                    <option value="8" data-color="#808080" data-i18n="color_gray">رمادي</option>
-                    <option value="9" data-color="#FFF" data-i18n="color_white">أبيض</option>
-                </select>
-                <select id="band2">
-                    <option value="0" data-color="#000000" data-i18n="color_black">أسود</option>
-                    <option value="1" data-color="#8B4513" data-i18n="color_brown">بني</option>
-                    <!-- ... نفس الخيارات للباند 2 كما هي، مع data-i18n على كل option ... -->
-                </select>
-                <select id="multiplier">
-                    <option value="1" data-color="#000" data-i18n="multi_1">×1</option>
-                    <option value="10" data-color="#8B4513" data-i18n="multi_10">×10</option>
-                    <option value="100" data-color="#FF0000" data-i18n="multi_100">×100</option>
-                    <option value="1000" data-color="#FFA500" data-i18n="multi_1k">×1K</option>
-                    <option value="10000" data-color="#FFFF00" data-i18n="multi_10k">×10K</option>
-                    <option value="100000" data-color="#008000" data-i18n="multi_100k">×100K</option>
-                    <option value="1000000" data-color="#0000FF" data-i18n="multi_1m">×1M</option>
-                </select>
-                <select id="tolerance">
-                    <option value="1" data-color="#008000" data-i18n="tol_1">±1%</option>
-                    <option value="2" data-color="#FF0000" data-i18n="tol_2">±2%</option>
-                    <option value="5" data-color="#FFFF00" data-i18n="tol_5">±5%</option>
-                    <option value="10" data-color="#808080" data-i18n="tol_10">±10%</option>
-                </select>
-            </div>
+           
+      <div class="bands-select">
+    <!-- Band 1 -->
+    <select id="band1">
+        <option value="0" data-color="#000000" data-i18n="color_black">أسود</option>
+        <option value="1" data-color="#8B4513" data-i18n="color_brown">بني</option>
+        <option value="2" data-color="#FF0000" data-i18n="color_red">أحمر</option>
+        <option value="3" data-color="#FFA500" data-i18n="color_orange">برتقالي</option>
+        <option value="4" data-color="#FFFF00" data-i18n="color_yellow">أصفر</option>
+        <option value="5" data-color="#008000" data-i18n="color_green">أخضر</option>
+        <option value="6" data-color="#0000FF" data-i18n="color_blue">أزرق</option>
+        <option value="7" data-color="#800080" data-i18n="color_purple">بنفسجي</option>
+        <option value="8" data-color="#808080" data-i18n="color_gray">رمادي</option>
+        <option value="9" data-color="#FFF" data-i18n="color_white">أبيض</option>
+    </select>
+
+    <!-- Band 2 – نفس الخيارات، بس حط data-i18n -->
+    <select id="band2">
+        <option value="0" data-color="#000000" data-i18n="color_black">أسود</option>
+        <option value="1" data-color="#8B4513" data-i18n="color_brown">بني</option>
+        <option value="2" data-color="#FF0000" data-i18n="color_red">أحمر</option>
+        <option value="3" data-color="#FFA500" data-i18n="color_orange">برتقالي</option>
+        <option value="4" data-color="#FFFF00" data-i18n="color_yellow">أصفر</option>
+        <option value="5" data-color="#008000" data-i18n="color_green">أخضر</option>
+        <option value="6" data-color="#0000FF" data-i18n="color_blue">أزرق</option>
+        <option value="7" data-color="#800080" data-i18n="color_purple">بنفسجي</option>
+        <option value="8" data-color="#808080" data-i18n="color_gray">رمادي</option>
+        <option value="9" data-color="#FFF" data-i18n="color_white">أبيض</option>
+    </select>
+
+    <!-- Multiplier -->
+    <select id="multiplier">
+        <option value="1" data-color="#000" data-i18n="multi_1">×1</option>
+        <option value="10" data-color="#8B4513" data-i18n="multi_10">×10</option>
+        <option value="100" data-color="#FF0000" data-i18n="multi_100">×100</option>
+        <option value="1000" data-color="#FFA500" data-i18n="multi_1k">×1K</option>
+        <option value="10000" data-color="#FFFF00" data-i18n="multi_10k">×10K</option>
+        <option value="100000" data-color="#008000" data-i18n="multi_100k">×100K</option>
+        <option value="1000000" data-color="#0000FF" data-i18n="multi_1m">×1M</option>
+    </select>
+
+    <!-- Tolerance -->
+    <select id="tolerance">
+        <option value="1" data-color="#008000" data-i18n="tol_1">±1%</option>
+        <option value="2" data-color="#FF0000" data-i18n="tol_2">±2%</option>
+        <option value="5" data-color="#FFFF00" data-i18n="tol_5">±5%</option>
+        <option value="10" data-color="#808080" data-i18n="tol_10">±10%</option>
+    </select>
+</div>
             <div class="resistor-visual">
                 <div id="vis-band1" class="vis-band"></div>
                 <div id="vis-band2" class="vis-band"></div>

@@ -549,6 +549,59 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateTime, 1000);  // تحدث كل ثانية
 });
 
+    // جيب الزر والعناصر اللي نحتاجهم
+    const themeToggle = document.getElementById("theme-toggle");
+    const body = document.body;
+
+    // إذا الزر مش موجود → نوقف الكود بهدوء
+    if (!themeToggle) {
+        console.warn("الزر theme-toggle مش موجود في الصفحة");
+        return;
+    }
+
+    // دالة تغيير الثيم
+    function setTheme(newTheme) {
+        body.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+
+        // تحديث شكل الزر (اختياري - إذا كنت حابب تغيّر شيء خارجي)
+        // هنا نعتمد على الـ CSS فقط عبر data-theme
+    }
+
+    // جيب الثيم المحفوظ أو الافتراضي
+    let currentTheme = localStorage.getItem("theme");
+
+    // لو ما فيش ثيم محفوظ → نشوف تفضيل الجهاز
+    if (!currentTheme) {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        currentTheme = prefersDark ? "dark" : "light";
+    }
+
+    // نطبّق الثيم من البداية
+    setTheme(currentTheme);
+
+    // حدث النقر على الزر
+    themeToggle.addEventListener("click", () => {
+        // نعكس الثيم الحالي
+        const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        setTheme(newTheme);
+
+        // تأثير ضغط خفيف (اختياري)
+        themeToggle.style.transform = "scale(0.92)";
+        setTimeout(() => {
+            themeToggle.style.transform = "";
+        }, 120);
+    });
+
+    // إذا المستخدم غيّر تفضيل الجهاز → نحدّث لو ما غيّر يدوياً
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        // نحدّث فقط إذا ما عندوش ثيم محفوظ يدوي
+        if (!localStorage.getItem("theme")) {
+            setTheme(e.matches ? "dark" : "light");
+        }
+    });
+});
+
 
     // ── News Ticker متعدد اللغات ──────────────────────────────────────────
     const news = {
@@ -1458,60 +1511,6 @@ if (smdInput) {
             }
         });
     });
-
-document.addEventListener("DOMContentLoaded", () => {
-    // جيب الزر والعناصر اللي نحتاجهم
-    const themeToggle = document.getElementById("theme-toggle");
-    const body = document.body;
-
-    // إذا الزر مش موجود → نوقف الكود بهدوء
-    if (!themeToggle) {
-        console.warn("الزر theme-toggle مش موجود في الصفحة");
-        return;
-    }
-
-    // دالة تغيير الثيم
-    function setTheme(newTheme) {
-        body.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-
-        // تحديث شكل الزر (اختياري - إذا كنت حابب تغيّر شيء خارجي)
-        // هنا نعتمد على الـ CSS فقط عبر data-theme
-    }
-
-    // جيب الثيم المحفوظ أو الافتراضي
-    let currentTheme = localStorage.getItem("theme");
-
-    // لو ما فيش ثيم محفوظ → نشوف تفضيل الجهاز
-    if (!currentTheme) {
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        currentTheme = prefersDark ? "dark" : "light";
-    }
-
-    // نطبّق الثيم من البداية
-    setTheme(currentTheme);
-
-    // حدث النقر على الزر
-    themeToggle.addEventListener("click", () => {
-        // نعكس الثيم الحالي
-        const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-
-        // تأثير ضغط خفيف (اختياري)
-        themeToggle.style.transform = "scale(0.92)";
-        setTimeout(() => {
-            themeToggle.style.transform = "";
-        }, 120);
-    });
-
-    // إذا المستخدم غيّر تفضيل الجهاز → نحدّث لو ما غيّر يدوياً
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-        // نحدّث فقط إذا ما عندوش ثيم محفوظ يدوي
-        if (!localStorage.getItem("theme")) {
-            setTheme(e.matches ? "dark" : "light");
-        }
-    });
-});
 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

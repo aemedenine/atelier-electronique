@@ -1060,7 +1060,7 @@ if (smdInput) {
         else if (/^\dR\d$/.test(code)) {
             resultText = code.replace("R", ".") + " Ω";
         }
-        // شكل RX مثل 2R2 = 2.2 Ω (اختياري)
+        // شكل RX مثل R22 = 0.22 Ω (اختياري - إضافة شائعة)
         else if (/^R\d{1,2}$/.test(code)) {
             resultText = "0." + code.slice(1) + " Ω";
         }

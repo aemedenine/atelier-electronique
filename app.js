@@ -681,136 +681,167 @@ document.addEventListener('DOMContentLoaded', () => {
     showDailyItems();
 
     // ── Rating System ──────────────────────────────────────────────────────
-    const stars = document.querySelectorAll('.stars-horizontal span');
-    const ratingValue = document.getElementById('rating-value');
-    const ratingMessage = document.getElementById('rating-message');
-    const avgStarsEl = document.getElementById('avg-stars');
-    const voteCountEl = document.getElementById('vote-count');
-    const breakdownEl = document.getElementById('rating-breakdown');
-    let currentUserRating = 0;
-    const ratingsRef = firebase.database().ref('ratings');
-    const userRatingsRef = firebase.database().ref('userRatings');
+   // ── Rating System – النسخة المحسنة والمصلحة كاملة ────────────────────────
+const stars = document.querySelectorAll('.stars-horizontal span');
+const ratingValue = document.getElementById('rating-value');
+const ratingMessage = document.getElementById('rating-message');
+const avgStarsEl = document.getElementById('avg-stars');
+const voteCountEl = document.getElementById('vote-count');
+const breakdownEl = document.getElementById('rating-breakdown');
+let currentUserRating = 0;
 
-    function loadRatings() {
-        ratingsRef.on('value', snapshot => {
-            const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
-            const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
-            avgStarsEl.textContent = avg;
-            voteCountEl.textContent = data.count;
+const ratingsRef = firebase.database().ref('ratings');
+const userRatingsRef = firebase.database().ref('userRatings');
 
-            let html = '';
-            for (let i = 5; i >= 1; i--) {
-                const count = data.breakdown?.[i] || 0;
-                html += `
-                    <div>
-                        <span class="stars">${'★'.repeat(i)}</span>
-                        <span class="count">${count} ${translations[currentLang].rating_votes_text}</span>
-                    </div>
-                `;
-            }
-            breakdownEl.innerHTML = html;
-        });
-    }
+// 1. تحميل التقييمات (مع تحديث فوري للمتوسط والتفصيل)
+function loadRatings() {
+    ratingsRef.on('value', snapshot => {
+        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
+        
+        avgStarsEl.textContent = avg;
+        voteCountEl.textContent = data.count;
 
-    function updateStars(rating) {
-        stars.forEach(star => {
-            const val = Number(star.dataset.value);
-            star.classList.toggle('selected', val <= rating);
-            star.textContent = val <= rating ? '★' : '☆';
-        });
-        ratingValue.textContent = `${rating}/5`;
-    }
+        // تحديث التفصيل (breakdown) مع ترجمة ديناميكية
+        let html = '';
+        for (let i = 5; i >= 1; i--) {
+            const count = data.breakdown?.[i] || 0;
+            html += `
+                <div>
+                    <span class="stars">${'★'.repeat(i)}</span>
+                    <span class="count">${count} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
+                </div>
+            `;
+        }
+        breakdownEl.innerHTML = html;
+    });
+}
 
-    function checkUserRating(user) {
-        if (!user) {
-            updateStars(0);
-            ratingMessage.textContent = translations[currentLang].rating_login;
+// 2. تحديث شكل النجوم
+function updateStars(rating) {
+    stars.forEach(star => {
+        const val = Number(star.dataset.value);
+        star.classList.toggle('selected', val <= rating);
+        star.textContent = val <= rating ? '★' : '☆';
+    });
+    if (ratingValue) ratingValue.textContent = `${rating}/5`;
+}
+
+// 3. التحقق من تقييم المستخدم الحالي
+function checkUserRating(user) {
+    if (!user) {
+        updateStars(0);
+        if (ratingMessage) {
+            ratingMessage.textContent = translations[currentLang]?.rating_login || 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
             ratingMessage.classList.add('show');
+        }
+        stars.forEach(s => s.style.pointerEvents = 'none');
+        return;
+    }
+
+    const uid = user.uid;
+    userRatingsRef.child(uid).once('value').then(snap => {
+        if (snap.exists()) {
+            const data = snap.val();
+            currentUserRating = data.rating;
+            updateStars(currentUserRating);
+            if (ratingMessage) {
+                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+                ratingMessage.classList.add('show');
+                setTimeout(() => ratingMessage.classList.remove('show'), 8000);
+            }
             stars.forEach(s => s.style.pointerEvents = 'none');
+        } else {
+            currentUserRating = 0;
+            updateStars(0);
+            stars.forEach(s => s.style.pointerEvents = 'auto');
+        }
+    }).catch(err => console.error("Erreur check rating:", err));
+}
+
+// 4. ربط تغيير حالة المستخدم
+auth.onAuthStateChanged(user => checkUserRating(user));
+
+// 5. التفاعل مع النجوم (hover + click)
+stars.forEach(star => {
+    const val = Number(star.dataset.value);
+
+    // Hover (preview)
+    star.addEventListener('mouseover', () => {
+        if (auth.currentUser && currentUserRating === 0) {
+            stars.forEach(s => {
+                const sVal = Number(s.dataset.value);
+                s.classList.toggle('selected', sVal <= val);
+                s.textContent = sVal <= val ? '★' : '☆';
+            });
+        }
+    });
+
+    // Mouse out → reset
+    star.addEventListener('mouseout', () => {
+        if (auth.currentUser && currentUserRating === 0) {
+            updateStars(0);
+        }
+    });
+
+    // Click → تسجيل التقييم
+    star.addEventListener('click', () => {
+        if (!auth.currentUser) {
+            alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
+            document.getElementById('btn-google')?.click();
             return;
         }
 
-        const uid = user.uid;
-        userRatingsRef.child(uid).once('value').then(snap => {
-            if (snap.exists()) {
-                const data = snap.val();
-                currentUserRating = data.rating;
-                updateStars(currentUserRating);
-                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+        if (currentUserRating > 0) {
+            if (ratingMessage) {
+                ratingMessage.textContent = translations[currentLang]?.rating_login || 'لقد قيّمت الورشة من قبل';
                 ratingMessage.classList.add('show');
-                stars.forEach(s => s.style.pointerEvents = 'none');
-            } else {
-                currentUserRating = 0;
-                updateStars(0);
-                stars.forEach(s => s.style.pointerEvents = 'auto');
+                setTimeout(() => ratingMessage.classList.remove('show'), 6000);
             }
-        });
-    }
+            return;
+        }
 
-    auth.onAuthStateChanged(user => checkUserRating(user));
+        const uid = auth.currentUser.uid;
+        const name = auth.currentUser.displayName || 'مجهول';
 
-    stars.forEach(star => {
-        const val = Number(star.dataset.value);
-        star.addEventListener('mouseover', () => {
-            if (auth.currentUser && currentUserRating === 0) {
-                stars.forEach(s => {
-                    const sVal = Number(s.dataset.value);
-                    s.classList.toggle('selected', sVal <= val);
-                    s.textContent = sVal <= val ? '★' : '☆';
-                });
-            }
+        // حفظ تقييم المستخدم
+        userRatingsRef.child(uid).set({
+            rating: val,
+            name: name,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
         });
 
-        star.addEventListener('mouseout', () => {
-            if (auth.currentUser && currentUserRating === 0) updateStars(0);
+        // تحديث المجموع الكلي
+        ratingsRef.transaction(current => {
+            const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+            data.sum += val;
+            data.count += 1;
+            data.breakdown[val] = (data.breakdown[val] || 0) + 1;
+            return data;
         });
 
-        star.addEventListener('click', () => {
-            if (!auth.currentUser) {
-                alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
-                document.getElementById('btn-google')?.click();
-                return;
-            }
+        currentUserRating = val;
+        updateStars(val);
 
-            if (currentUserRating > 0) {
-                ratingMessage.textContent = translations[currentLang].rating_login;
-                ratingMessage.classList.add('show');
-                return;
-            }
+        // رسالة شكر مترجمة
+        const thanksText = {
+            ar: `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`,
+            fr: `Merci ${name}, votre note (${val} étoiles) a été enregistrée 🌟`,
+            en: `Thank you ${name}, your rating (${val} stars) has been saved 🌟`
+        };
 
-            const uid = auth.currentUser.uid;
-            const name = auth.currentUser.displayName || 'مجهول';
-            userRatingsRef.child(uid).set({
-                rating: val,
-                name: name,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            });
-
-            ratingsRef.transaction(current => {
-                const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
-                data.sum += val;
-                data.count += 1;
-                data.breakdown[val] = (data.breakdown[val] || 0) + 1;
-                return data;
-            });
-
-            currentUserRating = val;
-            updateStars(val);
-
-            const thanksText = {
-                ar: `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`,
-                fr: `Merci ${name}, votre note (${val} étoiles) a été enregistrée 🌟`,
-                en: `Thank you ${name}, your rating (${val} stars) has been saved 🌟`
-            };
-
+        if (ratingMessage) {
             ratingMessage.textContent = thanksText[currentLang];
             ratingMessage.classList.add('show');
             setTimeout(() => ratingMessage.classList.remove('show'), 8000);
-            stars.forEach(s => s.style.pointerEvents = 'none');
-        });
-    });
+        }
 
-    loadRatings();
+        stars.forEach(s => s.style.pointerEvents = 'none');
+    });
+});
+
+// 6. تحميل التقييمات عند بداية الصفحة
+loadRatings();
 
     // ── PCB Animated Header Canvas ─────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');

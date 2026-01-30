@@ -1,3 +1,4 @@
+// ==========================================================================
 // Firebase Configuration & Initialization
 // ==========================================================================
 const firebaseConfig = {
@@ -9,25 +10,24 @@ const firebaseConfig = {
     appId: "1:547430908384:web:4caa4cf3869491bd14eb85",
     databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
 };
+
 firebase.initializeApp(firebaseConfig);
 const analytics = firebase.analytics();
 const auth = firebase.auth();
+
 // Garder la session même après refresh/fermeture
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
-// ==========================================================================
-// Translations (جمعتها كلها هنا في البداية)
-// ==========================================================================
 
+// ==========================================================================
+// Translations (جمعتها كلها هنا + نظفت التكرارات)
+// ==========================================================================
 const translations = {
     ar: {
-        // العنوان والأساسيات
         site_title: "ورشة إلكترونيك الرحماني",
         site_name: "ورشة إلكترونيك مدنين",
         experience: "أكثر من 10 سنوات خبرة",
-
-        // أزرار CTA الرئيسية
         cta_download: "تحميل البرامج 📥",
         cta_store: "تَسوّق الآن 🛒",
         cta_whatsapp: "واتساب 📱",
@@ -37,22 +37,14 @@ const translations = {
         cta_services: "خدمات الورشة 🛠️",
         cta_radio_play: "شغّل الراديو 📻",
         cta_radio_stop: "أوقف الراديو",
-
-        // تسجيل الدخول / المستخدم
         login_title: "تسجيل الدخول",
         login_google: "تسجيل الدخول بـ Google",
         cancel: "إلغاء",
         welcome: "مرحبا",
         user_welcome: "مرحبا {name} 👋",
         sign_out: "تسجيل الخروج",
-
-        // News Ticker
         news_loading: "تحميل الأخبار...",
-
-        // Compteur visites
         visit_count: "عدد زوار الموقع: {count}",
-
-        // الطقس والأذان
         weather_title: "🌦️ حالة الطقس في مدنين",
         weather_loading: "جاري التحميل...",
         prayer_fajr: "🌅 الفجر",
@@ -61,42 +53,31 @@ const translations = {
         prayer_asr: "🕰️ العصر",
         prayer_maghrib: "🌇 المغرب",
         prayer_isha: "🌙 العشاء",
-
-        // نصيحة اليوم
         tip_title: "نصيحة اليوم",
-
-        // التقييم
         rating_title: "قيم الورشة",
         rating_average: "متوسط التقييمات: {avg} ★ من {count} صوت",
+        rating_votes: "من",
+        rating_votes_text: "صوت",
         rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
-
-     // FAQ .الأسئلة والإجابات
         faq_header: "الأسئلة اللي في بالك",
         faq_close_all: "إخفاء الإجابات",
         faq_q_services: "شنوّا الخدمات اللي عندكم يا خويا؟",
         faq_a_services: "متخصصين في تصليح الكروت الإلكترونية بكل أنواعها:\n• ماكينات لحام (postes de soudure) بكل أشكالها\n• كروت الغسالات (lave-linge) – كل الماركات\n• كروت الكليما (climatiseurs) – inverter وعادي\n• كروت المصانع والمعامل\n• كروت الموازين الإلكترونية (mizan)\n<strong>ما نخدموش في</strong>: الراديو، التلفزيونات، التلفونات.",
-
         faq_q_location: "وينكم بالضبط؟",
         faq_a_location: "مدنين – نهج ليبيا، بعد كوشة شامخ، في أول طلعة على يمينك. لو ضيّعت الطريق، اتصل!",
-
         faq_q_call: "نقدر نتصل قبل ما نجي؟",
         faq_a_call: "أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على 98.192.103، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.",
-
         faq_q_time: "كم ياخذ الوقت باش نصلح الكارت؟",
         faq_a_time: "يعتمد على العطل: تشخيص مجاني في الغالب، تصليح بسيط (تغيير كومبوننت) 1-3 أيام، مشاكل كبيرة (reballing، بورد معقدة...) ممكن 5-7 أيام. نتصل بيك دايما باش نعلمك.",
-
         faq_q_guarantee: "الضمان كيفاه؟",
         faq_a_guarantee: "كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.",
-
         faq_q_price: "الأسعار معقولة ولا غالية؟",
         faq_a_price: "نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو."
     },
-
     fr: {
         site_title: "Atelier Électronique Rahmanie",
         site_name: "Atelier Électronique Médenine",
         experience: "Plus de 10 ans d’expérience",
-
         cta_download: "Télécharger les programmes 📥",
         cta_store: "Boutique 🛒",
         cta_whatsapp: "WhatsApp 📱",
@@ -106,18 +87,14 @@ const translations = {
         cta_services: "Services de l’atelier 🛠️",
         cta_radio_play: "Écouter la radio 📻",
         cta_radio_stop: "Arrêter la radio",
-
         login_title: "Connexion",
         login_google: "Se connecter avec Google",
         cancel: "Annuler",
         welcome: "Bienvenue",
         user_welcome: "Bienvenue {name} 👋",
         sign_out: "Déconnexion",
-
         news_loading: "Chargement des actualités...",
-
         visit_count: "Nombre de visiteurs : {count}",
-
         weather_title: "🌦️ Météo à Médenine",
         weather_loading: "Chargement...",
         prayer_fajr: "Fajr",
@@ -126,47 +103,31 @@ const translations = {
         prayer_asr: "Asr",
         prayer_maghrib: "Maghrib",
         prayer_isha: "Isha",
-
         tip_title: "Astuce du jour",
-
-        rating_title: "Évaluez l'atelier",
-        rating_average: "Note moyenne : {avg} ★ de {count} votes",
-        rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
-
         rating_title: "Évaluez l'atelier",
         rating_average: "Note moyenne : {avg} ★ de {count} votes",
         rating_votes: "de",
         rating_votes_text: "votes",
         rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
-
         faq_header: "Questions fréquentes",
         faq_close_all: "Masquer les réponses",
-
         faq_q_services: "Quels sont vos services ?",
         faq_a_services: "Spécialisés dans la réparation de cartes électroniques de tous types :\n• Postes à souder de toutes formes\n• Cartes de machines à laver – toutes marques\n• Cartes de climatiseurs – inverter et conventionnels\n• Cartes industrielles et d'usines\n• Cartes de balances électroniques\n<strong>Nous ne réparons pas :</strong> radios, téléviseurs, téléphones.",
-
         faq_q_location: "Où êtes-vous exactement ?",
         faq_a_location: "Médenine – Rue de Libye, après le virage Chamakh, première montée à droite. Appelez si vous êtes perdu !",
-
         faq_q_call: "Puis-je appeler avant de venir ?",
         faq_a_call: "Bien sûr ! Le mieux est d’appeler avant (WhatsApp ou appel) au 98.192.103. Envoyez une photo de la carte si vous voulez, on vous dira si on peut la réparer, le prix approximatif et le délai.",
-
         faq_q_time: "Combien de temps faut-il pour réparer la carte ?",
         faq_a_time: "Ça dépend de la panne : diagnostic souvent gratuit, réparation simple (changement de composant) 1-3 jours, pannes complexes (reballing, carte très complexe…) 5-7 jours. On vous appelle toujours pour vous tenir informé.",
-
         faq_q_guarantee: "Quelle est la garantie ?",
         faq_a_guarantee: "Chaque réparation est garantie de 1 à 3 mois selon la pièce et le travail. Si le même défaut revient, on le répare gratuitement inchaAllah.",
-
         faq_q_price: "Les prix sont-ils raisonnables ?",
         faq_a_price: "On essaie d’être parmi les moins chers de la région, diagnostic souvent gratuit, prix selon la pièce (originale ou compatible selon votre budget). On vous donne le prix avant de commencer."
     },
-   
-
     en: {
         site_title: "Rahmani Electronics Workshop",
         site_name: "Atelier Electronique Médenine",
         experience: "More than 10 years of experience",
-
         cta_download: "Download Software 📥",
         cta_store: "Shop Now 🛒",
         cta_whatsapp: "WhatsApp 📱",
@@ -176,18 +137,14 @@ const translations = {
         cta_services: "Workshop Services 🛠️",
         cta_radio_play: "Play Radio 📻",
         cta_radio_stop: "Stop Radio",
-
         login_title: "Login",
         login_google: "Sign in with Google",
         cancel: "Cancel",
         welcome: "Welcome",
         user_welcome: "Welcome {name} 👋",
         sign_out: "Sign Out",
-
         news_loading: "Loading news...",
-
         visit_count: "Visitors count: {count}",
-
         weather_title: "🌦️ Weather in Medenine",
         weather_loading: "Loading...",
         prayer_fajr: "Fajr",
@@ -196,40 +153,29 @@ const translations = {
         prayer_asr: "Asr",
         prayer_maghrib: "Maghrib",
         prayer_isha: "Isha",
-
-        rating_title: "Rate the workshop",
-        rating_average: "Average rating: {avg} ★ from {count} votes",
-        rating_login: "Sign in with Google to rate the workshop (once only)",
-
+        tip_title: "Tip of the day",
         rating_title: "Rate the workshop",
         rating_average: "Average rating: {avg} ★ from {count} votes",
         rating_votes: "from",
         rating_votes_text: "votes",
         rating_login: "Sign in with Google to rate the workshop (once only)",
-
         faq_header: "Frequently Asked Questions",
         faq_close_all: "Hide answers",
-
         faq_q_services: "What services do you offer?",
         faq_a_services: "Specialized in repairing all types of electronic boards:\n• Welding machines (all types)\n• Washing machine boards – all brands\n• Air conditioner boards – inverter & conventional\n• Industrial & factory boards\n• Electronic scale boards\n<strong>We do NOT repair:</strong> radios, TVs, mobile phones.",
-
         faq_q_location: "Where exactly are you located?",
         faq_a_location: "Médenine – Libya Street, after Chamakh roundabout, first right turn uphill. Call if you get lost!",
-
         faq_q_call: "Can I call before coming?",
         faq_a_call: "Of course! Best to call first (WhatsApp or phone) at 98.192.103. Send a photo of the board if you like, we'll tell you if we can fix it, approximate price and time.",
-
         faq_q_time: "How long does a repair take?",
         faq_a_time: "Depends on the fault: diagnosis usually free, simple repair (component change) 1-3 days, complex issues (reballing, complicated boards…) 5-7 days. We always call to keep you updated.",
-
         faq_q_guarantee: "What is the warranty?",
         faq_a_guarantee: "Every repair comes with 1 to 3 months warranty depending on the part and work. If the same fault returns, we fix it for free inchaAllah.",
-
         faq_q_price: "Are your prices reasonable?",
         faq_a_price: "We try to be among the cheapest in the area, diagnosis mostly free, price depends on the part (original or compatible according to your budget). We tell you the price before starting."
-
     }
 };
+
 // ==========================================================================
 // Variables globales
 // ==========================================================================
@@ -239,46 +185,54 @@ let currentLang = localStorage.getItem('lang') || 'ar';
 // DOM Ready
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
-
     // ── Éléments DOM récurrents ───────────────────────────────────────────
-    const ticker       = document.getElementById('live-news');
-    const timeEl       = document.getElementById('current-time');
-    const visitEl      = document.getElementById('visit-count');
-    const radio        = document.getElementById('radio-stream');
-    const radioBtn     = document.getElementById('radio-btn');
-    const equalizer    = document.getElementById('equalizer');
-    const loginPopup   = document.getElementById('login-popup');
-    const userInfo     = document.getElementById('user-info');
-    const userName     = document.getElementById('user-name');
-    const btnGoogle    = document.getElementById('btn-google');
-    const btnClosePopup= document.getElementById('btn-close-popup');
-    const btnSignOut   = document.getElementById('btn-signout');
+    const ticker = document.getElementById('live-news');
+    const timeEl = document.getElementById('current-time');
+    const visitEl = document.getElementById('visit-count');
+    const radio = document.getElementById('radio-stream');
+    const radioBtn = document.getElementById('radio-btn');
+    const equalizer = document.getElementById('equalizer');
+    const loginPopup = document.getElementById('login-popup');
+    const userInfo = document.getElementById('user-info');
+    const userName = document.getElementById('user-name');
+    const btnGoogle = document.getElementById('btn-google');
+    const btnClosePopup = document.getElementById('btn-close-popup');
+    const btnSignOut = document.getElementById('btn-signout');
 
-    // ── Language Switcher ─────────────────────────────────────────────────
+    // ── Language Switcher (النسخة المحسنة الكاملة) ────────────────────────
     function applyLanguage(lang) {
-        if (!translations[lang]) lang = 'ar'; // fallback
-
+        if (!translations[lang]) lang = 'ar';
         currentLang = lang;
         localStorage.setItem('lang', lang);
+
         document.documentElement.lang = lang;
-        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            const txt = translations[lang][key] || translations.ar[key] || el.textContent;
-            el.textContent = txt;
+            let txt = translations[lang][key] || translations.ar[key] || el.textContent || '';
+
+            // معالجة المتغيرات الديناميكية
+            txt = txt.replace('{name}', userName?.textContent || '');
+            txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
+            txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
+
+            el.innerHTML = txt;  // innerHTML عشان نحافظ على <strong> و <br> إذا موجودين
         });
 
-        // Mise à jour dynamique du bouton radio
+        // تحديث نص الراديو ديناميكياً
         if (radioBtn) {
-            radioBtn.textContent = radio.paused 
-                ? translations[lang].cta_radio_play 
+            radioBtn.textContent = radio.paused
+                ? translations[lang].cta_radio_play
                 : translations[lang].cta_radio_stop;
         }
 
         // Rafraîchir les sections sensibles à la langue
         updateWeather();
+        updatePrayerTimes();
         updateMiniCalendar();
+        updateDailyTips();
+        loadRatings();
     }
 
     // Écouteurs pour les drapeaux / boutons langue
@@ -287,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(el.dataset.lang);
         });
     });
+
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -298,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loginPopup.style.display = 'flex';
         }
     });
+
     btnGoogle?.addEventListener('click', () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider)
@@ -308,16 +264,19 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(console.error);
     });
+
     btnClosePopup?.addEventListener('click', () => {
         loginPopup.style.display = 'none';
     });
+
     btnSignOut?.addEventListener('click', () => {
         auth.signOut().then(() => {
             userInfo.style.display = 'none';
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-    // ── Compteur de visites (Firebase Realtime) ───────────────────────────
+
+    // ── Compteur de visites ────────────────────────────────────────────────
     if (visitEl) {
         const db = firebase.database();
         const visitsRef = db.ref('visits');
@@ -327,7 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
             visitEl.textContent = `عدد زوار الموقع: ${total}`;
         });
     }
-    // ── Mise à jour de l'heure (عربي فقط) ─────────────────────────────────
+
+    // ── Mise à jour de l'heure ─────────────────────────────────────────────
     function updateTime() {
         const now = new Date();
         const days = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
@@ -340,48 +300,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const s = now.getSeconds().toString().padStart(2,'0');
         timeEl.textContent = `${day}، ${date} ${month} - ${h}:${m}:${s}`;
     }
-    // ── Ticker d'actualités (عربي فقط) ────────────────────────────────────
-   // ==========================================================================
-// News Ticker متعدد اللغات
-// ==========================================================================
-const news = {
-    ar: [
-        "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
-        "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
-        "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
-        "📱 تواصل معنا عبر واتساب لأي استفسار."
-    ],
-    fr: [
-        "📢 L'atelier Électronique Rahmanie ouvre ses portes à toutes les régions.",
-        "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
-        "🌍 Livraison par poste disponible dans toute la Tunisie.",
-        "📱 Contactez-nous sur WhatsApp pour toute question."
-    ],
-    en: [
-        "📢 Rahmani Electronics Workshop opens its doors to all regions.",
-        "🔧 High-quality electronic repair services at competitive prices.",
-        "🌍 Nationwide delivery available across Tunisia.",
-        "📱 Contact us on WhatsApp for any inquiry."
-    ]
-};
 
-let newsIndex = 0;
-function updateNews() {
-    const ticker = document.getElementById('live-news');
-    if (!ticker) return;
+    // ── News Ticker متعدد اللغات ──────────────────────────────────────────
+    const news = {
+        ar: [
+            "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
+            "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
+            "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
+            "📱 تواصل معنا عبر واتساب لأي استفسار."
+        ],
+        fr: [
+            "📢 L'atelier Électronique Rahmanie ouvre ses portes à toutes les régions.",
+            "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
+            "🌍 Livraison par poste disponible dans toute la Tunisie.",
+            "📱 Contactez-nous sur WhatsApp pour toute question."
+        ],
+        en: [
+            "📢 Rahmani Electronics Workshop opens its doors to all regions.",
+            "🔧 High-quality electronic repair services at competitive prices.",
+            "🌍 Nationwide delivery available across Tunisia.",
+            "📱 Contact us on WhatsApp for any inquiry."
+        ]
+    };
 
-    ticker.classList.remove('fade');
-    void ticker.offsetWidth;
-    ticker.textContent = news[currentLang][newsIndex];
-    ticker.classList.add('fade');
-    newsIndex = (newsIndex + 1) % news[currentLang].length;
-}
+    let newsIndex = 0;
+    function updateNews() {
+        if (!ticker) return;
+        ticker.classList.remove('fade');
+        void ticker.offsetWidth;
+        ticker.textContent = news[currentLang][newsIndex];
+        ticker.classList.add('fade');
+        newsIndex = (newsIndex + 1) % news[currentLang].length;
+    }
 
-function startNewsRotation() {
-    updateNews();
-    setInterval(updateNews, 5000);
-}
-    // ── FAQ Toggle ────────────────────────────────────────────────────────
+    function startNewsRotation() {
+        updateNews();
+        setInterval(updateNews, 5000);
+    }
+
+    // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {
             item.addEventListener('click', () => {
@@ -389,7 +346,7 @@ function startNewsRotation() {
                 parent.classList.toggle('active');
             });
         });
-        // زر إغلاق الكل
+
         const closeAllBtn = document.getElementById('faq-close-all');
         if (closeAllBtn) {
             closeAllBtn.addEventListener('click', () => {
@@ -399,374 +356,262 @@ function startNewsRotation() {
             });
         }
     }
-// ── Wave Animation لعنوان FAQ ────────────────────────────────────────────────
+
+    // ── Wave Animation لعنوان FAQ (محسنة) ────────────────────────────────
     const faqHeader = document.querySelector('.faq-header');
     if (faqHeader) {
-        // 1. نأخذ النص الأصلي ونقسمه إلى spans
         const waveContainer = document.createElement('span');
         waveContainer.className = 'wave-text';
-        const originalText = faqHeader.textContent.trim(); // "الأسئلة اللي في بالك"
-        faqHeader.textContent = ''; // نفرغ العنوان
+        waveContainer.setAttribute('data-i18n', 'faq_header');
+        faqHeader.innerHTML = '';
         faqHeader.appendChild(waveContainer);
-
-        // 2. تقسيم الحروف أوتوماتيكيًا
-        [...originalText].forEach((char, index) => {
-            const span = document.createElement('span');
-            span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.setProperty('--i', index);
-            waveContainer.appendChild(span);
-        });
-
-        // 3. إضافة class للتحكم في الـ CSS
-        faqHeader.classList.add('wave-header');
     }
 
-    // ── Equalizer visibility ──────────────────────────────────────────────
+    // ── Equalizer visibility ───────────────────────────────────────────────
     function updateEqualizerVisibility() {
         if (equalizer) {
             equalizer.style.opacity = radio.paused ? '0.25' : '1';
             equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
         }
     }
-    // ── Radio controls ────────────────────────────────────────────────────
+
+    // ── Radio controls ─────────────────────────────────────────────────────
     if (radioBtn) {
-    radioBtn.addEventListener('click', () => {
-        if (radio.paused) {
-            radio.play().catch(e => console.warn('Radio play failed:', e));
-        } else {
-            radio.pause();
-        }
-        // ✅ تحديث النص حسب اللغة بعد التشغيل أو الإيقاف
-        radioBtn.textContent = radio.paused ? translations[currentLang].radio_play : translations[currentLang].radio_stop;
+        radioBtn.addEventListener('click', () => {
+            if (radio.paused) {
+                radio.play().catch(e => console.warn('Radio play failed:', e));
+            } else {
+                radio.pause();
+            }
+            radioBtn.textContent = radio.paused 
+                ? translations[currentLang].cta_radio_play 
+                : translations[currentLang].cta_radio_stop;
+            updateEqualizerVisibility();
+            radioBtn.classList.toggle('dance');
+        });
 
-        updateEqualizerVisibility();
-        radioBtn.classList.toggle('dance');
-    });
+        radio.addEventListener('play', updateEqualizerVisibility);
+        radio.addEventListener('pause', updateEqualizerVisibility);
+    }
 
-    // تحديث equalizer عند التشغيل أو الإيقاف
-    radio.addEventListener('play', updateEqualizerVisibility);
-    radio.addEventListener('pause', updateEqualizerVisibility);
-}
-
-    // ── Initialisation ────────────────────────────────────────────────────
+    // ── Initialisation ─────────────────────────────────────────────────────
     setInterval(updateTime, 1000);
     updateTime();
     startNewsRotation();
     initFAQ();
     updateEqualizerVisibility();
-    // ── Weather API (عربي فقط) ───────────────────────────────────────────
-  function updateWeather() {
-    const url = "https://api.open-meteo.com/v1/forecast?" +
-                "latitude=33.3549&longitude=10.5055" +
-                "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m" +
-                "&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max" +
-                "&timezone=Africa%2FTunis" +  // مهم للتوقيت التونسي
-                "&forecast_days=2";  // اليوم + الغد
 
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.current || !data.daily) {
-                throw new Error("No data");
-            }
+    // ── Weather API ────────────────────────────────────────────────────────
+    function updateWeather() {
+        const url = "https://api.open-meteo.com/v1/forecast?" +
+                    "latitude=33.3549&longitude=10.5055" +
+                    "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m" +
+                    "&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max" +
+                    "&timezone=Africa%2FTunis" +
+                    "&forecast_days=2";
 
-            // ── الطقس الحالي ────────────────────────────────────────
-            const now = data.current;
-            const temp = Math.round(now.temperature_2m) + "°C";
-            const feelsLike = Math.round(now.apparent_temperature) + "°C";
-            const windSpeed = Math.round(now.wind_speed_10m) + " كم/س";
-            const weatherCode = now.weather_code;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.current || !data.daily) throw new Error("No data");
 
-            // وصف الطقس الحالي (من WMO codes اللي يستعملها open-meteo)
-            const weatherDesc = getWeatherDescription(weatherCode);
+                const now = data.current;
+                const temp = Math.round(now.temperature_2m) + "°C";
+                const weatherCode = now.weather_code;
+                const weatherDesc = getWeatherDescription(weatherCode);
+                const windSpeed = Math.round(now.wind_speed_10m) + " كم/س";
 
-            document.getElementById("weather-temp").textContent = `${temp} `;
-            document.getElementById("weather-desc").innerHTML = 
-                `${weatherDesc} • 🌬️ ${windSpeed}`;
+                document.getElementById("weather-temp").textContent = temp;
+                const weatherEl = document.getElementById("weather-desc");
 
-            // ── الغد (demain) ────────────────────────────────────────
-            const tomorrow = data.daily;
-            const dayIndex = 1; // اليوم التالي
-            const tMax = Math.round(tomorrow.temperature_2m_max[dayIndex]) + "°C";
-            const tMin = Math.round(tomorrow.temperature_2m_min[dayIndex]) + "°C";
-            const windMax = Math.round(tomorrow.wind_speed_10m_max[dayIndex]) + " كم/س";
-            const tomorrowCode = tomorrow.weather_code[dayIndex];
-            const tomorrowDesc = getWeatherDescription(tomorrowCode);
+                const tomorrow = data.daily;
+                const dayIndex = 1;
+                const tMax = Math.round(tomorrow.temperature_2m_max[dayIndex]) + "°C";
+                const tMin = Math.round(tomorrow.temperature_2m_min[dayIndex]) + "°C";
+                const windMax = Math.round(tomorrow.wind_speed_10m_max[dayIndex]) + " كم/س";
+                const tomorrowDesc = getWeatherDescription(tomorrow.weather_code[dayIndex]);
 
-            
+                const tomorrowText = { ar: "غداً", fr: "Demain", en: "Tomorrow" };
+                const windText = { ar: "رياح", fr: "Vent", en: "Wind" };
 
-            // أو تضيفه تحت الحالي
-            const weatherEl = document.getElementById("weather-desc");
-           const tomorrowText = {
-  ar: "غداً",
-  fr: "Demain",
-  en: "Tomorrow"
-};
-
-const windText = {
-  ar: "رياح",
-  fr: "Vent",
-  en: "Wind"
-};
-
-weatherEl.innerHTML = `
-${weatherDesc} • 🌬️ ${windSpeed}
-<br>
-<small>
-${tomorrowText[currentLang]}: 
-${tomorrowDesc} ${tMin}–${tMax} • 
-${windText[currentLang]} ${windMax}
-</small>`;
-
-        })
-        .catch(err => {
-            console.error("Weather error:", err);
-            document.getElementById("weather-desc").textContent = "⚠️ مشكلة في تحميل الطقس";
-        });
-}
-
-// دالة مساعدة لترجمة weather_code إلى وصف عربي (من WMO codes)
-function getWeatherDescription(code) {
-  const desc = {
-    ar: {
-      clear: "مشمس ☀️",
-      partly: "غائم جزئياً ⛅",
-      fog: "ضباب 🌫️",
-      rain: "مطر 💧",
-      storm: "عواصف رعدية ⚡",
-      unknown: "غير معروف 🌤️"
-    },
-    fr: {
-      clear: "Ensoleillé ☀️",
-      partly: "Partiellement nuageux ⛅",
-      fog: "Brouillard 🌫️",
-      rain: "Pluie 💧",
-      storm: "Orage ⚡",
-      unknown: "Inconnu 🌤️"
-    },
-    en: {
-      clear: "Sunny ☀️",
-      partly: "Partly cloudy ⛅",
-      fog: "Fog 🌫️",
-      rain: "Rain 💧",
-      storm: "Thunderstorm ⚡",
-      unknown: "Unknown 🌤️"
+                weatherEl.innerHTML = `
+                    ${weatherDesc} • 🌬️ ${windSpeed}
+                    <br>
+                    <small>
+                        ${tomorrowText[currentLang]}: ${tomorrowDesc} ${tMin}–${tMax} • ${windText[currentLang]} ${windMax}
+                    </small>`;
+            })
+            .catch(err => {
+                console.error("Weather error:", err);
+                document.getElementById("weather-desc").textContent = "⚠️ مشكلة في تحميل الطقس";
+            });
     }
-  };
 
-  const t = desc[currentLang] || desc.ar;
+    function getWeatherDescription(code) {
+        const desc = {
+            ar: { clear: "مشمس ☀️", partly: "غائم جزئياً ⛅", fog: "ضباب 🌫️", rain: "مطر 💧", storm: "عواصف رعدية ⚡", unknown: "غير معروف 🌤️" },
+            fr: { clear: "Ensoleillé ☀️", partly: "Partiellement nuageux ⛅", fog: "Brouillard 🌫️", rain: "Pluie 💧", storm: "Orage ⚡", unknown: "Inconnu 🌤️" },
+            en: { clear: "Sunny ☀️", partly: "Partly cloudy ⛅", fog: "Fog 🌫️", rain: "Rain 💧", storm: "Thunderstorm ⚡", unknown: "Unknown 🌤️" }
+        };
+        const t = desc[currentLang] || desc.ar;
+        if (code === 0) return t.clear;
+        if ([1,2,3].includes(code)) return t.partly;
+        if (code >= 45 && code <= 48) return t.fog;
+        if (code >= 61 && code <= 82) return t.rain;
+        if (code >= 95) return t.storm;
+        return t.unknown;
+    }
 
-  if (code === 0) return t.clear;
-  if ([1,2,3].includes(code)) return t.partly;
-  if (code >= 45 && code <= 48) return t.fog;
-  if (code >= 61 && code <= 82) return t.rain;
-  if (code >= 95) return t.storm;
+    // ── Prayer Times ───────────────────────────────────────────────────────
+    function updatePrayerTimes() {
+        fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")
+            .then(res => res.json())
+            .then(data => {
+                if (data.code !== 200) return console.error("API error:", data.status);
 
-  return t.unknown;
-}
+                const times = data.data.timings;
+                const pt = document.getElementById("prayer-times");
+                if (!pt) return;
 
-    // ── Prayer Times ──────────────────────────────────────────────────────
-   function updatePrayerTimes() {
-    fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")
-        .then(res => res.json())
-        .then(data => {
-            if (data.code !== 200) {
-                console.error("API error:", data.status);
-                return;
-            }
+                pt.innerHTML = `
+                    <p><span>${translations[currentLang].prayer_fajr}:</span> <span class="time">${times.Fajr}</span></p>
+                    <p><span>${translations[currentLang].prayer_sunrise}:</span> <span class="time">${times.Sunrise}</span></p>
+                    <p><span>${translations[currentLang].prayer_dhuhr}:</span> <span class="time">${times.Dhuhr}</span></p>
+                    <p><span>${translations[currentLang].prayer_asr}:</span> <span class="time">${times.Asr}</span></p>
+                    <p><span>${translations[currentLang].prayer_maghrib}:</span> <span class="time">${times.Maghrib}</span></p>
+                    <p><span>${translations[currentLang].prayer_isha}:</span> <span class="time">${times.Isha}</span></p>
+                `;
+            })
+            .catch(err => {
+                console.error("Erreur prayer times:", err);
+                const pt = document.getElementById("prayer-times");
+                if (pt) pt.innerHTML = '<p style="color:red;">⚠️ خطأ في تحميل أوقات الصلاة</p>';
+            });
+    }
 
-            const times = data.data.timings;
-            const pt = document.getElementById("prayer-times");
-
-            if (!pt) {
-                console.warn("العنصر #prayer-times مش موجود في الصفحة");
-                return;
-            }
-
-           pt.innerHTML = `
-  <p><span>${translations[currentLang].prayer_fajr}:</span> <span class="time">${times.Fajr}</span></p>
-  <p><span>${translations[currentLang].prayer_sunrise}:</span> <span class="time">${times.Sunrise}</span></p>
-  <p><span>${translations[currentLang].prayer_dhuhr}:</span> <span class="time">${times.Dhuhr}</span></p>
-  <p><span>${translations[currentLang].prayer_asr}:</span> <span class="time">${times.Asr}</span></p>
-  <p><span>${translations[currentLang].prayer_maghrib}:</span> <span class="time">${times.Maghrib}</span></p>
-  <p><span>${translations[currentLang].prayer_isha}:</span> <span class="time">${times.Isha}</span></p>
-`;
-
-
-            // إضافة اختيارية: إظهار اسم الطريقة تحت بشكل مرتب
-            // pt.innerHTML += `<small style="display:block; text-align:center; margin-top:10px; color:#777;">
-            //     طريقة الحساب: ${data.data.meta.method.name || 'مصرية'}
-            // </small>`;
-        })
-        .catch(err => {
-            console.error("Erreur prayer times:", err);
-            const pt = document.getElementById("prayer-times");
-            if (pt) {
-                pt.innerHTML = '<p style="color:red;">⚠️ خطأ في تحميل أوقات الصلاة</p>';
-            }
-        });
-}
-    // ── Mini Calendar (تقويم صغير داخل box الطقس) ────────────────────────
+    // ── Mini Calendar ──────────────────────────────────────────────────────
     function updateMiniCalendar() {
-  const today = new Date();
+        const today = new Date();
+        const miladiEl = document.getElementById('today-miladi');
+        const hijriEl = document.getElementById('today-hijri');
 
-  const miladiEl = document.getElementById('today-miladi');
-  const hijriEl  = document.getElementById('today-hijri');
+        const miladiOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
+        miladiEl.classList.toggle('friday', today.getDay() === 5);
 
-  /* =========================
-     1️⃣ التاريخ الميلادي
-  ========================= */
-  const miladiOptions = {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  };
-  miladiEl.textContent = today.toLocaleDateString('ar-TN', miladiOptions);
+        miladiEl.classList.remove('fade');
+        hijriEl.classList.remove('fade');
+        void miladiEl.offsetWidth;
+        miladiEl.classList.add('fade');
+        hijriEl.classList.add('fade');
 
-  miladiEl.classList.toggle('friday', today.getDay() === 5);
+        const cacheKey = `hijri-${today.toDateString()}`;
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) return hijriEl.textContent = cached;
 
-  /* =========================
-     2️⃣ Animation خفيفة
-  ========================= */
-  miladiEl.classList.remove('fade');
-  hijriEl.classList.remove('fade');
-  void miladiEl.offsetWidth; // reflow
-  miladiEl.classList.add('fade');
-  hijriEl.classList.add('fade');
+        const d = String(today.getDate()).padStart(2, '0');
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const y = today.getFullYear();
+        const dateStr = `${d}-${m}-${y}`;
 
-  /* =========================
-     3️⃣ Cache (يومي)
-  ========================= */
-  const cacheKey = `hijri-${today.toDateString()}`;
-  const cached = localStorage.getItem(cacheKey);
-  if (cached) {
-    hijriEl.textContent = cached;
-    return;
-  }
-
-  /* =========================
-     4️⃣ API الهجري (صحيح)
-  ========================= */
-  const d = String(today.getDate()).padStart(2, '0');
-  const m = String(today.getMonth() + 1).padStart(2, '0');
-  const y = today.getFullYear();
-  const dateStr = `${d}-${m}-${y}`;
-
-  fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
-    .then(res => {
-      if (!res.ok) throw new Error("API down");
-      return res.json();
-    })
-    .then(data => {
-      const h = data.data.hijri;
-      const icon = hijriIcon(h.month.number);
-
-      const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
-      hijriEl.textContent = text;
-      localStorage.setItem(cacheKey, text);
-    })
-    .catch(() => {
-      /* =========================
-         5️⃣ fallback ذكي (Intl)
-      ========================= */
-      try {
-        const fmt = new Intl.DateTimeFormat(
-          'ar-TN-u-ca-islamic',
-          { day: 'numeric', month: 'long', year: 'numeric' }
-        );
-        const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
-        hijriEl.textContent = text;
-        localStorage.setItem(cacheKey, text);
-      } catch {
-        hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
-      }
-    });
-}
-
-/* =========================
-   أيقونة حسب الشهر الهجري
-========================= */
-function hijriIcon(month) {
-  if (month === 9) return "🌙";        // رمضان
-  if (month === 12) return "🕋";       // ذو الحجة
-  if (month === 1) return "✨";        // محرم
-  if (month === 8) return "🌾";        // شعبان
-  return "🕌";
-}
-
-/* =========================
-   Auto refresh
-========================= */
-updateMiniCalendar();
-setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
-  
-   // ==========================================================================
-// نصائح اليوم متعددة اللغات
-// ==========================================================================
-function updateDailyTips() {
-    const tips = {
-        ar: [
-            "نظّف المكثفات من الغبار كل 6 أشهر.",
-            "استعمل منظم فولطاج لحماية اللوحة.",
-            "غيّر بطاريات الريموت قبل ما تنفجر.",
-            "فحص المروحة لو الجهاز يسخن بزاف.",
-            "تجنّب اللحام البارد في التصليح.",
-            "افصل الكهرباء قبل فتح الجهاز.",
-            "فحص الكونكتورات أولاً لو ما يشتغلش.",
-            "نظف اللوحات بكحول إيزوبروبيل فقط."
-        ],
-        fr: [
-            "Nettoyez les condensateurs de la poussière tous les 6 mois.",
-            "Utilisez un régulateur de tension pour protéger la carte.",
-            "Changez les piles de la télécommande avant qu'elles ne fuient.",
-            "Vérifiez le ventilateur si l'appareil chauffe trop.",
-            "Évitez les soudures froides lors des réparations.",
-            "Débranchez l'appareil avant d'ouvrir.",
-            "Vérifiez d'abord les connecteurs s'il ne fonctionne pas.",
-            "Nettoyez les cartes uniquement avec de l'alcool isopropylique."
-        ],
-        en: [
-            "Clean capacitors from dust every 6 months.",
-            "Use a voltage regulator to protect the board.",
-            "Replace remote batteries before they leak.",
-            "Check the fan if the device overheats.",
-            "Avoid cold solder joints during repairs.",
-            "Unplug before opening any device.",
-            "Check connectors first if it doesn't work.",
-            "Clean boards only with isopropyl alcohol."
-        ]
-    };
-
-    const selected = tips[currentLang] || tips.ar;
-    const shuffled = selected.sort(() => 0.5 - Math.random());
-    const list = document.getElementById('tips-list');
-    if (list) {
-        list.innerHTML = '';
-        shuffled.slice(0, 3).forEach(tip => {
-            const li = document.createElement('li');
-            li.textContent = tip;
-            list.appendChild(li);
-        });
+        fetch(`https://api.aladhan.com/v1/gToH/${dateStr}`)
+            .then(res => {
+                if (!res.ok) throw new Error("API down");
+                return res.json();
+            })
+            .then(data => {
+                const h = data.data.hijri;
+                const icon = hijriIcon(h.month.number);
+                const text = `${h.day} ${h.month.ar} ${h.year} هـ ${icon}`;
+                hijriEl.textContent = text;
+                localStorage.setItem(cacheKey, text);
+            })
+            .catch(() => {
+                try {
+                    const fmt = new Intl.DateTimeFormat('ar-TN-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' });
+                    const text = `${fmt.format(today)} هـ 🌙 (تقريبي)`;
+                    hijriEl.textContent = text;
+                    localStorage.setItem(cacheKey, text);
+                } catch {
+                    hijriEl.textContent = "التاريخ الهجري غير متوفر 🕌";
+                }
+            });
     }
-}
-    // ── Titres des sections (آمن – ما يفشلش لو العنصر مش موجود) ───────────────
-   const serviceTitle = document.querySelector('.services-today h2');
-if (serviceTitle) serviceTitle.textContent = "خدمات اليوم";
 
-const videoTitle = document.querySelector('.videos-today h2');
-if (videoTitle) videoTitle.textContent = "فيديو اليوم";
+    function hijriIcon(month) {
+        if (month === 9) return "🌙";
+        if (month === 12) return "🕋";
+        if (month === 1) return "✨";
+        if (month === 8) return "🌾";
+        return "🕌";
+    }
 
-const postesTitle = document.querySelector('#postesSection h2');
-if (postesTitle) postesTitle.textContent = "تصليح ماكينات لحام";
+    // ── Daily Tips متعدد اللغات ───────────────────────────────────────────
+    function updateDailyTips() {
+        const tips = {
+            ar: [
+                "نظّف المكثفات من الغبار كل 6 أشهر.",
+                "استعمل منظم فولطاج لحماية اللوحة.",
+                "غيّر بطاريات الريموت قبل ما تنفجر.",
+                "فحص المروحة لو الجهاز يسخن بزاف.",
+                "تجنّب اللحام البارد في التصليح.",
+                "افصل الكهرباء قبل فتح الجهاز.",
+                "فحص الكونكتورات أولاً لو ما يشتغلش.",
+                "نظف اللوحات بكحول إيزوبروبيل فقط."
+            ],
+            fr: [
+                "Nettoyez les condensateurs de la poussière tous les 6 mois.",
+                "Utilisez un régulateur de tension pour protéger la carte.",
+                "Changez les piles de la télécommande avant qu'elles ne fuient.",
+                "Vérifiez le ventilateur si l'appareil chauffe trop.",
+                "Évitez les soudures froides lors des réparations.",
+                "Débranchez l'appareil avant d'ouvrir.",
+                "Vérifiez d'abord les connecteurs s'il ne fonctionne pas.",
+                "Nettoyez les cartes uniquement avec de l'alcool isopropylique."
+            ],
+            en: [
+                "Clean capacitors from dust every 6 months.",
+                "Use a voltage regulator to protect the board.",
+                "Replace remote batteries before they leak.",
+                "Check the fan if the device overheats.",
+                "Avoid cold solder joints during repairs.",
+                "Unplug before opening any device.",
+                "Check connectors first if it doesn't work.",
+                "Clean boards only with isopropyl alcohol."
+            ]
+        };
 
-const ratingTitle = document.getElementById('rating-title');
-if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
+        const selected = tips[currentLang] || tips.ar;
+        const shuffled = selected.sort(() => 0.5 - Math.random());
+        const list = document.getElementById('tips-list');
+        if (list) {
+            list.innerHTML = '';
+            shuffled.slice(0, 3).forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                list.appendChild(li);
+            });
+        }
+    }
 
-    // ── Daily Rotation ────────────────────────────────────────────────────────
+    // ── Titres des sections (آمن) ──────────────────────────────────────────
+    const serviceTitle = document.querySelector('.services-today h2');
+    if (serviceTitle) serviceTitle.textContent = translations[currentLang]?.services_today || "خدمات اليوم";
+
+    const videoTitle = document.querySelector('.videos-today h2');
+    if (videoTitle) videoTitle.textContent = translations[currentLang]?.videos_today || "فيديو اليوم";
+
+    const postesTitle = document.querySelector('#postesSection h2');
+    if (postesTitle) postesTitle.textContent = translations[currentLang]?.postes_title || "تصليح ماكينات لحام";
+
+    const ratingTitleEl = document.getElementById('rating-title');
+    if (ratingTitleEl) ratingTitleEl.textContent = translations[currentLang]?.rating_title || 'قيم الورشة';
+
+    // ── Daily Rotation ─────────────────────────────────────────────────────
     const dailyServiceEl = document.getElementById('daily-service');
     const dailyVideoEl = document.getElementById('daily-video');
     const dailyMachineEl = document.getElementById('daily-machine');
+
     const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
 
     function showDailyItems() {
@@ -778,10 +623,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 { title: "تصليح لوحات إلكترونية", img: "images/electronic-board.jpg" }
             ];
             const item = services[dayOfYear % services.length];
-            dailyServiceEl.innerHTML = `
-                <img src="${item.img}" alt="${item.title}" loading="lazy">
-                <p>${item.title}</p>
-            `;
+            dailyServiceEl.innerHTML = `<img src="${item.img}" alt="${item.title}" loading="lazy"><p>${item.title}</p>`;
         }
 
         if (dailyVideoEl) {
@@ -791,10 +633,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 { title: "فحص تغذية كارت", img: "images/power-test.jpg" }
             ];
             const item = videos[dayOfYear % videos.length];
-            dailyVideoEl.innerHTML = `
-                <img src="${item.img}" alt="${item.title}" loading="lazy">
-                <p>${item.title}</p>
-            `;
+            dailyVideoEl.innerHTML = `<img src="${item.img}" alt="${item.title}" loading="lazy"><p>${item.title}</p>`;
         }
 
         if (dailyMachineEl) {
@@ -804,14 +643,12 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 { title: "Telwin machine", img: "images/telwin.jpg" }
             ];
             const item = machines[dayOfYear % machines.length];
-            dailyMachineEl.innerHTML = `
-                <img src="${item.img}" alt="${item.title}" loading="lazy">
-                <p>${item.title}</p>
-            `;
+            dailyMachineEl.innerHTML = `<img src="${item.img}" alt="${item.title}" loading="lazy"><p>${item.title}</p>`;
         }
     }
     showDailyItems();
-    // ── Rating System (عربي فقط) ─────────────────────────────────────────
+
+    // ── Rating System ──────────────────────────────────────────────────────
     const stars = document.querySelectorAll('.stars-horizontal span');
     const ratingValue = document.getElementById('rating-value');
     const ratingMessage = document.getElementById('rating-message');
@@ -821,26 +658,28 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
     let currentUserRating = 0;
     const ratingsRef = firebase.database().ref('ratings');
     const userRatingsRef = firebase.database().ref('userRatings');
+
     function loadRatings() {
         ratingsRef.on('value', snapshot => {
             const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
             const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
             avgStarsEl.textContent = avg;
             voteCountEl.textContent = data.count;
+
             let html = '';
             for (let i = 5; i >= 1; i--) {
                 const count = data.breakdown?.[i] || 0;
                 html += `
                     <div>
                         <span class="stars">${'★'.repeat(i)}</span>
-                       <span class="count">${count} ${translations[currentLang].rating_votes_text}</span>
-
+                        <span class="count">${count} ${translations[currentLang].rating_votes_text}</span>
                     </div>
                 `;
             }
             breakdownEl.innerHTML = html;
         });
     }
+
     function updateStars(rating) {
         stars.forEach(star => {
             const val = Number(star.dataset.value);
@@ -849,6 +688,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
         });
         ratingValue.textContent = `${rating}/5`;
     }
+
     function checkUserRating(user) {
         if (!user) {
             updateStars(0);
@@ -857,6 +697,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             stars.forEach(s => s.style.pointerEvents = 'none');
             return;
         }
+
         const uid = user.uid;
         userRatingsRef.child(uid).once('value').then(snap => {
             if (snap.exists()) {
@@ -873,9 +714,9 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             }
         });
     }
-    auth.onAuthStateChanged(user => {
-        checkUserRating(user);
-    });
+
+    auth.onAuthStateChanged(user => checkUserRating(user));
+
     stars.forEach(star => {
         const val = Number(star.dataset.value);
         star.addEventListener('mouseover', () => {
@@ -887,22 +728,24 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 });
             }
         });
+
         star.addEventListener('mouseout', () => {
-            if (auth.currentUser && currentUserRating === 0) {
-                updateStars(0);
-            }
+            if (auth.currentUser && currentUserRating === 0) updateStars(0);
         });
+
         star.addEventListener('click', () => {
             if (!auth.currentUser) {
                 alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
                 document.getElementById('btn-google')?.click();
                 return;
             }
+
             if (currentUserRating > 0) {
-               ratingMessage.textContent = translations[currentLang].rating_login;
+                ratingMessage.textContent = translations[currentLang].rating_login;
                 ratingMessage.classList.add('show');
                 return;
             }
+
             const uid = auth.currentUser.uid;
             const name = auth.currentUser.displayName || 'مجهول';
             userRatingsRef.child(uid).set({
@@ -910,6 +753,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 name: name,
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             });
+
             ratingsRef.transaction(current => {
                 const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
                 data.sum += val;
@@ -917,23 +761,26 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 data.breakdown[val] = (data.breakdown[val] || 0) + 1;
                 return data;
             });
+
             currentUserRating = val;
             updateStars(val);
-           const thanksText = {
-  ar: `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`,
-  fr: `Merci ${name}, votre note (${val} étoiles) a été enregistrée 🌟`,
-  en: `Thank you ${name}, your rating (${val} stars) has been saved 🌟`
-};
 
-ratingMessage.textContent = thanksText[currentLang];
+            const thanksText = {
+                ar: `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`,
+                fr: `Merci ${name}, votre note (${val} étoiles) a été enregistrée 🌟`,
+                en: `Thank you ${name}, your rating (${val} stars) has been saved 🌟`
+            };
 
+            ratingMessage.textContent = thanksText[currentLang];
             ratingMessage.classList.add('show');
             setTimeout(() => ratingMessage.classList.remove('show'), 8000);
             stars.forEach(s => s.style.pointerEvents = 'none');
         });
     });
+
     loadRatings();
-    // ── PCB Animated Header Canvas ────────────────────────────────────────
+
+    // ── PCB Animated Header Canvas ─────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -943,6 +790,7 @@ ratingMessage.textContent = thanksText[currentLang];
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
+
         const traces = [];
         for (let i = 0; i < 50; i++) {
             traces.push({
@@ -958,11 +806,13 @@ ratingMessage.textContent = thanksText[currentLang];
                 }))
             });
         }
+
         let mouseX = -1000, mouseY = -1000;
         window.addEventListener('mousemove', e => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
+
         function animatePCB() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             traces.forEach(t => {
@@ -970,6 +820,7 @@ ratingMessage.textContent = thanksText[currentLang];
                 const dy = t.y - mouseY;
                 const dist = Math.sqrt(dx*dx + dy*dy);
                 const multiplier = dist < 200 ? 3 : 1;
+
                 ctx.beginPath();
                 ctx.moveTo(t.x, t.y);
                 ctx.lineTo(t.x + t.length, t.y);
@@ -978,6 +829,7 @@ ratingMessage.textContent = thanksText[currentLang];
                 ctx.shadowColor = '#0a3af0';
                 ctx.shadowBlur = 10;
                 ctx.stroke();
+
                 t.particles.forEach(p => {
                     const px = t.x + p.offset;
                     const py = t.y;
@@ -990,6 +842,7 @@ ratingMessage.textContent = thanksText[currentLang];
                     p.offset += p.speed * multiplier;
                     if (p.offset > t.length) p.offset = 0;
                 });
+
                 t.x += t.speed * multiplier;
                 if (t.x > canvas.width) t.x = -t.length;
             });
@@ -997,107 +850,109 @@ ratingMessage.textContent = thanksText[currentLang];
         }
         animatePCB();
     }
-        // ── Fullscreen Viewer للخدمات + الفيديوهات + ماكينات اللحام (لون بحري) ────────
-document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
-    card.addEventListener('click', () => {
-        const title = card.dataset.title;
-        const desc = card.dataset.desc;
-        const price = card.dataset.price || '';
-        const media = card.querySelector('img, video');
-        const isVideo = media.tagName === 'VIDEO';
 
-        const viewer = document.getElementById('mediaViewer');
-        viewer.innerHTML = `
-            <span class="viewer-close">×</span>
-            <div class="viewer-media">
-                ${isVideo ? `<video src="${media.src}" controls autoplay></video>` : `<img src="${media.src}" alt="${title}">`}
-            </div>
-            <div class="viewer-info">
-                <h3>${title}</h3>
-                <p>${desc}</p>
-                ${price ? `<p class="price">${price}</p>` : ''}
-            </div>
-        `;
+    // ── Fullscreen Viewer ──────────────────────────────────────────────────
+    document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.dataset.title;
+            const desc = card.dataset.desc;
+            const price = card.dataset.price || '';
+            const media = card.querySelector('img, video');
+            const isVideo = media.tagName === 'VIDEO';
+            const viewer = document.getElementById('mediaViewer');
 
-        viewer.classList.add('active');
+            viewer.innerHTML = `
+                <span class="viewer-close">×</span>
+                <div class="viewer-media">
+                    ${isVideo ? `<video src="${media.src}" controls autoplay></video>` : `<img src="${media.src}" alt="${title}">`}
+                </div>
+                <div class="viewer-info">
+                    <h3>${title}</h3>
+                    <p>${desc}</p>
+                    ${price ? `<p class="price">${price}</p>` : ''}
+                </div>
+            `;
+            viewer.classList.add('active');
 
-        // إغلاق
-        viewer.querySelector('.viewer-close').onclick = () => viewer.classList.remove('active');
-        viewer.onclick = e => {
-            if (e.target === viewer) viewer.classList.remove('active');
-        };
-    });
-});
-
-// ── Drag للسلايدرات الأفقية ────────────────────────────────────────────────
-function enableHorizontalDrag(sliderId) {
-    const slider = document.getElementById(sliderId);
-    if (!slider) return;
-    let isDown = false;
-    let startX, scrollLeft;
-
-    slider.addEventListener('mousedown', e => {
-        isDown = true;
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-        slider.style.cursor = 'grabbing';
+            viewer.querySelector('.viewer-close').onclick = () => viewer.classList.remove('active');
+            viewer.onclick = e => {
+                if (e.target === viewer) viewer.classList.remove('active');
+            };
+        });
     });
 
-    slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
+    // ── Drag للسلايدرات الأفقية ───────────────────────────────────────────
+    function enableHorizontalDrag(sliderId) {
+        const slider = document.getElementById(sliderId);
+        if (!slider) return;
 
-    slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.style.cursor = 'grab';
-    });
+        let isDown = false;
+        let startX, scrollLeft;
 
-    slider.addEventListener('mousemove', e => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 2; // سرعة السحب
-        slider.scrollLeft = scrollLeft - walk;
-    });
+        slider.addEventListener('mousedown', e => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+            slider.style.cursor = 'grabbing';
+        });
 
-    // دعم اللمس للموبايل
-    slider.addEventListener('touchstart', e => {
-        isDown = true;
-        startX = e.touches[0].pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-    });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
 
-    slider.addEventListener('touchend', () => {
-        isDown = false;
-    });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+        });
 
-    slider.addEventListener('touchmove', e => {
-        if (!isDown) return;
-        const x = e.touches[0].pageX - slider.offsetLeft;
-        const walk = (x - startX) * 2;
-        slider.scrollLeft = scrollLeft - walk;
-    });
-}
+        slider.addEventListener('mousemove', e => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
 
-enableHorizontalDrag('servicesSlider');
-enableHorizontalDrag('videoSlider');
-enableHorizontalDrag('postesSlider');
-    // ── CMP Cookie Banner ─────────────────────────────────────────────────
+        slider.addEventListener('touchstart', e => {
+            isDown = true;
+            startX = e.touches[0].pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('touchend', () => isDown = false);
+
+        slider.addEventListener('touchmove', e => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    }
+
+    enableHorizontalDrag('servicesSlider');
+    enableHorizontalDrag('videoSlider');
+    enableHorizontalDrag('postesSlider');
+
+    // ── CMP Cookie Banner ──────────────────────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');
     const consentManage = document.getElementById('consent-manage');
+
     if (cmpBanner && !localStorage.getItem('cmpConsent')) {
         cmpBanner.style.display = 'block';
     }
+
     consentAllow?.addEventListener('click', () => {
         localStorage.setItem('cmpConsent', 'granted');
         cmpBanner.style.display = 'none';
     });
+
     consentManage?.addEventListener('click', () => {
         alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
     });
-    // ── Site Name Animation ───────────────────────────────────────────────
+
+    // ── Site Name Animation ────────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
         const texts = ["Atelier Electronique Médenine"];
@@ -1113,238 +968,180 @@ enableHorizontalDrag('postesSlider');
             }, 1000);
         }, 4000);
     }
-    // Format Ω → KΩ → MΩ
-function formatResistance(value){
-  if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
-  if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
-  return value+' Ω';
-}
 
-// Update Color Resistor + Visual
-const band1 = document.getElementById("band1");
-const band2 = document.getElementById("band2");
-const multiplier = document.getElementById("multiplier");
-const tolerance = document.getElementById("tolerance");
-
-const vis1 = document.getElementById("vis-band1");
-const vis2 = document.getElementById("vis-band2");
-const visMult = document.getElementById("vis-mult");
-const visTol = document.getElementById("vis-tol");
-const result = document.getElementById("resistor-result");
-
-function updateResistor() {
-  // تحديث الألوان على الباند
-  vis1.style.backgroundColor = band1.selectedOptions[0].dataset.color;
-  vis2.style.backgroundColor = band2.selectedOptions[0].dataset.color;
-  visMult.style.backgroundColor = multiplier.selectedOptions[0].dataset.color;
-  visTol.style.backgroundColor = tolerance.selectedOptions[0].dataset.color;
-
-  // حساب القيمة
-  const val1 = parseInt(band1.value);
-  const val2 = parseInt(band2.value);
-  const mult = parseInt(multiplier.value);
-  const tol = tolerance.value;
-
-  const ohm = ((val1 * 10) + val2) * mult;
-  result.textContent = `${ohm} Ω ±${tol}%`;
-}
-
-// Event Listener
-[band1, band2, multiplier, tolerance].forEach(el => {
-  el.addEventListener("change", updateResistor);
-});
-
-// تحديث أول مرة
-updateResistor();
-
-
-// ===== SMD Resistor Ultra Max =====
-document.getElementById("smdCode").addEventListener("input", function(){
-  const code = this.value.trim().toUpperCase();
-  let result = "— Ω";
-
-  if(/^\d{3}$/.test(code)){
-    result = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
-    result = formatResistance(result);
-  } else if(/^\dR\d$/.test(code)){
-    result = code.replace("R",".") + " Ω";
-  }
-
-  document.getElementById("smd-result").textContent = result;
-});
-    /* ====== بداية JS البوكسات الجديدة ====== */
-// Capacitor Calculator + Visual
-const capValue = document.getElementById("cap-value");
-const capVoltage = document.getElementById("cap-voltage");
-const capResult = document.getElementById("cap-result");
-const capFill = document.querySelector(".cap-fill");
-
-[capValue, capVoltage].forEach(el => el.addEventListener("input", updateCap));
-
-function updateCap(){
-  const value = parseFloat(capValue.value);
-  const voltage = parseFloat(capVoltage.value);
-  if(!value || !voltage){
-    capResult.textContent = "—";
-    capFill.style.height = "0%";
-    return;
-  }
-  capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
-  let fillHeight = Math.min(100, value); // limit 100%
-  capFill.style.height = `${fillHeight}%`;
-}
-
-// Power Calculator + Visual
-const volt = document.getElementById("volt");
-const resistance = document.getElementById("resistance");
-const current = document.getElementById("current");
-const powerResult = document.getElementById("power-result");
-const powerFill = document.querySelector(".power-fill");
-
-[volt,resistance,current].forEach(el => el.addEventListener("input", updatePower));
-
-function updatePower(){
-  const V = parseFloat(volt.value);
-  const R = parseFloat(resistance.value);
-  const I = parseFloat(current.value);
-  let P = null;
-
-  if(V && R){
-    P = (V*V)/R;
-  } else if(I && R){
-    P = I*I*R;
-  } else if(V && I){
-    P = V*I;
-  }
-
-  powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
-
-  // Visual: نسبة 100 وات = 100%
-  const fillPercent = P ? Math.min(100, P) : 0;
-  powerFill.style.width = fillPercent + "%";
-}
-
-// ===== Firebase Download Counter + Progress =====
-const db = firebase.database();
-
-// نلقى كل الزرارات اللي فيها download-btn
-document.querySelectorAll('.download-btn').forEach(btn => {
-    const id = btn.dataset.id;
-    const fileUrl = btn.dataset.file;
-    if (!id || !fileUrl) return;
-
-    // عنصر عدد التحميلات
-    let counterEl = btn.querySelector('small span');
-    if (!counterEl) {
-        counterEl = document.createElement('span');
-        counterEl.textContent = '0';
-        const small = document.createElement('small');
-        small.appendChild(counterEl);
-        btn.appendChild(small);
+    // ── Resistor Calculators ───────────────────────────────────────────────
+    function formatResistance(value){
+        if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
+        if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
+        return value+' Ω';
     }
 
-    // نص الزر
-    let btnText = btn.querySelector('.label');
-    if (!btnText) {
-        btnText = document.createElement('span');
-        btnText.className = 'label';
-        btnText.textContent = '📥 تحميل المشروع';
-        btn.prepend(btnText);
+    const band1 = document.getElementById("band1");
+    const band2 = document.getElementById("band2");
+    const multiplier = document.getElementById("multiplier");
+    const tolerance = document.getElementById("tolerance");
+    const vis1 = document.getElementById("vis-band1");
+    const vis2 = document.getElementById("vis-band2");
+    const visMult = document.getElementById("vis-mult");
+    const visTol = document.getElementById("vis-tol");
+    const result = document.getElementById("resistor-result");
+
+    function updateResistor() {
+        vis1.style.backgroundColor = band1.selectedOptions[0].dataset.color;
+        vis2.style.backgroundColor = band2.selectedOptions[0].dataset.color;
+        visMult.style.backgroundColor = multiplier.selectedOptions[0].dataset.color;
+        visTol.style.backgroundColor = tolerance.selectedOptions[0].dataset.color;
+
+        const val1 = parseInt(band1.value);
+        const val2 = parseInt(band2.value);
+        const mult = parseInt(multiplier.value);
+        const tol = tolerance.value;
+        const ohm = ((val1 * 10) + val2) * mult;
+        result.textContent = `${ohm} Ω ±${tol}%`;
     }
 
-    const downloadsRef = db.ref(`downloads/${id}/count`);
+    [band1, band2, multiplier, tolerance].forEach(el => el.addEventListener("change", updateResistor));
+    updateResistor();
 
-    // تحديث العدد live من Firebase
-    downloadsRef.on('value', snap => {
-        counterEl.textContent = snap.val() || 0;
+    document.getElementById("smdCode")?.addEventListener("input", function(){
+        const code = this.value.trim().toUpperCase();
+        let resultText = "— Ω";
+        if(/^\d{3}$/.test(code)){
+            const val = parseInt(code.slice(0,2)) * Math.pow(10, parseInt(code[2]));
+            resultText = formatResistance(val);
+        } else if(/^\dR\d$/.test(code)){
+            resultText = code.replace("R",".") + " Ω";
+        }
+        document.getElementById("smd-result").textContent = resultText;
     });
 
-    btn.addEventListener('click', async e => {
-        e.preventDefault();
+    // Capacitor Calculator
+    const capValue = document.getElementById("cap-value");
+    const capVoltage = document.getElementById("cap-voltage");
+    const capResult = document.getElementById("cap-result");
+    const capFill = document.querySelector(".cap-fill");
 
-        if (btn.classList.contains('downloading')) return;
-
-        // منع التكرار عبر LocalStorage (one download per browser)
-        const spamKey = `downloaded-${id}`;
-        if (localStorage.getItem(spamKey)) {
-            alert('سبق لك تحميل هذا الملف');
+    [capValue, capVoltage].forEach(el => el?.addEventListener("input", () => {
+        const value = parseFloat(capValue.value);
+        const voltage = parseFloat(capVoltage.value);
+        if(!value || !voltage){
+            capResult.textContent = "—";
+            capFill.style.height = "0%";
             return;
         }
+        capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
+        capFill.style.height = Math.min(100, value) + "%";
+    }));
 
-        localStorage.setItem(spamKey, 'true');
+    // Power Calculator
+    const volt = document.getElementById("volt");
+    const resistance = document.getElementById("resistance");
+    const current = document.getElementById("current");
+    const powerResult = document.getElementById("power-result");
+    const powerFill = document.querySelector(".power-fill");
 
-        btn.classList.add('downloading');
-        btn.disabled = true;
-        btnText.textContent = 'جاري التحميل...';
+    [volt, resistance, current].forEach(el => el?.addEventListener("input", () => {
+        const V = parseFloat(volt.value);
+        const R = parseFloat(resistance.value);
+        const I = parseFloat(current.value);
+        let P = null;
+        if(V && R) P = (V*V)/R;
+        else if(I && R) P = I*I*R;
+        else if(V && I) P = V*I;
 
-        // إعداد progress bar
-        let progressContainer = btn.querySelector('.progress-container');
-        let progressBar = progressContainer ? progressContainer.querySelector('.progress-bar') : null;
+        powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
+        powerFill.style.width = P ? Math.min(100, P) + "%" : "0%";
+    }));
 
-        if (!progressContainer) {
-            progressContainer = document.createElement('div');
-            progressContainer.className = 'progress-container';
-            progressBar = document.createElement('div');
-            progressBar.className = 'progress-bar';
-            progressContainer.appendChild(progressBar);
-            btn.appendChild(progressContainer);
+    // ── Firebase Download Counter + Progress ───────────────────────────────
+    const db = firebase.database();
+
+    document.querySelectorAll('.download-btn').forEach(btn => {
+        const id = btn.dataset.id;
+        const fileUrl = btn.dataset.file;
+        if (!id || !fileUrl) return;
+
+        let counterEl = btn.querySelector('small span');
+        if (!counterEl) {
+            counterEl = document.createElement('span');
+            counterEl.textContent = '0';
+            const small = document.createElement('small');
+            small.appendChild(counterEl);
+            btn.appendChild(small);
         }
 
-        progressBar.style.width = '0%';
-
-        let p = 0;
-        const timer = setInterval(() => {
-            p = Math.min(90, p + Math.random() * 15);
-            progressBar.style.width = p + '%';
-        }, 200);
-
-        try {
-            // زيادة العدد في Firebase
-            await downloadsRef.transaction(v => (v || 0) + 1);
-
-            // محاكاة وقت التحميل (يمكنك إزالته لاحقاً)
-            await new Promise(r => setTimeout(r, 1500));
-
-            clearInterval(timer);
-            progressBar.style.width = '100%';
-
-            // التحميل الفعلي
-            window.open(fileUrl, '_blank');
-        } catch (err) {
-            console.error(err);
-            btnText.textContent = 'خطأ!';
-        } finally {
-            setTimeout(() => {
-                btn.classList.remove('downloading');
-                btn.disabled = false;
-                btnText.textContent = '📥 تحميل المشروع';
-                if (progressBar) progressBar.style.width = '0%';
-            }, 1200);
+        let btnText = btn.querySelector('.label');
+        if (!btnText) {
+            btnText = document.createElement('span');
+            btnText.className = 'label';
+            btnText.textContent = '📥 تحميل المشروع';
+            btn.prepend(btnText);
         }
+
+        const downloadsRef = db.ref(`downloads/${id}/count`);
+        downloadsRef.on('value', snap => {
+            counterEl.textContent = snap.val() || 0;
+        });
+
+        btn.addEventListener('click', async e => {
+            e.preventDefault();
+            if (btn.classList.contains('downloading')) return;
+
+            const spamKey = `downloaded-${id}`;
+            if (localStorage.getItem(spamKey)) {
+                alert('سبق لك تحميل هذا الملف');
+                return;
+            }
+
+            localStorage.setItem(spamKey, 'true');
+            btn.classList.add('downloading');
+            btn.disabled = true;
+            btnText.textContent = 'جاري التحميل...';
+
+            let progressContainer = btn.querySelector('.progress-container');
+            let progressBar = progressContainer?.querySelector('.progress-bar');
+            if (!progressContainer) {
+                progressContainer = document.createElement('div');
+                progressContainer.className = 'progress-container';
+                progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressContainer.appendChild(progressBar);
+                btn.appendChild(progressContainer);
+            }
+
+            progressBar.style.width = '0%';
+            let p = 0;
+            const timer = setInterval(() => {
+                p = Math.min(90, p + Math.random() * 15);
+                progressBar.style.width = p + '%';
+            }, 200);
+
+            try {
+                await downloadsRef.transaction(v => (v || 0) + 1);
+                await new Promise(r => setTimeout(r, 1500));
+                clearInterval(timer);
+                progressBar.style.width = '100%';
+                window.open(fileUrl, '_blank');
+            } catch (err) {
+                console.error(err);
+                btnText.textContent = 'خطأ!';
+            } finally {
+                setTimeout(() => {
+                    btn.classList.remove('downloading');
+                    btn.disabled = false;
+                    btnText.textContent = '📥 تحميل المشروع';
+                    if (progressBar) progressBar.style.width = '0%';
+                }, 1200);
+            }
+        });
     });
-});
-    / ==========================================================================
-// تصليح عنوان FAQ wave (بدون spans مقسمة باش يترجم كويس)
-// ==========================================================================
-const faqHeader = document.querySelector('.faq-header');
-if (faqHeader) {
-    const waveContainer = document.createElement('span');
-    waveContainer.className = 'wave-text';
-    waveContainer.setAttribute('data-i18n', 'faq_header');
-    faqHeader.textContent = ''; 
-    faqHeader.appendChild(waveContainer);
-    // الـ CSS راح يتعامل مع الـ animation
-}
-// ==========================================================================
-// التهيئة النهائية (في نهاية DOMContentLoaded)
-// ==========================================================================
-setInterval(updateTime, 1000);
-updateTime();
-startNewsRotation();
-initFAQ();
-updateEqualizerVisibility();
-updateDailyTips();
-loadRatings();
-applyLanguage(currentLang);
 
-console.log("إلكترونيك الرحماني - app.js محمل ومحسن 100% ✓");
+    // ── Final Initialization ───────────────────────────────────────────────
+    updateWeather();
+    updatePrayerTimes();
+    updateMiniCalendar();
+    updateDailyTips();
+    applyLanguage(currentLang);
+
+    console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
+});

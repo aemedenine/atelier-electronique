@@ -141,7 +141,10 @@ multi_1m: "×1M",
 tol_1: "±1%",
 tol_2: "±2%",
 tol_5: "±5%",
-tol_10: "±10%"
+tol_10: "±10%",
+        cookie_banner_text: "نستخدم الكوكيز لتحسين تجربتك.",
+cookie_allow: "أوافق",
+cookie_manage: "تغيير الخيارات"
     },
     fr: {
         site_title: "Atelier Électronique Rahmanie",
@@ -261,7 +264,10 @@ multi_1m: "×1M",
 tol_1: "±1%",
 tol_2: "±2%",
 tol_5: "±5%",
-tol_10: "±10%"
+tol_10: "±10%",
+        cookie_banner_text: "Nous utilisons des cookies pour améliorer votre expérience.",
+cookie_allow: "J'accepte",
+cookie_manage: "Modifier les options"
     },
     en: {
         site_title: "Rahmani Electronics Workshop",
@@ -381,7 +387,10 @@ multi_1m: "×1M",
 tol_1: "±1%",
 tol_2: "±2%",
 tol_5: "±5%",
-tol_10: "±10%"
+tol_10: "±10%",
+        cookie_banner_text: "We use cookies to improve your experience.",
+cookie_allow: "I agree",
+cookie_manage: "Manage options"
     }
 };
 // ==========================================================================

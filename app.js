@@ -51,22 +51,23 @@ const translations = {
 function applyLanguage(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-
     if (translations[lang] && translations[lang][key]) {
       el.textContent = translations[lang][key];
     } else if (translations.ar[key]) {
-      // fallback عربي
       el.textContent = translations.ar[key];
     }
   });
 
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
   localStorage.setItem('lang', lang);
   currentLang = lang;
-}
 
+  // ✅ تحديث زر الراديو حسب حالته
+  if (radioBtn) {
+      radioBtn.textContent = radio.paused ? translations[lang].radio_play : translations[lang].radio_stop;
+  }
+}
 
 // أزرار الأعلام
 document.querySelectorAll('.lang-switch img').forEach(flag => {
@@ -107,13 +108,6 @@ translations.en.radio_stop = "Stop Radio";
     translations.ar.radio_play = "شغّل الراديو";
 translations.fr.radio_play = "Lire la radio";
 translations.en.radio_play = "Play Radio";
-if (radio.paused) {
-  radio.play().catch(()=>{});
-  radioBtn.textContent = translations[currentLang].radio_stop;
-} else {
-  radio.pause();
-  applyLanguage(currentLang); // يرجّع النص حسب اللغة
-}
 
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
@@ -238,20 +232,24 @@ if (radio.paused) {
     }
     // ── Radio controls ────────────────────────────────────────────────────
     if (radioBtn) {
-        radioBtn.addEventListener('click', () => {
-            if (radio.paused) {
-                radio.play().catch(e => console.warn('Radio play failed:', e));
-                radioBtn.textContent = 'أوقف الراديو';
-            } else {
-                radio.pause();
-                radioBtn.textContent = 'شغّل الراديو';
-            }
-            updateEqualizerVisibility();
-            radioBtn.classList.toggle('dance');
-        });
-        radio.addEventListener('play', updateEqualizerVisibility);
-        radio.addEventListener('pause', updateEqualizerVisibility);
-    }
+    radioBtn.addEventListener('click', () => {
+        if (radio.paused) {
+            radio.play().catch(e => console.warn('Radio play failed:', e));
+        } else {
+            radio.pause();
+        }
+        // ✅ تحديث النص حسب اللغة بعد التشغيل أو الإيقاف
+        radioBtn.textContent = radio.paused ? translations[currentLang].radio_play : translations[currentLang].radio_stop;
+
+        updateEqualizerVisibility();
+        radioBtn.classList.toggle('dance');
+    });
+
+    // تحديث equalizer عند التشغيل أو الإيقاف
+    radio.addEventListener('play', updateEqualizerVisibility);
+    radio.addEventListener('pause', updateEqualizerVisibility);
+}
+
     // ── Initialisation ────────────────────────────────────────────────────
     setInterval(updateTime, 1000);
     updateTime();

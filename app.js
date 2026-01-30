@@ -277,24 +277,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Compteur de visites ────────────────────────────────────────────────
-   if (visitEl) {
+ // ── Compteur de visites – نسخة محسّنة بدون تأخير مرئي ────────────────
+if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
 
-    let visitorId = localStorage.getItem('visitorId');
+    // 1. أولاً: نزيد الزيارة مرة وحدة فقط لكل متصفح (مش كل refresh)
+    let hasVisited = localStorage.getItem('hasVisitedToday');
+    const today = new Date().toDateString();
 
-    if (!visitorId) {
-        visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-        localStorage.setItem('visitorId', visitorId);
-
-        // زيادة زيارة مرة وحدة فقط
+    if (hasVisited !== today) {
+        localStorage.setItem('hasVisitedToday', today);
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
+    // 2. نستقبل القيمة مرة وحدة عند التحميل (once) باش نعرضها فوراً
+    visitsRef.once('value').then(snapshot => {
+        const total = snapshot.val() || 0;
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
+    }).catch(err => {
+        console.error("Erreur chargement compteur:", err);
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', '—');
+    });
+
+    // 3. نستمع للتغييرات اللاحقة فقط (إذا زاد شخص آخر أثناء وجودك)
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-        visitEl.textContent =
-            translations[currentLang].visit_count.replace('{count}', total);
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
     });
 }
     // ── Mise à jour de l'heure ─────────────────────────────────────────────

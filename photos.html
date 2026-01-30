@@ -1,212 +1,334 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>صور الورشة | Atelier Electronique Médenine</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --primary: #1e90ff;
+      --primary-dark: #1565c0;
+      --danger: #d9533f;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #2c3e50;
+      --text-light: #7f8c8d;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #e0e0e0;
+      --text-light: #a0a0a0;
+      --shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Montserrat', 'Open Sans', sans-serif;
-      background: linear-gradient(135deg, #fff, #fff);
-      color: #eee;
+      font-family: 'Cairo', 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 1.5rem;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
       text-align: center;
-      margin: 20px;
-      direction: rtl;
+      margin-bottom: 2.5rem;
     }
 
-    .container { max-width: 900px; margin: auto; }
-    h1 { color: #282c34; margin-bottom: 15px; }
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
 
-    .lang-btn {
-      margin-bottom: 20px;
-      padding: 8px 15px;
-      background-color: #409eff;
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.7rem 1.4rem;
       border: none;
-      border-radius: 6px;
-      color: #fff;
-      font-weight: bold;
+      border-radius: 50px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
     }
-    .lang-btn:hover { background-color: #d9533f; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 0.5rem;
     }
 
     .card {
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px #1e90ff;
-      position: relative;
+      background: var(--card-bg);
+      border-radius: 16px;
       overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      aspect-ratio: 4 / 3; /* يمكنك تغييره حسب صورك */
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px rgba(30,144,255,0.2);
     }
 
     .card img {
       width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      loading: lazy;           /* ← مهم جدًا للأداء */
+      decoding: async;
+      transition: transform 0.6s ease;
     }
 
-    .card img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px #1e90ff;
+    .card:hover img {
+      transform: scale(1.08);
+    }
+
+    .card::after {
+      content: '✨';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 1.6rem;
+      opacity: 0.7;
+      pointer-events: none;
     }
 
     .comment-section {
-      margin-top: 8px;
-      text-align: right;
+      padding: 1rem;
+      border-top: 1px solid #eee;
+      background: rgba(0,0,0,0.02);
+      direction: rtl;
+    }
+
+    [data-theme="dark"] .comment-section {
+      border-top-color: #333;
+      background: rgba(255,255,255,0.03);
     }
 
     .comment-section textarea {
-      width: 80%;
-      padding: 5px;
-      border-radius: 5px;
-      margin-top: 5px;
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       resize: none;
+      min-height: 60px;
+      font-family: inherit;
+      margin-bottom: 0.6rem;
+      background: var(--card-bg);
+      color: var(--text);
+    }
+
+    [data-theme="dark"] .comment-section textarea {
+      border-color: #444;
     }
 
     .comment-section button {
-      margin-top: 5px;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #409eff;
+      background: var(--primary);
       color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
       cursor: pointer;
       font-weight: bold;
     }
 
     .comment-section ul {
-      list-style: disc;
-      padding-right: 20px;
-      margin-top: 5px;
-      font-size: 0.9rem;
-      color: #ccc;
+      margin-top: 0.8rem;
+      padding-right: 1.2rem;
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    .comment-section li {
+      margin-bottom: 0.4rem;
     }
 
     .popup {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.92);
       display: none;
-      justify-content: center;
-      align-items: center;
+      place-items: center;
       z-index: 9999;
+      backdrop-filter: blur(8px);
     }
 
     .popup img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
+      max-width: 94vw;
+      max-height: 90vh;
+      border-radius: 16px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.6);
+      transform: scale(0.92);
+      transition: transform 0.4s ease;
     }
 
-    .popup-emoji {
+    .popup.show img {
+      transform: scale(1);
+    }
+
+    .close-hint {
       position: absolute;
-      font-size: 2rem;
+      bottom: 2rem;
+      color: white;
+      font-size: 1.1rem;
+      opacity: 0.7;
       pointer-events: none;
-      animation: float 1.2s ease-out forwards;
     }
 
-    @keyframes float {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-50px); }
+    @media (max-width: 600px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
     }
-
-    a.btn-return {
-      display: inline-block;
-      margin-top: 20px;
-      background-color: #409eff;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    a.btn-return:hover { background-color: #d9533f; }
   </style>
 </head>
-
 <body>
+
   <div class="container">
-    <h1 id="page-title">صور الورشة</h1>
-    <button class="lang-btn" id="toggle-lang-btn">تبديل اللغة</button>
+    <header>
+      <h1 id="page-title">صور الورشة</h1>
+    </header>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="toggle-lang-btn">تبديل اللغة</button>
+      <button class="btn btn-outline" id="theme-toggle">الوضع الداكن ☾</button>
+    </div>
 
     <div class="gallery" id="image-gallery"></div>
 
-    <a href="index.html" id="return-btn" class="btn-return">
-      ⬅️ الرجوع إلى الصفحة الرئيسية
-    </a>
+    <div style="text-align:center; margin:3rem 0;">
+      <a href="index.html" class="btn btn-primary" style="padding:1rem 2rem; font-size:1.1rem; text-decoration:none;">
+        ⬅️ الرجوع إلى الصفحة الرئيسية
+      </a>
+    </div>
   </div>
 
   <div class="popup" id="popup">
-    <img id="popup-img" alt="">
+    <img id="popup-img" alt="صورة من الورشة">
+    <div class="close-hint">اضغط في أي مكان للإغلاق (Esc)</div>
   </div>
 
   <script>
     const images = [
       "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
-      "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.png",
+      "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.png"
+      // أضف مسارات الصور الحقيقية + يفضل webp أو avif لو موجود
     ];
 
     const texts = {
       ar: {
         title: "صور الورشة",
         return: "⬅️ الرجوع إلى الصفحة الرئيسية",
-        commentPlaceholder: "أضف تعليقًا...",
-        toggle: "تبديل اللغة"
+        commentPh: "أضف تعليقك هنا...",
+        langBtn: "تبديل اللغة",
+        send: "إرسال 📩"
       },
       fr: {
         title: "Photos de l'atelier",
         return: "⬅️ Retour à la page principale",
-        commentPlaceholder: "Ajouter un commentaire...",
-        toggle: "Changer la langue"
+        commentPh: "Ajouter un commentaire...",
+        langBtn: "Changer la langue",
+        send: "Envoyer 📩"
       }
     };
 
     let currentLang = localStorage.getItem("lang") || "ar";
+    let currentTheme = localStorage.getItem("theme") || "light";
 
     const gallery = document.getElementById("image-gallery");
     const popup = document.getElementById("popup");
     const popupImg = document.getElementById("popup-img");
-    const toggleBtn = document.getElementById("toggle-lang-btn");
+    const langBtn = document.getElementById("toggle-lang-btn");
+    const themeBtn = document.getElementById("theme-toggle");
+
+    function applyTheme() {
+      document.body.setAttribute("data-theme", currentTheme);
+      themeBtn.textContent = currentTheme === "dark" ? "الوضع الفاتح ☀️" : "الوضع الداكن ☾";
+    }
 
     function renderGallery() {
       gallery.innerHTML = "";
 
-      images.forEach((src, index) => {
+      images.forEach((src, i) => {
         const card = document.createElement("div");
         card.className = "card";
 
+        const figure = document.createElement("figure");
         const img = document.createElement("img");
         img.src = src;
-        img.alt = "photo";
-        img.onclick = () => showPopupWithEmoji(src);
-        card.appendChild(img);
+        img.alt = `صورة ${i+1} من ورشة Atelier Electronique Médenine`;
+        img.loading = "lazy";
+        img.onclick = () => {
+          popupImg.src = src;
+          popup.classList.add("show");
+          popup.style.display = "grid";
+        };
+        figure.appendChild(img);
 
-        const star = document.createElement("div");
-        star.textContent = "✨";
-        star.style.position = "absolute";
-        star.style.top = "10px";
-        star.style.right = "10px";
-        card.appendChild(star);
+        card.appendChild(figure);
 
-        const commentsKey = `comments-${index}`;
-        const comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+        const commentsKey = `atelier-comments-${i}`;
+        let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
 
         const commentDiv = document.createElement("div");
         commentDiv.className = "comment-section";
         commentDiv.innerHTML = `
-          <textarea id="textarea-${index}" placeholder="${texts[currentLang].commentPlaceholder}"></textarea>
-          <button onclick="addComment(${index})">📩</button>
-          <ul>${comments.map(c => `<li>${c}</li>`).join("")}</ul>
+          <textarea id="ta-\( {i}" placeholder=" \){texts[currentLang].commentPh}"></textarea>
+          <button onclick="addComment(\( {i})"> \){texts[currentLang].send}</button>
+          <ul>\( {comments.map(c => `<li> \){c}</li>`).join("")}</ul>
         `;
 
         card.appendChild(commentDiv);
@@ -214,49 +336,55 @@
       });
     }
 
-    function addComment(index) {
-      const textarea = document.getElementById(`textarea-${index}`);
-      let val = textarea.value.trim();
+    window.addComment = function(index) {
+      const ta = document.getElementById(`ta-${index}`);
+      let val = ta.value.trim();
       if (!val) return;
 
       val = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-      const key = `comments-${index}`;
-      const comments = JSON.parse(localStorage.getItem(key)) || [];
+      const key = `atelier-comments-${index}`;
+      let comments = JSON.parse(localStorage.getItem(key)) || [];
       comments.push(val);
       localStorage.setItem(key, JSON.stringify(comments));
 
-      textarea.value = "";
-      renderGallery();
-    }
+      ta.value = "";
+      renderGallery(); // refresh
+    };
 
-    function showPopupWithEmoji(src) {
-      popupImg.src = src;
-      popup.style.display = "flex";
+    popup.onclick = (e) => {
+      if (e.target === popup || e.target === popupImg) {
+        popup.style.display = "none";
+        popup.classList.remove("show");
+      }
+    };
 
-      const emoji = document.createElement("div");
-      emoji.className = "popup-emoji";
-      emoji.textContent = Math.random() > 0.5 ? "❤️" : "✨";
-      popup.appendChild(emoji);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && popup.style.display !== "none") {
+        popup.style.display = "none";
+        popup.classList.remove("show");
+      }
+    });
 
-      setTimeout(() => emoji.remove(), 1200);
-    }
-
-    popup.onclick = () => popup.style.display = "none";
-
-    toggleBtn.onclick = () => {
+    langBtn.onclick = () => {
       currentLang = currentLang === "ar" ? "fr" : "ar";
       localStorage.setItem("lang", currentLang);
       document.getElementById("page-title").textContent = texts[currentLang].title;
-      document.getElementById("return-btn").textContent = texts[currentLang].return;
-      toggleBtn.textContent = texts[currentLang].toggle;
+      langBtn.textContent = texts[currentLang].langBtn;
       renderGallery();
     };
 
+    themeBtn.onclick = () => {
+      currentTheme = currentTheme === "light" ? "dark" : "light";
+      localStorage.setItem("theme", currentTheme);
+      applyTheme();
+    };
+
+    // init
     document.addEventListener("DOMContentLoaded", () => {
-      toggleBtn.textContent = texts[currentLang].toggle;
       document.getElementById("page-title").textContent = texts[currentLang].title;
-      document.getElementById("return-btn").textContent = texts[currentLang].return;
+      langBtn.textContent = texts[currentLang].langBtn;
+      applyTheme();
       renderGallery();
     });
   </script>

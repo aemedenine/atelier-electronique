@@ -1420,8 +1420,8 @@ footer {
 }
 .theme-toggle{
   position: fixed;
-  top: 16px;        /* تنجم تبدلها bottom */
-  left: 16px;       /* RTL = يسار */
+  top: 16px;
+  right: 16px;   /* 👈 هنا التغيير */
   width: 46px;
   height: 46px;
   border-radius: 50%;
@@ -1434,17 +1434,15 @@ footer {
   display: grid;
   place-items: center;
   z-index: 10000;
-  transition: all .3s ease;
+  transition: .3s;
 }
 
 .theme-toggle:hover{
   transform: scale(1.1) rotate(8deg);
 }
 
-/* Dark mode */
 [data-theme="dark"] .theme-toggle{
   background: rgba(30,30,30,.85);
-  box-shadow: 0 8px 24px rgba(0,0,0,.6);
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

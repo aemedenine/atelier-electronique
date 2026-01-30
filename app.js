@@ -981,3 +981,84 @@ document.querySelectorAll('.download-btn').forEach(btn => {
     updateDailyTips(); // إضافة نصائح الإلكترونيك اليومية
     console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
 });
+// ─────────── TRANSLATIONS BLOCK ───────────
+const translations = {
+  ar: {
+    weather_title: "🌦️ حالة الطقس في مدنين",
+    wind_speed: "🌬️ سرعة الرياح",
+    fajr: "🌅 الفجر",
+    sunrise: "🌄 الشروق",
+    dhuhr: "☀️ الظهر",
+    asr: "🕰️ العصر",
+    maghrib: "🌇 المغرب",
+    isha: "🌙 العشاء",
+    download: "📥 تحميل المشروع",
+    projects: "📂 المشاريع",
+    courses: "🎓 الكورسات",
+    schematics: "🧠 الشيمات",
+    visits: "👁️ عدد الزيارات",
+    rating: "⭐ التقييم",
+    loading: "⏳ جاري التحميل..."
+  },
+
+  fr: {
+    weather_title: "🌦️ Météo à Médenine",
+    wind_speed: "🌬️ Vitesse du vent",
+    fajr: "🌅 Fajr",
+    sunrise: "🌄 Lever du soleil",
+    dhuhr: "☀️ Dhuhr",
+    asr: "🕰️ Asr",
+    maghrib: "🌇 Maghrib",
+    isha: "🌙 Isha",
+    download: "📥 Télécharger le projet",
+    projects: "📂 Projets",
+    courses: "🎓 Cours",
+    schematics: "🧠 Schémas",
+    visits: "👁️ Visites",
+    rating: "⭐ Évaluation",
+    loading: "⏳ Chargement..."
+  },
+
+  en: {
+    weather_title: "🌦️ Weather in Medenine",
+    wind_speed: "🌬️ Wind speed",
+    fajr: "🌅 Fajr",
+    sunrise: "🌄 Sunrise",
+    dhuhr: "☀️ Dhuhr",
+    asr: "🕰️ Asr",
+    maghrib: "🌇 Maghrib",
+    isha: "🌙 Isha",
+    download: "📥 Download project",
+    projects: "📂 Projects",
+    courses: "🎓 Courses",
+    schematics: "🧠 Schematics",
+    visits: "👁️ Visits",
+    rating: "⭐ Rating",
+    loading: "⏳ Loading..."
+  }
+};
+
+// ─────────── LANGUAGE ENGINE ───────────
+function setLanguage(lang) {
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-key]").forEach(el => {
+    const key = el.dataset.key;
+    if (translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+
+  localStorage.setItem("siteLang", lang);
+}
+
+// default
+setLanguage(localStorage.getItem("siteLang") || "ar");
+
+// flags
+document.querySelectorAll(".lang-switch img").forEach(img => {
+  img.addEventListener("click", () => {
+    setLanguage(img.dataset.lang);
+  });
+});

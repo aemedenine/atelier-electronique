@@ -54,6 +54,13 @@ const translations = {
         rating_average: "متوسط التقييمات",
         rating_votes: "من",
         rating_votes_text: "صوت"
+        news_loading: "تحميل الأخبار...",
+  visit_count: "عدد زوار الموقع: {count}",
+  welcome: "مرحبا",
+  signout: "تسجيل الخروج",
+  login_title: "تسجيل الدخول",
+  login_google: "تسجيل الدخول بـ Google",
+  cancel: "إلغاء"
         // أضف هنا باقي المفاتيح اللي تحتاجها (مثال FAQ، أزرار، ...)
     },
     fr: {
@@ -86,6 +93,13 @@ const translations = {
         rating_average: "Note moyenne",
         rating_votes: "de",
         rating_votes_text: "votes"
+        news_loading: "Chargement des actualités...",
+  visit_count: "Nombre de visiteurs : {count}",
+  welcome: "Bienvenue",
+  signout: "Déconnexion",
+  login_title: "Connexion",
+  login_google: "Se connecter avec Google",
+  cancel: "Annuler"
     },
     en: {
         site_title: "Rahmani Electronics Workshop",
@@ -117,6 +131,13 @@ const translations = {
         rating_average: "Average rating",
         rating_votes: "from",
         rating_votes_text: "votes"
+         news_loading: "Loading news...",
+  visit_count: "Visitors count: {count}",
+  welcome: "Welcome",
+  signout: "Sign out",
+  login_title: "Login",
+  login_google: "Sign in with Google",
+  cancel: "Cancel"
     }
 };
 

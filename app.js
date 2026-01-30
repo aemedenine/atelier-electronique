@@ -277,16 +277,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Compteur de visites ────────────────────────────────────────────────
-    if (visitEl) {
-        const db = firebase.database();
-        const visitsRef = db.ref('visits');
+   if (visitEl) {
+    const db = firebase.database();
+    const visitsRef = db.ref('visits');
+
+    let visitorId = localStorage.getItem('visitorId');
+
+    if (!visitorId) {
+        visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        localStorage.setItem('visitorId', visitorId);
+
+        // زيادة زيارة مرة وحدة فقط
         visitsRef.transaction(current => (current || 0) + 1);
-        visitsRef.on('value', snapshot => {
-            const total = snapshot.val() || 0;
-            visitEl.textContent = `عدد زوار الموقع: ${total}`;
-        });
     }
 
+    visitsRef.on('value', snapshot => {
+        const total = snapshot.val() || 0;
+        visitEl.textContent =
+            translations[currentLang].visit_count.replace('{count}', total);
+    });
+}
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
     function updateTime() {
         const now = new Date();

@@ -72,12 +72,13 @@ const translations = {
         faq_q_guarantee: "الضمان كيفاه؟",
         faq_a_guarantee: "كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.",
         faq_q_price: "الأسعار معقولة ولا غالية؟",
-        faq_a_price: "نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو."
+        faq_a_price: "نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو.",
+        // المفاتيح الجديدة – داخل الكائن ar
         services_today_title: "خدمات اليوم",
-videos_today_title: "فيديو اليوم",
-postes_title: "تصليح ماكينات لحام",
+        videos_today_title: "فيديو اليوم",
+        postes_title: "تصليح ماكينات لحام"
     },
-    
+
     fr: {
         site_title: "Atelier Électronique Rahmanie",
         site_name: "Atelier Électronique Médenine",
@@ -126,11 +127,13 @@ postes_title: "تصليح ماكينات لحام",
         faq_q_guarantee: "Quelle est la garantie ?",
         faq_a_guarantee: "Chaque réparation est garantie de 1 à 3 mois selon la pièce et le travail. Si le même défaut revient, on le répare gratuitement inchaAllah.",
         faq_q_price: "Les prix sont-ils raisonnables ?",
-        faq_a_price: "On essaie d’être parmi les moins chers de la région, diagnostic souvent gratuit, prix selon la pièce (originale ou compatible selon votre budget). On vous donne le prix avant de commencer."
-  services_today_title: "Services du jour",
-videos_today_title: "Vidéo du jour",
-postes_title: "Réparation des postes à souder",
-},
+        faq_a_price: "On essaie d’être parmi les moins chers de la région, diagnostic souvent gratuit, prix selon la pièce (originale ou compatible selon votre budget). On vous donne le prix avant de commencer.",
+        // المفاتيح الجديدة – داخل الكائن fr
+        services_today_title: "Services du jour",
+        videos_today_title: "Vidéo du jour",
+        postes_title: "Réparation des postes à souder"
+    },
+
     en: {
         site_title: "Rahmani Electronics Workshop",
         site_name: "Atelier Electronique Médenine",
@@ -179,13 +182,13 @@ postes_title: "Réparation des postes à souder",
         faq_q_guarantee: "What is the warranty?",
         faq_a_guarantee: "Every repair comes with 1 to 3 months warranty depending on the part and work. If the same fault returns, we fix it for free inchaAllah.",
         faq_q_price: "Are your prices reasonable?",
-        faq_a_price: "We try to be among the cheapest in the area, diagnosis mostly free, price depends on the part (original or compatible according to your budget). We tell you the price before starting."
-  services_today_title: "Services of the Day",
-videos_today_title: "Video of the Day",
-postes_title: "Welding Machines Repair",
+        faq_a_price: "We try to be among the cheapest in the area, diagnosis mostly free, price depends on the part (original or compatible according to your budget). We tell you the price before starting.",
+        // المفاتيح الجديدة – داخل الكائن en
+        services_today_title: "Services of the Day",
+        videos_today_title: "Video of the Day",
+        postes_title: "Welding Machines Repair"
     }
 };
-
 // ==========================================================================
 // Variables globales
 // ==========================================================================

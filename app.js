@@ -70,15 +70,26 @@ const translations = {
         rating_average: "متوسط التقييمات: {avg} ★ من {count} صوت",
         rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
 
-        // FAQ (أسئلة شائعة) – أضفنا أغلبها
+     // FAQ .الأسئلة والإجابات
         faq_header: "الأسئلة اللي في بالك",
+        faq_close_all: "إخفاء الإجابات",
         faq_q_services: "شنوّا الخدمات اللي عندكم يا خويا؟",
+        faq_a_services: "متخصصين في تصليح الكروت الإلكترونية بكل أنواعها:\n• ماكينات لحام (postes de soudure) بكل أشكالها\n• كروت الغسالات (lave-linge) – كل الماركات\n• كروت الكليما (climatiseurs) – inverter وعادي\n• كروت المصانع والمعامل\n• كروت الموازين الإلكترونية (mizan)\n<strong>ما نخدموش في</strong>: الراديو، التلفزيونات، التلفونات.",
+
         faq_q_location: "وينكم بالضبط؟",
+        faq_a_location: "مدنين – نهج ليبيا، بعد كوشة شامخ، في أول طلعة على يمينك. لو ضيّعت الطريق، اتصل!",
+
         faq_q_call: "نقدر نتصل قبل ما نجي؟",
+        faq_a_call: "أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على 98.192.103، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.",
+
         faq_q_time: "كم ياخذ الوقت باش نصلح الكارت؟",
+        faq_a_time: "يعتمد على العطل: تشخيص مجاني في الغالب، تصليح بسيط (تغيير كومبوننت) 1-3 أيام، مشاكل كبيرة (reballing، بورد معقدة...) ممكن 5-7 أيام. نتصل بيك دايما باش نعلمك.",
+
         faq_q_guarantee: "الضمان كيفاه؟",
+        faq_a_guarantee: "كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.",
+
         faq_q_price: "الأسعار معقولة ولا غالية؟",
-        faq_close_all: "إخفاء الإجابات"
+        faq_a_price: "نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو."
     },
 
     fr: {
@@ -122,15 +133,34 @@ const translations = {
         rating_average: "Note moyenne : {avg} ★ de {count} votes",
         rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
 
+        rating_title: "Évaluez l'atelier",
+        rating_average: "Note moyenne : {avg} ★ de {count} votes",
+        rating_votes: "de",
+        rating_votes_text: "votes",
+        rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
+
         faq_header: "Questions fréquentes",
+        faq_close_all: "Masquer les réponses",
+
         faq_q_services: "Quels sont vos services ?",
+        faq_a_services: "Spécialisés dans la réparation de cartes électroniques de tous types :\n• Postes à souder de toutes formes\n• Cartes de machines à laver – toutes marques\n• Cartes de climatiseurs – inverter et conventionnels\n• Cartes industrielles et d'usines\n• Cartes de balances électroniques\n<strong>Nous ne réparons pas :</strong> radios, téléviseurs, téléphones.",
+
         faq_q_location: "Où êtes-vous exactement ?",
+        faq_a_location: "Médenine – Rue de Libye, après le virage Chamakh, première montée à droite. Appelez si vous êtes perdu !",
+
         faq_q_call: "Puis-je appeler avant de venir ?",
+        faq_a_call: "Bien sûr ! Le mieux est d’appeler avant (WhatsApp ou appel) au 98.192.103. Envoyez une photo de la carte si vous voulez, on vous dira si on peut la réparer, le prix approximatif et le délai.",
+
         faq_q_time: "Combien de temps faut-il pour réparer la carte ?",
+        faq_a_time: "Ça dépend de la panne : diagnostic souvent gratuit, réparation simple (changement de composant) 1-3 jours, pannes complexes (reballing, carte très complexe…) 5-7 jours. On vous appelle toujours pour vous tenir informé.",
+
         faq_q_guarantee: "Quelle est la garantie ?",
+        faq_a_guarantee: "Chaque réparation est garantie de 1 à 3 mois selon la pièce et le travail. Si le même défaut revient, on le répare gratuitement inchaAllah.",
+
         faq_q_price: "Les prix sont-ils raisonnables ?",
-        faq_close_all: "Masquer les réponses"
+        faq_a_price: "On essaie d’être parmi les moins chers de la région, diagnostic souvent gratuit, prix selon la pièce (originale ou compatible selon votre budget). On vous donne le prix avant de commencer."
     },
+   
 
     en: {
         site_title: "Rahmani Electronics Workshop",
@@ -167,20 +197,37 @@ const translations = {
         prayer_maghrib: "Maghrib",
         prayer_isha: "Isha",
 
-        tip_title: "Tip of the day",
-
         rating_title: "Rate the workshop",
         rating_average: "Average rating: {avg} ★ from {count} votes",
         rating_login: "Sign in with Google to rate the workshop (once only)",
 
+        rating_title: "Rate the workshop",
+        rating_average: "Average rating: {avg} ★ from {count} votes",
+        rating_votes: "from",
+        rating_votes_text: "votes",
+        rating_login: "Sign in with Google to rate the workshop (once only)",
+
         faq_header: "Frequently Asked Questions",
+        faq_close_all: "Hide answers",
+
         faq_q_services: "What services do you offer?",
+        faq_a_services: "Specialized in repairing all types of electronic boards:\n• Welding machines (all types)\n• Washing machine boards – all brands\n• Air conditioner boards – inverter & conventional\n• Industrial & factory boards\n• Electronic scale boards\n<strong>We do NOT repair:</strong> radios, TVs, mobile phones.",
+
         faq_q_location: "Where exactly are you located?",
+        faq_a_location: "Médenine – Libya Street, after Chamakh roundabout, first right turn uphill. Call if you get lost!",
+
         faq_q_call: "Can I call before coming?",
+        faq_a_call: "Of course! Best to call first (WhatsApp or phone) at 98.192.103. Send a photo of the board if you like, we'll tell you if we can fix it, approximate price and time.",
+
         faq_q_time: "How long does a repair take?",
+        faq_a_time: "Depends on the fault: diagnosis usually free, simple repair (component change) 1-3 days, complex issues (reballing, complicated boards…) 5-7 days. We always call to keep you updated.",
+
         faq_q_guarantee: "What is the warranty?",
+        faq_a_guarantee: "Every repair comes with 1 to 3 months warranty depending on the part and work. If the same fault returns, we fix it for free inchaAllah.",
+
         faq_q_price: "Are your prices reasonable?",
-        faq_close_all: "Hide answers"
+        faq_a_price: "We try to be among the cheapest in the area, diagnosis mostly free, price depends on the part (original or compatible according to your budget). We tell you the price before starting."
+
     }
 };
 // ==========================================================================
@@ -225,8 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mise à jour dynamique du bouton radio
         if (radioBtn) {
             radioBtn.textContent = radio.paused 
-                ? translations[lang].radio_play 
-                : translations[lang].radio_stop;
+                ? translations[lang].cta_radio_play 
+                : translations[lang].cta_radio_stop;
         }
 
         // Rafraîchir les sections sensibles à la langue
@@ -294,26 +341,46 @@ document.addEventListener('DOMContentLoaded', () => {
         timeEl.textContent = `${day}، ${date} ${month} - ${h}:${m}:${s}`;
     }
     // ── Ticker d'actualités (عربي فقط) ────────────────────────────────────
-    const news = [
+   // ==========================================================================
+// News Ticker متعدد اللغات
+// ==========================================================================
+const news = {
+    ar: [
         "📢 ورشة إلكترونيك الرحماني تفتح أبوابها لجميع الولايات.",
         "🔧 خدمات تصليح الأجهزة الإلكترونية بجودة عالية وبأسعار منافسة.",
         "🌍 التوصيل عبر البريد متوفر لكل أنحاء تونس.",
         "📱 تواصل معنا عبر واتساب لأي استفسار."
-    ];
-    let newsIndex = 0;
-    let newsInterval = null;
-    function updateNews() {
-        ticker.classList.remove('fade');
-        void ticker.offsetWidth; // force reflow
-        ticker.textContent = news[newsIndex];
-        ticker.classList.add('fade');
-        newsIndex = (newsIndex + 1) % news.length;
-    }
-    function startNewsRotation() {
-        if (newsInterval) clearInterval(newsInterval);
-        updateNews();
-        newsInterval = setInterval(updateNews, 5000);
-    }
+    ],
+    fr: [
+        "📢 L'atelier Électronique Rahmanie ouvre ses portes à toutes les régions.",
+        "🔧 Services de réparation électronique de haute qualité à prix compétitifs.",
+        "🌍 Livraison par poste disponible dans toute la Tunisie.",
+        "📱 Contactez-nous sur WhatsApp pour toute question."
+    ],
+    en: [
+        "📢 Rahmani Electronics Workshop opens its doors to all regions.",
+        "🔧 High-quality electronic repair services at competitive prices.",
+        "🌍 Nationwide delivery available across Tunisia.",
+        "📱 Contact us on WhatsApp for any inquiry."
+    ]
+};
+
+let newsIndex = 0;
+function updateNews() {
+    const ticker = document.getElementById('live-news');
+    if (!ticker) return;
+
+    ticker.classList.remove('fade');
+    void ticker.offsetWidth;
+    ticker.textContent = news[currentLang][newsIndex];
+    ticker.classList.add('fade');
+    newsIndex = (newsIndex + 1) % news[currentLang].length;
+}
+
+function startNewsRotation() {
+    updateNews();
+    setInterval(updateNews, 5000);
+}
     // ── FAQ Toggle ────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {
@@ -634,31 +701,55 @@ function hijriIcon(month) {
 updateMiniCalendar();
 setInterval(updateMiniCalendar, 60 * 1000); // كل دقيقة
   
-    // ── نصائح إلكترونيكية يومية (في الفراغ تحت الرياح) ──────────────────────
-    function updateDailyTips() {
-      const tips = [
-        "نظّف المكثفات من الغبار كل 6 أشهر.",
-        "استعمل منظم فولطاج لحماية اللوحة.",
-        "غيّر بطاريات الريموت قبل ما تنفجر.",
-        "فحص المروحة لو الجهاز يسخن بزاف.",
-        "تجنّب اللحام البارد في التصليح.",
-        "افصل الكهرباء قبل فتح الجهاز.",
-        "فحص الكونكتورات أولاً لو ما يشتغلش.",
-        "نظف اللوحات بكحول إيزوبروبيل فقط."
-      ];
+   // ==========================================================================
+// نصائح اليوم متعددة اللغات
+// ==========================================================================
+function updateDailyTips() {
+    const tips = {
+        ar: [
+            "نظّف المكثفات من الغبار كل 6 أشهر.",
+            "استعمل منظم فولطاج لحماية اللوحة.",
+            "غيّر بطاريات الريموت قبل ما تنفجر.",
+            "فحص المروحة لو الجهاز يسخن بزاف.",
+            "تجنّب اللحام البارد في التصليح.",
+            "افصل الكهرباء قبل فتح الجهاز.",
+            "فحص الكونكتورات أولاً لو ما يشتغلش.",
+            "نظف اللوحات بكحول إيزوبروبيل فقط."
+        ],
+        fr: [
+            "Nettoyez les condensateurs de la poussière tous les 6 mois.",
+            "Utilisez un régulateur de tension pour protéger la carte.",
+            "Changez les piles de la télécommande avant qu'elles ne fuient.",
+            "Vérifiez le ventilateur si l'appareil chauffe trop.",
+            "Évitez les soudures froides lors des réparations.",
+            "Débranchez l'appareil avant d'ouvrir.",
+            "Vérifiez d'abord les connecteurs s'il ne fonctionne pas.",
+            "Nettoyez les cartes uniquement avec de l'alcool isopropylique."
+        ],
+        en: [
+            "Clean capacitors from dust every 6 months.",
+            "Use a voltage regulator to protect the board.",
+            "Replace remote batteries before they leak.",
+            "Check the fan if the device overheats.",
+            "Avoid cold solder joints during repairs.",
+            "Unplug before opening any device.",
+            "Check connectors first if it doesn't work.",
+            "Clean boards only with isopropyl alcohol."
+        ]
+    };
 
-      // نختار 3 نصائح فقط عشان ما يطولش الـ box
-      const shuffled = tips.sort(() => 0.5 - Math.random());
-      const selectedTips = shuffled.slice(0, 3);
-
-      const list = document.getElementById('tips-list');
-      list.innerHTML = '';
-      selectedTips.forEach(tip => {
-        const li = document.createElement('li');
-        li.textContent = tip;
-        list.appendChild(li);
-      });
+    const selected = tips[currentLang] || tips.ar;
+    const shuffled = selected.sort(() => 0.5 - Math.random());
+    const list = document.getElementById('tips-list');
+    if (list) {
+        list.innerHTML = '';
+        shuffled.slice(0, 3).forEach(tip => {
+            const li = document.createElement('li');
+            li.textContent = tip;
+            list.appendChild(li);
+        });
     }
+}
     // ── Titres des sections (آمن – ما يفشلش لو العنصر مش موجود) ───────────────
    const serviceTitle = document.querySelector('.services-today h2');
 if (serviceTitle) serviceTitle.textContent = "خدمات اليوم";
@@ -1232,15 +1323,28 @@ document.querySelectorAll('.download-btn').forEach(btn => {
         }
     });
 });
-/* ====== نهاية JS البوكسات الجديدة ====== */
-    // ── Initial calls ─────────────────────────────────────────────────────
-   updateWeather();
-updatePrayerTimes();
-updateMiniCalendar();
+    / ==========================================================================
+// تصليح عنوان FAQ wave (بدون spans مقسمة باش يترجم كويس)
+// ==========================================================================
+const faqHeader = document.querySelector('.faq-header');
+if (faqHeader) {
+    const waveContainer = document.createElement('span');
+    waveContainer.className = 'wave-text';
+    waveContainer.setAttribute('data-i18n', 'faq_header');
+    faqHeader.textContent = ''; 
+    faqHeader.appendChild(waveContainer);
+    // الـ CSS راح يتعامل مع الـ animation
+}
+// ==========================================================================
+// التهيئة النهائية (في نهاية DOMContentLoaded)
+// ==========================================================================
+setInterval(updateTime, 1000);
+updateTime();
+startNewsRotation();
+initFAQ();
+updateEqualizerVisibility();
 updateDailyTips();
+loadRatings();
+applyLanguage(currentLang);
 
-applyLanguage(currentLang); // ← أضف هذا السطر فقط
-
-console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
-
-});
+console.log("إلكترونيك الرحماني - app.js محمل ومحسن 100% ✓");

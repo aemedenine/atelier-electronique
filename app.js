@@ -106,6 +106,7 @@ translations.fr.rating_login = "Connectez-vous via Google pour noter l'atelier (
 translations.en.rating_login = "Sign in with Google to rate the workshop (once only)";
 
 // ===== Dynamic i18n for Weather + Rating =====
+   translations.ar = { 
     "weather_title": "🌦️ حالة الطقس في مدنين",
     "weather_loading": "جاري التحميل...",
     "prayer_fajr": "الفجر",
@@ -121,7 +122,8 @@ translations.en.rating_login = "Sign in with Google to rate the workshop (once o
     "rating_average": "متوسط التقييمات",
     "rating_votes": "من",
     "rating_votes_text": "صوت"
- 
+ };
+    translations.fr = {
     "weather_title": "🌦️ Météo à Médenine",
     "weather_loading": "Chargement...",
     "prayer_fajr": "Fajr",
@@ -137,7 +139,8 @@ translations.en.rating_login = "Sign in with Google to rate the workshop (once o
     "rating_average": "Note moyenne",
     "rating_votes": "de",
     "rating_votes_text": "votes"
-  
+        };
+  translations.en= {
     "weather_title": "🌦️ Weather in Medenine",
     "weather_loading": "Loading...",
     "prayer_fajr": "Fajr",
@@ -153,7 +156,7 @@ translations.en.rating_login = "Sign in with Google to rate the workshop (once o
     "rating_average": "Average rating",
     "rating_votes": "from",
     "rating_votes_text": "votes"
-
+};
 
 // Function to update language
 function setLanguage(lang) {

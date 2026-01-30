@@ -114,42 +114,6 @@ const avgStars = document.getElementById('avg-stars');
 const voteCount = document.getElementById('vote-count');
 const ratingMessage = document.getElementById('rating-message');
 
-let votes = []; // لتخزين كل التصويتات
-
-stars.forEach(star => {
-    star.addEventListener('mouseover', () => {
-        const val = parseInt(star.getAttribute('data-value'));
-        stars.forEach(s => {
-            s.classList.toggle('hovered', parseInt(s.getAttribute('data-value')) <= val);
-        });
-    });
-
-    star.addEventListener('mouseout', () => {
-        stars.forEach(s => s.classList.remove('hovered'));
-    });
-
-    star.addEventListener('click', () => {
-        const val = parseInt(star.getAttribute('data-value'));
-        votes.push(val);
-        updateRating(val);
-    });
-});
-
-function updateRating(lastVote) {
-    const total = votes.reduce((a,b) => a+b, 0);
-    const avg = (total / votes.length).toFixed(1);
-
-    ratingValue.textContent = `${lastVote}/5`;
-    avgStars.textContent = avg;
-    voteCount.textContent = votes.length;
-
-    stars.forEach(s => {
-        s.classList.toggle('selected', parseInt(s.getAttribute('data-value')) <= Math.round(avg));
-    });
-
-    ratingMessage.textContent = "شكراً على تقييمك!";
-}
-
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {

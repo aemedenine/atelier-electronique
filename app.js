@@ -19,154 +19,164 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 // ==========================================================================
 // DOM Ready
 // ==========================================================================
-document.addEventListener('DOMContentLoaded', () => {
-    // ── Éléments DOM récurrents ───────────────────────────────────────────
-    const ticker = document.getElementById('live-news');
-    const timeEl = document.getElementById('current-time');
-    const visitEl = document.getElementById('visit-count');
-    const faqContainer = document.querySelector('.faq');
-    const radio = document.getElementById('radio-stream');
-    const radioBtn = document.getElementById('radio-btn');
-    const equalizer = document.getElementById('equalizer');
-    const loginPopup = document.getElementById('login-popup');
-    const userInfo = document.getElementById('user-info');
-    const userName = document.getElementById('user-name');
-    const btnGoogle = document.getElementById('btn-google');
-    const btnClosePopup = document.getElementById('btn-close-popup');
-    const btnSignOut = document.getElementById('btn-signout');
 
-// تطبيق الترجمة
-function applyLanguage(lang) {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(translations[lang] && translations[lang][key]){
-            el.textContent = translations[lang][key];
-        } else if(translations.ar[key]){
-            el.textContent = translations.ar[key];
-        }
-    });
-
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    localStorage.setItem('lang', lang);
-    currentLang = lang;
-
-    // تحديث زر الراديو حسب اللغة
-    if(radioBtn){
-        radioBtn.textContent = radio.paused ? translations[lang].radio_play : translations[lang].radio_stop;
+// ==========================================================================
+// Translations (جمعتها كلها هنا في البداية)
+// ==========================================================================
+const translations = {
+    ar: {
+        site_title: "ورشة إلكترونيك الرحماني",
+        site_name: "Atelier Electronique Médenine",
+        sign_out: "تسجيل الخروج",
+        whatsapp_btn: "واتساب 📱",
+        cta_download: "تحميل البرامج 📥",
+        cta_store: "تَسوّق الآن 🛒",
+        cta_whatsapp: "واتساب 📱",
+        cta_maps: "موقعنا على مابس 📍",
+        cta_photos: "شاهد الصور 🖼️",
+        cta_videos: "شاهد الفيديو 🎥",
+        cta_services: "خدمات الورشة 🛠️",
+        experience: "أكثر من 10 سنوات خبرة",
+        radio_play: "شغّل الراديو 📻",
+        radio_stop: "أوقف الراديو",
+        rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
+        weather_title: "🌦️ حالة الطقس في مدنين",
+        weather_loading: "جاري التحميل...",
+        prayer_fajr: "🌅 الفجر",
+        prayer_sunrise: "🌄 الشروق",
+        prayer_dhuhr: "☀️ الظهر",
+        prayer_asr: "🕰️ العصر",
+        prayer_maghrib: "🌇 المغرب",
+        prayer_isha: "🌙 العشاء",
+        date_loading: "جاري التحميل...",
+        tip_title: "نصيحة اليوم",
+        rating_title: "قيم الورشة",
+        rating_average: "متوسط التقييمات",
+        rating_votes: "من",
+        rating_votes_text: "صوت"
+        // أضف هنا باقي المفاتيح اللي تحتاجها (مثال FAQ، أزرار، ...)
+    },
+    fr: {
+        site_title: "Atelier Électronique Rahmanie",
+        site_name: "Atelier Électronique Médenine",
+        sign_out: "Se déconnecter",
+        whatsapp_btn: "WhatsApp 📱",
+        cta_download: "Télécharger les programmes 📥",
+        cta_store: "Boutique 🛒",
+        cta_whatsapp: "WhatsApp 📱",
+        cta_maps: "Notre localisation 📍",
+        cta_photos: "Voir les photos 🖼️",
+        cta_videos: "Voir les vidéos 🎥",
+        cta_services: "Services de l’atelier 🛠️",
+        experience: "Plus de 10 ans d’expérience",
+        radio_play: "Lire la radio",
+        radio_stop: "Arrêter la radio",
+        rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
+        weather_title: "🌦️ Météo à Médenine",
+        weather_loading: "Chargement...",
+        prayer_fajr: "Fajr",
+        prayer_sunrise: "Lever du soleil",
+        prayer_dhuhr: "Dhuhr",
+        prayer_asr: "Asr",
+        prayer_maghrib: "Maghrib",
+        prayer_isha: "Isha",
+        date_loading: "Chargement...",
+        tip_title: "Astuce du jour",
+        rating_title: "Évaluez l'atelier",
+        rating_average: "Note moyenne",
+        rating_votes: "de",
+        rating_votes_text: "votes"
+    },
+    en: {
+        site_title: "Rahmani Electronics Workshop",
+        site_name: "Atelier Electronique Médenine",
+        sign_out: "Sign Out",
+        whatsapp_btn: "WhatsApp 📱",
+        cta_download: "Download Software 📥",
+        cta_store: "Shop Now 🛒",
+        cta_whatsapp: "WhatsApp 📱",
+        cta_maps: "Our Location 📍",
+        cta_photos: "View Photos 🖼️",
+        cta_videos: "Watch Videos 🎥",
+        cta_services: "Workshop Services 🛠️",
+        experience: "More than 10 years of experience",
+        radio_play: "Play Radio",
+        radio_stop: "Stop Radio",
+        rating_login: "Sign in with Google to rate the workshop (once only)",
+        weather_title: "🌦️ Weather in Medenine",
+        weather_loading: "Loading...",
+        prayer_fajr: "Fajr",
+        prayer_sunrise: "Sunrise",
+        prayer_dhuhr: "Dhuhr",
+        prayer_asr: "Asr",
+        prayer_maghrib: "Maghrib",
+        prayer_isha: "Isha",
+        date_loading: "Loading...",
+        tip_title: "Tip of the day",
+        rating_title: "Rate the workshop",
+        rating_average: "Average rating",
+        rating_votes: "from",
+        rating_votes_text: "votes"
     }
-
-    // تحديث الـ boxes بعد تغيير اللغة
-    updateMiniCalendar();
-    updateWeather();
-    if (ratingMessage) checkUserRating(auth.currentUser);
-}
-
-// أزرار الأعلام
-document.querySelectorAll('.lang-switch img').forEach(flag => {
-  flag.addEventListener('click', () => {
-    const lang = flag.dataset.lang;
-    applyLanguage(lang);
-  });
-});
-translations.ar.cta_download = "تحميل البرامج 📥";
-translations.ar.cta_store = "تَسوّق الآن 🛒";
-translations.ar.cta_whatsapp = "واتساب 📱";
-translations.ar.cta_maps = "موقعنا على مابس 📍";
-translations.ar.cta_photos = "شاهد الصور 🖼️";
-translations.ar.cta_videos = "شاهد الفيديو 🎥";
-translations.ar.cta_services = "خدمات الورشة 🛠️";
-translations.ar.experience = "أكثر من 10 سنوات خبرة";
-
-translations.fr.cta_download = "Télécharger les programmes 📥";
-translations.fr.cta_store = "Boutique 🛒";
-translations.fr.cta_whatsapp = "WhatsApp 📱";
-translations.fr.cta_maps = "Notre localisation 📍";
-translations.fr.cta_photos = "Voir les photos 🖼️";
-translations.fr.cta_videos = "Voir les vidéos 🎥";
-translations.fr.cta_services = "Services de l’atelier 🛠️";
-translations.fr.experience = "Plus de 10 ans d’expérience";
-
-translations.en.cta_download = "Download Software 📥";
-translations.en.cta_store = "Shop Now 🛒";
-translations.en.cta_whatsapp = "WhatsApp 📱";
-translations.en.cta_maps = "Our Location 📍";
-translations.en.cta_photos = "View Photos 🖼️";
-translations.en.cta_videos = "Watch Videos 🎥";
-translations.en.cta_services = "Workshop Services 🛠️";
-translations.en.experience = "More than 10 years of experience";
-    translations.ar.radio_stop = "أوقف الراديو";
-translations.fr.radio_stop = "Arrêter la radio";
-translations.en.radio_stop = "Stop Radio";
-    translations.ar.radio_play = "شغّل الراديو";
-translations.fr.radio_play = "Lire la radio";
-translations.en.radio_play = "Play Radio";
-translations.ar.rating_login = "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)";
-translations.fr.rating_login = "Connectez-vous via Google pour noter l'atelier (une seule fois)";
-translations.en.rating_login = "Sign in with Google to rate the workshop (once only)";
-
-// ===== Dynamic i18n for Weather + Rating =====
-   translations.ar = { 
-    "weather_title": "🌦️ حالة الطقس في مدنين",
-    "weather_loading": "جاري التحميل...",
-    "prayer_fajr": "الفجر",
-    "prayer_sunrise": "الشروق",
-    "prayer_dhuhr": "الظهر",
-    "prayer_asr": "العصر",
-    "prayer_maghrib": "المغرب",
-    "prayer_isha": "العشاء",
-    "date_loading": "جاري التحميل...",
-    "date_loading_hijri": "جاري التحميل...",
-    "tip_title": "نصيحة اليوم",
-    "rating_title": "قيم الورشة",
-    "rating_average": "متوسط التقييمات",
-    "rating_votes": "من",
-    "rating_votes_text": "صوت"
- };
-    translations.fr = {
-    "weather_title": "🌦️ Météo à Médenine",
-    "weather_loading": "Chargement...",
-    "prayer_fajr": "Fajr",
-    "prayer_sunrise": "Lever du soleil",
-    "prayer_dhuhr": "Dhuhr",
-    "prayer_asr": "Asr",
-    "prayer_maghrib": "Maghrib",
-    "prayer_isha": "Isha",
-    "date_loading": "Chargement...",
-    "date_loading_hijri": "Chargement...",
-    "tip_title": "Astuce du jour",
-    "rating_title": "Évaluez l'atelier",
-    "rating_average": "Note moyenne",
-    "rating_votes": "de",
-    "rating_votes_text": "votes"
-        };
-  translations.en= {
-    "weather_title": "🌦️ Weather in Medenine",
-    "weather_loading": "Loading...",
-    "prayer_fajr": "Fajr",
-    "prayer_sunrise": "Sunrise",
-    "prayer_dhuhr": "Dhuhr",
-    "prayer_asr": "Asr",
-    "prayer_maghrib": "Maghrib",
-    "prayer_isha": "Isha",
-    "date_loading": "Loading...",
-    "date_loading_hijri": "Loading...",
-    "tip_title": "Tip of the day",
-    "rating_title": "Rate the workshop",
-    "rating_average": "Average rating",
-    "rating_votes": "from",
-    "rating_votes_text": "votes"
 };
 
-// Function to update language
-function setLanguage(lang) {
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    if(translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
+// ==========================================================================
+// Variables globales
+// ==========================================================================
+let currentLang = localStorage.getItem('lang') || 'ar';
+
+// ==========================================================================
+// DOM Ready
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ── Éléments DOM récurrents ───────────────────────────────────────────
+    const ticker       = document.getElementById('live-news');
+    const timeEl       = document.getElementById('current-time');
+    const visitEl      = document.getElementById('visit-count');
+    const radio        = document.getElementById('radio-stream');
+    const radioBtn     = document.getElementById('radio-btn');
+    const equalizer    = document.getElementById('equalizer');
+    const loginPopup   = document.getElementById('login-popup');
+    const userInfo     = document.getElementById('user-info');
+    const userName     = document.getElementById('user-name');
+    const btnGoogle    = document.getElementById('btn-google');
+    const btnClosePopup= document.getElementById('btn-close-popup');
+    const btnSignOut   = document.getElementById('btn-signout');
+
+    // ── Language Switcher ─────────────────────────────────────────────────
+    function applyLanguage(lang) {
+        if (!translations[lang]) lang = 'ar'; // fallback
+
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            const txt = translations[lang][key] || translations.ar[key] || el.textContent;
+            el.textContent = txt;
+        });
+
+        // Mise à jour dynamique du bouton radio
+        if (radioBtn) {
+            radioBtn.textContent = radio.paused 
+                ? translations[lang].radio_play 
+                : translations[lang].radio_stop;
+        }
+
+        // Rafraîchir les sections sensibles à la langue
+        updateWeather();
+        updateMiniCalendar();
     }
-  });
-}
+
+    // Écouteurs pour les drapeaux / boutons langue
+    document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
+        el.addEventListener('click', () => {
+            applyLanguage(el.dataset.lang);
+        });
+    });
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {

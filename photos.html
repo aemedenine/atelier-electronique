@@ -13,7 +13,6 @@
     :root {
       --primary: #1e90ff;
       --primary-dark: #1565c0;
-      --danger: #d9533f;
       --bg: #f8f9fa;
       --card-bg: #ffffff;
       --text: #2c3e50;
@@ -29,11 +28,7 @@
       --shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
       font-family: 'Cairo', 'Montserrat', sans-serif;
@@ -45,15 +40,9 @@
       transition: background 0.4s, color 0.4s;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1200px; margin: 0 auto; }
 
-    header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
+    header { text-align: center; margin-bottom: 2.5rem; }
 
     h1 {
       font-size: clamp(1.8rem, 5vw, 2.8rem);
@@ -79,26 +68,15 @@
       font-size: 1rem;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
 
     .btn-outline {
       background: transparent;
       border: 2px solid var(--primary);
       color: var(--primary);
     }
-
-    .btn-outline:hover {
-      background: var(--primary);
-      color: white;
-    }
+    .btn-outline:hover { background: var(--primary); color: white; }
 
     .gallery {
       display: grid;
@@ -114,7 +92,7 @@
       box-shadow: var(--shadow);
       transition: transform 0.35s ease, box-shadow 0.35s ease;
       position: relative;
-      aspect-ratio: 4 / 3; /* يمكنك تغييره حسب صورك */
+      aspect-ratio: 4 / 3;
     }
 
     .card:hover {
@@ -127,14 +105,11 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      loading: lazy;           /* ← مهم جدًا للأداء */
-      decoding: async;
+      loading: lazy;
       transition: transform 0.6s ease;
     }
 
-    .card:hover img {
-      transform: scale(1.08);
-    }
+    .card:hover img { transform: scale(1.08); }
 
     .card::after {
       content: '✨';
@@ -171,9 +146,7 @@
       color: var(--text);
     }
 
-    [data-theme="dark"] .comment-section textarea {
-      border-color: #444;
-    }
+    [data-theme="dark"] .comment-section textarea { border-color: #444; }
 
     .comment-section button {
       background: var(--primary);
@@ -192,9 +165,7 @@
       color: var(--text-light);
     }
 
-    .comment-section li {
-      margin-bottom: 0.4rem;
-    }
+    .comment-section li { margin-bottom: 0.4rem; }
 
     .popup {
       position: fixed;
@@ -215,9 +186,7 @@
       transition: transform 0.4s ease;
     }
 
-    .popup.show img {
-      transform: scale(1);
-    }
+    .popup.show img { transform: scale(1); }
 
     .close-hint {
       position: absolute;
@@ -228,10 +197,15 @@
       pointer-events: none;
     }
 
+    .no-images {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+
     @media (max-width: 600px) {
-      .gallery {
-        grid-template-columns: 1fr;
-      }
+      .gallery { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -263,9 +237,9 @@
 
   <script>
     const images = [
-      "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
-      "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.png"
-      // أضف مسارات الصور الحقيقية + يفضل webp أو avif لو موجود
+      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg",
+      "photo6.jpg", "photo7.jpg", "photo8.jpg", "photo9.jpg", "photo10.png"
+      // غيّر الأسماء أو أضف المسارات الحقيقية إذا كانت مختلفة
     ];
 
     const texts = {
@@ -302,11 +276,15 @@
     function renderGallery() {
       gallery.innerHTML = "";
 
+      if (images.length === 0) {
+        gallery.innerHTML = '<p class="no-images">لا توجد صور متاحة حالياً...<br>سيتم إضافتها قريباً إن شاء الله</p>';
+        return;
+      }
+
       images.forEach((src, i) => {
         const card = document.createElement("div");
         card.className = "card";
 
-        const figure = document.createElement("figure");
         const img = document.createElement("img");
         img.src = src;
         img.alt = `صورة ${i+1} من ورشة Atelier Electronique Médenine`;
@@ -316,9 +294,8 @@
           popup.classList.add("show");
           popup.style.display = "grid";
         };
-        figure.appendChild(img);
 
-        card.appendChild(figure);
+        card.appendChild(img);
 
         const commentsKey = `atelier-comments-${i}`;
         let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
@@ -341,7 +318,7 @@
       let val = ta.value.trim();
       if (!val) return;
 
-      val = val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      val = val.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
 
       const key = `atelier-comments-${index}`;
       let comments = JSON.parse(localStorage.getItem(key)) || [];
@@ -349,7 +326,7 @@
       localStorage.setItem(key, JSON.stringify(comments));
 
       ta.value = "";
-      renderGallery(); // refresh
+      renderGallery();
     };
 
     popup.onclick = (e) => {
@@ -380,7 +357,7 @@
       applyTheme();
     };
 
-    // init
+    // Initialization
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("page-title").textContent = texts[currentLang].title;
       langBtn.textContent = texts[currentLang].langBtn;

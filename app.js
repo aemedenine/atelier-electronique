@@ -297,7 +297,8 @@ if (visitEl) {
 }
 
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
- function updateTime() {
+// ── Update Time Function (Multilingual) ─────────────────────────────
+function updateTime() {
     const now = new Date();
 
     const days = {
@@ -321,16 +322,15 @@ if (visitEl) {
     const s = now.getSeconds().toString().padStart(2,'0');
 
     const formatted = `${dayName}، ${date} ${monthName} - ${h}:${m}:${s}`;
-
     const timeEl = document.getElementById('current-time');
     if (timeEl) timeEl.textContent = formatted;
-
-    // تحديث كل ثانية
-    setTimeout(updateTime, 1000);
 }
 
-// Start
-updateTime();
+// ── DOM Ready ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    updateTime();
+    setInterval(updateTime, 1000);  // تحدث كل ثانية
+});
 
 
     // ── News Ticker متعدد اللغات ──────────────────────────────────────────

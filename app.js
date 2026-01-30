@@ -53,7 +53,7 @@ const translations = {
         rating_title: "قيم الورشة",
         rating_average: "متوسط التقييمات",
         rating_votes: "من",
-        rating_votes_text: "صوت"
+        rating_votes_text: "صوت",
         news_loading: "تحميل الأخبار...",
   visit_count: "عدد زوار الموقع: {count}",
   welcome: "مرحبا",
@@ -92,7 +92,7 @@ const translations = {
         rating_title: "Évaluez l'atelier",
         rating_average: "Note moyenne",
         rating_votes: "de",
-        rating_votes_text: "votes"
+        rating_votes_text: "votes",
         news_loading: "Chargement des actualités...",
   visit_count: "Nombre de visiteurs : {count}",
   welcome: "Bienvenue",
@@ -130,7 +130,7 @@ const translations = {
         rating_title: "Rate the workshop",
         rating_average: "Average rating",
         rating_votes: "from",
-        rating_votes_text: "votes"
+        rating_votes_text: "votes",
          news_loading: "Loading news...",
   visit_count: "Visitors count: {count}",
   welcome: "Welcome",

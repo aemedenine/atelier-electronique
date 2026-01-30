@@ -54,8 +54,8 @@
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
-           <p class="welcome-msg" data-i18n="welcome">
-  مرحبا <span id="user-name"></span>!👋
+          <p class="welcome-msg" data-i18n="user_welcome">
+    مرحبا <span id="user-name"></span>!👋
 </p>
 
 <button id="btn-signout" class="btn-signout" data-i18n="signout">
@@ -114,10 +114,10 @@
     خدمات الورشة 🛠️
   </a>
 
-  <button id="radio-btn" class="btn-radio" data-i18n="cta_radio">
+  <button id="radio-btn" class="btn-radio" data-i18n="cta_radio_play">
     شغّل الراديو 📻
-  </button>
-
+</button>
+  
   <audio id="radio-stream"
          src="https://stream.radiojar.com/8s5u5tpdtwzuv"
          preload="none"></audio>
@@ -198,11 +198,10 @@
         <section class="faq">
             <div class="faq-container">
                 <!-- العنوان مع تأثير الأمواج (النسخة اليدوية المضمونة) -->
-                <div class="faq-header wave-header">
-                    <span class="wave-text">
-                        <span style="--i:0">ا</span><span style="--i:1">ل</span><span style="--i:2">أ</span><span style="--i:3">س</span><span style="--i:4">ئ</span><span style="--i:5">ل</span><span style="--i:6">ة</span><span style="--i:7"> </span><span style="--i:8">ا</span><span style="--i:9">ل</span><span style="--i:10">ل</span><span style="--i:11">ي</span><span style="--i:12"> </span><span style="--i:13">ف</span><span style="--i:14">ي</span><span style="--i:15"> </span><span style="--i:16">ب</span><span style="--i:17">ا</span><span style="--i:18">ل</span><span style="--i:19">ك</span>
-                    </span>
-                </div>
+               <div class="faq-header wave-header">
+    <h2 data-i18n="faq_header">الأسئلة اللي في بالك</h2>
+</div>
+    
                
                 <!-- الزر -->
                 <button id="faq-close-all" class="faq-close-all-btn">إخفاء الإجابات</button>
@@ -220,42 +219,103 @@
                     </div>
                 </div>
 <!-- FAQ الجديد – مع الأمواج -->
-                <div class="faq-item">
-                    <div class="faq-question"><i class="fas fa-map-marker-alt"></i> وينكم بالضبط؟</div>
-                    <div class="faq-answer">
-                        مدنين – نهج ليبيا، بعد كوشة شامخ، في أول طلعة على يمينك . لو ضيّعت الطريق، اتصل!
-                    </div>
-                </div>
+               <!-- FAQ الجديد – مع الأمواج -->
+<section class="faq">
+    <div class="faq-container">
+        <!-- العنوان مع تأثير الأمواج -->
+        <div class="faq-header wave-header">
+            <span class="wave-text" data-i18n="faq_header">
+                الأسئلة اللي في بالك
+            </span>
+        </div>
+        
+        <!-- زر إخفاء الكل -->
+        <button id="faq-close-all" class="faq-close-all-btn" data-i18n="faq_close_all">
+            إخفاء الإجابات
+        </button>
 
-                <div class="faq-item">
-                    <div class="faq-question"><i class="fas fa-phone"></i> نقدر نتصل قبل ما نجي؟</div>
-                    <div class="faq-answer">
-                        أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على <strong>98.192.103</strong>، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question"><i class="fas fa-clock"></i> كم ياخذ الوقت باش نصلح الكارت؟</div>
-                    <div class="faq-answer">
-                        يعتمد على العطل: تشخيص مجاني في الغالب، تصليح بسيط (تغيير كومبوننت) 1-3 أيام، مشاكل كبيرة (reballing، بورد معقدة...) ممكن 5-7 أيام. نتصل بيك دايما باش نعلمك.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question"><i class="fas fa-shield-alt"></i> الضمان كيفاه؟</div>
-                    <div class="faq-answer">
-                        كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question"><i class="fas fa-tags"></i> الأسعار معقولة ولا غالية؟</div>
-                    <div class="faq-answer">
-                        نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو.
-                    </div>
-                </div>
+        <!-- السؤال 1 -->
+        <div class="faq-item">
+            <div class="faq-question" data-i18n="faq_q_services">
+                <i class="fas fa-tools"></i> 
+                شنوّا الخدمات اللي عندكم يا خويا؟
             </div>
-        </section>
+            <div class="faq-answer" data-i18n="faq_a_services">
+                متخصصين في تصليح الكروت الإلكترونية بكل أنواعها:<br>
+                • ماكينات لحام (postes de soudure) بكل أشكالها<br>
+                • كروت الغسالات (lave-linge) – كل الماركات<br>
+                • كروت الكليما (climatiseurs) – inverter وعادي<br>
+                • كروت المصانع والمعامل<br>
+                • كروت الموازين الإلكترونية (mizan)<br>
+                <strong data-i18n="faq_not_supported">ما نخدموش في</strong>: 
+                الراديو، التلفزيونات، التلفونات.
+            </div>
+        </div>
+
+        <!-- السؤال 2 -->
+        <div class="faq-item">
+            <div class="faq-question" data-i18n="faq_q_location">
+                <i class="fas fa-map-marker-alt"></i> 
+                وينكم بالضبط؟
+            </div>
+            <div class="faq-answer" data-i18n="faq_a_location">
+                مدنين – نهج ليبيا، بعد كوشة شامخ، في أول طلعة على يمينك. 
+                لو ضيّعت الطريق، اتصل!
+            </div>
+        </div>
+
+        <!-- السؤال 3 -->
+        <div class="faq-item">
+            <div class="faq-question" data-i18n="faq_q_call">
+                <i class="fas fa-phone"></i> 
+                نقدر نتصل قبل ما نجي؟
+            </div>
+            <div class="faq-answer" data-i18n="faq_a_call">
+                أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على 
+                <strong>98.192.103</strong>، أرسل صورة الكارت إذا تحب، 
+                نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.
+            </div>
+        </div>
+
+        <!-- السؤال 4 -->
+        <div class="faq-item">
+            <div class="faq-question" data-i18n="faq_q_time">
+                <i class="fas fa-clock"></i> 
+                كم ياخذ الوقت باش نصلح الكارت؟
+            </div>
+            <div class="faq-answer" data-i18n="faq_a_time">
+                يعتمد على العطل: تشخيص مجاني في الغالب، تصليح بسيط 
+                (تغيير كومبوننت) 1-3 أيام، مشاكل كبيرة (reballing، بورد معقدة...) 
+                ممكن 5-7 أيام. نتصل بيك دايما باش نعلمك.
+            </div>
+        </div>
+
+        <!-- السؤال 5 -->
+        <div class="faq-item">
+            <div class="faq-question" data-i18n="faq_q_guarantee">
+                <i class="fas fa-shield-alt"></i> 
+                الضمان كيفاه؟
+            </div>
+            <div class="faq-answer" data-i18n="faq_a_guarantee">
+                كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. 
+                لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.
+            </div>
+        </div>
+
+        <!-- السؤال 6 -->
+        <div class="faq-item">
+            <div class="faq-question" data-i18n="faq_q_price">
+                <i class="fas fa-tags"></i> 
+                الأسعار معقولة ولا غالية؟
+            </div>
+            <div class="faq-answer" data-i18n="faq_a_price">
+                نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، 
+                والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). 
+                نقولك السعر قبل ما نبداو.
+            </div>
+        </div>
+    </div>
+</section>
 <section class="calculators-section">
   <div class="calculators-grid">
 

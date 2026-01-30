@@ -31,14 +31,20 @@
             <h1 id="site-name">Atelier Electronique Médenine</h1>
         </div>
         <div class="news-ticker" aria-live="polite">
-            <div class="news-text" id="live-news">تحميل الأخبار...</div>
+            <div class="news-text" id="live-news" data-i18n="news_loading">
+  تحميل الأخبار...
+</div>
+
         </div>
     </header>
 
     <main class="container main-content">
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
-            <div id="visit-count">عدد زوار الموقع: 0</div>
+            <div id="visit-count" data-i18n="visit_count">
+  عدد زوار الموقع: 0
+</div>
+
         </section>
 <div class="lang-switch">
   <img src="flags/tn.png" data-lang="ar">
@@ -48,14 +54,28 @@
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
-            <p class="welcome-msg">مرحبا <span id="user-name"></span>!👋</p>
-            <button id="btn-signout" class="btn-signout">تسجيل الخروج</button>
+           <p class="welcome-msg" data-i18n="welcome">
+  مرحبا <span id="user-name"></span>!👋
+</p>
+
+<button id="btn-signout" class="btn-signout" data-i18n="signout">
+  تسجيل الخروج
+</button>
+
+           
         </div>
         <div id="login-popup" class="login-popup">
             <div class="popup-content">
-                <h2>تسجيل الدخول</h2>
-                <button id="btn-google" class="btn-google">تسجيل الدخول بـ Google</button>
-                <button id="btn-close-popup" class="btn-close">إلغاء</button>
+               <h2 data-i18n="login_title">تسجيل الدخول</h2>
+
+<button id="btn-google" class="btn-google" data-i18n="login_google">
+  تسجيل الدخول بـ Google
+</button>
+
+<button id="btn-close-popup" class="btn-close" data-i18n="cancel">
+  إلغاء
+</button>
+
             </div>
         </div>
 

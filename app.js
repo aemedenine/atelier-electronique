@@ -947,6 +947,14 @@ if (visitEl) {
             const walk = (x - startX) * 2;
             slider.scrollLeft = scrollLeft - walk;
         });
+        slider.addEventListener('mousemove', e => {
+    if (!isDown) return; // ما كانش ضغط على الماوس
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 2; // سرعة التمرير
+    slider.scrollLeft = scrollLeft - walk;
+});
+
     }
 
     enableHorizontalDrag('servicesSlider');

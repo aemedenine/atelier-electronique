@@ -19,7 +19,6 @@ const auth = firebase.auth();
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
-
 // ==========================================================================
 // Translations (جمعتها كلها هنا + نظفت التكرارات)
 // ==========================================================================
@@ -73,12 +72,10 @@ const translations = {
         faq_a_guarantee: "كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.",
         faq_q_price: "الأسعار معقولة ولا غالية؟",
         faq_a_price: "نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو.",
-        // المفاتيح الجديدة – داخل الكائن ar
         services_today_title: "خدمات اليوم",
         videos_today_title: "فيديو اليوم",
         postes_title: "تصليح ماكينات لحام"
     },
-
     fr: {
         site_title: "Atelier Électronique Rahmanie",
         site_name: "Atelier Électronique Médenine",
@@ -117,23 +114,21 @@ const translations = {
         faq_header: "Questions fréquentes",
         faq_close_all: "Masquer les réponses",
         faq_q_services: "Quels sont vos services ?",
-        faq_a_services: "Spécialisés dans la réparation de cartes électroniques de tous types :\n• Postes à souder de toutes formes\n• Cartes de machines à laver – toutes marques\n• Cartes de climatiseurs – inverter et conventionnels\n• Cartes industrielles et d'usines\n• Cartes de balances électroniques\n<strong>Nous ne réparons pas :</strong> radios, téléviseurs, téléphones.",
+        faq_a_services: "Spécialisés dans la réparation de cartes électroniques de tous types...",
         faq_q_location: "Où êtes-vous exactement ?",
-        faq_a_location: "Médenine – Rue de Libye, après le virage Chamakh, première montée à droite. Appelez si vous êtes perdu !",
+        faq_a_location: "Médenine – Rue de Libye...",
         faq_q_call: "Puis-je appeler avant de venir ?",
-        faq_a_call: "Bien sûr ! Le mieux est d’appeler avant (WhatsApp ou appel) au 98.192.103. Envoyez une photo de la carte si vous voulez, on vous dira si on peut la réparer, le prix approximatif et le délai.",
+        faq_a_call: "Bien sûr ! Le mieux est d’appeler avant...",
         faq_q_time: "Combien de temps faut-il pour réparer la carte ?",
-        faq_a_time: "Ça dépend de la panne : diagnostic souvent gratuit, réparation simple (changement de composant) 1-3 jours, pannes complexes (reballing, carte très complexe…) 5-7 jours. On vous appelle toujours pour vous tenir informé.",
+        faq_a_time: "Ça dépend de la panne...",
         faq_q_guarantee: "Quelle est la garantie ?",
-        faq_a_guarantee: "Chaque réparation est garantie de 1 à 3 mois selon la pièce et le travail. Si le même défaut revient, on le répare gratuitement inchaAllah.",
+        faq_a_guarantee: "Chaque réparation est garantie de 1 à 3 mois...",
         faq_q_price: "Les prix sont-ils raisonnables ?",
-        faq_a_price: "On essaie d’être parmi les moins chers de la région, diagnostic souvent gratuit, prix selon la pièce (originale ou compatible selon votre budget). On vous donne le prix avant de commencer.",
-        // المفاتيح الجديدة – داخل الكائن fr
+        faq_a_price: "On essaie d’être parmi les moins chers...",
         services_today_title: "Services du jour",
         videos_today_title: "Vidéo du jour",
         postes_title: "Réparation des postes à souder"
     },
-
     en: {
         site_title: "Rahmani Electronics Workshop",
         site_name: "Atelier Electronique Médenine",
@@ -172,18 +167,17 @@ const translations = {
         faq_header: "Frequently Asked Questions",
         faq_close_all: "Hide answers",
         faq_q_services: "What services do you offer?",
-        faq_a_services: "Specialized in repairing all types of electronic boards:\n• Welding machines (all types)\n• Washing machine boards – all brands\n• Air conditioner boards – inverter & conventional\n• Industrial & factory boards\n• Electronic scale boards\n<strong>We do NOT repair:</strong> radios, TVs, mobile phones.",
+        faq_a_services: "Specialized in repairing all types of electronic boards...",
         faq_q_location: "Where exactly are you located?",
-        faq_a_location: "Médenine – Libya Street, after Chamakh roundabout, first right turn uphill. Call if you get lost!",
+        faq_a_location: "Médenine – Libya Street...",
         faq_q_call: "Can I call before coming?",
-        faq_a_call: "Of course! Best to call first (WhatsApp or phone) at 98.192.103. Send a photo of the board if you like, we'll tell you if we can fix it, approximate price and time.",
+        faq_a_call: "Of course! Best to call first...",
         faq_q_time: "How long does a repair take?",
-        faq_a_time: "Depends on the fault: diagnosis usually free, simple repair (component change) 1-3 days, complex issues (reballing, complicated boards…) 5-7 days. We always call to keep you updated.",
+        faq_a_time: "Depends on the fault...",
         faq_q_guarantee: "What is the warranty?",
-        faq_a_guarantee: "Every repair comes with 1 to 3 months warranty depending on the part and work. If the same fault returns, we fix it for free inchaAllah.",
+        faq_a_guarantee: "Every repair comes with 1 to 3 months warranty...",
         faq_q_price: "Are your prices reasonable?",
-        faq_a_price: "We try to be among the cheapest in the area, diagnosis mostly free, price depends on the part (original or compatible according to your budget). We tell you the price before starting.",
-        // المفاتيح الجديدة – داخل الكائن en
+        faq_a_price: "We try to be among the cheapest...",
         services_today_title: "Services of the Day",
         videos_today_title: "Video of the Day",
         postes_title: "Welding Machines Repair"

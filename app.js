@@ -17,18 +17,17 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
 // ==========================================================================
-// DOM Ready
-// ==========================================================================
-
-// ==========================================================================
 // Translations (جمعتها كلها هنا في البداية)
 // ==========================================================================
+
 const translations = {
     ar: {
+        // العنوان والأساسيات
         site_title: "ورشة إلكترونيك الرحماني",
-        site_name: "Atelier Electronique Médenine",
-        sign_out: "تسجيل الخروج",
-        whatsapp_btn: "واتساب 📱",
+        site_name: "ورشة إلكترونيك مدنين",
+        experience: "أكثر من 10 سنوات خبرة",
+
+        // أزرار CTA الرئيسية
         cta_download: "تحميل البرامج 📥",
         cta_store: "تَسوّق الآن 🛒",
         cta_whatsapp: "واتساب 📱",
@@ -36,10 +35,24 @@ const translations = {
         cta_photos: "شاهد الصور 🖼️",
         cta_videos: "شاهد الفيديو 🎥",
         cta_services: "خدمات الورشة 🛠️",
-        experience: "أكثر من 10 سنوات خبرة",
-        radio_play: "شغّل الراديو 📻",
-        radio_stop: "أوقف الراديو",
-        rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
+        cta_radio_play: "شغّل الراديو 📻",
+        cta_radio_stop: "أوقف الراديو",
+
+        // تسجيل الدخول / المستخدم
+        login_title: "تسجيل الدخول",
+        login_google: "تسجيل الدخول بـ Google",
+        cancel: "إلغاء",
+        welcome: "مرحبا",
+        user_welcome: "مرحبا {name} 👋",
+        sign_out: "تسجيل الخروج",
+
+        // News Ticker
+        news_loading: "تحميل الأخبار...",
+
+        // Compteur visites
+        visit_count: "عدد زوار الموقع: {count}",
+
+        // الطقس والأذان
         weather_title: "🌦️ حالة الطقس في مدنين",
         weather_loading: "جاري التحميل...",
         prayer_fajr: "🌅 الفجر",
@@ -48,26 +61,31 @@ const translations = {
         prayer_asr: "🕰️ العصر",
         prayer_maghrib: "🌇 المغرب",
         prayer_isha: "🌙 العشاء",
-        date_loading: "جاري التحميل...",
+
+        // نصيحة اليوم
         tip_title: "نصيحة اليوم",
+
+        // التقييم
         rating_title: "قيم الورشة",
-        rating_average: "متوسط التقييمات",
-        rating_votes: "من",
-        rating_votes_text: "صوت",
-        news_loading: "تحميل الأخبار...",
-  visit_count: "عدد زوار الموقع: {count}",
-  welcome: "مرحبا",
-  signout: "تسجيل الخروج",
-  login_title: "تسجيل الدخول",
-  login_google: "تسجيل الدخول بـ Google",
-  cancel: "إلغاء"
-        // أضف هنا باقي المفاتيح اللي تحتاجها (مثال FAQ، أزرار، ...)
+        rating_average: "متوسط التقييمات: {avg} ★ من {count} صوت",
+        rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
+
+        // FAQ (أسئلة شائعة) – أضفنا أغلبها
+        faq_header: "الأسئلة اللي في بالك",
+        faq_q_services: "شنوّا الخدمات اللي عندكم يا خويا؟",
+        faq_q_location: "وينكم بالضبط؟",
+        faq_q_call: "نقدر نتصل قبل ما نجي؟",
+        faq_q_time: "كم ياخذ الوقت باش نصلح الكارت؟",
+        faq_q_guarantee: "الضمان كيفاه؟",
+        faq_q_price: "الأسعار معقولة ولا غالية؟",
+        faq_close_all: "إخفاء الإجابات"
     },
+
     fr: {
         site_title: "Atelier Électronique Rahmanie",
         site_name: "Atelier Électronique Médenine",
-        sign_out: "Se déconnecter",
-        whatsapp_btn: "WhatsApp 📱",
+        experience: "Plus de 10 ans d’expérience",
+
         cta_download: "Télécharger les programmes 📥",
         cta_store: "Boutique 🛒",
         cta_whatsapp: "WhatsApp 📱",
@@ -75,10 +93,20 @@ const translations = {
         cta_photos: "Voir les photos 🖼️",
         cta_videos: "Voir les vidéos 🎥",
         cta_services: "Services de l’atelier 🛠️",
-        experience: "Plus de 10 ans d’expérience",
-        radio_play: "Lire la radio",
-        radio_stop: "Arrêter la radio",
-        rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
+        cta_radio_play: "Écouter la radio 📻",
+        cta_radio_stop: "Arrêter la radio",
+
+        login_title: "Connexion",
+        login_google: "Se connecter avec Google",
+        cancel: "Annuler",
+        welcome: "Bienvenue",
+        user_welcome: "Bienvenue {name} 👋",
+        sign_out: "Déconnexion",
+
+        news_loading: "Chargement des actualités...",
+
+        visit_count: "Nombre de visiteurs : {count}",
+
         weather_title: "🌦️ Météo à Médenine",
         weather_loading: "Chargement...",
         prayer_fajr: "Fajr",
@@ -87,25 +115,28 @@ const translations = {
         prayer_asr: "Asr",
         prayer_maghrib: "Maghrib",
         prayer_isha: "Isha",
-        date_loading: "Chargement...",
+
         tip_title: "Astuce du jour",
+
         rating_title: "Évaluez l'atelier",
-        rating_average: "Note moyenne",
-        rating_votes: "de",
-        rating_votes_text: "votes",
-        news_loading: "Chargement des actualités...",
-  visit_count: "Nombre de visiteurs : {count}",
-  welcome: "Bienvenue",
-  signout: "Déconnexion",
-  login_title: "Connexion",
-  login_google: "Se connecter avec Google",
-  cancel: "Annuler"
+        rating_average: "Note moyenne : {avg} ★ de {count} votes",
+        rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
+
+        faq_header: "Questions fréquentes",
+        faq_q_services: "Quels sont vos services ?",
+        faq_q_location: "Où êtes-vous exactement ?",
+        faq_q_call: "Puis-je appeler avant de venir ?",
+        faq_q_time: "Combien de temps faut-il pour réparer la carte ?",
+        faq_q_guarantee: "Quelle est la garantie ?",
+        faq_q_price: "Les prix sont-ils raisonnables ?",
+        faq_close_all: "Masquer les réponses"
     },
+
     en: {
         site_title: "Rahmani Electronics Workshop",
         site_name: "Atelier Electronique Médenine",
-        sign_out: "Sign Out",
-        whatsapp_btn: "WhatsApp 📱",
+        experience: "More than 10 years of experience",
+
         cta_download: "Download Software 📥",
         cta_store: "Shop Now 🛒",
         cta_whatsapp: "WhatsApp 📱",
@@ -113,10 +144,20 @@ const translations = {
         cta_photos: "View Photos 🖼️",
         cta_videos: "Watch Videos 🎥",
         cta_services: "Workshop Services 🛠️",
-        experience: "More than 10 years of experience",
-        radio_play: "Play Radio",
-        radio_stop: "Stop Radio",
-        rating_login: "Sign in with Google to rate the workshop (once only)",
+        cta_radio_play: "Play Radio 📻",
+        cta_radio_stop: "Stop Radio",
+
+        login_title: "Login",
+        login_google: "Sign in with Google",
+        cancel: "Cancel",
+        welcome: "Welcome",
+        user_welcome: "Welcome {name} 👋",
+        sign_out: "Sign Out",
+
+        news_loading: "Loading news...",
+
+        visit_count: "Visitors count: {count}",
+
         weather_title: "🌦️ Weather in Medenine",
         weather_loading: "Loading...",
         prayer_fajr: "Fajr",
@@ -125,22 +166,23 @@ const translations = {
         prayer_asr: "Asr",
         prayer_maghrib: "Maghrib",
         prayer_isha: "Isha",
-        date_loading: "Loading...",
+
         tip_title: "Tip of the day",
+
         rating_title: "Rate the workshop",
-        rating_average: "Average rating",
-        rating_votes: "from",
-        rating_votes_text: "votes",
-         news_loading: "Loading news...",
-  visit_count: "Visitors count: {count}",
-  welcome: "Welcome",
-  signout: "Sign out",
-  login_title: "Login",
-  login_google: "Sign in with Google",
-  cancel: "Cancel"
+        rating_average: "Average rating: {avg} ★ from {count} votes",
+        rating_login: "Sign in with Google to rate the workshop (once only)",
+
+        faq_header: "Frequently Asked Questions",
+        faq_q_services: "What services do you offer?",
+        faq_q_location: "Where exactly are you located?",
+        faq_q_call: "Can I call before coming?",
+        faq_q_time: "How long does a repair take?",
+        faq_q_guarantee: "What is the warranty?",
+        faq_q_price: "Are your prices reasonable?",
+        faq_close_all: "Hide answers"
     }
 };
-
 // ==========================================================================
 // Variables globales
 // ==========================================================================

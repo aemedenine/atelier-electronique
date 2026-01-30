@@ -49,24 +49,29 @@ const translations = {
 
 // تطبيق الترجمة
 function applyLanguage(lang) {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    } else if (translations.ar[key]) {
-      el.textContent = translations.ar[key];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(translations[lang] && translations[lang][key]){
+            el.textContent = translations[lang][key];
+        } else if(translations.ar[key]){
+            el.textContent = translations.ar[key];
+        }
+    });
+
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    localStorage.setItem('lang', lang);
+    currentLang = lang;
+
+    // تحديث زر الراديو حسب اللغة
+    if(radioBtn){
+        radioBtn.textContent = radio.paused ? translations[lang].radio_play : translations[lang].radio_stop;
     }
-  });
 
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  localStorage.setItem('lang', lang);
-  currentLang = lang;
-
-  // ✅ تحديث زر الراديو حسب حالته
-  if (radioBtn) {
-      radioBtn.textContent = radio.paused ? translations[lang].radio_play : translations[lang].radio_stop;
-  }
+    // تحديث الـ boxes بعد تغيير اللغة
+    updateMiniCalendar();
+    updateWeather();
+    if (ratingMessage) checkUserRating(auth.currentUser);
 }
 
 // أزرار الأعلام
@@ -113,7 +118,74 @@ const ratingValue = document.getElementById('rating-value');
 const avgStars = document.getElementById('avg-stars');
 const voteCount = document.getElementById('vote-count');
 const ratingMessage = document.getElementById('rating-message');
+translations.ar.rating_login = "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)";
+translations.fr.rating_login = "Connectez-vous via Google pour noter l'atelier (une seule fois)";
+translations.en.rating_login = "Sign in with Google to rate the workshop (once only)";
 
+// ===== Dynamic i18n for Weather + Rating =====
+const translations = {
+  "ar": {
+    "weather_title": "🌦️ حالة الطقس في مدنين",
+    "weather_loading": "جاري التحميل...",
+    "prayer_fajr": "الفجر",
+    "prayer_sunrise": "الشروق",
+    "prayer_dhuhr": "الظهر",
+    "prayer_asr": "العصر",
+    "prayer_maghrib": "المغرب",
+    "prayer_isha": "العشاء",
+    "date_loading": "جاري التحميل...",
+    "date_loading_hijri": "جاري التحميل...",
+    "tip_title": "نصيحة اليوم",
+    "rating_title": "قيم الورشة",
+    "rating_average": "متوسط التقييمات",
+    "rating_votes": "من",
+    "rating_votes_text": "صوت"
+  },
+  "fr": {
+    "weather_title": "🌦️ Météo à Médenine",
+    "weather_loading": "Chargement...",
+    "prayer_fajr": "Fajr",
+    "prayer_sunrise": "Lever du soleil",
+    "prayer_dhuhr": "Dhuhr",
+    "prayer_asr": "Asr",
+    "prayer_maghrib": "Maghrib",
+    "prayer_isha": "Isha",
+    "date_loading": "Chargement...",
+    "date_loading_hijri": "Chargement...",
+    "tip_title": "Astuce du jour",
+    "rating_title": "Évaluez l'atelier",
+    "rating_average": "Note moyenne",
+    "rating_votes": "de",
+    "rating_votes_text": "votes"
+  },
+  "en": {
+    "weather_title": "🌦️ Weather in Medenine",
+    "weather_loading": "Loading...",
+    "prayer_fajr": "Fajr",
+    "prayer_sunrise": "Sunrise",
+    "prayer_dhuhr": "Dhuhr",
+    "prayer_asr": "Asr",
+    "prayer_maghrib": "Maghrib",
+    "prayer_isha": "Isha",
+    "date_loading": "Loading...",
+    "date_loading_hijri": "Loading...",
+    "tip_title": "Tip of the day",
+    "rating_title": "Rate the workshop",
+    "rating_average": "Average rating",
+    "rating_votes": "from",
+    "rating_votes_text": "votes"
+  }
+};
+
+// Function to update language
+function setLanguage(lang) {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if(translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+}
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -636,7 +708,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 return;
             }
             if (currentUserRating > 0) {
-                ratingMessage.textContent = 'لقد قيّمت من قبل، لا يمكن التعديل';
+               ratingMessage.textContent = translations[currentLang].rating_login;
                 ratingMessage.classList.add('show');
                 return;
             }

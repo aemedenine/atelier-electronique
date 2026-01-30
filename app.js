@@ -363,13 +363,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const tomorrowCode = tomorrow.weather_code[dayIndex];
             const tomorrowDesc = getWeatherDescription(tomorrowCode);
 
-            // يمكنك تضيف عنصر HTML جديد للغد، مثلاً:
-            // document.getElementById("weather-tomorrow").innerHTML = 
-            //     `غداً: ${tomorrowDesc} • ${tMin} → ${tMax} • 🌬️ ${windMax}`;
+            
 
             // أو تضيفه تحت الحالي
             const weatherEl = document.getElementById("weather-desc");
-            weatherEl.innerHTML += `<br><small>غداً: ${tomorrowDesc} ${tMin}–${tMax} • رياح ${windMax}</small>`;
+           const tomorrowText = {
+  ar: "غداً",
+  fr: "Demain",
+  en: "Tomorrow"
+};
+
+const windText = {
+  ar: "رياح",
+  fr: "Vent",
+  en: "Wind"
+};
+
+weatherEl.innerHTML = `
+${weatherDesc} • 🌬️ ${windSpeed}
+<br>
+<small>
+${tomorrowText[currentLang]}: 
+${tomorrowDesc} ${tMin}–${tMax} • 
+${windText[currentLang]} ${windMax}
+</small>`;
+
         })
         .catch(err => {
             console.error("Weather error:", err);
@@ -379,18 +397,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // دالة مساعدة لترجمة weather_code إلى وصف عربي (من WMO codes)
 function getWeatherDescription(code) {
-    // أهم الكودات الشائعة (يمكن توسيعها)
-    if (code === 0) return "مشمس ☀️";
-    if ([1,2,3].includes(code)) return "غائم جزئياً ⛅";
-    if (code >= 45 && code <= 48) return "ضباب 🌫️";
-    if (code >= 51 && code <= 57) return "رذاذ خفيف 🌦️";
-    if (code >= 61 && code <= 67) return "مطر 💧";
-    if (code >= 71 && code <= 77) return "ثلج ❄️";
-    if (code >= 80 && code <= 82) return "زخات مطر 🚿";
-    if (code >= 95 && code <= 99) return "عواصف رعدية ⚡";
+  const desc = {
+    ar: {
+      clear: "مشمس ☀️",
+      partly: "غائم جزئياً ⛅",
+      fog: "ضباب 🌫️",
+      rain: "مطر 💧",
+      storm: "عواصف رعدية ⚡",
+      unknown: "غير معروف 🌤️"
+    },
+    fr: {
+      clear: "Ensoleillé ☀️",
+      partly: "Partiellement nuageux ⛅",
+      fog: "Brouillard 🌫️",
+      rain: "Pluie 💧",
+      storm: "Orage ⚡",
+      unknown: "Inconnu 🌤️"
+    },
+    en: {
+      clear: "Sunny ☀️",
+      partly: "Partly cloudy ⛅",
+      fog: "Fog 🌫️",
+      rain: "Rain 💧",
+      storm: "Thunderstorm ⚡",
+      unknown: "Unknown 🌤️"
+    }
+  };
 
-    return "غير معروف 🌤️"; // fallback
+  const t = desc[currentLang] || desc.ar;
+
+  if (code === 0) return t.clear;
+  if ([1,2,3].includes(code)) return t.partly;
+  if (code >= 45 && code <= 48) return t.fog;
+  if (code >= 61 && code <= 82) return t.rain;
+  if (code >= 95) return t.storm;
+
+  return t.unknown;
 }
+
     // ── Prayer Times ──────────────────────────────────────────────────────
    function updatePrayerTimes() {
     fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")
@@ -409,14 +453,15 @@ function getWeatherDescription(code) {
                 return;
             }
 
-            pt.innerHTML = `
-                <p><span>🌅 الفجر:</span> <span class="time">${times.Fajr}</span></p>
-                <p><span>🌄 الشروق:</span> <span class="time">${times.Sunrise}</span></p>
-                <p><span>☀️ الظهر:</span> <span class="time">${times.Dhuhr}</span></p>
-                <p><span>🕰️ العصر:</span> <span class="time">${times.Asr}</span></p>
-                <p><span>🌇 المغرب:</span> <span class="time">${times.Maghrib}</span></p>
-                <p><span>🌙 العشاء:</span> <span class="time">${times.Isha}</span></p>
-            `;   // ← الـ ; هنا خارج الـ backticks
+           pt.innerHTML = `
+  <p><span>${translations[currentLang].prayer_fajr}:</span> <span class="time">${times.Fajr}</span></p>
+  <p><span>${translations[currentLang].prayer_sunrise}:</span> <span class="time">${times.Sunrise}</span></p>
+  <p><span>${translations[currentLang].prayer_dhuhr}:</span> <span class="time">${times.Dhuhr}</span></p>
+  <p><span>${translations[currentLang].prayer_asr}:</span> <span class="time">${times.Asr}</span></p>
+  <p><span>${translations[currentLang].prayer_maghrib}:</span> <span class="time">${times.Maghrib}</span></p>
+  <p><span>${translations[currentLang].prayer_isha}:</span> <span class="time">${times.Isha}</span></p>
+`;
+
 
             // إضافة اختيارية: إظهار اسم الطريقة تحت بشكل مرتب
             // pt.innerHTML += `<small style="display:block; text-align:center; margin-top:10px; color:#777;">
@@ -634,7 +679,8 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
                 html += `
                     <div>
                         <span class="stars">${'★'.repeat(i)}</span>
-                        <span class="count">${count} صوت</span>
+                       <span class="count">${count} ${translations[currentLang].rating_votes_text}</span>
+
                     </div>
                 `;
             }
@@ -652,7 +698,7 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
     function checkUserRating(user) {
         if (!user) {
             updateStars(0);
-            ratingMessage.textContent = 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+            ratingMessage.textContent = translations[currentLang].rating_login;
             ratingMessage.classList.add('show');
             stars.forEach(s => s.style.pointerEvents = 'none');
             return;
@@ -719,7 +765,14 @@ if (ratingTitle) ratingTitle.textContent = 'قيم الورشة:';
             });
             currentUserRating = val;
             updateStars(val);
-            ratingMessage.textContent = `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`;
+           const thanksText = {
+  ar: `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`,
+  fr: `Merci ${name}, votre note (${val} étoiles) a été enregistrée 🌟`,
+  en: `Thank you ${name}, your rating (${val} stars) has been saved 🌟`
+};
+
+ratingMessage.textContent = thanksText[currentLang];
+
             ratingMessage.classList.add('show');
             setTimeout(() => ratingMessage.classList.remove('show'), 8000);
             stars.forEach(s => s.style.pointerEvents = 'none');

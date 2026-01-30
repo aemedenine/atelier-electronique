@@ -1462,19 +1462,20 @@ if (smdInput) {
 document.addEventListener("DOMContentLoaded", () => {
   const themeBtn = document.getElementById("themeToggle");
 
+  // نطبق الوضع المخزّن
+  const savedTheme = localStorage.getItem("theme") || "light";
+  applyTheme(savedTheme);
+
+  themeBtn.addEventListener("click", () => {
+    const current = document.body.getAttribute("data-theme");
+    applyTheme(current === "dark" ? "light" : "dark");
+  });
+
   function applyTheme(theme){
     document.body.setAttribute("data-theme", theme);
     themeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
     localStorage.setItem("theme", theme);
   }
-
-  const savedTheme = localStorage.getItem("theme") || "light";
-  applyTheme(savedTheme);
-
-  themeBtn.onclick = () => {
-    const current = document.body.getAttribute("data-theme");
-    applyTheme(current === "dark" ? "light" : "dark");
-  };
 });
 
     // ── Final Initialization ───────────────────────────────────────────────

@@ -17,10 +17,6 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
 // ==========================================================================
-// Variables globales
-// ==========================================================================
-// ما عادش نحتاج currentLang، كل شيء عربي ثابت
-// ==========================================================================
 // DOM Ready
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,6 +34,87 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoogle = document.getElementById('btn-google');
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
+
+    /* =========================
+   Language System
+========================= */
+
+let currentLang = localStorage.getItem('lang') || 'ar';
+
+const translations = {
+  ar: {},
+  fr: {},
+  en: {}
+};
+
+// تطبيق الترجمة
+function applyLanguage(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+
+    if (translations[lang] && translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    } else if (translations.ar[key]) {
+      // fallback عربي
+      el.textContent = translations.ar[key];
+    }
+  });
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  localStorage.setItem('lang', lang);
+  currentLang = lang;
+}
+
+
+// أزرار الأعلام
+document.querySelectorAll('.lang-switch img').forEach(flag => {
+  flag.addEventListener('click', () => {
+    const lang = flag.dataset.lang;
+    applyLanguage(lang);
+  });
+});
+translations.ar.cta_download = "تحميل البرامج 📥";
+translations.ar.cta_store = "تَسوّق الآن 🛒";
+translations.ar.cta_whatsapp = "واتساب 📱";
+translations.ar.cta_maps = "موقعنا على مابس 📍";
+translations.ar.cta_photos = "شاهد الصور 🖼️";
+translations.ar.cta_videos = "شاهد الفيديو 🎥";
+translations.ar.cta_services = "خدمات الورشة 🛠️";
+translations.ar.experience = "أكثر من 10 سنوات خبرة";
+
+translations.fr.cta_download = "Télécharger les programmes 📥";
+translations.fr.cta_store = "Boutique 🛒";
+translations.fr.cta_whatsapp = "WhatsApp 📱";
+translations.fr.cta_maps = "Notre localisation 📍";
+translations.fr.cta_photos = "Voir les photos 🖼️";
+translations.fr.cta_videos = "Voir les vidéos 🎥";
+translations.fr.cta_services = "Services de l’atelier 🛠️";
+translations.fr.experience = "Plus de 10 ans d’expérience";
+
+translations.en.cta_download = "Download Software 📥";
+translations.en.cta_store = "Shop Now 🛒";
+translations.en.cta_whatsapp = "WhatsApp 📱";
+translations.en.cta_maps = "Our Location 📍";
+translations.en.cta_photos = "View Photos 🖼️";
+translations.en.cta_videos = "Watch Videos 🎥";
+translations.en.cta_services = "Workshop Services 🛠️";
+translations.en.experience = "More than 10 years of experience";
+    translations.ar.radio_stop = "أوقف الراديو";
+translations.fr.radio_stop = "Arrêter la radio";
+translations.en.radio_stop = "Stop Radio";
+    translations.ar.radio_play = "شغّل الراديو";
+translations.fr.radio_play = "Lire la radio";
+translations.en.radio_play = "Play Radio";
+if (radio.paused) {
+  radio.play().catch(()=>{});
+  radioBtn.textContent = translations[currentLang].radio_stop;
+} else {
+  radio.pause();
+  applyLanguage(currentLang); // يرجّع النص حسب اللغة
+}
+
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -975,90 +1052,13 @@ document.querySelectorAll('.download-btn').forEach(btn => {
 });
 /* ====== نهاية JS البوكسات الجديدة ====== */
     // ── Initial calls ─────────────────────────────────────────────────────
-    updateWeather();
-    updatePrayerTimes();
-    updateMiniCalendar();
-    updateDailyTips(); // إضافة نصائح الإلكترونيك اليومية
-    console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
-});
-// ─────────── TRANSLATIONS BLOCK ───────────
-const translations = {
-  ar: {
-    weather_title: "🌦️ حالة الطقس في مدنين",
-    wind_speed: "🌬️ سرعة الرياح",
-    fajr: "🌅 الفجر",
-    sunrise: "🌄 الشروق",
-    dhuhr: "☀️ الظهر",
-    asr: "🕰️ العصر",
-    maghrib: "🌇 المغرب",
-    isha: "🌙 العشاء",
-    download: "📥 تحميل المشروع",
-    projects: "📂 المشاريع",
-    courses: "🎓 الكورسات",
-    schematics: "🧠 الشيمات",
-    visits: "👁️ عدد الزيارات",
-    rating: "⭐ التقييم",
-    loading: "⏳ جاري التحميل..."
-  },
+   updateWeather();
+updatePrayerTimes();
+updateMiniCalendar();
+updateDailyTips();
 
-  fr: {
-    weather_title: "🌦️ Météo à Médenine",
-    wind_speed: "🌬️ Vitesse du vent",
-    fajr: "🌅 Fajr",
-    sunrise: "🌄 Lever du soleil",
-    dhuhr: "☀️ Dhuhr",
-    asr: "🕰️ Asr",
-    maghrib: "🌇 Maghrib",
-    isha: "🌙 Isha",
-    download: "📥 Télécharger le projet",
-    projects: "📂 Projets",
-    courses: "🎓 Cours",
-    schematics: "🧠 Schémas",
-    visits: "👁️ Visites",
-    rating: "⭐ Évaluation",
-    loading: "⏳ Chargement..."
-  },
+applyLanguage(currentLang); // ← أضف هذا السطر فقط
 
-  en: {
-    weather_title: "🌦️ Weather in Medenine",
-    wind_speed: "🌬️ Wind speed",
-    fajr: "🌅 Fajr",
-    sunrise: "🌄 Sunrise",
-    dhuhr: "☀️ Dhuhr",
-    asr: "🕰️ Asr",
-    maghrib: "🌇 Maghrib",
-    isha: "🌙 Isha",
-    download: "📥 Download project",
-    projects: "📂 Projects",
-    courses: "🎓 Courses",
-    schematics: "🧠 Schematics",
-    visits: "👁️ Visits",
-    rating: "⭐ Rating",
-    loading: "⏳ Loading..."
-  }
-};
+console.log("إلكترونيك الرحماني - app.js محمل ومنظم ✓");
 
-// ─────────── LANGUAGE ENGINE ───────────
-function setLanguage(lang) {
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-
-  document.querySelectorAll("[data-key]").forEach(el => {
-    const key = el.dataset.key;
-    if (translations[lang] && translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    }
-  });
-
-  localStorage.setItem("siteLang", lang);
-}
-
-// default
-setLanguage(localStorage.getItem("siteLang") || "ar");
-
-// flags
-document.querySelectorAll(".lang-switch img").forEach(img => {
-  img.addEventListener("click", () => {
-    setLanguage(img.dataset.lang);
-  });
 });

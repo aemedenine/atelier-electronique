@@ -1,318 +1,234 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>فيديوهات الورشة | Atelier Electronique Médenine</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --primary:#1e90ff;
+  --primary-dark:#1565c0;
   --bg:#f8f9fa;
-  --card:#ffffff;
+  --card:#fff;
   --text:#2c3e50;
-  --shadow:0 8px 24px rgba(0,0,0,.12);
+  --shadow:0 8px 24px rgba(0,0,0,.08);
 }
-
+[data-theme="dark"]{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#eee;
+  --shadow:0 8px 24px rgba(0,0,0,.4);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-
 body{
-  font-family:'Cairo','Montserrat',sans-serif;
+  font-family:Cairo,sans-serif;
   background:var(--bg);
   color:var(--text);
-  direction:rtl;
-  text-align:center;
-  padding:20px;
-}
-
-.container{max-width:1000px;margin:auto}
-
-h1{color:var(--primary);margin-bottom:20px}
-
-.lang-btn{
-  padding:10px 18px;
-  background:var(--primary);
-  border:none;
-  border-radius:30px;
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-  margin-bottom:25px;
-}
-
-.video-gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:20px;
-}
-
-.video-card{
-  background:var(--card);
-  border-radius:16px;
-  padding:12px;
-  box-shadow:var(--shadow);
-}
-
-video{
-  width:100%;
-  border-radius:12px;
-  cursor:pointer;
+  padding:1.5rem;
   transition:.3s;
 }
+.container{max-width:1200px;margin:auto}
+h1{text-align:center;color:var(--primary);margin-bottom:1.5rem}
 
-video:hover{transform:scale(1.02)}
-
-.views{margin-top:10px;font-weight:600}
-
-.reactions{
-  margin-top:10px;
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  margin-bottom:2rem;
+  flex-wrap:wrap;
 }
-
-.reactions button{
-  margin:0 5px;
-  padding:6px 14px;
-  border:none;
-  border-radius:20px;
-  background:var(--primary);
-  color:white;
-  cursor:pointer;
-  font-size:1.1rem;
-}
-
-.comments{
-  margin-top:12px;
-}
-
-.comments textarea{
-  width:80%;
-  min-height:55px;
-  border-radius:8px;
-  padding:6px;
-  margin-top:8px;
-}
-
-.comments button{
-  margin-right:6px;
-  padding:6px 14px;
-  border:none;
-  border-radius:20px;
-  background:#409eff;
-  color:white;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.comments ul{
-  text-align:right;
-  margin-top:10px;
-  padding-right:20px;
-}
-
-.comments li{
-  font-size:.9rem;
-  color:#555;
-  margin-bottom:4px;
-}
-
-/* زر الرجوع */
-a.btn-return{
-  display:block;
-  margin:35px auto 10px;
-  width:280px;
-  padding:14px;
-  background:var(--primary);
-  color:white;
-  text-decoration:none;
+.btn{
+  padding:.7rem 1.5rem;
   border-radius:30px;
-  font-weight:700;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+.primary{background:var(--primary);color:#fff}
+.outline{background:none;border:2px solid var(--primary);color:var(--primary)}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.5rem;
 }
 
-/* المودال */
-#video-modal{
+.card{
+  background:var(--card);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:.3s;
+}
+.card:hover{transform:translateY(-8px)}
+
+.card video{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.comment{
+  padding:1rem;
+}
+.comment textarea{
+  width:100%;
+  resize:none;
+  border-radius:8px;
+  padding:.5rem;
+}
+.comment button{
+  margin-top:.4rem;
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  padding:.4rem 1rem;
+  border-radius:20px;
+}
+.comment ul{
+  margin-top:.6rem;
+  font-size:.9rem;
+  padding-right:1rem;
+}
+
+/* popup video */
+.popup{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.9);
   display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
+  place-items:center;
+  z-index:999;
 }
-
-#video-modal video{
+.popup video{
   max-width:90%;
-  max-height:80%;
-  border-radius:16px;
-  box-shadow:0 0 25px var(--primary);
-}
-
-.close-btn{
-  position:absolute;
-  top:20px;
-  right:25px;
-  font-size:2.5rem;
-  color:white;
-  cursor:pointer;
-}
-
-/* إيموجي */
-.popup-emoji{
-  position:absolute;
-  font-size:2rem;
-  animation:float 1.2s ease-out forwards;
-  pointer-events:none;
-}
-@keyframes float{
-  from{opacity:1;transform:translateY(0)}
-  to{opacity:0;transform:translateY(-50px)}
+  max-height:90%;
+  border-radius:12px;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
+  <h1 id="title">فيديوهات الورشة</h1>
 
-<h1 id="page-title">فيديوهات الورشة</h1>
-<button class="lang-btn" id="toggle-lang-btn">تبديل اللغة</button>
+  <div class="controls">
+    <button class="btn primary" id="langBtn">تبديل اللغة</button>
+    <button class="btn outline" id="themeBtn">الوضع الداكن ☾</button>
+  </div>
 
-<div class="video-gallery" id="video-gallery"></div>
+  <div class="gallery" id="gallery"></div>
 
-<a href="index.html" class="btn-return" id="return-btn">
-⬅️ الرجوع إلى الصفحة الرئيسية
-</a>
+  <div style="text-align:center;margin-top:3rem">
+    <a href="index.html" class="btn primary" id="backBtn">⬅️ الرجوع للرئيسية</a>
+  </div>
 </div>
 
-<!-- مودال -->
-<div id="video-modal">
-<span class="close-btn" id="close-modal">&times;</span>
-<video id="modal-video" controls></video>
+<div class="popup" id="popup">
+  <video controls id="popupVideo"></video>
 </div>
 
 <script>
 const videos=[
- {src:"video1.mp4"},
- {src:"video2.mp4"},
- {src:"video3.mp4"},
- {src:"video4.mp4"}
+  "video1.mp4",
+  "video2.mp4",
+  "video3.mp4"
 ];
 
-const texts={
- ar:{
-  title:"فيديوهات الورشة",
-  toggle:"تبديل اللغة",
-  views:"مشاهدة",
-  back:"⬅️ الرجوع إلى الصفحة الرئيسية",
-  comment:"أضف تعليقًا..."
- },
- fr:{
-  title:"Vidéos de l'atelier",
-  toggle:"Changer la langue",
-  views:"vue",
-  back:"⬅️ Retour à la page principale",
-  comment:"Ajouter un commentaire..."
- }
+const txt={
+  ar:{
+    title:"فيديوهات الورشة",
+    back:"⬅️ الرجوع للرئيسية",
+    ph:"أضف تعليق...",
+    send:"إرسال"
+  },
+  fr:{
+    title:"Vidéos de l'atelier",
+    back:"⬅️ Retour",
+    ph:"Ajouter un commentaire...",
+    send:"Envoyer"
+  }
 };
 
-let currentLang=localStorage.getItem("lang")||"ar";
+let lang=localStorage.getItem("lang")||"ar";
+let theme=localStorage.getItem("theme")||"light";
 
-const gallery=document.getElementById("video-gallery");
-const modal=document.getElementById("video-modal");
-const modalVideo=document.getElementById("modal-video");
+const g=document.getElementById("gallery");
+const popup=document.getElementById("popup");
+const popupVideo=document.getElementById("popupVideo");
 
-function renderVideos(){
- gallery.innerHTML="";
- videos.forEach((v,i)=>{
-  const key=`video-${i}`;
-  const views=+localStorage.getItem(key+"-views")||0;
-  const reacts=JSON.parse(localStorage.getItem(key+"-reacts"))||{like:0,love:0,star:0};
-  const comments=JSON.parse(localStorage.getItem(key+"-comments"))||[];
+function render(){
+  g.innerHTML="";
+  videos.forEach((v,i)=>{
+    const c=document.createElement("div");
+    c.className="card";
 
-  const card=document.createElement("div");
-  card.className="video-card";
-  card.innerHTML=`
-   <video onclick="openModal('${v.src}','${key}')" muted preload="metadata">
-    <source src="${v.src}" type="video/mp4">
-   </video>
+    const vid=document.createElement("video");
+    vid.src=v;
+    vid.muted=true;
+    vid.onclick=()=>{
+      popupVideo.src=v;
+      popup.style.display="grid";
+      popupVideo.play();
+    };
 
-   <div class="views">${views} ${texts[currentLang].views}</div>
+    const key="vcom-"+i;
+    const comments=JSON.parse(localStorage.getItem(key)||"[]");
 
-   <div class="reactions">
-    <button onclick="react(event,'${key}','like')">👍 ${reacts.like}</button>
-    <button onclick="react(event,'${key}','love')">❤️ ${reacts.love}</button>
-    <button onclick="react(event,'${key}','star')">✨ ${reacts.star}</button>
-   </div>
+    const com=document.createElement("div");
+    com.className="comment";
+    com.innerHTML=`
+      <textarea id="t${i}" placeholder="${txt[lang].ph}"></textarea>
+      <button onclick="add(${i})">${txt[lang].send}</button>
+      <ul>${comments.map(c=>`<li>${c}</li>`).join("")}</ul>
+    `;
 
-   <div class="comments">
-    <textarea id="c-${key}" placeholder="${texts[currentLang].comment}"></textarea>
-    <button onclick="addComment('${key}')">📩</button>
-    <ul>${comments.map(c=>`<li>${c}</li>`).join("")}</ul>
-   </div>
-  `;
-  gallery.appendChild(card);
- });
+    c.append(vid,com);
+    g.appendChild(c);
+  });
 }
 
-function openModal(src,key){
- modal.style.display="flex";
- modalVideo.src=src;
- modalVideo.play();
- let v=+localStorage.getItem(key+"-views")||0;
- localStorage.setItem(key+"-views",++v);
- renderVideos();
- showEmoji();
-}
-
-function react(e,key,type){
- e.stopPropagation();
- let r=JSON.parse(localStorage.getItem(key+"-reacts"))||{like:0,love:0,star:0};
- r[type]++;
- localStorage.setItem(key+"-reacts",JSON.stringify(r));
- renderVideos();
-}
-
-function addComment(key){
- const ta=document.getElementById("c-"+key);
- if(!ta.value.trim())return;
- let c=JSON.parse(localStorage.getItem(key+"-comments"))||[];
- c.push(ta.value.trim());
- localStorage.setItem(key+"-comments",JSON.stringify(c));
- ta.value="";
- renderVideos();
-}
-
-function showEmoji(){
- const e=document.createElement("div");
- e.className="popup-emoji";
- e.textContent=Math.random()>0.5?"❤️":"✨";
- modal.appendChild(e);
- e.style.left="50%";
- e.style.top="50%";
- setTimeout(()=>e.remove(),1200);
-}
-
-document.getElementById("close-modal").onclick=()=>{
- modal.style.display="none";
- modalVideo.pause();
- modalVideo.src="";
+window.add=function(i){
+  const t=document.getElementById("t"+i);
+  if(!t.value.trim())return;
+  const key="vcom-"+i;
+  const arr=JSON.parse(localStorage.getItem(key)||"[]");
+  arr.push(t.value);
+  localStorage.setItem(key,JSON.stringify(arr));
+  render();
 };
 
-document.getElementById("toggle-lang-btn").onclick=()=>{
- currentLang=currentLang==="ar"?"fr":"ar";
- localStorage.setItem("lang",currentLang);
- applyLang();
- renderVideos();
+popup.onclick=()=>{
+  popupVideo.pause();
+  popup.style.display="none";
 };
 
-function applyLang(){
- page-title.textContent=texts[currentLang].title;
- toggle-lang-btn.textContent=texts[currentLang].toggle;
- return-btn.textContent=texts[currentLang].back;
+document.getElementById("langBtn").onclick=()=>{
+  lang=lang==="ar"?"fr":"ar";
+  localStorage.setItem("lang",lang);
+  init();
+};
+
+document.getElementById("themeBtn").onclick=()=>{
+  theme=theme==="light"?"dark":"light";
+  localStorage.setItem("theme",theme);
+  document.body.setAttribute("data-theme",theme);
+};
+
+function init(){
+  document.getElementById("title").textContent=txt[lang].title;
+  document.getElementById("backBtn").textContent=txt[lang].back;
+  render();
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
- applyLang();
- renderVideos();
-});
+document.body.setAttribute("data-theme",theme);
+init();
 </script>
-
 </body>
-</html> 
+</html>

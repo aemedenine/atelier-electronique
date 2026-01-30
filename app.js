@@ -898,7 +898,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showDailyItems();
 
     // ── Rating System ──────────────────────────────────────────────────────
-   // ── Rating System – النسخة المحسنة والمصلحة كاملة ────────────────────────
+   
 const stars = document.querySelectorAll('.stars-horizontal span');
 const ratingValue = document.getElementById('rating-value');
 const ratingMessage = document.getElementById('rating-message');
@@ -1222,24 +1222,34 @@ loadRatings();
     enableHorizontalDrag('videoSlider');
     enableHorizontalDrag('postesSlider');
 
-    // ── CMP Cookie Banner ──────────────────────────────────────────────────
-    const cmpBanner = document.getElementById('cmp-banner');
-    const consentAllow = document.getElementById('consent-allow');
-    const consentManage = document.getElementById('consent-manage');
+    
+   // ── CMP Cookie Banner – يظهر مرة كل يوم فقط ──────────────────────────────────
+const cmpBanner = document.getElementById('cmp-banner');
+const consentAllow = document.getElementById('consent-allow');
+const consentManage = document.getElementById('consent-manage');
 
-    if (cmpBanner && !localStorage.getItem('cmpConsent')) {
+if (cmpBanner) {
+    const today = new Date().toDateString();               // تاريخ اليوم
+    const lastShown = localStorage.getItem('cmpLastShown'); // آخر مرة ظهر فيها
+
+    // يظهر إذا ما ظهرش اليوم (أو أول مرة)
+    if (!lastShown || lastShown !== today) {
         cmpBanner.style.display = 'block';
+        localStorage.setItem('cmpLastShown', today);       // نحفظ تاريخ اليوم
     }
 
+    // زر "أوافق" – يخفي البنر ويحفظ القبول (اختياري: يمنع الظهور نهائياً إذا حبيت)
     consentAllow?.addEventListener('click', () => {
-        localStorage.setItem('cmpConsent', 'granted');
+        localStorage.setItem('cmpConsent', 'granted');     // قبول نهائي (اختياري)
         cmpBanner.style.display = 'none';
     });
 
+    // زر "تغيير الخيارات" – هنا تضيف الكود اللي يفتح صفحة الإعدادات (أو alert بسيط)
     consentManage?.addEventListener('click', () => {
-        alert('يمكنك إدارة تفضيلات الكوكيز هنا.');
+        alert('يمكنك إدارة تفضيلات الكوكيز هنا. (أضف صفحة إعدادات لاحقاً)');
+        // cmpBanner.style.display = 'none'; // أو ما تخفيهوش لو تبي
     });
-
+}
     // ── Site Name Animation ────────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {

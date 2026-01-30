@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>صور الورشة | Atelier Electronique Médenine</title>
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
@@ -28,61 +29,79 @@
       --shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Cairo', 'Montserrat', sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
       min-height: 100vh;
       padding: 1.5rem;
-      transition: background 0.4s, color 0.4s;
+      transition: 0.4s;
     }
 
-    .container { max-width: 1200px; margin: 0 auto; }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
 
-    header { text-align: center; margin-bottom: 2.5rem; }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
     h1 {
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
       color: var(--primary);
-      margin-bottom: 1rem;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
     }
 
     .controls {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
       justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
       margin-bottom: 2rem;
     }
 
     .btn {
-      padding: 0.7rem 1.4rem;
-      border: none;
+      padding: 0.7rem 1.5rem;
       border-radius: 50px;
-      font-weight: 600;
+      border: none;
       cursor: pointer;
-      transition: all 0.3s ease;
+      font-weight: bold;
       font-size: 1rem;
+      transition: 0.3s;
     }
 
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
 
     .btn-outline {
       background: transparent;
       border: 2px solid var(--primary);
       color: var(--primary);
     }
-    .btn-outline:hover { background: var(--primary); color: white; }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: #fff;
+    }
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
-      padding: 0.5rem;
     }
 
     .card {
@@ -90,127 +109,105 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: var(--shadow);
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
-      position: relative;
-      aspect-ratio: 4 / 3;
+      transition: 0.35s;
     }
 
     .card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 40px rgba(30,144,255,0.2);
+      transform: translateY(-10px);
     }
 
     .card img {
       width: 100%;
-      height: 100%;
+      height: 220px;
       object-fit: cover;
-      display: block;
-      loading: lazy;
-      transition: transform 0.6s ease;
+      cursor: pointer;
+      transition: 0.4s;
     }
 
-    .card:hover img { transform: scale(1.08); }
-
-    .card::after {
-      content: '✨';
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      font-size: 1.6rem;
-      opacity: 0.7;
-      pointer-events: none;
+    .card:hover img {
+      transform: scale(1.07);
     }
 
     .comment-section {
       padding: 1rem;
-      border-top: 1px solid #eee;
-      background: rgba(0,0,0,0.02);
-      direction: rtl;
+      border-top: 1px solid #ddd;
     }
 
     [data-theme="dark"] .comment-section {
-      border-top-color: #333;
-      background: rgba(255,255,255,0.03);
+      border-color: #333;
     }
 
-    .comment-section textarea {
+    textarea {
       width: 100%;
-      padding: 0.7rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      resize: none;
       min-height: 60px;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
       font-family: inherit;
-      margin-bottom: 0.6rem;
-      background: var(--card-bg);
-      color: var(--text);
+      margin-bottom: 0.5rem;
+      resize: none;
     }
 
-    [data-theme="dark"] .comment-section textarea { border-color: #444; }
+    [data-theme="dark"] textarea {
+      background: #222;
+      color: #fff;
+      border-color: #444;
+    }
 
     .comment-section button {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 50px;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
       cursor: pointer;
       font-weight: bold;
     }
 
     .comment-section ul {
       margin-top: 0.8rem;
-      padding-right: 1.2rem;
-      font-size: 0.95rem;
+      padding-right: 1rem;
       color: var(--text-light);
+      font-size: 0.95rem;
     }
-
-    .comment-section li { margin-bottom: 0.4rem; }
 
     .popup {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,0.9);
       display: none;
       place-items: center;
       z-index: 9999;
-      backdrop-filter: blur(8px);
     }
 
     .popup img {
-      max-width: 94vw;
-      max-height: 90vh;
+      max-width: 90%;
+      max-height: 90%;
       border-radius: 16px;
-      box-shadow: 0 0 60px rgba(0,0,0,0.6);
-      transform: scale(0.92);
-      transition: transform 0.4s ease;
     }
 
-    .popup.show img { transform: scale(1); }
-
     .close-hint {
-      position: absolute;
-      bottom: 2rem;
-      color: white;
-      font-size: 1.1rem;
+      color: #fff;
+      margin-top: 1rem;
       opacity: 0.7;
-      pointer-events: none;
     }
 
     .no-images {
       text-align: center;
-      padding: 3rem 1rem;
-      color: var(--text-light);
       font-size: 1.2rem;
+      color: var(--text-light);
+      padding: 2rem;
     }
 
     @media (max-width: 600px) {
-      .gallery { grid-template-columns: 1fr; }
+      .gallery {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="container">
     <header>
       <h1 id="page-title">صور الورشة</h1>
@@ -224,144 +221,141 @@
     <div class="gallery" id="image-gallery"></div>
 
     <div style="text-align:center; margin:3rem 0;">
-      <a href="index.html" class="btn btn-primary" style="padding:1rem 2rem; font-size:1.1rem; text-decoration:none;">
+      <a href="index.html" id="back-btn" class="btn btn-primary">
         ⬅️ الرجوع إلى الصفحة الرئيسية
       </a>
     </div>
   </div>
 
   <div class="popup" id="popup">
-    <img id="popup-img" alt="صورة من الورشة">
+    <img id="popup-img">
     <div class="close-hint">اضغط في أي مكان للإغلاق (Esc)</div>
   </div>
 
-  <script>
-    const images = [
-      "photo1.jpg", "photo2.jpg", "photo3.jpg", "photo4.jpg", "photo5.jpg",
-      "photo6.jpg", "photo7.jpg", "photo8.jpg", "photo9.jpg", "photo10.png"
-    ];
+<script>
+  const images = [
+    "photo1.jpg",
+    "photo2.jpg",
+    "photo3.jpg",
+    "photo4.jpg"
+  ];
 
-    const texts = {
-      ar: {
-        title: "صور الورشة",
-        return: "⬅️ الرجوع إلى الصفحة الرئيسية",
-        commentPh: "أضف تعليقك هنا...",
-        langBtn: "تبديل اللغة",
-        send: "إرسال 📩"
-      },
-      fr: {
-        title: "Photos de l'atelier",
-        return: "⬅️ Retour à la page principale",
-        commentPh: "Ajouter un commentaire...",
-        langBtn: "Changer la langue",
-        send: "Envoyer 📩"
-      }
-    };
+  const texts = {
+    ar: {
+      title: "صور الورشة",
+      back: "⬅️ الرجوع إلى الصفحة الرئيسية",
+      comment: "أضف تعليقك هنا...",
+      send: "إرسال 📩",
+      lang: "تبديل اللغة"
+    },
+    fr: {
+      title: "Photos de l'atelier",
+      back: "⬅️ Retour à la page principale",
+      comment: "Ajouter un commentaire...",
+      send: "Envoyer 📩",
+      lang: "Changer la langue"
+    }
+  };
 
-    let currentLang = localStorage.getItem("lang") || "ar";
-    let currentTheme = localStorage.getItem("theme") || "light";
+  let currentLang = localStorage.getItem("lang") || "ar";
+  let currentTheme = localStorage.getItem("theme") || "light";
 
-    const gallery = document.getElementById("image-gallery");
-    const popup = document.getElementById("popup");
-    const popupImg = document.getElementById("popup-img");
-    const langBtn = document.getElementById("toggle-lang-btn");
-    const themeBtn = document.getElementById("theme-toggle");
+  const gallery = document.getElementById("image-gallery");
+  const popup = document.getElementById("popup");
+  const popupImg = document.getElementById("popup-img");
+  const langBtn = document.getElementById("toggle-lang-btn");
+  const themeBtn = document.getElementById("theme-toggle");
+  const backBtn = document.getElementById("back-btn");
 
-    function applyTheme() {
-      document.body.setAttribute("data-theme", currentTheme);
-      themeBtn.textContent = currentTheme === "dark" ? "الوضع الفاتح ☀️" : "الوضع الداكن ☾";
+  function applyTheme() {
+    document.body.setAttribute("data-theme", currentTheme);
+    themeBtn.textContent = currentTheme === "dark" ? "الوضع الفاتح ☀️" : "الوضع الداكن ☾";
+  }
+
+  function renderGallery() {
+    gallery.innerHTML = "";
+
+    if (images.length === 0) {
+      gallery.innerHTML = `<p class="no-images">لا توجد صور حالياً</p>`;
+      return;
     }
 
-    function renderGallery() {
-      gallery.innerHTML = "";
+    images.forEach((src, i) => {
+      const card = document.createElement("div");
+      card.className = "card";
 
-      if (images.length === 0) {
-        gallery.innerHTML = '<p class="no-images">لا توجد صور متاحة حالياً...<br>سيتم إضافتها قريباً إن شاء الله</p>';
-        return;
-      }
+      const img = document.createElement("img");
+      img.src = src;
+      img.loading = "lazy";
+      img.onclick = () => {
+        popupImg.src = src;
+        popup.style.display = "grid";
+      };
 
-      images.forEach((src, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
+      card.appendChild(img);
 
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = `صورة ${i+1} من ورشة Atelier Electronique Médenine`;
-        img.loading = "lazy";
-        img.onclick = () => {
-          popupImg.src = src;
-          popup.classList.add("show");
-          popup.style.display = "grid";
-        };
+      const key = `comments-${i}`;
+      const comments = JSON.parse(localStorage.getItem(key)) || [];
 
-        card.appendChild(img);
+      const commentDiv = document.createElement("div");
+      commentDiv.className = "comment-section";
+      commentDiv.innerHTML = `
+        <textarea id="ta-${i}" placeholder="${texts[currentLang].comment}"></textarea>
+        <button onclick="addComment(${i})">${texts[currentLang].send}</button>
+        <ul>
+          ${comments.map(c => `<li>${c}</li>`).join("")}
+        </ul>
+      `;
 
-        const commentsKey = `atelier-comments-${i}`;
-        let comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
-
-        const commentDiv = document.createElement("div");
-        commentDiv.className = "comment-section";
-        commentDiv.innerHTML = `
-          <textarea id="ta-\( {i}" placeholder=" \){texts[currentLang].commentPh}"></textarea>
-          <button onclick="addComment(\( {i})"> \){texts[currentLang].send}</button>
-          <ul>\( {comments.map(c => `<li> \){c}</li>`).join("")}</ul>
-        `;
-
-        card.appendChild(commentDiv);
-        gallery.appendChild(card);
-      });
-    }
-
-    window.addComment = function(index) {
-      const ta = document.getElementById(`ta-${index}`);
-      let val = ta.value.trim();
-      if (!val) return;
-
-      val = val.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
-
-      const key = `atelier-comments-${index}`;
-      let comments = JSON.parse(localStorage.getItem(key)) || [];
-      comments.push(val);
-      localStorage.setItem(key, JSON.stringify(comments));
-
-      ta.value = "";
-      renderGallery();
-    };
-
-    popup.onclick = (e) => {
-      if (e.target === popup || e.target === popupImg) {
-        popup.style.display = "none";
-        popup.classList.remove("show");
-      }
-    };
-
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && popup.style.display !== "none") {
-        popup.style.display = "none";
-        popup.classList.remove("show");
-      }
+      card.appendChild(commentDiv);
+      gallery.appendChild(card);
     });
+  }
 
-    langBtn.onclick = () => {
-      currentLang = currentLang === "ar" ? "fr" : "ar";
-      localStorage.setItem("lang", currentLang);
-      document.getElementById("page-title").textContent = texts[currentLang].title;
-      langBtn.textContent = texts[currentLang].langBtn;
-      renderGallery();
-    };
+  window.addComment = function(i) {
+    const ta = document.getElementById(`ta-${i}`);
+    let val = ta.value.trim();
+    if (!val) return;
 
-    themeBtn.onclick = () => {
-      currentTheme = currentTheme === "light" ? "dark" : "light";
-      localStorage.setItem("theme", currentTheme);
-      applyTheme();
-    };
+    val = val.replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("page-title").textContent = texts[currentLang].title;
-      langBtn.textContent = texts[currentLang].langBtn;
-      applyTheme();
-      renderGallery();
-    });
-  </script>
+    const key = `comments-${i}`;
+    const comments = JSON.parse(localStorage.getItem(key)) || [];
+    comments.push(val);
+    localStorage.setItem(key, JSON.stringify(comments));
+    renderGallery();
+  };
+
+  popup.onclick = () => popup.style.display = "none";
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") popup.style.display = "none";
+  });
+
+  langBtn.onclick = () => {
+    currentLang = currentLang === "ar" ? "fr" : "ar";
+    localStorage.setItem("lang", currentLang);
+    initTexts();
+    renderGallery();
+  };
+
+  themeBtn.onclick = () => {
+    currentTheme = currentTheme === "light" ? "dark" : "light";
+    localStorage.setItem("theme", currentTheme);
+    applyTheme();
+  };
+
+  function initTexts() {
+    document.getElementById("page-title").textContent = texts[currentLang].title;
+    langBtn.textContent = texts[currentLang].lang;
+    backBtn.textContent = texts[currentLang].back;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initTexts();
+    applyTheme();
+    renderGallery();
+  });
+</script>
+
 </body>
 </html>

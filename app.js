@@ -1459,6 +1459,22 @@ if (smdInput) {
         });
     });
 
+const themeBtn = document.getElementById("themeToggle");
+
+function applyTheme(theme){
+  document.body.setAttribute("data-theme", theme);
+  themeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+  localStorage.setItem("theme", theme);
+}
+
+const savedTheme = localStorage.getItem("theme") || "light";
+applyTheme(savedTheme);
+
+themeBtn.onclick = () => {
+  const current = document.body.getAttribute("data-theme");
+  applyTheme(current === "dark" ? "light" : "dark");
+};
+
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

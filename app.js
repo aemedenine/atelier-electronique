@@ -35,18 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
 
-    /* =========================
-   Language System
-========================= */
-
-let currentLang = localStorage.getItem('lang') || 'ar';
-
-const translations = {
-  ar: {},
-  fr: {},
-  en: {}
-};
-
 // تطبيق الترجمة
 function applyLanguage(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {

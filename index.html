@@ -115,60 +115,66 @@
   أكثر من 10 سنوات خبرة
 </section>
 
-        <!-- Weather + Rating جنب بعض – تنظيم pro -->
-        <div class="weather-rating-grid">
-            <!-- Box الطقس -->
-            <div class="weather-box">
-                <h3>🌦️ حالة الطقس في مدنين</h3>
-                <div class="weather-inner">
-                    <div class="weather-main">
-                        <div class="temp-big" id="weather-temp">--°C</div>
-                        <div class="wind-small" id="weather-desc">جاري التحميل...</div>
-                    </div>
+      <!-- Weather + Prayer Box -->
+<div class="weather-rating-grid">
+    <!-- Box الطقس -->
+    <div class="weather-box">
+        <h3 data-i18n="weather_title">🌦️ حالة الطقس في مدنين</h3>
 
-                    <div class="prayer-times" id="prayer-times">
-                        <p>🌅 الفجر: --:--</p>
-                        <p>🌄 الشروق: --:--</p>
-                        <p>☀️ الظهر: --:--</p>
-                        <p>🕰️ العصر: --:--</p>
-                        <p>🌇 المغرب: --:--</p>
-                        <p>🌙 العشاء: --:--</p>
-                    </div>
-
-                    <div class="mini-info">
-                        <div class="mini-calendar">
-                            <span id="today-miladi">جاري التحميل...</span>
-                            <span id="today-hijri">جاري التحميل...</span>
-                        </div>
-
-                        <div class="daily-tips">
-                            <p class="tips-title">نصيحة اليوم</p>
-                            <ul id="tips-list"></ul>
-                        </div>
-                    </div>
+        <div class="weather-inner">
+            <div class="weather-main">
+                <div class="temp-big" id="weather-temp">--°C</div>
+                <div class="wind-small" id="weather-desc" data-i18n="weather_loading">
+                    جاري التحميل...
                 </div>
             </div>
 
-            <!-- Box التقييم -->
-            <div class="rating-container">
-                <div class="rating-title" id="rating-title">قيم الورشة</div>
-                <div class="stars-horizontal">
-                    <span data-value="5">☆</span>
-                    <span data-value="4">☆</span>
-                    <span data-value="3">☆</span>
-                    <span data-value="2">☆</span>
-                    <span data-value="1">☆</span>
+            <div class="prayer-times" id="prayer-times">
+                <p>🌅 <span data-i18n="prayer_fajr">الفجر</span>: --:--</p>
+                <p>🌄 <span data-i18n="prayer_sunrise">الشروق</span>: --:--</p>
+                <p>☀️ <span data-i18n="prayer_dhuhr">الظهر</span>: --:--</p>
+                <p>🕰️ <span data-i18n="prayer_asr">العصر</span>: --:--</p>
+                <p>🌇 <span data-i18n="prayer_maghrib">المغرب</span>: --:--</p>
+                <p>🌙 <span data-i18n="prayer_isha">العشاء</span>: --:--</p>
+            </div>
+
+            <div class="mini-info">
+                <div class="mini-calendar">
+                    <span id="today-miladi" data-i18n="date_loading">جاري التحميل...</span>
+                    <span id="today-hijri" data-i18n="date_loading_hijri">جاري التحميل...</span>
                 </div>
-                <div id="rating-value">0/5</div>
-                <div id="rating-average">
-                    متوسط التقييمات: <span id="avg-stars">0.0</span> ★ من <span id="vote-count">0</span> صوت
+
+                <div class="daily-tips">
+                    <p class="tips-title" data-i18n="tip_title">نصيحة اليوم</p>
+                    <ul id="tips-list"></ul>
                 </div>
-                <div class="rating-breakdown" id="rating-breakdown"></div>
-                <div class="rating-message" id="rating-message"></div>
             </div>
         </div>
+    </div>
 
-        <!-- FAQ الجديد – مع الأمواج -->
+    <!-- Box التقييم -->
+    <div class="rating-container">
+        <div class="rating-title" id="rating-title" data-i18n="rating_title">قيم الورشة</div>
+        <div class="stars-horizontal">
+            <span data-value="5">☆</span>
+            <span data-value="4">☆</span>
+            <span data-value="3">☆</span>
+            <span data-value="2">☆</span>
+            <span data-value="1">☆</span>
+        </div>
+        <div id="rating-value">0/5</div>
+        <div id="rating-average">
+            <span data-i18n="rating_average">متوسط التقييمات</span>: 
+            <span id="avg-stars">0.0</span> ★ 
+            <span data-i18n="rating_votes">من</span> <span id="vote-count">0</span> 
+            <span data-i18n="rating_votes_text">صوت</span>
+        </div>
+        <div class="rating-breakdown" id="rating-breakdown"></div>
+        <div class="rating-message" id="rating-message"></div>
+    </div>
+</div>
+
+      <!-- FAQ الجديد – مع الأمواج -->
         <section class="faq">
             <div class="faq-container">
                 <!-- العنوان مع تأثير الأمواج (النسخة اليدوية المضمونة) -->

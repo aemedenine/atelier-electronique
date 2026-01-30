@@ -297,7 +297,7 @@ if (visitEl) {
 }
 
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
-  function updateTimeTranslated() {
+ function updateTime() {
     const now = new Date();
 
     const days = {
@@ -320,15 +320,18 @@ if (visitEl) {
     const m = now.getMinutes().toString().padStart(2,'0');
     const s = now.getSeconds().toString().padStart(2,'0');
 
-    const formatted = `${dayName}, ${date} ${monthName} - ${h}:${m}:${s}`;
+    const formatted = `${dayName}، ${date} ${monthName} - ${h}:${m}:${s}`;
 
     const timeEl = document.getElementById('current-time');
     if (timeEl) timeEl.textContent = formatted;
+
+    // تحديث كل ثانية
+    setTimeout(updateTime, 1000);
 }
 
-// Call every second
-setInterval(updateTimeTranslated, 1000);
-updateTimeTranslated();
+// Start
+updateTime();
+
 
     // ── News Ticker متعدد اللغات ──────────────────────────────────────────
     const news = {

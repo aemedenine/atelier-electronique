@@ -1488,4 +1488,4 @@ if (smdInput) {
     applyLanguage(currentLang);
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
-});
+

@@ -544,32 +544,11 @@ function updateTime() {
 }
 
 // ── DOM Ready ─────────────────────────────────────────────
-
+document.addEventListener('DOMContentLoaded', () => {
     updateTime();
     setInterval(updateTime, 1000);  // تحدث كل ثانية
 });
 
-// ── الوضع الفاتح / الداكن ──────────────────────
-    function setTheme(newTheme) {
-        body.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-    }
-
-    let currentTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    setTheme(currentTheme);
-
-    themeToggle?.addEventListener("click", () => {
-        const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-        themeToggle.style.transform = "scale(0.92)";
-        setTimeout(() => themeToggle.style.transform = "", 120);
-    });
-
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-        if (!localStorage.getItem("theme")) {
-            setTheme(e.matches ? "dark" : "light");
-        }
-    });
 
     // ── News Ticker متعدد اللغات ──────────────────────────────────────────
     const news = {
@@ -1488,4 +1467,4 @@ if (smdInput) {
     applyLanguage(currentLang);
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
-
+});

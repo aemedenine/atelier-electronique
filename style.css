@@ -1418,32 +1418,7 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
-.theme-toggle{
-  position: fixed;
-  top: 16px;
-  right: 16px;   /* 👈 هنا التغيير */
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 20px rgba(0,0,0,.15);
-  cursor: pointer;
-  font-size: 1.3rem;
-  display: grid;
-  place-items: center;
-  z-index: 10000;
-  transition: .3s;
-}
 
-.theme-toggle:hover{
-  transform: scale(1.1) rotate(8deg);
-}
-
-[data-theme="dark"] .theme-toggle{
-  background: rgba(30,30,30,.85);
-}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

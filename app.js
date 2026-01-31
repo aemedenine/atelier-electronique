@@ -571,9 +571,6 @@ function updateTime() {
         }
     });
 
-
-
-
     // ── News Ticker متعدد اللغات ──────────────────────────────────────────
     const news = {
         ar: [

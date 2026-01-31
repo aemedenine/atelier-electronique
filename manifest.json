@@ -2,11 +2,10 @@
   "name": "Atelier Electronique Médenine",
   "short_name": "AEM",
   "start_url": "/atelier-electronique/",
-
+  "scope": "/atelier-electronique/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0d47a1",
-  "description": "Atelier Electronique Médenine - Calculs, électronique, outils et projets",
   "icons": [
     {
       "src": "icons/icon-192.png",

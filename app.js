@@ -492,29 +492,41 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-// ── Visit Counter (Compteur de visites) ───────────────────────────────
-(function() {
+// ── Visit Counter (version corrigée – incrément une seule fois par jour et par navigateur) ──
+(function setupVisitCounter() {
     if (!visitEl) return;
 
     const db = firebase.database();
-    const visitsRef = db.ref('visits');
+    const visitsRef = db.ref('visits');           // ou 'visites/total' ida badalt
     const today = new Date().toDateString();
-    const localKey = 'hasVisitedToday';
+    const visitedKey = 'lastVisitDate_' + location.hostname;  // key unique par domaine
 
-    // زيادة العدد مرة واحدة فقط في اليوم
-    if (localStorage.getItem(localKey) !== today) {
-        localStorage.setItem(localKey, today);
-        visitsRef.transaction(current => (current || 0) + 1);
+    // Vérifie si déjà visité aujourd'hui
+    const lastVisit = localStorage.getItem(visitedKey);
+
+    function updateDisplay(count) {
+        const lang = currentLang || 'ar';
+        const txt = translations[lang]?.visit_count?.replace('{count}', count) || `عدد الزوار: ${count}`;
+        visitEl.textContent = txt;
     }
 
-    // الاستماع للتحديثات مباشرة
-    visitsRef.on('value', snapshot => {
-        const total = snapshot.val() || 0;
-
-        // عرض العدد حسب اللغة الحالية
-        const lang = currentLang || 'ar';
-        visitEl.textContent = translations[lang].visit_count.replace('{count}', total);
+    // Écoute les changements en temps réel (toujours actif)
+    visitsRef.on('value', snap => {
+        const total = snap.val() || 0;
+        updateDisplay(total);
     });
+
+    // Incrémente SEULEMENT si différent de aujourd'hui
+    if (lastVisit !== today) {
+        localStorage.setItem(visitedKey, today);
+
+        // Transaction = safe (pas de race condition)
+        visitsRef.transaction(current => {
+            return (current || 0) + 1;
+        }).catch(err => {
+            console.error("Erreur incrément visits:", err);
+        });
+    }
 })();
 
 

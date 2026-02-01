@@ -586,52 +586,39 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         setInterval(updateNews, 5000);
     }
-const searchInput = document.getElementById("search-input");
-const searchResults = document.getElementById("search-results");
-const items = document.querySelectorAll("#content .item");
+    // ──bar serch ──────────────────────────────────────────
+ function searchSite(query) {
+        searchResults.innerHTML = "";
+        if (!query) {
+            searchResults.style.display = "none";
+            return;
+        }
 
-let currentLang = "ar"; // اللغة الافتراضية
+        let found = 0;
+        items.forEach(item => {
+            const keywordsAr = item.dataset.keywordsAr || "";
+            const keywordsEn = item.dataset.keywordsEn || "";
+            if (keywordsAr.includes(query) || keywordsEn.toLowerCase().includes(query.toLowerCase())) {
+                const li = document.createElement("li");
+                li.textContent = item.querySelector("h2").textContent;
+                li.onclick = () => {
+                    item.scrollIntoView({ behavior: "smooth", block: "center" });
+                    // Highlight temporary
+                    item.classList.add("highlight");
+                    setTimeout(() => item.classList.remove("highlight"), 1500);
+                    searchResults.style.display = "none";
+                    searchInput.value = "";
+                };
+                searchResults.appendChild(li);
+                found++;
+            }
+        });
 
-function updateLanguage(lang) {
-  currentLang = lang;
-  // تحديث placeholder البار
-  searchInput.placeholder = lang === "ar" ? "ابحث في الموقع..." : "Search the site...";
-}
-
-function searchSite(query) {
-  searchResults.innerHTML = "";
-  if (!query) {
-    searchResults.style.display = "none";
-    return;
-  }
-
-  let found = 0;
-  items.forEach(item => {
-    const text = item.dataset[`lang-${currentLang}`].toLowerCase();
-    if (text.includes(query.toLowerCase())) {
-      const li = document.createElement("li");
-      li.textContent = text;
-      li.onclick = () => {
-        item.scrollIntoView({ behavior: "smooth", block: "center" });
-        searchResults.style.display = "none";
-        searchInput.value = "";
-      };
-      searchResults.appendChild(li);
-      found++;
+        searchResults.style.display = found ? "block" : "none";
     }
-  });
 
-  searchResults.style.display = found ? "block" : "none";
-}
-
-searchInput.addEventListener("input", (e) => {
-  searchSite(e.target.value);
+    searchInput.addEventListener("input", (e) => searchSite(e.target.value));
 });
-
-// مثال تغيير اللغة:
-document.getElementById("lang-ar").addEventListener("click", () => updateLanguage("ar"));
-document.getElementById("lang-en").addEventListener("click", () => updateLanguage("en"));
-
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

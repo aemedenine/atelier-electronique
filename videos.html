@@ -198,18 +198,18 @@
     </div>
 
     <div style="text-align:center; margin:5rem 0 3rem;">
-      <a href="index.html" class="btn btn-primary" id="back-btn">⬅️ Back to Home</a>
+      <a href="index.html" class="btn btn-primary" id="back-btn">⬅️ الرجوع إلى الصفحة الرئيسية</a>
     </div>
   </div>
 
   <!-- Viewer Fullscreen -->
   <div class="popup" id="viewer">
     <video controls id="viewer-video" autoplay></video>
-    <div class="close-hint" id="close-hint">Click anywhere or Esc to close</div>
+    <div class="close-hint" id="close-hint">اضغط في أي مكان أو Esc للإغلاق</div>
   </div>
 
 <script>
-// Firebase Config (tes creds)
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
   authDomain: "atelier-electronique-mednine.firebaseapp.com",
@@ -263,7 +263,7 @@ let currentLang = localStorage.getItem('lang') || 'ar';
 let currentTheme = localStorage.getItem('theme') || 'light';
 let currentIndex = 0;
 
-// Vidéos depuis GitHub repo (raw links) – badal ida repo different
+// Vidéos depuis GitHub (raw links) – badal ida repo different
 const videos = [
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video1.mp4", id: "video1" },
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video2.mp4", id: "video2" },
@@ -271,7 +271,7 @@ const videos = [
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video4.mp4", id: "video4" },
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video5.mp4", id: "video5" },
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video6.mp4", id: "video6" },
-  // Ajoute les nouvelles vidéos ici (ex: video4.mp4...)
+  // Ajoute les nouvelles ici...
 ];
 
 // DOM
@@ -284,7 +284,7 @@ const closeHint = document.getElementById('close-hint');
 function applyLang() {
   document.querySelector('#page-title').textContent = translations[currentLang].title;
   document.querySelector('#back-btn').textContent = translations[currentLang].back;
-  document.querySelector('#lang-toggle').textContent = translations[currentLang].lang_btn;
+  document.getElementById('lang-toggle').textContent = translations[currentLang].lang_btn;
   document.querySelector('#theme-toggle').textContent = 
     currentTheme === 'dark' ? translations[currentLang].light_mode : translations[currentLang].dark_mode;
   closeHint.textContent = translations[currentLang].close_hint;
@@ -356,7 +356,7 @@ function openViewer(index) {
   currentIndex = index;
   viewerVideo.src = videos[index].src;
   viewer.style.display = 'grid';
-  viewerVideo.play();
+  viewerVideo.play().catch(() => console.log("Autoplay bloqué"));
 }
 
 viewer.onclick = e => {
@@ -376,9 +376,15 @@ document.addEventListener('keydown', e => {
 // Event Listeners
 document.getElementById('lang-toggle').onclick = () => {
   const cycle = ['ar', 'fr', 'en'];
-  const idx = cycle.indexOf(currentLang);
-  currentLang = cycle[(idx + 1) % 3];
+  const currentIdx = cycle.indexOf(currentLang);
+  const nextIdx = (currentIdx + 1) % cycle.length;
+  currentLang = cycle[nextIdx];
+  
   localStorage.setItem('lang', currentLang);
+  
+  // Update button text immediately
+  document.getElementById('lang-toggle').textContent = translations[currentLang].lang_btn;
+  
   applyLang();
 };
 

@@ -1,234 +1,398 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فيديوهات الورشة | Atelier Electronique Médenine</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-i18n="videos_title">فيديوهات الورشة | Atelier Electronique Médenine</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --primary:#1e90ff;
-  --primary-dark:#1565c0;
-  --bg:#f8f9fa;
-  --card:#fff;
-  --text:#2c3e50;
-  --shadow:0 8px 24px rgba(0,0,0,.08);
-}
-[data-theme="dark"]{
-  --bg:#121212;
-  --card:#1e1e1e;
-  --text:#eee;
-  --shadow:0 8px 24px rgba(0,0,0,.4);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Cairo,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  padding:1.5rem;
-  transition:.3s;
-}
-.container{max-width:1200px;margin:auto}
-h1{text-align:center;color:var(--primary);margin-bottom:1.5rem}
+  <!-- Firebase Compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-.controls{
-  display:flex;
-  justify-content:center;
-  gap:1rem;
-  margin-bottom:2rem;
-  flex-wrap:wrap;
-}
-.btn{
-  padding:.7rem 1.5rem;
-  border-radius:30px;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-}
-.primary{background:var(--primary);color:#fff}
-.outline{background:none;border:2px solid var(--primary);color:var(--primary)}
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:1.5rem;
-}
-
-.card{
-  background:var(--card);
-  border-radius:16px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  transition:.3s;
-}
-.card:hover{transform:translateY(-8px)}
-
-.card video{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  cursor:pointer;
-}
-
-.comment{
-  padding:1rem;
-}
-.comment textarea{
-  width:100%;
-  resize:none;
-  border-radius:8px;
-  padding:.5rem;
-}
-.comment button{
-  margin-top:.4rem;
-  background:var(--primary);
-  color:#fff;
-  border:none;
-  padding:.4rem 1rem;
-  border-radius:20px;
-}
-.comment ul{
-  margin-top:.6rem;
-  font-size:.9rem;
-  padding-right:1rem;
-}
-
-/* popup video */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:none;
-  place-items:center;
-  z-index:999;
-}
-.popup video{
-  max-width:90%;
-  max-height:90%;
-  border-radius:12px;
-}
-</style>
+  <style>
+    :root {
+      --primary: #1e90ff;
+      --primary-dark: #1565c0;
+      --accent: #ff6b35;
+      --bg: #f8f9fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --border: #e5e7eb;
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.12);
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --text-light: #94a3b8;
+      --border: #334155;
+      --shadow-sm: 0 4px 16px rgba(0,0,0,0.5);
+      --shadow-md: 0 12px 40px rgba(0,0,0,0.6);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 3rem; }
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      color: var(--primary);
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      padding: 0.85rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .btn-primary    { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(30,144,255,0.3); }
+    .btn-outline    { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: white; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-14px);
+      box-shadow: var(--shadow-md);
+    }
+    .card video {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      cursor: pointer;
+    }
+    .card:hover video { transform: scale(1.09); }
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.6s infinite;
+      height: 260px;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .comment-section {
+      padding: 1.2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.98rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      font-family: inherit;
+      resize: vertical;
+      background: var(--card);
+      color: var(--text);
+      transition: border 0.3s;
+    }
+    textarea:focus { border-color: var(--primary); outline: none; }
+    .comment-section button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .comment-section button:hover { background: #e55a2a; }
+    .comments-list {
+      margin-top: 1rem;
+      max-height: 160px;
+      overflow-y: auto;
+      padding-right: 0.6rem;
+    }
+    .comments-list li {
+      margin-bottom: 0.8rem;
+      padding: 0.7rem 1rem;
+      background: rgba(30,144,255,0.08);
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.94);
+      display: none;
+      place-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(10px);
+    }
+    .popup video {
+      max-width: 92%;
+      max-height: 88vh;
+      border-radius: 20px;
+      box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    }
+    .close-hint {
+      color: white;
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      opacity: 0.85;
+    }
+    @media (max-width: 768px) {
+      .gallery { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+  </style>
 </head>
+<body data-theme="light">
 
-<body>
-<div class="container">
-  <h1 id="title">فيديوهات الورشة</h1>
+  <div class="container">
+    <header>
+      <h1 id="page-title">فيديوهات الورشة</h1>
+    </header>
 
-  <div class="controls">
-    <button class="btn primary" id="langBtn">تبديل اللغة</button>
-    <button class="btn outline" id="themeBtn">الوضع الداكن ☾</button>
+    <div class="controls">
+      <button class="btn btn-primary" id="lang-toggle">English</button>
+      <button class="btn btn-outline" id="theme-toggle">الوضع الداكن ☾</button>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <!-- Skeletons -->
+      <div class="card"><div class="skeleton"></div></div>
+      <div class="card"><div class="skeleton"></div></div>
+      <div class="card"><div class="skeleton"></div></div>
+      <div class="card"><div class="skeleton"></div></div>
+    </div>
+
+    <div style="text-align:center; margin:5rem 0 3rem;">
+      <a href="index.html" class="btn btn-primary" id="back-btn">⬅️ Back to Home</a>
+    </div>
   </div>
 
-  <div class="gallery" id="gallery"></div>
-
-  <div style="text-align:center;margin-top:3rem">
-    <a href="index.html" class="btn primary" id="backBtn">⬅️ الرجوع للرئيسية</a>
+  <!-- Viewer Fullscreen -->
+  <div class="popup" id="viewer">
+    <video controls id="viewer-video" autoplay></video>
+    <div class="close-hint" id="close-hint">Click anywhere or Esc to close</div>
   </div>
-</div>
-
-<div class="popup" id="popup">
-  <video controls id="popupVideo"></video>
-</div>
 
 <script>
-const videos=[
-  "video1.mp4",
-  "video2.mp4",
-  "video3.mp4"
-];
+// Firebase Config (tes creds)
+const firebaseConfig = {
+  apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
+  authDomain: "atelier-electronique-mednine.firebaseapp.com",
+  databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "atelier-electronique-mednine",
+  storageBucket: "atelier-electronique-mednine.firebasestorage.app",
+  messagingSenderId: "547430908384",
+  appId: "1:547430908384:web:4caa4cf3869491bd14eb85"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-const txt={
-  ar:{
-    title:"فيديوهات الورشة",
-    back:"⬅️ الرجوع للرئيسية",
-    ph:"أضف تعليق...",
-    send:"إرسال"
+// Traductions complètes
+const translations = {
+  ar: {
+    title: "فيديوهات الورشة",
+    back: "⬅️ الرجوع إلى الصفحة الرئيسية",
+    comment_placeholder: "أضف تعليقك هنا...",
+    send: "إرسال 📩",
+    lang_btn: "English",
+    no_comments: "لا تعليقات بعد",
+    dark_mode: "الوضع الداكن ☾",
+    light_mode: "الوضع الفاتح ☀️",
+    close_hint: "اضغط في أي مكان أو Esc للإغلاق"
   },
-  fr:{
-    title:"Vidéos de l'atelier",
-    back:"⬅️ Retour",
-    ph:"Ajouter un commentaire...",
-    send:"Envoyer"
+  fr: {
+    title: "Vidéos de l'atelier",
+    back: "⬅️ Retour à la page principale",
+    comment_placeholder: "Ajoutez votre commentaire...",
+    send: "Envoyer 📩",
+    lang_btn: "العربية",
+    no_comments: "Aucun commentaire pour le moment",
+    dark_mode: "Mode sombre ☾",
+    light_mode: "Mode clair ☀️",
+    close_hint: "Cliquez n'importe où ou Esc pour fermer"
+  },
+  en: {
+    title: "Workshop Videos",
+    back: "⬅️ Back to Home",
+    comment_placeholder: "Add your comment here...",
+    send: "Send 📩",
+    lang_btn: "العربية",
+    no_comments: "No comments yet",
+    dark_mode: "Dark Mode ☾",
+    light_mode: "Light Mode ☀️",
+    close_hint: "Click anywhere or Esc to close"
   }
 };
 
-let lang=localStorage.getItem("lang")||"ar";
-let theme=localStorage.getItem("theme")||"light";
+let currentLang = localStorage.getItem('lang') || 'ar';
+let currentTheme = localStorage.getItem('theme') || 'light';
+let currentIndex = 0;
 
-const g=document.getElementById("gallery");
-const popup=document.getElementById("popup");
-const popupVideo=document.getElementById("popupVideo");
+// Vidéos depuis GitHub repo (raw links) – badal ida repo different
+const videos = [
+  { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video1.mp4", id: "video1" },
+  { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video2.mp4", id: "video2" },
+  { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video3.mp4", id: "video3" },
+  { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video4.mp4", id: "video4" },
+  { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video5.mp4", id: "video5" },
+  { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/video6.mp4", id: "video6" },
+  // Ajoute les nouvelles vidéos ici (ex: video4.mp4...)
+];
 
-function render(){
-  g.innerHTML="";
-  videos.forEach((v,i)=>{
-    const c=document.createElement("div");
-    c.className="card";
+// DOM
+const galleryEl = document.getElementById('gallery');
+const viewer = document.getElementById('viewer');
+const viewerVideo = document.getElementById('viewer-video');
+const closeHint = document.getElementById('close-hint');
 
-    const vid=document.createElement("video");
-    vid.src=v;
-    vid.muted=true;
-    vid.onclick=()=>{
-      popupVideo.src=v;
-      popup.style.display="grid";
-      popupVideo.play();
-    };
+// Functions
+function applyLang() {
+  document.querySelector('#page-title').textContent = translations[currentLang].title;
+  document.querySelector('#back-btn').textContent = translations[currentLang].back;
+  document.querySelector('#lang-toggle').textContent = translations[currentLang].lang_btn;
+  document.querySelector('#theme-toggle').textContent = 
+    currentTheme === 'dark' ? translations[currentLang].light_mode : translations[currentLang].dark_mode;
+  closeHint.textContent = translations[currentLang].close_hint;
+  renderGallery();
+}
 
-    const key="vcom-"+i;
-    const comments=JSON.parse(localStorage.getItem(key)||"[]");
+function applyTheme() {
+  document.body.setAttribute('data-theme', currentTheme);
+  localStorage.setItem('theme', currentTheme);
+  document.querySelector('#theme-toggle').textContent = 
+    currentTheme === 'dark' ? translations[currentLang].light_mode : translations[currentLang].dark_mode;
+}
 
-    const com=document.createElement("div");
-    com.className="comment";
-    com.innerHTML=`
-      <textarea id="t${i}" placeholder="${txt[lang].ph}"></textarea>
-      <button onclick="add(${i})">${txt[lang].send}</button>
-      <ul>${comments.map(c=>`<li>${c}</li>`).join("")}</ul>
+function renderGallery() {
+  galleryEl.innerHTML = '';
+  videos.forEach((video, index) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    const vid = document.createElement('video');
+    vid.src = video.src;
+    vid.muted = true;
+    vid.loop = true;
+    vid.loading = 'lazy';
+    vid.playsinline = true;
+    vid.onclick = () => openViewer(index);
+    
+    card.appendChild(vid);
+
+    const commentsDiv = document.createElement('div');
+    commentsDiv.className = 'comment-section';
+    commentsDiv.innerHTML = `
+      <textarea placeholder="${translations[currentLang].comment_placeholder}" id="ta-${video.id}"></textarea>
+      <button onclick="addComment('${video.id}')">${translations[currentLang].send}</button>
+      <ul id="comments-${video.id}"></ul>
     `;
+    card.appendChild(commentsDiv);
 
-    c.append(vid,com);
-    g.appendChild(c);
+    db.ref(`video_comments/${video.id}`).on('value', snap => {
+      const list = document.getElementById(`comments-${video.id}`);
+      list.innerHTML = '';
+      const comments = snap.val() || {};
+      if (Object.keys(comments).length === 0) {
+        list.innerHTML = `<li>${translations[currentLang].no_comments}</li>`;
+      } else {
+        Object.values(comments).forEach(c => {
+          const li = document.createElement('li');
+          li.textContent = c.text;
+          list.appendChild(li);
+        });
+      }
+    });
+
+    galleryEl.appendChild(card);
   });
 }
 
-window.add=function(i){
-  const t=document.getElementById("t"+i);
-  if(!t.value.trim())return;
-  const key="vcom-"+i;
-  const arr=JSON.parse(localStorage.getItem(key)||"[]");
-  arr.push(t.value);
-  localStorage.setItem(key,JSON.stringify(arr));
-  render();
+window.addComment = function(videoId) {
+  const ta = document.getElementById(`ta-${videoId}`);
+  const text = ta.value.trim();
+  if (!text) return;
+
+  const comment = { text, timestamp: firebase.database.ServerValue.TIMESTAMP };
+  db.ref(`video_comments/${videoId}`).push(comment);
+  ta.value = '';
 };
 
-popup.onclick=()=>{
-  popupVideo.pause();
-  popup.style.display="none";
-};
-
-document.getElementById("langBtn").onclick=()=>{
-  lang=lang==="ar"?"fr":"ar";
-  localStorage.setItem("lang",lang);
-  init();
-};
-
-document.getElementById("themeBtn").onclick=()=>{
-  theme=theme==="light"?"dark":"light";
-  localStorage.setItem("theme",theme);
-  document.body.setAttribute("data-theme",theme);
-};
-
-function init(){
-  document.getElementById("title").textContent=txt[lang].title;
-  document.getElementById("backBtn").textContent=txt[lang].back;
-  render();
+function openViewer(index) {
+  currentIndex = index;
+  viewerVideo.src = videos[index].src;
+  viewer.style.display = 'grid';
+  viewerVideo.play();
 }
 
-document.body.setAttribute("data-theme",theme);
-init();
+viewer.onclick = e => {
+  if (e.target === viewer) {
+    viewerVideo.pause();
+    viewer.style.display = 'none';
+  }
+};
+
+document.addEventListener('keydown', e => {
+  if (viewer.style.display === 'grid' && e.key === 'Escape') {
+    viewerVideo.pause();
+    viewer.style.display = 'none';
+  }
+});
+
+// Event Listeners
+document.getElementById('lang-toggle').onclick = () => {
+  const cycle = ['ar', 'fr', 'en'];
+  const idx = cycle.indexOf(currentLang);
+  currentLang = cycle[(idx + 1) % 3];
+  localStorage.setItem('lang', currentLang);
+  applyLang();
+};
+
+document.getElementById('theme-toggle').onclick = () => {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme();
+};
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  applyLang();
+  applyTheme();
+  renderGallery();
+});
 </script>
 </body>
 </html>

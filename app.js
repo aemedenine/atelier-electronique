@@ -509,7 +509,9 @@ if (visitEl) {
     // عرض العدد الحقيقي مباشرة من Firebase
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
+        visitEl.dataset.count = total;
+updateVisitText();
+
     });
 }
 

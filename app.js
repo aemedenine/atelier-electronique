@@ -606,10 +606,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
  // ── Search Bar ──────────────────────────────────────────
-    const searchInput = document.getElementById("search-input");
-    const searchResults = document.getElementById("search-results");
-    const items = document.querySelectorAll("#content .item");
-
     function searchSite(query) {
         searchResults.innerHTML = "";
         if (!query) {

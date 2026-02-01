@@ -586,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         setInterval(updateNews, 5000);
     }
-   
+
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {
@@ -605,37 +605,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
- // ── Search Bar ──────────────────────────────────────────
-    function searchSite(query) {
-        searchResults.innerHTML = "";
-        if (!query) {
-            searchResults.style.display = "none";
-            return;
-        }
 
-        let found = 0;
-        items.forEach(item => {
-            const keywordsAr = item.dataset.keywordsAr || "";
-            const keywordsEn = item.dataset.keywordsEn || "";
-            if (keywordsAr.includes(query) || keywordsEn.toLowerCase().includes(query.toLowerCase())) {
-                const li = document.createElement("li");
-                li.textContent = item.querySelector("h2").textContent;
-                li.onclick = () => {
-                    item.scrollIntoView({ behavior: "smooth", block: "center" });
-                    item.classList.add("highlight");
-                    setTimeout(() => item.classList.remove("highlight"), 1500);
-                    searchResults.style.display = "none";
-                    searchInput.value = "";
-                };
-                searchResults.appendChild(li);
-                found++;
-            }
-        });
-
-        searchResults.style.display = found ? "block" : "none";
-    }
-
-    searchInput.addEventListener("input", (e) => searchSite(e.target.value));
     // ── Wave Animation لعنوان FAQ (محسنة) ────────────────────────────────
     const faqHeader = document.querySelector('.faq-header');
     if (faqHeader) {

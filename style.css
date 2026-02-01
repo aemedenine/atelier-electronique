@@ -41,7 +41,7 @@ header {
   align-items: center;
   gap: 15px;
   flex-wrap: wrap;
-  overflow: hidden;
+  overflow: visible;
   text-align: center;
   padding: 30px 0;
 }

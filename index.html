@@ -37,17 +37,21 @@
     </header>
 
     <main class="container main-content">
-        <section class="info-bar">
-            <div id="current-time">--:--:--</div>
-            <div id="visit-count" data-i18n="visit_count"></div>
+       <section class="info-bar">
+  <!-- Le bouton pro visites + time -->
+  <div class="stats-btn" id="stats-btn">
+    <span class="visits" id="visit-count">زوار: 0</span>
+    <span class="separator">•</span>
+    <span class="time" id="current-time">--:--:--</span>
+  </div>
 
-            <!-- Language Switcher -->
-            <div class="lang-switch">
-                <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">
-                <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
-                <img src="flags/gb.png" data-lang="en" alt="English" title="English">
-            </div>
-        </section>
+  <!-- Language Switcher  -->
+  <div class="lang-switch">
+    <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">
+    <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
+    <img src="flags/gb.png" data-lang="en" alt="English" title="English">
+  </div>
+</section>
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">

@@ -129,6 +129,95 @@ header h1 {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 1rem 1.2rem 1rem 3.5rem;
+  border: 2px solid #ddd;
+  border-radius: 50px;
+  background: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+#search-input:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 0 4px rgba(30,144,255,0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+#search-results {
+  position: absolute;
+  top: 110%;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  display: none;
+  z-index: 100;
+}
+
+#search-results li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+#search-results li:hover {
+  background: #f0f0f0;
+}
+
+[data-theme="dark"] .search-box {
+  background: #1e2937;
+}
+
+[data-theme="dark"] #search-input {
+  background: #2a3b55;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] #search-results {
+  background: #2a3b55;
+  color: #e2e8f0;
+}
+
+#news-bar {
+  background: #fefefe;
+  padding: 0.8rem 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
 /* ==========================================================================
    Info Bar
    ========================================================================== */

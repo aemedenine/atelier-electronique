@@ -492,43 +492,46 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-// ── Visit Counter (version corrigée – incrément une seule fois par jour et par navigateur) ──
+// ── Visit Counter – Version finale corrigée (exécuté une seule fois au vrai load) ──
 (function setupVisitCounter() {
+    const visitEl = document.getElementById('visit-count');
     if (!visitEl) return;
 
     const db = firebase.database();
-    const visitsRef = db.ref('visits');           // ou 'visites/total' ida badalt
-    const today = new Date().toDateString();
-    const visitedKey = 'lastVisitDate_' + location.hostname;  // key unique par domaine
+    const visitsRef = db.ref('visits');  // تأكد من المسار (visits أو visites/total)
 
-    // Vérifie si déjà visité aujourd'hui
-    const lastVisit = localStorage.getItem(visitedKey);
+    const today = new Date().toDateString();
+    const visitedKey = 'lastVisitDate_' + window.location.hostname + '_v1';  // unique + version bach netefki cache ancien
 
     function updateDisplay(count) {
         const lang = currentLang || 'ar';
-        const txt = translations[lang]?.visit_count?.replace('{count}', count) || `عدد الزوار: ${count}`;
-        visitEl.textContent = txt;
+        const template = translations[lang]?.visit_count || 'عدد زوار الموقع: {count}';
+        visitEl.textContent = template.replace('{count}', count);
     }
 
-    // Écoute les changements en temps réel (toujours actif)
-    visitsRef.on('value', snap => {
+    // Listener temps réel (reste actif même ki tbadal langue)
+    visitsRef.on('value', (snap) => {
         const total = snap.val() || 0;
         updateDisplay(total);
     });
 
-    // Incrémente SEULEMENT si différent de aujourd'hui
-    if (lastVisit !== today) {
+    // Incrément seulement ida awel visit lyom (check une seule fois)
+    if (localStorage.getItem(visitedKey) !== today) {
         localStorage.setItem(visitedKey, today);
 
-        // Transaction = safe (pas de race condition)
-        visitsRef.transaction(current => {
-            return (current || 0) + 1;
-        }).catch(err => {
-            console.error("Erreur incrément visits:", err);
-        });
+        visitsRef.transaction(current => (current || 0) + 1)
+            .then(result => {
+                if (result.committed) {
+                    console.log('✅ Visit compté :', result.snapshot.val());
+                } else {
+                    console.log('Transaction non commitée (conflit)');
+                }
+            })
+            .catch(err => console.error('Erreur transaction:', err));
+    } else {
+        console.log('Déjà visité aujourd’hui → skip');
     }
 })();
-
 
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {

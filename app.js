@@ -458,7 +458,33 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(el.dataset.lang);
         });
     });
+// ── Search Bar PRO ─────────────────────────────────────────────────────
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
 
+            const searchableElements = document.querySelectorAll(
+                'h1, h2, h3, p, .faq-question, .section-title, .project-card h3, .box-desc, .service-pro-card, .video-pro-card, .poste-pro-card, .calculator-box h3, .cta-buttons a'
+            );
+
+            searchableElements.forEach(el => {
+                const text = el.textContent.toLowerCase();
+                const parent = el.closest(
+                    '.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section, .project-box, .calculator-box, .cta-buttons a'
+                );
+
+                if (!query) {
+                    if (parent) parent.style.display = '';
+                } else {
+                    if (text.includes(query)) {
+                        if (parent) parent.style.display = '';
+                    } else {
+                        if (parent) parent.style.display = 'none';
+                    }
+                }
+            });
+        });
+    }
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -492,52 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-// ── SEARCH BAR PRO – filtre tout le contenu selon langue ──
-const searchInput = document.getElementById('search-input');
 
-if (searchInput) {
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-
-    // Tous les éléments que tu veux filtrer (ajoute les classes/IDs que tu veux)
-    const searchableElements = document.querySelectorAll(
-      'h1, h2, h3, p, .faq-question, .section-title, .project-card h3, .service-pro-card, .video-pro-card, .poste-pro-card'
-    );
-
-    searchableElements.forEach(el => {
-      const text = el.textContent.toLowerCase();
-      // Si la recherche vide → affiche tout
-      if (!query) {
-        el.closest('.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section')?.style.display = '';
-      } else {
-        if (text.includes(query)) {
-          el.closest('.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section')?.style.display = '';
-        } else {
-          el.closest('.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section')?.style.display = 'none';
-        }
-      }
-    });
-  });
-}
-
-// Optionnel : placeholder selon langue (mise à jour quand langue change)
-function updateSearchPlaceholder() {
-  const placeholders = {
-    ar: "ابحث هنا...",
-    fr: "Rechercher ici...",
-    en: "Search here..."
-  };
-  if (searchInput) {
-    searchInput.placeholder = placeholders[currentLang] || "ابحث هنا...";
-  }
-}
-
-// Appelle cette fonction dans applyLanguage() (déjà dans ton code)
-function applyLanguage(lang) {
-  // ... ton code original ...
-  
-  updateSearchPlaceholder();   // ← ajoute cette ligne ici
-}
     // ── Compteur de visites ────────────────────────────────────────────────
 if (visitEl) {
     const db = firebase.database();
@@ -1504,12 +1485,15 @@ if (smdInput) {
         });
     });
 
-    // ── Final Initialization ───────────────────────────────────────────────
+ // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
     updateMiniCalendar();
     updateDailyTips();
     applyLanguage(currentLang);
+    startNewsRotation();
+    initFAQ();
+    updateEqualizerVisibility();
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
 });

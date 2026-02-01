@@ -129,62 +129,7 @@ header h1 {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-/* ── SEARCH BAR PRO ── */
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0 2.5rem;
-  padding: 0 1rem;
-}
 
-.search-box {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-}
-
-#search-input {
-  width: 100%;
-  padding: 1rem 1.2rem 1rem 4.5rem;
-  border: none;
-  border-radius: 50px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #1f2937;
-  transition: all 0.4s ease;
-  outline: none;
-}
-
-[data-theme="dark"] #search-input {
-  background: rgba(30, 41, 59, 0.95);
-  color: #e2e8f0;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-}
-
-#search-input:focus {
-  box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.3);
-  transform: scale(1.02);
-}
-
-.search-icon {
-  position: absolute;
-  left: 1.2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.4rem;
-  color: var(--primary);
-  pointer-events: none;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  #search-input {
-    padding: 0.9rem 0.9rem 0.9rem 4rem;
-    font-size: 1rem;
-  }
-}
 /* ==========================================================================
    Info Bar
    ========================================================================== */
@@ -212,6 +157,67 @@ header h1 {
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+/* ── SEARCH BAR PRO ── */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 2.5rem;
+  padding: 0 1rem;
+  position: relative; /* مهم للـ z-index */
+  z-index: 1000;      /* يطلع فوق كل العناصر */
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 1rem 1.2rem 1rem 4.5rem;
+  border: none;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1f2937;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  z-index: 1001; /* فوق كل شيء */
+}
+
+[data-theme="dark"] #search-input {
+  background: rgba(30, 41, 59, 0.95);
+  color: #e2e8f0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+#search-input:focus {
+  box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.3);
+  transform: scale(1.02);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  color: var(--primary);
+  pointer-events: none;
+  z-index: 1002; /* فوق الـ input */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #search-input {
+    padding: 0.9rem 0.9rem 0.9rem 4rem;
+    font-size: 1rem;
+  }
 }
 
 /* ==========================================================================

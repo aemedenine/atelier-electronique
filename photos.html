@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase (compat pour simplicité) -->
+  <!-- Firebase Compat -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -25,7 +25,7 @@
       --text-light: #6b7280;
       --border: #e5e7eb;
       --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
-      --shadow-md: 0 10px 30px rgba(0,0,0,0.1);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.12);
     }
     [data-theme="dark"] {
       --bg: #0f172a;
@@ -33,53 +33,50 @@
       --text: #e2e8f0;
       --text-light: #94a3b8;
       --border: #334155;
-      --shadow-sm: 0 4px 16px rgba(0,0,0,0.4);
-      --shadow-md: 0 12px 40px rgba(0,0,0,0.5);
+      --shadow-sm: 0 4px 16px rgba(0,0,0,0.5);
+      --shadow-md: 0 12px 40px rgba(0,0,0,0.6);
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Cairo', 'Montserrat', sans-serif;
+      font-family: 'Cairo', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       padding: 2rem 1rem;
-      transition: background 0.5s ease;
+      transition: background 0.5s ease, color 0.5s ease;
     }
     .container { max-width: 1280px; margin: 0 auto; }
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
+    header { text-align: center; margin-bottom: 3rem; }
     h1 {
-      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
       color: var(--primary);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       font-weight: 700;
     }
     .controls {
       display: flex;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.2rem;
       flex-wrap: wrap;
       margin-bottom: 2.5rem;
     }
     .btn {
-      padding: 0.8rem 1.8rem;
+      padding: 0.85rem 1.8rem;
       border-radius: 50px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 1.05rem;
       cursor: pointer;
       transition: all 0.3s ease;
       border: none;
     }
     .btn-primary    { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(30,144,255,0.3); }
     .btn-outline    { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
     .btn-outline:hover { background: var(--primary); color: white; }
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.8rem;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
     }
     .card {
       background: var(--card);
@@ -90,110 +87,115 @@
       position: relative;
     }
     .card:hover {
-      transform: translateY(-12px);
+      transform: translateY(-14px);
       box-shadow: var(--shadow-md);
     }
     .card img {
       width: 100%;
-      height: 240px;
+      height: 260px;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.6s ease;
       cursor: pointer;
     }
-    .card:hover img { transform: scale(1.08); }
+    .card:hover img { transform: scale(1.09); }
     .skeleton {
       background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
       background-size: 200% 100%;
-      animation: skeleton-loading 1.5s infinite;
-      height: 240px;
+      animation: loading 1.6s infinite;
+      height: 260px;
     }
-    @keyframes skeleton-loading {
+    @keyframes loading {
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
     .comment-section {
-      padding: 1rem;
+      padding: 1.2rem;
       border-top: 1px solid var(--border);
-      font-size: 0.95rem;
+      font-size: 0.98rem;
     }
     textarea {
       width: 100%;
-      min-height: 70px;
-      padding: 0.8rem;
+      min-height: 80px;
+      padding: 0.9rem;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 0.6rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
       font-family: inherit;
       resize: vertical;
       background: var(--card);
       color: var(--text);
+      transition: border 0.3s;
     }
+    textarea:focus { border-color: var(--primary); outline: none; }
     .comment-section button {
       background: var(--accent);
       color: white;
       border: none;
-      padding: 0.6rem 1.4rem;
+      padding: 0.7rem 1.5rem;
       border-radius: 50px;
       cursor: pointer;
       font-weight: 600;
+      transition: background 0.3s;
     }
+    .comment-section button:hover { background: #e55a2a; }
     .comments-list {
-      margin-top: 0.8rem;
-      padding-right: 0.8rem;
-      max-height: 140px;
+      margin-top: 1rem;
+      max-height: 160px;
       overflow-y: auto;
+      padding-right: 0.6rem;
     }
     .comments-list li {
-      margin-bottom: 0.6rem;
-      padding: 0.5rem;
+      margin-bottom: 0.8rem;
+      padding: 0.7rem 1rem;
       background: rgba(30,144,255,0.08);
-      border-radius: 8px;
+      border-radius: 10px;
+      font-size: 0.95rem;
     }
     .popup {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,0.94);
       display: none;
       place-items: center;
       z-index: 9999;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
     .popup-content {
       position: relative;
-      max-width: 90%;
-      max-height: 90vh;
+      max-width: 92%;
+      max-height: 92vh;
     }
     .popup img {
       max-width: 100%;
-      max-height: 85vh;
-      border-radius: 16px;
-      box-shadow: 0 0 60px rgba(0,0,0,0.7);
+      max-height: 88vh;
+      border-radius: 20px;
+      box-shadow: 0 0 80px rgba(0,0,0,0.8);
     }
     .nav-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 3.5rem;
+      font-size: 4rem;
       color: white;
       cursor: pointer;
       user-select: none;
-      opacity: 0.7;
+      opacity: 0.75;
       transition: opacity 0.3s;
     }
     .nav-arrow:hover { opacity: 1; }
-    .prev { left: 2rem; }
-    .next { right: 2rem; }
+    .prev { left: 3rem; }
+    .next { right: 3rem; }
     .close-hint {
       color: white;
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
-      opacity: 0.8;
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      opacity: 0.85;
     }
     @media (max-width: 768px) {
-      .gallery { grid-template-columns: 1fr; }
-      .nav-arrow { font-size: 2.8rem; }
-      .prev { left: 1rem; }
-      .next { right: 1rem; }
+      .gallery { grid-template-columns: 1fr; gap: 1.5rem; }
+      .nav-arrow { font-size: 3rem; }
+      .prev { left: 1.5rem; }
+      .next { right: 1.5rem; }
     }
   </style>
 </head>
@@ -205,35 +207,35 @@
     </header>
 
     <div class="controls">
-      <button class="btn btn-primary" id="lang-toggle">Français</button>
+      <button class="btn btn-primary" id="lang-toggle">English</button>
       <button class="btn btn-outline" id="theme-toggle">الوضع الداكن ☾</button>
     </div>
 
     <div class="gallery" id="gallery">
-      <!-- Skeleton placeholders -->
+      <!-- Skeletons -->
       <div class="card"><div class="skeleton"></div></div>
       <div class="card"><div class="skeleton"></div></div>
       <div class="card"><div class="skeleton"></div></div>
       <div class="card"><div class="skeleton"></div></div>
     </div>
 
-    <div style="text-align:center; margin:4rem 0;">
-      <a href="index.html" class="btn btn-primary" id="back-btn">⬅️ الرجوع إلى الصفحة الرئيسية</a>
+    <div style="text-align:center; margin:5rem 0 3rem;">
+      <a href="index.html" class="btn btn-primary" id="back-btn">⬅️ Back to Home</a>
     </div>
   </div>
 
-  <!-- Fullscreen Viewer -->
+  <!-- Viewer Fullscreen -->
   <div class="popup" id="viewer">
     <div class="popup-content">
       <span class="nav-arrow prev" id="prev">‹</span>
-      <img id="viewer-img" alt="صورة الورشة">
+      <img id="viewer-img" alt="Workshop photo">
       <span class="nav-arrow next" id="next">›</span>
     </div>
-    <div class="close-hint" id="close-hint">اضغط في أي مكان أو Esc للإغلاق</div>
+    <div class="close-hint" id="close-hint">Click anywhere or Esc to close</div>
   </div>
 
 <script>
-// ── Firebase Config (remplace par tes vraies creds) ──
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
   authDomain: "atelier-electronique-mednine.firebaseapp.com",
@@ -246,14 +248,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ── Data & Translations ──
+// Full translations (ar / fr / en)
 const translations = {
   ar: {
     title: "صور الورشة",
     back: "⬅️ الرجوع إلى الصفحة الرئيسية",
     comment_placeholder: "أضف تعليقك هنا...",
     send: "إرسال 📩",
-    lang_btn: "Français",
+    lang_btn: "English",
     no_comments: "لا تعليقات بعد",
     dark_mode: "الوضع الداكن ☾",
     light_mode: "الوضع الفاتح ☀️",
@@ -264,26 +266,31 @@ const translations = {
     back: "⬅️ Retour à la page principale",
     comment_placeholder: "Ajoutez votre commentaire...",
     send: "Envoyer 📩",
-    lang_btn: "العربية",
+    lang_btn: "English",
     no_comments: "Aucun commentaire pour le moment",
     dark_mode: "Mode sombre ☾",
     light_mode: "Mode clair ☀️",
     close_hint: "Cliquez n'importe où ou Esc pour fermer"
+  },
+  en: {
+    title: "Workshop Photos",
+    back: "⬅️ Back to Home",
+    comment_placeholder: "Add your comment here...",
+    send: "Send 📩",
+    lang_btn: "العربية",
+    no_comments: "No comments yet",
+    dark_mode: "Dark Mode ☾",
+    light_mode: "Light Mode ☀️",
+    close_hint: "Click anywhere or Esc to close"
   }
 };
 
 let currentLang = localStorage.getItem('lang') || 'ar';
 let currentTheme = localStorage.getItem('theme') || 'light';
 let currentIndex = 0;
-const galleryEl = document.getElementById('gallery');
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewer-img');
-const prevBtn = document.getElementById('prev');
-const nextBtn = document.getElementById('next');
-const closeHint = document.getElementById('close-hint');
 
-// Liste des images (tu peux les mettre dans Firebase ou ajouter plus)
-  const photos = [
+// Photos from your GitHub repo (update repo name if different)
+ const photos = [
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/photo1.jpg", id: "photo1" },
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/photo2.jpg", id: "photo2" },
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/photo3.jpg", id: "photo3" },
@@ -291,7 +298,16 @@ const closeHint = document.getElementById('close-hint');
   { src: "https://raw.githubusercontent.com/aemedenine/atelier-electronique/main/photo5.jpg", id: "photo5" },
   ];
 
-// ── Functions ──
+
+// DOM
+const galleryEl = document.getElementById('gallery');
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewer-img');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const closeHint = document.getElementById('close-hint');
+
+// Functions
 function applyLang() {
   document.querySelector('#page-title').textContent = translations[currentLang].title;
   document.querySelector('#back-btn').textContent = translations[currentLang].back;
@@ -317,13 +333,13 @@ function renderGallery() {
     
     const img = document.createElement('img');
     img.src = photo.src;
-    img.alt = `صورة ${index + 1} من الورشة`;
+    img.alt = `Workshop photo ${index + 1}`;
     img.loading = 'lazy';
+    img.onerror = () => { img.src = 'https://via.placeholder.com/320x260?text=Photo+Not+Found'; };
     img.onclick = () => openViewer(index);
     
     card.appendChild(img);
 
-    // Comment section avec Firebase
     const commentsDiv = document.createElement('div');
     commentsDiv.className = 'comment-section';
     commentsDiv.innerHTML = `
@@ -333,18 +349,18 @@ function renderGallery() {
     `;
     card.appendChild(commentsDiv);
 
-    // Charger les commentaires depuis Firebase
     db.ref(`photo_comments/${photo.id}`).on('value', snap => {
       const list = document.getElementById(`comments-${photo.id}`);
       list.innerHTML = '';
       const comments = snap.val() || {};
-      Object.values(comments).forEach(c => {
-        const li = document.createElement('li');
-        li.textContent = c.text;
-        list.appendChild(li);
-      });
       if (Object.keys(comments).length === 0) {
         list.innerHTML = `<li>${translations[currentLang].no_comments}</li>`;
+      } else {
+        Object.values(comments).forEach(c => {
+          const li = document.createElement('li');
+          li.textContent = c.text;
+          list.appendChild(li);
+        });
       }
     });
 
@@ -357,11 +373,7 @@ window.addComment = function(photoId) {
   const text = ta.value.trim();
   if (!text) return;
 
-  const comment = {
-    text: text,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  };
-
+  const comment = { text, timestamp: firebase.database.ServerValue.TIMESTAMP };
   db.ref(`photo_comments/${photoId}`).push(comment);
   ta.value = '';
 };
@@ -370,35 +382,18 @@ function openViewer(index) {
   currentIndex = index;
   viewerImg.src = photos[index].src;
   viewer.style.display = 'grid';
-  updateNavButtons();
+  updateNav();
 }
 
-function updateNavButtons() {
+function updateNav() {
   prevBtn.style.display = currentIndex > 0 ? 'block' : 'none';
   nextBtn.style.display = currentIndex < photos.length - 1 ? 'block' : 'none';
 }
 
-prevBtn.onclick = () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    viewerImg.src = photos[currentIndex].src;
-    updateNavButtons();
-  }
-};
+prevBtn.onclick = () => { if (currentIndex > 0) { currentIndex--; viewerImg.src = photos[currentIndex].src; updateNav(); } };
+nextBtn.onclick = () => { if (currentIndex < photos.length - 1) { currentIndex++; viewerImg.src = photos[currentIndex].src; updateNav(); } };
 
-nextBtn.onclick = () => {
-  if (currentIndex < photos.length - 1) {
-    currentIndex++;
-    viewerImg.src = photos[currentIndex].src;
-    updateNavButtons();
-  }
-};
-
-viewer.onclick = e => {
-  if (e.target === viewer || e.target === viewerImg) {
-    viewer.style.display = 'none';
-  }
-};
+viewer.onclick = e => { if (e.target === viewer || e.target === viewerImg) viewer.style.display = 'none'; };
 
 document.addEventListener('keydown', e => {
   if (viewer.style.display === 'grid') {
@@ -408,9 +403,11 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ── Event Listeners ──
+// Event Listeners
 document.getElementById('lang-toggle').onclick = () => {
-  currentLang = currentLang === 'ar' ? 'fr' : 'ar';
+  const cycle = ['ar', 'fr', 'en'];
+  const idx = cycle.indexOf(currentLang);
+  currentLang = cycle[(idx + 1) % 3];
   localStorage.setItem('lang', currentLang);
   applyLang();
 };

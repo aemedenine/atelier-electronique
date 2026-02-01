@@ -492,43 +492,31 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
+// ── Visit Counter (Compteur de visites) ───────────────────────────────
+(function() {
+    if (!visitEl) return;
 
-    // ── Compteur de visites ────────────────────────────────────────────────
-if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
-
     const today = new Date().toDateString();
-    const hasVisited = localStorage.getItem('hasVisitedToday');
+    const localKey = 'hasVisitedToday';
 
-    if (hasVisited !== today) {
-        localStorage.setItem('hasVisitedToday', today);
+    // زيادة العدد مرة واحدة فقط في اليوم
+    if (localStorage.getItem(localKey) !== today) {
+        localStorage.setItem(localKey, today);
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
+    // الاستماع للتحديثات مباشرة
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
 
-        // نخزّن الرقم فقط
-        visitEl.dataset.count = total;
-
-        // نحدّث العرض حسب اللغة
-        updateVisitText();
+        // عرض العدد حسب اللغة الحالية
+        const lang = currentLang || 'ar';
+        visitEl.textContent = translations[lang].visit_count.replace('{count}', total);
     });
-}
+})();
 
-
-    // ── visite ─────────────────────────────────────────────
-    function updateVisitText() {
-    if (!visitEl) return;
-
-    const count = visitEl.dataset.count;
-    if (count === undefined) return;
-
-    const lang = currentLang || 'ar';
-    visitEl.textContent =
-        translations[lang].visit_count.replace('{count}', count);
-}
 
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {

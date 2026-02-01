@@ -129,93 +129,58 @@ header h1 {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+/* Search Bar */
 .search-container {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0;
-  padding: 0 1rem;
-  position: relative;
-  z-index: 10;
-}
-
-.search-box {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 10px auto;
 }
 
 #search-input {
-  width: 100%;
-  padding: 1rem 1.2rem 1rem 3.5rem;
-  border: 2px solid #ddd;
-  border-radius: 50px;
-  background: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-#search-input:focus {
-  border-color: #1e90ff;
-  box-shadow: 0 0 0 4px rgba(30,144,255,0.2);
-}
-
-.search-icon {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  pointer-events: none;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 #search-results {
-  position: absolute;
-  top: 110%;
-  width: 100%;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  list-style: none;
-  padding: 0.5rem 0;
-  margin: 0;
-  max-height: 250px;
-  overflow-y: auto;
-  display: none;
-  z-index: 100;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-top: none;
+    background: #fff;
+    display: none;
+    z-index: 999;
 }
 
 #search-results li {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+    padding: 8px 12px;
+    cursor: pointer;
 }
 
 #search-results li:hover {
-  background: #f0f0f0;
+    background: #f0f0f0;
 }
 
-[data-theme="dark"] .search-box {
-  background: #1e2937;
+/* Highlighted section when clicking search result */
+.highlight {
+    background-color: yellow;
+    transition: background-color 1.5s ease;
 }
 
-[data-theme="dark"] #search-input {
-  background: #2a3b55;
-  color: #e2e8f0;
+/* Main content spacing */
+main#content {
+    padding: 20px;
 }
-
-[data-theme="dark"] #search-results {
-  background: #2a3b55;
-  color: #e2e8f0;
-}
-
-#news-bar {
-  background: #fefefe;
-  padding: 0.8rem 1rem;
-  font-weight: bold;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+.item {
+    margin-bottom: 30px;
 }
 
 /* ==========================================================================

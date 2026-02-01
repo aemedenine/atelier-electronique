@@ -492,33 +492,28 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-// ── Theme Toggle (Light / Dark) ─────────────────────────
-const themeToggle = document.getElementById('theme-toggle');
-let currentTheme = localStorage.getItem('theme') || 'light';
 
-// Apply theme
-function applyTheme() {
-    document.body.setAttribute('data-theme', currentTheme);
-    localStorage.setItem('theme', currentTheme);
+    // ── Compteur de visites ────────────────────────────────────────────────
+if (visitEl) {
+    const db = firebase.database();
+    const visitsRef = db.ref('visits');
 
-    if (themeToggle) {
-        themeToggle.textContent =
-            currentTheme === 'dark'
-                ? '☀️ الوضع الفاتح'
-                : '🌙 الوضع الداكن';
+    const today = new Date().toDateString();
+    let hasVisited = localStorage.getItem('hasVisitedToday');
+
+    if (hasVisited !== today) {
+        localStorage.setItem('hasVisitedToday', today);
+        visitsRef.transaction(current => (current || 0) + 1);
     }
+
+    // عرض العدد الحقيقي مباشرة من Firebase
+    visitsRef.on('value', snapshot => {
+        const total = snapshot.val() || 0;
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
+    });
 }
 
-// Toggle
-themeToggle?.addEventListener('click', () => {
-    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-    applyTheme();
-});
-
-// Init
-applyTheme();
-
-
+    // ── Mise à jour de l'heure ─────────────────────────────────────────────
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {
     const now = new Date();
@@ -1469,48 +1464,7 @@ if (smdInput) {
     updatePrayerTimes();
     updateMiniCalendar();
     updateDailyTips();
-    updateVisitText();
     applyLanguage(currentLang);
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
 });
-// ── Visit Counter – Version finale corrigée (exécuté une seule fois au vrai load) ──
-(function setupVisitCounter() {
-    const visitEl = document.getElementById('visit-count');
-    if (!visitEl) return;
-
-    const db = firebase.database();
-    const visitsRef = db.ref('visits');  // تأكد من المسار (visits أو visites/total)
-
-    const today = new Date().toDateString();
-    const visitedKey = 'lastVisitDate_' + window.location.hostname + '_v1';  // unique + version bach netefki cache ancien
-
-    function updateDisplay(count) {
-        const lang = currentLang || 'ar';
-        const template = translations[lang]?.visit_count || 'عدد زوار الموقع: {count}';
-        visitEl.textContent = template.replace('{count}', count);
-    }
-
-    // Listener temps réel (reste actif même ki tbadal langue)
-    visitsRef.on('value', (snap) => {
-        const total = snap.val() || 0;
-        updateDisplay(total);
-    });
-
-    // Incrément seulement ida awel visit lyom (check une seule fois)
-    if (localStorage.getItem(visitedKey) !== today) {
-        localStorage.setItem(visitedKey, today);
-
-        visitsRef.transaction(current => (current || 0) + 1)
-            .then(result => {
-                if (result.committed) {
-                    console.log('✅ Visit compté :', result.snapshot.val());
-                } else {
-                    console.log('Transaction non commitée (conflit)');
-                }
-            })
-            .catch(err => console.error('Erreur transaction:', err));
-    } else {
-        console.log('Déjà visité aujourd’hui → skip');
-    }
-})();

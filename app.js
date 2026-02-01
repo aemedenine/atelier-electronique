@@ -415,46 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoogle = document.getElementById('btn-google');
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
-// ── Search Bar PRO – ta7t news ticker ──────────────────────────────────
-    const searchInput = document.getElementById('search-input');
 
-    function updateSearchPlaceholder() {
-        const placeholders = {
-            ar: "ابحث هنا...",
-            fr: "Rechercher ici...",
-            en: "Search here..."
-        };
-        if (searchInput) {
-            searchInput.placeholder = placeholders[currentLang] || "ابحث هنا...";
-        }
-    }
-
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-
-            const searchableElements = document.querySelectorAll(
-                'h1, h2, h3, p, .faq-question, .section-title, .project-card h3, .box-desc, .service-pro-card, .video-pro-card, .poste-pro-card, .calculator-box h3, .cta-buttons a'
-            );
-
-            searchableElements.forEach(el => {
-                const text = el.textContent.toLowerCase();
-                const parent = el.closest(
-                    '.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section, .project-box, .calculator-box, .cta-buttons a'
-                );
-
-                if (!query) {
-                    if (parent) parent.style.display = '';
-                } else {
-                    if (text.includes(query)) {
-                        if (parent) parent.style.display = '';
-                    } else {
-                        if (parent) parent.style.display = 'none';
-                    }
-                }
-            });
-        });
-    }
     // ── Language Switcher (النسخة المحسنة الكاملة) ────────────────────────
     function applyLanguage(lang) {
         if (!translations[lang]) lang = 'ar';
@@ -484,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Rafraîchir les sections sensibles à la langue
-        updateSearchPlaceholder();
         updateWeather();
         updatePrayerTimes();
         updateMiniCalendar();
@@ -498,6 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(el.dataset.lang);
         });
     });
+
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -625,6 +586,51 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         setInterval(updateNews, 5000);
     }
+const searchInput = document.getElementById("search-input");
+const searchResults = document.getElementById("search-results");
+const items = document.querySelectorAll("#content .item");
+
+let currentLang = "ar"; // اللغة الافتراضية
+
+function updateLanguage(lang) {
+  currentLang = lang;
+  // تحديث placeholder البار
+  searchInput.placeholder = lang === "ar" ? "ابحث في الموقع..." : "Search the site...";
+}
+
+function searchSite(query) {
+  searchResults.innerHTML = "";
+  if (!query) {
+    searchResults.style.display = "none";
+    return;
+  }
+
+  let found = 0;
+  items.forEach(item => {
+    const text = item.dataset[`lang-${currentLang}`].toLowerCase();
+    if (text.includes(query.toLowerCase())) {
+      const li = document.createElement("li");
+      li.textContent = text;
+      li.onclick = () => {
+        item.scrollIntoView({ behavior: "smooth", block: "center" });
+        searchResults.style.display = "none";
+        searchInput.value = "";
+      };
+      searchResults.appendChild(li);
+      found++;
+    }
+  });
+
+  searchResults.style.display = found ? "block" : "none";
+}
+
+searchInput.addEventListener("input", (e) => {
+  searchSite(e.target.value);
+});
+
+// مثال تغيير اللغة:
+document.getElementById("lang-ar").addEventListener("click", () => updateLanguage("ar"));
+document.getElementById("lang-en").addEventListener("click", () => updateLanguage("en"));
 
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
@@ -1498,15 +1504,12 @@ if (smdInput) {
         });
     });
 
- // ── Final Initialization ───────────────────────────────────────────────
+    // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
     updateMiniCalendar();
     updateDailyTips();
     applyLanguage(currentLang);
-    startNewsRotation();
-    initFAQ();
-    updateEqualizerVisibility();
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
 });

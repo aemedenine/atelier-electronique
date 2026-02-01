@@ -1460,3 +1460,34 @@ footer {
     opacity: 0.3;
   }
 }
+/* ===== Theme Variables ===== */
+:root {
+  --bg: #f8f9fc;
+  --card: #ffffff;
+  --text: #1f2937;
+  --border: #e5e7eb;
+  --accent: #ff6b35;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --border: #334155;
+}
+
+/* Global usage */
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.card,
+.box,
+.section,
+.panel {
+  background: var(--card);
+  border-color: var(--border);
+}

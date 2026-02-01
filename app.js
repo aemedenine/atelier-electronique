@@ -499,23 +499,37 @@ if (visitEl) {
     const visitsRef = db.ref('visits');
 
     const today = new Date().toDateString();
-    let hasVisited = localStorage.getItem('hasVisitedToday');
+    const hasVisited = localStorage.getItem('hasVisitedToday');
 
     if (hasVisited !== today) {
         localStorage.setItem('hasVisitedToday', today);
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
-    // عرض العدد الحقيقي مباشرة من Firebase
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-        visitEl.textContent = translations[currentLang]
-  .visit_count.replace('{count}', total);
 
+        // نخزّن الرقم فقط
+        visitEl.dataset.count = total;
+
+        // نحدّث العرض حسب اللغة
+        updateVisitText();
     });
 }
 
-    // ── Mise à jour de l'heure ─────────────────────────────────────────────
+
+    // ── visite ─────────────────────────────────────────────
+    function updateVisitText() {
+    if (!visitEl) return;
+
+    const count = visitEl.dataset.count;
+    if (count === undefined) return;
+
+    const lang = currentLang || 'ar';
+    visitEl.textContent =
+        translations[lang].visit_count.replace('{count}', count);
+}
+
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {
     const now = new Date();
@@ -1466,6 +1480,7 @@ if (smdInput) {
     updatePrayerTimes();
     updateMiniCalendar();
     updateDailyTips();
+    updateVisitText();
     applyLanguage(currentLang);
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");

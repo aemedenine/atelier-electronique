@@ -18,34 +18,44 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <link rel="manifest" href="manifest.json">
-
 </head>
 <body>
     <!-- خلفية المطر الإلكتروني – أول حاجة عشان يبقى تحت الكل -->
     <div id="rain-container"></div>
 
-  <header>
-    <div class="container header-inner">
-        <canvas id="pcbCanvasHeader"></canvas>
-        <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
-        <h1 id="site-name" data-i18n="site_name">Atelier Electronique Médenine</h1>
-    </div>
-
-    <div class="news-ticker" aria-live="polite">
-        <div class="news-text" id="live-news" data-i18n="news_loading">تحميل الأخبار...</div>
-    </div>
-
-    <!-- Search Bar PRO – ta7t news ticker -->
-    <div class="search-container">
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="ابحث هنا..." autocomplete="off">
-            <span class="search-icon">🔍</span>
+    <header>
+        <div class="container header-inner">
+            <canvas id="pcbCanvasHeader"></canvas>
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <h1 id="site-name" data-i18n="site_name">Atelier Electronique Médenine</h1>
         </div>
-    </div>
-</header>
+        <div class="news-ticker" aria-live="polite">
+            <div class="news-text" id="live-news" data-i18n="news_loading">تحميل الأخبار...</div>
+        </div>
+   <div class="search-container">
+  <div class="search-box">
+    <input id="search-input" type="text" placeholder="ابحث في الموقع..." />
+    <span class="search-icon">🔍</span>
+    <ul id="search-results"></ul>
+  </div>
+</div>
+
+<div id="content">
+  <div class="item" data-lang-en="Resistance calculation" data-lang-ar="حساب المقاومة">
+    محتوى: حساب المقاومة
+  </div>
+  <div class="item" data-lang-en="Arduino project" data-lang-ar="مشروع أردوينو">
+    محتوى: مشروع أردوينو
+  </div>
+  <div class="item" data-lang-en="Radio circuit" data-lang-ar="دائرة الراديو">
+    محتوى: دائرة الراديو
+  </div>
+  <!-- أكمل كل العناصر اللي في الموقع -->
+</div>
+    </header>
+
     <main class="container main-content">
-             <section class="info-bar">
+        <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
 
@@ -56,18 +66,6 @@
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
         </section>
-
-
-            <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
-
-            <!-- Language Switcher -->
-            <div class="lang-switch">
-                <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">
-                <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
-                <img src="flags/gb.png" data-lang="en" alt="English" title="English">
-            </div>
-        </section>
-
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
@@ -298,16 +296,13 @@
 
     <!-- Multiplier -->
     <select id="multiplier">
-        <option value="1" data-color="#000000" data-i18n="color_black">أسود</option>
-        <option value="10" data-color="#8B4513" data-i18n="color_brown">بني</option>
-        <option value="100" data-color="#FF0000" data-i18n="color_red">أحمر</option>
-        <option value="1000" data-color="#FFA500" data-i18n="color_orange">برتقالي</option>
-        <option value="10000" data-color="#FFFF00" data-i18n="color_yellow">أصفر</option>
-        <option value="100000" data-color="#008000" data-i18n="color_green">أخضر</option>
-        <option value="1000000" data-color="#0000FF" data-i18n="color_blue">أزرق</option>
-         <option value="10000000" data-color="#800080" data-i18n="color_purple">بنفسجي</option>
-        <option value="100000000" data-color="#808080" data-i18n="color_gray">رمادي</option>
-        <option value="1000000000" data-color="#FFF" data-i18n="color_white">أبيض</option>
+        <option value="1" data-color="#000" data-i18n="multi_1">×1</option>
+        <option value="10" data-color="#8B4513" data-i18n="multi_10">×10</option>
+        <option value="100" data-color="#FF0000" data-i18n="multi_100">×100</option>
+        <option value="1000" data-color="#FFA500" data-i18n="multi_1k">×1K</option>
+        <option value="10000" data-color="#FFFF00" data-i18n="multi_10k">×10K</option>
+        <option value="100000" data-color="#008000" data-i18n="multi_100k">×100K</option>
+        <option value="1000000" data-color="#0000FF" data-i18n="multi_1m">×1M</option>
     </select>
 
     <!-- Tolerance -->
@@ -693,14 +688,5 @@
             }
             setInterval(createComponent, 2500);
         </script>
-    <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch(err => console.error("SW error", err));
-  }
-</script>
-
 </body>
 </html>

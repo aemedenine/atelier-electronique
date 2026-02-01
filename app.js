@@ -415,7 +415,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoogle = document.getElementById('btn-google');
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
+// ── Search Bar PRO – ta7t news ticker ──────────────────────────────────
+    const searchInput = document.getElementById('search-input');
 
+    function updateSearchPlaceholder() {
+        const placeholders = {
+            ar: "ابحث هنا...",
+            fr: "Rechercher ici...",
+            en: "Search here..."
+        };
+        if (searchInput) {
+            searchInput.placeholder = placeholders[currentLang] || "ابحث هنا...";
+        }
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+
+            const searchableElements = document.querySelectorAll(
+                'h1, h2, h3, p, .faq-question, .section-title, .project-card h3, .box-desc, .service-pro-card, .video-pro-card, .poste-pro-card, .calculator-box h3, .cta-buttons a'
+            );
+
+            searchableElements.forEach(el => {
+                const text = el.textContent.toLowerCase();
+                const parent = el.closest(
+                    '.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section, .project-box, .calculator-box, .cta-buttons a'
+                );
+
+                if (!query) {
+                    if (parent) parent.style.display = '';
+                } else {
+                    if (text.includes(query)) {
+                        if (parent) parent.style.display = '';
+                    } else {
+                        if (parent) parent.style.display = 'none';
+                    }
+                }
+            });
+        });
+    }
     // ── Language Switcher (النسخة المحسنة الكاملة) ────────────────────────
     function applyLanguage(lang) {
         if (!translations[lang]) lang = 'ar';
@@ -445,9 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Rafraîchir les sections sensibles à la langue
+        updateSearchPlaceholder();
         updateWeather();
         updatePrayerTimes();
-        updateSearchPlaceholder();
         updateMiniCalendar();
         updateDailyTips();
         loadRatings();
@@ -459,33 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
             applyLanguage(el.dataset.lang);
         });
     });
-// ── Search Bar PRO ─────────────────────────────────────────────────────
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-
-            const searchableElements = document.querySelectorAll(
-                'h1, h2, h3, p, .faq-question, .section-title, .project-card h3, .box-desc, .service-pro-card, .video-pro-card, .poste-pro-card, .calculator-box h3, .cta-buttons a'
-            );
-
-            searchableElements.forEach(el => {
-                const text = el.textContent.toLowerCase();
-                const parent = el.closest(
-                    '.faq-item, .project-card, .service-pro-card, .video-pro-card, .poste-pro-card, section, .project-box, .calculator-box, .cta-buttons a'
-                );
-
-                if (!query) {
-                    if (parent) parent.style.display = '';
-                } else {
-                    if (text.includes(query)) {
-                        if (parent) parent.style.display = '';
-                    } else {
-                        if (parent) parent.style.display = 'none';
-                    }
-                }
-            });
-        });
-    }
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {

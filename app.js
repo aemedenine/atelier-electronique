@@ -492,6 +492,31 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
+// ── Theme Toggle (Light / Dark) ─────────────────────────
+const themeToggle = document.getElementById('theme-toggle');
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+// Apply theme
+function applyTheme() {
+    document.body.setAttribute('data-theme', currentTheme);
+    localStorage.setItem('theme', currentTheme);
+
+    if (themeToggle) {
+        themeToggle.textContent =
+            currentTheme === 'dark'
+                ? '☀️ الوضع الفاتح'
+                : '🌙 الوضع الداكن';
+    }
+}
+
+// Toggle
+themeToggle?.addEventListener('click', () => {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme();
+});
+
+// Init
+applyTheme();
 
 
 // ── Update Time Function (Multilingual) ─────────────────────────────

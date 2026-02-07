@@ -644,29 +644,5 @@
 </div>
         <!-- JavaScript externe -->
         <script src="app.js" defer></script>
-
-        <!-- المطر الإلكتروني -->
-        <script>
-            const components = ['resistor.png','diode.png','capacitor.png','transistor.png','ic.png'];
-            function createComponent() {
-                const el = document.createElement('div');
-                el.className = 'falling-component';
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.top = '-80px';
-                const img = components[Math.floor(Math.random() * components.length)];
-                el.style.backgroundImage = `url(${img})`;
-                const size = Math.random() * 60 + 60;
-                el.style.width = size + 'px';
-                el.style.height = size + 'px';
-                const duration = Math.random() * 8 + 10;
-                el.style.animationDuration = duration + 's';
-                el.style.backgroundColor = 'transparent';
-                el.style.border = 'none';
-                el.style.boxShadow = 'none';
-                document.getElementById('rain-container').appendChild(el);
-                setTimeout(() => el.remove(), duration * 1000 + 2000);
-            }
-            setInterval(createComponent, 2500);
-        </script>
 </body>
 </html>

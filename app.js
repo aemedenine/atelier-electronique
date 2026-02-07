@@ -520,22 +520,21 @@ if (visitEl) {
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
 
-        // 1. Met le CHIFFRE SEUL dans #total-visits → stable et recommandé
+        // 1. Chiffre seul dans #total-visits (recommandé, stable)
         const totalEl = document.getElementById('total-visits');
         if (totalEl) {
             totalEl.textContent = total;
         }
 
-        // 2. Met le texte TRADUIT + le chiffre dans visitEl (optionnel)
-        //    → ici on corrige la syntaxe : '{count}' entre guillemets
+        // 2. Texte traduit + chiffre dans visitEl (optionnel)
         if (visitEl) {
+            // Correction ici : '{count}' entre guillemets
             visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', total);
-            // ou avec strong si tu veux :
+            // Ou avec mise en forme :
             // visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', '<strong>' + total + '</strong>');
         }
     });
 }
-
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {
     const now = new Date();

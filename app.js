@@ -43,7 +43,7 @@ const translations = {
         user_welcome: "مرحبا {name} 👋",
         sign_out: "تسجيل الخروج",
         news_loading: "تحميل الأخبار...",
-        visit_count: "عدد زوار الموقع:{count}",
+        visit_count: "عدد زوار الموقع: {count}",
         weather_title: "🌦️ حالة الطقس في مدنين",
         weather_loading: "جاري التحميل...",
         prayer_fajr: "🌅 الفجر",
@@ -54,7 +54,7 @@ const translations = {
         prayer_isha: "🌙 العشاء",
         tip_title: "نصيحة اليوم",
         rating_title: "قيم الورشة",
-        rating_average: "متوسط التقييمات: {avg} ★ من {cont} صوت",
+        rating_average: "متوسط التقييمات: {avg} ★ من {count} صوت",
         rating_votes: "من",
         rating_votes_text: "صوت",
         rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
@@ -166,7 +166,7 @@ cookie_manage: "تغيير الخيارات"
         user_welcome: "Bienvenue {name} 👋",
         sign_out: "Déconnexion",
         news_loading: "Chargement des actualités...",
-        visit_count: "Nombre de visiteurs:{count}",
+        visit_count: "Nombre de visiteurs : {count}",
         weather_title: "🌦️ Météo à Médenine",
         weather_loading: "Chargement...",
         prayer_fajr: "Fajr",
@@ -177,7 +177,7 @@ cookie_manage: "تغيير الخيارات"
         prayer_isha: "Isha",
         tip_title: "Astuce du jour",
         rating_title: "Évaluez l'atelier",
-        rating_average: "Note moyenne : {avg} ★ de {cont} votes",
+        rating_average: "Note moyenne : {avg} ★ de {count} votes",
         rating_votes: "de",
         rating_votes_text: "votes",
         rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
@@ -289,7 +289,7 @@ cookie_manage: "Modifier les options"
         user_welcome: "Welcome {name} 👋",
         sign_out: "Sign Out",
         news_loading: "Loading news...",
-        visit_count: "Visitors count:{count}",
+        visit_count: "Visitors count: {count}",
         weather_title: "🌦️ Weather in Medenine",
         weather_loading: "Loading...",
         prayer_fajr: "Fajr",
@@ -300,7 +300,7 @@ cookie_manage: "Modifier les options"
         prayer_isha: "Isha",
         tip_title: "Tip of the day",
         rating_title: "Rate the workshop",
-        rating_average: "Average rating: {avg} ★ from {cont} votes",
+        rating_average: "Average rating: {avg} ★ from {count} votes",
         rating_votes: "from",
         rating_votes_text: "votes",
         rating_login: "Sign in with Google to rate the workshop (once only)",
@@ -429,14 +429,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const key = el.getAttribute('data-i18n');
             let txt = translations[lang][key] || translations.ar[key] || el.textContent || '';
 
-            // معالجة المتغيرات الديناميكية
-            txt = txt.replace('{name}', userName?.textContent || '');
-            txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
-            txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
+           // معالجة المتغيرات الديناميكية
+txt = txt.replace('{name}', userName?.textContent || '');
+txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
 
-            el.innerHTML = txt;  // innerHTML عشان نحافظ على <strong> و <br> إذا موجودين
-        });
+// Zid condition : badel {count} GHIR fi rating_average (pas fi visit_count)
+if (key === 'rating_average') {
+    txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
+}
 
+// zid had l'ligne bach t7mi visit_count mn l'badal automatique
+// (optionnel ama mni7 bzzaf si 3andek {count} fi visit_count fi translations)
+if (key === 'visit_count') {
+    // ma tbadlouch {count} houni → Firebase listener howa li y7oth
+    // donc zid juste l'text sans replace {count}
+    // ama khalli l'replace vide houni
+}
+
+// Finalement n7ot l'text
+el.innerHTML = txt;
         // تحديث نص الراديو ديناميكياً
         if (radioBtn) {
             radioBtn.textContent = radio.paused
@@ -903,7 +914,7 @@ const stars = document.querySelectorAll('.stars-horizontal span');
 const ratingValue = document.getElementById('rating-value');
 const ratingMessage = document.getElementById('rating-message');
 const avgStarsEl = document.getElementById('avg-stars');
-const voteCountEl = document.getElementById('vote-cont');
+const voteCountEl = document.getElementById('vote-count');
 const breakdownEl = document.getElementById('rating-breakdown');
 let currentUserRating = 0;
 
@@ -913,20 +924,20 @@ const userRatingsRef = firebase.database().ref('userRatings');
 // 1. تحميل التقييمات (مع تحديث فوري للمتوسط والتفصيل)
 function loadRatings() {
     ratingsRef.on('value', snapshot => {
-        const data = snapshot.val() || { sum: 0, cont: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
-        const avg = data.cont > 0 ? (data.sum / data.cont).toFixed(1) : '0.0';
+        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
         
         avgStarsEl.textContent = avg;
-        voteContEl.textContent = data.cont;
+        voteCountEl.textContent = data.count;
 
         // تحديث التفصيل (breakdown) مع ترجمة ديناميكية
         let html = '';
         for (let i = 5; i >= 1; i--) {
-            const cont = data.breakdown?.[i] || 0;
+            const count = data.breakdown?.[i] || 0;
             html += `
                 <div>
                     <span class="stars">${'★'.repeat(i)}</span>
-                    <span class="cont">${count} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
+                    <span class="count">${count} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
                 </div>
             `;
         }

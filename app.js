@@ -520,17 +520,18 @@ if (visitEl) {
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
 
-        // 1. Met le CHIFFRE SEUL dans l'élément #total-visits (stable)
+        // 1. Met le CHIFFRE SEUL dans #total-visits → stable et recommandé
         const totalEl = document.getElementById('total-visits');
         if (totalEl) {
             totalEl.textContent = total;
         }
 
-        // 2. Optionnel : Met le texte TRADUIT + chiffre dans visitEl (si tu veux garder l'ancien style)
-        //    Mais le mieux c'est d'utiliser #total-visits seul pour le chiffre
+        // 2. Met le texte TRADUIT + le chiffre dans visitEl (optionnel)
+        //    → ici on corrige la syntaxe : '{count}' entre guillemets
         if (visitEl) {
-            visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', '<strong>' + total + '</strong>');
-            // ou juste le texte sans chiffre : visitEl.textContent = translations[currentLang].visit_count.replace('{count}', '');
+            visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', total);
+            // ou avec strong si tu veux :
+            // visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', '<strong>' + total + '</strong>');
         }
     });
 }

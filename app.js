@@ -54,7 +54,7 @@ const translations = {
         prayer_isha: "🌙 العشاء",
         tip_title: "نصيحة اليوم",
         rating_title: "قيم الورشة",
-        rating_average: "متوسط التقييمات: {avg} ★ من {count} صوت",
+        rating_average: "متوسط التقييمات: {avg} ★ من {cont} صوت",
         rating_votes: "من",
         rating_votes_text: "صوت",
         rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
@@ -177,7 +177,7 @@ cookie_manage: "تغيير الخيارات"
         prayer_isha: "Isha",
         tip_title: "Astuce du jour",
         rating_title: "Évaluez l'atelier",
-        rating_average: "Note moyenne : {avg} ★ de {count} votes",
+        rating_average: "Note moyenne : {avg} ★ de {cont} votes",
         rating_votes: "de",
         rating_votes_text: "votes",
         rating_login: "Connectez-vous via Google pour noter l'atelier (une seule fois)",
@@ -300,7 +300,7 @@ cookie_manage: "Modifier les options"
         prayer_isha: "Isha",
         tip_title: "Tip of the day",
         rating_title: "Rate the workshop",
-        rating_average: "Average rating: {avg} ★ from {count} votes",
+        rating_average: "Average rating: {avg} ★ from {cont} votes",
         rating_votes: "from",
         rating_votes_text: "votes",
         rating_login: "Sign in with Google to rate the workshop (once only)",
@@ -903,7 +903,7 @@ const stars = document.querySelectorAll('.stars-horizontal span');
 const ratingValue = document.getElementById('rating-value');
 const ratingMessage = document.getElementById('rating-message');
 const avgStarsEl = document.getElementById('avg-stars');
-const voteCountEl = document.getElementById('vote-count');
+const voteCountEl = document.getElementById('vote-cont');
 const breakdownEl = document.getElementById('rating-breakdown');
 let currentUserRating = 0;
 
@@ -913,20 +913,20 @@ const userRatingsRef = firebase.database().ref('userRatings');
 // 1. تحميل التقييمات (مع تحديث فوري للمتوسط والتفصيل)
 function loadRatings() {
     ratingsRef.on('value', snapshot => {
-        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
-        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
+        const data = snapshot.val() || { sum: 0, cont: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.cont > 0 ? (data.sum / data.cont).toFixed(1) : '0.0';
         
         avgStarsEl.textContent = avg;
-        voteCountEl.textContent = data.count;
+        voteContEl.textContent = data.cont;
 
         // تحديث التفصيل (breakdown) مع ترجمة ديناميكية
         let html = '';
         for (let i = 5; i >= 1; i--) {
-            const count = data.breakdown?.[i] || 0;
+            const cont = data.breakdown?.[i] || 0;
             html += `
                 <div>
                     <span class="stars">${'★'.repeat(i)}</span>
-                    <span class="count">${count} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
+                    <span class="cont">${count} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
                 </div>
             `;
         }

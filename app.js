@@ -504,11 +504,10 @@ el.innerHTML = txt;
         }).catch(console.error);
     });
 
-    // ── Compteur de visites ────────────────────────────────────────────────
+// ── Compteur de visites ────────────────────────────────────────────────
 if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
-
     const today = new Date().toDateString();
     let hasVisited = localStorage.getItem('hasVisitedToday');
 
@@ -517,14 +516,25 @@ if (visitEl) {
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
-    // عرض العدد الحقيقي مباشرة من Firebase
+    // Mise à jour du compteur visiteurs (stable même après changement de langue)
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
+
+        // 1. Met le CHIFFRE SEUL dans l'élément #total-visits (stable)
+        const totalEl = document.getElementById('total-visits');
+        if (totalEl) {
+            totalEl.textContent = total;
+        }
+
+        // 2. Optionnel : Met le texte TRADUIT + chiffre dans visitEl (si tu veux garder l'ancien style)
+        //    Mais le mieux c'est d'utiliser #total-visits seul pour le chiffre
+        if (visitEl) {
+            visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', '<strong>' + total + '</strong>');
+            // ou juste le texte sans chiffre : visitEl.textContent = translations[currentLang].visit_count.replace('{count}', '');
+        }
     });
 }
 
-    // ── Mise à jour de l'heure ─────────────────────────────────────────────
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {
     const now = new Date();

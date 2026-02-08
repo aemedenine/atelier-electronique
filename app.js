@@ -1,5 +1,5 @@
 // ==========================================================================
- // Firebase Configuration & Initialization
+// Firebase Configuration & Initialization
 // ==========================================================================
 const firebaseConfig = {
     apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
@@ -429,25 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const key = el.getAttribute('data-i18n');
             let txt = translations[lang][key] || translations.ar[key] || el.textContent || '';
 
-           // معالجة المتغيرات الديناميكية
-txt = txt.replace('{name}', userName?.textContent || '');
-txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
+            // معالجة المتغيرات الديناميكية
+            txt = txt.replace('{name}', userName?.textContent || '');
+            txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
+            txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
 
-// Zid condition : badel {count} GHIR fi rating_average (pas fi visit_count)
-if (key === 'rating_average') {
-    txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
-}
+            el.innerHTML = txt;  // innerHTML عشان نحافظ على <strong> و <br> إذا موجودين
+        });
 
-// zid had l'ligne bach t7mi visit_count mn l'badal automatique
-// (optionnel ama mni7 bzzaf si 3andek {count} fi visit_count fi translations)
-if (key === 'visit_count') {
-    // ma tbadlouch {count} houni → Firebase listener howa li y7oth
-    // donc zid juste l'text sans replace {count}
-    // ama khalli l'replace vide houni
-}
-
-// Finalement n7ot l'text
-el.innerHTML = txt;
         // تحديث نص الراديو ديناميكياً
         if (radioBtn) {
             radioBtn.textContent = radio.paused
@@ -504,10 +493,11 @@ el.innerHTML = txt;
         }).catch(console.error);
     });
 
-// ── Compteur de visites ────────────────────────────────────────────────
+    // ── Compteur de visites ────────────────────────────────────────────────
 if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
+
     const today = new Date().toDateString();
     let hasVisited = localStorage.getItem('hasVisitedToday');
 
@@ -516,25 +506,14 @@ if (visitEl) {
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
-    // Mise à jour du compteur visiteurs (stable même après changement de langue)
+    // عرض العدد الحقيقي مباشرة من Firebase
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-
-        // 1. Chiffre seul dans #total-visits (recommandé, stable)
-        const totalEl = document.getElementById('total-visits');
-        if (totalEl) {
-            totalEl.textContent = total;
-        }
-
-        // 2. Texte traduit + chiffre dans visitEl (optionnel)
-        if (visitEl) {
-            // Correction ici : '{count}' entre guillemets
-            visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', total);
-            // Ou avec mise en forme :
-            // visitEl.innerHTML = translations[currentLang].visit_count.replace('{count}', '<strong>' + total + '</strong>');
-        }
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
     });
 }
+
+    // ── Mise à jour de l'heure ─────────────────────────────────────────────
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {
     const now = new Date();

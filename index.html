@@ -20,6 +20,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
+
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
@@ -34,7 +35,7 @@
     <main class="container main-content">
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
-            <span data-i18n="visit_count"></span> <strong id="total-visits">0</strong>
+            <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
 
             <!-- Language Switcher -->
             <div class="lang-switch">
@@ -642,6 +643,7 @@
         <!-- JavaScript externe -->
         <script src="app.js" defer></script>
 
-       
+      
+        </script>
 </body>
 </html>

@@ -112,17 +112,25 @@
 
     let robot, talking = false;
 
-   const loader = new THREE.GLTFLoader();
-loader.setCrossOrigin("anonymous");
+    const loader = new THREE.GLTFLoader();
+    loader.setCrossOrigin("anonymous");
 
-loader.load("./robot.glb", gltf => {
-
-      robot = gltf.scene;
-      robot.scale.set(1.5,1.5,1.5);
-      robot.position.y = -1;
-      scene.add(robot);
-      animate();
-    });
+    loader.load(
+      "./robot.glb",
+      gltf => {
+        robot = gltf.scene;
+        robot.scale.set(1.5,1.5,1.5);
+        robot.position.y = -1;
+        scene.add(robot);
+        animate();
+      },
+      xhr => {
+        console.log("تحميل الروبو:", (xhr.loaded / xhr.total * 100) + "%");
+      },
+      err => {
+        console.error("❌ خطأ في تحميل الروبو:", err);
+      }
+    );
 
     camera.position.set(0,1.3,4);
 
@@ -149,7 +157,7 @@ loader.load("./robot.glb", gltf => {
 
     // ===== Chat AI =====
 
-    const apiKey = "AIzaSyAU9A_bz_T9jrstr--V8m8TcJoFtKW9YO4";   // حط الكي متاعك هنا
+    const apiKey = "AIzaSyAU9A_bz_T9jrstr--V8m8TcJoFtKW9YO4";   // ← حط الكي متاعك هنا
 
     const messagesDiv = document.getElementById("messages");
     const input = document.getElementById("input");

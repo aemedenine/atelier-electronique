@@ -11,13 +11,16 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
           rel="stylesheet">
-    <!-- CSS externe -->
+    <!-- Firebase Compat v10 (شغال في 2026) -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+    <!-- Three.js للروبو -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.168/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.168/examples/js/loaders/GLTFLoader.min.js"></script>
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -36,7 +39,6 @@
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
-
             <!-- Language Switcher -->
             <div class="lang-switch">
                 <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">
@@ -44,17 +46,18 @@
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
         </section>
-<!-- Robo container -->
-<div id="robo-container"></div>
 
-<!-- Chat الروبو -->
-<div id="robo-chat">
-  <div id="robo-messages"></div>
-  <div class="robo-controls">
-    <input id="robo-input" placeholder="اسأل الروبو..." />
-    <button id="robo-send">إرسال</button>
-  </div>
-</div>
+        <!-- الروبو صغير تحت -->
+        <div id="robo-container"></div>
+
+        <!-- شات الروبو -->
+        <div id="robo-chat">
+            <div id="robo-messages"></div>
+            <div class="robo-controls">
+                <input id="robo-input" placeholder="اسأل الروبو..." autocomplete="off" />
+                <button id="robo-send">إرسال</button>
+            </div>
+        </div>
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
@@ -65,7 +68,6 @@
                 تسجيل الخروج
             </button>
         </div>
-
         <div id="login-popup" class="login-popup">
             <div class="popup-content">
                 <h2 data-i18n="login_title">تسجيل الدخول</h2>

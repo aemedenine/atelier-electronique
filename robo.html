@@ -113,7 +113,7 @@
     let robot, talking = false;
 
     const loader = new THREE.GLTFLoader();
-    loader.load("models/robot.glb", gltf => {
+    loader.load("robot.glb", gltf => {
       robot = gltf.scene;
       robot.scale.set(1.5,1.5,1.5);
       robot.position.y = -1;

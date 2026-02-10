@@ -1491,7 +1491,7 @@ scene.add(dirLight);
 // ==========================================================================
 const loader = new THREE.GLTFLoader();
 loader.load(
-    "./robot.glb",  // غير المسار لو الملف في مكان آخر (مثل assets/robot.glb)
+    "robot.glb",  // غير المسار لو الملف في مكان آخر (مثل assets/robot.glb)
     (gltf) => {
         robot = gltf.scene;
         robot.scale.set(0.5, 0.5, 0.5);     // صغّر الحجم

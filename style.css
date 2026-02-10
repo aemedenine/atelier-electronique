@@ -1426,3 +1426,60 @@ footer {
 [dir="rtl"] .container {
   direction: rtl;
 }
+/* Robo container */
+#robo-container {
+  width: 150px;
+  height: 150px;
+  position: fixed;
+  bottom: 20px;  /* تحت الصفحة */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+/* Robo chat */
+#robo-chat {
+  max-width: 400px;
+  position: fixed;
+  bottom: 180px; /* فوق الروبو */
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: right;
+  padding: 10px;
+  background: rgba(20,20,20,0.9);
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00ffcc44;
+  color: white;
+  font-family: Arial, Tahoma;
+  z-index: 999;
+}
+
+#robo-messages {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.robo-controls {
+  display: flex;
+  gap: 10px;
+}
+
+#robo-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  outline: none;
+}
+
+#robo-send {
+  padding: 10px 20px;
+  background: linear-gradient(135deg,#00ffcc,#00ff00);
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+}

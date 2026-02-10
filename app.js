@@ -399,6 +399,87 @@ cookie_manage: "Manage options"
 let currentLang = localStorage.getItem('lang') || 'ar';
 
 // ==========================================================================
+// Robot Setup
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x080808);
+const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
+camera.position.set(0, 1.3, 4);
+const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+renderer.setSize(180, 180);
+document.getElementById("robo-container").appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+scene.add(new THREE.DirectionalLight(0xffffff, 1).position.set(3,6,4));
+
+let robot, talking = false, leftEye, rightEye, mouth;
+let blinkTimer = 0;
+
+const loader = new THREE.GLTFLoader();
+loader.load("./robot.glb", gltf => {
+  robot = gltf.scene;
+  robot.scale.set(0.5, 0.5, 0.5);
+  robot.position.y = -1;
+  scene.add(robot);
+  leftEye = robot.getObjectByName("LeftEye");
+  rightEye = robot.getObjectByName("RightEye");
+  mouth = robot.getObjectByName("Mouth");
+  animate();
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (!robot) return;
+  robot.rotation.z = Math.sin(Date.now() * 0.001) * 0.02;
+  robot.rotation.x = Math.sin(Date.now() * 0.0015) * 0.01;
+  if (talking) {
+    robot.rotation.y += 0.03;
+    robot.position.y = -1 + Math.sin(Date.now() * 0.01) * 0.05;
+    if (mouth) mouth.scale.y = 0.8 + Math.abs(Math.sin(Date.now() * 0.05)) * 0.25;
+  } else {
+    robot.rotation.y += 0.005;
+    if (mouth) mouth.scale.y = 1;
+    blinkTimer++;
+    if (blinkTimer % 200 === 0 && leftEye && rightEye) {
+      leftEye.scale.y = rightEye.scale.y = 0.1;
+      setTimeout(() => { leftEye.scale.y = rightEye.scale.y = 1; }, 100);
+    }
+  }
+  renderer.render(scene, camera);
+}
+
+// Chat
+const msgDiv = document.getElementById("robo-messages");
+const input = document.getElementById("robo-input");
+const sendBtn = document.getElementById("robo-send");
+
+function addMsg(text, who) {
+  const div = document.createElement("div");
+  div.className = who;
+  div.textContent = text;
+  msgDiv.appendChild(div);
+  msgDiv.scrollTop = msgDiv.scrollHeight;
+}
+
+function send() {
+  const text = input.value.trim();
+  if (!text) return;
+  addMsg(text, "user");
+  input.value = "";
+  talking = true;
+  setTimeout(() => {
+    addMsg("🤖 مرحبا! كيفاش نقدر نساعدك؟", "bot");
+    talking = false;
+  }, 1500);
+}
+
+input.addEventListener("keydown", e => e.key === "Enter" && send());
+sendBtn.addEventListener("click", send);
+
+// باقي الوظائف (ترجمة، weather، prayer، ratings، downloads، radio...)
+document.addEventListener("DOMContentLoaded", () => {
+  // ... انسخ هنا كل الكود اللي كان في app.js الأصلي تبعك (updateTime, lang switch, weather, prayer, ratings, downloads...)
+  console.log("الموقع جاهز – الروبو والشات شغالين");
+});
 // DOM Ready
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -1463,87 +1544,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-// Robot Setup
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x080808);
-const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
-camera.position.set(0, 1.3, 4);
-const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
-renderer.setSize(180, 180);
-document.getElementById("robo-container").appendChild(renderer.domElement);
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-scene.add(new THREE.DirectionalLight(0xffffff, 1).position.set(3,6,4));
-
-let robot, talking = false, leftEye, rightEye, mouth;
-let blinkTimer = 0;
-
-const loader = new THREE.GLTFLoader();
-loader.load("./robot.glb", gltf => {
-  robot = gltf.scene;
-  robot.scale.set(0.5, 0.5, 0.5);
-  robot.position.y = -1;
-  scene.add(robot);
-  leftEye = robot.getObjectByName("LeftEye");
-  rightEye = robot.getObjectByName("RightEye");
-  mouth = robot.getObjectByName("Mouth");
-  animate();
-});
-
-function animate() {
-  requestAnimationFrame(animate);
-  if (!robot) return;
-  robot.rotation.z = Math.sin(Date.now() * 0.001) * 0.02;
-  robot.rotation.x = Math.sin(Date.now() * 0.0015) * 0.01;
-  if (talking) {
-    robot.rotation.y += 0.03;
-    robot.position.y = -1 + Math.sin(Date.now() * 0.01) * 0.05;
-    if (mouth) mouth.scale.y = 0.8 + Math.abs(Math.sin(Date.now() * 0.05)) * 0.25;
-  } else {
-    robot.rotation.y += 0.005;
-    if (mouth) mouth.scale.y = 1;
-    blinkTimer++;
-    if (blinkTimer % 200 === 0 && leftEye && rightEye) {
-      leftEye.scale.y = rightEye.scale.y = 0.1;
-      setTimeout(() => { leftEye.scale.y = rightEye.scale.y = 1; }, 100);
-    }
-  }
-  renderer.render(scene, camera);
-}
-
-// Chat
-const msgDiv = document.getElementById("robo-messages");
-const input = document.getElementById("robo-input");
-const sendBtn = document.getElementById("robo-send");
-
-function addMsg(text, who) {
-  const div = document.createElement("div");
-  div.className = who;
-  div.textContent = text;
-  msgDiv.appendChild(div);
-  msgDiv.scrollTop = msgDiv.scrollHeight;
-}
-
-function send() {
-  const text = input.value.trim();
-  if (!text) return;
-  addMsg(text, "user");
-  input.value = "";
-  talking = true;
-  setTimeout(() => {
-    addMsg("🤖 مرحبا! كيفاش نقدر نساعدك؟", "bot");
-    talking = false;
-  }, 1500);
-}
-
-input.addEventListener("keydown", e => e.key === "Enter" && send());
-sendBtn.addEventListener("click", send);
-
-// باقي الوظائف (ترجمة، weather، prayer، ratings، downloads، radio...)
-document.addEventListener("DOMContentLoaded", () => {
-  // ... انسخ هنا كل الكود اللي كان في app.js الأصلي تبعك (updateTime, lang switch, weather, prayer, ratings, downloads...)
-  console.log("الموقع جاهز – الروبو والشات شغالين");
-});
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

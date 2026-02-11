@@ -1418,68 +1418,7 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
-/* ── الروبو والشات تحسينات ──────────────────────────────────────────────── */
-#robo-container {
-  width: 180px !important;
-  height: 180px !important;
-  position: fixed !important;
-  bottom: 20px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  z-index: 9999 !important;
-}
 
-#robo-chat {
-  position: fixed !important;
-  bottom: 220px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 90% !important;
-  max-width: 420px !important;
-  background: rgba(20,20,20,0.95) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 0 30px rgba(0,255,204,0.5) !important;
-  padding: 12px !important;
-  z-index: 9998 !important;
-  direction: rtl !important;
-}
-
-#robo-messages {
-  max-height: 240px;
-  overflow-y: auto;
-  padding-right: 8px;
-  margin-bottom: 10px;
-}
-
-.robo-controls {
-  display: flex;
-  gap: 10px;
-}
-
-#robo-input {
-  flex: 1;
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: none;
-  background: #1a1a1a;
-  color: white;
-  font-size: 1rem;
-}
-
-#robo-send {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #00ffcc, #00ff00);
-  border: none;
-  border-radius: 12px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* ضمان الظهور فوق كل شيء */
-#robo-container, #robo-chat {
-  pointer-events: auto !important;
-}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

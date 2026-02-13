@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
             txt = txt.replace('{name}', userName?.textContent || '');
             txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
             txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
-
+txt = txt.replace('{count1}', visitCount || 0);
             el.innerHTML = txt;  // innerHTML عشان نحافظ على <strong> و <br> إذا موجودين
         });
 

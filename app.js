@@ -1376,95 +1376,74 @@ if (smdInput) {
         powerFill.style.width = P ? Math.min(100, P) + "%" : "0%";
     }));
 
-// ── Firebase Download Counter + Progress ───────────────────────────────
-const db = firebase.database();
-
 document.querySelectorAll('.download-btn').forEach(btn => {
     const id = btn.dataset.id;
     const fileUrl = btn.dataset.file;
-    if (!id || !fileUrl) return;
 
-    // إعداد العداد
-    let counterEl = btn.querySelector('small span');
-    if (!counterEl) {
+    // إذا نقص البيانات، نعمل placeholder عادي بدون إيقاف البوكس
+    const counterEl = btn.querySelector('small span') || (() => {
         const small = document.createElement('small');
-        counterEl = document.createElement('span');
-        counterEl.textContent = '0';
-        small.appendChild(counterEl);
+        const span = document.createElement('span');
+        span.textContent = '0';
+        small.appendChild(span);
         btn.appendChild(small);
+        return span;
+    })();
+
+    // فقط لو عندنا id و file نربط Firebase
+    if (id && fileUrl) {
+        const downloadsRef = db.ref(`downloads/${id}/count`);
+        downloadsRef.on('value', snap => {
+            counterEl.textContent = snap.val() || 0;
+        });
+
+        btn.addEventListener('click', async e => {
+            e.preventDefault();
+            if (btn.classList.contains('downloading')) return;
+            const spamKey = `downloaded-${id}`;
+            if (localStorage.getItem(spamKey)) { alert('سبق لك تحميل هذا الملف'); return; }
+            localStorage.setItem(spamKey, 'true');
+
+            btn.classList.add('downloading'); btn.disabled = true;
+            let btnText = btn.querySelector('.label') || btn;
+            btnText.textContent = 'جاري التحميل...';
+
+            let progressBar = btn.querySelector('.progress-bar');
+            if (!progressBar) {
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'progress-container';
+                progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressContainer.appendChild(progressBar);
+                btn.appendChild(progressContainer);
+            }
+
+            progressBar.style.width = '0%';
+            let p = 0;
+            const timer = setInterval(() => {
+                p = Math.min(90, p + Math.random() * 15);
+                progressBar.style.width = p + '%';
+            }, 200);
+
+            try {
+                await downloadsRef.transaction(v => (v || 0) + 1);
+                await new Promise(r => setTimeout(r, 1500));
+                clearInterval(timer);
+                progressBar.style.width = '100%';
+                window.open(fileUrl, '_blank');
+            } catch (err) {
+                console.error(err); btnText.textContent = 'خطأ!';
+            } finally {
+                setTimeout(() => {
+                    btn.classList.remove('downloading'); btn.disabled = false;
+                    btnText.textContent = '📥 تحميل المشروع';
+                    progressBar.style.width = '0%';
+                }, 1200);
+            }
+        });
     }
-
-    // إعداد النص على الزر
-    let btnText = btn.querySelector('.label');
-    if (!btnText) {
-        btnText = document.createElement('span');
-        btnText.className = 'label';
-        btnText.textContent = '📥 تحميل المشروع';
-        btn.prepend(btnText);
-    }
-
-    // ربط العداد بـ Firebase
-    const downloadsRef = db.ref(`downloads/${id}/count`);
-    downloadsRef.on('value', snap => {
-        counterEl.textContent = snap.val() || 0;
-    });
-
-    // حدث الضغط على الزر
-    btn.addEventListener('click', async e => {
-        e.preventDefault();
-        if (btn.classList.contains('downloading')) return;
-
-        // منع التحميل المكرر لنفس الزائر
-        const spamKey = `downloaded-${id}`;
-        if (localStorage.getItem(spamKey)) {
-            alert('سبق لك تحميل هذا الملف');
-            return;
-        }
-        localStorage.setItem(spamKey, 'true');
-
-        // حالة التحميل
-        btn.classList.add('downloading');
-        btn.disabled = true;
-        btnText.textContent = 'جاري التحميل...';
-
-        // إعداد شريط التقدم
-        let progressContainer = btn.querySelector('.progress-container');
-        let progressBar = progressContainer?.querySelector('.progress-bar');
-        if (!progressContainer) {
-            progressContainer = document.createElement('div');
-            progressContainer.className = 'progress-container';
-            progressBar = document.createElement('div');
-            progressBar.className = 'progress-bar';
-            progressContainer.appendChild(progressBar);
-            btn.appendChild(progressContainer);
-        }
-
-        progressBar.style.width = '0%';
-        let p = 0;
-        const timer = setInterval(() => {
-            p = Math.min(90, p + Math.random() * 15);
-            progressBar.style.width = p + '%';
-        }, 200);
-
-        try {
-            await downloadsRef.transaction(v => (v || 0) + 1); // زيادة العداد
-            await new Promise(r => setTimeout(r, 1500)); // محاكاة وقت التحميل
-            clearInterval(timer);
-            progressBar.style.width = '100%';
-            window.open(fileUrl, '_blank'); // فتح الملف
-        } catch (err) {
-            console.error(err);
-            btnText.textContent = 'خطأ!';
-        } finally {
-            setTimeout(() => {
-                btn.classList.remove('downloading');
-                btn.disabled = false;
-                btnText.textContent = '📥 تحميل المشروع';
-                progressBar.style.width = '0%';
-            }, 1200);
-        }
-    });
 });
+        
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

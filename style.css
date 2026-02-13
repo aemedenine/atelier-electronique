@@ -906,15 +906,15 @@ header h1 {
   box-shadow: 0 0 10px #ff6b35;
 }
 /* ==========================================================================
-   Sliders pro – حجم أصغر كما طلبت
+   Sliders – حجم أصغر جدًا كما طلبت
    ========================================================================== */
 .services-slider,
 .videos-slider,
 .postes-slider {
   display: flex;
   overflow-x: auto;
-  gap: 25px;
-  padding: 25px 0;
+  gap: 20px;
+  padding: 20px 0;
   scroll-behavior: smooth;
   scrollbar-width: none;
 }
@@ -925,28 +925,23 @@ header h1 {
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card {
-  flex: 0 0 320px;              /* حجم أصغر */
-  min-width: 320px;
-  height: 380px;                 /* ارتفاع أقل شوية */
+  flex: 0 0 280px;           /* عرض أصغر */
+  min-width: 280px;
+  height: 340px;             /* ارتفاع أقل */
   position: relative;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
   background: #1e293b;
-  box-shadow: 
-    0 15px 35px rgba(0,0,0,0.5),
-    inset 0 0 0 1px rgba(255,107,53,0.15);
-  transition: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  transition: all 0.4s ease;
   cursor: pointer;
 }
 
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: translateY(-20px) scale(1.06);
-  box-shadow: 
-    0 35px 70px rgba(255,107,53,0.4),
-    0 0 0 3px rgba(255,107,53,0.35),
-    inset 0 0 35px rgba(96,165,250,0.2);
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: 0 25px 50px rgba(255,107,53,0.35);
 }
 
 .service-pro-card img,
@@ -955,89 +950,71 @@ header h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.7s ease, filter 0.4s ease;
-  filter: brightness(0.88) contrast(1.05);
+  transition: transform 0.6s ease;
 }
 
 .service-pro-card:hover img,
 .poste-pro-card:hover img,
 .video-pro-card:hover video {
-  transform: scale(1.14);
-  filter: brightness(1.15) contrast(1.12);
+  transform: scale(1.12);
 }
 
 .service-overlay,
 .video-overlay,
 .poste-overlay {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(15,23,42,0.92) 75%, rgba(255,107,53,0.75) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 20px 25px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(15,23,42,0.95), transparent);
   color: white;
+  padding: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
   text-align: center;
-  font-size: 1.45rem;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  text-shadow: 0 3px 12px rgba(0,0,0,0.9);
-  transition: all 0.5s ease;
+  text-shadow: 0 2px 8px black;
 }
 
-.service-pro-card:hover .service-overlay,
-.video-pro-card:hover .video-overlay,
-.poste-pro-card:hover .poste-overlay {
-  background: linear-gradient(to bottom, transparent 30%, rgba(59,130,246,0.85) 70%, rgba(255,107,53,0.9) 100%);
-}
-
-/* Badge مميز */
+/* Badge صغير */
 .pro-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: linear-gradient(135deg, #ff6b35, #f97316);
+  top: 10px;
+  right: 10px;
+  background: #ff6b35;
   color: white;
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 0.9rem;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
   font-weight: 700;
-  box-shadow: 0 4px 15px rgba(255,107,53,0.5);
-  z-index: 10;
-  animation: pulseBadge 2.2s infinite;
-}
-@keyframes pulseBadge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  box-shadow: 0 3px 10px rgba(255,107,53,0.5);
+  z-index: 5;
 }
 
 /* ==========================================================================
-   Fullscreen Viewer – محسن بقوة كما طلبت
+   Fullscreen Viewer – حجم معتدل + معلومات واضحة جدًا
    ========================================================================== */
 #mediaViewer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15,23,42,0.96);
+  background: rgba(15,23,42,0.95);
   backdrop-filter: blur(12px);
   z-index: 99999;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  gap: 40px;
-  padding: 30px;
-  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px;
 }
 #mediaViewer.active {
   display: flex !important;
 }
 .viewer-media {
-  max-width: 70%;
-  max-height: 85vh;
-  border-radius: 24px;
+  max-width: 65%;
+  max-height: 80vh;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 0 60px rgba(255,107,53,0.4), 0 0 120px rgba(96,165,250,0.2);
-  transition: all 0.4s;
+  box-shadow: 0 0 50px rgba(255,107,53,0.4);
 }
 .viewer-media img,
 .viewer-media video {
@@ -1046,55 +1023,51 @@ header h1 {
   object-fit: contain;
 }
 .viewer-info {
-  background: rgba(30,41,59,0.92);
-  backdrop-filter: blur(12px);
-  color: white;
-  padding: 35px;
-  border-radius: 20px;
-  max-width: 420px;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.7);
-  border: 1px solid rgba(255,107,53,0.3);
+  background: rgba(30,41,59,0.9);
+  padding: 30px;
+  border-radius: 18px;
+  max-width: 380px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(96,165,250,0.2);
 }
 .viewer-info h3 {
-  margin: 0 0 20px;
-  font-size: 2.2rem;
+  font-size: 1.9rem;
   color: #ff8c00;
-  text-shadow: 0 0 15px rgba(255,140,0,0.6);
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(255,140,0,0.5);
 }
 .viewer-info p {
-  margin: 12px 0;
-  font-size: 1.2rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  margin: 10px 0;
+  line-height: 1.6;
 }
 .viewer-info .price {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 900;
   color: #ff6b6b;
-  margin-top: 25px;
-  text-shadow: 0 0 12px rgba(255,107,107,0.6);
+  margin-top: 20px;
+  text-shadow: 0 0 8px #ff6b6b;
 }
 .viewer-close {
   position: absolute;
-  top: 30px;
-  right: 30px;
-  font-size: 4rem;
+  top: 20px;
+  right: 20px;
+  font-size: 3.5rem;
   color: #ff6b35;
   cursor: pointer;
   background: rgba(30,41,59,0.8);
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s;
-  box-shadow: 0 0 20px rgba(255,107,53,0.5);
+  transition: all 0.3s;
 }
 .viewer-close:hover {
   background: #ff6b35;
   color: white;
-  transform: rotate(90deg) scale(1.15);
-  box-shadow: 0 0 40px #ff6b35;
+  transform: rotate(90deg);
 }
 
 /* Responsive للـ Viewer */
@@ -1102,22 +1075,14 @@ header h1 {
   #mediaViewer {
     flex-direction: column;
     gap: 20px;
-    padding: 20px;
   }
   .viewer-media {
     max-width: 100%;
-    max-height: 60vh;
+    max-height: 55vh;
   }
   .viewer-info {
     max-width: 100%;
-    padding: 25px;
-  }
-  .viewer-close {
-    top: 15px;
-    right: 15px;
-    font-size: 3rem;
-    width: 50px;
-    height: 50px;
+    padding: 20px;
   }
 }
 /* ==========================================================================

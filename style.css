@@ -905,77 +905,159 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
+/* Sliders – صور صغيرة وأنيقة في الصفحة */
+.services-slider,
+.videos-slider,
+.postes-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar { display: none; }
+
+.service-pro-card,
+.video-pro-card,
+.poste-pro-card {
+  flex: 0 0 260px;           /* حجم صغير وأنيق */
+  min-width: 260px;
+  height: 320px;             /* ارتفاع معقول */
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.service-pro-card:hover,
+.video-pro-card:hover,
+.poste-pro-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(30,144,255,0.25);
+}
+
+.service-pro-card img,
+.poste-pro-card img,
+.video-pro-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.service-pro-card:hover img,
+.poste-pro-card:hover img,
+.video-pro-card:hover video {
+  transform: scale(1.06);
+}
+
+.service-overlay,
+.video-overlay,
+.poste-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+  color: white;
+  padding: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 1px 4px black;
+}
+
+/* Badge صغير أنيق */
+.pro-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff6b35;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 5;
+}
+
 /* ==========================================================================
-   Fullscreen Viewer – محسن جدًا حسب الكابتشر بتاعك
+   Fullscreen Viewer – الصورة كاملة + معلومات واضحة جدًا (Premium Look)
    ========================================================================== */
 #mediaViewer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.94);
+  background: rgba(0,0,0,0.92);
   backdrop-filter: blur(12px);
   z-index: 99999;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   gap: 40px;
-  padding: 30px;
-  overflow: auto;
+  padding: 30px 20px;
 }
 #mediaViewer.active {
   display: flex !important;
 }
 
-/* الجزء اللي فيه الصورة/الفيديو */
+/* الصورة/الفيديو كاملة وواضحة */
 .viewer-media {
-  max-width: 70%;                /* مش كبير بزاف عشان تبقى مريحة */
-  max-height: 85vh;
+  max-width: 75%;
+  max-height: 88vh;
   border-radius: 16px;
   overflow: hidden;
   background: #000;
-  box-shadow: 0 0 50px rgba(255,107,53,0.3);
-  border: 2px solid rgba(255,107,53,0.2);
+  box-shadow: 0 0 60px rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 .viewer-media img,
 .viewer-media video {
   width: 100%;
-  height: auto;
-  object-fit: contain;          /* ← مهم: الصورة تطلع كاملة بدون قص */
-  display: block;
+  height: 100%;
+  object-fit: contain;           /* ← الصورة كاملة بدون قص */
 }
 
-/* الجزء اللي فيه المعلومات – واضح جدًا دلوقتي */
+/* المعلومات – sidebar أنيق وواضح */
 .viewer-info {
-  background: rgba(255, 255, 255, 0.97);
-  color: #1a1a1a;
+  background: rgba(255,255,255,0.96);
+  color: #212529;
   padding: 35px 30px;
   border-radius: 16px;
   max-width: 420px;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.4);
-  border: 1px solid #e0e0e0;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.35);
+  border: 1px solid #dee2e6;
 }
 .viewer-info h3 {
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 900;
   color: #1e90ff;
-  margin-bottom: 15px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  margin-bottom: 18px;
+  line-height: 1.2;
 }
 .viewer-info p {
   font-size: 1.15rem;
   margin: 12px 0;
   line-height: 1.7;
-  color: #333;
+  color: #495057;
 }
 .viewer-info .price {
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   font-weight: bold;
   color: #ff6b35;
   margin-top: 25px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  padding: 10px 0;
+  border-top: 1px solid #dee2e6;
 }
 
-/* زر الإغلاق كبير وواضح */
+/* زر الإغلاق premium */
 .viewer-close {
   position: absolute;
   top: 25px;
@@ -990,14 +1072,14 @@ header h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
-  box-shadow: 0 0 15px rgba(255,107,53,0.4);
+  transition: all 0.35s;
+  box-shadow: 0 0 20px rgba(255,107,53,0.3);
 }
 .viewer-close:hover {
   background: #ff6b35;
   color: white;
   transform: rotate(90deg) scale(1.1);
-  box-shadow: 0 0 30px #ff6b35;
+  box-shadow: 0 0 35px #ff6b35;
 }
 
 /* Responsive – على الموبايل الصورة فوق والمعلومات تحت */
@@ -1023,6 +1105,7 @@ header h1 {
     height: 55px;
   }
 }
+خطوات ضرورية:
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */

@@ -1296,129 +1296,123 @@ footer {
   transition: width 0.5s ease;
 }
 /* ==========================================================================
-   Premium Arduino & Graduation Projects – لوك فخم (اللي عجبك)
+   PREMIUM PRO LIGHT THEME – فاتح + فخم + متناسق مع الموقع
    ========================================================================== */
-.premium-projects-section {
-  padding: 70px 0 100px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 32px;
-  margin: 50px auto;
+
+/* خلفية الأقسام premium (فاتحة لكن أنيقة) */
+.premium-projects-section,
+.premium-courses-section {
+  padding: 60px 0 90px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 28px;
+  margin: 40px auto;
   max-width: 1300px;
-  box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+  border: 1px solid rgba(30,144,255,0.1);
   position: relative;
   overflow: hidden;
 }
 
-.premium-header {
-  text-align: center;
-  margin-bottom: 50px;
-  padding: 0 20px;
-}
-
+/* العناوين الكبيرة premium */
 .premium-header h2 {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   font-weight: 900;
-  background: linear-gradient(90deg, #ff6b35, #f97316);
+  background: linear-gradient(90deg, #1e90ff, #409eff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 15px;
-  text-shadow: 0 3px 15px rgba(255,107,53,0.3);
+  text-align: center;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 10px rgba(30,144,255,0.15);
 }
 
 .premium-header .icon {
-  font-size: 3.5rem;
-  margin-left: 15px;
+  font-size: 3.2rem;
+  margin-left: 12px;
 }
 
 .premium-desc {
-  font-size: 1.3rem;
-  color: #cbd5e1;
-  max-width: 900px;
-  margin: 0 auto;
-  line-height: 1.9;
+  font-size: 1.25rem;
+  color: #495057;
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
 }
 
+/* Grid + Cards premium فاتح */
 .premium-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 35px;
-  padding: 0 30px;
+  gap: 30px;
+  padding: 0 25px;
 }
 
-.premium-project-card {
-  background: rgba(30,41,59,0.88);
-  backdrop-filter: blur(12px);
-  border-radius: 24px;
-  padding: 40px 30px;
-  border: 1px solid rgba(255,107,53,0.18);
-  transition: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+.premium-project-card,
+.premium-course-card {
+  background: white;
+  border-radius: 20px;
+  padding: 35px 28px;
+  border: 1px solid rgba(30,144,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
 }
 
-.premium-project-card:hover {
-  transform: translateY(-18px) scale(1.03);
-  box-shadow: 0 30px 70px rgba(255,107,53,0.35);
-  border-color: #ff6b35;
+.premium-project-card:hover,
+.premium-course-card:hover {
+  transform: translateY(-14px);
+  box-shadow: 0 25px 60px rgba(30,144,255,0.18);
+  border-color: #1e90ff;
 }
 
+/* أيقونات كبيرة أنيقة */
 .card-icon {
-  font-size: 4.5rem;
-  margin-bottom: 25px;
-  color: #ff6b35;
-  text-shadow: 0 0 20px rgba(255,107,53,0.4);
+  font-size: 4.2rem;
+  margin-bottom: 20px;
+  color: #1e90ff;
+  text-shadow: 0 0 15px rgba(30,144,255,0.25);
   transition: all 0.4s;
 }
 
-.premium-project-card:hover .card-icon {
-  transform: scale(1.15);
+.premium-project-card:hover .card-icon,
+.premium-course-card:hover .card-icon {
+  transform: scale(1.12);
 }
 
-.premium-project-card h3 {
-  font-size: 1.7rem;
-  font-weight: 800;
-  color: white;
-  margin-bottom: 15px;
-}
-
-.premium-project-card p {
-  font-size: 1.1rem;
-  color: #cbd5e1;
-  line-height: 1.8;
-  margin-bottom: 30px;
-}
-
+/* أزرار تحميل premium فاتح */
 .premium-download-btn {
   width: 100%;
-  padding: 18px;
-  background: linear-gradient(135deg, #ff6b35, #f97316);
+  padding: 16px;
+  background: linear-gradient(135deg, #1e90ff, #409eff);
   color: white;
   border: none;
   border-radius: 50px;
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  box-shadow: 0 10px 30px rgba(255,107,53,0.4);
+  gap: 10px;
+  box-shadow: 0 8px 25px rgba(30,144,255,0.25);
   transition: all 0.4s;
 }
 
 .premium-download-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 45px rgba(255,107,53,0.6);
+  box-shadow: 0 16px 40px rgba(30,144,255,0.35);
 }
 
 .premium-download-btn small {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   opacity: 0.9;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .premium-projects-section {
+  .premium-projects-section,
+  .premium-courses-section {
     padding: 50px 0 80px;
     margin: 30px 15px;
     border-radius: 20px;
@@ -1426,13 +1420,12 @@ footer {
   .premium-grid {
     grid-template-columns: 1fr;
     gap: 25px;
-    padding: 0 15px;
   }
   .premium-header h2 {
     font-size: 2.2rem;
   }
   .card-icon {
-    font-size: 4rem;
+    font-size: 3.5rem;
   }
 }
 /* ========================================================================== */

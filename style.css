@@ -1296,65 +1296,37 @@ footer {
   transition: width 0.5s ease;
 }
 /* ==========================================================================
-   Dark Premium Theme – يطبق على الصفحة كلها (اللي عجبك)
+   Premium Arduino & Graduation Projects – لوك فخم (اللي عجبك)
    ========================================================================== */
-body.dark-premium {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  color: #e2e8f0;
-}
-
-body.dark-premium header {
-  background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-}
-
-body.dark-premium .container,
-body.dark-premium .main-content {
-  background: transparent;
-}
-
-body.dark-premium .news-ticker {
-  background: linear-gradient(90deg, #ff6b35, #f97316, #60a5fa);
-  box-shadow: 0 6px 20px rgba(255,107,53,0.3);
-}
-
-body.dark-premium footer {
-  background: rgba(15,23,42,0.95);
-  color: #94a3b8;
-  border-top: 1px solid rgba(96,165,250,0.15);
-}
-
-/* ==========================================================================
-   Premium Courses & Schematics – لوك فخم (محدث ومظبوط)
-   ========================================================================== */
-.premium-courses-section {
+.premium-projects-section {
   padding: 70px 0 100px;
-  background: rgba(30,41,59,0.4);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border-radius: 32px;
   margin: 50px auto;
   max-width: 1300px;
   box-shadow: 0 25px 80px rgba(0,0,0,0.5);
-  border: 1px solid rgba(96,165,250,0.15);
+  position: relative;
+  overflow: hidden;
 }
 
 .premium-header {
   text-align: center;
   margin-bottom: 50px;
+  padding: 0 20px;
 }
 
 .premium-header h2 {
   font-size: 2.8rem;
   font-weight: 900;
-  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+  background: linear-gradient(90deg, #ff6b35, #f97316);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 15px;
+  text-shadow: 0 3px 15px rgba(255,107,53,0.3);
 }
 
 .premium-header .icon {
-  font-size: 3.8rem;
+  font-size: 3.5rem;
   margin-left: 15px;
 }
 
@@ -1362,7 +1334,7 @@ body.dark-premium footer {
   font-size: 1.3rem;
   color: #cbd5e1;
   max-width: 900px;
-  margin: 0 auto 40px;
+  margin: 0 auto;
   line-height: 1.9;
 }
 
@@ -1370,46 +1342,46 @@ body.dark-premium footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 35px;
-  padding: 0 20px;
+  padding: 0 30px;
 }
 
-.premium-course-card {
+.premium-project-card {
   background: rgba(30,41,59,0.88);
   backdrop-filter: blur(12px);
   border-radius: 24px;
   padding: 40px 30px;
-  border: 1px solid rgba(96,165,250,0.18);
-  transition: all 0.45s ease;
+  border: 1px solid rgba(255,107,53,0.18);
+  transition: all 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   overflow: hidden;
 }
 
-.premium-course-card:hover {
+.premium-project-card:hover {
   transform: translateY(-18px) scale(1.03);
-  box-shadow: 0 30px 70px rgba(96,165,250,0.35);
-  border-color: #60a5fa;
+  box-shadow: 0 30px 70px rgba(255,107,53,0.35);
+  border-color: #ff6b35;
 }
 
 .card-icon {
-  font-size: 5rem;
+  font-size: 4.5rem;
   margin-bottom: 25px;
-  color: #60a5fa;
-  text-shadow: 0 0 25px rgba(96,165,250,0.5);
+  color: #ff6b35;
+  text-shadow: 0 0 20px rgba(255,107,53,0.4);
   transition: all 0.4s;
 }
 
-.premium-course-card:hover .card-icon {
-  transform: scale(1.2) rotate(5deg);
+.premium-project-card:hover .card-icon {
+  transform: scale(1.15);
 }
 
-.premium-course-card h3 {
+.premium-project-card h3 {
   font-size: 1.7rem;
   font-weight: 800;
   color: white;
   margin-bottom: 15px;
 }
 
-.premium-course-card p {
+.premium-project-card p {
   font-size: 1.1rem;
   color: #cbd5e1;
   line-height: 1.8;
@@ -1419,7 +1391,7 @@ body.dark-premium footer {
 .premium-download-btn {
   width: 100%;
   padding: 18px;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  background: linear-gradient(135deg, #ff6b35, #f97316);
   color: white;
   border: none;
   border-radius: 50px;
@@ -1430,13 +1402,13 @@ body.dark-premium footer {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+  box-shadow: 0 10px 30px rgba(255,107,53,0.4);
   transition: all 0.4s;
 }
 
 .premium-download-btn:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 18px 45px rgba(59,130,246,0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px rgba(255,107,53,0.6);
 }
 
 .premium-download-btn small {
@@ -1446,16 +1418,18 @@ body.dark-premium footer {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .premium-courses-section {
+  .premium-projects-section {
     padding: 50px 0 80px;
     margin: 30px 15px;
     border-radius: 20px;
   }
   .premium-grid {
     grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 0 15px;
   }
   .premium-header h2 {
-    font-size: 2.3rem;
+    font-size: 2.2rem;
   }
   .card-icon {
     font-size: 4rem;

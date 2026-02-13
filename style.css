@@ -925,23 +925,23 @@ header h1 {
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card {
-  flex: 0 0 280px;           /* عرض أصغر */
+  flex: 0 0 280px;
   min-width: 280px;
-  height: 340px;             /* ارتفاع أقل */
+  height: 340px;
   position: relative;
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
-  background: #1e293b;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
   transition: all 0.4s ease;
   cursor: pointer;
+  background: white;
 }
 
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: translateY(-15px) scale(1.05);
-  box-shadow: 0 25px 50px rgba(255,107,53,0.35);
+  transform: translateY(-12px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 }
 
 .service-pro-card img,
@@ -950,13 +950,13 @@ header h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s;
 }
 
 .service-pro-card:hover img,
 .poste-pro-card:hover img,
 .video-pro-card:hover video {
-  transform: scale(1.12);
+  transform: scale(1.08);
 }
 
 .service-overlay,
@@ -966,13 +966,12 @@ header h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(15,23,42,0.95), transparent);
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
   color: white;
   padding: 12px;
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 600;
   text-align: center;
-  text-shadow: 0 2px 8px black;
 }
 
 /* Badge صغير */
@@ -985,20 +984,20 @@ header h1 {
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 0.85rem;
-  font-weight: 700;
-  box-shadow: 0 3px 10px rgba(255,107,53,0.5);
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   z-index: 5;
 }
 
 /* ==========================================================================
-   Fullscreen Viewer – حجم معتدل + معلومات واضحة جدًا
+   Fullscreen Viewer – الصورة كاملة + معلومات واضحة جدًا
    ========================================================================== */
 #mediaViewer {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15,23,42,0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(10px);
   z-index: 99999;
   align-items: center;
   justify-content: center;
@@ -1011,51 +1010,51 @@ header h1 {
 }
 .viewer-media {
   max-width: 65%;
-  max-height: 80vh;
-  border-radius: 20px;
+  max-height: 85vh;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 0 50px rgba(255,107,53,0.4);
+  background: black;
+  box-shadow: 0 0 40px rgba(255,255,255,0.2);
 }
 .viewer-media img,
 .viewer-media video {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: contain; /* ← مهم جدًا عشان الصورة تطلع كاملة بدون قص */
 }
 .viewer-info {
-  background: rgba(30,41,59,0.9);
+  background: rgba(255,255,255,0.95);
+  color: #1a1a1a;
   padding: 30px;
-  border-radius: 18px;
-  max-width: 380px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  border: 1px solid rgba(96,165,250,0.2);
+  border-radius: 16px;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 .viewer-info h3 {
-  font-size: 1.9rem;
-  color: #ff8c00;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #1e90ff;
   margin-bottom: 15px;
-  text-shadow: 0 0 10px rgba(255,140,0,0.5);
 }
 .viewer-info p {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   margin: 10px 0;
   line-height: 1.6;
 }
 .viewer-info .price {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #ff6b6b;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff6b35;
   margin-top: 20px;
-  text-shadow: 0 0 8px #ff6b6b;
 }
 .viewer-close {
   position: absolute;
   top: 20px;
   right: 20px;
   font-size: 3.5rem;
-  color: #ff6b35;
+  color: white;
   cursor: pointer;
-  background: rgba(30,41,59,0.8);
+  background: rgba(255,107,53,0.8);
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -1066,7 +1065,6 @@ header h1 {
 }
 .viewer-close:hover {
   background: #ff6b35;
-  color: white;
   transform: rotate(90deg);
 }
 
@@ -1075,10 +1073,11 @@ header h1 {
   #mediaViewer {
     flex-direction: column;
     gap: 20px;
+    padding: 15px;
   }
   .viewer-media {
     max-width: 100%;
-    max-height: 55vh;
+    max-height: 60vh;
   }
   .viewer-info {
     max-width: 100%;

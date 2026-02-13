@@ -906,157 +906,109 @@ header h1 {
   box-shadow: 0 0 10px #ff6b35;
 }
 /* ==========================================================================
-   Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
+   Sliders pro (خدمات + فيديو + ماكينات لحام) – الجزء المحسن الأساسي
    ========================================================================== */
 .services-slider,
 .videos-slider,
 .postes-slider {
   display: flex;
   overflow-x: auto;
-  gap: 25px;
-  padding: 20px 0;
+  gap: 30px;
+  padding: 25px 0;
   scroll-behavior: smooth;
   scrollbar-width: none;
 }
 .services-slider::-webkit-scrollbar,
 .videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar {
-  display: none;
-}
+.postes-slider::-webkit-scrollbar { display: none; }
+
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card {
-  flex: 0 0 320px;
-  min-width: 320px;
+  flex: 0 0 360px;
+  min-width: 360px;
+  height: 420px;
   position: relative;
-  border-radius: 16px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  transition: all 0.4s ease;
+  background: #1e293b;
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.6),
+    inset 0 0 0 2px rgba(255,107,53,0.15);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
 }
+
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 20px 40px rgba(20,184,166,0.3);
+  transform: translateY(-25px) scale(1.08);
+  box-shadow: 
+    0 40px 80px rgba(255,107,53,0.45),
+    0 0 0 4px rgba(255,107,53,0.4),
+    inset 0 0 40px rgba(96,165,250,0.25);
 }
+
 .service-pro-card img,
 .poste-pro-card img,
 .video-pro-card video {
   width: 100%;
-  height: 220px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.8s ease, filter 0.5s ease;
+  filter: brightness(0.85) contrast(1.1);
 }
+
+.service-pro-card:hover img,
+.poste-pro-card:hover img,
+.video-pro-card:hover video {
+  transform: scale(1.18);
+  filter: brightness(1.2) contrast(1.15) saturate(1.3);
+}
+
 .service-overlay,
 .video-overlay,
 .poste-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(15,118,110,0.9), transparent);
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 35%, rgba(15,23,42,0.95) 70%, rgba(255,107,53,0.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 25px 35px;
   color: white;
-  padding: 15px;
-  font-size: 1.2rem;
-  font-weight: 600;
   text-align: center;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 15px rgba(0,0,0,0.9);
+  transition: all 0.6s ease;
 }
+
 .service-pro-card:hover .service-overlay,
 .video-pro-card:hover .video-overlay,
 .poste-pro-card:hover .poste-overlay {
-  background: linear-gradient(to top, rgba(38,99,235,0.9), transparent);
-}
-.wave-full {
-  display: inline-block;
-  font-weight: bold;
-  font-size: 2rem; /* حسب ذوقك */
-  animation: waveFull 1.2s ease-in-out infinite alternate;
+  background: linear-gradient(to bottom, transparent 25%, rgba(59,130,246,0.9) 65%, rgba(255,107,53,0.95) 100%);
 }
 
-@keyframes waveFull {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-6px); } /* ارتفاع الموجة */
-  100% { transform: translateY(0); }
-}
-
-/* ==========================================================================
-   Fullscreen Viewer (لون بحري pro)
-   ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #fff;
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 50px;
-  padding: 30px;
-  flex-wrap: wrap;
-}
-#mediaViewer.active {
-  display: flex !important;
-}
-.viewer-media {
-  max-width: 60%;
-  max-height: 85vh;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 50px rgba(20,184,166,0.4);
-}
-.viewer-media img,
-.viewer-media video {
-  width: 100%;
-  height: auto;
-}
-.viewer-info {
-  background: rgba(15,118,110,0.95);
-  color: white;
-  padding: 35px;
-  border-radius: 20px;
-  max-width: 420px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-}
-.viewer-info h3 {
-  margin: 0 0 20px;
-  font-size: 2rem;
-  color: #a5f3fc;
-  text-shadow: 0 0 10px rgba(165,243,252,0.6);
-}
-.viewer-info p {
-  margin: 12px 0;
-  font-size: 1.15rem;
-  line-height: 1.6;
-}
-.viewer-info .price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ff6b6b;
-  margin-top: 20px;
-  text-shadow: 0 0 8px rgba(255,107,107,0.5);
-}
-.viewer-close {
+/* Badge مميز */
+.pro-badge {
   position: absolute;
-  top: 30px;
-  right: 30px;
-  font-size: 3.5rem;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #ff6b35, #f97316);
   color: white;
-  cursor: pointer;
-  background: rgba(20,184,166,0.7);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: 0 6px 20px rgba(255,107,53,0.6);
+  z-index: 10;
+  animation: pulseBadge 2s infinite;
 }
-.viewer-close:hover {
-  background: #e53e3e;
-  transform: rotate(90deg);
+@keyframes pulseBadge {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
 }
 /* ==========================================================================
    Cookie Banner (CMP)

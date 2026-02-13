@@ -1295,158 +1295,209 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-/* ── Section كامل ── */
-.premium-projects-section {
-    padding: 60px 20px;
-    background: linear-gradient(120deg, #1e1e2f, #2b2b3e);
-    color: #f0f0f0;
-    font-family: 'Montserrat', sans-serif;
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* ── Headers ── */
-.premium-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.premium-header h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: #ffd700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-}
-
-.premium-header.secondary h2 {
-    color: #00ffff;
+/* Header */
+.premium-header .icon {
+  font-size: 3.2rem;
+  margin-left: 12px;
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(30,144,255,.25);
 }
 
 .premium-desc {
-    font-size: 1.05rem;
-    color: #ccc;
-    max-width: 800px;
-    margin: 0 auto;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
 }
 
-/* ── Grid البطاقات ── */
+/* Grid */
 .premium-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-bottom: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  padding: 0 25px;
 }
 
-/* ── البطاقات ── */
-.premium-project-card {
-    background: linear-gradient(145deg, #2a2a3d, #1f1f2b);
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    position: relative;
-    overflow: hidden;
+/* Cards */
+.premium-project-card,
+.premium-course-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 35px 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.premium-project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+.premium-project-card:hover,
+.premium-course-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 25px 60px rgba(0,0,0,.25);
+  border-color: var(--primary);
 }
 
-/* ── أيقونات البطاقات ── */
+/* Icons */
 .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    display: inline-block;
-    padding: 15px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-    color: #ffd700;
-    transition: transform 0.3s ease;
+  font-size: 4rem;
+  margin-bottom: 18px;
+  color: var(--primary);
+  text-shadow: 0 0 15px rgba(30,144,255,.25);
+  transition: transform .35s ease;
 }
 
-.premium-project-card:hover .card-icon {
-    transform: scale(1.2);
+.premium-project-card:hover .card-icon,
+.premium-course-card:hover .card-icon {
+  transform: scale(1.15) rotate(4deg);
 }
 
-/* ── عنوان المشروع ── */
-.premium-project-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-    color: #fff;
-}
-
-/* ── وصف المشروع ── */
-.premium-project-card p {
-    font-size: 0.95rem;
-    color: #ccc;
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-/* ── زر التحميل ── */
+/* Button */
 .premium-download-btn {
-    background: linear-gradient(90deg, #ffd700, #ff8c00);
-    color: #1b1b1b;
-    font-weight: 600;
-    padding: 10px 18px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+  transition: all .35s ease;
 }
 
 .premium-download-btn:hover {
-    background: linear-gradient(90deg, #ffec70, #ffa500);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.35);
 }
 
-.premium-download-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
+.premium-download-btn small {
+  font-size: .85rem;
+  opacity: .85;
 }
 
-/* ── شريط التقدم ── */
+/* Responsive */
+@media (max-width: 768px) {
+  .premium-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .premium-header h2 {
+    font-size: 2.1rem;
+  }
+
+  .card-icon {
+    font-size: 3.4rem;
+  }
+}
+/* ===== Ultra Premium Effects ===== */
+
+/* Glass + Glow Border */
+.premium-project-card::before,
+.premium-course-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent, rgba(30,144,255,.25), transparent);
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+
+.premium-project-card:hover::before,
+.premium-course-card:hover::before {
+  opacity: 1;
+}
+
+/* Shimmer effect */
+.premium-project-card::after,
+.premium-course-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  transform: rotate(25deg);
+  transition: all .8s ease;
+}
+
+.premium-project-card:hover::after,
+.premium-course-card:hover::after {
+  left: 120%;
+}
+
+/* Button glow pulse */
+@keyframes pulseGlow {
+  0%   { box-shadow: 0 0 0 rgba(30,144,255,.0); }
+  50%  { box-shadow: 0 0 18px rgba(30,144,255,.45); }
+  100% { box-shadow: 0 0 0 rgba(30,144,255,.0); }
+}
+
+.premium-download-btn {
+  animation: pulseGlow 3s infinite;
+}
+
+/* Smooth entrance animation */
+.premium-project-card,
+.premium-course-card {
+  opacity: 0;
+  transform: translateY(30px) scale(.95);
+  animation: fadeUp .7s ease forwards;
+}
+
+.premium-project-card:nth-child(1) { animation-delay: .05s }
+.premium-project-card:nth-child(2) { animation-delay: .15s }
+.premium-project-card:nth-child(3) { animation-delay: .25s }
+.premium-project-card:nth-child(4) { animation-delay: .35s }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Progress bar modern */
 .progress-container {
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    height: 6px;
-    width: 100%;
-    margin-top: 10px;
-    overflow: hidden;
+  width: 100%;
+  height: 6px;
+  border-radius: 10px;
+  background: rgba(0,0,0,.08);
+  overflow: hidden;
+  margin-top: 14px;
 }
 
 .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00ffff, #00aaff);
-    border-radius: 8px;
-    transition: width 0.2s ease;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width .6s ease;
 }
 
-/* ── عداد التحميل ── */
-.premium-download-btn small {
-    font-size: 0.85rem;
-    color: #fff;
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-    .premium-header h2 {
-        font-size: 1.6rem;
-    }
-    .premium-project-card {
-        padding: 20px;
-    }
-}
+/* Micro hover lift */
+.premium-project-card:hover,
+.premium-course-card:hover {
+  transform: translateY(-12px) scale(1.02);
+   }
 /* ========================================================================== */
 /* Flags Language Switch Styling                                               */
 /* ========================================================================== */

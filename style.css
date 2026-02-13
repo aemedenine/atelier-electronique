@@ -1408,6 +1408,99 @@ footer {
     font-size: 3.4rem;
   }
 }
+/* ===== Ultra Premium Effects ===== */
+
+/* Glass + Glow Border */
+.premium-project-card::before,
+.premium-course-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent, rgba(30,144,255,.25), transparent);
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+
+.premium-project-card:hover::before,
+.premium-course-card:hover::before {
+  opacity: 1;
+}
+
+/* Shimmer effect */
+.premium-project-card::after,
+.premium-course-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  transform: rotate(25deg);
+  transition: all .8s ease;
+}
+
+.premium-project-card:hover::after,
+.premium-course-card:hover::after {
+  left: 120%;
+}
+
+/* Button glow pulse */
+@keyframes pulseGlow {
+  0%   { box-shadow: 0 0 0 rgba(30,144,255,.0); }
+  50%  { box-shadow: 0 0 18px rgba(30,144,255,.45); }
+  100% { box-shadow: 0 0 0 rgba(30,144,255,.0); }
+}
+
+.premium-download-btn {
+  animation: pulseGlow 3s infinite;
+}
+
+/* Smooth entrance animation */
+.premium-project-card,
+.premium-course-card {
+  opacity: 0;
+  transform: translateY(30px) scale(.95);
+  animation: fadeUp .7s ease forwards;
+}
+
+.premium-project-card:nth-child(1) { animation-delay: .05s }
+.premium-project-card:nth-child(2) { animation-delay: .15s }
+.premium-project-card:nth-child(3) { animation-delay: .25s }
+.premium-project-card:nth-child(4) { animation-delay: .35s }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Progress bar modern */
+.progress-container {
+  width: 100%;
+  height: 6px;
+  border-radius: 10px;
+  background: rgba(0,0,0,.08);
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width .6s ease;
+}
+
+/* Micro hover lift */
+.premium-project-card:hover,
+.premium-course-card:hover {
+  transform: translateY(-12px) scale(1.02);
+}
 /* ========================================================================== */
 /* Flags Language Switch Styling                                               */
 /* ========================================================================== */

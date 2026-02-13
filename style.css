@@ -1299,144 +1299,113 @@ footer {
    PREMIUM PRO LIGHT – نسخة فاتحة فخمة 100% (للأقسام فقط)
    مشاريع أردوينو + كورسات + شيمات
    ========================================================================== */
-
-.premium-projects-section,
-.premium-courses-section {
-  padding: 60px 0 90px !important;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
-  border-radius: 28px !important;
-  margin: 40px auto !important;
-  max-width: 1300px !important;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.08) !important;
-  border: 1px solid rgba(30,144,255,0.08) !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-/* العناوين الكبيرة فخمة */
-.premium-header h2 {
-  font-size: 2.6rem !important;
-  font-weight: 900 !important;
-  background: linear-gradient(90deg, #1e90ff, #409eff, #1e90ff) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-size: 200% auto !important;
-  animation: gradientText 5s ease infinite !important;
-  text-align: center !important;
-  margin-bottom: 12px !important;
-  text-shadow: 0 2px 10px rgba(30,144,255,0.12) !important;
-}
-
 @keyframes gradientText {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+/* Header */
 .premium-header .icon {
-  font-size: 3.2rem !important;
-  margin-left: 12px !important;
-  color: #1e90ff !important;
-  text-shadow: 0 0 10px rgba(30,144,255,0.3) !important;
+  font-size: 3.2rem;
+  margin-left: 12px;
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(30,144,255,.25);
 }
 
 .premium-desc {
-  font-size: 1.25rem !important;
-  color: #495057 !important;
-  text-align: center !important;
-  max-width: 880px !important;
-  margin: 0 auto 40px !important;
-  line-height: 1.8 !important;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
 }
 
-/* الكروت premium فاتحة وأنيقة */
+/* Grid */
 .premium-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)) !important;
-  gap: 30px !important;
-  padding: 0 25px !important;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  padding: 0 25px;
 }
 
+/* Cards */
 .premium-project-card,
 .premium-course-card {
-  background: white !important;
-  border-radius: 20px !important;
-  padding: 35px 28px !important;
-  border: 1px solid rgba(30,144,255,0.12) !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06) !important;
-  transition: all 0.4s ease !important;
-  position: relative !important;
-  overflow: hidden !important;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 35px 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .premium-project-card:hover,
 .premium-course-card:hover {
-  transform: translateY(-14px) !important;
-  box-shadow: 0 25px 60px rgba(30,144,255,0.18) !important;
-  border-color: #1e90ff !important;
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 25px 60px rgba(0,0,0,.25);
+  border-color: var(--primary);
 }
 
-/* أيقونات كبيرة جذابة */
+/* Icons */
 .card-icon {
-  font-size: 4.2rem !important;
-  margin-bottom: 20px !important;
-  color: #1e90ff !important;
-  text-shadow: 0 0 15px rgba(30,144,255,0.25) !important;
-  transition: all 0.4s !important;
+  font-size: 4rem;
+  margin-bottom: 18px;
+  color: var(--primary);
+  text-shadow: 0 0 15px rgba(30,144,255,.25);
+  transition: transform .35s ease;
 }
 
 .premium-project-card:hover .card-icon,
 .premium-course-card:hover .card-icon {
-  transform: scale(1.15) rotate(5deg) !important;
+  transform: scale(1.15) rotate(4deg);
 }
 
-/* أزرار التحميل premium */
+/* Button */
 .premium-download-btn {
-  width: 100% !important;
-  padding: 16px !important;
-  background: linear-gradient(135deg, #1e90ff, #409eff) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 50px !important;
-  font-size: 1.12rem !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  box-shadow: 0 8px 25px rgba(30,144,255,0.25) !important;
-  transition: all 0.4s !important;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+  transition: all .35s ease;
 }
 
 .premium-download-btn:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 16px 40px rgba(30,144,255,0.35) !important;
-  background: linear-gradient(135deg, #409eff, #1e90ff) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.35);
 }
 
 .premium-download-btn small {
-  font-size: 0.9rem !important;
-  opacity: 0.9 !important;
+  font-size: .85rem;
+  opacity: .85;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .premium-projects-section,
-  .premium-courses-section {
-    padding: 50px 0 80px !important;
-    margin: 30px 15px !important;
-    border-radius: 20px !important;
-  }
   .premium-grid {
-    grid-template-columns: 1fr !important;
-    gap: 25px !important;
+    grid-template-columns: 1fr;
+    gap: 25px;
   }
+
   .premium-header h2 {
-    font-size: 2.2rem !important;
+    font-size: 2.1rem;
   }
+
   .card-icon {
-    font-size: 3.5rem !important;
+    font-size: 3.4rem;
   }
 }
 /* ========================================================================== */

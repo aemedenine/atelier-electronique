@@ -1096,23 +1096,22 @@ footer {
   transition: width 0.5s ease;
 }
 :root{
-  --bg:#0b0f1a;
-  --glass:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.15);
-  --neon1:#00f7ff;
-  --neon2:#ff00ff;
-  --gold:#ffc94b;
-  --text:#fff;
+  --bg:#f6f8fc;
+  --glass:rgba(255,255,255,.75);
+  --border:rgba(0,0,0,.08);
+  --neon1:#007bff;
+  --neon2:#00c6ff;
+  --gold:#ffb703;
+  --text:#222;
 }
+
 
 *{box-sizing:border-box;margin:0;padding:0}
-
 body{
-  font-family:tahoma;
   background:var(--bg);
   color:var(--text);
-  min-height:100vh;
 }
+
 
 #particles-js{
   position:fixed;

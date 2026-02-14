@@ -906,168 +906,197 @@ header h1 {
   box-shadow: 0 0 10px #ff6b35;
 }
 /* ==========================================================================
-   Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
+   Reset + Base
+   ========================================================================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body{
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background:#0b1220;
+  color:#fff;
+}
+
+/* ==========================================================================
+   Sliders
    ========================================================================== */
 .services-slider,
 .videos-slider,
-.postes-slider {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding: 20px 10px;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
+.postes-slider{
+  display:flex;
+  gap:18px;
+  overflow-x:auto;
+  padding:20px 10px;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
 }
 .services-slider::-webkit-scrollbar,
 .videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar {
-  display: none;
+.postes-slider::-webkit-scrollbar{
+  display:none;
 }
 
+/* ==========================================================================
+   Cards
+   ========================================================================== */
 .service-pro-card,
 .video-pro-card,
-.poste-pro-card {
-  flex: 0 0 280px; /* حجم متوسط */
-  min-width: 280px;
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  cursor: pointer;
-  background: #fff;
+.poste-pro-card{
+  flex:0 0 260px;
+  background:#0f172a;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+  cursor:pointer;
+  transition:.35s;
+  position:relative;
 }
 
 .service-pro-card:hover,
 .video-pro-card:hover,
-.poste-pro-card:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: 0 20px 50px rgba(20,184,166,0.25);
+.poste-pro-card:hover{
+  transform:translateY(-6px) scale(1.04);
+  box-shadow:0 15px 45px rgba(56,189,248,.45);
 }
 
+/* media */
 .service-pro-card img,
 .poste-pro-card img,
-.video-pro-card video {
-  width: 100%;
-  height: 180px; /* حجم متوسط */
-  object-fit: cover;
-  border-bottom: 2px solid rgba(20,184,166,0.3);
+.video-pro-card video{
+  width:100%;
+  height:170px;
+  object-fit:cover;
 }
 
+/* titre cadre صغير */
 .service-overlay,
 .video-overlay,
-.poste-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(15,118,110,0.85), transparent);
-  color: #fff;
-  padding: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  transition: background 0.4s ease;
-}
-
-.service-pro-card:hover .service-overlay,
-.video-pro-card:hover .video-overlay,
-.poste-pro-card:hover .poste-overlay {
-  background: linear-gradient(to top, rgba(38,99,235,0.85), transparent);
+.poste-overlay{
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  background:linear-gradient(135deg,#06b6d4,#3b82f6);
+  padding:4px 14px;
+  border-radius:20px;
+  font-size:.9rem;
+  font-weight:600;
+  white-space:nowrap;
+  box-shadow:0 0 12px rgba(56,189,248,.6);
 }
 
 /* ==========================================================================
-   Fullscreen Viewer (لون بحري pro)
+   Viewer PRO
    ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 40px;
-  padding: 30px;
-  flex-wrap: wrap;
-  overflow-y: auto;
+#mediaViewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(3,7,18,.96);
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:30px;
+  padding:18px;
 }
 
-#mediaViewer.active {
-  display: flex !important;
+#mediaViewer.active{
+  display:flex!important;
 }
 
-.viewer-media {
-  max-width: 55%;
-  max-height: 80vh;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 0 50px rgba(20,184,166,0.4);
-  transition: all 0.3s ease;
+/* media أكبر */
+.viewer-media{
+  flex:1.6;
+  max-width:70%;
+  max-height:85vh;
+  border-radius:16px;
+  overflow:hidden;
+  background:#000;
+  box-shadow:0 0 50px rgba(56,189,248,.6);
 }
 
 .viewer-media img,
-.viewer-media video {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+.viewer-media video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
-.viewer-info {
-  background: rgba(15,118,110,0.95);
-  color: white;
-  padding: 25px 30px;
-  border-radius: 18px;
-  max-width: 380px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+/* info أصغر */
+.viewer-info{
+  flex:1;
+  max-width:320px;
+  background:linear-gradient(145deg,#020617,#0f172a);
+  padding:18px 20px;
+  border-radius:14px;
+  box-shadow:0 0 30px rgba(0,0,0,.6);
+  border:1px solid rgba(56,189,248,.25);
 }
 
-.viewer-info h3 {
-  margin: 0 0 15px;
-  font-size: 1.9rem;
-  color: #a5f3fc;
-  text-shadow: 0 0 8px rgba(165,243,252,0.6);
+.viewer-info h3{
+  font-size:1.3rem;
+  margin-bottom:10px;
+  color:#38bdf8;
 }
 
-.viewer-info p {
-  margin: 10px 0;
-  font-size: 1.1rem;
-  line-height: 1.5;
+.viewer-info p{
+  font-size:.95rem;
+  line-height:1.5;
+  color:#e5e7eb;
+  margin-bottom:6px;
 }
 
-.viewer-info .price {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #ff6b6b;
-  margin-top: 15px;
-  text-shadow: 0 0 6px rgba(255,107,107,0.5);
+.viewer-info .price{
+  margin-top:10px;
+  font-size:1.25rem;
+  font-weight:700;
+  color:#22c55e;
 }
 
-.viewer-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 3rem;
-  color: white;
-  cursor: pointer;
-  background: rgba(20,184,166,0.8);
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
+/* close btn */
+.viewer-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#06b6d4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2.2rem;
+  cursor:pointer;
+  transition:.3s;
 }
 
-.viewer-close:hover {
-  background: #e53e3e;
-  transform: rotate(90deg);
+.viewer-close:hover{
+  background:#ef4444;
+  transform:rotate(90deg);
+}
+
+/* ==========================================================================
+   Responsive (Mobile)
+   ========================================================================== */
+@media(max-width:768px){
+
+  #mediaViewer{
+    flex-direction:column;
+  }
+
+  .viewer-media{
+    max-width:100%;
+    max-height:60vh;
+  }
+
+  .viewer-info{
+    max-width:100%;
+    width:100%;
+  }
+
 }
 
 /* ==========================================================================

@@ -1095,76 +1095,74 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-/* ================= ROOT COLORS ================= */
-:root {
-  --bg-main: #0b0f1a;
-  --glass: rgba(255,255,255,0.08);
-  --border: rgba(255,255,255,0.15);
-  --neon1: #00f7ff;
-  --neon2: #ff00ff;
-  --gold: #ffc94b;
-  --text: #ffffff;
+:root{
+  --bg:#0b0f1a;
+  --glass:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.15);
+  --neon1:#00f7ff;
+  --neon2:#ff00ff;
+  --gold:#ffc94b;
+  --text:#fff;
 }
 
-/* ================= GENERAL ================= */
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:tahoma;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+#particles-js{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
 section{
-  margin: 80px auto;
-  padding: 20px;
-  max-width: 1300px;
+  margin:70px auto;
+  max-width:1200px;
+  padding:15px;
 }
 
 .wave-header{
   text-align:center;
-  margin-bottom:40px;
-  position:relative;
+  max-width:420px;
+  margin:0 auto 30px;
+  padding:10px 18px;
+  border-radius:50px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
 }
 
 .wave-text{
-  font-size:2.6rem;
+  font-size:2rem;
   font-weight:900;
-  background: linear-gradient(90deg,var(--neon1),var(--neon2));
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
   -webkit-background-clip:text;
   color:transparent;
-  animation: glowText 3s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 8px var(--neon1));
 }
 
-@keyframes glowText{
-  from{filter:drop-shadow(0 0 5px var(--neon1));}
-  to{filter:drop-shadow(0 0 15px var(--neon2));}
-}
-
-/* ================= SLIDERS ================= */
-.services-slider,
-.videos-slider,
-.postes-slider{
+.services-slider{
   display:flex;
   gap:20px;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
-  padding:10px 5px 30px;
+  padding-bottom:25px;
 }
 
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar{
-  height:6px;
-}
-
-.services-slider::-webkit-scrollbar-thumb,
-.videos-slider::-webkit-scrollbar-thumb,
-.postes-slider::-webkit-scrollbar-thumb{
+.services-slider::-webkit-scrollbar{height:6px}
+.services-slider::-webkit-scrollbar-thumb{
   background:linear-gradient(90deg,var(--neon1),var(--neon2));
   border-radius:10px;
 }
 
-/* ================= CARDS ================= */
-.service-pro-card,
-.video-pro-card,
-.poste-pro-card{
+.service-pro-card{
   min-width:260px;
   height:340px;
   background:var(--glass);
-  backdrop-filter:blur(15px);
   border:1px solid var(--border);
   border-radius:22px;
   overflow:hidden;
@@ -1174,144 +1172,82 @@ section{
   scroll-snap-align:center;
 }
 
-.service-pro-card:hover,
-.video-pro-card:hover,
-.poste-pro-card:hover{
-  transform:translateY(-15px) scale(1.05) rotateX(5deg);
-  box-shadow:
-    0 0 15px var(--neon1),
-    0 0 35px var(--neon2);
+.service-pro-card:hover{
+  transform:translateY(-15px) scale(1.05);
+  box-shadow:0 0 15px var(--neon1),0 0 30px var(--neon2);
 }
 
-.service-pro-card img,
-.poste-pro-card img,
-.video-pro-card video{
+.service-pro-card img{
   width:100%;
   height:100%;
   object-fit:cover;
   transition:1s;
 }
 
-.service-pro-card:hover img,
-.poste-pro-card:hover img,
-.video-pro-card:hover video{
+.service-pro-card:hover img{
   transform:scale(1.15) rotate(2deg);
 }
 
-/* ================= OVERLAY ================= */
-.service-overlay,
-.video-overlay,
-.poste-overlay{
+.service-overlay{
   position:absolute;
   bottom:0;
   width:100%;
   padding:15px;
-  background:linear-gradient(0deg,rgba(0,0,0,.9),transparent);
-  color:#fff;
-  font-weight:800;
-  letter-spacing:1px;
+  background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);
   text-align:center;
+  font-weight:900;
 }
 
-/* ================= BADGE ================= */
 .pro-badge{
   position:absolute;
   top:10px;
   right:10px;
   background:linear-gradient(90deg,var(--gold),#ff9900);
   color:#000;
-  font-weight:900;
   padding:4px 10px;
   border-radius:30px;
   font-size:.75rem;
+  font-weight:900;
   box-shadow:0 0 10px var(--gold);
 }
 
-/* ================= PREMIUM GRID ================= */
-.premium-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:25px;
-  margin-top:30px;
+/* Popup */
+
+.service-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
 }
 
-.premium-project-card,
-.premium-course-card{
+.popup-box{
   background:var(--glass);
   border:1px solid var(--border);
+  backdrop-filter:blur(15px);
+  padding:30px;
   border-radius:25px;
-  padding:25px 20px 30px;
+  width:90%;
+  max-width:420px;
   text-align:center;
-  position:relative;
-  overflow:hidden;
-  transition:.5s;
+  animation:pop .4s ease;
 }
 
-.premium-project-card::before,
-.premium-course-card::before{
-  content:"";
+@keyframes pop{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.popup-close{
   position:absolute;
-  inset:0;
-  background:linear-gradient(120deg,transparent,var(--neon1),transparent);
-  opacity:0;
-  transition:.6s;
-}
-
-.premium-project-card:hover::before,
-.premium-course-card:hover::before{
-  opacity:.25;
-}
-
-.premium-project-card:hover,
-.premium-course-card:hover{
-  transform:translateY(-10px) scale(1.03);
-  box-shadow:0 0 30px rgba(0,247,255,.35);
-}
-
-/* ================= ICON ================= */
-.card-icon{
-  font-size:3rem;
-  margin-bottom:10px;
-  filter:drop-shadow(0 0 8px var(--neon1));
-}
-
-/* ================= BUTTON ================= */
-.premium-download-btn{
-  margin-top:15px;
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
-  border:none;
-  border-radius:50px;
-  padding:12px 22px;
-  color:#000;
-  font-weight:900;
+  top:10px;
+  right:15px;
+  font-size:26px;
   cursor:pointer;
-  transition:.4s;
-  box-shadow:0 0 10px var(--neon1);
 }
 
-.premium-download-btn:hover{
-  transform:scale(1.1);
-  box-shadow:
-    0 0 15px var(--neon1),
-    0 0 35px var(--neon2);
-}
-
-/* ================= PROGRESS ================= */
-.progress-container{
-  margin-top:10px;
-  width:100%;
-  height:6px;
-  background:rgba(255,255,255,.1);
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
-  transition:.4s;
-}
 
 /* ========================================================================== */
 /* Flags Language Switch Styling                                               */

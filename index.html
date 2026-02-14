@@ -20,7 +20,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
-
     <header>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
@@ -344,7 +343,6 @@
              data-title="تصليح لوحات إلكترونية"
              data-desc="فحص دقيق وإصلاح كامل للبوردات المعقدة بأحدث الأجهزة"
              data-price="من 35 دينار">
-            <span class="pro-badge">مميز</span>
             <img src="service1.webp" alt="تصليح لوحات إلكترونية" loading="lazy">
             <div class="service-overlay">لوحات إلكترونية</div>
         </div>
@@ -379,79 +377,68 @@
     </div>
 </section>
 
-<section class="premium-projects-section">
-  <!-- مشاريع Arduino -->
-  <div class="premium-header">
-    <h2 data-i18n="arduino_projects_title"><span class="icon">🔧</span> مشاريع أردوينو احترافية</h2>
-    <p class="premium-desc" data-i18n="arduino_projects_desc">
-      مجموعة مشاريع مفسرة خطوة بخطوة مع الكود الكامل، الدائرة الكهربائية، ملفات التحميل والشروحات التفصيلية.
-    </p>
-  </div>
-
-  <div class="premium-grid">
-    <div class="premium-project-card">
-      <div class="card-icon">💡</div>
-      <h3 data-i18n="smart_light_title">تشغيل إضاءة ذكية</h3>
-      <p data-i18n="smart_light_desc">مشروع تحكم ذكي في إضاءة المنزل باستعمال Arduino + Relay مع كود جاهز وشروحات.</p>
-      <button class="premium-download-btn" data-id="arduino-smart-light" data-file="files/arduino-smart-light.pdf">
-        <span class="btn-label" data-i18n="download_project">📥 تحميل المشروع</span>
-        <small>(<span id="count-arduino-smart-light">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-arduino-smart-light"></div>
+<!-- قسم المشاريع – مترجم للـ 3 لغات -->
+<section class="projects-section">
+  <!-- مشاريع أردوينو -->
+  <div class="project-box">
+    <h2 data-i18n="arduino_projects_title">🔧 مشاريع أردوينو</h2>
+    <p class="box-desc" data-i18n="arduino_projects_desc">مجموعة مشاريع أردوينو مفسّرة خطوة بخطوة، مع الكود، الدائرة الإلكترونية، وملف التحميل.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="smart_light_title">تشغيل إضاءة ذكية</h3>
+        <p data-i18n="smart_light_desc">مشروع تشغيل وإطفاء مصباح باستعمال Arduino و Relay.</p>
+        <button class="download-btn" data-id="arduino-smart-light" data-file="files/arduino-smart-light.pdf">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-arduino-smart-light">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-arduino-smart-light"></div>
+        </div>
       </div>
-    </div>
-
-    <div class="premium-project-card">
-      <div class="card-icon">🌡️</div>
-      <h3 data-i18n="temperature_title">قياس درجة الحرارة</h3>
-      <p data-i18n="temperature_desc">قراءة دقيقة لدرجة الحرارة وعرضها على شاشة LCD مع تسجيل البيانات.</p>
-      <button class="premium-download-btn" data-id="arduino-temperature" data-file="files/arduino-temperature.pdf">
-        <span class="btn-label" data-i18n="download_project">📥 تحميل المشروع</span>
-        <small>(<span id="count-arduino-temperature">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-arduino-temperature"></div>
+      <div class="project-card">
+        <h3 data-i18n="temperature_title">قياس درجة الحرارة</h3>
+        <p data-i18n="temperature_desc">قراءة درجة الحرارة وعرضها على شاشة LCD.</p>
+        <button class="download-btn" data-id="arduino-temperature" data-file="files/arduino-temperature.pdf">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-arduino-temperature">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-arduino-temperature"></div>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- مشاريع التخرج -->
-  <div class="premium-header secondary">
-    <h2 data-i18n="graduation_projects_title"><span class="icon">🎓</span> مشاريع تخرج جاهزة</h2>
-    <p class="premium-desc" data-i18n="graduation_projects_desc">
-      مشاريع كاملة مع تقارير، كود، دوائر، قواعد بيانات – جاهزة للطلبة والاستئناس.
-    </p>
-  </div>
-
-  <div class="premium-grid">
-    <div class="premium-project-card">
-      <div class="card-icon">📦</div>
-      <h3 data-i18n="inventory_title">نظام إدارة المخزون</h3>
-      <p data-i18n="inventory_desc">نظام متكامل لإدارة المخزون مع تقرير كامل وقاعدة بيانات جاهزة.</p>
-      <button class="premium-download-btn" data-id="pfe-gestion-stock" data-file="files/pfe-gestion-stock.pdf">
-        <span class="btn-label" data-i18n="download_project">📥 تحميل المشروع</span>
-        <small>(<span id="count-pfe-gestion-stock">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-pfe-gestion-stock"></div>
+<!-- مشاريع التخرج -->
+  <div class="project-box">
+    <h2 data-i18n="graduation_projects_title">🎓 مشاريع التخرّج</h2>
+    <p class="box-desc" data-i18n="graduation_projects_desc">مشاريع تخرّج جاهزة للطلبة (PDF أو Word) للاستئناس والمراجعة.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="inventory_title">نظام إدارة المخزون</h3>
+        <p data-i18n="inventory_desc">مشروع لإدارة المخزون مع تقرير كامل وقاعدة بيانات.</p>
+        <button class="download-btn" data-id="pfe-gestion-stock" data-file="files/pfe-gestion-stock.pdf">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-pfe-gestion-stock">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-pfe-gestion-stock"></div>
+        </div>
       </div>
-    </div>
-
-    <div class="premium-project-card">
-      <div class="card-icon">🏠</div>
-      <h3 data-i18n="smart_home_title">منزل ذكي (Smart Home)</h3>
-      <p data-i18n="smart_home_desc">مشروع منزل ذكي كامل باستعمال Arduino + ESP8266 + تحكم عن بعد.</p>
-      <button class="premium-download-btn" data-id="pfe-smart-home" data-file="files/pfe-smart-home.docx">
-        <span class="btn-label" data-i18n="download_project">📥 تحميل المشروع</span>
-        <small>(<span id="count-pfe-smart-home">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-pfe-smart-home"></div>
+      <div class="project-card">
+        <h3 data-i18n="smart_home_title">منزل ذكي (Smart Home)</h3>
+        <p data-i18n="smart_home_desc">مشروع منزل ذكي باستعمال Arduino و ESP8266.</p>
+        <button class="download-btn" data-id="pfe-smart-home" data-file="files/pfe-smart-home.docx">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-pfe-smart-home">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-pfe-smart-home"></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
 <!-- فيديو اليوم – مع عنوان مترجم -->
 <section class="videos-today">
     <div class="videos-header wave-header">
@@ -462,7 +449,6 @@
              data-title="فحص بوردة كامل"
              data-desc="فيديو توضيحي لفحص وتشخيص بوردة تلفاز باحترافية"
              data-duration="2:45">
-            <span class="pro-badge">مميز</span>
             <video src="video1.mp4" muted loop loading="lazy"></video>
             <div class="video-overlay">فحص بوردة</div>
         </div>
@@ -496,83 +482,74 @@
         </div>
     </div>
 </section>
-          <!-- كورسات إلكترونية -->
-  <div class="premium-header secondary">
-    <h2 data-i18n="courses_title"><span class="icon">📚</span> كورسات إلكترونية احترافية</h2>
-    <p class="premium-desc" data-i18n="courses_desc">
-      تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية، تمارين، أمثلة حقيقية وملفات جاهزة.
-    </p>
-  </div>
-
-  <div class="premium-grid">
-    <div class="premium-course-card">
-      <div class="card-icon">⚡</div>
-      <h3 data-i18n="resistor_capacitor_title">أساسيات المقاومة والمكثف</h3>
-      <p data-i18n="resistor_capacitor_desc">
-        شرح كامل لاستخدام المقاومات والمكثفات في الدوائر البسيطة والمتوسطة مع تمارين عملية.
-      </p>
-      <button class="premium-download-btn" data-id="cours-resistor-capacitor" data-file="files/cours-resistor-capacitor.pdf">
-        <span class="btn-label" data-i18n="download_lesson">📥 تحميل الدرس</span>
-        <small>(<span id="count-cours-resistor-capacitor">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-cours-resistor-capacitor"></div>
+<!-- كورسات و شيمات – مترجمة كاملة للـ 3 لغات -->
+<section class="projects-section">
+  <div class="project-box">
+    <h2 data-i18n="courses_title">📚 كورسات إلكترونية</h2>
+    <p class="box-desc" data-i18n="courses_desc">تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية وتمارين.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="resistor_capacitor_title">أساسيات المقاومة والمكثف</h3>
+        <p data-i18n="resistor_capacitor_desc">شرح كيفية استخدام المقاومات والمكثفات في الدوائر البسيطة.</p>
+        <button class="download-btn" data-id="cours-resistor-capacitor" data-file="files/cours-resistor-capacitor.pdf">
+          <span class="label" data-i18n="download_lesson">📥 تحميل الدرس</span>
+          <small>(<span id="count-cours-resistor-capacitor">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-cours-resistor-capacitor"></div>
+        </div>
       </div>
-    </div>
-
-    <div class="premium-course-card">
-      <div class="card-icon">🔌</div>
-      <h3 data-i18n="transistor_diode_title">الترانزستور والديود</h3>
-      <p data-i18n="transistor_diode_desc">
-        فهم عميق للترانزستورات والديودات وربطها في الدوائر العملية مع أمثلة حقيقية.
-      </p>
-      <button class="premium-download-btn" data-id="cours-transistor-diode" data-file="files/cours-transistor-diode.pdf">
-        <span class="btn-label" data-i18n="download_lesson">📥 تحميل الدرس</span>
-        <small>(<span id="count-cours-transistor-diode">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-cours-transistor-diode"></div>
+      <div class="project-card">
+        <h3 data-i18n="transistor_diode_title">الترانزستور والديود</h3>
+        <p data-i18n="transistor_diode_desc">فهم الترانزستورات والديودات وكيفية ربطها في الدوائر.</p>
+        <button class="download-btn" data-id="cours-transistor-diode" data-file="files/cours-transistor-diode.pdf">
+          <span class="label" data-i18n="download_lesson">📥 تحميل الدرس</span>
+          <small>(<span id="count-cours-transistor-diode">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-cours-transistor-diode"></div>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- شيمات إلكترونية -->
-  <div class="premium-header secondary">
-    <h2 data-i18n="schematics_title"><span class="icon">💡</span> شيمات إلكترونية حقيقية</h2>
-    <p class="premium-desc" data-i18n="schematics_desc">
-      مجموعة شيمات أصلية ودقيقة لكروت الغسالات، الكليما، الأجهزة الصناعية وغيرها – جاهزة للتحميل.
-    </p>
-  </div>
-
-  <div class="premium-grid">
-    <div class="premium-course-card">
-      <div class="card-icon">🧼</div>
-      <h3 data-i18n="schema_samsung_title">كارت غسالة Samsung</h3>
-      <p data-i18n="schema_samsung_desc">
-        الشيم الكامل والدقيق لكروت غسالات Samsung مع تفاصيل كل جزء.
-      </p>
-      <button class="premium-download-btn" data-id="schema-washing-samsung" data-file="files/schema-washing-samsung.pdf">
-        <span class="btn-label" data-i18n="download_schema">📥 تحميل الشيم</span>
-        <small>(<span id="count-schema-washing-samsung">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-schema-washing-samsung"></div>
+  <div class="project-box">
+    <h2 data-i18n="schematics_title">💡 شيمات إلكترونية</h2>
+    <p class="box-desc" data-i18n="schematics_desc">مجموعة شيمات حقيقية لكروت الغسالات، الكليما، أجهزة أخرى.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="schema_samsung_title">كارت غسالة Samsung</h3>
+        <p data-i18n="schema_samsung_desc">الشيم الكامل لكارت الغسالات Samsung.</p>
+        <button class="download-btn" data-id="schema-washing-samsung" data-file="files/schema-washing-samsung.pdf">
+          <span class="label" data-i18n="download_schema">📥 تحميل الشيم</span>
+          <small>(<span id="count-schema-washing-samsung">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-schema-washing-samsung"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="schema_lg_title">كارت كليما LG</h3>
+        <p data-i18n="schema_lg_desc">الدائرة الكهربائية لكارت الكليما LG.</p>
+        <button class="download-btn" data-id="schema-clim-lg" data-file="files/schema-clim-lg.pdf">
+          <span class="label" data-i18n="download_schema">📥 تحميل الشيم</span>
+          <small>(<span id="count-schema-clim-lg">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-schema-clim-lg"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="schema_industrial_title">كروت صناعية</h3>
+        <p data-i18n="schema_industrial_desc">شيمات لمختلف الكروت الإلكترونية الصناعية.</p>
+        <button class="download-btn" data-id="schema-industrial" data-file="files/schema-industrial.pdf">
+          <span class="label" data-i18n="download_schema">📥 تحميل الشيم</span>
+          <small>(<span id="count-schema-industrial">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-schema-industrial"></div>
+        </div>
       </div>
     </div>
-
-    <div class="premium-course-card">
-      <div class="card-icon">❄️</div>
-      <h3 data-i18n="schema_lg_title">كارت كليما LG</h3>
-      <p data-i18n="schema_lg_desc">
-        دائرة كهربائية كاملة لكروت كليما LG (inverter وعادي) مع شروحات.
-      </p>
-      <button class="premium-download-btn" data-id="schema-clim-lg" data-file="files/schema-clim-lg.pdf">
-        <span class="btn-label" data-i18n="download_schema">📥 تحميل الشيم</span>
-        <small>(<span id="count-schema-clim-lg">0</span>)</small>
-      </button>
-      <div class="progress-container">
-        <div class="progress-bar" id="progress-schema-clim-lg"></div>
-      </div>
   </div>
 </section>
 
@@ -586,7 +563,6 @@
              data-title="Inverter MMA-300s"
              data-desc="تصليح كامل مع فحص المكونات واستبدال القطع التالفة"
              data-price="من 80 دينار">
-            <span class="pro-badge">مميز</span>
             <img src="poste1.webp" alt="Inverter MMA-300s" loading="lazy">
             <div class="poste-overlay">MMA-300s</div>
         </div>
@@ -651,10 +627,11 @@
 </footer>
 
         <!-- Fullscreen Media Viewer -->
-      <div class="fullscreen-overlay" id="overlay">
-  <span class="close-btn" id="closeBtn">&times;</span>
-</div>
-
+        <div id="mediaViewer">
+            <span class="close-btn">×</span>
+            <img id="viewerImg" style="display:none" alt="صورة تكبير">
+            <video id="viewerVideo" style="display:none" controls></video>
+        </div>
 
        <!-- CMP / Cookie Banner – يظهر مرة كل يوم -->
 <div id="cmp-banner">
@@ -664,6 +641,6 @@
 </div>
         <!-- JavaScript externe -->
         <script src="app.js" defer></script>
- 
+   
 </body>
 </html>

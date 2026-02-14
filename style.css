@@ -905,24 +905,18 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
-/* ==========================================================================
-   Slider Cards حديثة
-   ========================================================================== */
+/* =======================
+   Slider Cards 3D تفاعلية
+======================= */
 .services-slider,
 .videos-slider,
 .postes-slider {
   display: flex;
   overflow-x: auto;
   gap: 20px;
-  padding: 15px 0;
+  padding: 20px 0;
   scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar {
-  display: none;
+  perspective: 1200px; /* لأثر 3D */
 }
 
 .service-pro-card,
@@ -933,16 +927,16 @@ header h1 {
   border-radius: 16px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
   cursor: pointer;
 }
 
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(255, 123, 0, 0.25); /* touch orange */
+  transform: rotateY(8deg) rotateX(5deg) translateY(-10px) scale(1.05);
+  box-shadow: 0 25px 50px rgba(255,123,0,0.35);
 }
 
 .service-pro-card img,
@@ -952,8 +946,16 @@ header h1 {
   height: 200px;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
 }
 
+.service-pro-card:hover img,
+.video-pro-card:hover video,
+.poste-pro-card:hover img {
+  transform: scale(1.1);
+}
+
+/* Overlay animated */
 .service-overlay,
 .video-overlay,
 .poste-overlay {
@@ -961,78 +963,80 @@ header h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(255,123,0,0.85), transparent);
+  padding: 12px;
+  background: linear-gradient(to top, rgba(255,123,0,0.9), transparent);
   color: #fff;
-  padding: 10px;
-  text-align: center;
   font-weight: 600;
   font-size: 1.1rem;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  text-align: center;
+  transition: background 0.4s;
 }
 
-/* ==========================================================================
-   Small Media Viewer (Side Info)
-   ========================================================================== */
+.service-pro-card:hover .service-overlay,
+.video-pro-card:hover .video-overlay,
+.poste-pro-card:hover .poste-overlay {
+  background: linear-gradient(to top, rgba(255, 87, 34,0.95), transparent);
+}
+
+/* =======================
+   Side Media Viewer متحرك
+======================= */
 #mediaViewer {
   display: none;
   position: fixed;
   inset: 0;
   background: #fff;
   z-index: 9999;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: row;
-  gap: 25px;
-  padding: 25px;
-  overflow-y: auto;
+  justify-content: flex-end;
+  align-items: center;
   flex-wrap: wrap;
+  padding: 30px;
+  transition: all 0.5s ease;
 }
 
 #mediaViewer.active {
   display: flex;
+  animation: slideIn 0.4s ease forwards;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity:0 }
+  to { transform: translateX(0); opacity:1 }
 }
 
 .viewer-media {
-  flex: 1 1 300px;
+  flex: 1 1 400px;
   max-width: 500px;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(255,123,0,0.3);
-}
-
-.viewer-media img,
-.viewer-media video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(255,123,0,0.4);
+  transition: transform 0.3s;
 }
 
 .viewer-info {
-  flex: 1 1 250px;
-  background: #fff5f0; /* light background */
-  padding: 25px;
+  flex: 1 1 300px;
+  background: #fff3f0;
+  padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(255,123,0,0.3);
-  color: #333;
+  box-shadow: 0 10px 30px rgba(255,123,0,0.25);
+  transition: transform 0.3s;
 }
 
 .viewer-info h3 {
-  margin: 0 0 15px;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: #ff6a00;
+  margin-bottom: 15px;
 }
 
 .viewer-info p {
   font-size: 1rem;
-  line-height: 1.5;
   margin-bottom: 10px;
+  color: #333;
 }
 
 .viewer-info .price {
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: #ff3e3e;
 }
 
@@ -1040,22 +1044,22 @@ header h1 {
   position: absolute;
   top: 20px;
   right: 20px;
-  font-size: 2.8rem;
-  color: #fff;
-  cursor: pointer;
+  font-size: 2.5rem;
   background: #ff6a00;
+  color: #fff;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  cursor: pointer;
   transition: all 0.25s;
 }
 
 .viewer-close:hover {
   background: #e53e3e;
-  transform: rotate(90deg);
+  transform: rotate(90deg) scale(1.1);
 }
 
 /* ==========================================================================

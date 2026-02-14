@@ -1095,187 +1095,112 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-:root{
-  --bg:#f6f8fc;
-  --glass:rgba(255,255,255,.85);
-  --border:rgba(0,0,0,.08);
-  --neon1:#007bff;
-  --neon2:#00c6ff;
-  --gold:#ffb703;
-  --text:#222;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
-}
-
-/* ===== Particles ===== */
-#particles-js{
+/* ===== Fullscreen Overlay blanc ===== */
+.fullscreen-overlay{
   position:fixed;
   inset:0;
-  z-index:0;
-  pointer-events:none;
-}
-
-body > *:not(#particles-js){
-  position:relative;
-  z-index:2;
-}
-
-/* ===== Sections ===== */
-section{
-  margin:40px auto;
-  max-width:1200px;
-  padding:15px;
-}
-
-/* ===== Titles ===== */
-.wave-header{
-  text-align:center;
-  max-width:360px;
-  margin:15px auto 25px;
-  padding:8px 16px;
-  border-radius:50px;
-  background:rgba(255,255,255,.7);
-  border:1px solid var(--border);
-}
-
-.wave-text{
-  font-size:1.8rem;
-  font-weight:900;
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-/* ===== Sliders ===== */
-.services-slider,
-.videos-slider,
-.postes-slider{
-  display:flex;
-  gap:20px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  padding-bottom:15px;
-}
-
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar{
-  height:6px;
-}
-
-.services-slider::-webkit-scrollbar-thumb,
-.videos-slider::-webkit-scrollbar-thumb,
-.postes-slider::-webkit-scrollbar-thumb{
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
-  border-radius:10px;
-}
-
-/* ===== Cards ===== */
-.service-pro-card,
-.video-pro-card,
-.poste-pro-card{
-  min-width:250px;
-  height:330px;
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-  transition:.4s;
-  scroll-snap-align:center;
-}
-
-.service-pro-card:hover,
-.video-pro-card:hover,
-.poste-pro-card:hover{
-  transform:translateY(-10px) scale(1.03);
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.service-pro-card img,
-.poste-pro-card img,
-.video-pro-card video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.6s;
-}
-
-.service-pro-card:hover img,
-.poste-pro-card:hover img,
-.video-pro-card:hover video{
-  transform:scale(1.1);
-}
-
-/* ===== Overlay ===== */
-.service-overlay,
-.video-overlay,
-.poste-overlay{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:12px;
-  background:linear-gradient(0deg,rgba(0,0,0,.8),transparent);
-  text-align:center;
-  font-weight:800;
-  color:#fff;
-}
-
-/* ===== Badge ===== */
-.pro-badge{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:linear-gradient(90deg,var(--gold),#ff9900);
-  color:#000;
-  padding:3px 10px;
-  border-radius:30px;
-  font-size:.75rem;
-  font-weight:900;
-  box-shadow:0 0 10px rgba(255,183,3,.6);
-}
-
-/* ===== Popup ===== */
-.service-popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
+  background:#fff; /* خلفية بيضاء */
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:9999;
+  z-index:99999;
+  gap:20px;
+  padding:40px;
+  overflow:auto;
 }
 
-.popup-box{
-  background:var(--glass);
-  border:1px solid var(--border);
-  backdrop-filter:blur(12px);
-  padding:25px;
-  border-radius:22px;
-  width:90%;
-  max-width:420px;
-  text-align:center;
-  animation:pop .35s ease;
+.fullscreen-overlay .media-full{
+  max-width:60%;
+  max-height:90%;
+  object-fit:contain; /* يظهر الصورة أو الفيديو كامل بدون zoom */
+  border-radius:12px;
+  box-shadow:0 8px 25px rgba(0,0,0,.1);
 }
 
-@keyframes pop{
-  from{transform:scale(.85);opacity:0}
-  to{transform:scale(1);opacity:1}
+.fullscreen-overlay .info-full{
+  max-width:35%;
+  color:#222;
+  font-size:1rem;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:12px;
 }
 
-.popup-close{
+.fullscreen-overlay .info-full h3{
+  font-size:1.5rem;
+  margin:0;
+}
+
+.fullscreen-overlay .info-full p{
+  margin:0;
+  line-height:1.4;
+}
+
+.fullscreen-overlay .info-full a{
+  display:inline-block;
+  text-decoration:none;
+  background:#ffb703;
+  color:#000;
+  padding:8px 15px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+.fullscreen-overlay .close-btn{
   position:absolute;
-  top:10px;
-  right:15px;
-  font-size:24px;
+  top:20px;
+  right:20px;
+  font-size:30px;
   cursor:pointer;
+  color:#222;
+  z-index:100000;
+}
+
+/* ===== Hover على الكارد ===== */
+.premium-course-card,
+.premium-project-card,
+.video-pro-card,
+.poste-pro-card{
+  cursor:pointer;
+  transition:.3s;
+}
+
+.premium-course-card:hover,
+.premium-project-card:hover,
+.video-pro-card:hover,
+.poste-pro-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.premium-course-card img,
+.premium-project-card img,
+.video-pro-card video,
+.poste-pro-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:12px;
+  transition:.5s;
+}
+
+.premium-course-card:hover img,
+.premium-project-card:hover img,
+.video-pro-card:hover video,
+.poste-pro-card:hover img{
+  transform:scale(1.05);
+}
+
+/* ===== ستار بين البطاقات ===== */
+.premium-grid .premium-course-card + .premium-course-card,
+.premium-grid .premium-project-card + .premium-project-card,
+.videos-slider .video-pro-card + .video-pro-card,
+.postes-slider .poste-pro-card + .poste-pro-card{
+  border-top:1px solid rgba(0,0,0,0.1);
+  margin-top:15px;
+  padding-top:15px;
 }
 
 /* ========================================================================== */

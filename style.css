@@ -906,162 +906,195 @@ header h1 {
   box-shadow: 0 0 10px #ff6b35;
 }
 /* =======================
-   Slider Cards 3D تفاعلية
+   Slider Cards 3D تفاعلية - Pro 2026 Version
 ======================= */
 .services-slider,
 .videos-slider,
 .postes-slider {
   display: flex;
   overflow-x: auto;
-  gap: 20px;
-  padding: 20px 0;
+  gap: 24px;
+  padding: 32px 0;
   scroll-behavior: smooth;
-  perspective: 1200px; /* لأثر 3D */
+  perspective: 1400px;          /* زادة شوية باش الـ3D يبان أقوى */
+  perspective-origin: 50% 30%;  /* نازل شوية الـ vanishing point باش يحس أحسن */
+  -webkit-overflow-scrolling: touch;
 }
 
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card {
-  flex: 0 0 300px;
-  min-width: 300px;
-  border-radius: 16px;
+  flex: 0 0 320px;
+  min-width: 320px;
+  border-radius: 20px;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  background: rgba(255, 255, 255, 0.07); /* glassmorphism base */
+  backdrop-filter: blur(10px);           /* frosted glass effect */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12),
+              inset 0 1px 1px rgba(255,255,255,0.18);
+  transition: all 0.55s cubic-bezier(0.23, 1, 0.32, 1); /* bezier fluid pro */
   cursor: pointer;
+  transform-style: preserve-3d;
 }
 
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: rotateY(8deg) rotateX(5deg) translateY(-10px) scale(1.05);
-  box-shadow: 0 25px 50px rgba(255,123,0,0.35);
+  transform: 
+    translateZ(40px)          /* يطلع لقدام */
+    rotateY(10deg) 
+    rotateX(6deg) 
+    translateY(-16px) 
+    scale(1.06);
+  box-shadow: 0 30px 70px rgba(255, 123, 0, 0.28),
+              0 0 0 1px rgba(255, 123, 0, 0.18);
 }
 
+/* Media inside card */
 .service-pro-card img,
 .video-pro-card video,
 .poste-pro-card img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: translateZ(20px); /* depth layer */
 }
 
 .service-pro-card:hover img,
 .video-pro-card:hover video,
 .poste-pro-card:hover img {
-  transform: scale(1.1);
+  transform: translateZ(60px) scale(1.12);
 }
 
-/* Overlay animated */
+/* Overlay animated + glass lift */
 .service-overlay,
 .video-overlay,
 .poste-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px;
-  background: linear-gradient(to top, rgba(255,123,0,0.9), transparent);
-  color: #fff;
-  font-weight: 600;
-  font-size: 1.1rem;
+  inset: auto 0 0 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(255,123,0,0.92), transparent 60%);
+  color: white;
+  font-weight: 700;
+  font-size: 1.15rem;
   text-align: center;
-  transition: background 0.4s;
+  transform: translateY(30%);
+  opacity: 0.92;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(4px);
 }
 
 .service-pro-card:hover .service-overlay,
 .video-pro-card:hover .video-overlay,
 .poste-pro-card:hover .poste-overlay {
-  background: linear-gradient(to top, rgba(255, 87, 34,0.95), transparent);
+  transform: translateY(0) translateZ(30px);
+  background: linear-gradient(to top, rgba(255, 87, 34, 0.98), transparent 50%);
+  box-shadow: 0 -10px 20px rgba(0,0,0,0.2);
 }
 
 /* =======================
-   Side Media Viewer متحرك
+   Side Media Viewer - Modern Slide + Blur
 ======================= */
 #mediaViewer {
   display: none;
   position: fixed;
   inset: 0;
-  background: #fff;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(12px);     /* blur background pro */
+  -webkit-backdrop-filter: blur(12px);
   z-index: 9999;
   justify-content: flex-end;
   align-items: center;
-  flex-wrap: wrap;
-  padding: 30px;
-  transition: all 0.5s ease;
+  padding: 40px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 #mediaViewer.active {
   display: flex;
-  animation: slideIn 0.4s ease forwards;
+  opacity: 1;
+  visibility: visible;
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); opacity:0 }
-  to { transform: translateX(0); opacity:1 }
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+#mediaViewer.active > * {
+  animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .viewer-media {
-  flex: 1 1 400px;
-  max-width: 500px;
-  border-radius: 18px;
+  flex: 1 1 480px;
+  max-width: 560px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 15px 40px rgba(255,123,0,0.4);
-  transition: transform 0.3s;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35),
+              0 0 0 1px rgba(255,123,0,0.15);
+  transform: translateZ(50px);
+  background: #fff;
 }
 
 .viewer-info {
-  flex: 1 1 300px;
-  background: #fff3f0;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(255,123,0,0.25);
-  transition: transform 0.3s;
+  flex: 1 1 360px;
+  background: rgba(255, 243, 240, 0.95);
+  backdrop-filter: blur(16px);
+  padding: 40px;
+  border-radius: 20px;
+  margin-left: 32px;
+  box-shadow: 0 15px 45px rgba(255,123,0,0.22);
+  transform: translateZ(30px);
 }
 
 .viewer-info h3 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: #ff6a00;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
 }
 
 .viewer-info p {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  color: #333;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #444;
 }
 
 .viewer-info .price {
-  font-weight: bold;
-  font-size: 1.4rem;
+  font-weight: 800;
+  font-size: 1.6rem;
   color: #ff3e3e;
+  margin-top: 16px;
 }
 
 .viewer-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 2.5rem;
+  top: 24px;
+  right: 24px;
+  font-size: 2.8rem;
   background: #ff6a00;
-  color: #fff;
+  color: white;
+  border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 8px 20px rgba(255,106,0,0.4);
 }
 
 .viewer-close:hover {
   background: #e53e3e;
-  transform: rotate(90deg) scale(1.1);
+  transform: rotate(90deg) scale(1.15);
+  box-shadow: 0 12px 30px rgba(229,62,62,0.5);
 }
-
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */

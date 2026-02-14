@@ -1376,88 +1376,109 @@ if (smdInput) {
         powerFill.style.width = P ? Math.min(100, P) + "%" : "0%";
     }));
 
-document.querySelectorAll('.download-btn').forEach(btn => {
+/* ================= DOWNLOAD COUNTER ================= */
+
+if (typeof db !== "undefined") {
+
+  document.querySelectorAll('.download-btn').forEach(btn => {
     const id = btn.dataset.id;
     const fileUrl = btn.dataset.file;
 
-    // إذا نقص البيانات، نعمل placeholder عادي بدون إيقاف البوكس
     const counterEl = btn.querySelector('small span') || (() => {
-        const small = document.createElement('small');
-        const span = document.createElement('span');
-        span.textContent = '0';
-        small.appendChild(span);
-        btn.appendChild(small);
-        return span;
+      const small = document.createElement('small');
+      const span = document.createElement('span');
+      span.textContent = '0';
+      small.appendChild(span);
+      btn.appendChild(small);
+      return span;
     })();
 
-    // فقط لو عندنا id و file نربط Firebase
     if (id && fileUrl) {
-        const downloadsRef = db.ref(`downloads/${id}/count`);
-        downloadsRef.on('value', snap => {
-            counterEl.textContent = snap.val() || 0;
-        });
+      const downloadsRef = db.ref(`downloads/${id}/count`);
 
-        btn.addEventListener('click', async e => {
-            e.preventDefault();
-            if (btn.classList.contains('downloading')) return;
-            const spamKey = `downloaded-${id}`;
-            if (localStorage.getItem(spamKey)) { alert('سبق لك تحميل هذا الملف'); return; }
-            localStorage.setItem(spamKey, 'true');
+      downloadsRef.on('value', snap => {
+        counterEl.textContent = snap.val() || 0;
+      });
 
-            btn.classList.add('downloading'); btn.disabled = true;
-            let btnText = btn.querySelector('.label') || btn;
-            btnText.textContent = 'جاري التحميل...';
+      btn.addEventListener('click', async e => {
+        e.preventDefault();
 
-            let progressBar = btn.querySelector('.progress-bar');
-            if (!progressBar) {
-                const progressContainer = document.createElement('div');
-                progressContainer.className = 'progress-container';
-                progressBar = document.createElement('div');
-                progressBar.className = 'progress-bar';
-                progressContainer.appendChild(progressBar);
-                btn.appendChild(progressContainer);
-            }
+        if (btn.classList.contains('downloading')) return;
 
+        const spamKey = `downloaded-${id}`;
+        if (localStorage.getItem(spamKey)) {
+          alert('سبق لك تحميل هذا الملف');
+          return;
+        }
+        localStorage.setItem(spamKey, 'true');
+
+        btn.classList.add('downloading');
+        btn.disabled = true;
+
+        let btnText = btn.querySelector('.btn-label') || btn;
+        btnText.textContent = 'جاري التحميل...';
+
+        let progressBar = btn.querySelector('.progress-bar');
+        if (!progressBar) {
+          const progressContainer = document.createElement('div');
+          progressContainer.className = 'progress-container';
+          progressBar = document.createElement('div');
+          progressBar.className = 'progress-bar';
+          progressContainer.appendChild(progressBar);
+          btn.appendChild(progressContainer);
+        }
+
+        progressBar.style.width = '0%';
+
+        let p = 0;
+        const timer = setInterval(() => {
+          p = Math.min(90, p + Math.random() * 15);
+          progressBar.style.width = p + '%';
+        }, 200);
+
+        try {
+          await downloadsRef.transaction(v => (v || 0) + 1);
+          await new Promise(r => setTimeout(r, 1200));
+          clearInterval(timer);
+          progressBar.style.width = '100%';
+          window.open(fileUrl, '_blank');
+        } catch (err) {
+          console.error(err);
+          btnText.textContent = 'خطأ!';
+        } finally {
+          setTimeout(() => {
+            btn.classList.remove('downloading');
+            btn.disabled = false;
+            btnText.textContent = '📥 تحميل المشروع';
             progressBar.style.width = '0%';
-            let p = 0;
-            const timer = setInterval(() => {
-                p = Math.min(90, p + Math.random() * 15);
-                progressBar.style.width = p + '%';
-            }, 200);
-
-            try {
-                await downloadsRef.transaction(v => (v || 0) + 1);
-                await new Promise(r => setTimeout(r, 1500));
-                clearInterval(timer);
-                progressBar.style.width = '100%';
-                window.open(fileUrl, '_blank');
-            } catch (err) {
-                console.error(err); btnText.textContent = 'خطأ!';
-            } finally {
-                setTimeout(() => {
-                    btn.classList.remove('downloading'); btn.disabled = false;
-                    btnText.textContent = '📥 تحميل المشروع';
-                    progressBar.style.width = '0%';
-                }, 1200);
-            }
-        });
+          }, 1200);
+        }
+      });
     }
-});
-    // Particles
-particlesJS("particles-js",{
-  particles:{
-    number:{value:70},
-    color:{value:"#00f7ff"},
-    size:{value:2},
-    move:{enable:true,speed:1}
-  },
-  interactivity:{
-    events:{onhover:{enable:true,mode:"repulse"}}
-  }
-});
+  });
 
-// Slider Drag + Auto
-document.querySelectorAll('.services-slider').forEach(slider=>{
+}
+
+/* ================= PARTICLES ================= */
+
+if (typeof particlesJS !== "undefined") {
+  particlesJS("particles-js",{
+    particles:{
+      number:{value:70},
+      color:{value:"#00f7ff"},
+      size:{value:2},
+      move:{enable:true,speed:1}
+    },
+    interactivity:{
+      events:{onhover:{enable:true,mode:"repulse"}}
+    }
+  });
+}
+
+/* ================= SLIDER DRAG + AUTO ================= */
+
+document.querySelectorAll('.services-slider,.videos-slider,.postes-slider,.premium-grid')
+.forEach(slider=>{
 
   let isDown=false,startX,scrollLeft;
 
@@ -1486,29 +1507,38 @@ document.querySelectorAll('.services-slider').forEach(slider=>{
 
 });
 
-// Popup
+/* ================= POPUP ================= */
+
 const popup=document.getElementById('servicePopup');
 
-document.querySelectorAll('.service-pro-card').forEach(card=>{
-  card.onclick=()=>{
-    popup.style.display="flex";
-    popup.querySelector('#popupTitle').innerText=card.dataset.title;
-    popup.querySelector('#popupDesc').innerText=card.dataset.desc;
-    popup.querySelector('#popupPrice').innerText=card.dataset.price;
-  }
-});
-
-popup.querySelector('.popup-close').onclick=()=>popup.style.display="none";
-popup.onclick=e=>{if(e.target===popup) popup.style.display="none";}
-
-// Hover Sound
-const hoverSound=document.getElementById('hoverSound');
-document.querySelectorAll('.service-pro-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{
-    hoverSound.currentTime=0;
-    hoverSound.play();
+if (popup) {
+  document.querySelectorAll('.service-pro-card,.poste-pro-card,.video-pro-card')
+  .forEach(card=>{
+    card.onclick=()=>{
+      popup.style.display="flex";
+      popup.querySelector('#popupTitle').innerText=card.dataset.title||"";
+      popup.querySelector('#popupDesc').innerText=card.dataset.desc||"";
+      popup.querySelector('#popupPrice').innerText=card.dataset.price||"";
+    }
   });
-});
+
+  popup.querySelector('.popup-close').onclick=()=>popup.style.display="none";
+  popup.onclick=e=>{if(e.target===popup) popup.style.display="none";}
+}
+
+/* ================= HOVER SOUND ================= */
+
+const hoverSound=document.getElementById('hoverSound');
+if (hoverSound) {
+  document.querySelectorAll('.service-pro-card,.premium-project-card,.poste-pro-card')
+  .forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      hoverSound.currentTime=0;
+      hoverSound.play();
+    });
+  });
+}
+
 
         
     // ── Final Initialization ───────────────────────────────────────────────

@@ -1132,51 +1132,34 @@ loadRatings();
     }
 
     // ── Fullscreen Viewer ──────────────────────────────────────────────────
-  const overlay = document.getElementById('overlay');
-const closeBtn = document.getElementById('closeBtn');
+  document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.dataset.title;
+            const desc = card.dataset.desc;
+            const price = card.dataset.price || '';
+            const media = card.querySelector('img, video');
+            const isVideo = media.tagName === 'VIDEO';
+            const viewer = document.getElementById('mediaViewer');
 
-function setupFullscreen(selector, type='media'){
-  document.querySelectorAll(selector).forEach(el=>{
-    el.addEventListener('click',()=>{
-      let mediaTag='', infoHTML='';
-
-      // الوسائط
-      if(type==='video'){
-        const videoSrc = el.querySelector('video').src;
-        mediaTag = `<video class="media-full" src="${videoSrc}" controls autoplay></video>`;
-      }else{
-        const imgSrc = el.querySelector('img').src;
-        mediaTag = `<img class="media-full" src="${imgSrc}">`;
-      }
-
-      // المعلومات
-      const title = el.dataset.title || el.querySelector('h3')?.innerText || '';
-      const desc = el.dataset.desc || el.querySelector('p')?.innerText || '';
-      const link = el.dataset.link || '#';
-      const price = el.dataset.price ? `<p>${el.dataset.price}</p>` : '';
-
-      infoHTML = `<div class="info-full">
+            viewer.innerHTML = `
+                <span class="viewer-close">×</span>
+                <div class="viewer-media">
+                    ${isVideo ? `<video src="${media.src}" controls autoplay></video>` : `<img src="${media.src}" alt="${title}">`}
+                </div>
+                <div class="viewer-info">
                     <h3>${title}</h3>
                     <p>${desc}</p>
-                    ${price}
-                    <a href="${link}">📥 تحميل</a>
-                  </div>`;
+                    ${price ? `<p class="price">${price}</p>` : ''}
+                </div>
+            `;
+            viewer.classList.add('active');
 
-      overlay.innerHTML = `<span class="close-btn" id="closeBtn">&times;</span>${mediaTag}${infoHTML}`;
-      overlay.style.display='flex';
-
-      // اغلاق
-      document.getElementById('closeBtn').addEventListener('click',()=>{overlay.style.display='none'});
+            viewer.querySelector('.viewer-close').onclick = () => viewer.classList.remove('active');
+            viewer.onclick = e => {
+                if (e.target === viewer) viewer.classList.remove('active');
+            };
+        });
     });
-  });
-}
-
-// تهيئة لكل نوع
-setupFullscreen('.video-pro-card','video');
-setupFullscreen('.poste-pro-card','image');
-setupFullscreen('.premium-course-card','image');
-setupFullscreen('.premium-project-card','image');
-
 
     // ── Drag للسلايدرات الأفقية ───────────────────────────────────────────
     function enableHorizontalDrag(sliderId) {
@@ -1394,7 +1377,7 @@ if (smdInput) {
     }));
 
  // ── Firebase Download Counter + Progress ───────────────────────────────
-    const db = firebase.database();
+   const db = firebase.database();
 
     document.querySelectorAll('.download-btn').forEach(btn => {
         const id = btn.dataset.id;
@@ -1475,7 +1458,8 @@ if (smdInput) {
             }
         });
     });
- 
+
+
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

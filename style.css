@@ -906,7 +906,7 @@ header h1 {
   box-shadow: 0 0 10px #ff6b35;
 }
 /* ==========================================================================
-   Reset + Base
+   RESET + BASE
    ========================================================================== */
 *{
   margin:0;
@@ -915,12 +915,13 @@ header h1 {
 }
 body{
   font-family: 'Segoe UI', Tahoma, sans-serif;
-  background:#0b1220;
+  background:#020617;
   color:#fff;
+  overflow-x:hidden;
 }
 
 /* ==========================================================================
-   Sliders
+   SLIDERS
    ========================================================================== */
 .services-slider,
 .videos-slider,
@@ -939,7 +940,7 @@ body{
 }
 
 /* ==========================================================================
-   Cards
+   CARDS
    ========================================================================== */
 .service-pro-card,
 .video-pro-card,
@@ -948,7 +949,7 @@ body{
   background:#0f172a;
   border-radius:14px;
   overflow:hidden;
-  box-shadow:0 8px 25px rgba(0,0,0,.4);
+  box-shadow:0 6px 20px rgba(0,0,0,.45);
   cursor:pointer;
   transition:.35s;
   position:relative;
@@ -958,10 +959,9 @@ body{
 .video-pro-card:hover,
 .poste-pro-card:hover{
   transform:translateY(-6px) scale(1.04);
-  box-shadow:0 15px 45px rgba(56,189,248,.45);
+  box-shadow:0 14px 40px rgba(56,189,248,.45);
 }
 
-/* media */
 .service-pro-card img,
 .poste-pro-card img,
 .video-pro-card video{
@@ -983,12 +983,16 @@ body{
   border-radius:20px;
   font-size:.9rem;
   font-weight:600;
-  white-space:nowrap;
+  max-width:90%;
+  white-space:normal;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align:center;
   box-shadow:0 0 12px rgba(56,189,248,.6);
 }
 
 /* ==========================================================================
-   Viewer PRO
+   VIEWER PRO
    ========================================================================== */
 #mediaViewer{
   display:none;
@@ -996,7 +1000,6 @@ body{
   inset:0;
   background:rgba(3,7,18,.96);
   z-index:99999;
-  display:flex;
   align-items:center;
   justify-content:center;
   gap:30px;
@@ -1004,7 +1007,7 @@ body{
 }
 
 #mediaViewer.active{
-  display:flex!important;
+  display:flex;
 }
 
 /* media أكبر */
@@ -1079,7 +1082,7 @@ body{
 }
 
 /* ==========================================================================
-   Responsive (Mobile)
+   RESPONSIVE
    ========================================================================== */
 @media(max-width:768px){
 

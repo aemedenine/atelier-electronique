@@ -1009,7 +1009,7 @@ body{
 }
 
 /* ==========================================================================
-   SMALL TITRE — ELEGANT CAPSULE
+   SMALL TITRE — COMPACT CAPSULE
    ========================================================================== */
 .service-overlay,
 .video-overlay,
@@ -1018,20 +1018,22 @@ body{
   bottom:10px;
   left:50%;
   transform:translateX(-50%);
-  background:linear-gradient(135deg,#22c55e,#38bdf8);
-  padding:4px 12px;
-  border-radius:999px;
-  font-size:.75rem;
+  background:linear-gradient(135deg,#f97316,#facc15); /* cadre برتقالي صغير */
+  padding:4px 12px;            /* padding صغير */
+  border-radius:999px;          /* capsule مستديرة */
+  font-size:.75rem;             /* خط صغير */
   font-weight:700;
   white-space:nowrap;
-  box-shadow:0 0 12px rgba(56,189,248,.7);
+  box-shadow:0 0 12px rgba(255,140,0,.7);
+  display:inline-block;         /* حجم النص فقط */
+  max-width:90%;                /* لا يمد على طول البطاقة */
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* ==========================================================================
    GLOBAL ORANGE GLOW LUXURY
    ========================================================================== */
-
-/* كل البوكسات */
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card{
@@ -1041,7 +1043,6 @@ body{
      inset 0 0 12px rgba(255,140,0,.25);
 }
 
-/* hover أقوى */
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover{
@@ -1055,14 +1056,6 @@ body{
 .poste-pro-card img,
 .video-pro-card video{
   box-shadow:0 0 20px rgba(255,140,0,.55);
-}
-
-/* العناوين الصغيرة فوق الصور */
-.service-overlay,
-.video-overlay,
-.poste-overlay{
-  background:linear-gradient(135deg,#f97316,#facc15);
-  box-shadow:0 0 15px rgba(255,140,0,.9);
 }
 
 /* العناوين الكبيرة للأقسام */
@@ -1192,6 +1185,7 @@ body{
   }
 
 }
+
 
 /* ==========================================================================
    Cookie Banner (CMP)

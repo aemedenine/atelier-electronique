@@ -913,8 +913,8 @@ header h1 {
 .postes-slider {
   display: flex;
   overflow-x: auto;
-  gap: 25px;
-  padding: 20px 0;
+  gap: 20px;
+  padding: 20px 10px;
   scroll-behavior: smooth;
   scrollbar-width: none;
 }
@@ -923,31 +923,37 @@ header h1 {
 .postes-slider::-webkit-scrollbar {
   display: none;
 }
+
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card {
-  flex: 0 0 320px;
-  min-width: 320px;
+  flex: 0 0 280px; /* حجم متوسط */
+  min-width: 280px;
   position: relative;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
+  background: #fff;
 }
+
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 20px 40px rgba(20,184,166,0.3);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(20,184,166,0.25);
 }
+
 .service-pro-card img,
 .poste-pro-card img,
 .video-pro-card video {
   width: 100%;
-  height: 220px;
+  height: 180px; /* حجم متوسط */
   object-fit: cover;
+  border-bottom: 2px solid rgba(20,184,166,0.3);
 }
+
 .service-overlay,
 .video-overlay,
 .poste-overlay {
@@ -955,29 +961,21 @@ header h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(15,118,110,0.9), transparent);
-  color: white;
-  padding: 15px;
-  font-size: 1.2rem;
+  background: linear-gradient(to top, rgba(15,118,110,0.85), transparent);
+  color: #fff;
+  padding: 10px;
+  font-size: 1rem;
   font-weight: 600;
   text-align: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  transition: background 0.4s ease;
 }
+
 .service-pro-card:hover .service-overlay,
 .video-pro-card:hover .video-overlay,
 .poste-pro-card:hover .poste-overlay {
-  background: linear-gradient(to top, rgba(38,99,235,0.9), transparent);
-}
-.wave-full {
-  display: inline-block;
-  font-weight: bold;
-  font-size: 2rem; /* حسب ذوقك */
-  animation: waveFull 1.2s ease-in-out infinite alternate;
-}
-
-@keyframes waveFull {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-6px); } /* ارتفاع الموجة */
-  100% { transform: translateY(0); }
+  background: linear-gradient(to top, rgba(38,99,235,0.85), transparent);
 }
 
 /* ==========================================================================
@@ -987,77 +985,91 @@ header h1 {
   display: none;
   position: fixed;
   inset: 0;
-  background: #fff;
+  background: rgba(0,0,0,0.92);
   z-index: 99999;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  gap: 50px;
+  gap: 40px;
   padding: 30px;
   flex-wrap: wrap;
+  overflow-y: auto;
 }
+
 #mediaViewer.active {
   display: flex !important;
 }
+
 .viewer-media {
-  max-width: 60%;
-  max-height: 85vh;
-  border-radius: 20px;
+  max-width: 55%;
+  max-height: 80vh;
+  border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 0 50px rgba(20,184,166,0.4);
+  transition: all 0.3s ease;
 }
+
 .viewer-media img,
 .viewer-media video {
   width: 100%;
   height: auto;
+  object-fit: contain;
 }
+
 .viewer-info {
   background: rgba(15,118,110,0.95);
   color: white;
-  padding: 35px;
-  border-radius: 20px;
-  max-width: 420px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
+  padding: 25px 30px;
+  border-radius: 18px;
+  max-width: 380px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
 .viewer-info h3 {
-  margin: 0 0 20px;
-  font-size: 2rem;
+  margin: 0 0 15px;
+  font-size: 1.9rem;
   color: #a5f3fc;
-  text-shadow: 0 0 10px rgba(165,243,252,0.6);
+  text-shadow: 0 0 8px rgba(165,243,252,0.6);
 }
+
 .viewer-info p {
-  margin: 12px 0;
-  font-size: 1.15rem;
-  line-height: 1.6;
+  margin: 10px 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
+
 .viewer-info .price {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #ff6b6b;
-  margin-top: 20px;
-  text-shadow: 0 0 8px rgba(255,107,107,0.5);
+  margin-top: 15px;
+  text-shadow: 0 0 6px rgba(255,107,107,0.5);
 }
+
 .viewer-close {
   position: absolute;
-  top: 30px;
-  right: 30px;
-  font-size: 3.5rem;
+  top: 20px;
+  right: 20px;
+  font-size: 3rem;
   color: white;
   cursor: pointer;
-  background: rgba(20,184,166,0.7);
-  width: 60px;
-  height: 60px;
+  background: rgba(20,184,166,0.8);
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
 }
+
 .viewer-close:hover {
   background: #e53e3e;
   transform: rotate(90deg);
 }
+
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */

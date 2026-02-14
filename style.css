@@ -1015,21 +1015,22 @@ body{
 .video-overlay,
 .poste-overlay{
   position:absolute;
-  bottom:10px;
+  bottom:8px;
   left:50%;
   transform:translateX(-50%);
-  background:linear-gradient(135deg,#f97316,#facc15); /* cadre برتقالي صغير */
-  padding:4px 12px;            /* padding صغير */
-  border-radius:999px;          /* capsule مستديرة */
-  font-size:.75rem;             /* خط صغير */
+  background:linear-gradient(135deg,#f97316,#facc15);
+  padding:2px 8px;        /* padding أقل */
+  border-radius:12px;     /* capsule أصغر */
+  font-size:.65rem;        /* خط أصغر */
   font-weight:700;
   white-space:nowrap;
-  box-shadow:0 0 12px rgba(255,140,0,.7);
-  display:inline-block;         /* حجم النص فقط */
-  max-width:90%;                /* لا يمد على طول البطاقة */
+  box-shadow:0 0 6px rgba(255,140,0,.6);
+  display:inline-block;
+  max-width:160px;         /* حجم محدود جدا */
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
 
 /* ==========================================================================
    GLOBAL ORANGE GLOW LUXURY

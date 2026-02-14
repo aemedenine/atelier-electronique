@@ -1443,6 +1443,73 @@ document.querySelectorAll('.download-btn').forEach(btn => {
         });
     }
 });
+    // Particles
+particlesJS("particles-js",{
+  particles:{
+    number:{value:70},
+    color:{value:"#00f7ff"},
+    size:{value:2},
+    move:{enable:true,speed:1}
+  },
+  interactivity:{
+    events:{onhover:{enable:true,mode:"repulse"}}
+  }
+});
+
+// Slider Drag + Auto
+document.querySelectorAll('.services-slider').forEach(slider=>{
+
+  let isDown=false,startX,scrollLeft;
+
+  slider.addEventListener('mousedown',e=>{
+    isDown=true;
+    startX=e.pageX-slider.offsetLeft;
+    scrollLeft=slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave',()=>isDown=false);
+  slider.addEventListener('mouseup',()=>isDown=false);
+
+  slider.addEventListener('mousemove',e=>{
+    if(!isDown) return;
+    e.preventDefault();
+    const x=e.pageX-slider.offsetLeft;
+    const walk=(x-startX)*2;
+    slider.scrollLeft=scrollLeft-walk;
+  });
+
+  setInterval(()=>{
+    slider.scrollLeft+=1;
+    if(slider.scrollLeft+slider.clientWidth>=slider.scrollWidth)
+      slider.scrollLeft=0;
+  },30);
+
+});
+
+// Popup
+const popup=document.getElementById('servicePopup');
+
+document.querySelectorAll('.service-pro-card').forEach(card=>{
+  card.onclick=()=>{
+    popup.style.display="flex";
+    popup.querySelector('#popupTitle').innerText=card.dataset.title;
+    popup.querySelector('#popupDesc').innerText=card.dataset.desc;
+    popup.querySelector('#popupPrice').innerText=card.dataset.price;
+  }
+});
+
+popup.querySelector('.popup-close').onclick=()=>popup.style.display="none";
+popup.onclick=e=>{if(e.target===popup) popup.style.display="none";}
+
+// Hover Sound
+const hoverSound=document.getElementById('hoverSound');
+document.querySelectorAll('.service-pro-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    hoverSound.currentTime=0;
+    hoverSound.play();
+  });
+});
+
         
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

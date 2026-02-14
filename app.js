@@ -1132,34 +1132,39 @@ loadRatings();
     }
 
     // ── Fullscreen Viewer ──────────────────────────────────────────────────
-    document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const title = card.dataset.title;
-            const desc = card.dataset.desc;
-            const price = card.dataset.price || '';
-            const media = card.querySelector('img, video');
-            const isVideo = media.tagName === 'VIDEO';
-            const viewer = document.getElementById('mediaViewer');
+    const overlay = document.getElementById('overlay');
+const closeBtn = document.getElementById('closeBtn');
 
-            viewer.innerHTML = `
-                <span class="viewer-close">×</span>
-                <div class="viewer-media">
-                    ${isVideo ? `<video src="${media.src}" controls autoplay></video>` : `<img src="${media.src}" alt="${title}">`}
-                </div>
-                <div class="viewer-info">
-                    <h3>${title}</h3>
-                    <p>${desc}</p>
-                    ${price ? `<p class="price">${price}</p>` : ''}
-                </div>
-            `;
-            viewer.classList.add('active');
+function setupFullscreen(selector, type='media'){
+  document.querySelectorAll(selector).forEach(el=>{
+    el.addEventListener('click',()=>{
+      let mediaTag='', infoHTML='';
+      if(type==='video'){
+        const videoSrc = el.querySelector('video').src;
+        mediaTag = `<video class="media-full" src="${videoSrc}" controls autoplay></video>`;
+      }else if(type==='image'){
+        const imgSrc = el.querySelector('img').src;
+        mediaTag = `<img class="media-full" src="${imgSrc}">`;
+      }
+      const title = el.dataset.title || el.querySelector('h3')?.innerText || '';
+      const desc = el.dataset.desc || el.querySelector('p')?.innerText || '';
+      const link = el.dataset.link || '#';
+      const price = el.dataset.price ? `<p>${el.dataset.price}</p>` : '';
+      
+      infoHTML = `<div class="info-full"><h3>${title}</h3><p>${desc}</p>${price}<a href="${link}">📥 تحميل</a></div>`;
+      overlay.innerHTML = `<span class="close-btn" id="closeBtn">&times;</span>${mediaTag}${infoHTML}`;
+      overlay.style.display='flex';
 
-            viewer.querySelector('.viewer-close').onclick = () => viewer.classList.remove('active');
-            viewer.onclick = e => {
-                if (e.target === viewer) viewer.classList.remove('active');
-            };
-        });
+      document.getElementById('closeBtn').addEventListener('click',()=>{overlay.style.display='none'});
     });
+  });
+}
+
+// تهيئة لكل نوع
+setupFullscreen('.video-pro-card','video');
+setupFullscreen('.poste-pro-card','image');
+setupFullscreen('.premium-course-card','image');
+setupFullscreen('.premium-project-card','image');
 
     // ── Drag للسلايدرات الأفقية ───────────────────────────────────────────
     function enableHorizontalDrag(sliderId) {

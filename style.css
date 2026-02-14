@@ -905,207 +905,7 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
-/* Sliders – صور صغيرة وأنيقة في الصفحة */
-.services-slider,
-.videos-slider,
-.postes-slider {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding: 20px 0;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar { display: none; }
 
-.service-pro-card,
-.video-pro-card,
-.poste-pro-card {
-  flex: 0 0 260px;           /* حجم صغير وأنيق */
-  min-width: 260px;
-  height: 320px;             /* ارتفاع معقول */
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  transition: all 0.4s ease;
-  cursor: pointer;
-}
-
-.service-pro-card:hover,
-.video-pro-card:hover,
-.poste-pro-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(30,144,255,0.25);
-}
-
-.service-pro-card img,
-.poste-pro-card img,
-.video-pro-card video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.service-pro-card:hover img,
-.poste-pro-card:hover img,
-.video-pro-card:hover video {
-  transform: scale(1.06);
-}
-
-.service-overlay,
-.video-overlay,
-.poste-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
-  color: white;
-  padding: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-align: center;
-  text-shadow: 0 1px 4px black;
-}
-
-/* Badge صغير أنيق */
-.pro-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ff6b35;
-  color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  z-index: 5;
-}
-
-/* ==========================================================================
-   Fullscreen Viewer – الصورة كاملة + معلومات واضحة جدًا (Premium Look)
-   ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.92);
-  backdrop-filter: blur(12px);
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 40px;
-  padding: 30px 20px;
-}
-#mediaViewer.active {
-  display: flex !important;
-}
-
-/* الصورة/الفيديو كاملة وواضحة */
-.viewer-media {
-  max-width: 75%;
-  max-height: 88vh;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 0 60px rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.viewer-media img,
-.viewer-media video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;           /* ← الصورة كاملة بدون قص */
-}
-
-/* المعلومات – sidebar أنيق وواضح */
-.viewer-info {
-  background: rgba(255,255,255,0.96);
-  color: #212529;
-  padding: 35px 30px;
-  border-radius: 16px;
-  max-width: 420px;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.35);
-  border: 1px solid #dee2e6;
-}
-.viewer-info h3 {
-  font-size: 2.1rem;
-  font-weight: 900;
-  color: #1e90ff;
-  margin-bottom: 18px;
-  line-height: 1.2;
-}
-.viewer-info p {
-  font-size: 1.15rem;
-  margin: 12px 0;
-  line-height: 1.7;
-  color: #495057;
-}
-.viewer-info .price {
-  font-size: 1.9rem;
-  font-weight: bold;
-  color: #ff6b35;
-  margin-top: 25px;
-  padding: 10px 0;
-  border-top: 1px solid #dee2e6;
-}
-
-/* زر الإغلاق premium */
-.viewer-close {
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  font-size: 4rem;
-  color: #ff6b35;
-  cursor: pointer;
-  background: rgba(255,255,255,0.15);
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.35s;
-  box-shadow: 0 0 20px rgba(255,107,53,0.3);
-}
-.viewer-close:hover {
-  background: #ff6b35;
-  color: white;
-  transform: rotate(90deg) scale(1.1);
-  box-shadow: 0 0 35px #ff6b35;
-}
-
-/* Responsive – على الموبايل الصورة فوق والمعلومات تحت */
-@media (max-width: 768px) {
-  #mediaViewer {
-    flex-direction: column;
-    gap: 25px;
-    padding: 20px;
-  }
-  .viewer-media {
-    max-width: 100%;
-    max-height: 60vh;
-  }
-  .viewer-info {
-    max-width: 100%;
-    padding: 25px 20px;
-  }
-  .viewer-close {
-    top: 15px;
-    right: 15px;
-    font-size: 3rem;
-    width: 55px;
-    height: 55px;
-  }
-}
-خطوات ضرورية:
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */
@@ -1302,202 +1102,272 @@ footer {
   100% { background-position: 0% 50%; }
 }
 
-/* Header */
-.premium-header .icon {
-  font-size: 3.2rem;
-  margin-left: 12px;
-  color: var(--primary);
-  text-shadow: 0 0 10px rgba(30,144,255,.25);
+/* ================== GLOBAL PREMIUM ================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+
+:root {
+  --bg-dark: #0f0f17;
+  --bg-darker: #0a0a12;
+  --text-primary: #e0e0ff;
+  --text-secondary: #a0a0cc;
+  --accent: #00d4ff;
+  --accent-dark: #0099cc;
+  --gold: #ffd700;
+  --gradient: linear-gradient(135deg, #00d4ff, #7c3aed, #ff6ec7);
+  --glass: rgba(20, 20, 40, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.premium-desc {
-  font-size: 1.15rem;
-  color: var(--text-muted);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-darker);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* ================== WAVE HEADER PREMIUM ================== */
+.wave-header {
+  position: relative;
+  padding: 3.5rem 1rem 4.5rem;
   text-align: center;
-  max-width: 880px;
-  margin: 0 auto 40px;
-  line-height: 1.8;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f17 100%);
+  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
-/* Grid */
-.premium-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
-  padding: 0 25px;
+.wave-header::before,
+.wave-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: var(--gradient);
+  clip-path: ellipse(150% 60% at 50% 100%);
+  opacity: 0.15;
+  animation: wave 12s linear infinite;
 }
 
-/* Cards */
-.premium-project-card,
-.premium-course-card {
-  background: var(--card);
-  border-radius: 20px;
-  padding: 35px 28px;
-  border: 1px solid var(--border);
+.wave-header::after {
+  animation-delay: -6s;
+  opacity: 0.1;
+}
+
+@keyframes wave {
+  0% { transform: translateX(0) rotate(0deg); }
+  100% { transform: translateX(-25%) rotate(360deg); }
+}
+
+.wave-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+/* ================== CARDS PREMIUM (services / postes / video) ================== */
+.service-pro-card, .video-pro-card, .poste-pro-card {
+  position: relative;
+  width: 320px;
+  height: 420px;
+  background: var(--glass);
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
   box-shadow: var(--shadow);
-  transition: all 0.35s ease;
+  overflow: hidden;
+  transition: var(--transition);
+  flex-shrink: 0;
+  margin: 0 1.2rem;
+}
+
+.service-pro-card:hover, .video-pro-card:hover, .poste-pro-card:hover {
+  transform: translateY(-15px) scale(1.06);
+  box-shadow: 0 30px 60px rgba(0, 212, 255, 0.25),
+              inset 0 0 30px rgba(0, 212, 255, 0.12);
+}
+
+.pro-badge {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: var(--gradient);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+  z-index: 2;
+}
+
+img, video {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.service-pro-card:hover img,
+.service-pro-card:hover video {
+  transform: scale(1.12);
+}
+
+.service-overlay, .video-overlay, .poste-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Slider container */
+.services-slider, .videos-slider, .postes-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  scrollbar-width: none;
+}
+
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================== PREMIUM PROJECT / COURSE CARDS ================== */
+.premium-project-card, .premium-course-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem 1.8rem;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
   position: relative;
   overflow: hidden;
 }
 
-.premium-project-card:hover,
-.premium-course-card:hover {
-  transform: translateY(-10px) scale(1.01);
-  box-shadow: 0 25px 60px rgba(0,0,0,.25);
-  border-color: var(--primary);
+.premium-project-card:hover, .premium-course-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+              0 0 40px rgba(0, 212, 255, 0.18);
 }
 
-/* Icons */
 .card-icon {
-  font-size: 4rem;
-  margin-bottom: 18px;
-  color: var(--primary);
-  text-shadow: 0 0 15px rgba(30,144,255,.25);
-  transition: transform .35s ease;
+  font-size: 3.5rem;
+  margin-bottom: 1.2rem;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.premium-project-card:hover .card-icon,
-.premium-course-card:hover .card-icon {
-  transform: scale(1.15) rotate(4deg);
-}
-
-/* Button */
+/* Download Button Premium */
 .premium-download-btn {
   width: 100%;
-  padding: 15px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #fff;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  background: var(--gradient);
+  color: white;
   border: none;
-  border-radius: 50px;
-  font-size: 1.05rem;
-  font-weight: 700;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.25);
-  transition: all .35s ease;
+  gap: 0.8rem;
+  transition: var(--transition);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.35);
+  position: relative;
+  overflow: hidden;
 }
 
 .premium-download-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 15px 35px rgba(0,0,0,.35);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 212, 255, 0.5);
 }
 
-.premium-download-btn small {
-  font-size: .85rem;
-  opacity: .85;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .premium-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .premium-header h2 {
-    font-size: 2.1rem;
-  }
-
-  .card-icon {
-    font-size: 3.4rem;
-  }
-}
-/* ===== Ultra Premium Effects ===== */
-
-/* Glass + Glow Border */
-.premium-project-card::before,
-.premium-course-card::before {
-  content: "";
+.premium-download-btn::before {
+  content: '';
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(120deg, transparent, rgba(30,144,255,.25), transparent);
-  opacity: 0;
-  transition: opacity .5s ease;
-  pointer-events: none;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: 0.7s;
 }
 
-.premium-project-card:hover::before,
-.premium-course-card:hover::before {
-  opacity: 1;
+.premium-download-btn:hover::before {
+  left: 100%;
 }
 
-/* Shimmer effect */
-.premium-project-card::after,
-.premium-course-card::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 40%;
-  height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
-  transform: rotate(25deg);
-  transition: all .8s ease;
-}
-
-.premium-project-card:hover::after,
-.premium-course-card:hover::after {
-  left: 120%;
-}
-
-/* Button glow pulse */
-@keyframes pulseGlow {
-  0%   { box-shadow: 0 0 0 rgba(30,144,255,.0); }
-  50%  { box-shadow: 0 0 18px rgba(30,144,255,.45); }
-  100% { box-shadow: 0 0 0 rgba(30,144,255,.0); }
-}
-
-.premium-download-btn {
-  animation: pulseGlow 3s infinite;
-}
-
-/* Smooth entrance animation */
-.premium-project-card,
-.premium-course-card {
-  opacity: 0;
-  transform: translateY(30px) scale(.95);
-  animation: fadeUp .7s ease forwards;
-}
-
-.premium-project-card:nth-child(1) { animation-delay: .05s }
-.premium-project-card:nth-child(2) { animation-delay: .15s }
-.premium-project-card:nth-child(3) { animation-delay: .25s }
-.premium-project-card:nth-child(4) { animation-delay: .35s }
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Progress bar modern */
+/* Progress bar */
 .progress-container {
-  width: 100%;
   height: 6px;
-  border-radius: 10px;
-  background: rgba(0,0,0,.08);
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  margin-top: 1rem;
   overflow: hidden;
-  margin-top: 14px;
 }
 
 .progress-bar {
   height: 100%;
   width: 0%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transition: width .6s ease;
+  background: var(--gradient);
+  transition: width 0.6s ease;
 }
 
-/* Micro hover lift */
-.premium-project-card:hover,
-.premium-course-card:hover {
-  transform: translateY(-12px) scale(1.02);
-   }
+/* ================== HEADERS SECONDARY ================== */
+.premium-header.secondary {
+  padding: 4rem 1rem 2rem;
+  text-align: center;
+}
+
+.premium-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.premium-desc {
+  max-width: 700px;
+  margin: 0 auto;
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+}
+
+/* Grid */
+.premium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2.5rem;
+  padding: 0 1rem 4rem;
+}
 /* ========================================================================== */
 /* Flags Language Switch Styling                                               */
 /* ========================================================================== */

@@ -1095,7 +1095,8 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-/* ===== Fullscreen Overlay blanc ===== */
+
+/* ===== Overlay صغير وسط الشاشة ===== */
 .fullscreen-overlay{
   position:fixed;
   inset:0;
@@ -1104,32 +1105,37 @@ footer {
   align-items:center;
   justify-content:center;
   z-index:99999;
+  padding:20px;
   gap:20px;
-  padding:40px;
   overflow:auto;
 }
 
+/* الصورة أو الفيديو كامل لكن صغير */
 .fullscreen-overlay .media-full{
-  max-width:60%;
-  max-height:90%;
-  object-fit:contain; /* يظهر الصورة أو الفيديو كامل بدون zoom */
+  max-width:40%; /* حجم الصورة/الفيديو */
+  max-height:80vh;
+  object-fit:contain;
   border-radius:12px;
-  box-shadow:0 8px 25px rgba(0,0,0,.1);
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
 }
 
+/* rectangle المعلومات */
 .fullscreen-overlay .info-full{
-  max-width:35%;
+  max-width:30%;
   color:#222;
   font-size:1rem;
-  overflow-y:auto;
+  background:rgba(250,250,250,0.95);
+  border-radius:12px;
+  padding:15px;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   gap:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,.1);
 }
 
+/* عنوان ووصف */
 .fullscreen-overlay .info-full h3{
-  font-size:1.5rem;
+  font-size:1.3rem;
   margin:0;
 }
 
@@ -1138,69 +1144,27 @@ footer {
   line-height:1.4;
 }
 
+/* زر تحميل */
 .fullscreen-overlay .info-full a{
   display:inline-block;
   text-decoration:none;
   background:#ffb703;
   color:#000;
-  padding:8px 15px;
+  padding:6px 12px;
   border-radius:8px;
   font-weight:700;
+  text-align:center;
 }
 
+/* زر اغلاق */
 .fullscreen-overlay .close-btn{
   position:absolute;
-  top:20px;
-  right:20px;
-  font-size:30px;
+  top:15px;
+  right:15px;
+  font-size:28px;
   cursor:pointer;
   color:#222;
   z-index:100000;
-}
-
-/* ===== Hover على الكارد ===== */
-.premium-course-card,
-.premium-project-card,
-.video-pro-card,
-.poste-pro-card{
-  cursor:pointer;
-  transition:.3s;
-}
-
-.premium-course-card:hover,
-.premium-project-card:hover,
-.video-pro-card:hover,
-.poste-pro-card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.premium-course-card img,
-.premium-project-card img,
-.video-pro-card video,
-.poste-pro-card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:12px;
-  transition:.5s;
-}
-
-.premium-course-card:hover img,
-.premium-project-card:hover img,
-.video-pro-card:hover video,
-.poste-pro-card:hover img{
-  transform:scale(1.05);
-}
-
-/* ===== ستار بين البطاقات ===== */
-.premium-grid .premium-course-card + .premium-course-card,
-.premium-grid .premium-project-card + .premium-project-card,
-.videos-slider .video-pro-card + .video-pro-card,
-.postes-slider .poste-pro-card + .poste-pro-card{
-  border-top:1px solid rgba(0,0,0,0.1);
-  margin-top:15px;
-  padding-top:15px;
 }
 
 /* ========================================================================== */

@@ -1132,29 +1132,40 @@ loadRatings();
     }
 
     // ── Fullscreen Viewer ──────────────────────────────────────────────────
-    const overlay = document.getElementById('overlay');
+  const overlay = document.getElementById('overlay');
 const closeBtn = document.getElementById('closeBtn');
 
 function setupFullscreen(selector, type='media'){
   document.querySelectorAll(selector).forEach(el=>{
     el.addEventListener('click',()=>{
       let mediaTag='', infoHTML='';
+
+      // الوسائط
       if(type==='video'){
         const videoSrc = el.querySelector('video').src;
         mediaTag = `<video class="media-full" src="${videoSrc}" controls autoplay></video>`;
-      }else if(type==='image'){
+      }else{
         const imgSrc = el.querySelector('img').src;
         mediaTag = `<img class="media-full" src="${imgSrc}">`;
       }
+
+      // المعلومات
       const title = el.dataset.title || el.querySelector('h3')?.innerText || '';
       const desc = el.dataset.desc || el.querySelector('p')?.innerText || '';
       const link = el.dataset.link || '#';
       const price = el.dataset.price ? `<p>${el.dataset.price}</p>` : '';
-      
-      infoHTML = `<div class="info-full"><h3>${title}</h3><p>${desc}</p>${price}<a href="${link}">📥 تحميل</a></div>`;
+
+      infoHTML = `<div class="info-full">
+                    <h3>${title}</h3>
+                    <p>${desc}</p>
+                    ${price}
+                    <a href="${link}">📥 تحميل</a>
+                  </div>`;
+
       overlay.innerHTML = `<span class="close-btn" id="closeBtn">&times;</span>${mediaTag}${infoHTML}`;
       overlay.style.display='flex';
 
+      // اغلاق
       document.getElementById('closeBtn').addEventListener('click',()=>{overlay.style.display='none'});
     });
   });
@@ -1165,6 +1176,7 @@ setupFullscreen('.video-pro-card','video');
 setupFullscreen('.poste-pro-card','image');
 setupFullscreen('.premium-course-card','image');
 setupFullscreen('.premium-project-card','image');
+
 
     // ── Drag للسلايدرات الأفقية ───────────────────────────────────────────
     function enableHorizontalDrag(sliderId) {

@@ -1014,23 +1014,23 @@ body{
 .service-overlay,
 .video-overlay,
 .poste-overlay{
-  position:absolute;
-  bottom:8px;
-  left:50%;
-  transform:translateX(-50%);
-  background:linear-gradient(135deg,#f97316,#facc15);
-  padding:2px 8px;        /* padding أقل */
-  border-radius:12px;     /* capsule أصغر */
-  font-size:.65rem;        /* خط أصغر */
-  font-weight:700;
-  white-space:nowrap;
-  box-shadow:0 0 6px rgba(255,140,0,.6);
-  display:inline-block;
-  max-width:160px;         /* حجم محدود جدا */
-  overflow:hidden;
-  text-overflow:ellipsis;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg,#f97316,#facc15);
+  padding: 2px 6px;        /* أصغر padding */
+  border-radius: 10px;     /* capsule أصغر */
+  font-size: 0.6rem;       /* أصغر خط */
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 0 4px rgba(255,140,0,0.6);
+  display: inline-block;
+  max-width: 120px !important; /* إجبار الحجم */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 20;             /* فوق أي عنصر */
 }
-
 
 /* ==========================================================================
    GLOBAL ORANGE GLOW LUXURY

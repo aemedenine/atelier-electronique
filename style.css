@@ -905,7 +905,159 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
+/* ==========================================================================
+   Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
+   ========================================================================== */
+.services-slider,
+.videos-slider,
+.postes-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar {
+  display: none;
+}
+.service-pro-card,
+.video-pro-card,
+.poste-pro-card {
+  flex: 0 0 320px;
+  min-width: 320px;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+.service-pro-card:hover,
+.video-pro-card:hover,
+.poste-pro-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(20,184,166,0.3);
+}
+.service-pro-card img,
+.poste-pro-card img,
+.video-pro-card video {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.service-overlay,
+.video-overlay,
+.poste-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(15,118,110,0.9), transparent);
+  color: white;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+.service-pro-card:hover .service-overlay,
+.video-pro-card:hover .video-overlay,
+.poste-pro-card:hover .poste-overlay {
+  background: linear-gradient(to top, rgba(38,99,235,0.9), transparent);
+}
+.wave-full {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 2rem; /* حسب ذوقك */
+  animation: waveFull 1.2s ease-in-out infinite alternate;
+}
 
+@keyframes waveFull {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); } /* ارتفاع الموجة */
+  100% { transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Fullscreen Viewer (لون بحري pro)
+   ========================================================================== */
+#mediaViewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 50px;
+  padding: 30px;
+  flex-wrap: wrap;
+}
+#mediaViewer.active {
+  display: flex !important;
+}
+.viewer-media {
+  max-width: 60%;
+  max-height: 85vh;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 50px rgba(20,184,166,0.4);
+}
+.viewer-media img,
+.viewer-media video {
+  width: 100%;
+  height: auto;
+}
+.viewer-info {
+  background: rgba(15,118,110,0.95);
+  color: white;
+  padding: 35px;
+  border-radius: 20px;
+  max-width: 420px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+}
+.viewer-info h3 {
+  margin: 0 0 20px;
+  font-size: 2rem;
+  color: #a5f3fc;
+  text-shadow: 0 0 10px rgba(165,243,252,0.6);
+}
+.viewer-info p {
+  margin: 12px 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+.viewer-info .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-top: 20px;
+  text-shadow: 0 0 8px rgba(255,107,107,0.5);
+}
+.viewer-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 3.5rem;
+  color: white;
+  cursor: pointer;
+  background: rgba(20,184,166,0.7);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.viewer-close:hover {
+  background: #e53e3e;
+  transform: rotate(90deg);
+}
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */
@@ -1095,76 +1247,150 @@ footer {
   height: 100%;
   transition: width 0.5s ease;
 }
-
-/* ===== Overlay صغير وسط الشاشة ===== */
-.fullscreen-overlay{
-  position:fixed;
-  inset:0;
-  background:#fff; /* خلفية بيضاء */
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:99999;
-  padding:20px;
-  gap:20px;
-  overflow:auto;
+.projects-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 40px;
 }
 
-/* الصورة أو الفيديو كامل لكن صغير */
-.fullscreen-overlay .media-full{
-  max-width:40%; /* حجم الصورة/الفيديو */
-  max-height:80vh;
-  object-fit:contain;
-  border-radius:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
+.project-box {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* rectangle المعلومات */
-.fullscreen-overlay .info-full{
-  max-width:30%;
-  color:#222;
-  font-size:1rem;
-  background:rgba(250,250,250,0.95);
-  border-radius:12px;
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,.1);
+.project-box h2 {
+  margin-bottom: 10px;
+  color: #0d47a1;
 }
 
-/* عنوان ووصف */
-.fullscreen-overlay .info-full h3{
-  font-size:1.3rem;
-  margin:0;
+.box-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
 }
 
-.fullscreen-overlay .info-full p{
-  margin:0;
-  line-height:1.4;
+.projects-grid {
+  display: grid;
+  gap: 15px;
 }
 
-/* زر تحميل */
-.fullscreen-overlay .info-full a{
-  display:inline-block;
-  text-decoration:none;
-  background:#ffb703;
-  color:#000;
-  padding:6px 12px;
-  border-radius:8px;
-  font-weight:700;
-  text-align:center;
+.project-card {
+  background: #f5f7fa;
+  border-radius: 12px;
+  padding: 15px;
 }
 
-/* زر اغلاق */
-.fullscreen-overlay .close-btn{
-  position:absolute;
-  top:15px;
-  right:15px;
-  font-size:28px;
-  cursor:pointer;
-  color:#222;
-  z-index:100000;
+.project-card h3 {
+  margin-bottom: 5px;
+}
+
+.project-card p {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.project-card button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.project-card button:hover {
+  background: #0d47a1;
+}
+.project-card a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 114, 255, 0.4);
+}
+/* ===== Download Button + Animation ===== */
+.download-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #1e90ff, #00bfff);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  box-shadow: 0 6px 20px rgba(30, 144, 255, 0.4);
+  min-width: 240px;
+}
+
+.download-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(30, 144, 255, 0.6);
+}
+
+.download-btn.downloading {
+  background: linear-gradient(135deg, #555, #777);
+  cursor: wait;
+  transform: scale(0.97);
+  box-shadow: none;
+}
+
+.download-btn .progress-container {
+  width: 100%;
+  height: 5px;
+  background: rgba(0,0,0,0.2);
+  margin-top: 8px;
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.download-btn.downloading .progress-container {
+  opacity: 1;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00ff9d, #00d4ff);
+  transition: width 0.5s ease;
+}
+
+.download-btn small {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-right: 8px;
+}
+
+.download-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+[dir="rtl"] .download-btn small {
+  margin-right: 0;
+  margin-left: 8px;
 }
 
 /* ========================================================================== */

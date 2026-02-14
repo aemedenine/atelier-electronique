@@ -1376,171 +1376,89 @@ if (smdInput) {
         powerFill.style.width = P ? Math.min(100, P) + "%" : "0%";
     }));
 
-/* ================= DOWNLOAD COUNTER ================= */
+ // ── Firebase Download Counter + Progress ───────────────────────────────
+    const db = firebase.database();
 
-if (typeof db !== "undefined") {
+    document.querySelectorAll('.download-btn').forEach(btn => {
+        const id = btn.dataset.id;
+        const fileUrl = btn.dataset.file;
+        if (!id || !fileUrl) return;
 
-  document.querySelectorAll('.download-btn').forEach(btn => {
-    const id = btn.dataset.id;
-    const fileUrl = btn.dataset.file;
-
-    const counterEl = btn.querySelector('small span') || (() => {
-      const small = document.createElement('small');
-      const span = document.createElement('span');
-      span.textContent = '0';
-      small.appendChild(span);
-      btn.appendChild(small);
-      return span;
-    })();
-
-    if (id && fileUrl) {
-      const downloadsRef = db.ref(`downloads/${id}/count`);
-
-      downloadsRef.on('value', snap => {
-        counterEl.textContent = snap.val() || 0;
-      });
-
-      btn.addEventListener('click', async e => {
-        e.preventDefault();
-
-        if (btn.classList.contains('downloading')) return;
-
-        const spamKey = `downloaded-${id}`;
-        if (localStorage.getItem(spamKey)) {
-          alert('سبق لك تحميل هذا الملف');
-          return;
-        }
-        localStorage.setItem(spamKey, 'true');
-
-        btn.classList.add('downloading');
-        btn.disabled = true;
-
-        let btnText = btn.querySelector('.btn-label') || btn;
-        btnText.textContent = 'جاري التحميل...';
-
-        let progressBar = btn.querySelector('.progress-bar');
-        if (!progressBar) {
-          const progressContainer = document.createElement('div');
-          progressContainer.className = 'progress-container';
-          progressBar = document.createElement('div');
-          progressBar.className = 'progress-bar';
-          progressContainer.appendChild(progressBar);
-          btn.appendChild(progressContainer);
+        let counterEl = btn.querySelector('small span');
+        if (!counterEl) {
+            counterEl = document.createElement('span');
+            counterEl.textContent = '0';
+            const small = document.createElement('small');
+            small.appendChild(counterEl);
+            btn.appendChild(small);
         }
 
-        progressBar.style.width = '0%';
-
-        let p = 0;
-        const timer = setInterval(() => {
-          p = Math.min(90, p + Math.random() * 15);
-          progressBar.style.width = p + '%';
-        }, 200);
-
-        try {
-          await downloadsRef.transaction(v => (v || 0) + 1);
-          await new Promise(r => setTimeout(r, 1200));
-          clearInterval(timer);
-          progressBar.style.width = '100%';
-          window.open(fileUrl, '_blank');
-        } catch (err) {
-          console.error(err);
-          btnText.textContent = 'خطأ!';
-        } finally {
-          setTimeout(() => {
-            btn.classList.remove('downloading');
-            btn.disabled = false;
+        let btnText = btn.querySelector('.label');
+        if (!btnText) {
+            btnText = document.createElement('span');
+            btnText.className = 'label';
             btnText.textContent = '📥 تحميل المشروع';
-            progressBar.style.width = '0%';
-          }, 1200);
+            btn.prepend(btnText);
         }
-      });
-    }
-  });
 
-}
+        const downloadsRef = db.ref(`downloads/${id}/count`);
+        downloadsRef.on('value', snap => {
+            counterEl.textContent = snap.val() || 0;
+        });
 
-/* ================= PARTICLES ================= */
+        btn.addEventListener('click', async e => {
+            e.preventDefault();
+            if (btn.classList.contains('downloading')) return;
 
-if (typeof particlesJS !== "undefined") {
-  particlesJS("particles-js",{
-    particles:{
-      number:{value:70},
-      color:{value:"#00f7ff"},
-      size:{value:2},
-      move:{enable:true,speed:1}
-    },
-    interactivity:{
-      events:{onhover:{enable:true,mode:"repulse"}}
-    }
-  });
-}
+            const spamKey = `downloaded-${id}`;
+            if (localStorage.getItem(spamKey)) {
+                alert('سبق لك تحميل هذا الملف');
+                return;
+            }
 
-/* ================= SLIDER DRAG + AUTO ================= */
+            localStorage.setItem(spamKey, 'true');
+            btn.classList.add('downloading');
+            btn.disabled = true;
+            btnText.textContent = 'جاري التحميل...';
 
-document.querySelectorAll('.services-slider,.videos-slider,.postes-slider,.premium-grid')
-.forEach(slider=>{
+            let progressContainer = btn.querySelector('.progress-container');
+            let progressBar = progressContainer?.querySelector('.progress-bar');
+            if (!progressContainer) {
+                progressContainer = document.createElement('div');
+                progressContainer.className = 'progress-container';
+                progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressContainer.appendChild(progressBar);
+                btn.appendChild(progressContainer);
+            }
 
-  let isDown=false,startX,scrollLeft;
+            progressBar.style.width = '0%';
+            let p = 0;
+            const timer = setInterval(() => {
+                p = Math.min(90, p + Math.random() * 15);
+                progressBar.style.width = p + '%';
+            }, 200);
 
-  slider.addEventListener('mousedown',e=>{
-    isDown=true;
-    startX=e.pageX-slider.offsetLeft;
-    scrollLeft=slider.scrollLeft;
-  });
-
-  slider.addEventListener('mouseleave',()=>isDown=false);
-  slider.addEventListener('mouseup',()=>isDown=false);
-
-  slider.addEventListener('mousemove',e=>{
-    if(!isDown) return;
-    e.preventDefault();
-    const x=e.pageX-slider.offsetLeft;
-    const walk=(x-startX)*2;
-    slider.scrollLeft=scrollLeft-walk;
-  });
-
-  setInterval(()=>{
-    slider.scrollLeft+=1;
-    if(slider.scrollLeft+slider.clientWidth>=slider.scrollWidth)
-      slider.scrollLeft=0;
-  },30);
-
-});
-
-/* ================= POPUP ================= */
-
-const popup=document.getElementById('servicePopup');
-
-if (popup) {
-  document.querySelectorAll('.service-pro-card,.poste-pro-card,.video-pro-card')
-  .forEach(card=>{
-    card.onclick=()=>{
-      popup.style.display="flex";
-      popup.querySelector('#popupTitle').innerText=card.dataset.title||"";
-      popup.querySelector('#popupDesc').innerText=card.dataset.desc||"";
-      popup.querySelector('#popupPrice').innerText=card.dataset.price||"";
-    }
-  });
-
-  popup.querySelector('.popup-close').onclick=()=>popup.style.display="none";
-  popup.onclick=e=>{if(e.target===popup) popup.style.display="none";}
-}
-
-/* ================= HOVER SOUND ================= */
-
-const hoverSound=document.getElementById('hoverSound');
-if (hoverSound) {
-  document.querySelectorAll('.service-pro-card,.premium-project-card,.poste-pro-card')
-  .forEach(el=>{
-    el.addEventListener('mouseenter',()=>{
-      hoverSound.currentTime=0;
-      hoverSound.play();
+            try {
+                await downloadsRef.transaction(v => (v || 0) + 1);
+                await new Promise(r => setTimeout(r, 1500));
+                clearInterval(timer);
+                progressBar.style.width = '100%';
+                window.open(fileUrl, '_blank');
+            } catch (err) {
+                console.error(err);
+                btnText.textContent = 'خطأ!';
+            } finally {
+                setTimeout(() => {
+                    btn.classList.remove('downloading');
+                    btn.disabled = false;
+                    btnText.textContent = '📥 تحميل المشروع';
+                    if (progressBar) progressBar.style.width = '0%';
+                }, 1200);
+            }
+        });
     });
-  });
-}
-
-
-        
+ 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

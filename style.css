@@ -1079,8 +1079,8 @@ section{
   display: flex !important;
 }
 .viewer-media {
-  max-width: 60%;
-  max-height: 85vh;
+  max-width: 50%;
+  max-height: 75vh;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 0 50px rgba(20,184,166,0.4);
@@ -1102,7 +1102,7 @@ section{
 .viewer-info h3 {
   margin: 0 0 20px;
   font-size: 2rem;
-  color: #a5f3fc;
+  color:#9c27b0;
   text-shadow: 0 0 10px rgba(165,243,252,0.6);
 }
 .viewer-info p {

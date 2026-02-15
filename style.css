@@ -1137,6 +1137,48 @@ section{
   background: #e53e3e;
   transform: rotate(90deg);
 }
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+  #mediaViewer {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .viewer-media {
+    max-width: 95%;
+    max-height: 50vh;
+  }
+
+  .viewer-info {
+    max-width: 95%;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .viewer-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .viewer-info p {
+    font-size: 1rem;
+  }
+
+  .viewer-info .price {
+    font-size: 1.3rem;
+  }
+
+  .viewer-close {
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 2.2rem;
+  }
+
+}
+
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */

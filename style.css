@@ -960,7 +960,7 @@ section{
 .wave-text{
   font-size:1.8rem;
   font-weight:900;
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  background:#840cc9;
   -webkit-background-clip:text;
   color:transparent;
 }

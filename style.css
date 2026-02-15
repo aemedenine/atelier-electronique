@@ -905,81 +905,49 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
-
 /* ==========================================================================
-/* Wave Header (common for all sections) */
+   Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
    ========================================================================== */
-.wave-header {
-  text-align: center;
-  padding: 2.5rem 1rem 1.5rem;
-  position: relative;
-  overflow: hidden;
+.services-slider,
+.videos-slider,
+.postes-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
-
-.wave-text {
-  font-size: 2.2rem;
-  font-weight: 800;
-  background: linear-gradient(90deg, #a78bfa, #7c3aed, #c084fc);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
-  letter-spacing: 1px;
-  position: relative;
-  z-index: 2;
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar {
+  display: none;
 }
-
-.wave-header::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%231e293b" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,176C384,192,480,192,576,181.3C672,171,768,149,864,154.7C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-  background-size: cover;
-}
-
-/* Common Card Styles (service, video, poste) */
 .service-pro-card,
 .video-pro-card,
 .poste-pro-card {
+  flex: 0 0 320px;
+  min-width: 320px;
   position: relative;
-  width: 280px;
-  height: 380px;
-  border-radius: 1.5rem;
+  border-radius: 16px;
   overflow: hidden;
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
-              inset 0 0 20px rgba(255, 255, 255, 0.03);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: all 0.4s ease;
   cursor: pointer;
 }
-
 .service-pro-card:hover,
 .video-pro-card:hover,
 .poste-pro-card:hover {
-  transform: translateY(-12px) scale(1.05);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
-              0 0 0 2px rgba(167, 139, 250, 0.3);
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(20,184,166,0.3);
 }
-
 .service-pro-card img,
-.poste-pro-card img {
+.poste-pro-card img,
+.video-pro-card video {
   width: 100%;
-  height: 100%;
+  height: 220px;
   object-fit: cover;
-  transition: transform 0.6s ease;
 }
-
-.service-pro-card:hover img,
-.poste-pro-card:hover img {
-  transform: scale(1.12);
-}
-
 .service-overlay,
 .video-overlay,
 .poste-overlay {
@@ -987,138 +955,108 @@ header h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1.2rem;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(15,118,110,0.9), transparent);
   color: white;
-  font-weight: 700;
-  font-size: 1.3rem;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
   text-align: center;
-  transform: translateY(100%);
-  transition: transform 0.4s ease;
 }
-
 .service-pro-card:hover .service-overlay,
 .video-pro-card:hover .video-overlay,
 .poste-pro-card:hover .poste-overlay {
-  transform: translateY(0);
+  background: linear-gradient(to top, rgba(38,99,235,0.9), transparent);
+}
+.wave-full {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 2rem; /* حسب ذوقك */
+  animation: waveFull 1.2s ease-in-out infinite alternate;
 }
 
-/* Sliders (horizontal scroll smooth) */
-.services-slider,
-.videos-slider,
-.postes-slider {
-  display: flex;
-  gap: 1.8rem;
-  padding: 1rem 2rem 3rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
+@keyframes waveFull {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); } /* ارتفاع الموجة */
+  100% { transform: translateY(0); }
 }
 
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar {
+/* ==========================================================================
+   Fullscreen Viewer (لون بحري pro)
+   ========================================================================== */
+#mediaViewer {
   display: none;
-}
-
-/* Project & Course Cards (neumorphic + glass touch) */
-.project-box {
-  background: rgba(30, 41, 59, 0.25);
-  border-radius: 1.8rem;
-  padding: 2rem;
-  margin: 2rem auto;
-  max-width: 1200px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-}
-
-.project-box h2 {
-  font-size: 1.9rem;
-  margin-bottom: 1rem;
-  color: #c084fc;
-  text-align: center;
-}
-
-.box-desc {
-  text-align: center;
-  color: #94a3b8;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.8rem;
-}
-
-.project-card {
-  background: rgba(15, 23, 42, 0.5);
-  border-radius: 1.2rem;
-  padding: 1.6rem;
-  border: 1px solid rgba(167, 139, 250, 0.12);
-  transition: all 0.35s ease;
-  text-align: center;
-}
-
-.project-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(167, 139, 250, 0.4);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-}
-
-.project-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 0.8rem;
-  color: #e0e7ff;
-}
-
-.project-card p {
-  color: #cbd5e1;
-  font-size: 1rem;
-  margin-bottom: 1.4rem;
-}
-
-.download-btn {
-  background: linear-gradient(45deg, #7c3aed, #a78bfa);
-  color: white;
-  border: none;
-  padding: 0.9rem 1.8rem;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: inline-flex;
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 99999;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
+  flex-direction: row;
+  gap: 50px;
+  padding: 30px;
+  flex-wrap: wrap;
 }
-
-.download-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.5);
+#mediaViewer.active {
+  display: flex !important;
 }
-
-.progress-container {
-  height: 6px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 3px;
-  margin-top: 0.8rem;
+.viewer-media {
+  max-width: 60%;
+  max-height: 85vh;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 0 50px rgba(20,184,166,0.4);
 }
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(to right, #a78bfa, #7c3aed);
-  transition: width 0.6s ease;
+.viewer-media img,
+.viewer-media video {
+  width: 100%;
+  height: auto;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .wave-text { font-size: 1.8rem; }
-  .service-pro-card, .video-pro-card, .poste-pro-card { width: 240px; height: 340px; }
-  .projects-grid { grid-template-columns: 1fr; }
+.viewer-info {
+  background: rgba(15,118,110,0.95);
+  color: white;
+  padding: 35px;
+  border-radius: 20px;
+  max-width: 420px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+}
+.viewer-info h3 {
+  margin: 0 0 20px;
+  font-size: 2rem;
+  color: #a5f3fc;
+  text-shadow: 0 0 10px rgba(165,243,252,0.6);
+}
+.viewer-info p {
+  margin: 12px 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+.viewer-info .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin-top: 20px;
+  text-shadow: 0 0 8px rgba(255,107,107,0.5);
+}
+.viewer-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 3.5rem;
+  color: white;
+  cursor: pointer;
+  background: rgba(20,184,166,0.7);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.viewer-close:hover {
+  background: #e53e3e;
+  transform: rotate(90deg);
 }
 /* ==========================================================================
    Cookie Banner (CMP)
@@ -1385,74 +1323,104 @@ footer {
   box-shadow: 0 6px 15px rgba(0, 114, 255, 0.4);
 }
 /* ===== Download Button + Animation ===== */
+/* Project & Course Cards (neumorphic + glass touch) */
+.project-box {
+  background: rgba(30, 41, 59, 0.25);
+  border-radius: 1.8rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.project-box h2 {
+  font-size: 1.9rem;
+  margin-bottom: 1rem;
+  color: #c084fc;
+  text-align: center;
+}
+
+.box-desc {
+  text-align: center;
+  color: #94a3b8;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.8rem;
+}
+
+.project-card {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 1.2rem;
+  padding: 1.6rem;
+  border: 1px solid rgba(167, 139, 250, 0.12);
+  transition: all 0.35s ease;
+  text-align: center;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.project-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  color: #e0e7ff;
+}
+
+.project-card p {
+  color: #cbd5e1;
+  font-size: 1rem;
+  margin-bottom: 1.4rem;
+}
+
 .download-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, #1e90ff, #00bfff);
+  background: linear-gradient(45deg, #7c3aed, #a78bfa);
   color: white;
   border: none;
+  padding: 0.9rem 1.8rem;
   border-radius: 50px;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  overflow: hidden;
-  transition: all 0.35s ease;
-  box-shadow: 0 6px 20px rgba(30, 144, 255, 0.4);
-  min-width: 240px;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .download-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(30, 144, 255, 0.6);
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.5);
 }
 
-.download-btn.downloading {
-  background: linear-gradient(135deg, #555, #777);
-  cursor: wait;
-  transform: scale(0.97);
-  box-shadow: none;
-}
-
-.download-btn .progress-container {
-  width: 100%;
-  height: 5px;
-  background: rgba(0,0,0,0.2);
-  margin-top: 8px;
+.progress-container {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
   border-radius: 3px;
+  margin-top: 0.8rem;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.download-btn.downloading .progress-container {
-  opacity: 1;
 }
 
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00ff9d, #00d4ff);
-  transition: width 0.5s ease;
+  background: linear-gradient(to right, #a78bfa, #7c3aed);
+  transition: width 0.6s ease;
 }
 
-.download-btn small {
-  font-size: 0.85rem;
-  opacity: 0.9;
-  margin-right: 8px;
-}
-
-.download-btn:disabled {
-  opacity: 0.75;
-  cursor: not-allowed;
-}
-
-[dir="rtl"] .download-btn small {
-  margin-right: 0;
-  margin-left: 8px;
+/* Responsive */
+@media (max-width: 768px) {
+  .wave-text { font-size: 1.8rem; }
+  .service-pro-card, .video-pro-card, .poste-pro-card { width: 240px; height: 340px; }
+  .projects-grid { grid-template-columns: 1fr; }
 }
 
 /* ========================================================================== */
@@ -1487,38 +1455,4 @@ footer {
    ========================================================================== */
 [dir="rtl"] .container {
   direction: rtl;
-}
-/* ==========================================================================
-   Falling Components (المطر الإلكتروني)
-   ========================================================================== */
-#rain-container {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: -9999;
-  overflow: hidden;
-}
-.falling-component {
-  position: absolute;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  pointer-events: none;
-  animation: fall linear forwards;
-}
-.falling-component {
-  width: 60px;
-  height: 60px;
-  animation-duration: 12s;
-}
-@keyframes fall {
-  to {
-    transform: translateY(110vh);
-    opacity: 0.3;
-  }
 }

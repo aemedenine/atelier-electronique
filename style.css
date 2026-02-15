@@ -908,79 +908,98 @@ header h1 {
 /* ==========================================================================
    Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
    ========================================================================== */
-/* ================== WAVE HEADER LUXURY ================== */
+/* ================== WAVE HEADER PREMIUM ================== */
 .wave-header {
   position: relative;
-  padding: 5rem 1rem 6rem;
+  padding: 3.5rem 1rem 4.5rem;
   text-align: center;
-  background: var(--gradient-soft);
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f17 100%);
   overflow: hidden;
+  margin-bottom: 2rem;
 }
 
-.wave-header::before {
+.wave-header::before,
+.wave-header::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(212,175,55,0.08) 0%, transparent 50%);
-  pointer-events: none;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: var(--gradient);
+  clip-path: ellipse(150% 60% at 50% 100%);
+  opacity: 0.15;
+  animation: wave 12s linear infinite;
+}
+
+.wave-header::after {
+  animation-delay: -6s;
+  opacity: 0.1;
+}
+
+@keyframes wave {
+  0% { transform: translateX(0) rotate(0deg); }
+  100% { transform: translateX(-25%) rotate(360deg); }
 }
 
 .wave-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.8rem;
-  font-weight: 800;
-  background: var(--gradient-gold-cyan);
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: var(--gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  letter-spacing: 1.5px;
-  text-shadow: 0 5px 25px rgba(212,175,55,0.25);
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  letter-spacing: 1px;
 }
 
-/* ================== CARDS LUXURY (services / video / postes) ================== */
+/* ================== CARDS PREMIUM (services / postes / video) ================== */
 .service-pro-card, .video-pro-card, .poste-pro-card {
   position: relative;
-  width: 340px;
-  height: 460px;
+  width: 320px;
+  height: 420px;
   background: var(--glass);
-  border-radius: 28px;
+  border-radius: 24px;
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(16px);
-  box-shadow: var(--shadow-soft), var(--shadow-glow);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
   overflow: hidden;
   transition: var(--transition);
-  margin: 0 1.5rem;
+  flex-shrink: 0;
+  margin: 0 1.2rem;
 }
 
 .service-pro-card:hover, .video-pro-card:hover, .poste-pro-card:hover {
-  transform: translateY(-18px) scale(1.05);
-  box-shadow: 0 30px 70px rgba(212,175,55,0.18),
-              0 0 60px rgba(0,240,255,0.25);
+  transform: translateY(-15px) scale(1.06);
+  box-shadow: 0 30px 60px rgba(0, 212, 255, 0.25),
+              inset 0 0 30px rgba(0, 212, 255, 0.12);
 }
 
 .pro-badge {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: var(--gradient-gold-cyan);
-  color: #0f0f1a;
-  padding: 0.6rem 1.4rem;
-  border-radius: 60px;
-  font-size: 1rem;
-  font-weight: 700;
-  box-shadow: 0 6px 20px rgba(212,175,55,0.3);
-  z-index: 3;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: var(--gradient);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+  z-index: 2;
 }
 
 img, video {
   width: 100%;
-  height: 58%;
+  height: 60%;
   object-fit: cover;
-  transition: transform 0.7s ease;
+  transition: transform 0.6s ease;
 }
 
-:hover img, :hover video {
-  transform: scale(1.15);
+.service-pro-card:hover img,
+.service-pro-card:hover video {
+  transform: scale(1.12);
 }
 
 .service-overlay, .video-overlay, .poste-overlay {
@@ -988,24 +1007,27 @@ img, video {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 2rem 1.5rem;
-  background: linear-gradient(to top, rgba(26,26,46,0.85), transparent);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: white;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  font-size: 1.4rem;
+  font-weight: 600;
   text-align: center;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
 }
 
-/* Slider */
+/* Slider container */
 .services-slider, .videos-slider, .postes-slider {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  gap: 2rem;
-  padding: 2.5rem 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gold) transparent;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  scrollbar-width: none;
+}
+
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar {
+  display: none;
 }
 /* ==========================================================================
    Fullscreen Viewer (لون بحري pro)

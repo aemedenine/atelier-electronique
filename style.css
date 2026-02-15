@@ -843,6 +843,24 @@ header h1 {
 /* ==========================================================================
    Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
 
+:root{
+  --bg:#f6f8fc;
+  --glass:rgba(255,255,255,.85);
+  --border:rgba(0,0,0,.08);
+  --neon1:#007bff;
+  --neon2:#00c6ff;
+  --gold:#ffb703;
+  --text:#222;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
 /* ===== Particles ===== */
 #particles-js{
   position:fixed;
@@ -1007,6 +1025,7 @@ section{
   font-size:24px;
   cursor:pointer;
 }
+
 /* ==========================================================================
    Fullscreen Viewer (لون بحري pro)
    ========================================================================== */

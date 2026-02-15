@@ -485,6 +485,71 @@ header h1 {
     font-size: 0.95rem;
   }
 }
+/* ── FAQ Header – موج البحر بالكلمات الكاملة ──────────────────────────────── */
+.wave-header {
+  background: linear-gradient(90deg, #0f766e, #14b8a6, #22d3ee, #60a5fa, #a5b4fc);
+  background-size: 300% 100%;
+  animation: gradientFlow 22s ease infinite;
+  padding: 20px 16px;
+  text-align: center;
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(26, 156, 156, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6em; /* مسافة بين الكلمات */
+}
+
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.wave-text {
+  display: inline-block;
+  animation: wave 1s ease-in-out infinite alternate;
+}
+
+@keyframes wave {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+
+/* على الموبايل نجعل الحركة أخف */
+@media (max-width: 768px) {
+  .wave-header {
+    font-size: 1.55rem;
+    padding: 16px 12px;
+    gap: 0.4em;
+  }
+  @keyframes wordWave {
+    0%, 100%   { transform: translateY(0) scale(1); }
+    50%        { transform: translateY(-6px) scale(1.02); }
+  }
+}
+
+.wave-text span:nth-child(odd)  { animation-duration: 3.9s; }
+.wave-text span:nth-child(even) { animation-duration: 4.5s; }
+
+/* أخف على الموبايل */
+@media (max-width: 768px) {
+  .wave-header {
+    font-size: 1.55rem;
+    padding: 16px 12px;
+  }
+  @keyframes softWave {
+    0%, 100%   { transform: translateY(0) scaleY(1); }
+    50%        { transform: translateY(-4px) scaleY(1.02); }
+  }
+}
 /* Ultra Max Resistor Calculators */
 .calculators-grid {
   display: grid;

@@ -1079,11 +1079,11 @@ section{
   display: flex !important;
 }
 .viewer-media {
-  max-width: 50%;
+  max-width: 30%;
   max-height: 75vh;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 0 50px rgba(20,184,166,0.4);
+  box-shadow:0 0 50px #FF9800;;
 }
 .viewer-media img,
 .viewer-media video {
@@ -1124,7 +1124,7 @@ section{
   font-size: 3.5rem;
   color: white;
   cursor: pointer;
-  background: rgba(20,184,166,0.7);
+  background: #FF9800;
   width: 60px;
   height: 60px;
   border-radius: 50%;

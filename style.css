@@ -905,289 +905,220 @@ header h1 {
   transform: translateY(-2px);
   box-shadow: 0 0 10px #ff6b35;
 }
-/* ==========================================================================
-   RESET + BASE
-   ========================================================================== */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-body{
-  font-family:'Segoe UI',Tahoma,sans-serif;
-  background:#f8fafc;
-  color:#0f172a;
-  overflow-x:hidden;
+----------------------------------------------
+/* Wave Header (common for all sections) */
+---------------------------------------------
+.wave-header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ==========================================================================
-   SECTION TITLES — LUXURY STYLE
-   ========================================================================== */
-.section-title{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 34px;
-  margin:20px auto 30px;
-  font-size:1.35rem;
-  font-weight:800;
-  color:#fff;
-  background:linear-gradient(135deg,#f97316,#facc15,#22c55e);
-  border-radius:999px;
-  box-shadow:
-      0 0 0 4px rgba(255,255,255,.6),
-      0 10px 35px rgba(249,115,22,.55);
-  letter-spacing:.5px;
-  position:relative;
+.wave-text {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #a78bfa, #7c3aed, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
 }
 
-/* لمعان */
-.section-title::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);
-  opacity:.45;
-  animation:shine 3s linear infinite;
+.wave-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%231e293b" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,176C384,192,480,192,576,181.3C672,171,768,149,864,154.7C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+  background-size: cover;
 }
 
-@keyframes shine{
-  0%{background-position:-200px;}
-  100%{background-position:200px;}
-}
-
-/* ==========================================================================
-   SLIDERS
-   ========================================================================== */
-.services-slider,
-.videos-slider,
-.postes-slider{
-  display:flex;
-  gap:18px;
-  overflow-x:auto;
-  padding:20px 10px;
-  scroll-behavior:smooth;
-  scrollbar-width:none;
-}
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar{
-  display:none;
-}
-
-/* ==========================================================================
-   CARDS — PRO STYLE
-   ========================================================================== */
+/* Common Card Styles (service, video, poste) */
 .service-pro-card,
 .video-pro-card,
-.poste-pro-card{
-  flex:0 0 250px;
-  background:#ffffff;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 12px 30px rgba(0,0,0,.12);
-  cursor:pointer;
-  transition:.35s ease;
-  position:relative;
+.poste-pro-card {
+  position: relative;
+  width: 280px;
+  height: 380px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+              inset 0 0 20px rgba(255, 255, 255, 0.03);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
 }
 
 .service-pro-card:hover,
 .video-pro-card:hover,
-.poste-pro-card:hover{
-  transform:translateY(-6px) scale(1.05);
-  box-shadow:0 20px 50px rgba(0,0,0,.18);
+.poste-pro-card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5),
+              0 0 0 2px rgba(167, 139, 250, 0.3);
 }
 
-/* media */
 .service-pro-card img,
-.poste-pro-card img,
-.video-pro-card video{
-  width:100%;
-  height:170px;
-  object-fit:cover;
+.poste-pro-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
 }
 
-/* ==========================================================================
-   SMALL TITRE — COMPACT CAPSULE
-   ========================================================================== */
+.service-pro-card:hover img,
+.poste-pro-card:hover img {
+  transform: scale(1.12);
+}
+
 .service-overlay,
 .video-overlay,
-.poste-overlay{
+.poste-overlay {
   position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg,#f97316,#facc15);
-  padding: 2px 6px;        /* أصغر padding */
-  border-radius: 10px;     /* capsule أصغر */
-  font-size: 0.6rem;       /* أصغر خط */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.2rem;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, transparent 100%);
+  color: white;
   font-weight: 700;
-  white-space: nowrap;
-  box-shadow: 0 0 4px rgba(255,140,0,0.6);
-  display: inline-block;
-  max-width: 120px !important; /* إجبار الحجم */
+  font-size: 1.3rem;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.service-pro-card:hover .service-overlay,
+.video-pro-card:hover .video-overlay,
+.poste-pro-card:hover .poste-overlay {
+  transform: translateY(0);
+}
+
+/* Sliders (horizontal scroll smooth) */
+.services-slider,
+.videos-slider,
+.postes-slider {
+  display: flex;
+  gap: 1.8rem;
+  padding: 1rem 2rem 3rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Project & Course Cards (neumorphic + glass touch) */
+.project-box {
+  background: rgba(30, 41, 59, 0.25);
+  border-radius: 1.8rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.project-box h2 {
+  font-size: 1.9rem;
+  margin-bottom: 1rem;
+  color: #c084fc;
+  text-align: center;
+}
+
+.box-desc {
+  text-align: center;
+  color: #94a3b8;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.8rem;
+}
+
+.project-card {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 1.2rem;
+  padding: 1.6rem;
+  border: 1px solid rgba(167, 139, 250, 0.12);
+  transition: all 0.35s ease;
+  text-align: center;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.project-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  color: #e0e7ff;
+}
+
+.project-card p {
+  color: #cbd5e1;
+  font-size: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.download-btn {
+  background: linear-gradient(45deg, #7c3aed, #a78bfa);
+  color: white;
+  border: none;
+  padding: 0.9rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.download-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.5);
+}
+
+.progress-container {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  margin-top: 0.8rem;
   overflow: hidden;
-  text-overflow: ellipsis;
-  z-index: 20;             /* فوق أي عنصر */
 }
 
-/* ==========================================================================
-   GLOBAL ORANGE GLOW LUXURY
-   ========================================================================== */
-.service-pro-card,
-.video-pro-card,
-.poste-pro-card{
-  border:1.5px solid rgba(255,140,0,.45);
-  box-shadow:
-     0 0 18px rgba(255,140,0,.45),
-     inset 0 0 12px rgba(255,140,0,.25);
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #a78bfa, #7c3aed);
+  transition: width 0.6s ease;
 }
 
-.service-pro-card:hover,
-.video-pro-card:hover,
-.poste-pro-card:hover{
-  box-shadow:
-     0 0 35px rgba(255,140,0,.85),
-     inset 0 0 18px rgba(255,140,0,.45);
+/* Responsive */
+@media (max-width: 768px) {
+  .wave-text { font-size: 1.8rem; }
+  .service-pro-card, .video-pro-card, .poste-pro-card { width: 240px; height: 340px; }
+  .projects-grid { grid-template-columns: 1fr; }
 }
-
-/* الصور والفيديو */
-.service-pro-card img,
-.poste-pro-card img,
-.video-pro-card video{
-  box-shadow:0 0 20px rgba(255,140,0,.55);
-}
-
-/* العناوين الكبيرة للأقسام */
-.section-title{
-  background:linear-gradient(135deg,#f97316,#facc15,#fb923c);
-  box-shadow:
-     0 0 0 4px rgba(255,255,255,.6),
-     0 0 35px rgba(255,140,0,.9);
-}
-
-/* viewer media */
-.viewer-media{
-  box-shadow:0 0 55px rgba(255,140,0,.85);
-}
-
-/* زر الغلق */
-.viewer-close{
-  background:#f97316;
-  box-shadow:0 0 18px rgba(255,140,0,.9);
-}
-
-/* ==========================================================================
-   VIEWER — PREMIUM
-   ========================================================================== */
-#mediaViewer{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(255,255,255,.97);
-  z-index:99999;
-  align-items:center;
-  justify-content:center;
-  gap:25px;
-  padding:20px;
-}
-
-#mediaViewer.active{
-  display:flex;
-}
-
-.viewer-media{
-  flex:1.7;
-  max-width:70%;
-  max-height:85vh;
-  border-radius:20px;
-  overflow:hidden;
-  background:#000;
-  box-shadow:0 0 45px rgba(255,140,0,.7);
-}
-
-.viewer-media img,
-.viewer-media video{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-.viewer-info{
-  flex:1;
-  max-width:330px;
-  background:#ffffff;
-  padding:20px 22px;
-  border-radius:18px;
-  box-shadow:0 0 35px rgba(0,0,0,.15);
-  border:1px solid rgba(255,140,0,.35);
-}
-
-.viewer-info h3{
-  font-size:1.35rem;
-  margin-bottom:10px;
-  color:#f97316;
-}
-
-.viewer-info p{
-  font-size:.95rem;
-  line-height:1.6;
-  color:#334155;
-}
-
-.viewer-info .price{
-  margin-top:12px;
-  font-size:1.3rem;
-  font-weight:800;
-  color:#22c55e;
-}
-
-/* close */
-.viewer-close{
-  position:absolute;
-  top:15px;
-  right:15px;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:#f97316;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:2.2rem;
-  color:#fff;
-  cursor:pointer;
-  transition:.35s;
-}
-
-.viewer-close:hover{
-  background:#ef4444;
-  transform:rotate(90deg);
-}
-
-/* ==========================================================================
-   RESPONSIVE
-   ========================================================================== */
-@media(max-width:768px){
-
-  #mediaViewer{
-    flex-direction:column;
-  }
-
-  .viewer-media{
-    max-width:100%;
-    max-height:60vh;
-  }
-
-  .viewer-info{
-    max-width:100%;
-    width:100%;
-  }
-
-}
-
-
 /* ==========================================================================
    Cookie Banner (CMP)
    ========================================================================== */

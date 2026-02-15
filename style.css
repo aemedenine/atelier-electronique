@@ -843,103 +843,140 @@ header h1 {
 /* ==========================================================================
    Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
 
+/* ===== Particles ===== */
+#particles-js{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+body > *:not(#particles-js){
+  position:relative;
+  z-index:2;
+}
+
+/* ===== Sections ===== */
 section{
-  margin:70px auto;
+  margin:40px auto;
   max-width:1200px;
   padding:15px;
 }
 
+/* ===== Titles ===== */
 .wave-header{
   text-align:center;
-  max-width:420px;
-  margin:0 auto 30px;
-  padding:10px 18px;
+  max-width:360px;
+  margin:15px auto 25px;
+  padding:8px 16px;
   border-radius:50px;
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.7);
   border:1px solid var(--border);
 }
 
 .wave-text{
-  font-size:2rem;
+  font-size:1.8rem;
   font-weight:900;
   background:linear-gradient(90deg,var(--neon1),var(--neon2));
   -webkit-background-clip:text;
   color:transparent;
-  filter:drop-shadow(0 0 8px var(--neon1));
 }
 
-.services-slider{
+/* ===== Sliders ===== */
+.services-slider,
+.videos-slider,
+.postes-slider{
   display:flex;
   gap:20px;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
-  padding-bottom:25px;
+  padding-bottom:15px;
 }
 
-.services-slider::-webkit-scrollbar{height:6px}
-.services-slider::-webkit-scrollbar-thumb{
+.services-slider::-webkit-scrollbar,
+.videos-slider::-webkit-scrollbar,
+.postes-slider::-webkit-scrollbar{
+  height:6px;
+}
+
+.services-slider::-webkit-scrollbar-thumb,
+.videos-slider::-webkit-scrollbar-thumb,
+.postes-slider::-webkit-scrollbar-thumb{
   background:linear-gradient(90deg,var(--neon1),var(--neon2));
   border-radius:10px;
 }
 
-.service-pro-card{
-  min-width:260px;
-  height:340px;
+/* ===== Cards ===== */
+.service-pro-card,
+.video-pro-card,
+.poste-pro-card{
+  min-width:250px;
+  height:330px;
   background:var(--glass);
   border:1px solid var(--border);
-  border-radius:22px;
+  border-radius:20px;
   overflow:hidden;
   position:relative;
   cursor:pointer;
-  transition:.5s;
+  transition:.4s;
   scroll-snap-align:center;
 }
 
-.service-pro-card:hover{
-  transform:translateY(-15px) scale(1.05);
-  box-shadow:0 0 15px var(--neon1),0 0 30px var(--neon2);
+.service-pro-card:hover,
+.video-pro-card:hover,
+.poste-pro-card:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
-.service-pro-card img{
+.service-pro-card img,
+.poste-pro-card img,
+.video-pro-card video{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:1s;
+  transition:.6s;
 }
 
-.service-pro-card:hover img{
-  transform:scale(1.15) rotate(2deg);
+.service-pro-card:hover img,
+.poste-pro-card:hover img,
+.video-pro-card:hover video{
+  transform:scale(1.1);
 }
 
-.service-overlay{
+/* ===== Overlay ===== */
+.service-overlay,
+.video-overlay,
+.poste-overlay{
   position:absolute;
   bottom:0;
   width:100%;
-  padding:15px;
-  background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);
+  padding:12px;
+  background:linear-gradient(0deg,rgba(0,0,0,.8),transparent);
   text-align:center;
-  font-weight:900;
+  font-weight:800;
+  color:#fff;
 }
 
+/* ===== Badge ===== */
 .pro-badge{
   position:absolute;
-  top:10px;
-  right:10px;
+  top:8px;
+  right:8px;
   background:linear-gradient(90deg,var(--gold),#ff9900);
   color:#000;
-  padding:4px 10px;
+  padding:3px 10px;
   border-radius:30px;
   font-size:.75rem;
   font-weight:900;
-  box-shadow:0 0 10px var(--gold);
+  box-shadow:0 0 10px rgba(255,183,3,.6);
 }
 
-/* Popup */
-
+/* ===== Popup ===== */
 .service-popup{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.8);
+  background:rgba(0,0,0,.65);
   display:none;
   align-items:center;
   justify-content:center;
@@ -949,17 +986,17 @@ section{
 .popup-box{
   background:var(--glass);
   border:1px solid var(--border);
-  backdrop-filter:blur(15px);
-  padding:30px;
-  border-radius:25px;
+  backdrop-filter:blur(12px);
+  padding:25px;
+  border-radius:22px;
   width:90%;
   max-width:420px;
   text-align:center;
-  animation:pop .4s ease;
+  animation:pop .35s ease;
 }
 
 @keyframes pop{
-  from{transform:scale(.6);opacity:0}
+  from{transform:scale(.85);opacity:0}
   to{transform:scale(1);opacity:1}
 }
 
@@ -967,7 +1004,7 @@ section{
   position:absolute;
   top:10px;
   right:15px;
-  font-size:26px;
+  font-size:24px;
   cursor:pointer;
 }
 /* ==========================================================================

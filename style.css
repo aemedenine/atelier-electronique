@@ -107,7 +107,7 @@ header h1 {
 .news-ticker {
   width: 100%;
   overflow: hidden;
-  background: linear-gradient (50deg, #07d2c1, #054be8, #eeb122, #faaa60, #b82412);
+  background: linear-gradient(90deg, #0c65e0a3, #0d34d3b8, #130480, #0a33dafc, #1337de);
   background-size: 300% 100%;
   animation: gradientFlow 22s ease infinite; /* نفس سرعة ونوع الـ animation اللي في FAQ */
   color: white;

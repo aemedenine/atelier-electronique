@@ -200,7 +200,7 @@ header h1 {
   box-shadow: 0 2px 6px rgba(0,0,0,0.18);
 }
 .btn-store:hover {
-  background: #3a3a3a !important;
+  background: #fff !important;
 }
 /* ==========================================================================
    Experience Badge (Animated)
@@ -881,8 +881,8 @@ header h1 {
   z-index: 10;
 }
 .user-box:hover {
-  background: #409effbd;
-  box-shadow: 0 0 20px #409eff;
+  background: #ff9800;
+  box-shadow: 0 0 20px #ff9800;
 }
 .welcome-msg {
   font-size: 1.1rem;
@@ -891,7 +891,7 @@ header h1 {
   text-shadow: 0 0 6px #a9b7c6;
 }
 .btn-signout {
-  background: #409eff;
+  background: #FF9800;
   color: #fff;
   border: none;
   padding: 8px 18px;

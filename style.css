@@ -1294,7 +1294,7 @@ footer {
 }
 
 .project-card button {
-  background: #1976d2;
+  background:#40c1ff;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -1325,7 +1325,7 @@ footer {
 /* ===== Download Button + Animation ===== */
 /* Project & Course Cards (neumorphic + glass touch) */
 .project-box {
-  background: rgba(30, 41, 59, 0.25);
+  background: #fff;
   border-radius: 1.8rem;
   padding: 2rem;
   margin: 2rem auto;
@@ -1338,13 +1338,13 @@ footer {
 .project-box h2 {
   font-size: 1.9rem;
   margin-bottom: 1rem;
-  color: #c084fc;
+  color: #61249e;
   text-align: center;
 }
 
 .box-desc {
   text-align: center;
-  color: #94a3b8;
+  color: #282c34;
   margin-bottom: 2rem;
   font-size: 1.1rem;
 }
@@ -1356,7 +1356,7 @@ footer {
 }
 
 .project-card {
-  background: rgba(15, 23, 42, 0.5);
+  background:#14b8a60d;
   border-radius: 1.2rem;
   padding: 1.6rem;
   border: 1px solid rgba(167, 139, 250, 0.12);
@@ -1373,11 +1373,11 @@ footer {
 .project-card h3 {
   font-size: 1.4rem;
   margin-bottom: 0.8rem;
-  color: #e0e7ff;
+  color:#2563eb;
 }
 
 .project-card p {
-  color: #cbd5e1;
+  color: #282c34;
   font-size: 1rem;
   margin-bottom: 1.4rem;
 }

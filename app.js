@@ -719,42 +719,60 @@ document.addEventListener('DOMContentLoaded', () => {
         if (code >= 95) return t.storm;
         return t.unknown;
     }
-//---------------robo----------------------------------------//
+async function sendRobo() {
+    const input = document.getElementById('robo-input');
+    const box = document.getElementById('robo-messages');
+    const msg = input.value.trim();
+    if (!msg) return;
 
-const API_KEY = "PASTE_YOUR_API_KEY_HERE";
+    // رسالة المستخدم
+    box.innerHTML += `<div class="user-msg">👤 ${msg}</div>`;
+    input.value = "";
+    box.scrollTop = box.scrollHeight;
 
-async function sendRobo(){
-  const input = document.getElementById('robo-input');
-  const box = document.getElementById('robo-messages');
-  const msg = input.value.trim();
-  if(!msg) return;
+    // رسالة انتظار
+    const loading = document.createElement("div");
+    loading.className = "bot-msg";
+    loading.textContent = "🤖 نفكّر...";
+    box.appendChild(loading);
+    box.scrollTop = box.scrollHeight;
 
-  box.innerHTML += `<div class="user-msg">👤 ${msg}</div>`;
-  input.value = "";
-  box.scrollTop = box.scrollHeight;
+    try {
+        const res = await fetch("https://api-inference.huggingface.co/models/akhali/Arabic-ChatGPT", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer PASTE_YOUR_HUGGINGFACE_TOKEN_HERE",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ inputs: msg })
+        });
 
-  const res = await fetch("https://api.openai.com/v1/chat/completions",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer "+API_KEY
-    },
-    body:JSON.stringify({
-      model:"gpt-4o-mini",
-      messages:[
-        {role:"system",content:"أنت مساعد متخصص في الإلكترونيات و إصلاح الأجهزة"},
-        {role:"user",content:msg}
-      ]
-    })
-  });
+        const data = await res.json();
+        loading.remove();
 
-  const data = await res.json();
-  const reply = data.choices[0].message.content;
+        let reply = "";
+        if (data.hasOwnProperty("generated_text")) {
+            reply = data.generated_text;
+        } else if (data[0]?.generated_text) {
+            reply = data[0].generated_text;
+        } else {
+            reply = "❌ خطأ في النموذج";
+        }
 
-  box.innerHTML += `<div class="bot-msg">🤖 ${reply}</div>`;
-  box.scrollTop = box.scrollHeight;
+        box.innerHTML += `<div class="bot-msg">🤖 ${reply}</div>`;
+        box.scrollTop = box.scrollHeight;
+
+    } catch (err) {
+        loading.remove();
+        box.innerHTML += `<div class="bot-msg">❌ خطأ في الاتصال بالنموذج</div>`;
+    }
 }
 
+// زر الإرسال
+document.getElementById('robo-send').addEventListener('click', sendRobo);
+document.getElementById('robo-input').addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendRobo();
+});
 
     // ── Prayer Times ───────────────────────────────────────────────────────
     function updatePrayerTimes() {

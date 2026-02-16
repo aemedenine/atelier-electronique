@@ -16,8 +16,8 @@
     <!-- CSS externe -->
     <link rel="stylesheet" href="style.css" />
     <!-- Model Viewer (Google) - CDN latest stable -->
-<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <!-- Firebase SDK -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/dist/model-viewer.min.js"></script>  
+     <!-- firebase sdk -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -49,7 +49,7 @@
             <!-- Robo sghir ta7t les flags -->
    <div id="robo-container">
     <model-viewer
-        src="robo.glb"
+        src="https://aemedenine.github.io/atelier-electronique/assets/robo.glb"
         alt="روبو الورشة"
         autoplay
         auto-rotate
@@ -662,7 +662,7 @@
     <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
 </div>
         <!-- JavaScript externe -->
-        <script src="app.js" defer></script>
+       <script type="module" src="app.js"></script>
    
 </body>
 </html>

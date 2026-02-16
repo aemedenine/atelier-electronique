@@ -44,6 +44,27 @@
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
         </section>
+<div id="robo-box">
+  <model-viewer 
+    src="robo.glb"
+    autoplay
+    camera-controls
+    disable-zoom
+    interaction-prompt="none"
+    animation-name="Idle"
+    style="width:120px;height:120px;">
+  </model-viewer>
+
+  <div id="robo-chat">
+    <div id="robo-messages"></div>
+
+    <input 
+      type="text" 
+      id="robo-input" 
+      placeholder="اسألني في الإلكترونيات..." 
+      onkeydown="if(event.key==='Enter') sendRobo()">
+  </div>
+</div>
 
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">

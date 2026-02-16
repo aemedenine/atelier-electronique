@@ -1569,45 +1569,73 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
-/*__________________________________________________________*/
-robo
-/*__________________________________________________________*/
-body {
-  margin: 0;
-  overflow: hidden;
-  background: #0a0a1f;
-  font-family: Arial, sans-serif;
+/* ================================================== */
+/* Robo container (ta7t les flags)                   */
+/* ================================================== */
+#robo-container {
+  position: relative;
+  width: 140px;
+  height: 160px;
+  margin: 12px auto 8px;
+  display: block;
+  pointer-events: auto; /* bach ynajem ycontrol ida t7eb */
+  z-index: 9;
 }
 
-#container {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
+model-viewer {
+  width: 100%;
+  height: 100%;
+  --poster-color: transparent;
+  --progress-bar-color: #00ffff;
+  --progress-mask: linear-gradient(to right, #00ffff 0%, transparent 100%);
+  background: transparent;
+  animation: float 7s ease-in-out infinite;
+  filter: drop-shadow(0 10px 20px rgba(0, 255, 255, 0.4));
 }
 
-#flags {
+/* Floating animation douce + petite rotation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotateY(8deg);
+  }
+}
+
+/* Ombre sous el robo bach yban 3D akther */
+#robo-container::after {
+  content: '';
   position: absolute;
-  bottom: 20px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  gap: 15px;
-  pointer-events: none; /* bach may7sbouch click 3lihom */
+  width: 100px;
+  height: 25px;
+  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.45) 0%, transparent 70%);
+  filter: blur(12px);
+  opacity: 0.7;
+  z-index: -1;
+  animation: shadowPulse 7s ease-in-out infinite;
 }
 
-.flag {
-  width: 50px;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  transition: transform 0.3s;
+@keyframes shadowPulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(0.9); }
+  50%      { opacity: 0.9; transform: translateX(-50%) scale(1.15); }
 }
 
-.flag:hover {
-  transform: scale(1.15);
-}
+/* Responsive : ida mobile, sghar el robo */
+@media (max-width: 600px) {
+  #robo-container {
+    width: 100px;
+    height: 120px;
+    margin: 8px auto;
+  }
 
+  .flag {
+    width: 38px;
+  }
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

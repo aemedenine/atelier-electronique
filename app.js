@@ -719,6 +719,42 @@ document.addEventListener('DOMContentLoaded', () => {
         if (code >= 95) return t.storm;
         return t.unknown;
     }
+//---------------robo----------------------------------------//
+
+const API_KEY = "PASTE_YOUR_API_KEY_HERE";
+
+async function sendRobo(){
+  const input = document.getElementById('robo-input');
+  const box = document.getElementById('robo-messages');
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  box.innerHTML += `<div class="user-msg">👤 ${msg}</div>`;
+  input.value = "";
+  box.scrollTop = box.scrollHeight;
+
+  const res = await fetch("https://api.openai.com/v1/chat/completions",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+API_KEY
+    },
+    body:JSON.stringify({
+      model:"gpt-4o-mini",
+      messages:[
+        {role:"system",content:"أنت مساعد متخصص في الإلكترونيات و إصلاح الأجهزة"},
+        {role:"user",content:msg}
+      ]
+    })
+  });
+
+  const data = await res.json();
+  const reply = data.choices[0].message.content;
+
+  box.innerHTML += `<div class="bot-msg">🤖 ${reply}</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
 
     // ── Prayer Times ───────────────────────────────────────────────────────
     function updatePrayerTimes() {

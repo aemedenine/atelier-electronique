@@ -4,16 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title data-i18n="site_title">ورشة إلكترونيك الرحماني</title>
+    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
             data-ad-client="ca-pub-5360225987687639"
             crossorigin="anonymous"></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
           rel="stylesheet">
     <!-- CSS externe -->
     <link rel="stylesheet" href="style.css" />
+    <!-- Model Viewer (Google) - CDN latest stable -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/v4.1.0/model-viewer.min.js"></script>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
@@ -43,29 +46,26 @@
                 <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
-        </section>
-<div id="robo-box">
-  <model-viewer 
-    src="robo.glb"
-    autoplay
-    camera-controls
-    disable-zoom
-    interaction-prompt="none"
-    animation-name="Idle"
-    style="width:120px;height:120px;">
-  </model-viewer>
-
-  <div id="robo-chat">
-    <div id="robo-messages"></div>
-
-    <input 
-      type="text" 
-      id="robo-input" 
-      placeholder="اسألني في الإلكترونيات..." 
-      onkeydown="if(event.key==='Enter') sendRobo()">
-  </div>
+            <!-- Robo sghir ta7t les flags -->
+   <div id="robo-container">
+    <model-viewer
+        src="robo.glb"
+        alt="روبو الورشة"
+        autoplay
+        auto-rotate
+        rotation-per-second="25deg"          <!-- يدور لوحده بسرعة معقولة -->
+        camera-controls
+        disable-zoom
+        interaction-prompt="none"
+        camera-orbit="45deg 80deg 3m"         <!-- زاوية أفضل: شوية من الجانب + من فوق -->
+        field-of-view="35deg"
+        shadow-intensity="1.5"                <!-- ظل خفيف يخلي الروبو يبان 3D -->
+        shadow-softness="0.8"
+        exposure="0.9"                        <!-- إضاءة أفضل -->
+        style="width: 110px; height: 110px; margin: 0 auto; display: block; background: transparent;">
+    </model-viewer>
 </div>
-
+</section>
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
             <p class="welcome-msg" data-i18n="user_welcome">

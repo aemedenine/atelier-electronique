@@ -458,7 +458,94 @@ txt = txt.replace('{count1}', visitCount || 0);
             applyLanguage(el.dataset.lang);
         });
     });
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+const container = document.getElementById('container');
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0a1f);
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 1.2, 3);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.enableZoom = false; // optionel, si t7eb maydirch zoom
+controls.enablePan = false;
+
+// lumière simple w behya
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+dirLight.position.set(5, 10, 7);
+scene.add(dirLight);
+
+// chargement du robot
+const loader = new GLTFLoader();
+let robot;
+let mixer; // pour animation si ton .glb 3ando animation
+
+loader.load(
+  './robo.glb', // ou 'models/robo.glb' si t7eb dossier
+  (gltf) => {
+    robot = gltf.scene;
+    
+    // Scale sghir (adapte selon ton modèle)
+    robot.scale.set(0.4, 0.4, 0.4); // 0.3 → 0.6 selon taille li t7eb
+    
+    // Position ta7t les flags (yemchi un peu ytal3 w yenzel)
+    robot.position.set(0, -0.3, 0);
+    
+    scene.add(robot);
+
+    // Si ton robo 3ando animation (walk, idle...)
+    if (gltf.animations && gltf.animations.length > 0) {
+      mixer = new THREE.AnimationMixer(robot);
+      const action = mixer.clipAction(gltf.animations[0]);
+      action.play();
+    }
+  },
+  undefined,
+  (err) => console.error("Erreur chargement robo :", err)
+);
+
+// Animation loop (floating + rotation auto)
+let time = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  
+  time += 0.015;
+  
+  if (robot) {
+    // Floating up & down
+    robot.position.y = -0.3 + Math.sin(time) * 0.15;
+    
+    // Rotation douce
+    robot.rotation.y += 0.008;
+  }
+  
+  if (mixer) mixer.update(0.016); // delta time approx 60fps
+  
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+// Responsive
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -719,60 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (code >= 95) return t.storm;
         return t.unknown;
     }
-async function sendRobo() {
-    const input = document.getElementById('robo-input');
-    const box = document.getElementById('robo-messages');
-    const msg = input.value.trim();
-    if (!msg) return;
 
-    // رسالة المستخدم
-    box.innerHTML += `<div class="user-msg">👤 ${msg}</div>`;
-    input.value = "";
-    box.scrollTop = box.scrollHeight;
-
-    // رسالة انتظار
-    const loading = document.createElement("div");
-    loading.className = "bot-msg";
-    loading.textContent = "🤖 نفكّر...";
-    box.appendChild(loading);
-    box.scrollTop = box.scrollHeight;
-
-    try {
-        const res = await fetch("https://api-inference.huggingface.co/models/akhali/Arabic-ChatGPT", {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer PASTE_YOUR_HUGGINGFACE_TOKEN_HERE",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ inputs: msg })
-        });
-
-        const data = await res.json();
-        loading.remove();
-
-        let reply = "";
-        if (data.hasOwnProperty("generated_text")) {
-            reply = data.generated_text;
-        } else if (data[0]?.generated_text) {
-            reply = data[0].generated_text;
-        } else {
-            reply = "❌ خطأ في النموذج";
-        }
-
-        box.innerHTML += `<div class="bot-msg">🤖 ${reply}</div>`;
-        box.scrollTop = box.scrollHeight;
-
-    } catch (err) {
-        loading.remove();
-        box.innerHTML += `<div class="bot-msg">❌ خطأ في الاتصال بالنموذج</div>`;
-    }
-}
-
-// زر الإرسال
-document.getElementById('robo-send').addEventListener('click', sendRobo);
-document.getElementById('robo-input').addEventListener('keypress', e => {
-    if (e.key === 'Enter') sendRobo();
-});
 
     // ── Prayer Times ───────────────────────────────────────────────────────
     function updatePrayerTimes() {

@@ -1569,6 +1569,53 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
+/*__________________________________________________________*/
+robo
+/*__________________________________________________________*/
+#robo-box{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:9999;
+  display:flex;
+  align-items:flex-end;
+  gap:12px;
+}
+
+#robo-chat{
+  width:260px;
+  background:#0b132b;
+  border-radius:16px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 0 20px rgba(255,140,0,.6);
+  border:1px solid rgba(255,140,0,.5);
+}
+
+#robo-messages{
+  height:160px;
+  overflow-y:auto;
+  font-size:13px;
+  color:#fff;
+  margin-bottom:6px;
+}
+
+#robo-input{
+  border:none;
+  outline:none;
+  border-radius:10px;
+  padding:6px 10px;
+  font-size:13px;
+}
+
+#robo-messages div{
+  margin-bottom:6px;
+  line-height:1.5;
+}
+
+.user-msg{color:#00ffcc}
+.bot-msg{color:#ffaa00}
 
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

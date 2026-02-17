@@ -1,8 +1,9 @@
-// ===== Imports top – لازم يكونو أول الملف =====
-import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
-
+// ==========================================================================
+// Imports l-top – lazma ykounou l-ewwel fi el fichier
+// ==========================================================================
+import * as THREE from 'https://unpkg.com/three@0.169.0/build/three.module.js?module';
+import { GLTFLoader } from 'https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js?module';
+import { OrbitControls } from 'https://unpkg.com/three@0.169.0/examples/jsm/controls/OrbitControls.js?module';
 // ===== Firebase Modular =====
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';

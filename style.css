@@ -1569,75 +1569,7 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
-/* ================================================== */
-/* Robo container (ta7t les flags)                   */
-/* ================================================== */
-body {
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
-  background: #f5f5f5;
-  text-align: center;
-}
 
-#flagsSection {
-  padding: 20px;
-}
-
-.flags img {
-  width: 50px;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.flags img:hover {
-  transform: scale(1.2);
-}
-
-/* Canvas styling */
-#roboCanvas {
-  width: 100%;
-  max-width: 600px;
-  height: 400px;
-  margin: 20px auto;
-  display: block;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-
-/* Ombre sous el robo bach yban 3D akther */
-#robo-container::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 25px;
-  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.45) 0%, transparent 70%);
-  filter: blur(12px);
-  opacity: 0.7;
-  z-index: -1;
-  animation: shadowPulse 7s ease-in-out infinite;
-}
-
-@keyframes shadowPulse {
-  0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(0.9); }
-  50%      { opacity: 0.9; transform: translateX(-50%) scale(1.15); }
-}
-
-/* Responsive : ida mobile, sghar el robo */
-@media (max-width: 600px) {
-  #robo-container {
-    width: 100px;
-    height: 120px;
-    margin: 8px auto;
-  }
-
-  .flag {
-    width: 38px;
-  }
-}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

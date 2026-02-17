@@ -1574,8 +1574,8 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 220px;           /* صغير نسبياً – غير حسب حجم الدائرة */
-    height: 220px;
+    width: 120px;           /* صغير نسبياً – غير حسب حجم الدائرة */
+    height: 120px;
     pointer-events: auto;   /* مهم: باش الماوس يتفاعل مع الـ canvas */
     z-index: 5;             /* فوق الخلفية بس تحت النصوص إذا لزم */
     border-radius: 50%;     /* دائري إذا تبي */

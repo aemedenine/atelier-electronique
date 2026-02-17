@@ -1059,43 +1059,6 @@ stars.forEach(star => {
 
 // 6. تحميل التقييمات عند بداية الصفحة
 loadRatings();
-// ===== robo =====
-import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
-
-const canvas = document.getElementById('roboCanvas');
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-camera.position.set(0, 0, 5);
-
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.update();
-
-const light = new THREE.AmbientLight(0xffffff, 1);
-scene.add(light);
-
-const loader = new GLTFLoader();
-loader.load('robo.glb', gltf => {
-    scene.add(gltf.scene);
-    animate();
-}, undefined, error => console.error(error));
-
-function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
-
-window.addEventListener('resize', () => {
-    camera.aspect = canvas.clientWidth / canvas.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-});
-
 
     // ── PCB Animated Header Canvas ─────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');

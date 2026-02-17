@@ -1064,59 +1064,38 @@ import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
 
-// ===== Setup Canvas & Scene =====
 const canvas = document.getElementById('roboCanvas');
 const scene = new THREE.Scene();
 
-// Camera
-const camera = new THREE.PerspectiveCamera(
-  45, 
-  canvas.clientWidth / canvas.clientHeight, 
-  0.1, 
-  1000
-);
-camera.position.set(0, 1, 5);
+const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+camera.position.set(0, 0, 5);
 
-// Renderer
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
 
-// Controls
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
+controls.update();
 
-// Light
-const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-scene.add(ambientLight);
+const light = new THREE.AmbientLight(0xffffff, 1);
+scene.add(light);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-directionalLight.position.set(5,5,5);
-scene.add(directionalLight);
-
-// Load GLTF Model
 const loader = new GLTFLoader();
 loader.load('robo.glb', gltf => {
-  const model = gltf.scene;
-  model.scale.set(1.5,1.5,1.5);
-  model.position.set(0, 0, 0);
-  scene.add(model);
-  animate();
-}, undefined, err => console.error(err));
+    scene.add(gltf.scene);
+    animate();
+}, undefined, error => console.error(error));
 
-// Animate
-function animate(){
-  requestAnimationFrame(animate);
-  controls.update();
-  renderer.render(scene, camera);
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
 }
 
-// Responsive
 window.addEventListener('resize', () => {
-  camera.aspect = canvas.clientWidth / canvas.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 });
+
 
     // ── PCB Animated Header Canvas ─────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');

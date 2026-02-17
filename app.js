@@ -1,12 +1,16 @@
-// ===== Imports top – لازم يكونو أول الملف =====
-import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
+// ==========================================================================
+// Imports l-top – lazma ykounou l-ewwel 3 lignes fi el fichier
+// ==========================================================================
+import * as THREE from 'https://unpkg.com/three@0.169.0/build/three.module.js?module';
+import { GLTFLoader } from 'https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js?module';
+import { OrbitControls } from 'https://unpkg.com/three@0.169.0/examples/jsm/controls/OrbitControls.js?module';
 
-// ===== Firebase Modular =====
+// ==========================================================================
+// Firebase Modular (latest v9.24.0)
+// ==========================================================================
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js';
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js';
-import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js';
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js';
+import { getDatabase, ref, onValue, transaction, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-analytics.js';
 
 // ==========================================================================
@@ -35,7 +39,7 @@ setPersistence(auth, browserLocalPersistence)
 
 // Vérifier l'état de l'utilisateur connecté
 onAuthStateChanged(auth, user => {
-    if(user){
+    if (user) {
         console.log("Utilisateur connecté:", user.displayName);
     } else {
         console.log("Aucun utilisateur connecté");

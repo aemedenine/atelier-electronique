@@ -1569,7 +1569,25 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
+.robot-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 220px;           /* صغير نسبياً – غير حسب حجم الدائرة */
+    height: 220px;
+    pointer-events: auto;   /* مهم: باش الماوس يتفاعل مع الـ canvas */
+    z-index: 5;             /* فوق الخلفية بس تحت النصوص إذا لزم */
+    border-radius: 50%;     /* دائري إذا تبي */
+    overflow: hidden;
+    background: white;      /* خلفية بيضاء */
+}
 
+#robot-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

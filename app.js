@@ -1135,7 +1135,7 @@ stars.forEach(star => {
 // 6. تحميل التقييمات
 loadRatings();
 
-   // ── PCB Animated Header Canvas ─────────────────────────────────────────
+ // ── PCB Animated Header Canvas ─────────────────────────────────────────
 const canvas = document.getElementById('pcbCanvasHeader');
 
 if (canvas) {

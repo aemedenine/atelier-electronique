@@ -1,20 +1,16 @@
-// ==========================================================================
-// Imports l-top – lazma ykounou l-ewwel fi el fichier
-// ==========================================================================
-import * as THREE from 'https://unpkg.com/three@0.169.0/build/three.module.js?module';
-import { GLTFLoader } from 'https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js?module';
-import { OrbitControls } from 'https://unpkg.com/three@0.169.0/examples/jsm/controls/OrbitControls.js?module';
+// ===== Imports top – لازم يكونو أول الملف =====
+import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
 
-// ==========================================================================
-// Firebase Modular v9 (latest w compatible)
-// ==========================================================================
+// ===== Firebase Modular =====
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js';
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js';
-import { getDatabase, ref, onValue, transaction, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js';
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js';
+import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-analytics.js';
 
 // ==========================================================================
-// Firebase Config & Init
+// Firebase Configuration & Initialization
 // ==========================================================================
 const firebaseConfig = {
     apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
@@ -26,24 +22,26 @@ const firebaseConfig = {
     databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
 };
 
+// Initialize Firebase Modular
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const analytics = getAnalytics(app);
 
-// Garder la session locale
+// Garder la session même après refresh/fermeture
 setPersistence(auth, browserLocalPersistence)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
 
-// Vérifier état utilisateur (exemple simple)
+// Vérifier l'état de l'utilisateur connecté
 onAuthStateChanged(auth, user => {
-    if (user) {
+    if(user){
         console.log("Utilisateur connecté:", user.displayName);
     } else {
         console.log("Aucun utilisateur connecté");
     }
 });
+
 
 
 // ==========================================================================
@@ -494,80 +492,36 @@ document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
   });
 });
 
-// ======================= THREE CONTAINER =======================
-const container = document.getElementById('container');
+// ==========================================================================
+// Three.js Scene Example (header canvas)
+// ==========================================================================
+const canvas = document.getElementById('pcbCanvasHeader');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0a0a1f);
+const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 1.2, 3);
-
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-container.appendChild(renderer.domElement);
-
-// ======================= CONTROLS =======================
+// OrbitControls (optionnel)
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.enableZoom = false;
-controls.enablePan = false;
+camera.position.set(0, 0, 5);
+controls.update();
 
-// ======================= LIGHTS =======================
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-scene.add(ambientLight);
+// Light
+const light = new THREE.AmbientLight(0xffffff, 1);
+scene.add(light);
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-dirLight.position.set(5, 10, 7);
-scene.add(dirLight);
-
-// ======================= LOAD ROBOT =======================
+// Load GLTF Model Example
 const loader = new GLTFLoader();
-let robot;
-let mixer;
+loader.load('robo.glb', gltf => {
+    scene.add(gltf.scene);
+    animate();
+}, undefined, error => console.error(error));
 
-loader.load(
-  './robo.glb',
-  (gltf) => {
-    robot = gltf.scene;
-
-    robot.scale.set(0.4, 0.4, 0.4);
-    robot.position.set(0, -0.3, 0);
-
-    scene.add(robot);
-
-    if (gltf.animations.length > 0) {
-      mixer = new THREE.AnimationMixer(robot);
-      mixer.clipAction(gltf.animations[0]).play();
-    }
-  },
-  undefined,
-  (err) => console.error('Erreur chargement robo:', err)
-);
-
-// ======================= ANIMATION LOOP =======================
-let time = 0;
-const clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-
-  time += 0.015;
-
-  if (robot) {
-    robot.position.y = -0.3 + Math.sin(time) * 0.15;
-    robot.rotation.y += 0.008;
-  }
-
-  if (mixer) mixer.update(clock.getDelta());
-
-  controls.update();
-  renderer.render(scene, camera);
+// Animate
+function animate(){
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
 }
-
-animate();
-
 // ======================= RESPONSIVE =======================
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;

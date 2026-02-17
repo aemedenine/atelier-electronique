@@ -393,6 +393,10 @@ cookie_allow: "I agree",
 cookie_manage: "Manage options"
     }
 };
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
 // ==========================================================================
 // Variables globales
 // ==========================================================================
@@ -458,10 +462,6 @@ txt = txt.replace('{count1}', visitCount || 0);
             applyLanguage(el.dataset.lang);
         });
     });
-// ======================= IMPORTS (لازم ديما يكونوا في أول الملف) =======================
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
 // ======================= LANGUAGE SWITCH =======================
 document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {

@@ -1,16 +1,4 @@
 // ==========================================================================
-// Imports l-top – lazma ykounou l-ewwel fi el fichier
-// ==========================================================================
-import * as THREE from 'https://unpkg.com/three@0.169.0/build/three.module.js?module';
-import { GLTFLoader } from 'https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js?module';
-import { OrbitControls } from 'https://unpkg.com/three@0.169.0/examples/jsm/controls/OrbitControls.js?module';
-// ===== Firebase Modular =====
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
-import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js';
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js';
-
-// ==========================================================================
 // Firebase Configuration & Initialization
 // ==========================================================================
 const firebaseConfig = {
@@ -23,28 +11,14 @@ const firebaseConfig = {
     databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
 };
 
-// Initialize Firebase Modular
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics();
+const auth = firebase.auth();
 
 // Garder la session même après refresh/fermeture
-setPersistence(auth, browserLocalPersistence)
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
-
-// Vérifier l'état de l'utilisateur connecté
-onAuthStateChanged(auth, user => {
-    if(user){
-        console.log("Utilisateur connecté:", user.displayName);
-    } else {
-        console.log("Aucun utilisateur connecté");
-    }
-});
-
-
-
 // ==========================================================================
 // Translations 
 // ==========================================================================
@@ -69,7 +43,7 @@ const translations = {
         user_welcome: "مرحبا {name} 👋",
         sign_out: "تسجيل الخروج",
         news_loading: "تحميل الأخبار...",
-        visit_count: "عدد زوار الموقع: {count1}",
+        visit_count: "عدد زوار الموقع: {count}",
         weather_title: "🌦️ حالة الطقس في مدنين",
         weather_loading: "جاري التحميل...",
         prayer_fajr: "🌅 الفجر",
@@ -192,7 +166,7 @@ cookie_manage: "تغيير الخيارات"
         user_welcome: "Bienvenue {name} 👋",
         sign_out: "Déconnexion",
         news_loading: "Chargement des actualités...",
-        visit_count: "Nombre de visiteurs : {count1}",
+        visit_count: "Nombre de visiteurs : {count}",
         weather_title: "🌦️ Météo à Médenine",
         weather_loading: "Chargement...",
         prayer_fajr: "Fajr",
@@ -315,7 +289,7 @@ cookie_manage: "Modifier les options"
         user_welcome: "Welcome {name} 👋",
         sign_out: "Sign Out",
         news_loading: "Loading news...",
-        visit_count: "Visitors count: {count1}",
+        visit_count: "Visitors count: {count}",
         weather_title: "🌦️ Weather in Medenine",
         weather_loading: "Loading...",
         prayer_fajr: "Fajr",
@@ -419,7 +393,6 @@ cookie_allow: "I agree",
 cookie_manage: "Manage options"
     }
 };
-
 // ==========================================================================
 // Variables globales
 // ==========================================================================
@@ -460,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
             txt = txt.replace('{name}', userName?.textContent || '');
             txt = txt.replace('{count}', document.getElementById('vote-count')?.textContent || '0');
             txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
-txt = txt.replace('{count1}', visitCount || 0);
+
             el.innerHTML = txt;  // innerHTML عشان نحافظ على <strong> و <br> إذا موجودين
         });
 
@@ -485,54 +458,6 @@ txt = txt.replace('{count1}', visitCount || 0);
             applyLanguage(el.dataset.lang);
         });
     });
-
-// ======================= LANGUAGE SWITCH =======================
-document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
-  el.addEventListener('click', () => {
-    applyLanguage(el.dataset.lang);
-  });
-});
-
-// ==========================================================================
-// Three.js Scene Example (header canvas)
-// ==========================================================================
-
-// Ken canvas deja mawjoud fil code, juste st3milha
-const canvasHeader = document.getElementById('pcbCanvasHeader');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, canvasHeader.clientWidth / canvasHeader.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: canvasHeader, alpha: true });
-renderer.setSize(canvasHeader.clientWidth, canvasHeader.clientHeight);
-
-// OrbitControls (optionnel)
-const controls = new OrbitControls(camera, renderer.domElement);
-camera.position.set(0, 0, 5);
-controls.update();
-
-// Light
-const light = new THREE.AmbientLight(0xffffff, 1);
-scene.add(light);
-
-// Load GLTF Model Example
-const loader = new GLTFLoader();
-loader.load('robo.glb', gltf => {
-    scene.add(gltf.scene);
-    animate();
-}, undefined, error => console.error(error));
-
-// Animate
-function animate(){
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
-
-// ======================= RESPONSIVE =======================
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
 
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
@@ -568,9 +493,7 @@ window.addEventListener('resize', () => {
         }).catch(console.error);
     });
 
-  // ── Compteur de visites (FIXED & CLEAN) ───────────────────────────────────
-let visitCount = 0;
-
+    // ── Compteur de visites ────────────────────────────────────────────────
 if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
@@ -583,21 +506,14 @@ if (visitEl) {
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
-    // قراءة العدد الحقيقي من Firebase فقط
+    // عرض العدد الحقيقي مباشرة من Firebase
     visitsRef.on('value', snapshot => {
-        visitCount = snapshot.val() || 0;
-        updateVisitText();
+        const total = snapshot.val() || 0;
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
     });
 }
 
-// تحديث النص حسب اللغة
-function updateVisitText() {
-    if (!visitEl) return;
-    visitEl.textContent =
-        translations[currentLang].visit_count.replace('{count1}', visitCount);
-}
-
-
+    // ── Mise à jour de l'heure ─────────────────────────────────────────────
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {
     const now = new Date();
@@ -795,7 +711,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return t.unknown;
     }
 
-
     // ── Prayer Times ───────────────────────────────────────────────────────
     function updatePrayerTimes() {
         fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")
@@ -982,55 +897,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     showDailyItems();
 
- // ── Rating System (FIXED & CLEAN) ─────────────────────────────────────────
-
-let ratingData = {
-    sum: 0,
-    count: 0,
-    breakdown: {1:0,2:0,3:0,4:0,5:0}
-};
-
-let currentUserRating = 0;
-
+    // ── Rating System ──────────────────────────────────────────────────────
+   
 const stars = document.querySelectorAll('.stars-horizontal span');
 const ratingValue = document.getElementById('rating-value');
 const ratingMessage = document.getElementById('rating-message');
 const avgStarsEl = document.getElementById('avg-stars');
 const voteCountEl = document.getElementById('vote-count');
 const breakdownEl = document.getElementById('rating-breakdown');
+let currentUserRating = 0;
 
 const ratingsRef = firebase.database().ref('ratings');
 const userRatingsRef = firebase.database().ref('userRatings');
 
-// 1. تحميل التقييمات
+// 1. تحميل التقييمات (مع تحديث فوري للمتوسط والتفصيل)
 function loadRatings() {
     ratingsRef.on('value', snapshot => {
-        ratingData = snapshot.val() || ratingData;
-        updateRatingUI();
+        const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
+        const avg = data.count > 0 ? (data.sum / data.count).toFixed(1) : '0.0';
+        
+        avgStarsEl.textContent = avg;
+        voteCountEl.textContent = data.count;
+
+        // تحديث التفصيل (breakdown) مع ترجمة ديناميكية
+        let html = '';
+        for (let i = 5; i >= 1; i--) {
+            const count = data.breakdown?.[i] || 0;
+            html += `
+                <div>
+                    <span class="stars">${'★'.repeat(i)}</span>
+                    <span class="count">${count} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
+                </div>
+            `;
+        }
+        breakdownEl.innerHTML = html;
     });
 }
 
-// تحديث الواجهة حسب اللغة
-function updateRatingUI() {
-    const avg = ratingData.count > 0 ? (ratingData.sum / ratingData.count).toFixed(1) : '0.0';
-
-    if (avgStarsEl) avgStarsEl.textContent = avg;
-    if (voteCountEl) voteCountEl.textContent = ratingData.count;
-
-    let html = '';
-    for (let i = 5; i >= 1; i--) {
-        const c = ratingData.breakdown?.[i] || 0;
-        html += `
-            <div>
-                <span class="stars">${'★'.repeat(i)}</span>
-                <span class="count">${c} ${translations[currentLang]?.rating_votes_text || 'صوت'}</span>
-            </div>
-        `;
-    }
-    if (breakdownEl) breakdownEl.innerHTML = html;
-}
-
-// 2. تحديث النجوم
+// 2. تحديث شكل النجوم
 function updateStars(rating) {
     stars.forEach(star => {
         const val = Number(star.dataset.value);
@@ -1040,14 +944,12 @@ function updateStars(rating) {
     if (ratingValue) ratingValue.textContent = `${rating}/5`;
 }
 
-// 3. التحقق من تقييم المستخدم
+// 3. التحقق من تقييم المستخدم الحالي
 function checkUserRating(user) {
     if (!user) {
         updateStars(0);
         if (ratingMessage) {
-            ratingMessage.textContent =
-                translations[currentLang]?.rating_login ||
-                'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
+            ratingMessage.textContent = translations[currentLang]?.rating_login || 'سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)';
             ratingMessage.classList.add('show');
         }
         stars.forEach(s => s.style.pointerEvents = 'none');
@@ -1057,11 +959,11 @@ function checkUserRating(user) {
     const uid = user.uid;
     userRatingsRef.child(uid).once('value').then(snap => {
         if (snap.exists()) {
-            currentUserRating = snap.val().rating;
+            const data = snap.val();
+            currentUserRating = data.rating;
             updateStars(currentUserRating);
             if (ratingMessage) {
-                ratingMessage.textContent =
-                    `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
+                ratingMessage.textContent = `شكراً ${user.displayName || ''}، تقييمك (${currentUserRating} نجوم) محفوظ`;
                 ratingMessage.classList.add('show');
                 setTimeout(() => ratingMessage.classList.remove('show'), 8000);
             }
@@ -1071,45 +973,62 @@ function checkUserRating(user) {
             updateStars(0);
             stars.forEach(s => s.style.pointerEvents = 'auto');
         }
-    });
+    }).catch(err => console.error("Erreur check rating:", err));
 }
 
 // 4. ربط تغيير حالة المستخدم
 auth.onAuthStateChanged(user => checkUserRating(user));
 
-// 5. تفاعل النجوم
+// 5. التفاعل مع النجوم (hover + click)
 stars.forEach(star => {
     const val = Number(star.dataset.value);
 
+    // Hover (preview)
     star.addEventListener('mouseover', () => {
         if (auth.currentUser && currentUserRating === 0) {
-            updateStars(val);
+            stars.forEach(s => {
+                const sVal = Number(s.dataset.value);
+                s.classList.toggle('selected', sVal <= val);
+                s.textContent = sVal <= val ? '★' : '☆';
+            });
         }
     });
 
+    // Mouse out → reset
     star.addEventListener('mouseout', () => {
         if (auth.currentUser && currentUserRating === 0) {
             updateStars(0);
         }
     });
 
+    // Click → تسجيل التقييم
     star.addEventListener('click', () => {
         if (!auth.currentUser) {
+            alert('سجل الدخول عبر Google لتقييم الورشة مرة واحدة فقط');
             document.getElementById('btn-google')?.click();
             return;
         }
 
-        if (currentUserRating > 0) return;
+        if (currentUserRating > 0) {
+            if (ratingMessage) {
+                ratingMessage.textContent = translations[currentLang]?.rating_login || 'لقد قيّمت الورشة من قبل';
+                ratingMessage.classList.add('show');
+                setTimeout(() => ratingMessage.classList.remove('show'), 6000);
+            }
+            return;
+        }
 
         const uid = auth.currentUser.uid;
         const name = auth.currentUser.displayName || 'مجهول';
 
+        // حفظ تقييم المستخدم
         userRatingsRef.child(uid).set({
             rating: val,
             name: name,
             timestamp: firebase.database.ServerValue.TIMESTAMP
         });
 
+        // تحديث المجموع الكلي
         ratingsRef.transaction(current => {
             const data = current || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
             data.sum += val;
@@ -1121,10 +1040,15 @@ stars.forEach(star => {
         currentUserRating = val;
         updateStars(val);
 
+        // رسالة شكر مترجمة
+        const thanksText = {
+            ar: `شكراً ${name}، تقييمك (${val} نجوم) تم حفظه نهائياً! 🌟`,
+            fr: `Merci ${name}, votre note (${val} étoiles) a été enregistrée 🌟`,
+            en: `Thank you ${name}, your rating (${val} stars) has been saved 🌟`
+        };
+
         if (ratingMessage) {
-            ratingMessage.textContent =
-                translations[currentLang]?.rating_thanks ||
-                `شكراً ${name}، تقييمك (${val}) تم حفظه 🌟`;
+            ratingMessage.textContent = thanksText[currentLang];
             ratingMessage.classList.add('show');
             setTimeout(() => ratingMessage.classList.remove('show'), 8000);
         }
@@ -1133,100 +1057,140 @@ stars.forEach(star => {
     });
 });
 
-// 6. تحميل التقييمات
+// 6. تحميل التقييمات عند بداية الصفحة
 loadRatings();
+// ===== robo =====
+import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
 
- // ── PCB Animated Header Canvas ─────────────────────────────────────────
-const canvas = document.getElementById('pcbCanvasHeader');
+// ===== Setup Canvas & Scene =====
+const canvas = document.getElementById('roboCanvas');
+const scene = new THREE.Scene();
 
-if (canvas) {
-    const ctx = canvas.getContext('2d');
+// Camera
+const camera = new THREE.PerspectiveCamera(
+  45, 
+  canvas.clientWidth / canvas.clientHeight, 
+  0.1, 
+  1000
+);
+camera.position.set(0, 1, 5);
 
-    // Resize function
-    function resizeCanvas() {
-        canvas.width = canvas.parentElement.offsetWidth;
-        canvas.height = canvas.parentElement.offsetHeight;
-    }
+// Renderer
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
 
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas(); // Appel initial
+// Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
-    // Création des traces
-    const traces = [];
-    for (let i = 0; i < 50; i++) {
-        traces.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            length: 50 + Math.random() * 150,
-            speed: 0.5 + Math.random() * 1.5,
-            color: 'rgba(0, 255, 255, 0.5)',
-            particles: Array.from({ length: 5 }, () => ({
-                offset: Math.random() * 200,
-                speed: 1 + Math.random() * 2,
-                size: 2 + Math.random() * 2
-            }))
-        });
-    }
+// Light
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
 
-    // Suivi souris
-    let mouseX = -1000;
-    let mouseY = -1000;
-    window.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(5,5,5);
+scene.add(directionalLight);
 
-    // Animation loop
-    function animatePCB() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Load GLTF Model
+const loader = new GLTFLoader();
+loader.load('robo.glb', gltf => {
+  const model = gltf.scene;
+  model.scale.set(1.5,1.5,1.5);
+  model.position.set(0, 0, 0);
+  scene.add(model);
+  animate();
+}, undefined, err => console.error(err));
 
-        traces.forEach(t => {
-            // Effet speed m3a mouse
-            const dx = t.x + t.length / 2 - mouseX;
-            const dy = t.y - mouseY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const multiplier = dist < 200 ? 3 : 1;
-
-            // Trace principale
-            ctx.beginPath();
-            ctx.moveTo(t.x, t.y);
-            ctx.lineTo(t.x + t.length, t.y);
-            ctx.strokeStyle = t.color;
-            ctx.lineWidth = 2;
-            ctx.shadowColor = '#0a3af0';
-            ctx.shadowBlur = 10;
-            ctx.stroke();
-
-            // Particles 3la el trace
-            t.particles.forEach(p => {
-                const px = t.x + p.offset;
-                const py = t.y;
-                ctx.beginPath();
-                ctx.arc(px, py, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#0a3af0';
-                ctx.shadowColor = '#0a3af0';
-                ctx.shadowBlur = 10;
-                ctx.fill();
-
-                p.offset += p.speed * multiplier;
-                if (p.offset > t.length) p.offset = 0;
-            });
-
-            // Mouvement trace
-            t.x += t.speed * multiplier;
-            if (t.x > canvas.width) t.x = -t.length;
-        });
-
-        requestAnimationFrame(animatePCB);
-    }
-
-    animatePCB();
-} else {
-    console.warn("Canvas PCB non trouvé dans le DOM");
+// Animate
+function animate(){
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
 }
 
+// Responsive
+window.addEventListener('resize', () => {
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+});
+
+    // ── PCB Animated Header Canvas ─────────────────────────────────────────
+    const canvas = document.getElementById('pcbCanvasHeader');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const traces = [];
+        for (let i = 0; i < 50; i++) {
+            traces.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: 50 + Math.random() * 150,
+                speed: 0.5 + Math.random() * 1.5,
+                color: 'rgba(0,255,255,0.5)',
+                particles: Array.from({length: 5}, () => ({
+                    offset: Math.random() * 200,
+                    speed: 1 + Math.random() * 2,
+                    size: 2 + Math.random() * 2
+                }))
+            });
+        }
+
+        let mouseX = -1000, mouseY = -1000;
+        window.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animatePCB() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            traces.forEach(t => {
+                const dx = t.x + t.length/2 - mouseX;
+                const dy = t.y - mouseY;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                const multiplier = dist < 200 ? 3 : 1;
+
+                ctx.beginPath();
+                ctx.moveTo(t.x, t.y);
+                ctx.lineTo(t.x + t.length, t.y);
+                ctx.strokeStyle = t.color;
+                ctx.lineWidth = 2;
+                ctx.shadowColor = '#0a3af0';
+                ctx.shadowBlur = 10;
+                ctx.stroke();
+
+                t.particles.forEach(p => {
+                    const px = t.x + p.offset;
+                    const py = t.y;
+                    ctx.beginPath();
+                    ctx.arc(px, py, p.size, 0, Math.PI*2);
+                    ctx.fillStyle = '#0a3af0';
+                    ctx.shadowColor = '#0a3af0';
+                    ctx.shadowBlur = 10;
+                    ctx.fill();
+                    p.offset += p.speed * multiplier;
+                    if (p.offset > t.length) p.offset = 0;
+                });
+
+                t.x += t.speed * multiplier;
+                if (t.x > canvas.width) t.x = -t.length;
+            });
+            requestAnimationFrame(animatePCB);
+        }
+        animatePCB();
+    }
+
     // ── Fullscreen Viewer ──────────────────────────────────────────────────
-  document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
+    document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
         card.addEventListener('click', () => {
             const title = card.dataset.title;
             const desc = card.dataset.desc;
@@ -1470,8 +1434,8 @@ if (smdInput) {
         powerFill.style.width = P ? Math.min(100, P) + "%" : "0%";
     }));
 
- // ── Firebase Download Counter + Progress ───────────────────────────────
-   const db = firebase.database();
+    // ── Firebase Download Counter + Progress ───────────────────────────────
+    const db = firebase.database();
 
     document.querySelectorAll('.download-btn').forEach(btn => {
         const id = btn.dataset.id;
@@ -1552,7 +1516,6 @@ if (smdInput) {
             }
         });
     });
-
 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

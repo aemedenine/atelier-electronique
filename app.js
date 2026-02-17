@@ -494,6 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Compteur de visites ────────────────────────────────────────────────
+// ── Compteur de visites ────────────────────────────────────────────────
 if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
@@ -506,10 +507,17 @@ if (visitEl) {
         visitsRef.transaction(current => (current || 0) + 1);
     }
 
-    // عرض العدد الحقيقي مباشرة من Firebase
+    // ────────────── التحديث المباشر والدائم ──────────────
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-        visitEl.textContent = translations[currentLang].visit_count.replace('{count1}', total);
+        
+        // نأخذ النص الأساسي المترجم من translations
+        const template = translations[currentLang]?.visit_count || "عدد زوار الموقع: {count1}";
+        
+        // نستبدل {count1} بالقيمة الجديدة
+        const finalText = template.replace('{count1}', total);
+        
+        visitEl.innerHTML = finalText;
     });
 }
 

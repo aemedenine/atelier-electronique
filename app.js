@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Rafraîchir les sections sensibles à la langue
-        updateVisitText();
+       safeUpdateVisitText();
         updateRateText();
         updateWeather();
         updatePrayerTimes();

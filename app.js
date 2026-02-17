@@ -1,12 +1,12 @@
 // ==========================================================================
-// Imports l-top – lazma ykounou l-ewwel 3 lignes fi el fichier
+// Imports l-top – lazma ykounou l-ewwel fi el fichier
 // ==========================================================================
 import * as THREE from 'https://unpkg.com/three@0.169.0/build/three.module.js?module';
 import { GLTFLoader } from 'https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js?module';
 import { OrbitControls } from 'https://unpkg.com/three@0.169.0/examples/jsm/controls/OrbitControls.js?module';
 
 // ==========================================================================
-// Firebase Modular (latest v9.24.0)
+// Firebase Modular v9 (latest w compatible)
 // ==========================================================================
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js';
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js';
@@ -14,7 +14,7 @@ import { getDatabase, ref, onValue, transaction, serverTimestamp } from 'https:/
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-analytics.js';
 
 // ==========================================================================
-// Firebase Configuration & Initialization
+// Firebase Config & Init
 // ==========================================================================
 const firebaseConfig = {
     apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
@@ -26,18 +26,17 @@ const firebaseConfig = {
     databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-// Garder la session même après refresh/fermeture
+// Garder la session locale
 setPersistence(auth, browserLocalPersistence)
     .then(() => console.log("🔒 Session persistente activée"))
     .catch(error => console.error("Erreur persistence:", error));
 
-// Vérifier l'état de l'utilisateur connecté
+// Vérifier état utilisateur (exemple simple)
 onAuthStateChanged(auth, user => {
     if (user) {
         console.log("Utilisateur connecté:", user.displayName);
@@ -45,6 +44,7 @@ onAuthStateChanged(auth, user => {
         console.log("Aucun utilisateur connecté");
     }
 });
+
 
 // ==========================================================================
 // Translations 

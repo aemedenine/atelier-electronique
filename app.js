@@ -496,8 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Compteur de visites ────────────────────────────────────────────────
-const visitEl = document.getElementById('visitCount');
-
 if (visitEl) {
     const db = firebase.database();
     const visitsRef = db.ref('visits');
@@ -512,19 +510,24 @@ if (visitEl) {
 
     visitsRef.on('value', snapshot => {
         const totalVisits = snapshot.val() || 0;
-
-        visitEl.dataset.value = totalVisits; 
-        updateVisitText();
+        visitEl.dataset.value = totalVisits;
+        safeUpdateVisitText();
     });
 }
-function updateVisitText() {
-    const visitEl = document.getElementById('visitCount');
+
+function safeUpdateVisitText() {
     if (!visitEl) return;
+    if (typeof translations === "undefined") return;
+    if (typeof currentLang === "undefined") return;
 
     const total = visitEl.dataset.value || 0;
+
+    if (!translations[currentLang]?.visit_count) return;
+
     visitEl.textContent = translations[currentLang]
         .visit_count.replace('{count1}', total);
 }
+
 
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 

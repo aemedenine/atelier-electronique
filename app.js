@@ -1135,76 +1135,94 @@ stars.forEach(star => {
 // 6. تحميل التقييمات
 loadRatings();
 
-    // ── PCB Animated Header Canvas ─────────────────────────────────────────
-    const canvas = document.getElementById('pcbCanvasHeader');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        function resizeCanvas() {
-            canvas.width = canvas.parentElement.offsetWidth;
-            canvas.height = canvas.parentElement.offsetHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+   // ── PCB Animated Header Canvas ─────────────────────────────────────────
+const canvas = document.getElementById('pcbCanvasHeader');
 
-        const traces = [];
-        for (let i = 0; i < 50; i++) {
-            traces.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                length: 50 + Math.random() * 150,
-                speed: 0.5 + Math.random() * 1.5,
-                color: 'rgba(0,255,255,0.5)',
-                particles: Array.from({length: 5}, () => ({
-                    offset: Math.random() * 200,
-                    speed: 1 + Math.random() * 2,
-                    size: 2 + Math.random() * 2
-                }))
-            });
-        }
+if (canvas) {
+    const ctx = canvas.getContext('2d');
 
-        let mouseX = -1000, mouseY = -1000;
-        window.addEventListener('mousemove', e => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+    // Resize function
+    function resizeCanvas() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // Appel initial
+
+    // Création des traces
+    const traces = [];
+    for (let i = 0; i < 50; i++) {
+        traces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            length: 50 + Math.random() * 150,
+            speed: 0.5 + Math.random() * 1.5,
+            color: 'rgba(0, 255, 255, 0.5)',
+            particles: Array.from({ length: 5 }, () => ({
+                offset: Math.random() * 200,
+                speed: 1 + Math.random() * 2,
+                size: 2 + Math.random() * 2
+            }))
         });
+    }
 
-        function animatePCB() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            traces.forEach(t => {
-                const dx = t.x + t.length/2 - mouseX;
-                const dy = t.y - mouseY;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                const multiplier = dist < 200 ? 3 : 1;
+    // Suivi souris
+    let mouseX = -1000;
+    let mouseY = -1000;
+    window.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
 
+    // Animation loop
+    function animatePCB() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        traces.forEach(t => {
+            // Effet speed m3a mouse
+            const dx = t.x + t.length / 2 - mouseX;
+            const dy = t.y - mouseY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const multiplier = dist < 200 ? 3 : 1;
+
+            // Trace principale
+            ctx.beginPath();
+            ctx.moveTo(t.x, t.y);
+            ctx.lineTo(t.x + t.length, t.y);
+            ctx.strokeStyle = t.color;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = '#0a3af0';
+            ctx.shadowBlur = 10;
+            ctx.stroke();
+
+            // Particles 3la el trace
+            t.particles.forEach(p => {
+                const px = t.x + p.offset;
+                const py = t.y;
                 ctx.beginPath();
-                ctx.moveTo(t.x, t.y);
-                ctx.lineTo(t.x + t.length, t.y);
-                ctx.strokeStyle = t.color;
-                ctx.lineWidth = 2;
+                ctx.arc(px, py, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#0a3af0';
                 ctx.shadowColor = '#0a3af0';
                 ctx.shadowBlur = 10;
-                ctx.stroke();
+                ctx.fill();
 
-                t.particles.forEach(p => {
-                    const px = t.x + p.offset;
-                    const py = t.y;
-                    ctx.beginPath();
-                    ctx.arc(px, py, p.size, 0, Math.PI*2);
-                    ctx.fillStyle = '#0a3af0';
-                    ctx.shadowColor = '#0a3af0';
-                    ctx.shadowBlur = 10;
-                    ctx.fill();
-                    p.offset += p.speed * multiplier;
-                    if (p.offset > t.length) p.offset = 0;
-                });
-
-                t.x += t.speed * multiplier;
-                if (t.x > canvas.width) t.x = -t.length;
+                p.offset += p.speed * multiplier;
+                if (p.offset > t.length) p.offset = 0;
             });
-            requestAnimationFrame(animatePCB);
-        }
-        animatePCB();
+
+            // Mouvement trace
+            t.x += t.speed * multiplier;
+            if (t.x > canvas.width) t.x = -t.length;
+        });
+
+        requestAnimationFrame(animatePCB);
     }
+
+    animatePCB();
+} else {
+    console.warn("Canvas PCB non trouvé dans le DOM");
+}
 
     // ── Fullscreen Viewer ──────────────────────────────────────────────────
   document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {

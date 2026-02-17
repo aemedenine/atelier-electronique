@@ -458,7 +458,7 @@ txt = txt.replace('{count1}', visitCount || 0);
             applyLanguage(el.dataset.lang);
         });
     });
-import  {as THREE }from 'three';
+import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 

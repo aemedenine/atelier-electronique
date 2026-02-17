@@ -4,21 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title data-i18n="site_title">ورشة إلكترونيك الرحماني</title>
-    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
             data-ad-client="ca-pub-5360225987687639"
             crossorigin="anonymous"></script>
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
           rel="stylesheet">
-    <!-- model-viewer -->
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
     <!-- CSS externe -->
     <link rel="stylesheet" href="style.css" />
-    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
 <body>
     <header>
@@ -43,27 +42,10 @@
                 <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
+             <!-- Canvas pour le robot -->
+    <canvas id="roboCanvas"></canvas>
+  </section>
 
-<!-- Robo sghir ta7t les flags -->
-<div id="robo-container">
-    <model-viewer
-        src="https://aemedenine.github.io/atelier-electronique/robo.glb"
-        alt="روبو الورشة"
-        autoplay
-        auto-rotate
-        rotation-per-second="30deg"
-        camera-controls
-        disable-zoom
-        interaction-prompt="none"
-        camera-orbit="0deg 90deg 2.5m"
-        field-of-view="30deg"
-        shadow-intensity="1"
-        exposure="1"
-        style="width: 120px; height: 120px; margin: 0 auto; display: block; background: transparent;">
-    </model-viewer>
-</div>
-</div>
-</section>
         <!-- User Info & Login Popup -->
         <div id="user-info" class="user-box" style="display:none;">
             <p class="welcome-msg" data-i18n="user_welcome">
@@ -660,7 +642,7 @@
     <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
 </div>
         <!-- JavaScript externe -->
-     <script type="module" src="app.js"></script>
+        <script type="module" src="app.js"></script>
    
 </body>
 </html>

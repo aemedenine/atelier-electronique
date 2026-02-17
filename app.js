@@ -1,4 +1,11 @@
 // ==========================================================================
+// Imports (tout en haut – obligatoire pour type="module")
+// ==========================================================================
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
+// ==========================================================================
 // Firebase Configuration & Initialization
 // ==========================================================================
 const firebaseConfig = {
@@ -393,9 +400,6 @@ cookie_allow: "I agree",
 cookie_manage: "Manage options"
     }
 };
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
 // ==========================================================================
 // Variables globales
@@ -472,7 +476,6 @@ document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
 
 // ======================= THREE CONTAINER =======================
 const container = document.getElementById('container');
-
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0a0a1f);
 

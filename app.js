@@ -458,10 +458,19 @@ txt = txt.replace('{count1}', visitCount || 0);
             applyLanguage(el.dataset.lang);
         });
     });
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// ======================= IMPORTS (لازم ديما يكونوا في أول الملف) =======================
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
+// ======================= LANGUAGE SWITCH =======================
+document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
+  el.addEventListener('click', () => {
+    applyLanguage(el.dataset.lang);
+  });
+});
+
+// ======================= THREE CONTAINER =======================
 const container = document.getElementById('container');
 
 const scene = new THREE.Scene();
@@ -470,18 +479,19 @@ scene.background = new THREE.Color(0x0a0a1f);
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 1.2, 3);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
+// ======================= CONTROLS =======================
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.enableZoom = false; // optionel, si t7eb maydirch zoom
+controls.enableZoom = false;
 controls.enablePan = false;
 
-// lumière simple w behya
+// ======================= LIGHTS =======================
 const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
 scene.add(ambientLight);
 
@@ -489,63 +499,59 @@ const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
 dirLight.position.set(5, 10, 7);
 scene.add(dirLight);
 
-// chargement du robot
+// ======================= LOAD ROBOT =======================
 const loader = new GLTFLoader();
 let robot;
-let mixer; // pour animation si ton .glb 3ando animation
+let mixer;
 
 loader.load(
-  './robo.glb', // ou 'models/robo.glb' si t7eb dossier
+  './robo.glb',
   (gltf) => {
     robot = gltf.scene;
-    
-    // Scale sghir (adapte selon ton modèle)
-    robot.scale.set(0.4, 0.4, 0.4); // 0.3 → 0.6 selon taille li t7eb
-    
-    // Position ta7t les flags (yemchi un peu ytal3 w yenzel)
+
+    robot.scale.set(0.4, 0.4, 0.4);
     robot.position.set(0, -0.3, 0);
-    
+
     scene.add(robot);
 
-    // Si ton robo 3ando animation (walk, idle...)
-    if (gltf.animations && gltf.animations.length > 0) {
+    if (gltf.animations.length > 0) {
       mixer = new THREE.AnimationMixer(robot);
-      const action = mixer.clipAction(gltf.animations[0]);
-      action.play();
+      mixer.clipAction(gltf.animations[0]).play();
     }
   },
   undefined,
-  (err) => console.error("Erreur chargement robo :", err)
+  (err) => console.error('Erreur chargement robo:', err)
 );
 
-// Animation loop (floating + rotation auto)
+// ======================= ANIMATION LOOP =======================
 let time = 0;
+const clock = new THREE.Clock();
+
 function animate() {
   requestAnimationFrame(animate);
-  
+
   time += 0.015;
-  
+
   if (robot) {
-    // Floating up & down
     robot.position.y = -0.3 + Math.sin(time) * 0.15;
-    
-    // Rotation douce
     robot.rotation.y += 0.008;
   }
-  
-  if (mixer) mixer.update(0.016); // delta time approx 60fps
-  
+
+  if (mixer) mixer.update(clock.getDelta());
+
   controls.update();
   renderer.render(scene, camera);
 }
+
 animate();
 
-// Responsive
+// ======================= RESPONSIVE =======================
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {

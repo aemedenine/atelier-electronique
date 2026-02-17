@@ -445,6 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Rafraîchir les sections sensibles à la langue
+        updateVisitText();
+        updateRateText();
         updateWeather();
         updatePrayerTimes();
         updateMiniCalendar();
@@ -493,31 +495,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(console.error);
     });
 
- // ── Compteur de visites ────────────────────────────────────────────────
-    if (visitEl) {
-        const db = firebase.database();
-        const visitsRef = db.ref('visits');
+    // ── Compteur de visites ────────────────────────────────────────────────
+const visitEl = document.getElementById('visitCount');
 
-        const today = new Date().toDateString();
-        let hasVisited = localStorage.getItem('hasVisitedToday');
+if (visitEl) {
+    const db = firebase.database();
+    const visitsRef = db.ref('visits');
 
-        if (hasVisited !== today) {
-            localStorage.setItem('hasVisitedToday', today);
-            visitsRef.transaction(current => (current || 0) + 1);
-        }
+    const today = new Date().toDateString();
+    let hasVisited = localStorage.getItem('hasVisitedToday');
 
-        // عرض العدد الحقيقي مباشرة من Firebase + حفظ القيمة
-        visitsRef.on('value', snapshot => {
-            const total = snapshot.val() || 0;
-            currentVisitCount = total;  // حفظ القيمة في المتغير العام
-
-            if (visitEl) {
-                visitEl.textContent = translations[currentLang].visit_count.replace('{count1}', total);
-            }
-        });
+    if (hasVisited !== today) {
+        localStorage.setItem('hasVisitedToday', today);
+        visitsRef.transaction(current => (current || 0) + 1);
     }
+
+    visitsRef.on('value', snapshot => {
+        const totalVisits = snapshot.val() || 0;
+
+        visitEl.dataset.value = totalVisits; 
+        updateVisitText();
+    });
+}
+function updateVisitText() {
+    const visitEl = document.getElementById('visitCount');
+    if (!visitEl) return;
+
+    const total = visitEl.dataset.value || 0;
+    visitEl.textContent = translations[currentLang]
+        .visit_count.replace('{count1}', total);
+}
+
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
-// ── Update Time Function (Multilingual) ─────────────────────────────
+
 function updateTime() {
     const now = new Date();
 

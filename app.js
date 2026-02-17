@@ -54,7 +54,7 @@ const translations = {
         prayer_isha: "🌙 العشاء",
         tip_title: "نصيحة اليوم",
         rating_title: "قيم الورشة",
-        rating_average: "متوسط التقييمات: {avg} ★ من {count} صوت",
+        rating_average: "متوسط التقييمات: {avg} ★ من {count1} صوت",
         rating_votes: "من",
         rating_votes_text: "صوت",
         rating_login: "سجل الدخول عبر Google لتقييم الورشة (مرة واحدة فقط)",
@@ -166,7 +166,7 @@ cookie_manage: "تغيير الخيارات"
         user_welcome: "Bienvenue {name} 👋",
         sign_out: "Déconnexion",
         news_loading: "Chargement des actualités...",
-        visit_count: "Nombre de visiteurs : {count}",
+        visit_count: "Nombre de visiteurs : {count1}",
         weather_title: "🌦️ Météo à Médenine",
         weather_loading: "Chargement...",
         prayer_fajr: "Fajr",
@@ -289,7 +289,7 @@ cookie_manage: "Modifier les options"
         user_welcome: "Welcome {name} 👋",
         sign_out: "Sign Out",
         news_loading: "Loading news...",
-        visit_count: "Visitors count: {count}",
+        visit_count: "Visitors count: {count1}",
         weather_title: "🌦️ Weather in Medenine",
         weather_loading: "Loading...",
         prayer_fajr: "Fajr",
@@ -509,7 +509,7 @@ if (visitEl) {
     // عرض العدد الحقيقي مباشرة من Firebase
     visitsRef.on('value', snapshot => {
         const total = snapshot.val() || 0;
-        visitEl.textContent = translations[currentLang].visit_count.replace('{count}', total);
+        visitEl.textContent = translations[currentLang].visit_count.replace('{count1}', total);
     });
 }
 

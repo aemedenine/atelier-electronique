@@ -493,34 +493,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(console.error);
     });
 
-    // ── Compteur de visites ────────────────────────────────────────────────
-// ── Compteur de visites ────────────────────────────────────────────────
-if (visitEl) {
-    const db = firebase.database();
-    const visitsRef = db.ref('visits');
+ // ── Compteur de visites ────────────────────────────────────────────────
+    if (visitEl) {
+        const db = firebase.database();
+        const visitsRef = db.ref('visits');
 
-    const today = new Date().toDateString();
-    let hasVisited = localStorage.getItem('hasVisitedToday');
+        const today = new Date().toDateString();
+        let hasVisited = localStorage.getItem('hasVisitedToday');
 
-    if (hasVisited !== today) {
-        localStorage.setItem('hasVisitedToday', today);
-        visitsRef.transaction(current => (current || 0) + 1);
+        if (hasVisited !== today) {
+            localStorage.setItem('hasVisitedToday', today);
+            visitsRef.transaction(current => (current || 0) + 1);
+        }
+
+        // عرض العدد الحقيقي مباشرة من Firebase + حفظ القيمة
+        visitsRef.on('value', snapshot => {
+            const total = snapshot.val() || 0;
+            currentVisitCount = total;  // حفظ القيمة في المتغير العام
+
+            if (visitEl) {
+                visitEl.textContent = translations[currentLang].visit_count.replace('{count1}', total);
+            }
+        });
     }
-
-    // ────────────── التحديث المباشر والدائم ──────────────
-    visitsRef.on('value', snapshot => {
-        const total = snapshot.val() || 0;
-        
-        // نأخذ النص الأساسي المترجم من translations
-        const template = translations[currentLang]?.visit_count || "عدد زوار الموقع: {count1}";
-        
-        // نستبدل {count1} بالقيمة الجديدة
-        const finalText = template.replace('{count1}', total);
-        
-        visitEl.innerHTML = finalText;
-    });
-}
-
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 // ── Update Time Function (Multilingual) ─────────────────────────────
 function updateTime() {

@@ -4,10 +4,10 @@ import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders
 import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js';
 
 // ===== Firebase Modular =====
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js';
-import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js';
-import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-database.js';
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.24.0/firebase-analytics.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js';
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js';
 
 // ==========================================================================
 // Firebase Configuration & Initialization

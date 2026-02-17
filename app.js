@@ -495,11 +495,13 @@ document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
 // ==========================================================================
 // Three.js Scene Example (header canvas)
 // ==========================================================================
-const canvas = document.getElementById('pcbCanvasHeader');
+
+// Ken canvas deja mawjoud fil code, juste st3milha
+const canvasHeader = document.getElementById('pcbCanvasHeader');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+const camera = new THREE.PerspectiveCamera(75, canvasHeader.clientWidth / canvasHeader.clientHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: canvasHeader, alpha: true });
+renderer.setSize(canvasHeader.clientWidth, canvasHeader.clientHeight);
 
 // OrbitControls (optionnel)
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -522,12 +524,14 @@ function animate(){
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
+
 // ======================= RESPONSIVE =======================
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {

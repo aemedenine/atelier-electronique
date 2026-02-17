@@ -1,10 +1,9 @@
 // ==========================================================================
-// Imports (tout en haut – obligatoire pour type="module")
+// Imports l-top – lazma ykounou l-ewwel 3 lignes fi el fichier
 // ==========================================================================
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
-
+import * as THREE from 'https://unpkg.com/three@0.168.0/build/three.module.js?module';
+import { GLTFLoader } from 'https://unpkg.com/three@0.168.0/examples/jsm/loaders/GLTFLoader.js?module';
+import { OrbitControls } from 'https://unpkg.com/three@0.168.0/examples/jsm/controls/OrbitControls.js?module';
 // ==========================================================================
 // Firebase Configuration & Initialization
 // ==========================================================================

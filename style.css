@@ -1589,8 +1589,8 @@ footer {
 }
 
 #roboCanvas {
-    width: 100% !important;
-    height: 100% !important;
+    width: 120% !important;
+    height: 120% !important;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #ffffff, #f2f2f2);
     box-shadow:

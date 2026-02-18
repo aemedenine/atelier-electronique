@@ -1475,42 +1475,64 @@ if (smdInput) {
         });
     });
  // ── robo ───────────────────────────────
-const robo = document.getElementById("robo");
-const bubble = document.getElementById("robo-bubble");
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
 
+<script>
+const canvas = document.getElementById("roboCanvas");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff);
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+camera.position.set(0, 1, 3);
+
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setSize(90, 90);
+
+const light1 = new THREE.DirectionalLight(0xffffff, 1);
+light1.position.set(2, 5, 5);
+scene.add(light1);
+
+const light2 = new THREE.AmbientLight(0xffffff, 0.8);
+scene.add(light2);
+
+let robo;
+
+const loader = new THREE.GLTFLoader();
+loader.load("models/robo.glb", gltf => {
+  robo = gltf.scene;
+  robo.scale.set(0.6, 0.6, 0.6);
+  scene.add(robo);
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (robo) robo.rotation.y += 0.01; // رقص خفيف
+  renderer.render(scene, camera);
+}
+animate();
+
+// تفاعل مع الماوس
+document.addEventListener("mousemove", e => {
+  if (!robo) return;
+  const x = (e.clientX / window.innerWidth) * 2 - 1;
+  robo.rotation.y = x * 0.8;
+});
+
+// كلام الروبو
+const bubble = document.getElementById("roboBubble");
 const answers = [
-  "نجم نعاونك تختار القطعة الصحيحة 🔧",
-  "عندك سؤال في الإلكترونيات؟ 🤖",
-  "قلّي شنّا تحب تعمل؟",
-  "مرحبا بيك في الورشة 👋"
+  "مرحبا 👋",
+  "نجم نعاونك؟",
+  "عندك سؤال؟",
+  "أنا روبو 🤖"
 ];
 
-document.addEventListener("mousemove", e => {
-  const rect = robo.getBoundingClientRect();
-  const dx = e.clientX - (rect.left + rect.width / 2);
-  const dy = e.clientY - (rect.top + rect.height / 2);
-
-  robo.style.transform = `translate(${dx * 0.03}px, ${dy * 0.03}px)`;
-});
-
-robo.addEventListener("mouseenter", () => {
+canvas.addEventListener("mouseenter", () => {
   bubble.innerHTML = answers[Math.floor(Math.random() * answers.length)];
-  robo.style.animation = "none";
 });
-
-robo.addEventListener("mouseleave", () => {
-  robo.style.animation = "dance 2s infinite ease-in-out";
-});
-
-robo.addEventListener("click", () => {
-  let q = prompt("اكتب سؤالك:");
-  if (!q) return;
-
-  bubble.innerHTML = "🤖 نفكّر...";
-  setTimeout(() => {
-    bubble.innerHTML = "سؤالك وصل 👍 خلّيني نعاونك 😉";
-  }, 800);
-});
+</script>
 
 
     // ── Final Initialization ───────────────────────────────────────────────

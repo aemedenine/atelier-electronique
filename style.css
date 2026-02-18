@@ -1570,35 +1570,103 @@ footer {
     transform: scale(1.2);
 }
 
-/* ====== robo ====== */
+/* ==========================================================================
+   ROBO 3D CONTAINER - Style clean & modern
+   ========================================================================== */
+
 #robo3d-container {
-  position: fixed;
-  top: 115px;
-  right: 10px;
-  width: 90px;
-  height: 140px;
-  z-index: 99999;
-  text-align: center;
-  font-family: Tahoma, Arial;
+    position: relative;
+    width: 140px;           /* taille totale du bloc robo + bubble */
+    height: 180px;          /* laisse de l'espace pour la bulle en haut */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 0 auto;         /* centré si tu veux */
+    transition: transform 0.4s ease;
 }
 
+#robo3d-container:hover {
+    transform: scale(1.08);
+}
+
+/* Le canvas du robot */
 #roboCanvas {
-  width: 90px;
-  height: 90px;
-  background: #fff;
-  border-radius: 12px;
-  cursor: pointer;
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e1e2f 0%, #2a2a4a 100%);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.5),
+        inset 0 0 15px rgba(0, 255, 255, 0.12);
+    border: 2px solid rgba(0, 255, 255, 0.18);
+    transition: all 0.4s ease;
 }
 
+#robo3d-container:hover #roboCanvas {
+    box-shadow: 
+        0 12px 35px rgba(255, 107, 53, 0.35),
+        inset 0 0 20px rgba(0, 255, 255, 0.25);
+    border-color: rgba(255, 107, 53, 0.4);
+}
+
+/* Bulle de discussion du robo */
 #roboBubble {
-  margin-top: 4px;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 4px 6px;
-  border-radius: 6px;
-  font-size: 11px;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ff6b35, #ff8c5e);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 
+        0 6px 20px rgba(255, 107, 53, 0.45),
+        0 2px 8px rgba(0,0,0,0.3);
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.35s ease;
+    z-index: 10;
 }
 
+/* Apparition smooth quand on hover le canvas */
+#robo3d-container:hover #roboBubble,
+#roboCanvas:hover ~ #roboBubble {
+    opacity: 1;
+    top: -45px;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Petite flèche sous la bulle */
+#roboBubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #ff6b35;
+}
+
+/* Responsive - plus petit sur mobile */
+@media (max-width: 768px) {
+    #robo3d-container {
+        width: 110px;
+        height: 150px;
+    }
+    #roboCanvas {
+        width: 90px !important;
+        height: 90px !important;
+    }
+    #roboBubble {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+}
 /* ==========================================================================
    RTL Specific
    ========================================================================== */

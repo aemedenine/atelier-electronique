@@ -1498,7 +1498,7 @@ scene.add(light2);
 let robo;
 
 const loader = new THREE.GLTFLoader();
-loader.load("models/robo.glb", gltf => {
+loader.load("robo.glb", gltf => {
   robo = gltf.scene;
   robo.scale.set(0.6, 0.6, 0.6);
   scene.add(robo);

@@ -18,9 +18,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <!-- Three.js + GLTFLoader (version qui marche ensemble) -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
     <header>
@@ -32,17 +29,13 @@
         <div class="news-ticker" aria-live="polite">
             <div class="news-text" id="live-news" data-i18n="news_loading">تحميل الأخبار...</div>
         </div>
-        <h1>ورشة إلكترونيك الرحماني</h1>
-        <div id="robo3d-container">
-            <canvas id="roboCanvas" width="120" height="120"></canvas>
-            <div id="roboBubble">مرحبا يا خويا 👋</div>
-        </div>
     </header>
 
     <main class="container main-content">
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
+
             <!-- Language Switcher -->
             <div class="lang-switch">
                 <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">
@@ -647,7 +640,7 @@
     <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
 </div>
         <!-- JavaScript externe -->
-      <script src="app.js"></script>
+        <script src="app.js" defer></script>
    
 </body>
 </html>

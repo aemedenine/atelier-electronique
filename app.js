@@ -1474,98 +1474,76 @@ if (smdInput) {
             }
         });
     });
-// ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('roboCanvas');
-    if (!canvas) return;
+/* ==============================================
+   ROBO 3D – sghir ta7t el drapeaux
+   ============================================== */
+#robo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px; /* espace bin visit-count w drapeaux */
+}
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff); // blanc kif talabt
+#robo-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    cursor: pointer;
+}
 
-    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    camera.position.set(0, 0.9, 3.2);
+#roboCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50%;
+    background: #ffffff;           /* fond blanc kif talabt */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
 
-    const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: true
-    });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+#robo-container:hover #roboCanvas {
+    transform: scale(1.15);
+    box-shadow: 0 8px 28px rgba(255, 107, 53, 0.3); /* glow orange */
+}
 
-    // Lights bech yban mli7
-    scene.add(new THREE.AmbientLight(0xffffff, 1.1));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
-    dirLight.position.set(4, 8, 6);
-    scene.add(dirLight);
+#roboBubble {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff6b35;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 22px;
+    font-size: 13.5px;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
 
-    let model = null;
-    let isHover = false;
+#robo-container:hover #roboBubble {
+    opacity: 1;
+    bottom: 115%;
+}
 
-    const loader = new THREE.GLTFLoader();
-    loader.load(
-        'robo.glb',
-        (gltf) => {
-            model = gltf.scene;
-            model.scale.set(0.6, 0.6, 0.6);
-            model.position.y = -0.35; // ajusti ida yban 3ali welle b3id
-            scene.add(model);
-            console.log('Robo chargé – yorqos wa7dou kif mouse ba3id 🤖');
-        },
-        undefined,
-        (err) => console.error('Erreur chargement robo.glb :', err)
-    );
+#roboBubble::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #ff6b35;
+}
 
-    // Messages random kif hover
-    const msgs = [
-        "مرحبا يا خويا 👋",
-        "نجم نعاونك؟ 🔧",
-        "قلي شنوة تحب 😏",
-        "ورشة إلكترونيك مدنين 🔥",
-        "عندك كارت معطلة؟ أرسلها!"
-    ];
-
-    canvas.addEventListener('mouseenter', () => {
-        isHover = true;
-        const bubble = document.getElementById('roboBubble');
-        if (bubble) {
-            bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-        }
-    });
-
-    canvas.addEventListener('mouseleave', () => {
-        isHover = false;
-        const bubble = document.getElementById('roboBubble');
-        if (bubble) bubble.textContent = "مرحبا 👋";
-    });
-
-    // Animation principale
-    function animate() {
-        requestAnimationFrame(animate);
-
-        if (model) {
-            if (isHover) {
-                // kif mouse qareb → follow mouse smooth
-                const mouseX = (event ? event.clientX / window.innerWidth : 0.5) * 2 - 1;
-                model.rotation.y = THREE.MathUtils.lerp(model.rotation.y, mouseX * 1.5, 0.1);
-                model.scale.set(0.68, 0.68, 0.68); // zoom in chway
-            } else {
-                // kif mouse ba3id → yorqos wa7dou (rotation lente)
-                model.rotation.y += 0.007; // slow dance kif talabt
-                model.scale.set(0.6, 0.6, 0.6); // taille normale
-            }
-        }
-
-        renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize handling (si window ybadal taille)
-    window.addEventListener('resize', () => {
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    });
-});
+/* Mobile – robo plus sghir */
+@media (max-width: 768px) {
+    #robo-wrapper { margin: 0 6px; }
+    #robo-container { width: 90px; height: 90px; }
+    #roboBubble { font-size: 12px; padding: 6px 12px; }
+}
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

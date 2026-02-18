@@ -1,1675 +1,646 @@
-/* ==========================================================================
-   Base & Reset + Fonts + Direction
-   ========================================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-html, body {
-  font-family: 'Montserrat', 'Open Sans', sans-serif;
-  background: #00000000;
-  color: #1a1a1a;
-  min-height: 100vh;
-  overflow-x: hidden;
-  direction: rtl;
-  text-align: right;
-  line-height: 1.6;
-  font-size: 16px;
-}
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  background: transparent;
-}
-/* ==========================================================================
-   Header + PCB Canvas + Logo Background
-   ========================================================================== */
-header {
-  position: relative;
-  background: rgba(253, 253, 253, 0.95);
-  padding: 20px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-  margin-bottom: 15px;
-  z-index: 10;
-}
-.header-inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  text-align: center;
-  padding: 30px 0;
-}
-#pcbCanvasHeader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-.header-inner img.logo,
-.header-inner h1 {
-  position: relative;
-  z-index: 10;
-}
-.logo {
-  width: 150px;
-  border-radius: 10px;
-  box-shadow: 0 0 8px #1e90ff;
-}
-header h1 {
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: #1e90ff;
-  flex-grow: 1;
-  display: inline-block;
-  margin-left: 15px;
-  transition: color 0.5s, transform 0.5s, text-shadow 0.5s;
-}
-.logo-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,255,255,0.15) 0,
-      rgba(0,255,255,0.15) 1px,
-      transparent 1px,
-      transparent 8px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255,107,53,0.12) 0,
-      rgba(255,107,53,0.12) 1px,
-      transparent 1px,
-      transparent 10px
-    );
-  opacity: 0.6;
-  animation: pcbMove 12s linear infinite;
-  z-index: -2;
-}
-@keyframes pcbMove {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-/* ==========================================================================
-   News Ticker
-   ========================================================================== */
-.news-ticker {
-  width: 100%;
-  overflow: hidden;
-  background: linear-gradient(90deg, #0c65e0a3, #0d34d3b8, #130480, #0a33dafc, #1337de);
-  background-size: 300% 100%;
-  animation: gradientFlow 22s ease infinite; /* نفس سرعة ونوع الـ animation اللي في FAQ */
-  color: white;
-  white-space: nowrap;
-  font-weight: 700;
-  padding: 12px 0;
-  margin-bottom: 25px;
-  font-size: 1.1rem;
-  text-align: center;
-  z-index: 10;
-  box-shadow: 0 4px 15px rgba(20,184,166,0.35);
-  border-radius: 0 0 12px 12px; /* شوية انحناء تحت عشان يبقى أنيق */
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-}
-
-/* نفس الـ keyframes اللي مستعمل في wave-header */
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-/* ==========================================================================
-   Info Bar
-   ========================================================================== */
-.info-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.95);
-  color: #282c34;
-  padding: 12px 20px;
-  border-radius: 8px;
-  margin-bottom: 25px;
-  font-weight: 600;
-  font-size: 1rem;
-  flex-wrap: wrap;
-  gap: 10px;
-  z-index: 10;
-}
-#toggle-lang-btn {
-  background: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  color: #3a3a3a;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* ==========================================================================
-   CTA Buttons + Glow Effect
-   ========================================================================== */
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
-  z-index: 10;
-}
-.cta-buttons a,
-.cta-buttons button {
-  background: #fff;
-  color: #3a3a3a;
-  padding: 14px 18px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  min-width: 140px;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.08s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 6px rgba(30,144,255,0.7);
-}
-.cta-buttons a:hover,
-.cta-buttons button:hover {
-  background: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 0 15px #ff6b35, 0 0 30px #ff6b35;
-}
-.btn-store {
-  background: #fff !important;
-  color: #3a3a3a !important;
-  padding: 14px 25px;
-  min-width: 160px;
-  font-size: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-}
-.btn-store:hover {
-  background: #fff !important;
-}
-/* ==========================================================================
-   Experience Badge (Animated)
-   ========================================================================== */
-.experience-badge {
-  display: block;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: bold;
-  color: yellow;
-  margin: 30px auto;
-  background: none;
-  padding: 0;
-  animation: glowExperience 1.5s infinite alternate, floatExperience 3s ease-in-out infinite;
-  z-index: 10;
-}
-@keyframes glowExperience {
-  0% { color: yellow; text-shadow: 0 0 5px yellow; }
-  25% { color: red; text-shadow: 0 0 8px red; }
-  50% { color: cyan; text-shadow: 0 0 10px cyan; }
-  75% { color: magenta; text-shadow: 0 0 12px magenta; }
-  100% { color: yellow; text-shadow: 0 0 15px yellow; }
-}
-@keyframes floatExperience {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-/* ==========================================================================
-   Weather & Prayer Times Box – نقلّصنا الطول شوية
-   ========================================================================== */
-#today-miladi,
-#today-hijri {
-  transition: all 0.4s ease;
-}
-
-.fade {
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* الجمعة */
-.friday {
-  color: #0a7d5a;
-  font-weight: 700;
-}
-.weather-box {
-  margin: 0;
-  padding: 16px; /* نقلّص الـ padding عشان يساعد في الطول */
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  box-shadow: 0 0 20px #409eff;
-  z-index: 10;
-}
-.weather-box h3 {
-  margin-bottom: 8px;
-  color: #222;
-  font-size: 1.3rem;
-  text-align: center;
-}
-.weather-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 8px; /* مسافات داخلية أقل شوية */
-  align-items: center;
-}
-.weather-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 6px;
-}
-.temp-big {
-  font-size: 2.4rem;
-  font-weight: 900;
-  color: #1976d2;
-}
-.wind-small {
-  font-size: 0.92rem;
-  color: #0d47a1;
-}
-.prayer-times {
-  width: 100%;
-  margin: 6px 0;
-}
-.prayer-times p {
-  display: flex;
-  justify-content: space-between;
-  margin: 3px 0;
-  font-size: 0.92rem;
-  color: #282c34;
-}
-.prayer-times p span {
-  flex-shrink: 0;
-}
-.prayer-times p .time {
-  font-weight: bold;
-}
-.mini-info {
-  width: 100%;
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px dashed rgba(64,158,255,0.3);
-  font-size: 0.82rem;
-  color: #0d47a1;
-}
-.mini-calendar {
-  text-align: center;
-  margin-bottom: 5px;
-}
-.mini-calendar span {
-  display: block;
-  margin: 2px 0;
-}
-.mini-calendar .friday {
-  color: #2e7d32;
-  font-weight: 700;
-}
-.daily-tips {
-  text-align: right;
-  width: 100%;
-}
-.tips-title {
-  font-weight: 700;
-  color: #1976d2;
-  margin-bottom: 3px;
-  text-align: center;
-}
-.daily-tips ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.daily-tips li {
-  padding-right: 18px;
-  position: relative;
-  line-height: 1.25;
-}
-.daily-tips li:before {
-  content: "⚡";
-  position: absolute;
-  right: 0;
-  top: 2px;
-  color: #ff6b35;
-  font-size: 0.9rem;
-}
-/* ==========================================================================
-   FAQ Section
-   ========================================================================== */
-.faq {
-  max-width: 920px;
-  margin: 0 auto 70px auto;
-  z-index: 10;
-}
-.faq-container {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  padding: 0;
-}
-.faq-header {
-  background: linear-gradient(135deg, #2563eb, #60a5fa);
-  color: white;
-  padding: 20px 15px;
-  text-align: center;
-  font-size: 1.85rem;
-  font-weight: 700;
-  border-bottom: 1px solid rgba(255,255,255,0.25);
-  letter-spacing: 0.4px;
-}
-.faq-close-all-btn {
-  display: block;
-  margin: 18px auto 24px;
-  padding: 10px 28px;
-  background: #409eff;
-  color: white;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.25);
-  transition: all 0.28s ease;
-}
-.faq-close-all-btn:hover {
-  background: #ea580c;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
-}
-.faq-item {
-  border-bottom: 1px solid #e5e7eb;
-  margin: 0;
-  transition: background-color 0.25s ease;
-}
-.faq-item:last-child {
-  border-bottom: none;
-}
-.faq-item:hover {
-  background: #f8fafc;
-}
-.faq-question {
-  cursor: pointer;
-  padding: 16px 20px;
-  font-weight: 600;
-  font-size: 1.15rem;
-  display: flex;
-  align-items: center;
-  color: #1f2937;
-  position: relative;
-  transition: color 0.25s ease, padding-left 0.3s ease;
-}
-.faq-question i {
-  margin-left: 12px;
-  font-size: 1.4rem;
-  color: #3b82f6;
-  transition: color 0.3s, transform 0.3s;
-}
-.faq-question:hover {
-  color: #2563eb;
-  padding-left: 24px;
-}
-.faq-question::before {
-  content: '❓';
-  margin-left: 8px;
-  font-size: 1.25rem;
-  opacity: 0.7;
-  transition: opacity 0.3s, transform 0.3s;
-}
-.faq-item.active .faq-question::before {
-  content: '✅';
-  opacity: 1;
-  transform: scale(1.1);
-}
-.faq-item.active .faq-question i {
-  color: #f97316;
-  transform: rotate(90deg);
-}
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  padding: 0 20px;
-  transition: max-height 0.55s ease-out, padding 0.55s ease-out, opacity 0.4s ease;
-  background: #f9fafb;
-  opacity: 0;
-  font-weight: 400;
-  color: #374151;
-  line-height: 1.65;
-}
-.faq-item.active .faq-answer {
-  max-height: 500px;
-  padding: 20px;
-  opacity: 1;
-}
-
-/* Responsive – FAQ على الموبايل */
-@media (max-width: 768px) {
-  .faq-header {
-    font-size: 1.55rem;
-    padding: 16px 12px;
-  }
-  .faq-question {
-    font-size: 1.05rem;
-    padding: 14px 16px;
-  }
-  .faq-close-all-btn {
-    padding: 9px 24px;
-    font-size: 0.95rem;
-  }
-}
-/* ── FAQ Header – موج البحر بالكلمات الكاملة ──────────────────────────────── */
-.wave-header {
-  background: linear-gradient(90deg, #0f766e, #14b8a6, #22d3ee, #60a5fa, #a5b4fc);
-  background-size: 300% 100%;
-  animation: gradientFlow 22s ease infinite;
-  padding: 20px 16px;
-  text-align: center;
-  font-size: 1.85rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(26, 156, 156, 0.25);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.6em; /* مسافة بين الكلمات */
-}
-
-@keyframes gradientFlow {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.wave-text {
-  display: inline-block;
-  animation: wave 1s ease-in-out infinite alternate;
-}
-
-@keyframes wave {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-
-/* على الموبايل نجعل الحركة أخف */
-@media (max-width: 768px) {
-  .wave-header {
-    font-size: 1.55rem;
-    padding: 16px 12px;
-    gap: 0.4em;
-  }
-  @keyframes wordWave {
-    0%, 100%   { transform: translateY(0) scale(1); }
-    50%        { transform: translateY(-6px) scale(1.02); }
-  }
-}
-
-.wave-text span:nth-child(odd)  { animation-duration: 3.9s; }
-.wave-text span:nth-child(even) { animation-duration: 4.5s; }
-
-/* أخف على الموبايل */
-@media (max-width: 768px) {
-  .wave-header {
-    font-size: 1.55rem;
-    padding: 16px 12px;
-  }
-  @keyframes softWave {
-    0%, 100%   { transform: translateY(0) scaleY(1); }
-    50%        { transform: translateY(-4px) scaleY(1.02); }
-  }
-}
-/* Ultra Max Resistor Calculators */
-.calculators-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.calculator-box {
-  background: rgba(255,255,255,0.95);
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(64,158,255,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.calculator-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(64,158,255,0.25);
-}
-
-.calculator-box h3 {
-  margin-bottom: 16px;
-  font-size: 1.2rem;
-  color: #0a7d5a;
-  text-align: center;
-}
-
-/* Bands Select Styling */
-.calculator-box select,
-.calculator-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-family: inherit;
-  font-size: 1rem;
-  transition: all 0.25s ease;
-}
-
-.calculator-box select:hover,
-.calculator-box input:hover {
-  border-color: #409eff;
-  box-shadow: 0 0 8px #409eff;
-}
-
-/* Visual Bands */
-.resistor-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 15px;
-  gap: 10px;
-}
-
-.vis-band {
-  width: 30px;
-  height: 60px;
-  border-radius: 6px;
-  background: #ccc;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.resistor-visual .vis-band:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 10px #409eff;
-}
-
-/* Result */
-.calculator-box p {
-  margin-top: 12px;
-  font-size: 1.3rem;
-  font-weight: 900;
-  color: #1976d2;
-  text-align: center;
-}
-
-/* Responsive */
-@media (max-width:768px){
-  .calculators-grid{
-    grid-template-columns:1fr;
-  }
-                              }
-/* ==========================================================================
-   Equalizer
-   ========================================================================== */
-.equalizer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 5px;
-  height: 35px;
-  margin: 15px auto 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-  z-index: 10;
-}
-.equalizer.active {
-  opacity: 1;
-  visibility: visible;
-}
-.equalizer .bar {
-  width: 5px;
-  background: linear-gradient(to top, #409eff, #00d4ff);
-  border-radius: 4px 4px 0 0;
-  animation: bounce 1.2s infinite ease-in-out;
-  transform-origin: bottom;
-  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.4);
-}
-.equalizer .bar:nth-child(1) { animation-delay: 0s; }
-.equalizer .bar:nth-child(2) { animation-delay: 0.1s; }
-.equalizer .bar:nth-child(3) { animation-delay: 0.2s; }
-.equalizer .bar:nth-child(4) { animation-delay: 0.3s; }
-.equalizer .bar:nth-child(5) { animation-delay: 0.4s; }
-@keyframes bounce {
-  0%, 100% { height: 6px; }
-  50% { height: 32px; }
-}
-#radio-stream.playing + .equalizer {
-  filter: drop-shadow(0 0 10px #409eff);
-}
-/* ==========================================================================
-   Weather + Rating Grid – نقلّصنا الطول هنا
-   ========================================================================== */
-.weather-rating-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 30px;
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 0 20px;
-  z-index: 10;
-}
-@media (min-width: 769px) {
-  .weather-rating-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media (max-width: 768px) {
-  .weather-rating-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.weather-box,
-.rating-container {
-  width: 100%;
-  max-width: 380px;
-  min-height: 220px; /* نقلّصنا من 280px إلى 220px */
-  box-sizing: border-box;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(13,71,161,0.15);
-  z-index: 10;
-  padding: 15px;
-}
-.weather-box:hover,
-.rating-container:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 30px rgba(13,71,161,0.2);
-}
-/* ==========================================================================
-   Rating Container
-   ========================================================================== */
-.rating-container {
-  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
-  border-radius: 14px;
-  padding: 14px 12px;
-  box-shadow: 0 4px 14px rgba(13, 71, 161, 0.12);
-  text-align: center;
-  border: 1px solid rgba(13, 71, 161, 0.08);
-  z-index: 10;
-}
-.rating-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #1976d2;
-  margin-bottom: 8px;
-}
-.stars-horizontal {
-  gap: 8px;
-  margin: 10px 0 12px;
-}
-.stars-horizontal span {
-  font-size: 2.6rem;
-  cursor: pointer;
-  color: #e0e0e0;
-  transition: all 0.35s ease;
-}
-.stars-horizontal span:hover {
-  color: #ffc107;
-  transform: scale(1.25);
-  text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
-}
-.stars-horizontal span.selected {
-  color: #ffc107;
-  transform: scale(1.15);
-  text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
-}
-.rating-value {
-  font-size: 1.9rem;
-  font-weight: 900;
-  color: #1976d2;
-  margin: 12px 0 16px;
-}
-.rating-average {
-  font-size: 0.8rem;
-  margin-top: 6px;
-}
-#avg-stars {
-  color: #1976d2;
-  font-weight: bold;
-}
-#rating-average {
-  color: #1976d2;
-  font-weight: 700;
-}
-#vote-count {
-  color: #0d47a1;
-  font-weight: 700;
-}
-.rating-breakdown {
-  margin: 10px 0 4px;
-  font-size: 0.8rem;
-}
-.rating-breakdown div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 6px 0;
-}
-.rating-breakdown .stars {
-  color: #ffc107;
-  font-size: 1.2rem;
-}
-.rating-breakdown .count {
-  color: #0d47a1;
-  font-weight: 600;
-  min-width: 50px;
-  text-align: left;
-}
-.rating-message {
-  margin-top: 18px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1976d2;
-  opacity: 0;
-  transition: all 0.6s ease;
-  min-height: 1.4em;
-}
-.rating-message.show {
-  opacity: 1;
-}
-/* ==========================================================================
-   Login Popup + User Box
-   ========================================================================== */
-#login-popup {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  flex-direction: column;
-}
-.login-popup .popup-content {
-  background: #111;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  color: #fff;
-  width: 300px;
-  max-width: 90%;
-  box-shadow: 0 0 20px #0ff;
-  animation: fadeIn 0.5s ease;
-}
-.login-popup h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff;
-}
-.btn-google,
-.btn-close {
-  background: #0ff;
-  color: #000;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  margin: 10px 0;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-.btn-google:hover {
-  background: #00cdd7;
-  transform: translateY(-2px);
-  box-shadow: 0 0 12px #0ff;
-}
-.btn-close {
-  background: #ff6b35;
-  color: #fff;
-}
-.btn-close:hover {
-  background: #e05520;
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px #ff6b35;
-}
-.user-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(6px);
-  border: 2px solid #409eff;
-  border-radius: 12px;
-  padding: 12px 20px;
-  max-width: 400px;
-  margin: 20px auto;
-  color: #ffffff;
-  box-shadow: 0 0 15px #409eff;
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-.user-box:hover {
-  background: #ff9800;
-  box-shadow: 0 0 20px #ff9800;
-}
-.welcome-msg {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #282c34;
-  text-shadow: 0 0 6px #a9b7c6;
-}
-.btn-signout {
-  background: #FF9800;
-  color: #fff;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.btn-signout:hover {
-  background: #e05520;
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px #ff6b35;
-}
-/* ==========================================================================
-   Sliders أفقية pro (خدمات اليوم + فيديو اليوم + ماكينات لحام)
-/* ===== Sections ===== */
-section{
-  margin:40px auto;
-  max-width:1200px;
-  padding:15px;
-}
-
-/* ===== Titles ===== */
-.wave-header{
-  text-align:center;
-  max-width:400px;
-  margin:15px auto 25px;
-  padding:8px 16px;
-  border-radius:50px;
-  background:#60a5fa29;
-  border:1px solid var(--border);
-}
-
-.wave-text{
-  font-size:1.3rem;
-  font-weight:900;
-  background:#840cc9;
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-/* ===== Sliders ===== */
-.services-slider,
-.videos-slider,
-.postes-slider{
-  display:flex;
-  gap:20px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  padding-bottom:15px;
-}
-
-.services-slider::-webkit-scrollbar,
-.videos-slider::-webkit-scrollbar,
-.postes-slider::-webkit-scrollbar{
-  height:6px;
-}
-
-.services-slider::-webkit-scrollbar-thumb,
-.videos-slider::-webkit-scrollbar-thumb,
-.postes-slider::-webkit-scrollbar-thumb{
-  background:linear-gradient(90deg,var(--neon1),var(--neon2));
-  border-radius:10px;
-}
-
-/* ===== Cards ===== */
-.service-pro-card,
-.video-pro-card,
-.poste-pro-card{
-  min-width:250px;
-  height:330px;
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-  transition:.4s;
-  scroll-snap-align:center;
-}
-
-.service-pro-card:hover,
-.video-pro-card:hover,
-.poste-pro-card:hover{
-  transform:translateY(-10px) scale(1.03);
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
-}
-
-.service-pro-card img,
-.poste-pro-card img,
-.video-pro-card video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.6s;
-}
-
-.service-pro-card:hover img,
-.poste-pro-card:hover img,
-.video-pro-card:hover video{
-  transform:scale(1.1);
-}
-
-/* ===== Overlay ===== */
-.service-overlay,
-.video-overlay,
-.poste-overlay{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:12px;
-  background:linear-gradient(0deg,rgba(0,0,0,.8),transparent);
-  text-align:center;
-  font-weight:800;
-  color:#fff;
-}
-
-/* ===== Badge ===== */
-.pro-badge{
-  position:absolute;
-  top:8px;
-  right:8px;
-  background:linear-gradient(90deg,var(--gold),#ff9900);
-  color:#000;
-  padding:3px 10px;
-  border-radius:30px;
-  font-size:.75rem;
-  font-weight:900;
-  box-shadow:0 0 10px rgba(255,183,3,.6);
-}
-
-/* ===== Popup ===== */
-.service-popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-}
-
-.popup-box{
-  background:var(--glass);
-  border:1px solid var(--border);
-  backdrop-filter:blur(12px);
-  padding:25px;
-  border-radius:22px;
-  width:90%;
-  max-width:420px;
-  text-align:center;
-  animation:pop .35s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(.85);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-.popup-close{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:24px;
-  cursor:pointer;
-}
-
-/* ==========================================================================
-   Fullscreen Viewer (لون بحري pro)
-   ========================================================================== */
-#mediaViewer {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #fff;
-  z-index: 99999;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 50px;
-  padding: 30px;
-  flex-wrap: wrap;
-}
-#mediaViewer.active {
-  display: flex !important;
-}
-.viewer-media {
-  max-width: 30%;
-  max-height: 75vh;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow:0 0 50px #FF9800;;
-}
-.viewer-media img,
-.viewer-media video {
-  width: 100%;
-  height: auto;
-}
-.viewer-info {
-  background: #fff;
-  color: #282c34;
-  padding: 35px;
-  border-radius: 20px;
-  max-width: 420px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-  backdrop-filter: blur(8px);
-}
-.viewer-info h3 {
-  margin: 0 0 20px;
-  font-size: 2rem;
-  color:#9c27b0;
-  text-shadow: 0 0 10px rgba(165,243,252,0.6);
-}
-.viewer-info p {
-  margin: 12px 0;
-  font-size: 1.15rem;
-  line-height: 1.6;
-}
-.viewer-info .price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ff6b6b;
-  margin-top: 20px;
-  text-shadow: 0 0 8px rgba(255,107,107,0.5);
-}
-.viewer-close {
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  font-size: 3.5rem;
-  color: white;
-  cursor: pointer;
-  background: #FF9800;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-}
-.viewer-close:hover {
-  background: #e53e3e;
-  transform: rotate(90deg);
-}
-/* ================= MOBILE FIX ================= */
-@media (max-width: 768px) {
-
-  #mediaViewer {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
-  }
-
-  .viewer-media {
-    max-width: 95%;
-    max-height: 50vh;
-  }
-
-  .viewer-info {
-    max-width: 95%;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .viewer-info h3 {
-    font-size: 1.5rem;
-  }
-
-  .viewer-info p {
-    font-size: 1rem;
-  }
-
-  .viewer-info .price {
-    font-size: 1.3rem;
-  }
-
-  .viewer-close {
-    top: 15px;
-    right: 15px;
-    width: 45px;
-    height: 45px;
-    font-size: 2.2rem;
-  }
-
-}
-
-/* ==========================================================================
-   Cookie Banner (CMP)
-   ========================================================================== */
-#cmp-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #409effbd;
-  color: #fff;
-  text-align: center;
-  padding: 15px 10px;
-  z-index: 9999;
-  font-size: 0.95rem;
-}
-#cmp-banner button {
-  background: #ff6b35;
-  border: none;
-  color: #fff;
-  padding: 8px 15px;
-  margin-left: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
-}
-/* ==========================================================================
-   Radio Button Dance Animation
-   ========================================================================== */
-.dance {
-  animation: danceMove 0.5s infinite alternate;
-  transform-origin: center;
-}
-@keyframes danceMove {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
-}
-/* ==========================================================================
-   General Animations
-   ========================================================================== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-/* ==========================================================================
-   Footer
-   ========================================================================== */
-footer {
-  background: rgba(248,248,248,0.95);
-  color: #282c34;
-  padding: 20px 0;
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.85rem;
-  box-shadow: inset 0 1px 3px rgba(255,255,255,0.03);
-  z-index: 10;
-}
-.footer-inner {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-.footer-inner p {
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-.social-icons {
-  margin-top: 12px;
-}
-.social-icons a {
-  margin: 0 10px;
-  display: inline-block;
-  opacity: 0.75;
-  transition: opacity 0.3s ease;
-}
-.social-icons a:hover {
-  opacity: 1;
-}
-.social-icons img {
-  width: 24px;
-  height: 24px;
-  filter: drop-shadow(0 0 1px rgba(0,0,0,0.8));
-}
-.copyright-signature {
-  margin-top: 30px;
-  font-size: 0.65rem;
-  color: #555;
-  font-style: italic;
-}
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
-@media (max-width: 768px) {
-  .header-inner {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
-  }
-  .info-bar {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .cta-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  .experience-badge {
-    width: 90%;
-  }
-  .faq {
-    width: 90%;
-  }
-}
-/* ====== بداية CSS البوكسات الجديدة ====== */
-.calculators-grid {
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 50px;
-}
-
-.calculator-box {
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(6px);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.25);
-  min-width: 280px;
-  max-width: 320px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-}
-.calculator-box:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 35px rgba(0,0,0,0.35);
-}
-
-.calculator-box input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-family: inherit;
-  font-size: 1rem;
-  transition: all 0.25s ease;
-}
-
-.calculator-box input:hover {
-  border-color: #f39c12;
-  box-shadow: 0 0 10px #f39c12;
-}
-
-/* Capacitor Visual */
-.cap-visual {
-  width: 60px;
-  height: 120px;
-  margin: 10px auto;
-  border: 3px solid #d35400;
-  border-radius: 8px;
-  position: relative;
-  overflow: hidden;
-}
-.cap-fill {
-  background: #e67e22;
-  width: 100%;
-  height: 0%;
-  position: absolute;
-  bottom: 0;
-  transition: height 0.5s ease;
-  border-radius: 4px 4px 0 0;
-}
-
-/* Power Visual */
-.power-bar {
-  width: 100%;
-  height: 20px;
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 10px 0;
-}
-.power-fill {
-  background: #2980b9;
-  width: 0%;
-  height: 100%;
-  transition: width 0.5s ease;
-}
-.projects-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
-  padding: 40px;
-}
-
-.project-box {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 25px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-.project-box h2 {
-  margin-bottom: 10px;
-  color: #0d47a1;
-}
-
-.box-desc {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.projects-grid {
-  display: grid;
-  gap: 15px;
-}
-
-.project-card {
-  background: #f5f7fa;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.project-card h3 {
-  margin-bottom: 5px;
-}
-
-.project-card p {
-  font-size: 14px;
-  color: #444;
-  margin-bottom: 10px;
-}
-
-.project-card button {
-  background:#40c1ff;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.project-card button:hover {
-  background: #0d47a1;
-}
-.project-card a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #00c6ff, #0072ff);
-  color: #fff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.project-card a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 114, 255, 0.4);
-}
-/* ===== Download Button + Animation ===== */
-/* Project & Course Cards (neumorphic + glass touch) */
-.project-box {
-  background: #fff;
-  border-radius: 1.8rem;
-  padding: 2rem;
-  margin: 2rem auto;
-  max-width: 1200px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-}
-
-.project-box h2 {
-  font-size: 1.9rem;
-  margin-bottom: 1rem;
-  color: #61249e;
-  text-align: center;
-}
-
-.box-desc {
-  text-align: center;
-  color: #282c34;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.8rem;
-}
-
-.project-card {
-  background:#14b8a60d;
-  border-radius: 1.2rem;
-  padding: 1.6rem;
-  border: 1px solid rgba(167, 139, 250, 0.12);
-  transition: all 0.35s ease;
-  text-align: center;
-}
-
-.project-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(167, 139, 250, 0.4);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-}
-
-.project-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 0.8rem;
-  color:#2563eb;
-}
-
-.project-card p {
-  color: #282c34;
-  font-size: 1rem;
-  margin-bottom: 1.4rem;
-}
-
-.download-btn {
-  background: linear-gradient(45deg, #7c3aed, #a78bfa);
-  color: white;
-  border: none;
-  padding: 0.9rem 1.8rem;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.download-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.5);
-}
-
-.progress-container {
-  height: 6px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 3px;
-  margin-top: 0.8rem;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(to right, #a78bfa, #7c3aed);
-  transition: width 0.6s ease;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .wave-text { font-size: 1.8rem; }
-  .service-pro-card, .video-pro-card, .poste-pro-card { width: 240px; height: 340px; }
-  .projects-grid { grid-template-columns: 1fr; }
-}
-
-/* ========================================================================== */
-/* Flags Language Switch Styling                                               */
-/* ========================================================================== */
-.lang-switch {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    gap: 10px;
-    z-index: 1000;
-}
-
-.lang-switch img {
-    width: 32px;   /* حجم العلم */
-    height: auto;
-    cursor: pointer;
-    border: 2px solid #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-}
-
-.lang-switch img:hover {
-    transform: scale(1.2);
-}
-
-/* ==========================================================================
-   ROBO 3D CONTAINER - Style clean & modern
-   ========================================================================== */
-
-#robo3d-container {
-    position: relative;
-    width: 140px;           /* taille totale du bloc robo + bubble */
-    height: 180px;          /* laisse de l'espace pour la bulle en haut */
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin: 0 auto;         /* centré si tu veux */
-    transition: transform 0.4s ease;
-}
-
-#robo3d-container:hover {
-    transform: scale(1.08);
-}
-
-/* Le canvas du robot */
-#roboCanvas {
-    width: 120px !important;
-    height: 120px !important;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1e1e2f 0%, #2a2a4a 100%);
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.5),
-        inset 0 0 15px rgba(0, 255, 255, 0.12);
-    border: 2px solid rgba(0, 255, 255, 0.18);
-    transition: all 0.4s ease;
-}
-
-#robo3d-container:hover #roboCanvas {
-    box-shadow: 
-        0 12px 35px rgba(255, 107, 53, 0.35),
-        inset 0 0 20px rgba(0, 255, 255, 0.25);
-    border-color: rgba(255, 107, 53, 0.4);
-}
-
-/* Bulle de discussion du robo */
-#roboBubble {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, #ff6b35, #ff8c5e);
-    color: white;
-    padding: 10px 18px;
-    border-radius: 30px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    white-space: nowrap;
-    box-shadow: 
-        0 6px 20px rgba(255, 107, 53, 0.45),
-        0 2px 8px rgba(0,0,0,0.3);
-    pointer-events: none;
-    opacity: 0;
-    transition: all 0.35s ease;
-    z-index: 10;
-}
-
-/* Apparition smooth quand on hover le canvas */
-#robo3d-container:hover #roboBubble,
-#roboCanvas:hover ~ #roboBubble {
-    opacity: 1;
-    top: -45px;
-    transform: translateX(-50%) scale(1.05);
-}
-
-/* Petite flèche sous la bulle */
-#roboBubble::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #ff6b35;
-}
-
-/* Responsive - plus petit sur mobile */
-@media (max-width: 768px) {
-    #robo3d-container {
-        width: 110px;
-        height: 150px;
-    }
-    #roboCanvas {
-        width: 90px !important;
-        height: 90px !important;
-    }
-    #roboBubble {
-        font-size: 13px;
-        padding: 8px 14px;
-    }
-}
-/* ==========================================================================
-   RTL Specific
-   ========================================================================== */
-[dir="rtl"] .container {
-  direction: rtl;
-}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="site_title">ورشة إلكترونيك الرحماني</title>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+            data-ad-client="ca-pub-5360225987687639"
+            crossorigin="anonymous"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+          rel="stylesheet">
+    <!-- CSS externe -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <canvas id="pcbCanvasHeader"></canvas>
+            <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />
+            <h1 id="site-name" data-i18n="site_name">Atelier Electronique Médenine</h1>
+        </div>
+        <div class="news-ticker" aria-live="polite">
+            <div class="news-text" id="live-news" data-i18n="news_loading">تحميل الأخبار...</div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <section class="info-bar">
+            <div id="current-time">--:--:--</div>
+            <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
+
+            <!-- Language Switcher -->
+            <div class="lang-switch">
+                <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">
+                <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
+                <img src="flags/gb.png" data-lang="en" alt="English" title="English">
+            </div>
+        </section>
+
+        <!-- User Info & Login Popup -->
+        <div id="user-info" class="user-box" style="display:none;">
+            <p class="welcome-msg" data-i18n="user_welcome">
+                مرحبا <span id="user-name"></span>!👋
+            </p>
+            <button id="btn-signout" class="btn-signout" data-i18n="sign_out">
+                تسجيل الخروج
+            </button>
+        </div>
+
+        <div id="login-popup" class="login-popup">
+            <div class="popup-content">
+                <h2 data-i18n="login_title">تسجيل الدخول</h2>
+                <button id="btn-google" class="btn-google" data-i18n="login_google">
+                    تسجيل الدخول بـ Google
+                </button>
+                <button id="btn-close-popup" class="btn-close" data-i18n="cancel">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <section class="cta-buttons">
+            <a href="download" class="btn-download" data-i18n="cta_download">
+                تحميل البرامج 📥
+            </a>
+            <a href="store.html" class="btn-store" data-i18n="cta_store">
+                تَسوّق الآن 🛒
+            </a>
+            <a href="https://wa.me/21698192103" target="_blank" class="btn-whatsapp" rel="noopener" data-i18n="cta_whatsapp">
+                واتساب 📱
+            </a>
+            <a href="https://maps.app.goo.gl/nxBU8h2oFDEkiBFE9" target="_blank" class="btn-maps" rel="noopener" data-i18n="cta_maps">
+                موقعنا على مابس 📍
+            </a>
+            <a href="photos.html" class="btn-gallery" data-i18n="cta_photos">
+                شاهد الصور 🖼️
+            </a>
+            <a href="videos.html" class="btn-video" data-i18n="cta_videos">
+                شاهد الفيديو 🎥
+            </a>
+            <a href="services.html" class="btn-services" data-i18n="cta_services">
+                خدمات الورشة 🛠️
+            </a>
+            <button id="radio-btn" class="btn-radio" data-i18n="cta_radio_play">
+                شغّل الراديو 📻
+            </button>
+
+            <audio id="radio-stream" src="https://stream.radiojar.com/8s5u5tpdtwzuv" preload="none"></audio>
+            <div id="equalizer" class="equalizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </section>
+
+        <section class="experience-badge" data-i18n="experience">
+            أكثر من 10 سنوات خبرة
+        </section>
+
+        <!-- Weather + Rating Grid -->
+        <div class="weather-rating-grid">
+            <!-- Weather Box -->
+            <div class="weather-box">
+                <h3 data-i18n="weather_title">🌦️ حالة الطقس في مدنين</h3>
+                <div class="weather-inner">
+                    <div class="weather-main">
+                        <div class="temp-big" id="weather-temp">--°C</div>
+                        <div class="wind-small" id="weather-desc" data-i18n="weather_loading">
+                            جاري التحميل...
+                        </div>
+                    </div>
+                    <div class="prayer-times" id="prayer-times">
+                        <p>🌅 <span data-i18n="prayer_fajr">الفجر</span>: --:--</p>
+                        <p>🌄 <span data-i18n="prayer_sunrise">الشروق</span>: --:--</p>
+                        <p>☀️ <span data-i18n="prayer_dhuhr">الظهر</span>: --:--</p>
+                        <p>🕰️ <span data-i18n="prayer_asr">العصر</span>: --:--</p>
+                        <p>🌇 <span data-i18n="prayer_maghrib">المغرب</span>: --:--</p>
+                        <p>🌙 <span data-i18n="prayer_isha">العشاء</span>: --:--</p>
+                    </div>
+                    <div class="mini-info">
+                        <div class="mini-calendar">
+                            <span id="today-miladi" data-i18n="date_loading">جاري التحميل...</span>
+                            <span id="today-hijri" data-i18n="date_loading_hijri">جاري التحميل...</span>
+                        </div>
+                        <div class="daily-tips">
+                            <p class="tips-title" data-i18n="tip_title">نصيحة اليوم</p>
+                            <ul id="tips-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rating Box -->
+            <div class="rating-container">
+                <div class="rating-title" id="rating-title" data-i18n="rating_title">قيم الورشة</div>
+                <div class="stars-horizontal">
+                    <span data-value="5">☆</span>
+                    <span data-value="4">☆</span>
+                    <span data-value="3">☆</span>
+                    <span data-value="2">☆</span>
+                    <span data-value="1">☆</span>
+                </div>
+                <div id="rating-value">0/5</div>
+                <div id="rating-average">
+                    <span data-i18n="rating_average">متوسط التقييمات</span>:
+                    <span id="avg-stars">0.0</span> ★
+                    <span data-i18n="rating_votes">من</span> <span id="vote-count">0</span>
+                    <span data-i18n="rating_votes_text">صوت</span>
+                </div>
+                <div class="rating-breakdown" id="rating-breakdown"></div>
+                <div class="rating-message" id="rating-message"></div>
+            </div>
+        </div>
+
+        <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
+        <section class="faq">
+            <div class="faq-container">
+                <div class="faq-header wave-header">
+                    <span class="wave-text" data-i18n="faq_header">الأسئلة اللي في بالك</span>
+                </div>
+
+                <button id="faq-close-all" class="faq-close-all-btn" data-i18n="faq_close_all">
+                    إخفاء الإجابات
+                </button>
+
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q_services">
+                        <i class="fas fa-tools"></i> شنوّا الخدمات اللي عندكم يا خويا؟
+                    </div>
+                    <div class="faq-answer" data-i18n="faq_a_services">
+                        متخصصين في تصليح الكروت الإلكترونية بكل أنواعها:<br>
+                        • ماكينات لحام (postes de soudure) بكل أشكالها<br>
+                        • كروت الغسالات (lave-linge) – كل الماركات<br>
+                        • كروت الكليما (climatiseurs) – inverter وعادي<br>
+                        • كروت المصانع والمعامل<br>
+                        • كروت الموازين الإلكترونية (mizan)<br>
+                        <strong data-i18n="faq_not_supported">ما نخدموش في</strong>: الراديو، التلفزيونات، التلفونات.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q_location">
+                        <i class="fas fa-map-marker-alt"></i> وينكم بالضبط؟
+                    </div>
+                    <div class="faq-answer" data-i18n="faq_a_location">
+                        مدنين – نهج ليبيا، بعد كوشة شامخ، في أول طلعة على يمينك. لو ضيّعت الطريق، اتصل!
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q_call">
+                        <i class="fas fa-phone"></i> نقدر نتصل قبل ما نجي؟
+                    </div>
+                    <div class="faq-answer" data-i18n="faq_a_call">
+                        أكيد يا خويا! أحسن حاجة تتصل قبل (واتساب أو مكالمة) على <strong>98.192.103</strong>، أرسل صورة الكارت إذا تحب، نقولك إذا نقدرو نصلحوها والسعر التقريبي والوقت.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q_time">
+                        <i class="fas fa-clock"></i> كم ياخذ الوقت باش نصلح الكارت؟
+                    </div>
+                    <div class="faq-answer" data-i18n="faq_a_time">
+                        يعتمد على العطل: تشخيص مجاني في الغالب، تصليح بسيط (تغيير كومبوننت) 1-3 أيام، مشاكل كبيرة (reballing، بورد معقدة...) ممكن 5-7 أيام. نتصل بيك دايما باش نعلمك.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q_guarantee">
+                        <i class="fas fa-shield-alt"></i> الضمان كيفاه؟
+                    </div>
+                    <div class="faq-answer" data-i18n="faq_a_guarantee">
+                        كل تصليح عندنا ضمان من شهر لـ 3 أشهر حسب القطعة والعمل. لو رجع نفس العيب، نصلحوه مجانًا إن شاء الله.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q_price">
+                        <i class="fas fa-tags"></i> الأسعار معقولة ولا غالية؟
+                    </div>
+                    <div class="faq-answer" data-i18n="faq_a_price">
+                        نحاولو نكونو من الأرخص في الجهة، التشخيص غالبًا ببلاش، والسعر حسب القطعة (أصلية أو بديلة حسب ميزانيتك). نقولك السعر قبل ما نبداو.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      <!-- Calculators Sections – مترجم كامل للـ 3 لغات -->
+<section class="calculators-section">
+    <div class="calculators-grid">
+        <!-- Color Resistor – حساب المقاومة بالألوان -->
+        <div class="calculator-box color-resistor">
+            <h3 data-i18n="color_resistor_title">🔴🟡🟢حساب المقاومة بالألوان</h3>
+           
+      <div class="bands-select">
+    <!-- Band 1 -->
+    <select id="band1">
+        <option value="0" data-color="#000000" data-i18n="color_black">أسود</option>
+        <option value="1" data-color="#8B4513" data-i18n="color_brown">بني</option>
+        <option value="2" data-color="#FF0000" data-i18n="color_red">أحمر</option>
+        <option value="3" data-color="#FFA500" data-i18n="color_orange">برتقالي</option>
+        <option value="4" data-color="#FFFF00" data-i18n="color_yellow">أصفر</option>
+        <option value="5" data-color="#008000" data-i18n="color_green">أخضر</option>
+        <option value="6" data-color="#0000FF" data-i18n="color_blue">أزرق</option>
+        <option value="7" data-color="#800080" data-i18n="color_purple">بنفسجي</option>
+        <option value="8" data-color="#808080" data-i18n="color_gray">رمادي</option>
+        <option value="9" data-color="#FFF" data-i18n="color_white">أبيض</option>
+    </select>
+
+    <!-- Band 2 – نفس الخيارات، بس حط data-i18n -->
+    <select id="band2">
+        <option value="0" data-color="#000000" data-i18n="color_black">أسود</option>
+        <option value="1" data-color="#8B4513" data-i18n="color_brown">بني</option>
+        <option value="2" data-color="#FF0000" data-i18n="color_red">أحمر</option>
+        <option value="3" data-color="#FFA500" data-i18n="color_orange">برتقالي</option>
+        <option value="4" data-color="#FFFF00" data-i18n="color_yellow">أصفر</option>
+        <option value="5" data-color="#008000" data-i18n="color_green">أخضر</option>
+        <option value="6" data-color="#0000FF" data-i18n="color_blue">أزرق</option>
+        <option value="7" data-color="#800080" data-i18n="color_purple">بنفسجي</option>
+        <option value="8" data-color="#808080" data-i18n="color_gray">رمادي</option>
+        <option value="9" data-color="#FFF" data-i18n="color_white">أبيض</option>
+    </select>
+
+    <!-- Multiplier -->
+    <select id="multiplier">
+        <option value="1" data-color="#000" data-i18n="multi_1">×1</option>
+        <option value="10" data-color="#8B4513" data-i18n="multi_10">×10</option>
+        <option value="100" data-color="#FF0000" data-i18n="multi_100">×100</option>
+        <option value="1000" data-color="#FFA500" data-i18n="multi_1k">×1K</option>
+        <option value="10000" data-color="#FFFF00" data-i18n="multi_10k">×10K</option>
+        <option value="100000" data-color="#008000" data-i18n="multi_100k">×100K</option>
+        <option value="1000000" data-color="#0000FF" data-i18n="multi_1m">×1M</option>
+    </select>
+
+    <!-- Tolerance -->
+    <select id="tolerance">
+        <option value="1" data-color="#008000" data-i18n="tol_1">±1%</option>
+        <option value="2" data-color="#FF0000" data-i18n="tol_2">±2%</option>
+        <option value="5" data-color="#FFFF00" data-i18n="tol_5">±5%</option>
+        <option value="10" data-color="#808080" data-i18n="tol_10">±10%</option>
+    </select>
+</div>
+            <div class="resistor-visual">
+                <div id="vis-band1" class="vis-band"></div>
+                <div id="vis-band2" class="vis-band"></div>
+                <div id="vis-mult" class="vis-band"></div>
+                <div id="vis-tol" class="vis-band"></div>
+            </div>
+            <p id="resistor-result" data-i18n="resistor_default">— Ω</p>
+        </div>
+
+        <!-- SMD Resistor -->
+        <div class="calculator-box smd-resistor">
+            <h3 data-i18n="smd_resistor_title">📦 حساب مقاومة SMD</h3>
+            <input type="text" id="smdCode" placeholder="مثال: 103 أو 4R7" data-i18n-placeholder="smd_placeholder" />
+            <p id="smd-result" data-i18n="smd_default">— Ω</p>
+        </div>
+    </div>
+</section>
+
+<!-- Capacitor & Power Calculators -->
+<section class="calculators-section">
+    <div class="calculators-grid">
+        <div class="calculator-box capacitor-calc">
+            <h3 data-i18n="capacitor_title">⚡ حساب المكثفات</h3>
+            <input type="number" id="cap-value" placeholder="القيمة (µF)" data-i18n-placeholder="cap_value_placeholder" />
+            <input type="number" id="cap-voltage" placeholder="الجهد (V)" data-i18n-placeholder="cap_voltage_placeholder" />
+            <div class="cap-visual">
+                <div class="cap-fill"></div>
+            </div>
+            <p id="cap-result" data-i18n="cap_default">—</p>
+        </div>
+
+        <div class="calculator-box power-calc">
+            <h3 data-i18n="power_title">🔌 حساب الطاقة (Watts)</h3>
+            <input type="number" id="volt" placeholder="V (فولت)" data-i18n-placeholder="power_volt_placeholder" />
+            <input type="number" id="resistance" placeholder="R (أوم)" data-i18n-placeholder="power_resistance_placeholder" />
+            <input type="number" id="current" placeholder="I (أمبير)" data-i18n-placeholder="power_current_placeholder" />
+            <div class="power-bar">
+                <div class="power-fill"></div>
+            </div>
+            <p id="power-result" data-i18n="power_default">— وات</p>
+        </div>
+    </div>
+</section>
+<!-- خدمات اليوم – مع عنوان مترجم -->
+<section class="services-today">
+    <div class="services-header wave-header">
+        <span class="wave-text" data-i18n="services_today_title">خدمات اليوم</span>
+    </div>
+    <div class="services-slider" id="servicesSlider">
+        <div class="service-pro-card"
+             data-title="تصليح لوحات إلكترونية"
+             data-desc="فحص دقيق وإصلاح كامل للبوردات المعقدة بأحدث الأجهزة"
+             data-price="من 35 دينار">
+            <img src="service1.webp" alt="تصليح لوحات إلكترونية" loading="lazy">
+            <div class="service-overlay">لوحات إلكترونية</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت جهاز المشي"
+             data-desc="إصلاح كروت التحكم والمحركات لكل ماركات أجهزة المشي"
+             data-price="من 50 دينار">
+            <img src="service2.webp" alt="كارت جهاز مشي" loading="lazy">
+            <div class="service-overlay">جهاز مشي</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت غسالة"
+             data-desc="إصلاح كروت الغسالات الأوتوماتيكية – كل الماركات"
+             data-price="من 45 دينار">
+            <img src="service3.webp" alt="تصليح كارت غسالة" loading="lazy">
+            <div class="service-overlay">كارت غسالة</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت تلفاز"
+             data-desc="إصلاح لوحات التغذية والـ T-Con لجميع أنواع التلفزيونات"
+             data-price="من 60 دينار">
+            <img src="service4.webp" alt="تصليح كارت تلفاز" loading="lazy">
+            <div class="service-overlay">كارت تلفاز</div>
+        </div>
+        <div class="service-pro-card"
+             data-title="تصليح كارت غسالة LG"
+             data-desc="تخصص في كروت LG – إصلاح سريع مع ضمان"
+             data-price="من 55 دينار">
+            <img src="service5.webp" alt="كارت غسالة LG" loading="lazy">
+            <div class="service-overlay">كارت LG</div>
+        </div>
+    </div>
+</section>
+
+<!-- قسم المشاريع – مترجم للـ 3 لغات -->
+<section class="projects-section">
+  <!-- مشاريع أردوينو -->
+  <div class="project-box">
+    <h2 data-i18n="arduino_projects_title">🔧 مشاريع أردوينو</h2>
+    <p class="box-desc" data-i18n="arduino_projects_desc">مجموعة مشاريع أردوينو مفسّرة خطوة بخطوة، مع الكود، الدائرة الإلكترونية، وملف التحميل.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="smart_light_title">تشغيل إضاءة ذكية</h3>
+        <p data-i18n="smart_light_desc">مشروع تشغيل وإطفاء مصباح باستعمال Arduino و Relay.</p>
+        <button class="download-btn" data-id="arduino-smart-light" data-file="files/arduino-smart-light.pdf">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-arduino-smart-light">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-arduino-smart-light"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="temperature_title">قياس درجة الحرارة</h3>
+        <p data-i18n="temperature_desc">قراءة درجة الحرارة وعرضها على شاشة LCD.</p>
+        <button class="download-btn" data-id="arduino-temperature" data-file="files/arduino-temperature.pdf">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-arduino-temperature">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-arduino-temperature"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- مشاريع التخرج -->
+  <div class="project-box">
+    <h2 data-i18n="graduation_projects_title">🎓 مشاريع التخرّج</h2>
+    <p class="box-desc" data-i18n="graduation_projects_desc">مشاريع تخرّج جاهزة للطلبة (PDF أو Word) للاستئناس والمراجعة.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="inventory_title">نظام إدارة المخزون</h3>
+        <p data-i18n="inventory_desc">مشروع لإدارة المخزون مع تقرير كامل وقاعدة بيانات.</p>
+        <button class="download-btn" data-id="pfe-gestion-stock" data-file="files/pfe-gestion-stock.pdf">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-pfe-gestion-stock">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-pfe-gestion-stock"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="smart_home_title">منزل ذكي (Smart Home)</h3>
+        <p data-i18n="smart_home_desc">مشروع منزل ذكي باستعمال Arduino و ESP8266.</p>
+        <button class="download-btn" data-id="pfe-smart-home" data-file="files/pfe-smart-home.docx">
+          <span class="label" data-i18n="download_project">📥 تحميل المشروع</span>
+          <small>(<span id="count-pfe-smart-home">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-pfe-smart-home"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- فيديو اليوم – مع عنوان مترجم -->
+<section class="videos-today">
+    <div class="videos-header wave-header">
+        <span class="wave-text" data-i18n="videos_today_title">فيديو اليوم</span>
+    </div>
+    <div class="videos-slider" id="videoSlider">
+        <div class="video-pro-card"
+             data-title="فحص بوردة كامل"
+             data-desc="فيديو توضيحي لفحص وتشخيص بوردة تلفاز باحترافية"
+             data-duration="2:45">
+            <video src="video1.mp4" muted loop loading="lazy"></video>
+            <div class="video-overlay">فحص بوردة</div>
+        </div>
+        <div class="video-pro-card"
+             data-title="إصلاح لوحة إلكترونية"
+             data-desc="خطوات إصلاح لوحة تغذية مع أدوات دقيقة"
+             data-duration="3:10">
+            <video src="video2.mp4" muted loop loading="lazy"></video>
+            <div class="video-overlay">إصلاح لوحة</div>
+        </div>
+        <div class="video-pro-card"
+             data-title="فحص تغذية كارت"
+             data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
+             data-duration="1:55">
+            <video src="video3.mp4" muted loop loading="lazy"></video>
+            <div class="video-overlay">تغذية كارت</div>
+        </div>
+        <div class="video-pro-card"
+             data-title="فحص تغذية كارت"
+             data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
+             data-duration="1:55">
+            <video src="video4.mp4" muted loop loading="lazy"></video>
+            <div class="video-overlay">تغذية كارت</div>
+        </div>
+        <div class="video-pro-card"
+             data-title="فحص تغذية كارت"
+             data-desc="كيفية فحص وإصلاح مشاكل التغذية في الكروت"
+             data-duration="1:55">
+            <video src="video5.mp4" muted loop loading="lazy"></video>
+            <div class="video-overlay">تغذية كارت</div>
+        </div>
+    </div>
+</section>
+<!-- كورسات و شيمات – مترجمة كاملة للـ 3 لغات -->
+<section class="projects-section">
+  <div class="project-box">
+    <h2 data-i18n="courses_title">📚 كورسات إلكترونية</h2>
+    <p class="box-desc" data-i18n="courses_desc">تعلم أساسيات الإلكترونيات خطوة بخطوة مع شروحات عملية وتمارين.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="resistor_capacitor_title">أساسيات المقاومة والمكثف</h3>
+        <p data-i18n="resistor_capacitor_desc">شرح كيفية استخدام المقاومات والمكثفات في الدوائر البسيطة.</p>
+        <button class="download-btn" data-id="cours-resistor-capacitor" data-file="files/cours-resistor-capacitor.pdf">
+          <span class="label" data-i18n="download_lesson">📥 تحميل الدرس</span>
+          <small>(<span id="count-cours-resistor-capacitor">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-cours-resistor-capacitor"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="transistor_diode_title">الترانزستور والديود</h3>
+        <p data-i18n="transistor_diode_desc">فهم الترانزستورات والديودات وكيفية ربطها في الدوائر.</p>
+        <button class="download-btn" data-id="cours-transistor-diode" data-file="files/cours-transistor-diode.pdf">
+          <span class="label" data-i18n="download_lesson">📥 تحميل الدرس</span>
+          <small>(<span id="count-cours-transistor-diode">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-cours-transistor-diode"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="project-box">
+    <h2 data-i18n="schematics_title">💡 شيمات إلكترونية</h2>
+    <p class="box-desc" data-i18n="schematics_desc">مجموعة شيمات حقيقية لكروت الغسالات، الكليما، أجهزة أخرى.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="schema_samsung_title">كارت غسالة Samsung</h3>
+        <p data-i18n="schema_samsung_desc">الشيم الكامل لكارت الغسالات Samsung.</p>
+        <button class="download-btn" data-id="schema-washing-samsung" data-file="files/schema-washing-samsung.pdf">
+          <span class="label" data-i18n="download_schema">📥 تحميل الشيم</span>
+          <small>(<span id="count-schema-washing-samsung">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-schema-washing-samsung"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="schema_lg_title">كارت كليما LG</h3>
+        <p data-i18n="schema_lg_desc">الدائرة الكهربائية لكارت الكليما LG.</p>
+        <button class="download-btn" data-id="schema-clim-lg" data-file="files/schema-clim-lg.pdf">
+          <span class="label" data-i18n="download_schema">📥 تحميل الشيم</span>
+          <small>(<span id="count-schema-clim-lg">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-schema-clim-lg"></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <h3 data-i18n="schema_industrial_title">كروت صناعية</h3>
+        <p data-i18n="schema_industrial_desc">شيمات لمختلف الكروت الإلكترونية الصناعية.</p>
+        <button class="download-btn" data-id="schema-industrial" data-file="files/schema-industrial.pdf">
+          <span class="label" data-i18n="download_schema">📥 تحميل الشيم</span>
+          <small>(<span id="count-schema-industrial">0</span>)</small>
+        </button>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-schema-industrial"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- تصليح ماكينات لحام – مع عنوان مترجم -->
+<section id="postesSection" class="postes-today">
+    <div class="postes-header wave-header">
+        <span class="wave-text" data-i18n="postes_title">تصليح ماكينات لحام</span>
+    </div>
+    <div class="postes-slider" id="postesSlider">
+        <div class="poste-pro-card"
+             data-title="Inverter MMA-300s"
+             data-desc="تصليح كامل مع فحص المكونات واستبدال القطع التالفة"
+             data-price="من 80 دينار">
+            <img src="poste1.webp" alt="Inverter MMA-300s" loading="lazy">
+            <div class="poste-overlay">MMA-300s</div>
+        </div>
+        <div class="poste-pro-card"
+             data-title="OXOUXIANG MMA 185"
+             data-desc="إصلاح سريع لماكينات اللحام الصغيرة والمتوسطة"
+             data-price="من 65 دينار">
+            <img src="poste2.webp" alt="OXOUXIANG MMA 185" loading="lazy">
+            <div class="poste-overlay">MMA 185</div>
+        </div>
+        <div class="poste-pro-card"
+             data-title="Telwin Machine"
+             data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
+             data-price="من 90 دينار">
+            <img src="poste3.webp" alt="Telwin Machine" loading="lazy">
+            <div class="poste-overlay">Telwin</div>
+        </div>
+        <div class="poste-pro-card"
+             data-title="Telwin Machine"
+             data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
+             data-price="من 90 دينار">
+            <img src="poste4.webp" alt="Telwin Machine" loading="lazy">
+            <div class="poste-overlay">Telwin</div>
+        </div>
+        <div class="poste-pro-card"
+             data-title="Telwin Machine"
+             data-desc="صيانة احترافية لموديلات Telwin مع ضمان"
+             data-price="من 90 دينار">
+            <img src="poste5.webp" alt="Telwin Machine" loading="lazy">
+            <div class="poste-overlay">Telwin</div>
+        </div>
+    </div>
+</section>
+        
+  </main>
+
+   <footer>
+    <div class="container footer-inner">
+        <!-- العنوان + واتساب – مترجم -->
+        <p data-i18n="footer_location">
+            📍 مدنين – نخدمو في كامل أنحاء تونس | 📲 WhatsApp: 98192103
+        </p>
+
+        <!-- ساعات العمل – مترجم -->
+        <p data-i18n="footer_hours">
+            ⏰ من الإثنين للسبت، 08:00 - 18:00 | الأحد راحة
+        </p>
+
+        <!-- حقوق النشر + التوقيع – مترجم -->
+        <p class="copyright-signature" data-i18n="footer_copyright">
+            © 2026 Atelier Electronique Médenine. Tous droits réservés.<br>
+            Signature: RAHMANI Soufien.
+        </p>
+
+        <!-- أيقونات السوشيال ميديا (كما هي بدون تغيير) -->
+        <div class="social-icons">
+            <a href="https://www.facebook.com/AEMednine" target="_blank" rel="noopener"><img src="icons/facebook.svg" alt="Facebook"></a>
+            <a href="https://www.instagram.com/aemedenine/" target="_blank" rel="noopener"><img src="icons/instagram.svg" alt="Instagram"></a>
+            <a href="https://wa.me/21698192103" target="_blank" rel="noopener"><img src="icons/whatsapp.svg" alt="WhatsApp"></a>
+        </div>
+    </div>
+</footer>
+
+        <!-- Fullscreen Media Viewer -->
+        <div id="mediaViewer">
+            <span class="close-btn">×</span>
+            <img id="viewerImg" style="display:none" alt="صورة تكبير">
+            <video id="viewerVideo" style="display:none" controls></video>
+        </div>
+
+       <!-- CMP / Cookie Banner – يظهر مرة كل يوم -->
+<div id="cmp-banner">
+    <span data-i18n="cookie_banner_text">نستخدم الكوكيز لتحسين تجربتك.</span>
+    <button id="consent-allow" data-i18n="cookie_allow">أوافق</button>
+    <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
+</div>
+        <!-- JavaScript externe -->
+        <script src="app.js" defer></script>
+   
+</body>
+</html>

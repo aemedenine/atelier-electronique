@@ -647,12 +647,16 @@
     <button id="consent-allow" data-i18n="cookie_allow">أوافق</button>
     <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
 </div>
-    <!-- Three.js + GLTFLoader -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
+   <script type="module">
+  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
+  import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/GLTFLoader.js';
 
-    <!-- app.js بدون defer هنا باش يشتغل بعد Three.js مباشرة -->
- <script src="app.js"></script>
+  // خليهم متاحين عالمياً باش app.js يلقاهم
+  window.THREE = THREE;
+  window.GLTFLoader = GLTFLoader;
+</script>
+<script type="module" src="app.js"></script>
+
 
    
 </body>

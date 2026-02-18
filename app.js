@@ -1474,7 +1474,98 @@ if (smdInput) {
             }
         });
     });
+// ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('roboCanvas');
+    if (!canvas) return;
 
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff); // blanc kif talabt
+
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+    camera.position.set(0, 0.9, 3.2);
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true
+    });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Lights bech yban mli7
+    scene.add(new THREE.AmbientLight(0xffffff, 1.1));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    dirLight.position.set(4, 8, 6);
+    scene.add(dirLight);
+
+    let model = null;
+    let isHover = false;
+
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+        'robo.glb',
+        (gltf) => {
+            model = gltf.scene;
+            model.scale.set(0.6, 0.6, 0.6);
+            model.position.y = -0.35; // ajusti ida yban 3ali welle b3id
+            scene.add(model);
+            console.log('Robo chargé – yorqos wa7dou kif mouse ba3id 🤖');
+        },
+        undefined,
+        (err) => console.error('Erreur chargement robo.glb :', err)
+    );
+
+    // Messages random kif hover
+    const msgs = [
+        "مرحبا يا خويا 👋",
+        "نجم نعاونك؟ 🔧",
+        "قلي شنوة تحب 😏",
+        "ورشة إلكترونيك مدنين 🔥",
+        "عندك كارت معطلة؟ أرسلها!"
+    ];
+
+    canvas.addEventListener('mouseenter', () => {
+        isHover = true;
+        const bubble = document.getElementById('roboBubble');
+        if (bubble) {
+            bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        }
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        isHover = false;
+        const bubble = document.getElementById('roboBubble');
+        if (bubble) bubble.textContent = "مرحبا 👋";
+    });
+
+    // Animation principale
+    function animate() {
+        requestAnimationFrame(animate);
+
+        if (model) {
+            if (isHover) {
+                // kif mouse qareb → follow mouse smooth
+                const mouseX = (event ? event.clientX / window.innerWidth : 0.5) * 2 - 1;
+                model.rotation.y = THREE.MathUtils.lerp(model.rotation.y, mouseX * 1.5, 0.1);
+                model.scale.set(0.68, 0.68, 0.68); // zoom in chway
+            } else {
+                // kif mouse ba3id → yorqos wa7dou (rotation lente)
+                model.rotation.y += 0.007; // slow dance kif talabt
+                model.scale.set(0.6, 0.6, 0.6); // taille normale
+            }
+        }
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize handling (si window ybadal taille)
+    window.addEventListener('resize', () => {
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    });
+});
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

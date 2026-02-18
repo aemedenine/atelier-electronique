@@ -18,9 +18,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <!-- Three.js core + GLTFLoader compatible non-module (fixe el erreur) -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
     <header>
@@ -38,10 +35,13 @@
         <section class="info-bar">
             <div id="current-time">--:--:--</div>
             <div id="visit-count" data-i18n="visit_count">عدد زوار الموقع: 0</div>
-<div id="robo-container">
-    <canvas id="roboCanvas"></canvas>
-    <div id="roboBubble">مرحبا يا خويا 👋</div>
-</div>
+<!-- 🤖 Robo 3D sghir houni -->
+    <div id="robo-wrapper">
+        <div id="robo-container">
+            <canvas id="roboCanvas"></canvas>
+            <div id="roboBubble">مرحبا يا خويا 👋</div>
+        </div>
+    </div>
             <!-- Language Switcher -->
             <div class="lang-switch">
                 <img src="flags/tn.png" data-lang="ar" alt="العربية" title="العربية">

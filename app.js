@@ -1479,90 +1479,31 @@ if (smdInput) {
 // 🤖 Robo 3D – clean & smooth
 // =======================
 
-const roboCanvas = document.getElementById('roboCanvas');
+const loader = new THREE.GLTFLoader();
 
-if (roboCanvas && window.THREE) {
+loader.load('robo.glb', gltf => {
+    roboModel = gltf.scene;
 
-    const roboScene = new THREE.Scene();
+    // Reset transforms
+    roboModel.position.set(0, 0, 0);
+    roboModel.rotation.set(0, 0, 0);
 
-    const roboCamera = new THREE.PerspectiveCamera(
-        45,
-        roboCanvas.clientWidth / roboCanvas.clientHeight,
-        0.1,
-        1000
-    );
-    roboCamera.position.set(0, 1, 2.2);
+    // Auto scale + center
+    const box = new THREE.Box3().setFromObject(roboModel);
+    const size = box.getSize(new THREE.Vector3()).length();
+    const center = box.getCenter(new THREE.Vector3());
 
-    const roboRenderer = new THREE.WebGLRenderer({
-        canvas: roboCanvas,
-        alpha: true,
-        antialias: true
-    });
+    roboModel.position.sub(center);
 
-    roboRenderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
-    roboRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const scale = 1.4 / size;
+    roboModel.scale.setScalar(scale);
 
-    // Lights
-    roboScene.add(new THREE.AmbientLight(0xffffff, 1.4));
+    roboModel.position.y = -0.45;
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    dirLight.position.set(5, 10, 8);
-    roboScene.add(dirLight);
+    roboScene.add(roboModel);
 
-    let roboModel = null;
-    let isHovering = false;
-    let mouseX = 0;
-
-    // Mouse tracking
-    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
-    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
-
-    document.addEventListener('mousemove', e => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-    });
-
-    // Load model
-    const loader = new THREE.GLTFLoader();
-    loader.load('robo.glb', gltf => {
-        roboModel = gltf.scene;
-        roboModel.scale.set(0.45, 0.45, 0.45);   // 🤏 صغرنا الروبو
-        roboModel.position.y = -0.45;           // نزّلناه شوية
-        roboScene.add(roboModel);
-        console.log('🤖 Robo chargé avec succès');
-    });
-
-    // Animation
-    function animateRobo() {
-        requestAnimationFrame(animateRobo);
-
-        if (roboModel) {
-            if (isHovering) {
-                roboModel.rotation.y = THREE.MathUtils.lerp(
-                    roboModel.rotation.y,
-                    mouseX * 1.1,
-                    0.06
-                );
-                roboModel.scale.set(0.52, 0.52, 0.52);
-            } else {
-                roboModel.rotation.y += 0.004;
-                roboModel.scale.set(0.45, 0.45, 0.45);
-            }
-        }
-
-        roboRenderer.render(roboScene, roboCamera);
-    }
-
-    animateRobo();
-
-    window.addEventListener('resize', () => {
-        const w = roboCanvas.clientWidth;
-        const h = roboCanvas.clientHeight;
-
-        roboRenderer.setSize(w, h);
-        roboCamera.aspect = w / h;
-        roboCamera.updateProjectionMatrix();
-    });
-}
+    console.log('🤖 Robo loaded + auto centered');
+});
 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

@@ -1475,13 +1475,16 @@ if (smdInput) {
         });
     });
 // ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
-// ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
+// ── ROBO 3D – حركة الروبو و bubble ───────────────────────────────
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/GLTFLoader.js';
+
 const roboCanvas = document.getElementById('roboCanvas');
 if (roboCanvas) {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
+    scene.background = new THREE.Color(0xffffff); // blanc
 
-    const camera = new THREE.PerspectiveCamera(52, roboCanvas.clientWidth / roboCanvas.clientHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
     camera.position.set(0, 0.9, 3);
 
     const renderer = new THREE.WebGLRenderer({
@@ -1498,19 +1501,15 @@ if (roboCanvas) {
     dirLight.position.set(5, 10, 8);
     scene.add(dirLight);
 
-    // Model
     let roboModel = null;
     let isHovering = false;
+    let mouseX = 0;
 
-    const loader = new THREE.GLTFLoader();
-    loader.load('robo.glb', (gltf) => {
-        roboModel = gltf.scene;
-        roboModel.scale.set(0.58, 0.58, 0.58);
-        roboModel.position.y = -0.3;
-        scene.add(roboModel);
-        console.log('Robo chargé – yorqos wa7dou kif mouse ba3id 🤖');
-    }, undefined, (err) => {
-        console.error('Erreur robo.glb:', err);
+    // Mouse tracking
+    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
+    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     });
 
     // Bubble messages
@@ -1521,23 +1520,26 @@ if (roboCanvas) {
         "ورشة مدنين جاهزة 🔥",
         "أرسل صورة الكارت!"
     ];
-    const bubble = document.getElementById('roboBubble');
-
-    // Mouse tracking
-    let mouseX = 0;
 
     roboCanvas.addEventListener('mouseenter', () => {
-        isHovering = true;
+        const bubble = document.getElementById('roboBubble');
         if (bubble) bubble.textContent = bubbleMsgs[Math.floor(Math.random() * bubbleMsgs.length)];
     });
-
     roboCanvas.addEventListener('mouseleave', () => {
-        isHovering = false;
+        const bubble = document.getElementById('roboBubble');
         if (bubble) bubble.textContent = "مرحبا يا خويا 👋";
     });
 
-    roboCanvas.addEventListener('mousemove', e => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    // Load GLTF
+    const loader = new GLTFLoader();
+    loader.load('robo.glb', (gltf) => {
+        roboModel = gltf.scene;
+        roboModel.scale.set(0.58, 0.58, 0.58);
+        roboModel.position.y = -0.3;
+        scene.add(roboModel);
+        console.log('Robo chargé – جاهز للتحرك 🤖');
+    }, undefined, (err) => {
+        console.error('Erreur robo.glb:', err);
     });
 
     // Animate
@@ -1558,11 +1560,11 @@ if (roboCanvas) {
     }
     animateRobo();
 
-    // Resize handling
+    // Handle resize
     window.addEventListener('resize', () => {
+        renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
         camera.aspect = roboCanvas.clientWidth / roboCanvas.clientHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
     });
 }
 

@@ -1474,66 +1474,77 @@ if (smdInput) {
             }
         });
     });
-// ── robo ───────────────────────────────//
-
+// ==========================================================================
+// 2. Robo 3D avec Three.js
+// ==========================================================================
 const roboCanvas = document.getElementById("roboCanvas");
+if (roboCanvas) {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0f0f0);
 
-const roboScene = new THREE.Scene();
-roboScene.background = new THREE.Color(0xffffff);
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.set(0, 1.2, 3.5);
 
-const roboCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-roboCamera.position.set(0, 1, 3);
+    const renderer = new THREE.WebGLRenderer({
+        canvas: roboCanvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(120, 120);
 
-const roboRenderer = new THREE.WebGLRenderer({
-  canvas: roboCanvas,
-  alpha: true,
-  antialias: true
-});
-roboRenderer.setSize(90, 90);
+    // Lumières
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
 
-const light1 = new THREE.DirectionalLight(0xffffff, 1);
-light1.position.set(2, 5, 5);
-roboScene.add(light1);
+    let robot;
 
-const light2 = new THREE.AmbientLight(0xffffff, 0.8);
-roboScene.add(light2);
+    // Charge le modèle (assure-toi que robo.glb est dans le même dossier)
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+        "robo.glb", 
+        (gltf) => {
+            robot = gltf.scene;
+            robot.scale.set(0.7, 0.7, 0.7);
+            robot.position.y = -0.4;
+            scene.add(robot);
+            console.log("Robot chargé ! 🤖");
+        },
+        undefined,
+        (err) => {
+            console.error("Erreur chargement GLB:", err);
+        }
+    );
 
-let robo;
+    // Animation
+    function animate() {
+        requestAnimationFrame(animate);
+        if (robot) {
+            robot.rotation.y += 0.008;
+        }
+        renderer.render(scene, camera);
+    }
+    animate();
 
-const loader = new GLTFLoader();
-loader.load("robo.glb", gltf => {
-  robo = gltf.scene;
-  robo.scale.set(0.6, 0.6, 0.6);
-  roboScene.add(robo);
-});
-
-function animateRobo() {
-  requestAnimationFrame(animateRobo);
-  if (robo) robo.rotation.y += 0.01;
-  roboRenderer.render(roboScene, roboCamera);
+    // Interaction souris (optionnel)
+    document.addEventListener("mousemove", (e) => {
+        if (!robot) return;
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        robot.rotation.y = x * 0.6;
+    });
 }
-animateRobo();
 
-// تفاعل مع الماوس
-document.addEventListener("mousemove", e => {
-  if (!robo) return;
-  const x = (e.clientX / window.innerWidth) * 2 - 1;
-  robo.rotation.y = x * 0.8;
+// ==========================================================================
+// 3. Petit test bouton
+// ==========================================================================
+document.getElementById("test-btn")?.addEventListener("click", () => {
+    alert("Ya bro, tout marche ! 🔥");
+    const bubble = document.getElementById("roboBubble");
+    if (bubble) {
+        bubble.textContent = "ههههه نجم نعاونك في شنو؟ 😎";
+    }
 });
-
-// كلام الروبو
-const bubble = document.getElementById("roboBubble");
-const answers = [
-  "مرحبا 👋",
-  "نجم نعاونك؟",
-  "عندك سؤال؟",
-  "أنا روبو 🤖"
-];
-
-roboCanvas.addEventListener("mouseenter", () => {
-  bubble.innerHTML = answers[Math.floor(Math.random() * answers.length)];
-});
-
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

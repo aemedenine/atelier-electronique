@@ -1474,76 +1474,90 @@ if (smdInput) {
             }
         });
     });
-/* ==============================================
-   ROBO 3D – sghir ta7t el drapeaux
-   ============================================== */
-#robo-wrapper {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 10px; /* espace bin visit-count w drapeaux */
+// ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
+const roboCanvas = document.getElementById('roboCanvas');
+if (roboCanvas) {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff); // blanc
+
+    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
+    camera.position.set(0, 0.9, 3);
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: roboCanvas,
+        antialias: true
+    });
+    renderer.setSize(110, 110);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(5, 10, 8);
+    scene.add(dirLight);
+
+    let roboModel = null;
+    let isHovering = false;
+
+    const loader = new THREE.GLTFLoader();
+    loader.load('robo.glb', (gltf) => {
+        roboModel = gltf.scene;
+        roboModel.scale.set(0.58, 0.58, 0.58);
+        roboModel.position.y = -0.3; // ajusti ida yban 3ali
+        scene.add(roboModel);
+        console.log('Robo chargé – yorqos wa7dou kif mouse ba3id 🤖');
+    }, undefined, (err) => {
+        console.error('Erreur robo.glb:', err);
+    });
+
+    const bubbleMsgs = [
+        "مرحبا يا خويا 👋",
+        "نجم نعاونك في الكروت؟ 🔧",
+        "شنوة تحب نعمل؟ 😏",
+        "ورشة مدنين جاهزة 🔥",
+        "أرسل صورة الكارت!"
+    ];
+
+    roboCanvas.addEventListener('mouseenter', () => {
+        isHovering = true;
+        const bubble = document.getElementById('roboBubble');
+        if (bubble) {
+            bubble.textContent = bubbleMsgs[Math.floor(Math.random() * bubbleMsgs.length)];
+        }
+    });
+
+    roboCanvas.addEventListener('mouseleave', () => {
+        isHovering = false;
+        const bubble = document.getElementById('roboBubble');
+        if (bubble) bubble.textContent = "مرحبا يا خويا 👋";
+    });
+
+    function animateRobo() {
+        requestAnimationFrame(animateRobo);
+
+        if (roboModel) {
+            if (isHovering) {
+                // follow mouse kif qareb
+                const mouseX = (event ? event.clientX / window.innerWidth : 0.5) * 2 - 1;
+                roboModel.rotation.y = THREE.MathUtils.lerp(roboModel.rotation.y, mouseX * 1.4, 0.09);
+                roboModel.scale.set(0.68, 0.68, 0.68);
+            } else {
+                // yorqos wa7dou kif ba3id
+                roboModel.rotation.y += 0.008; // slow rotation
+                roboModel.scale.set(0.58, 0.58, 0.58);
+            }
+        }
+
+        renderer.render(scene, camera);
+    }
+    animateRobo();
+
+    // resize handling
+    window.addEventListener('resize', () => {
+        renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
+        camera.updateProjectionMatrix();
+    });
 }
 
-#robo-container {
-    position: relative;
-    width: 110px;
-    height: 110px;
-    cursor: pointer;
-}
-
-#roboCanvas {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 50%;
-    background: #ffffff;           /* fond blanc kif talabt */
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-#robo-container:hover #roboCanvas {
-    transform: scale(1.15);
-    box-shadow: 0 8px 28px rgba(255, 107, 53, 0.3); /* glow orange */
-}
-
-#roboBubble {
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #ff6b35;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 22px;
-    font-size: 13.5px;
-    white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-    opacity: 0;
-    transition: opacity 0.3s ease, bottom 0.3s ease;
-    pointer-events: none;
-    z-index: 10;
-}
-
-#robo-container:hover #roboBubble {
-    opacity: 1;
-    bottom: 115%;
-}
-
-#roboBubble::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid #ff6b35;
-}
-
-/* Mobile – robo plus sghir */
-@media (max-width: 768px) {
-    #robo-wrapper { margin: 0 6px; }
-    #robo-container { width: 90px; height: 90px; }
-    #roboBubble { font-size: 12px; padding: 6px 12px; }
-}
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

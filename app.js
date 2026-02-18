@@ -1535,16 +1535,6 @@ if (roboCanvas) {
     });
 }
 
-// ==========================================================================
-// 3. Petit test bouton
-// ==========================================================================
-document.getElementById("test-btn")?.addEventListener("click", () => {
-    alert("Ya bro, tout marche ! 🔥");
-    const bubble = document.getElementById("roboBubble");
-    if (bubble) {
-        bubble.textContent = "ههههه نجم نعاونك في شنو؟ 😎";
-    }
-});
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

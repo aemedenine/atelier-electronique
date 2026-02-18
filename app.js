@@ -1475,26 +1475,30 @@ if (smdInput) {
         });
     });
 // ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
+// ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
 const roboCanvas = document.getElementById('roboCanvas');
 if (roboCanvas) {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff); // blanc
+    scene.background = new THREE.Color(0xffffff);
 
-    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(52, roboCanvas.clientWidth / roboCanvas.clientHeight, 0.1, 1000);
     camera.position.set(0, 0.9, 3);
 
     const renderer = new THREE.WebGLRenderer({
         canvas: roboCanvas,
-        antialias: true
+        antialias: true,
+        alpha: true
     });
-    renderer.setSize(110, 110);
+    renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
 
+    // Lights
     scene.add(new THREE.AmbientLight(0xffffff, 1.2));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
     dirLight.position.set(5, 10, 8);
     scene.add(dirLight);
 
+    // Model
     let roboModel = null;
     let isHovering = false;
 
@@ -1502,13 +1506,14 @@ if (roboCanvas) {
     loader.load('robo.glb', (gltf) => {
         roboModel = gltf.scene;
         roboModel.scale.set(0.58, 0.58, 0.58);
-        roboModel.position.y = -0.3; // ajusti ida yban 3ali
+        roboModel.position.y = -0.3;
         scene.add(roboModel);
         console.log('Robo chargé – yorqos wa7dou kif mouse ba3id 🤖');
     }, undefined, (err) => {
         console.error('Erreur robo.glb:', err);
     });
 
+    // Bubble messages
     const bubbleMsgs = [
         "مرحبا يا خويا 👋",
         "نجم نعاونك في الكروت؟ 🔧",
@@ -1516,33 +1521,35 @@ if (roboCanvas) {
         "ورشة مدنين جاهزة 🔥",
         "أرسل صورة الكارت!"
     ];
+    const bubble = document.getElementById('roboBubble');
+
+    // Mouse tracking
+    let mouseX = 0;
 
     roboCanvas.addEventListener('mouseenter', () => {
         isHovering = true;
-        const bubble = document.getElementById('roboBubble');
-        if (bubble) {
-            bubble.textContent = bubbleMsgs[Math.floor(Math.random() * bubbleMsgs.length)];
-        }
+        if (bubble) bubble.textContent = bubbleMsgs[Math.floor(Math.random() * bubbleMsgs.length)];
     });
 
     roboCanvas.addEventListener('mouseleave', () => {
         isHovering = false;
-        const bubble = document.getElementById('roboBubble');
         if (bubble) bubble.textContent = "مرحبا يا خويا 👋";
     });
 
+    roboCanvas.addEventListener('mousemove', e => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    });
+
+    // Animate
     function animateRobo() {
         requestAnimationFrame(animateRobo);
 
         if (roboModel) {
             if (isHovering) {
-                // follow mouse kif qareb
-                const mouseX = (event ? event.clientX / window.innerWidth : 0.5) * 2 - 1;
                 roboModel.rotation.y = THREE.MathUtils.lerp(roboModel.rotation.y, mouseX * 1.4, 0.09);
                 roboModel.scale.set(0.68, 0.68, 0.68);
             } else {
-                // yorqos wa7dou kif ba3id
-                roboModel.rotation.y += 0.008; // slow rotation
+                roboModel.rotation.y += 0.008;
                 roboModel.scale.set(0.58, 0.58, 0.58);
             }
         }
@@ -1551,10 +1558,11 @@ if (roboCanvas) {
     }
     animateRobo();
 
-    // resize handling
+    // Resize handling
     window.addEventListener('resize', () => {
-        renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
+        camera.aspect = roboCanvas.clientWidth / roboCanvas.clientHeight;
         camera.updateProjectionMatrix();
+        renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
     });
 }
 

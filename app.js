@@ -1474,10 +1474,14 @@ if (smdInput) {
             }
         });
     });
+    // ── Final Initialization ───────────────────────────────────────────────
+    updateWeather();
+    updatePrayerTimes();
+    updateMiniCalendar();
+    updateDailyTips();
+    applyLanguage(currentLang);
 // ── 3D Robot Interactive (صغير + خلفية بيضاء + تفاعل ماوس + رقص تلقائي) ────────────────
-import * as THREE from 'https://unpkg.com/three@0.162.0/build/three.module.js?module';
-import { GLTFLoader } from 'https://unpkg.com/three@0.162.0/examples/jsm/loaders/GLTFLoader.js?module';
-
+// No imports needed - THREE and GLTFLoader are global from CDN in <head>
 const robotContainer = document.querySelector('.robot-wrapper');
 if (robotContainer) {
     const canvas = document.getElementById('robot-canvas');
@@ -1486,34 +1490,28 @@ if (robotContainer) {
     } else {
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff); // أبيض 100%
-
         const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100); // square aspect
         camera.position.set(0, 1.2, 2.8); // شوية لفوق و للخلف باش يبان كامل
-
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
         renderer.setSize(220, 220); // ابدأ صغير
         renderer.setPixelRatio(window.devicePixelRatio);
-
         // إضاءة ناعمة
         const ambient = new THREE.AmbientLight(0xffffff, 0.7);
         scene.add(ambient);
         const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
         dirLight.position.set(3, 5, 4);
         scene.add(dirLight);
-
         let robotModel = null;
-        let defaultScale = 0.55;     // صغير
+        let defaultScale = 0.55; // صغير
         let targetScale = defaultScale;
         let defaultZ = 0;
         let targetZ = defaultZ;
-
         const loader = new GLTFLoader();
-        loader.load('robo.glb', (gltf) => {   // غير المسار إذا robo.glb في مجلد assets مثلاً → 'assets/robo.glb'
+        loader.load('robo.glb', (gltf) => { // غير المسار إذا robo.glb في مجلد assets مثلاً → 'assets/robo.glb'
             robotModel = gltf.scene;
             robotModel.position.set(0, -0.4, defaultZ); // شوية لتحت إذا كان واقف عالي
             robotModel.scale.setScalar(defaultScale);
             scene.add(robotModel);
-
             // إذا عندو animations جاهزة (اختياري)
             if (gltf.animations.length > 0) {
                 const mixer = new THREE.AnimationMixer(robotModel);
@@ -1523,53 +1521,43 @@ if (robotContainer) {
                 window.robotMixer = mixer; // للـ update في animate
             }
         }, undefined, err => console.error("خطأ تحميل robo.glb:", err));
-
         // Mouse tracking داخل الـ wrapper فقط
         let mouseInside = false;
         let mouse = new THREE.Vector2();
-
         robotContainer.addEventListener('mouseenter', () => mouseInside = true);
         robotContainer.addEventListener('mouseleave', () => {
             mouseInside = false;
             targetScale = defaultScale;
             targetZ = defaultZ;
         });
-
         robotContainer.addEventListener('mousemove', e => {
             if (!mouseInside) return;
             const rect = canvas.getBoundingClientRect();
             mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
             mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
             // قرب = مسافة من المركز صغيرة → scale أكبر + z أقرب (negative z = أقرب للكاميرا)
             const distFromCenter = Math.sqrt(mouse.x * mouse.x + mouse.y * mouse.y);
             const closeness = Math.max(0, 1 - distFromCenter * 1.4); // 0 بعيد → 1 قريب جداً
             targetScale = defaultScale + closeness * 0.35; // max +35%
-            targetZ = defaultZ - closeness * 1.2;          // أقرب 1.2 وحدة
+            targetZ = defaultZ - closeness * 1.2; // أقرب 1.2 وحدة
         });
-
         const clock = new THREE.Clock();
         function animateRobot() {
             requestAnimationFrame(animateRobot);
             const delta = clock.getDelta();
-
             if (window.robotMixer) window.robotMixer.update(delta);
-
             if (robotModel) {
                 // Idle رقص تلقائي
                 const t = clock.getElapsedTime();
-                robotModel.rotation.y += 0.3 * delta;               // دوران بطيء
+                robotModel.rotation.y += 0.3 * delta; // دوران بطيء
                 robotModel.position.y = -0.4 + Math.sin(t * 1.8) * 0.06; // up/down \~6cm
-
                 // تفاعل الماوس (lerp ناعم)
                 robotModel.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 8 * delta);
                 robotModel.position.z = THREE.MathUtils.lerp(robotModel.position.z, targetZ, 8 * delta);
             }
-
             renderer.render(scene, camera);
         }
         animateRobot();
-
         // Resize لو الموبايل غير الاتجاه
         window.addEventListener('resize', () => {
             const size = robotContainer.clientWidth;
@@ -1579,12 +1567,5 @@ if (robotContainer) {
         });
     }
 }
-    // ── Final Initialization ───────────────────────────────────────────────
-    updateWeather();
-    updatePrayerTimes();
-    updateMiniCalendar();
-    updateDailyTips();
-    applyLanguage(currentLang);
-
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
 });

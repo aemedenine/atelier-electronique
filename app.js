@@ -1475,36 +1475,94 @@ if (smdInput) {
         });
     });
 // =======================
-    // 🤖 Three.js Robo 3D
-    // =======================
-    const canvas = document.getElementById('roboCanvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight, 0.1, 1000);
-    camera.position.set(0,1,3);
+// 🤖 Three.js Robo 3D (نسخة نظيفة بلا تعارض)
+// =======================
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+const roboCanvas = document.getElementById('roboCanvas');
 
-    // ضوء
-    const light = new THREE.DirectionalLight(0xffffff,1);
-    light.position.set(5,5,5);
-    scene.add(light);
-    scene.add(new THREE.AmbientLight(0xffffff,0.6));
+if (roboCanvas && window.THREE) {
 
-    // تحميل نموذج GLTF
+    const roboScene = new THREE.Scene();
+
+    const roboCamera = new THREE.PerspectiveCamera(
+        50,
+        roboCanvas.clientWidth / roboCanvas.clientHeight,
+        0.1,
+        1000
+    );
+    roboCamera.position.set(0, 1, 3);
+
+    const roboRenderer = new THREE.WebGLRenderer({
+        canvas: roboCanvas,
+        alpha: true,
+        antialias: true
+    });
+
+    roboRenderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
+    roboRenderer.setPixelRatio(window.devicePixelRatio);
+
+    // Lights
+    roboScene.add(new THREE.AmbientLight(0xffffff, 1.1));
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(5, 10, 8);
+    roboScene.add(dirLight);
+
+    let roboModel = null;
+    let isHovering = false;
+    let mouseX = 0;
+
+    // Mouse follow
+    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
+    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
+    document.addEventListener('mousemove', e => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    });
+
+    // Load model
     const loader = new THREE.GLTFLoader();
-    loader.load('models/robo.gltf', function(gltf){
-        const robo = gltf.scene;
-        robo.scale.set(0.5,0.5,0.5);
-        scene.add(robo);
-        animate();
-    }, undefined, function(err){ console.error(err); });
+    loader.load('robo.glb', gltf => {
+        roboModel = gltf.scene;
+        roboModel.scale.set(0.58, 0.58, 0.58);
+        roboModel.position.y = -0.3;
+        roboScene.add(roboModel);
+        console.log('🤖 Robo chargé');
+    });
 
-    function animate(){
-        requestAnimationFrame(animate);
-        scene.rotation.y += 0.005; // دوران خفيف
-        renderer.render(scene, camera);
+    // Animation loop
+    function animateRobo() {
+        requestAnimationFrame(animateRobo);
+
+        if (roboModel) {
+            if (isHovering) {
+                roboModel.rotation.y = THREE.MathUtils.lerp(
+                    roboModel.rotation.y,
+                    mouseX * 1.4,
+                    0.08
+                );
+                roboModel.scale.set(0.68, 0.68, 0.68);
+            } else {
+                roboModel.rotation.y += 0.006;
+                roboModel.scale.set(0.58, 0.58, 0.58);
+            }
+        }
+
+        roboRenderer.render(roboScene, roboCamera);
     }
+
+    animateRobo();
+
+    window.addEventListener('resize', () => {
+        roboRenderer.setSize(
+            roboCanvas.clientWidth,
+            roboCanvas.clientHeight
+        );
+        roboCamera.aspect =
+            roboCanvas.clientWidth / roboCanvas.clientHeight;
+        roboCamera.updateProjectionMatrix();
+    });
+}
+
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

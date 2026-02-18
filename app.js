@@ -1474,42 +1474,45 @@ if (smdInput) {
             }
         });
     });
- // ── robo ───────────────────────────────//
+// ── robo ───────────────────────────────//
 
 const roboCanvas = document.getElementById("roboCanvas");
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
+const roboScene = new THREE.Scene();
+roboScene.background = new THREE.Color(0xffffff);
 
-const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-camera.position.set(0, 1, 3);
+const roboCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+roboCamera.position.set(0, 1, 3);
 
-const renderer = new THREE.WebGLRenderer({ canvas: roboCanvas, alpha: true, antialias: true });
-
-renderer.setSize(90, 90);
+const roboRenderer = new THREE.WebGLRenderer({
+  canvas: roboCanvas,
+  alpha: true,
+  antialias: true
+});
+roboRenderer.setSize(90, 90);
 
 const light1 = new THREE.DirectionalLight(0xffffff, 1);
 light1.position.set(2, 5, 5);
-scene.add(light1);
+roboScene.add(light1);
 
 const light2 = new THREE.AmbientLight(0xffffff, 0.8);
-scene.add(light2);
+roboScene.add(light2);
 
 let robo;
 
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 loader.load("robo.glb", gltf => {
   robo = gltf.scene;
   robo.scale.set(0.6, 0.6, 0.6);
-  scene.add(robo);
+  roboScene.add(robo);
 });
 
-function animate() {
-  requestAnimationFrame(animate);
-  if (robo) robo.rotation.y += 0.01; // رقص خفيف
-  renderer.render(scene, camera);
+function animateRobo() {
+  requestAnimationFrame(animateRobo);
+  if (robo) robo.rotation.y += 0.01;
+  roboRenderer.render(roboScene, roboCamera);
 }
-animate();
+animateRobo();
 
 // تفاعل مع الماوس
 document.addEventListener("mousemove", e => {
@@ -1527,10 +1530,9 @@ const answers = [
   "أنا روبو 🤖"
 ];
 
-canvas.addEventListener("mouseenter", () => {
+roboCanvas.addEventListener("mouseenter", () => {
   bubble.innerHTML = answers[Math.floor(Math.random() * answers.length)];
 });
-
 
 
     // ── Final Initialization ───────────────────────────────────────────────

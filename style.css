@@ -1569,58 +1569,75 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
+/* ==============================================
+   ROBO 3D – sghir ta7t el drapeaux
+   ============================================== */
+#robo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px; /* espace bin visit-count w drapeaux */
+}
+
 #robo-container {
     position: relative;
-    width: 140px;
-    height: 140px;
-    margin: 10px auto;           /* centre si tu veux */
+    width: 110px;
+    height: 110px;
+    cursor: pointer;
 }
 
 #roboCanvas {
     width: 100% !important;
     height: 100% !important;
     border-radius: 50%;
-    background: white;           /* fond blanc kif 7abbina */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    background: #ffffff;           /* fond blanc kif talabt */
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 #robo-container:hover #roboCanvas {
-    transform: scale(1.12);
-    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.35); /* glow orange tunisi */
+    transform: scale(1.15);
+    box-shadow: 0 8px 28px rgba(255, 107, 53, 0.3); /* glow orange */
 }
 
 #roboBubble {
     position: absolute;
-    top: -45px;
+    bottom: 110%;
     left: 50%;
     transform: translateX(-50%);
     background: #ff6b35;
     color: white;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 22px;
+    font-size: 13.5px;
     white-space: nowrap;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     opacity: 0;
-    transition: opacity 0.35s ease, top 0.35s ease;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
     pointer-events: none;
+    z-index: 10;
 }
 
 #robo-container:hover #roboBubble {
     opacity: 1;
-    top: -55px;
+    bottom: 115%;
 }
 
 #roboBubble::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-top: 9px solid #ff6b35;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #ff6b35;
+}
+
+/* Mobile – robo plus sghir */
+@media (max-width: 768px) {
+    #robo-wrapper { margin: 0 6px; }
+    #robo-container { width: 90px; height: 90px; }
+    #roboBubble { font-size: 12px; padding: 6px 12px; }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

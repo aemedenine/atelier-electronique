@@ -1571,63 +1571,32 @@ footer {
 }
 
 /* ====== robo ====== */
-#robo-container {
+#robo3d-container {
   position: fixed;
-  top: 110px;
+  top: 115px;
   right: 10px;
+  width: 90px;
+  height: 140px;
   z-index: 99999;
   text-align: center;
   font-family: Tahoma, Arial;
 }
 
-#robo {
-  width: 60px;
-  height: 60px;
+#roboCanvas {
+  width: 90px;
+  height: 90px;
   background: #fff;
-  border-radius: 50%;
-  border: 2px solid #000;
-  position: relative;
+  border-radius: 12px;
   cursor: pointer;
-  animation: dance 2s infinite ease-in-out;
-  transition: transform 0.3s ease;
 }
 
-.eye {
-  width: 8px;
-  height: 8px;
-  background: #000;
-  border-radius: 50%;
-  position: absolute;
-  top: 18px;
-}
-
-.eye.left { left: 16px; }
-.eye.right { right: 16px; }
-
-.mouth {
-  width: 18px;
-  height: 8px;
-  border-bottom: 2px solid #000;
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-#robo-bubble {
-  margin-top: 6px;
+#roboBubble {
+  margin-top: 4px;
   background: #fff;
   border: 1px solid #ddd;
-  padding: 5px 8px;
+  padding: 4px 6px;
   border-radius: 6px;
   font-size: 11px;
-  max-width: 140px;
-}
-
-@keyframes dance {
-  0% { transform: rotate(-5deg) translateY(0); }
-  50% { transform: rotate(5deg) translateY(-3px); }
-  100% { transform: rotate(-5deg) translateY(0); }
 }
 
 /* ==========================================================================

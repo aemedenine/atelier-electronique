@@ -1474,98 +1474,37 @@ if (smdInput) {
             }
         });
     });
-// ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
-// ── ROBO 3D – حركة الروبو و bubble ───────────────────────────────
-const roboCanvas = document.getElementById('roboCanvas');
-if (roboCanvas) {
+// =======================
+    // 🤖 Three.js Robo 3D
+    // =======================
+    const canvas = document.getElementById('roboCanvas');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff); // blanc
+    const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth/canvas.clientHeight, 0.1, 1000);
+    camera.position.set(0,1,3);
 
-    const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 1000);
-    camera.position.set(0, 0.9, 3);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-    const renderer = new THREE.WebGLRenderer({
-        canvas: roboCanvas,
-        antialias: true,
-        alpha: true
-    });
-    renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // ضوء
+    const light = new THREE.DirectionalLight(0xffffff,1);
+    light.position.set(5,5,5);
+    scene.add(light);
+    scene.add(new THREE.AmbientLight(0xffffff,0.6));
 
-    // Lights
-    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(5, 10, 8);
-    scene.add(dirLight);
-
-    let roboModel = null;
-    let isHovering = false;
-    let mouseX = 0;
-
-    // Mouse tracking
-    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
-    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    });
-
-    // Bubble messages
-    const bubbleMsgs = [
-        "مرحبا يا خويا 👋",
-        "نجم نعاونك في الكروت؟ 🔧",
-        "شنوة تحب نعمل؟ 😏",
-        "ورشة مدنين جاهزة 🔥",
-        "أرسل صورة الكارت!"
-    ];
-
-    roboCanvas.addEventListener('mouseenter', () => {
-        const bubble = document.getElementById('roboBubble');
-        if (bubble) bubble.textContent = bubbleMsgs[Math.floor(Math.random() * bubbleMsgs.length)];
-    });
-    roboCanvas.addEventListener('mouseleave', () => {
-        const bubble = document.getElementById('roboBubble');
-        if (bubble) bubble.textContent = "مرحبا يا خويا 👋";
-    });
-
-    // Load GLTF
+    // تحميل نموذج GLTF
     const loader = new THREE.GLTFLoader();
-    loader.load('robo.glb', function(gltf) {
-        roboModel = gltf.scene;
-        roboModel.scale.set(0.58, 0.58, 0.58);
-        roboModel.position.y = -0.3;
-        scene.add(roboModel);
-        console.log('Robo chargé – جاهز للتحرك 🤖');
-    }, undefined, function(err) {
-        console.error('Erreur robo.glb:', err);
-    });
+    loader.load('models/robo.gltf', function(gltf){
+        const robo = gltf.scene;
+        robo.scale.set(0.5,0.5,0.5);
+        scene.add(robo);
+        animate();
+    }, undefined, function(err){ console.error(err); });
 
-    // Animate
-    function animateRobo() {
-        requestAnimationFrame(animateRobo);
-
-        if (roboModel) {
-            if (isHovering) {
-                roboModel.rotation.y = THREE.MathUtils.lerp(roboModel.rotation.y, mouseX * 1.4, 0.09);
-                roboModel.scale.set(0.68, 0.68, 0.68);
-            } else {
-                roboModel.rotation.y += 0.008;
-                roboModel.scale.set(0.58, 0.58, 0.58);
-            }
-        }
-
+    function animate(){
+        requestAnimationFrame(animate);
+        scene.rotation.y += 0.005; // دوران خفيف
         renderer.render(scene, camera);
     }
-    animateRobo();
-
-    // Handle resize
-    window.addEventListener('resize', function() {
-        renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
-        camera.aspect = roboCanvas.clientWidth / roboCanvas.clientHeight;
-        camera.updateProjectionMatrix();
-    });
-}
-
-
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

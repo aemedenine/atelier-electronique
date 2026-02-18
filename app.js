@@ -1534,7 +1534,6 @@ roboCanvas.addEventListener("mouseenter", () => {
   bubble.innerHTML = answers[Math.floor(Math.random() * answers.length)];
 });
 
-
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

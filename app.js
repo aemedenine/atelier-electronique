@@ -1475,8 +1475,6 @@ if (smdInput) {
         });
     });
  // ── robo ───────────────────────────────//
-<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
 
 const canvas = document.getElementById("roboCanvas");
 

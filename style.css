@@ -1569,26 +1569,67 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
-.robot-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120px;           /* صغير نسبياً – غير حسب حجم الدائرة */
-    height: 120px;
-    pointer-events: auto;   /* مهم: باش الماوس يتفاعل مع الـ canvas */
-    z-index: 5;             /* فوق الخلفية بس تحت النصوص إذا لزم */
-    border-radius: 50%;     /* دائري إذا تبي */
-    overflow: hidden;
-    background: white;      /* خلفية بيضاء */
+
+/* ====== robo ====== */
+#robo-container {
+  position: fixed;
+  top: 110px;
+  right: 10px;
+  z-index: 99999;
+  text-align: center;
+  font-family: Tahoma, Arial;
 }
 
-#robot-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
+#robo {
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid #000;
+  position: relative;
+  cursor: pointer;
+  animation: dance 2s infinite ease-in-out;
+  transition: transform 0.3s ease;
 }
-/* ====== نهاية CSS البوكسات الجديدة ====== */
+
+.eye {
+  width: 8px;
+  height: 8px;
+  background: #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 18px;
+}
+
+.eye.left { left: 16px; }
+.eye.right { right: 16px; }
+
+.mouth {
+  width: 18px;
+  height: 8px;
+  border-bottom: 2px solid #000;
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#robo-bubble {
+  margin-top: 6px;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  max-width: 140px;
+}
+
+@keyframes dance {
+  0% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(5deg) translateY(-3px); }
+  100% { transform: rotate(-5deg) translateY(0); }
+}
+
 /* ==========================================================================
    RTL Specific
    ========================================================================== */

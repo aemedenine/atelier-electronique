@@ -1569,7 +1569,59 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
+#robo-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 10px auto;           /* centre si tu veux */
+}
 
+#roboCanvas {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50%;
+    background: white;           /* fond blanc kif 7abbina */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+#robo-container:hover #roboCanvas {
+    transform: scale(1.12);
+    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.35); /* glow orange tunisi */
+}
+
+#roboBubble {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff6b35;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.35s ease, top 0.35s ease;
+    pointer-events: none;
+}
+
+#robo-container:hover #roboBubble {
+    opacity: 1;
+    top: -55px;
+}
+
+#roboBubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid #ff6b35;
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

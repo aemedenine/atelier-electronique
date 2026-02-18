@@ -1476,9 +1476,6 @@ if (smdInput) {
     });
 // ── ROBO 3D – yorqos wa7dou kif mouse ba3id ───────────────────────────────
 // ── ROBO 3D – حركة الروبو و bubble ───────────────────────────────
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/GLTFLoader.js';
-
 const roboCanvas = document.getElementById('roboCanvas');
 if (roboCanvas) {
     const scene = new THREE.Scene();
@@ -1531,14 +1528,14 @@ if (roboCanvas) {
     });
 
     // Load GLTF
-    const loader = new GLTFLoader();
-    loader.load('robo.glb', (gltf) => {
+    const loader = new THREE.GLTFLoader();
+    loader.load('robo.glb', function(gltf) {
         roboModel = gltf.scene;
         roboModel.scale.set(0.58, 0.58, 0.58);
         roboModel.position.y = -0.3;
         scene.add(roboModel);
         console.log('Robo chargé – جاهز للتحرك 🤖');
-    }, undefined, (err) => {
+    }, undefined, function(err) {
         console.error('Erreur robo.glb:', err);
     });
 
@@ -1561,12 +1558,13 @@ if (roboCanvas) {
     animateRobo();
 
     // Handle resize
-    window.addEventListener('resize', () => {
+    window.addEventListener('resize', function() {
         renderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
         camera.aspect = roboCanvas.clientWidth / roboCanvas.clientHeight;
         camera.updateProjectionMatrix();
     });
 }
+
 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

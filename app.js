@@ -1474,66 +1474,6 @@ if (smdInput) {
             }
         });
     });
-// ==========================================================================
-// 2. Robo 3D avec Three.js
-// ==========================================================================
-const roboCanvas = document.getElementById("roboCanvas");
-if (roboCanvas) {
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
-
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    camera.position.set(0, 1.2, 3.5);
-
-    const renderer = new THREE.WebGLRenderer({
-        canvas: roboCanvas,
-        alpha: true,
-        antialias: true
-    });
-    renderer.setSize(120, 120);
-
-    // Lumières
-    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(5, 10, 7);
-    scene.add(dirLight);
-
-    let robot;
-
-    // Charge le modèle (assure-toi que robo.glb est dans le même dossier)
-    const loader = new THREE.GLTFLoader();
-    loader.load(
-        "robo.glb", 
-        (gltf) => {
-            robot = gltf.scene;
-            robot.scale.set(0.7, 0.7, 0.7);
-            robot.position.y = -0.4;
-            scene.add(robot);
-            console.log("Robot chargé ! 🤖");
-        },
-        undefined,
-        (err) => {
-            console.error("Erreur chargement GLB:", err);
-        }
-    );
-
-    // Animation
-    function animate() {
-        requestAnimationFrame(animate);
-        if (robot) {
-            robot.rotation.y += 0.008;
-        }
-        renderer.render(scene, camera);
-    }
-    animate();
-
-    // Interaction souris (optionnel)
-    document.addEventListener("mousemove", (e) => {
-        if (!robot) return;
-        const x = (e.clientX / window.innerWidth) * 2 - 1;
-        robot.rotation.y = x * 0.6;
-    });
-}
 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

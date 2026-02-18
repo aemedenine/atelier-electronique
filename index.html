@@ -13,9 +13,7 @@
           rel="stylesheet">
     <!-- CSS externe -->
     <link rel="stylesheet" href="style.css" />
-     <!-- Three.js + GLTFLoader هنا في آخر الـ body -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.js"></script>
+    
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
@@ -649,8 +647,12 @@
     <button id="consent-allow" data-i18n="cookie_allow">أوافق</button>
     <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
 </div>
-        <!-- JavaScript externe -->
-       <script src="app.js" defer></script>
+      <!-- Three.js + GLTFLoader – لازم يكونوا هنا قبل app.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.js"></script>
+
+    <!-- JavaScript externe -->
+    <script src="app.js" defer></script>
    
 </body>
 </html>

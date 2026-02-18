@@ -1478,7 +1478,6 @@ if (smdInput) {
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
 
-<script>
 const canvas = document.getElementById("roboCanvas");
 
 const scene = new THREE.Scene();
@@ -1532,7 +1531,7 @@ const answers = [
 canvas.addEventListener("mouseenter", () => {
   bubble.innerHTML = answers[Math.floor(Math.random() * answers.length)];
 });
-</script>
+
 
 
     // ── Final Initialization ───────────────────────────────────────────────

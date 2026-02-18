@@ -639,6 +639,94 @@ document.addEventListener('DOMContentLoaded', () => {
             equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
         }
     }
+// =======================
+// 🤖 Three.js Robo 3D (نسخة نظيفة بلا تعارض)
+// =======================
+
+const roboCanvas = document.getElementById('roboCanvas');
+
+if (roboCanvas && window.THREE) {
+
+    const roboScene = new THREE.Scene();
+
+    const roboCamera = new THREE.PerspectiveCamera(
+        50,
+        roboCanvas.clientWidth / roboCanvas.clientHeight,
+        0.1,
+        1000
+    );
+    roboCamera.position.set(0, 1, 3);
+
+    const roboRenderer = new THREE.WebGLRenderer({
+        canvas: roboCanvas,
+        alpha: true,
+        antialias: true
+    });
+
+    roboRenderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
+    roboRenderer.setPixelRatio(window.devicePixelRatio);
+
+    // Lights
+    roboScene.add(new THREE.AmbientLight(0xffffff, 1.1));
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(5, 10, 8);
+    roboScene.add(dirLight);
+
+    let roboModel = null;
+    let isHovering = false;
+    let mouseX = 0;
+
+    // Mouse follow
+    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
+    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
+    document.addEventListener('mousemove', e => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    });
+
+    // Load model
+    const loader = new THREE.GLTFLoader();
+    loader.load('robo.glb', gltf => {
+        roboModel = gltf.scene;
+        roboModel.scale.set(0.58, 0.58, 0.58);
+        roboModel.position.y = -0.3;
+        roboScene.add(roboModel);
+        console.log('🤖 Robo chargé');
+    });
+
+    // Animation loop
+    function animateRobo() {
+        requestAnimationFrame(animateRobo);
+
+        if (roboModel) {
+            if (isHovering) {
+                roboModel.rotation.y = THREE.MathUtils.lerp(
+                    roboModel.rotation.y,
+                    mouseX * 1.4,
+                    0.08
+                );
+                roboModel.scale.set(0.68, 0.68, 0.68);
+            } else {
+                roboModel.rotation.y += 0.006;
+                roboModel.scale.set(0.58, 0.58, 0.58);
+            }
+        }
+
+        roboRenderer.render(roboScene, roboCamera);
+    }
+
+    animateRobo();
+
+    window.addEventListener('resize', () => {
+        roboRenderer.setSize(
+            roboCanvas.clientWidth,
+            roboCanvas.clientHeight
+        );
+        roboCamera.aspect =
+            roboCanvas.clientWidth / roboCanvas.clientHeight;
+        roboCamera.updateProjectionMatrix();
+    });
+}
 
     // ── Radio controls ─────────────────────────────────────────────────────
     if (radioBtn) {
@@ -1474,94 +1562,6 @@ if (smdInput) {
             }
         });
     });
-// =======================
-// 🤖 Three.js Robo 3D (نسخة نظيفة بلا تعارض)
-// =======================
-
-const roboCanvas = document.getElementById('roboCanvas');
-
-if (roboCanvas && window.THREE) {
-
-    const roboScene = new THREE.Scene();
-
-    const roboCamera = new THREE.PerspectiveCamera(
-        50,
-        roboCanvas.clientWidth / roboCanvas.clientHeight,
-        0.1,
-        1000
-    );
-    roboCamera.position.set(0, 1, 3);
-
-    const roboRenderer = new THREE.WebGLRenderer({
-        canvas: roboCanvas,
-        alpha: true,
-        antialias: true
-    });
-
-    roboRenderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
-    roboRenderer.setPixelRatio(window.devicePixelRatio);
-
-    // Lights
-    roboScene.add(new THREE.AmbientLight(0xffffff, 1.1));
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(5, 10, 8);
-    roboScene.add(dirLight);
-
-    let roboModel = null;
-    let isHovering = false;
-    let mouseX = 0;
-
-    // Mouse follow
-    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
-    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
-    document.addEventListener('mousemove', e => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-    });
-
-    // Load model
-    const loader = new THREE.GLTFLoader();
-    loader.load('robo.glb', gltf => {
-        roboModel = gltf.scene;
-        roboModel.scale.set(0.58, 0.58, 0.58);
-        roboModel.position.y = -0.3;
-        roboScene.add(roboModel);
-        console.log('🤖 Robo chargé');
-    });
-
-    // Animation loop
-    function animateRobo() {
-        requestAnimationFrame(animateRobo);
-
-        if (roboModel) {
-            if (isHovering) {
-                roboModel.rotation.y = THREE.MathUtils.lerp(
-                    roboModel.rotation.y,
-                    mouseX * 1.4,
-                    0.08
-                );
-                roboModel.scale.set(0.68, 0.68, 0.68);
-            } else {
-                roboModel.rotation.y += 0.006;
-                roboModel.scale.set(0.58, 0.58, 0.58);
-            }
-        }
-
-        roboRenderer.render(roboScene, roboCamera);
-    }
-
-    animateRobo();
-
-    window.addEventListener('resize', () => {
-        roboRenderer.setSize(
-            roboCanvas.clientWidth,
-            roboCanvas.clientHeight
-        );
-        roboCamera.aspect =
-            roboCanvas.clientWidth / roboCanvas.clientHeight;
-        roboCamera.updateProjectionMatrix();
-    });
-}
 
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

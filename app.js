@@ -1476,7 +1476,7 @@ if (smdInput) {
     });
  // ── robo ───────────────────────────────//
 
-const canvas = document.getElementById("roboCanvas");
+const roboCanvas = document.getElementById("roboCanvas");
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
@@ -1484,7 +1484,8 @@ scene.background = new THREE.Color(0xffffff);
 const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
 camera.position.set(0, 1, 3);
 
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas: roboCanvas, alpha: true, antialias: true });
+
 renderer.setSize(90, 90);
 
 const light1 = new THREE.DirectionalLight(0xffffff, 1);

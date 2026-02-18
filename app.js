@@ -642,51 +642,89 @@ document.addEventListener('DOMContentLoaded', () => {
 // =======================
 // 🤖 Three.js Robo 3D (نسخة نظيفة بلا تعارض)
 // =======================
-console.log("🤖 Robo script running");
 
 const roboCanvas = document.getElementById('roboCanvas');
 
-if (!roboCanvas) {
-    console.error("❌ canvas roboCanvas not found");
-} else if (!window.THREE) {
-    console.error("❌ THREE not loaded");
-} else {
+if (roboCanvas && window.THREE) {
 
-    console.log("✅ Canvas + THREE OK");
+    const roboScene = new THREE.Scene();
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    camera.position.set(0, 1, 3);
+    const roboCamera = new THREE.PerspectiveCamera(
+        50,
+        roboCanvas.clientWidth / roboCanvas.clientHeight,
+        0.1,
+        1000
+    );
+    roboCamera.position.set(0, 1, 3);
 
-    const renderer = new THREE.WebGLRenderer({
+    const roboRenderer = new THREE.WebGLRenderer({
         canvas: roboCanvas,
         alpha: true,
         antialias: true
     });
 
-    renderer.setSize(110, 110);
+    roboRenderer.setSize(roboCanvas.clientWidth, roboCanvas.clientHeight);
+    roboRenderer.setPixelRatio(window.devicePixelRatio);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1));
-    const d = new THREE.DirectionalLight(0xffffff, 1);
-    d.position.set(5, 5, 5);
-    scene.add(d);
+    // Lights
+    roboScene.add(new THREE.AmbientLight(0xffffff, 1.1));
 
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(5, 10, 8);
+    roboScene.add(dirLight);
+
+    let roboModel = null;
+    let isHovering = false;
+    let mouseX = 0;
+
+    // Mouse follow
+    roboCanvas.addEventListener('mouseenter', () => isHovering = true);
+    roboCanvas.addEventListener('mouseleave', () => isHovering = false);
+    document.addEventListener('mousemove', e => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    });
+
+    // Load model
     const loader = new THREE.GLTFLoader();
-    loader.load('robo.glb', g => {
-        console.log("✅ robo.glb loaded");
-        const robo = g.scene;
-        robo.scale.set(0.6, 0.6, 0.6);
-        scene.add(robo);
+    loader.load('robo.glb', gltf => {
+        roboModel = gltf.scene;
+        roboModel.scale.set(0.58, 0.58, 0.58);
+        roboModel.position.y = -0.3;
+        roboScene.add(roboModel);
+        console.log('🤖 Robo chargé');
+    });
 
-        function animate() {
-            requestAnimationFrame(animate);
-            robo.rotation.y += 0.01;
-            renderer.render(scene, camera);
+    // Animation loop
+    function animateRobo() {
+        requestAnimationFrame(animateRobo);
+
+        if (roboModel) {
+            if (isHovering) {
+                roboModel.rotation.y = THREE.MathUtils.lerp(
+                    roboModel.rotation.y,
+                    mouseX * 1.4,
+                    0.08
+                );
+                roboModel.scale.set(0.68, 0.68, 0.68);
+            } else {
+                roboModel.rotation.y += 0.006;
+                roboModel.scale.set(0.58, 0.58, 0.58);
+            }
         }
-        animate();
 
-    }, undefined, e => {
-        console.error("❌ GLB load error:", e);
+        roboRenderer.render(roboScene, roboCamera);
+    }
+
+    animateRobo();
+
+    window.addEventListener('resize', () => {
+        roboRenderer.setSize(
+            roboCanvas.clientWidth,
+            roboCanvas.clientHeight
+        );
+        roboCamera.aspect =
+            roboCanvas.clientWidth / roboCanvas.clientHeight;
+        roboCamera.updateProjectionMatrix();
     });
 }
 

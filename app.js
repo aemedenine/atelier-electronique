@@ -1474,80 +1474,64 @@ if (smdInput) {
         });
     });
 // =======================
-// 🤖 Robo 3D – النسخة النهائية المصلحة والمحسنة
+// 🤖 Robo 3D – النسخة النهائية المصلحة 100%
 // =======================
 window.addEventListener('load', () => {
-    // التحقق من تحميل المكتبة كاملة
     if (typeof THREE === 'undefined' || typeof THREE.GLTFLoader === 'undefined') {
-        console.error("three.js أو GLTFLoader لم يتحملا – الروبو معطل");
+        console.error("three.js أو GLTFLoader ما تحملوش – الروبو معطل");
         const bubble = document.getElementById('roboBubble');
         if (bubble) {
-            bubble.textContent = "الروبو غير متوفر حالياً 😔 (مشكلة في الإنترنت أو التحميل)";
+            bubble.innerHTML = "الروبو غير متوفر حاليًا 😔<br>(تحقق من الإنترنت أو جرب لاحقًا)";
             bubble.style.color = "#ff4444";
             bubble.style.fontWeight = "bold";
+            bubble.style.textAlign = "center";
         }
         return;
     }
 
-    console.log("three.js محمل بنجاح – جاري إعداد الروبو...");
+    console.log("three.js و GLTFLoader محملين بنجاح – جاري تشغيل الروبو...");
 
-    const roboContainer = document.getElementById('robo-container');
-    if (!roboContainer) {
-        console.warn("عنصر robo-container غير موجود في الصفحة");
+    const container = document.getElementById('robo-container');
+    if (!container) {
+        console.warn("عنصر #robo-container غير موجود");
         return;
     }
 
-    // إعداد المشهد
-    const roboScene = new THREE.Scene();
-    roboScene.background = null; // شفاف
+    // المشهد والكاميرا والـ renderer
+    const scene = new THREE.Scene();
+    scene.background = null;
 
-    // الكاميرا
-    const camera = new THREE.PerspectiveCamera(
-        45, 
-        roboContainer.clientWidth / roboContainer.clientHeight, 
-        0.1, 
-        1000
-    );
+    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 1, 4);
 
-    // الـ Renderer
-    const renderer = new THREE.WebGLRenderer({ 
-        alpha: true, 
-        antialias: true 
-    });
-    renderer.setSize(roboContainer.clientWidth, roboContainer.clientHeight);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    roboContainer.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
-    // إضاءة أفضل (Ambient + Directional)
-    roboScene.add(new THREE.AmbientLight(0xffffff, 1.2));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    // إضاءة جيدة
+    scene.add(new THREE.AmbientLight(0xffffff, 1.8));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2);
     dirLight.position.set(5, 10, 7.5);
-    roboScene.add(dirLight);
+    scene.add(dirLight);
 
     // تحميل الموديل
     const loader = new THREE.GLTFLoader();
     loader.load(
-        'robo.glb',  // تأكد من وجود الملف في نفس المجلد أو غير المسار
+        'robo.glb',  // تأكد من المسار الصحيح
         (gltf) => {
-            let roboModel = gltf.scene;
-
-            // توسيط وتكبير تلقائي
-            const box = new THREE.Box3().setFromObject(roboModel);
+            const model = gltf.scene;
+            const box = new THREE.Box3().setFromObject(model);
             const size = box.getSize(new THREE.Vector3()).length();
             const center = box.getCenter(new THREE.Vector3());
 
-            roboModel.position.sub(center);
-            const scale = 1.6 / size;  // زدت شوية ليبان أحسن
-            roboModel.scale.setScalar(scale);
-            roboModel.position.y = -0.4;  // تعديل الارتفاع
+            model.position.sub(center);
+            model.scale.setScalar(1.8 / size);
+            model.position.y = -0.35;
 
-            // إضافة دوران بسيط للحركة
-            roboModel.rotation.y = Math.PI; // مواجهة الكاميرا
+            scene.add(model);
+            console.log('🤖 الروبو تحمل وتم توسيطه بنجاح!');
 
-            roboScene.add(roboModel);
-            console.log('🤖 Robo loaded + auto centered + improved lighting');
-
-            // تغيير الفقاعة للترحيب
             const bubble = document.getElementById('roboBubble');
             if (bubble) {
                 bubble.textContent = "مرحبا يا خويا 👋";
@@ -1555,37 +1539,26 @@ window.addEventListener('load', () => {
                 bubble.style.fontWeight = "bold";
             }
         },
-        (xhr) => {
-            console.log((xhr.loaded / xhr.total * 100) + '% تحميل الروبو...');
-        },
-        (error) => {
-            console.error('خطأ في تحميل robo.glb:', error);
+        undefined,
+        (err) => {
+            console.error('خطأ في تحميل robo.glb:', err);
             const bubble = document.getElementById('roboBubble');
             if (bubble) bubble.textContent = "خطأ في تحميل الروبو 😢";
         }
     );
 
-    // وضع الكاميرا
-    camera.position.set(0, 1, 5);  // أفضل زاوية
-
-    // دالة التحريك (Animation loop)
+    // Animation loop
     function animate() {
         requestAnimationFrame(animate);
-
-        // دوران خفيف للروبو (اختياري – شيلها لو ما تحبش)
-        // roboScene.children.forEach(child => {
-        //     if (child.isObject3D) child.rotation.y += 0.005;
-        // });
-
-        renderer.render(roboScene, camera);
+        renderer.render(scene, camera);
     }
     animate();
 
-    // التعامل مع تغيير حجم الشاشة
+    // Resize
     window.addEventListener('resize', () => {
-        camera.aspect = roboContainer.clientWidth / roboContainer.clientHeight;
+        camera.aspect = container.clientWidth / container.clientHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(roboContainer.clientWidth, roboContainer.clientHeight);
+        renderer.setSize(container.clientWidth, container.clientHeight);
     });
 });
     // ── Final Initialization ───────────────────────────────────────────────

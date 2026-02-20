@@ -1474,38 +1474,29 @@ if (smdInput) {
             }
         });
     });
-
-    // ── Final Initialization ───────────────────────────────────────────────
-    updateWeather();
-    updatePrayerTimes();
-    updateMiniCalendar();
-    updateDailyTips();
-    applyLanguage(currentLang);
-
-    console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
-});
-
-// 🤖 Robo 3D – clean & smooth (تصليح: أضفت الإعداد الكامل)
-// =======================
 window.addEventListener('load', () => {
-    if (typeof THREE === 'undefined') {
-        console.error("THREE.js لم يتحمل – تحقق من الإنترنت أو CDN");
+    if (typeof THREE === 'undefined' || typeof THREE.GLTFLoader === 'undefined') {
+        console.error("three.js أو GLTFLoader لم يتحملا – الروبو معطل. تحقق من الإنترنت أو غيّر الـ CDN.");
+        if (document.getElementById('roboBubble')) {
+            document.getElementById('roboBubble').textContent = "الروبو غير متوفر حالياً 😔";
+        }
         return;
     }
-    const roboContainer = document.getElementById('robo-container'); // نفترض موجود في HTML
+
+    const roboContainer = document.getElementById('robo-container');
     if (roboContainer) {
         const roboScene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, roboContainer.clientWidth / roboContainer.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setSize(roboContainer.clientWidth, roboContainer.clientHeight);
         roboContainer.appendChild(renderer.domElement);
+
+        // إضافة إضاءة بسيطة لتحسين المظهر
+        roboScene.add(new THREE.AmbientLight(0xffffff, 1.2));
+
         const loader = new THREE.GLTFLoader();
         loader.load('robo.glb', gltf => {
             let roboModel = gltf.scene;
-            // Reset transforms
-            roboModel.position.set(0, 0, 0);
-            roboModel.rotation.set(0, 0, 0);
-            // Auto scale + center
             const box = new THREE.Box3().setFromObject(roboModel);
             const size = box.getSize(new THREE.Vector3()).length();
             const center = box.getCenter(new THREE.Vector3());
@@ -1516,13 +1507,32 @@ window.addEventListener('load', () => {
             roboScene.add(roboModel);
             console.log('🤖 Robo loaded + auto centered');
         }, undefined, error => {
-            console.error('خطأ في تحميل robo.glb:', error);
+            console.error('خطأ تحميل robo.glb:', error);
         });
+
         camera.position.z = 5;
+
         function animate() {
             requestAnimationFrame(animate);
             renderer.render(roboScene, camera);
         }
         animate();
+
+        // إعادة تغيير الحجم عند resize
+        window.addEventListener('resize', () => {
+            camera.aspect = roboContainer.clientWidth / roboContainer.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(roboContainer.clientWidth, roboContainer.clientHeight);
+        });
     }
 });
+    // ── Final Initialization ───────────────────────────────────────────────
+    updateWeather();
+    updatePrayerTimes();
+    updateMiniCalendar();
+    updateDailyTips();
+    applyLanguage(currentLang);
+
+    console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
+});
+

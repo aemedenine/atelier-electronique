@@ -446,7 +446,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Rafraîchir les sections sensibles à la langue
        safeUpdateVisitText();
-        updateRateText();
         updateWeather();
         updatePrayerTimes();
         updateMiniCalendar();
@@ -1531,7 +1530,6 @@ window.addEventListener('load', () => {
     updatePrayerTimes();
     updateMiniCalendar();
     updateDailyTips();
-    applyLanguage(currentLang);
 
     console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
 });

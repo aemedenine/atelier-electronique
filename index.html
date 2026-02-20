@@ -646,11 +646,13 @@
     <button id="consent-manage" data-i18n="cookie_manage">تغيير الخيارات</button>
 </div>
 <!-- Scripts -->
-   <!-- ثلاثي.js + GLTFLoader من jsDelivr – أسرع وأكثر استقراراً -->
+  <!-- أولاً: three.js -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+
+<!-- ثانياً: GLTFLoader (يحتاج three.js قبليه) -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.min.js"></script>
 
-<!-- app.js مع defer مهم جداً -->
+<!-- أخيراً: app.js مع defer -->
 <script src="app.js" defer></script>
 </body>
 </html>

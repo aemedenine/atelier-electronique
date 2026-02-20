@@ -420,7 +420,6 @@ function updateTime() {
     const timeEl = document.getElementById('current-time');
     if (timeEl) timeEl.textContent = formatted;
 }
-
 function applyLanguage(lang) {
     if (!translations[lang]) lang = 'ar';
     currentLang = lang;
@@ -436,6 +435,11 @@ function applyLanguage(lang) {
         txt = txt.replace('{avg}', document.getElementById('avg-stars')?.textContent || '0.0');
         el.innerHTML = txt; // innerHTML عشان نحافظ على <strong> و <br> إذا موجودين
     });
+    // ترجمة placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.placeholder = translations[lang][key] || translations.ar[key] || el.placeholder;
+    });
     // تحديث نص الراديو ديناميكياً
     if (radioBtn) {
         radioBtn.textContent = radio.paused
@@ -450,7 +454,6 @@ function applyLanguage(lang) {
     updateDailyTips();
     loadRatings();
 }
-
 function safeUpdateVisitText() {
     if (!visitEl) return;
     if (typeof translations === "undefined") return;
@@ -460,7 +463,6 @@ function safeUpdateVisitText() {
     visitEl.textContent = translations[currentLang]
         .visit_count.replace('{count1}', total);
 }
-
 function updateNews() {
     if (!ticker) return;
     ticker.classList.remove('fade');
@@ -469,12 +471,10 @@ function updateNews() {
     ticker.classList.add('fade');
     newsIndex = (newsIndex + 1) % news[currentLang].length;
 }
-
 function startNewsRotation() {
     updateNews();
     setInterval(updateNews, 5000);
 }
-
 function initFAQ() {
     document.querySelectorAll('.faq-question').forEach(item => {
         item.addEventListener('click', () => {
@@ -491,14 +491,12 @@ function initFAQ() {
         });
     }
 }
-
 function updateEqualizerVisibility() {
     if (equalizer) {
         equalizer.style.opacity = radio.paused ? '0.25' : '1';
         equalizer.style.pointerEvents = radio.paused ? 'none' : 'auto';
     }
 }
-
 function updateWeather() {
     const url = "https://api.open-meteo.com/v1/forecast?" +
                 "latitude=33.3549&longitude=10.5055" +
@@ -537,7 +535,6 @@ function updateWeather() {
             document.getElementById("weather-desc").textContent = "⚠️ مشكلة في تحميل الطقس";
         });
 }
-
 function getWeatherDescription(code) {
     const desc = {
         ar: { clear: "مشمس ☀️", partly: "غائم جزئياً ⛅", fog: "ضباب 🌫️", rain: "مطر 💧", storm: "عواصف رعدية ⚡", unknown: "غير معروف 🌤️" },
@@ -552,7 +549,6 @@ function getWeatherDescription(code) {
     if (code >= 95) return t.storm;
     return t.unknown;
 }
-
 function updatePrayerTimes() {
     fetch("https://api.aladhan.com/v1/timingsByCity?city=Medenine&country=Tunisia&method=5")
         .then(res => res.json())
@@ -576,7 +572,6 @@ function updatePrayerTimes() {
             if (pt) pt.innerHTML = '<p style="color:red;">⚠️ خطأ في تحميل أوقات الصلاة</p>';
         });
 }
-
 function updateMiniCalendar() {
     const today = new Date();
     const miladiEl = document.getElementById('today-miladi');
@@ -619,7 +614,6 @@ function updateMiniCalendar() {
             }
         });
 }
-
 function hijriIcon(month) {
     if (month === 9) return "🌙";
     if (month === 12) return "🕋";
@@ -627,7 +621,6 @@ function hijriIcon(month) {
     if (month === 8) return "🌾";
     return "🕌";
 }
-
 function updateDailyTips() {
     const tips = {
         ar: [
@@ -673,7 +666,6 @@ function updateDailyTips() {
         });
     }
 }
-
 function showDailyItems() {
     if (dailyServiceEl) {
         const services = [
@@ -704,7 +696,6 @@ function showDailyItems() {
         dailyMachineEl.innerHTML = `<img src="${item.img}" alt="${item.title}" loading="lazy"><p>${item.title}</p>`;
     }
 }
-
 function loadRatings() {
     ratingsRef.on('value', snapshot => {
         const data = snapshot.val() || { sum: 0, count: 0, breakdown: {1:0,2:0,3:0,4:0,5:0} };
@@ -726,7 +717,6 @@ function loadRatings() {
         breakdownEl.innerHTML = html;
     });
 }
-
 function updateStars(rating) {
     stars.forEach(star => {
         const val = Number(star.dataset.value);
@@ -735,7 +725,6 @@ function updateStars(rating) {
     });
     if (ratingValue) ratingValue.textContent = `${rating}/5`;
 }
-
 function checkUserRating(user) {
     if (!user) {
         updateStars(0);
@@ -765,13 +754,11 @@ function checkUserRating(user) {
         }
     }).catch(err => console.error("Erreur check rating:", err));
 }
-
 function formatResistance(value){
     if(value >= 1e6) return (value/1e6).toFixed(2)+' MΩ';
     if(value >= 1e3) return (value/1e3).toFixed(1)+' KΩ';
     return value+' Ω';
 }
-
 function updateResistor() {
     vis1.style.backgroundColor = band1.selectedOptions[0].dataset.color;
     vis2.style.backgroundColor = band2.selectedOptions[0].dataset.color;
@@ -788,7 +775,6 @@ function updateResistor() {
     const ohm = ((val1 * 10) + val2) * mult;
     result.textContent = `${ohm} Ω ±${tol}%`;
 }
-
 function enableHorizontalDrag(sliderId) {
     const slider = document.getElementById(sliderId);
     if (!slider) return;
@@ -828,7 +814,6 @@ function enableHorizontalDrag(sliderId) {
         slider.scrollLeft = scrollLeft - walk;
     });
 }
-
 // ==========================================================================
 // DOM Ready (دمجت الحدثين في واحد)
 // ==========================================================================
@@ -846,14 +831,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnGoogle = document.getElementById('btn-google');
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
-
     // ── Language Switcher (النسخة المحسنة الكاملة) ────────────────────────
     document.querySelectorAll('.lang-switch img, .lang-btn').forEach(el => {
         el.addEventListener('click', () => {
             applyLanguage(el.dataset.lang);
         });
     });
-
     // ── Authentification Google ───────────────────────────────────────────
     auth.onAuthStateChanged(user => {
         if (user) {
@@ -885,7 +868,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('تم تسجيل الخروج بنجاح');
         }).catch(console.error);
     });
-
     // ── Compteur de visites ────────────────────────────────────────────────
     if (visitEl) {
         const db = firebase.database();
@@ -902,11 +884,9 @@ document.addEventListener('DOMContentLoaded', () => {
             safeUpdateVisitText();
         });
     }
-
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
     updateTime();
     setInterval(updateTime, 1000); // واحد بس هنا
-
     // ── News Ticker متعدد اللغات ──────────────────────────────────────────
     const news = {
         ar: [
@@ -930,10 +910,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let newsIndex = 0;
     startNewsRotation();
-
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     initFAQ();
-
     // ── Wave Animation لعنوان FAQ (محسنة) ────────────────────────────────
     const faqHeader = document.querySelector('.faq-header');
     if (faqHeader) {
@@ -943,7 +921,6 @@ document.addEventListener('DOMContentLoaded', () => {
         faqHeader.innerHTML = '';
         faqHeader.appendChild(waveContainer);
     }
-
     // ── Radio controls ─────────────────────────────────────────────────────
     if (radioBtn) {
         radioBtn.addEventListener('click', () => {
@@ -962,14 +939,12 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('pause', updateEqualizerVisibility);
     }
     updateEqualizerVisibility();
-
     // ── Daily Rotation ─────────────────────────────────────────────────────
     const dailyServiceEl = document.getElementById('daily-service');
     const dailyVideoEl = document.getElementById('daily-video');
     const dailyMachineEl = document.getElementById('daily-machine');
     const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
     showDailyItems();
-
     // ── Rating System ──────────────────────────────────────────────────────
     const stars = document.querySelectorAll('.stars-horizontal span');
     const ratingValue = document.getElementById('rating-value');
@@ -1046,7 +1021,6 @@ document.addEventListener('DOMContentLoaded', () => {
             stars.forEach(s => s.style.pointerEvents = 'none');
         });
     });
-
     // ── PCB Animated Header Canvas ─────────────────────────────────────────
     const canvas = document.getElementById('pcbCanvasHeader');
     if (canvas) {
@@ -1111,7 +1085,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animatePCB();
     }
-
     // ── Fullscreen Viewer ──────────────────────────────────────────────────
     document.querySelectorAll('.service-pro-card, .video-pro-card, .poste-pro-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -1139,12 +1112,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
     });
-
     // ── Drag للسلايدرات الأفقية ───────────────────────────────────────────
     enableHorizontalDrag('servicesSlider');
     enableHorizontalDrag('videoSlider');
     enableHorizontalDrag('postesSlider');
-
     // ── CMP Cookie Banner – يظهر مرة كل يوم فقط ──────────────────────────────────
     const cmpBanner = document.getElementById('cmp-banner');
     const consentAllow = document.getElementById('consent-allow');
@@ -1168,7 +1139,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // cmpBanner.style.display = 'none'; // أو ما تخفيهوش لو تبي
         });
     }
-
     // ── Site Name Animation ────────────────────────────────────────────────
     const siteName = document.getElementById('site-name');
     if (siteName) {
@@ -1185,7 +1155,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000);
         }, 4000);
     }
-
     // ── Resistor Calculators ───────────────────────────────────────────────
     const band1 = document.getElementById("band1");
     const band2 = document.getElementById("band2");
@@ -1198,7 +1167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = document.getElementById("resistor-result");
     [band1, band2, multiplier, tolerance].forEach(el => el.addEventListener("change", updateResistor));
     updateResistor();
-
     document.getElementById("smdCode")?.addEventListener("input", function(){
         const code = this.value.trim().toUpperCase();
         let resultText = "— Ω";
@@ -1212,7 +1180,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById("smd-result").textContent = resultText;
     });
-
     // Capacitor Calculator
     const capValue = document.getElementById("cap-value");
     const capVoltage = document.getElementById("cap-voltage");
@@ -1229,7 +1196,6 @@ document.addEventListener('DOMContentLoaded', () => {
         capResult.textContent = `Capacitance: ${value} µF @ ${voltage} V`;
         capFill.style.height = Math.min(100, value) + "%";
     }));
-
     // Power Calculator
     const volt = document.getElementById("volt");
     const resistance = document.getElementById("resistance");
@@ -1247,7 +1213,6 @@ document.addEventListener('DOMContentLoaded', () => {
         powerResult.textContent = P ? `${P.toFixed(2)} وات` : "— وات";
         powerFill.style.width = P ? Math.min(100, P) + "%" : "0%";
     }));
-
     // ── Firebase Download Counter + Progress ───────────────────────────────
     const db = firebase.database();
     document.querySelectorAll('.download-btn').forEach(btn => {
@@ -1320,11 +1285,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    // =======================
-    // 🤖 Robo 3D – clean & smooth (تصليح: أضفت الإعداد الكامل)
-    // =======================
-    const roboContainer = document.getElementById('roboContainer'); // نفترض موجود في HTML
+    // ── Final Initialization ───────────────────────────────────────────────
+    updateWeather();
+    updatePrayerTimes();
+    updateMiniCalendar();
+    updateDailyTips();
+    applyLanguage(currentLang);
+    console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
+});
+// =======================
+// 🤖 Robo 3D – clean & smooth (تصليح: أضفت الإعداد الكامل)
+// =======================
+window.addEventListener('load', () => {
+    if (typeof THREE === 'undefined') {
+        console.error("THREE.js لم يتحمل – تحقق من الإنترنت أو CDN");
+        return;
+    }
+    const roboContainer = document.getElementById('robo-container'); // نفترض موجود في HTML
     if (roboContainer) {
         const roboScene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, roboContainer.clientWidth / roboContainer.clientHeight, 0.1, 1000);
@@ -1347,6 +1324,8 @@ document.addEventListener('DOMContentLoaded', () => {
             roboModel.position.y = -0.45;
             roboScene.add(roboModel);
             console.log('🤖 Robo loaded + auto centered');
+        }, undefined, error => {
+            console.error('خطأ في تحميل robo.glb:', error);
         });
         camera.position.z = 5;
         function animate() {
@@ -1355,12 +1334,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animate();
     }
-
-    // ── Final Initialization ───────────────────────────────────────────────
-    updateWeather();
-    updatePrayerTimes();
-    updateMiniCalendar();
-    updateDailyTips();
-    applyLanguage(currentLang);
-    console.log("إلكترونيك الرحماني - app.js محمل ومصلح كامل بدون نقصان ✓");
 });

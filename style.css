@@ -1572,64 +1572,65 @@ footer {
 /* ================================
    Robo Floating Widget
 ================================ */
-
+/* Floating Button */
 #robo-float-btn {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+  bottom: 18px;
+  right: 18px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg,#00fff7,#0066ff);
+  background: radial-gradient(circle at 30% 30%, #00fff7, #0066ff);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30px;
   cursor: pointer;
   z-index: 99999;
-  box-shadow: 0 0 25px rgba(0,255,255,.7);
-  transition: transform .3s;
+  box-shadow: 0 0 35px rgba(0,255,255,.85);
+  transition: all .35s ease;
+  backdrop-filter: blur(8px);
 }
 
 #robo-float-btn:hover {
-  transform: scale(1.1) rotate(10deg);
+  transform: scale(1.15) rotate(12deg);
+  box-shadow: 0 0 50px rgba(0,255,255,1);
 }
 
-/* Popup */
+/* Popup libre (NO CADRE) */
 #robo-popup {
   position: fixed;
   bottom: 90px;
   right: 20px;
   width: 360px;
   height: 520px;
-  background: #000;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(0,255,255,.6);
+  background: transparent;
+  border-radius: 22px;
+  overflow: visible;
   display: none;
   flex-direction: column;
   z-index: 99999;
+  animation: roboPop .45s ease;
 }
 
-#robo-header button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-/* iframe */
+/* iframe libre */
 #robo-popup iframe {
   width: 100%;
   height: 100%;
   border: none;
+  background: transparent;
+  border-radius: 22px;
+  filter: drop-shadow(0 0 30px rgba(0,255,255,.7));
 }
+
+/* Inline Robo (تحت drapeaux) */
 #robo-inline {
-  margin: 15px auto 5px;
+  margin: 10px auto 4px;
   max-width: 380px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(0,255,255,.4);
+  border-radius: 20px;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
 }
 
 #robo-inline iframe {
@@ -1637,6 +1638,19 @@ footer {
   height: 420px;
   border: none;
   background: transparent;
+  filter: drop-shadow(0 0 22px rgba(0,255,255,.6));
+}
+
+/* Animation */
+@keyframes roboPop {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

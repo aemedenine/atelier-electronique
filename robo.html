@@ -16,13 +16,14 @@
 
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Tahoma, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+  margin: 0;
+  padding: 0;
+  font-family: Tahoma, sans-serif;
+  background: rgba(15,32,39,0.3); /* خلفية شفافة */
+  backdrop-filter: blur(15px);      /* تأثير blur */
+  min-height: 100vh;
+  overflow-x: hidden;
+}
    #ghost {
   position: fixed;
   bottom: 10px;
@@ -34,22 +35,24 @@
   align-items: center;
   pointer-events: none;
 }
-   model-viewer {
+  model-viewer {
   width: 160px;
   height: 160px;
-  filter: drop-shadow(0 0 40px cyan);
+  filter: drop-shadow(0 0 60px cyan); /* glow أقوى */
   cursor: pointer;
-  background: transparent;
+  background: rgba(0,0,0,0);           /* شفافة */
   pointer-events: auto;
+  border-radius: 50%;
 }
-   #chat {
+
+#chat {
   display: none;
   width: 300px;
-  background: rgba(0,0,0,0.20);
-  backdrop-filter: blur(20px);
+  background: rgba(0,0,0,0.25);        /* شبه شفافة */
+  backdrop-filter: blur(20px);          /* blur للخلفية */
   border-radius: 18px;
   padding: 12px;
-  box-shadow: 0 0 35px rgba(0,255,255,.6);
+  box-shadow: 0 0 50px rgba(0,255,255,.7); /* glow */
   margin-bottom: 6px;
   pointer-events: auto;
 }

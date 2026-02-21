@@ -24,7 +24,7 @@
   min-height: 100vh;
   overflow-x: hidden;
 }
-   #ghost {
+ #ghost {
   position: fixed;
   bottom: 10px;
   right: 10px;
@@ -38,21 +38,20 @@
   model-viewer {
   width: 160px;
   height: 160px;
-  filter: drop-shadow(0 0 60px cyan); /* glow أقوى */
+  filter: drop-shadow(0 0 40px cyan);
   cursor: pointer;
-  background: rgba(0,0,0,0);           /* شفافة */
+  background: transparent;
   pointer-events: auto;
-  border-radius: 50%;
 }
 
 #chat {
   display: none;
   width: 300px;
-  background: rgba(0,0,0,0.25);        /* شبه شفافة */
-  backdrop-filter: blur(20px);          /* blur للخلفية */
+  background: rgba(0,0,0,0.20);
+  backdrop-filter: blur(20px);
   border-radius: 18px;
   padding: 12px;
-  box-shadow: 0 0 50px rgba(0,255,255,.7); /* glow */
+  box-shadow: 0 0 35px rgba(0,255,255,.6);
   margin-bottom: 6px;
   pointer-events: auto;
 }

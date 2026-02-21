@@ -1477,18 +1477,17 @@ if (smdInput) {
 // ===============================
 // Robo Popup Controller
 // ===============================
-
 const roboBtn = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
 const roboClose = document.getElementById('robo-close');
 
-roboBtn.addEventListener('click', () => {
+roboBtn.onclick = () => {
   roboPopup.style.display = 'flex';
-});
+};
 
-roboClose.addEventListener('click', () => {
+roboClose.onclick = () => {
   roboPopup.style.display = 'none';
-});
+};
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

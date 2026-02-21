@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robo V6 - 3D Chat 🤖</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1, h2 {
+      margin: 10px 0;
+      text-align: center;
+      text-shadow: 0 0 10px #0ff;
+    }
+    h2 { color: #ffa500; }
+
+    /* Robo V6 container */
+    #robo-v6-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    model-viewer#robo-v6 {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(255, 165, 0, 0.5);
+      background: rgba(255,255,255,0.05);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    #robo-v6-chat {
+      margin-top: 15px;
+      width: 90%;
+    }
+
+    #robo-messages {
+      background: rgba(0,0,0,0.55);
+      padding: 10px;
+      border-radius: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #robo-messages .message {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 18px;
+      max-width: 85%;
+      word-wrap: break-word;
+      font-size: 0.95em;
+    }
+
+    #robo-messages .user { background: #1e8449; margin-left: auto; }
+    #robo-messages .bot { background: rgba(255,255,255,0.12); margin-right: auto; }
+
+    .input-area { display: flex; margin-top: 10px; }
+    .input-area input {
+      flex:1;
+      padding:12px 15px;
+      border-radius:25px 0 0 25px;
+      border:none;
+      outline:none;
+    }
+    .input-area button {
+      padding:12px 22px;
+      border-radius:0 25px 25px 0;
+      background:#ffa500;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      font-weight:bold;
+      transition: background 0.3s;
+    }
+    .input-area button:hover { background:#e69500; }
+  </style>
+</head>
+<body>
+
+  <h1>Robo V6 🤖</h1>
+
+  <div id="robo-v6-container">
+    <model-viewer id="robo-v6" src="robo.glb" 
+                  alt="Robo Tounsi 3D" 
+                  auto-rotate 
+                  camera-controls 
+                  shadow-intensity="1" 
+                  rotation-per-second="30deg">
+    </model-viewer>
+
+    <div id="robo-v6-chat">
+      <div id="robo-messages"></div>
+      <div class="input-area">
+        <input id="robo-input" placeholder="S2el Robo..." autofocus />
+        <button onclick="sendRoboMsg()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const roboV6 = document.getElementById('robo-v6');
+    const messagesDivV6 = document.getElementById('robo-messages');
+    const inputV6 = document.getElementById('robo-input');
+
+    function addMessageV6(text, type) {
+      const msg = document.createElement('div');
+      msg.className = `message ${type}`;
+      msg.textContent = text;
+      messagesDivV6.appendChild(msg);
+      messagesDivV6.scrollTop = messagesDivV6.scrollHeight;
+    }
+
+    // Welcome message
+    addMessageV6('Ahla ! Ana Robo V6, نجم نفتحلك الأقسام, نعمل حجز, و نولّد فاتورة 🚀', 'bot');
+
+    async function sendRoboMsg() {
+      const text = inputV6.value.trim();
+      if (!text) return;
+      addMessageV6(text, 'user');
+      inputV6.value = '';
+
+      // Simple commands
+      if(text.includes('فتح')) {
+        addMessageV6('Tawa باش نفتحلك القسم...', 'bot');
+        // هنا تحط الكود باش Robo يفتح القسم تلقائياً
+      } else if(text.includes('حجز')) {
+        addMessageV6('Chnowa التاريخ و الساعة؟', 'bot');
+      } else if(text.includes('فاتورة')) {
+        addMessageV6('Tawa باش نولّدلك فاتورة...', 'bot');
+      } else {
+        addMessageV6('Smah... ma fhemtch, jarreb mara okhra 😅', 'bot');
+      }
+    }
+
+    // Enter key
+    inputV6.addEventListener('keypress', e => {
+      if(e.key==='Enter') sendRoboMsg();
+    });
+
+    // Hover animation
+    roboV6.addEventListener('pointerenter', () => { roboV6.style.transform='scale(1.18)'; });
+    roboV6.addEventListener('pointerleave', () => { roboV6.style.transform='scale(1)'; });
+  </script>
+
+</body>
+</html>

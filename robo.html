@@ -12,93 +12,54 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  
+  <!-- Puter.js لـ Grok مجاني -->
+  <script src="https://js.puter.com/v2/"></script>
 
   <style>
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Segoe UI', Tahoma, sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
       min-height: 100vh;
     }
-    h1 {
-      margin: 15px 0;
-      text-shadow: 0 0 10px #0ff;
-    }
-    #robo-v6-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 420px;
-      padding: 10px;
-    }
+    h1 { margin: 15px 0; text-shadow: 0 0 10px #0ff; }
+    #robo-v6-container { max-width: 420px; width: 100%; padding: 10px; }
     model-viewer#robo-v6 {
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      box-shadow: 0 0 50px rgba(255, 165, 0, 0.6);
+      width: 260px; height: 260px; border-radius: 50%;
+      box-shadow: 0 0 50px rgba(255,165,0,0.6);
       background: rgba(255,255,255,0.05);
-      transition: all 0.4s ease;
-      cursor: pointer;
+      transition: all 0.4s ease; cursor: pointer;
+      margin: 0 auto; display: block;
     }
-    #robo-v6-chat {
-      margin-top: 20px;
-      width: 100%;
-    }
-    #robo-messages {
-      background: rgba(0,0,0,0.6);
-      padding: 12px;
-      border-radius: 12px;
-      max-height: 320px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
+    #chat-area {
+      background: rgba(0,0,0,0.6); padding: 20px; border-radius: 16px;
+      margin-top: 20px; min-height: 140px; text-align: center;
     }
     .message {
-      margin: 10px 0;
-      padding: 12px 16px;
-      border-radius: 20px;
-      max-width: 80%;
-      word-wrap: break-word;
-      font-size: 0.98em;
+      margin: 0 auto; padding: 14px 18px; border-radius: 22px;
+      max-width: 90%; word-wrap: break-word; font-size: 1em;
+      transition: opacity 0.4s;
     }
-    .user { background: #1e8449; margin-left: auto; }
-    .bot { background: rgba(255,165,0,0.25); margin-right: auto; }
-    .input-area { display: flex; margin-top: 12px; }
-    .input-area input[type="text"] {
-      flex: 1;
-      padding: 14px 16px;
-      border-radius: 30px 0 0 30px;
-      border: none;
-      outline: none;
-      font-size: 1em;
+    .user { background: #1e8449; }
+    .bot { background: rgba(255,165,0,0.3); }
+    .input-area { display: flex; margin-top: 15px; }
+    .input-area input {
+      flex: 1; padding: 14px 16px; border-radius: 30px 0 0 30px;
+      border: none; outline: none;
     }
     .input-area button {
-      padding: 14px 24px;
-      border-radius: 0 30px 30px 0;
-      background: #ffa500;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
+      padding: 14px 24px; border-radius: 0 30px 30px 0;
+      background: #ffa500; color: white; border: none;
+      cursor: pointer; font-weight: bold;
     }
-    .input-area button:hover { background: #e69500; }
-    #upload-image { margin: 10px 0; display: none; }
+    #upload-image { margin: 10px 0; display: none; width: 100%; }
     .whatsapp-btn {
-      display: none;
-      margin: 12px auto;
-      padding: 12px 24px;
-      background: #25D366;
-      color: white;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
+      display: none; margin: 12px auto; padding: 12px 24px;
+      background: #25D366; color: white; border-radius: 30px;
+      text-decoration: none; font-weight: bold;
     }
   </style>
 </head>
@@ -106,29 +67,27 @@
   <h1>Robo V6 🤖 - ورشة إلكترونيك الرحماني</h1>
   
   <div id="robo-v6-container">
-    <model-viewer id="robo-v6" src="robo.glb"
-                  alt="Robo Tounsi 3D"
-                  auto-rotate
-                  camera-controls
-                  shadow-intensity="1"
-                  rotation-per-second="32deg">
-    </model-viewer>
+    <model-viewer id="robo-v6" src="robo.glb" alt="Robo Tounsi 3D"
+                  auto-rotate camera-controls shadow-intensity="1"
+                  rotation-per-second="32deg"></model-viewer>
 
-    <div id="robo-v6-chat">
-      <div id="robo-messages"></div>
-      
-      <div class="input-area">
-        <input id="robo-input" type="text" placeholder="S2el Robo... (مثال: حجز، تصليح، شيمة)" autofocus />
-        <button onclick="sendRoboMsg()">إرسال</button>
+    <div id="chat-area">
+      <div id="current-msg" class="message bot">
+        Ahla يا خويا! Ana Robo V6. قلّي شنو تحب: تصليح كرت؟ حجز موعد؟ شيمة؟ كورس؟ 🚀
       </div>
-      
-      <input id="upload-image" type="file" accept="image/*" onchange="handleImageUpload()" />
-      <a href="#" id="whatsapp-link" class="whatsapp-btn" target="_blank">تواصل عبر واتساب</a>
     </div>
+
+    <div class="input-area">
+      <input id="robo-input" type="text" placeholder="S2el Robo..." autofocus />
+      <button onclick="sendRoboMsg()">إرسال</button>
+    </div>
+
+    <input id="upload-image" type="file" accept="image/*" onchange="handleImageUpload()" />
+    <a href="#" id="whatsapp-link" class="whatsapp-btn" target="_blank">تواصل عبر واتساب</a>
   </div>
 
   <script>
-    // ─────────────── Firebase Config ───────────────
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
       authDomain: "atelier-electronique-mednine.firebaseapp.com",
@@ -138,15 +97,13 @@
       appId: "1:547430908384:web:4caa4cf3869491bd14eb85",
       databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
     };
-
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const storage = firebase.storage();
-    const analytics = firebase.analytics();
 
-    // ─────────────── Variables ───────────────
+    // Elements
     const roboV6 = document.getElementById('robo-v6');
-    const messagesDiv = document.getElementById('robo-messages');
+    const currentMsg = document.getElementById('current-msg');
     const input = document.getElementById('robo-input');
     const uploadInput = document.getElementById('upload-image');
     const whatsappLink = document.getElementById('whatsapp-link');
@@ -154,52 +111,44 @@
     let userPhone = null;
     let currentRequest = { type: null, description: '', step: 0 };
 
-    // ─────────────── Functions ───────────────
-    function addMessage(text, type) {
-      const msg = document.createElement('div');
-      msg.className = `message ${type}`;
-      msg.textContent = text;
-      messagesDiv.appendChild(msg);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      
+    function updateMsg(text, type = 'bot') {
+      currentMsg.textContent = text;
+      currentMsg.className = `message ${type}`;
+      currentMsg.style.opacity = '0';
+      setTimeout(() => { currentMsg.style.opacity = '1'; }, 200);
+
       if (type === 'bot') {
         roboV6.style.transform = 'scale(1.12)';
         setTimeout(() => roboV6.style.transform = 'scale(1)', 600);
       }
     }
 
-    function showUpload() {
-      uploadInput.style.display = 'block';
-    }
-
+    function showUpload() { uploadInput.style.display = 'block'; }
     function showWhatsApp(preText = '') {
-      const msg = currentRequest.description || input.value.trim();
-      const waText = preText + encodeURIComponent(`Ahla, ${msg}`);
-      whatsappLink.href = `https://wa.me/21698192103?text=${waText}`;
+      const msg = currentRequest.description || input.value.trim() || 'طلب تصليح';
+      whatsappLink.href = `https://wa.me/21698192103?text=${encodeURIComponent(preText + msg)}`;
       whatsappLink.style.display = 'inline-block';
     }
-
     function resetRequest() {
       currentRequest = { type: null, description: '', step: 0 };
       uploadInput.style.display = 'none';
     }
 
-    // ─────────────── Main Logic ───────────────
     async function sendRoboMsg() {
       const text = input.value.trim();
       if (!text) return;
 
-      addMessage(text, 'user');
+      updateMsg(text, 'user');
       input.value = '';
 
-      let reply = 'آسف... ما فهمتش مليح 😅 قلّي شنو بالضبط (تصليح، حجز، شيمة، كورس...)';
+      let reply = 'آسف... ما فهمتش مليح 😅 قلّي شنو بالضبط';
+
       const lower = text.toLowerCase();
 
-      if (lower.includes('حجز') || lower.includes('موعد') || lower.includes('appointment')) {
+      if (lower.includes('حجز') || lower.includes('موعد')) {
         currentRequest.type = 'booking';
         currentRequest.step = 1;
-        reply = 'تمام! قلّي:\n1. اليوم والساعة اللي تناسبك\n2. شنو المشكل (غسالة، كليما...)\n3. رقم تليفونك';
-      
+        reply = 'تمام! قلّي: اليوم والساعة + شنو المشكل + رقم تليفونك';
       } else if (currentRequest.type === 'booking') {
         currentRequest.description = text;
         try {
@@ -209,59 +158,64 @@
             createdAt: firebase.database.ServerValue.TIMESTAMP,
             status: 'pending'
           });
-          reply = 'حجزك تم تسجيله بنجاح! نتصل بيك قريب على الرقم اللي عطيتني 🚀';
+          reply = 'حجزك مسجّل! نتصل بيك قريب 🚀';
           resetRequest();
         } catch (e) {
-          reply = 'فماكش مشكل في التسجيل... جرب مرة أخرى أو اتصل 98 192 103';
+          reply = 'مشكل في التسجيل... اتصل 98 192 103';
         }
-
-      } else if (lower.includes('تصليح') || lower.includes('repair') || lower.includes('كرت') || lower.includes('بوردة')) {
+      } else if (lower.includes('تصليح') || lower.includes('كرت') || lower.includes('بوردة')) {
         currentRequest.type = 'repair';
         currentRequest.step = 1;
-        reply = 'اهلا! شنو الجهاز؟ (غسالة، كليما، ماكينة لحام...)\nوصف المشكل باختصار، ورقم تليفونك إذا تحب.\nبعدين تقدر ترفع صورة الكرت.';
+        reply = 'اهلا! شنو الجهاز (غسالة، كليما...؟) وصف المشكل + رقمك إذا تحب';
         showUpload();
-
       } else if (currentRequest.type === 'repair' && currentRequest.step === 1) {
         currentRequest.description = text;
         currentRequest.step = 2;
-        reply = 'شكرًا على التفاصيل! إذا عندك صورة للكرت ارفعها تاوا، وإلا نكمل بدون.';
+        reply = 'شكرًا! ارفع صورة الكرت إذا عندك، وإلا نكمل';
         showUpload();
-
       } else if (lower.includes('شيمة') || lower.includes('schéma')) {
-        reply = 'عندنا شيمات كثيرة (Samsung, LG, Gree, كروت صناعية...). قلّي الماركة والموديل بالضبط باش نبحثلك.';
-        showWhatsApp('تحب شيمة لـ ');
-
-      } else if (lower.includes('كورس') || lower.includes('cours') || lower.includes('أردوينو')) {
-        reply = 'عندنا كورسات أساسيات إلكترونيك + مشاريع أردوينو. تحب نبدأ بشنو؟ (المكونات الأساسية، مشروع إضاءة ذكية...)';
-      
+        reply = 'قلّي الماركة والموديل (مثال: LG غسالة)، نبحثلك الشيمة';
+        showWhatsApp('شيمة لـ ');
+      } else if (lower.includes('كورس') || lower.includes('اردوينو')) {
+        reply = 'تحب كورس أساسيات ولا مشروع أردوينو؟ قلّي';
       } else if (lower.includes('وينكم') || lower.includes('عنوان')) {
-        reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. رقم: 98 192 103';
-
+        reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. 98 192 103';
+      } else if (/\d{8}/.test(text)) {
+        userPhone = text.match(/\d{8}/)[0];
+        reply = `رقمك ${userPhone} محفوظ. شنو نحب نساعدك فيه؟`;
       } else {
-        // حفظ رقم إذا وجد (بسيط)
-        if (/\d{8}/.test(text)) {
-          userPhone = text.match(/\d{8}/)[0];
-          reply = `شكرًا، حفظت رقمك ${userPhone}. شنو نعاونك فيه تاوا؟`;
+        // Grok fallback (مجاني via Puter.js)
+        try {
+          updateMsg('جاري التفكير مع Grok... ⏳', 'bot');
+          const grokResponse = await puter.ai.chat([
+            { role: 'system', content: 'جاوب بالدارجة التونسية زي صديق خبير في تصليح إلكترونيك (غسالات، كليما، لحام...). كن مفيد، مرح، مختصر.' },
+            { role: 'user', content: text }
+          ], { model: 'x-ai/grok-4-1-fast' });  // أو grok-3-fast إذا ما مشي
+
+          reply = grokResponse.message.content || 'معليش، ما نجحتش... جرب سؤال أوضح 😅';
+        } catch (err) {
+          reply = 'مشكل في Grok... جرب سؤال بسيط أو اتصل مباشرة 98 192 103';
+          console.error(err);
         }
       }
 
-      setTimeout(() => addMessage(reply, 'bot'), 900);
+      setTimeout(() => updateMsg(reply, 'bot'), 800);
     }
 
-    // رفع الصورة + حفظ في Firebase
-    function handleImageUpload() {
+    async function handleImageUpload() {
       const file = uploadInput.files[0];
       if (!file) return;
 
-      addMessage('جاري رفع الصورة...', 'bot');
+      updateMsg('جاري رفع الصورة...', 'bot');
 
       const fileName = Date.now() + '_' + file.name;
       const storageRef = storage.ref('repair_images/' + fileName);
 
-      storageRef.put(file).then(snapshot => {
-        return snapshot.ref.getDownloadURL();
-      }).then(url => {
-        db.ref('repair_requests').push({
+      try {
+        const snapshot = await storageRef.put(file);
+        const url = await snapshot.ref.getDownloadURL();
+
+        await db.ref('repair_requests').push({
           phone: userPhone || 'غير محدد',
           description: currentRequest.description || 'بدون وصف',
           imageUrl: url,
@@ -269,27 +223,19 @@
           status: 'new'
         });
 
-        addMessage('الصورة وصلت والطلب مسجّل! نتصل بيك قريب للتقييم والسعر 😎', 'bot');
-        showWhatsApp('عندي طلب تصليح مع صورة: ');
+        updateMsg('الصورة وصلت والطلب مسجّل! نتصل بيك قريب 😎', 'bot');
+        showWhatsApp('طلب تصليح مع صورة: ');
         resetRequest();
-      }).catch(err => {
-        addMessage('مشكل في رفع الصورة... جرب مرة أخرى أو أرسلها عبر واتساب مباشرة.', 'bot');
-      });
-
+      } catch (err) {
+        updateMsg('مشكل في الرفع... جرب عبر واتساب', 'bot');
+      }
       uploadInput.value = '';
     }
 
-    // Enter key
-    input.addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendRoboMsg();
-    });
+    input.addEventListener('keypress', e => { if (e.key === 'Enter') sendRoboMsg(); });
 
-    // Hover effect
     roboV6.addEventListener('pointerenter', () => roboV6.style.transform = 'scale(1.08)');
     roboV6.addEventListener('pointerleave', () => roboV6.style.transform = 'scale(1)');
-
-    // Welcome
-    addMessage('Ahla يا خويا! Ana Robo V6 من ورشة إلكترونيك الرحماني.\nنصلح كروت (غسالات، كليما، لحام، موازين...)، نحجز مواعيد، نشارك شيمات وكورسات.\nشنو نحب نساعدك فيه اليوم؟ 🚀', 'bot');
   </script>
 </body>
 </html>

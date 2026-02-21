@@ -1611,18 +1611,6 @@ footer {
   z-index: 99999;
 }
 
-/* Header */
-#robo-header {
-  height: 45px;
-  background: linear-gradient(90deg,#00fff7,#0066ff);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15px;
-  font-weight: bold;
-  color: #000;
-}
-
 #robo-header button {
   background: none;
   border: none;

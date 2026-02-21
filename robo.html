@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Robo V6 - Atelier Électronique Médenine 🤖</title>
+  <title>Robo ULTRA MODE - ورشة إلكترونيك الرحماني 🤖</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <!-- Firebase SDK -->
@@ -18,127 +18,111 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
+      font-family: Tahoma, sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #ghost {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 240px;
+      z-index: 999999;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-height: 100vh;
     }
-    h1 {
-      margin: 20px 0 10px;
-      text-shadow: 0 0 10px #0ff;
-      text-align: center;
-      font-size: 2em;
-    }
-    #robo-v6-container {
-      max-width: 420px;
-      width: 100%;
-      padding: 10px;
-    }
-    model-viewer#robo-v6 {
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      box-shadow: 0 0 30px rgba(255,165,0,0.4);
-      margin: 0 auto 15px;
-      display: block;
-      transition: transform 0.5s ease;
+    model-viewer {
+      width: 180px;
+      height: 180px;
+      filter: drop-shadow(0 0 35px cyan);
+      cursor: pointer;
       background: transparent;
     }
-    #chat-area {
-      background: rgba(0,0,0,0.6);
-      padding: 18px;
-      border-radius: 16px;
-      min-height: 160px;
-      text-align: center;
-      position: relative;
+    #chat {
+      display: none;
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(15px);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 0 25px cyan;
+      margin-top: 8px;
     }
-    .message {
+    #current-msg {
       margin: 8px auto;
       padding: 10px 14px;
-      border-radius: 20px;
-      max-width: 90%;
-      word-wrap: break-word;
-      font-size: 1em;
-      opacity: 0;
-      transition: opacity 0.4s ease;
+      border-radius: 18px;
+      max-width: 95%;
+      font-size: 0.98em;
+      transition: opacity 0.4s;
+      background: rgba(255,165,0,0.25);
+      color: white;
     }
-    .user { background: #1e8449; }
-    .bot { background: rgba(255,165,0,0.3); }
+    .user-msg {
+      background: #1e8449 !important;
+      color: white;
+    }
     .typing {
       font-style: italic;
-      color: #bbb;
-      margin: 12px 0;
-      opacity: 0.8;
+      color: #aaa;
+      margin: 10px 0;
+      font-size: 0.9em;
     }
-    .input-area {
-      display: flex;
-      margin-top: 15px;
-    }
-    .input-area input {
-      flex: 1;
-      padding: 13px 16px;
-      border-radius: 28px 0 0 28px;
+    #inp {
+      width: 100%;
       border: none;
+      border-radius: 20px;
+      padding: 10px 12px;
+      margin-top: 8px;
       outline: none;
-      font-size: 1em;
+      font-size: 0.95em;
     }
-    .input-area button {
-      padding: 13px 24px;
-      border-radius: 0 28px 28px 0;
-      background: #ffa500;
-      color: white;
+    #mic {
+      width: 100%;
+      margin-top: 8px;
       border: none;
-      cursor: pointer;
+      border-radius: 20px;
+      padding: 8px;
+      background: #00fff7;
+      color: black;
       font-weight: bold;
-      transition: background 0.3s;
-    }
-    .input-area button:hover {
-      background: #e69500;
+      cursor: pointer;
     }
     #upload-image {
-      margin: 12px 0;
+      margin: 10px 0;
       display: none;
       width: 100%;
     }
-    .whatsapp-btn {
+    #whatsapp-link {
       display: none;
-      margin: 15px auto;
-      padding: 12px 24px;
+      margin: 10px auto;
+      padding: 8px 16px;
       background: #25D366;
       color: white;
-      border-radius: 28px;
+      border-radius: 20px;
       text-decoration: none;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>🤖 ورشة إلكترونيك الرحماني</h1>
-
-  <div id="robo-v6-container">
-    <model-viewer id="robo-v6" src="robo.glb"
-                  alt="Robo Tounsi 3D" auto-rotate camera-controls
-                  shadow-intensity="0.8" rotation-per-second="30deg">
-    </model-viewer>
-
-    <div id="chat-area">
+  <div id="ghost">
+    <model-viewer id="robo" src="robo.glb" auto-rotate camera-controls></model-viewer>
+    
+    <div id="chat">
       <div id="current-msg" class="message bot">
-        اهلا يا خويا! Ana Robo V6 🚀<br>
-        شنو عندك اليوم؟ تصليح كرت؟ حجز؟ شيمة؟ كورس؟
+        اهلا يا خويا! Ana Robo ULTRA V6 🚀<br>شنو نحب نساعدك فيه؟ (تصليح، حجز، شيمة...)
       </div>
       <div id="typing-indicator" class="typing" style="display:none;">جاري التفكير...</div>
-    </div>
 
-    <div class="input-area">
-      <input id="robo-input" type="text" placeholder="اكتب سؤالك..." autofocus />
-      <button onclick="sendRoboMsg()">إرسال</button>
-    </div>
+      <input id="inp" placeholder="اكتب أو اضغط 🎤" autofocus />
+      <button id="mic">🎤 احكي</button>
 
-    <input id="upload-image" type="file" accept="image/*" onchange="handleImageUpload()" />
-    <a href="#" id="whatsapp-link" class="whatsapp-btn" target="_blank">تواصل عبر واتساب</a>
+      <input id="upload-image" type="file" accept="image/*" onchange="handleImageUpload()" />
+      <a href="#" id="whatsapp-link" target="_blank">تواصل عبر واتساب</a>
+    </div>
   </div>
 
   <script>
@@ -157,35 +141,43 @@
     const storage = firebase.storage();
 
     // Elements
-    const roboV6 = document.getElementById('robo-v6');
+    const robo = document.getElementById('robo');
+    const chat = document.getElementById('chat');
     const currentMsg = document.getElementById('current-msg');
-    const typingIndicator = document.getElementById('typing-indicator');
-    const input = document.getElementById('robo-input');
+    const typing = document.getElementById('typing-indicator');
+    const inp = document.getElementById('inp');
+    const micBtn = document.getElementById('mic');
     const uploadInput = document.getElementById('upload-image');
     const whatsappLink = document.getElementById('whatsapp-link');
 
+    let open = false;
     let userPhone = null;
     let currentRequest = { type: null, description: '', step: 0 };
 
+    robo.onclick = () => {
+      open = !open;
+      chat.style.display = open ? 'block' : 'none';
+      if (open && currentMsg.textContent.includes('Ana Robo ULTRA')) {
+        // welcome فقط مرة واحدة
+      }
+    };
+
     function showTyping() {
-      typingIndicator.style.display = 'block';
+      typing.style.display = 'block';
       currentMsg.style.opacity = '0.5';
     }
 
     function hideTyping() {
-      typingIndicator.style.display = 'none';
+      typing.style.display = 'none';
       currentMsg.style.opacity = '1';
     }
 
     function updateMsg(text, type = 'bot') {
       currentMsg.textContent = text;
-      currentMsg.className = `message ${type}`;
+      currentMsg.className = `message ${type === 'user' ? 'user-msg' : 'bot'}`;
       currentMsg.style.opacity = '0';
       setTimeout(() => { currentMsg.style.opacity = '1'; }, 250);
-      if (type === 'bot') {
-        roboV6.style.transform = 'scale(1.1)';
-        setTimeout(() => roboV6.style.transform = 'scale(1)', 500);
-      }
+      speak(text);
     }
 
     function showUpload() {
@@ -193,9 +185,8 @@
     }
 
     function showWhatsApp(preText = '') {
-      const msg = currentRequest.description || input.value.trim() || 'طلب تصليح';
-      const waText = preText + encodeURIComponent(msg);
-      whatsappLink.href = `https://wa.me/21698192103?text=${waText}`;
+      const msg = currentRequest.description || inp.value.trim() || 'طلب تصليح';
+      whatsappLink.href = `https://wa.me/21698192103?text=${encodeURIComponent(preText + msg)}`;
       whatsappLink.style.display = 'block';
     }
 
@@ -204,17 +195,14 @@
       uploadInput.style.display = 'none';
     }
 
-    async function sendRoboMsg() {
-      const text = input.value.trim();
+    async function sendMessage(text) {
       if (!text) return;
-
       updateMsg(text, 'user');
-      input.value = '';
+
       showTyping();
+      await new Promise(r => setTimeout(r, 1000));
 
-      await new Promise(r => setTimeout(r, 1000)); // تأخير طبيعي
-
-      let reply = 'آسف... ما فهمتش مليح 😅 قلّي شنو بالضبط';
+      let reply = 'آسف... ما فهمتش 😅 قلّي شنو بالضبط';
 
       const lower = text.toLowerCase();
 
@@ -231,7 +219,7 @@
             createdAt: firebase.database.ServerValue.TIMESTAMP,
             status: 'pending'
           });
-          reply = 'حجزك مسجّل! نتصل بيك قريب 🚀';
+          reply = 'حجزك تم! نتصل بيك قريب 🚀';
           resetRequest();
         } catch (e) {
           reply = 'مشكل في التسجيل... اتصل 98 192 103';
@@ -239,34 +227,32 @@
       } else if (lower.includes('تصليح') || lower.includes('كرت') || lower.includes('بوردة')) {
         currentRequest.type = 'repair';
         currentRequest.step = 1;
-        reply = 'اهلا! شنو الجهاز؟ غسالة، كليما، لحام...؟ وصف المشكل + رقمك';
+        reply = 'اهلا! شنو الجهاز؟ غسالة، كليما، لحام...؟ ارفع صورة إذا تحب';
         showUpload();
       } else if (currentRequest.type === 'repair' && currentRequest.step === 1) {
         currentRequest.description = text;
         currentRequest.step = 2;
-        reply = 'شكرًا! ارفع صورة الكرت إذا عندك';
+        reply = 'شكرًا! ارفع الصورة تاوا';
         showUpload();
       } else if (lower.includes('شيمة') || lower.includes('schéma')) {
-        reply = 'عطيني الماركة والموديل، نبحثلك الشيمة.';
+        reply = 'عطيني الماركة والموديل، نبحثلك.';
         showWhatsApp('شيمة لـ ');
       } else if (lower.includes('كورس') || lower.includes('اردوينو')) {
-        reply = 'تحب كورس أساسيات ولا مشروع أردوينو؟ قلّي';
+        reply = 'تحب كورس أساسيات ولا مشروع أردوينو؟';
       } else if (lower.includes('وينكم') || lower.includes('عنوان')) {
         reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. 98 192 103';
       } else if (/\d{8}/.test(text)) {
         userPhone = text.match(/\d{8}/)[0];
         reply = `رقمك ${userPhone} محفوظ. شنو نحب نساعدك؟`;
       } else {
-        // Grok fallback
         try {
           const response = await puter.ai.chat([
-            { role: 'system', content: 'جاوب بالدارجة التونسية زي صديق خبير في إلكترونيك وتصليح. كن مرح ومباشر.' },
+            { role: 'system', content: 'جاوب بالدارجة التونسية زي صديق خبير في تصليح إلكترونيك. كن مرح ومفيد.' },
             { role: 'user', content: text }
           ], { model: 'x-ai/grok-4-1-fast' });
           reply = response.message.content || 'معليش... جرب سؤال أوضح';
         } catch (err) {
-          reply = 'مشكل في Grok... قلّي شنو بالضبط ونحاول يدويًا';
-          console.error(err);
+          reply = 'مشكل في الاتصال... قلّي شنو بالضبط';
         }
       }
 
@@ -274,6 +260,34 @@
       updateMsg(reply, 'bot');
     }
 
+    // Voice Input
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      const rec = new SR();
+      rec.lang = 'ar-TN';
+      micBtn.onclick = () => {
+        rec.start();
+        updateMsg('نسمع فيك... 🎤', 'bot');
+      };
+      rec.onresult = e => {
+        const t = e.results[0][0].transcript.trim();
+        sendMessage(t);
+      };
+      rec.onerror = () => updateMsg('مشكل في المايك... جرب الكتابة', 'bot');
+    } else {
+      micBtn.style.display = 'none';
+    }
+
+    // Text Input
+    inp.onkeydown = e => {
+      if (e.key === 'Enter') {
+        const t = inp.value.trim();
+        inp.value = '';
+        if (t) sendMessage(t);
+      }
+    };
+
+    // Image Upload
     async function handleImageUpload() {
       const file = uploadInput.files[0];
       if (!file) return;
@@ -307,12 +321,12 @@
       uploadInput.value = '';
     }
 
-    input.addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendRoboMsg();
-    });
-
-    roboV6.addEventListener('pointerenter', () => roboV6.style.transform = 'scale(1.08)');
-    roboV6.addEventListener('pointerleave', () => roboV6.style.transform = 'scale(1)');
+    // Speech Output
+    function speak(text) {
+      const s = new SpeechSynthesisUtterance(text);
+      s.lang = 'ar-TN';
+      speechSynthesis.speak(s);
+    }
   </script>
 </body>
 </html>

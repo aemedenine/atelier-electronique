@@ -16,45 +16,40 @@
 
   <style>
     body {
-  margin: 0;
-  padding: 0;
-  font-family: Tahoma, sans-serif;
-  background: rgba(15,32,39,0.3); /* خلفية شفافة */
-  backdrop-filter: blur(15px);      /* تأثير blur */
-  min-height: 100vh;
-  overflow-x: hidden;
-}
- #ghost {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  width: auto;
-  z-index: 999999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-}
-  model-viewer {
-  width: 160px;
-  height: 160px;
-  filter: drop-shadow(0 0 40px cyan);
-  cursor: pointer;
-  background: transparent;
-  pointer-events: auto;
-}
-
-#chat {
-  display: none;
-  width: 300px;
-  background: rgba(0,0,0,0.20);
-  backdrop-filter: blur(20px);
-  border-radius: 18px;
-  padding: 12px;
-  box-shadow: 0 0 35px rgba(0,255,255,.6);
-  margin-bottom: 6px;
-  pointer-events: auto;
-}
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #ghost {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 240px;
+      z-index: 999999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    model-viewer {
+      width: 180px;
+      height: 180px;
+      filter: drop-shadow(0 0 35px cyan);
+      cursor: pointer;
+      background: transparent;
+    }
+    #chat {
+      display: none;
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(15px);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 0 25px cyan;
+      margin-top: 8px;
+    }
     #current-msg {
       margin: 8px auto;
       padding: 10px 14px;
@@ -110,15 +105,6 @@
       text-decoration: none;
       font-weight: bold;
     }
-    #robo-title{
-  text-align:center;
-  color:#0ff;
-  font-weight:bold;
-  margin-bottom:6px;
-  font-size:14px;
-  letter-spacing:1px;
-  text-shadow:0 0 10px cyan;
-}
   </style>
 </head>
 <body>

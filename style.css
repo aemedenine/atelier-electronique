@@ -1616,6 +1616,17 @@ footer {
   height:100%;
   border:none;
 }
+.robo-close-btn{
+  position:absolute;
+  top:8px;
+  right:10px;
+  background:transparent;
+  border:none;
+  font-size:22px;
+  color:#0ff;
+  cursor:pointer;
+  z-index:999999;
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

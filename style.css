@@ -1667,6 +1667,22 @@ footer {
     font-size: 26px;
   }
 }
+   #robo-frame {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 320px;
+  height: 480px;
+  border: none;
+  background: transparent;
+  z-index: 999999;
+  pointer-events: none; /* نخلي الموقع clickable */
+}
+
+/* نخلي التفاعل كان داخل robo نفسه */
+#robo-frame * {
+  pointer-events: auto;
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

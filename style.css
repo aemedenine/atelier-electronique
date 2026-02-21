@@ -1569,35 +1569,37 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 #robo-float-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:60px;
-  height:60px;
-  background:linear-gradient(135deg,#ff9800,#ff5722);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  cursor:pointer;
-  z-index:99999;
-  box-shadow:0 0 20px orange;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg,#ff9800,#ff5722);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 100001; /* خلي كل شيء فريد */
+  box-shadow: 0 0 20px orange;
 }
 
 #robo-popup{
-  position:fixed;
-  bottom:90px;
-  right:20px;
-  width:360px;
-  height:520px;
-  background:#000;
-  border-radius:18px;
-  display:none;
-  flex-direction:column;
-  overflow:hidden;
-  z-index:99999;
-  box-shadow:0 0 30px cyan;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 360px;
+  max-width: 90vw; /* responsive */
+  height: 520px;
+  max-height: 80vh; /* responsive */
+  background: rgba(0,0,0,0.95); /* شبه شفاف */
+  border-radius: 18px;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 100000; /* أقل من الزر */
+  box-shadow: 0 0 30px cyan;
 }
 
 #robo-header{
@@ -1608,12 +1610,26 @@ footer {
   justify-content:space-between;
   align-items:center;
   font-weight:bold;
+  z-index: 10;
 }
 
 #robo-popup iframe{
   width:100%;
   height:100%;
   border:none;
+  pointer-events: auto;
+}
+
+.robo-close-btn{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: #0ff;
+  cursor: pointer;
+  z-index: 100002; /* فوق كل شيء */
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

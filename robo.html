@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Robo Tounsi - 3D Chat 🤖</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    h1 { margin: 10px 0; font-size: 2em; text-shadow: 0 0 10px #0ff; }
+    model-viewer {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
+      background: rgba(255,255,255,0.05);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    model-viewer:hover { transform: scale(1.18); box-shadow: 0 0 60px rgba(0, 255, 255, 0.7); }
+    #greeting {
+      font-size: 1.3em;
+      margin: 15px 0 20px;
+      color: #0ff;
+      text-shadow: 0 0 8px #0ff;
+      transition: color 0.5s;
+    }
+    #chat-container {
+      width: 90%;
+      max-width: 380px;
+      background: rgba(0,0,0,0.55);
+      border-radius: 15px;
+      padding: 15px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,255,255,0.3);
+      max-height: 45vh;
+      display: flex;
+      flex-direction: column;
+    }
+    #chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 0;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 18px;
+      max-width: 85%;
+      word-wrap: break-word;
+      font-size: 0.95em;
+    }
+    .user { background: #1e8449; margin-left: auto; }
+    .bot { background: rgba(255,255,255,0.12); margin-right: auto; }
+    .input-area {
+      display: flex;
+      margin-top: 10px;
+    }
+    input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 25px 0 0 25px;
+      font-size: 1em;
+      outline: none;
+    }
+    button {
+      padding: 12px 22px;
+      background: #1e8449;
+      border: none;
+      border-radius: 0 25px 25px 0;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover { background: #166d3b; }
+  </style>
+</head>
+<body>
+
+  <h1>Robo Tounsi 🤖</h1>
+  <p id="greeting">Ahla w sahla ya weldi ! Qareb 3lya bch n7kiw 😏</p>
+
+  <model-viewer id="robo" src="robo.glb" 
+                alt="Robo Tounsi 3D" 
+                auto-rotate 
+                camera-controls 
+                shadow-intensity="1" 
+                rotation-per-second="30deg"
+                ar>
+  </model-viewer>
+
+  <div id="chat-container">
+    <div id="chat-messages"></div>
+    <div class="input-area">
+      <input id="user-input" placeholder="Ktib s2alek... (ramadan? ftour? chayekh?)" autofocus />
+      <button onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+
+<script>
+  const GEMINI_API_KEY = 'AIzaSy...'; // <-- zid clé mte3ek hné (free from https://aistudio.google.com/app/apikey)
+
+  const robo = document.getElementById('robo');
+  const greeting = document.getElementById('greeting');
+  const messagesDiv = document.getElementById('chat-messages');
+  const input = document.getElementById('user-input');
+
+  // Mouse hover / leave
+  robo.addEventListener('pointerenter', () => {
+    robo.style.transform = 'scale(1.18)';
+    greeting.textContent = 'Ahla bro ! Chbik nhar m3aya tawa? S2elni ay haja 😂';
+    greeting.style.color = '#ffeb3b';
+    robo.setAttribute('rotation-per-second', '60deg'); // yorqos shway
+  });
+
+  robo.addEventListener('pointerleave', () => {
+    robo.style.transform = 'scale(1)';
+    greeting.textContent = 'Ahla w sahla ya weldi ! Qareb 3lya zid n7kiw 🌙';
+    greeting.style.color = '#0ff';
+    robo.setAttribute('rotation-per-second', '30deg'); // normal speed
+  });
+
+  // Add message function
+  function addMessage(text, type) {
+    const msg = document.createElement('div');
+    msg.className = `message ${type}`;
+    msg.textContent = text;
+    messagesDiv.appendChild(msg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  // Welcome message
+  addMessage('Ahla ya bro ! Ana Robo Tounsi, t7eb n7kiw 3la chnowa? Ftour ramdhani, harira, bambalouni, wla chay tounsiya? 😎', 'bot');
+
+  async function sendMsg() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    input.value = '';
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: `Jawb b tounsi dialecte tunisi 100% casual funny w short: ${text}` }] }]
+        })
+      });
+
+      if (!response.ok) throw new Error('API error');
+      const data = await response.json();
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'Smah... ma njamch njawb tawa, zid essai 😂';
+      addMessage(reply, 'bot');
+    } catch (err) {
+      addMessage('Erreur connexion... Verifi internet wla clé API bro !', 'bot');
+      console.error(err);
+    }
+  }
+
+  // Enter key send
+  input.addEventListener('keypress', e => {
+    if (e.key === 'Enter') sendMsg();
+  });
+</script>
+
+</body>
+</html>

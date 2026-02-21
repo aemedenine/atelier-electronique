@@ -1569,7 +1569,73 @@ footer {
 .lang-switch img:hover {
     transform: scale(1.2);
 }
+/* ================================
+   Robo Floating Widget
+================================ */
 
+#robo-float-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#00fff7,#0066ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 99999;
+  box-shadow: 0 0 25px rgba(0,255,255,.7);
+  transition: transform .3s;
+}
+
+#robo-float-btn:hover {
+  transform: scale(1.1) rotate(10deg);
+}
+
+/* Popup */
+#robo-popup {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 360px;
+  height: 520px;
+  background: #000;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,255,255,.6);
+  display: none;
+  flex-direction: column;
+  z-index: 99999;
+}
+
+/* Header */
+#robo-header {
+  height: 45px;
+  background: linear-gradient(90deg,#00fff7,#0066ff);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  font-weight: bold;
+  color: #000;
+}
+
+#robo-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* iframe */
+#robo-popup iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

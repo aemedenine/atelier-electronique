@@ -649,5 +649,18 @@
 </div>
         <!-- JavaScript externe -->
         <script src="app.js" defer></script>
+    <script>
+const roboBtn = document.getElementById("robo-float-btn");
+const roboPopup = document.getElementById("robo-popup");
+const roboClose = document.getElementById("robo-close");
+
+roboBtn.addEventListener("click", () => {
+  roboPopup.style.display = "flex";
+});
+
+roboClose.addEventListener("click", () => {
+  roboPopup.style.display = "none";
+});
+</script>
 </body>
 </html>

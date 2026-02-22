@@ -1480,13 +1480,21 @@ if (smdInput) {
 const roboBtn = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
 const roboClose = document.getElementById('robo-close');
+const roboMinimize = document.getElementById('robo-minimize');
+const roboSound = document.getElementById('robo-sound');
 
 roboBtn.onclick = () => {
-  roboPopup.style.display = 'flex';
+  roboPopup.classList.add('show');
+  roboPopup.classList.remove('minimized');
+  if (roboSound) roboSound.play();
 };
 
 roboClose.onclick = () => {
-  roboPopup.style.display = 'none';
+  roboPopup.classList.remove('show');
+};
+
+roboMinimize.onclick = () => {
+  roboPopup.classList.toggle('minimized');
 };
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

@@ -595,23 +595,36 @@
             <div class="poste-overlay">Telwin</div>
         </div>
     </div>
-    <!-- Floating Robo Button + Popup -->
-  <div id="robo-float-btn">🤖</div>
-  <audio id="robo-sound" preload="auto">
-    <source src="open.mp3" type="audio/mpeg">
-  </audio>
-  <button id="robo-mute" title="كتم/تشغيل الصوت">🔊</button>
+  <!-- Floating Robo Widget - ULTRA PRO PRO -->
+<div id="robo-float-btn" aria-label="افتح Robo V6" title="اضغط للدردشة مع Robo">
+  <span>🤖</span>
+  <span id="robo-badge" class="badge">1</span> <!-- badge للإشعارات -->
+</div>
 
-  <div id="robo-popup">
-    <div id="robo-header">
-      <span>Robo ULTRA MODE</span>
-      <div>
-        <button id="robo-minimize">—</button>
-        <button id="robo-close">×</button>
-      </div>
+<button id="robo-mute" aria-label="كتم/تشغيل الصوت" title="كتم الصوت">🔊</button>
+
+<div id="robo-popup" role="dialog" aria-modal="true" aria-labelledby="robo-title">
+  <div id="robo-header">
+    <span id="robo-title">Robo V6 - ULTRA PRO</span>
+    <div class="header-controls">
+      <button id="robo-fullscreen" title="شاشة كاملة">⛶</button>
+      <button id="robo-minimize" title="تصغير">—</button>
+      <button id="robo-close" aria-label="إغلاق">×</button>
     </div>
-    <iframe src="robo.html"></iframe>
   </div>
+  <iframe id="robo-iframe" src="robo-chat.html" frameborder="0" title="دردشة Robo V6"></iframe>
+</div>
+
+<!-- أصوات مختلفة -->
+<audio id="open-sound" preload="auto">
+  <source src="open.mp3" type="audio/mpeg">
+</audio>
+<audio id="close-sound" preload="auto">
+  <source src="close.mp3" type="audio/mpeg">
+</audio>
+<audio id="min-sound" preload="auto">
+  <source src="minimize.mp3" type="audio/mpeg">
+</audio>
 </section>
         
   </main>

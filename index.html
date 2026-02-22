@@ -42,25 +42,6 @@
                 <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
-             <!-- Floating Robo Button -->
-<div id="robo-float-btn">🤖</div>
-<audio id="robo-sound" preload="auto">
-  <source src="open.mp3" type="audio/mpeg">
-</audio>
-<div id="robo-popup">
-<!-- زر كتم/تشغيل الصوت -->
-<button id="robo-mute" title="كتم/تشغيل الصوت">🔊</button>
-  <div id="robo-header">
-    <span>Robo ULTRA MODE</span>
-    <div>
-      <button id="robo-minimize">—</button>
-      <button id="robo-close">×</button>
-    </div>
-  </div>
-
-  <iframe src="robo.html"></iframe>
-
-</div>
         </section>
 
         <!-- User Info & Login Popup -->
@@ -614,6 +595,23 @@
             <div class="poste-overlay">Telwin</div>
         </div>
     </div>
+    <!-- Floating Robo Button + Popup -->
+  <div id="robo-float-btn">🤖</div>
+  <audio id="robo-sound" preload="auto">
+    <source src="open.mp3" type="audio/mpeg">
+  </audio>
+  <button id="robo-mute" title="كتم/تشغيل الصوت">🔊</button>
+
+  <div id="robo-popup">
+    <div id="robo-header">
+      <span>Robo ULTRA MODE</span>
+      <div>
+        <button id="robo-minimize">—</button>
+        <button id="robo-close">×</button>
+      </div>
+    </div>
+    <iframe src="robo.html"></iframe>
+  </div>
 </section>
         
   </main>

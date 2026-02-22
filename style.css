@@ -1607,17 +1607,17 @@ footer {
   100% { transform: scale(1); }
 }
 
-/* Popup */
+/* Popup PRO MODE */
 #robo-popup {
   position: fixed;
-  bottom: 110px;
+  bottom: 0;
   right: 25px;
   width: 380px;
   height: 560px;
-  background: rgba(0, 0, 0, 0.92);
+  background: transparent;   /* 👈 شفافية */
   border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 15px 60px rgba(0, 255, 255, 0.6);
+  overflow: visible;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   z-index: 999998;
@@ -1625,20 +1625,34 @@ footer {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(40px) scale(0.95);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  transform: translateY(120%);
+  transition: transform 0.6s cubic-bezier(.17,.89,.32,1.49),
+              opacity 0.35s ease;
 }
 
 #robo-popup.show {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
+/* نخلي غير الهيدر باين */
+#robo-header {
+  height: 50px;
+  background: linear-gradient(90deg, #00fff7, #0066ff);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 0 20px rgba(0,255,255,.7);
+}
+
+/* iframe شفاف */
+#robo-popup iframe {
+  width: 100%;
+  height: calc(100% - 50px);
+  border: none;
+  background: transparent;
+}
 /* Header */
 #robo-header {
   height: 50px;
@@ -1663,15 +1677,6 @@ footer {
 
 #robo-header button:hover {
   transform: scale(1.2);
-}
-
-/* iframe */
-#robo-popup iframe {
-  width: 100%;
-  height: calc(100% - 50px);
-  border: none;
-  background: transparent;
-  border-radius: 0 0 24px 24px;
 }
 
 /* زر minimize */

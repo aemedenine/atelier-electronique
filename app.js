@@ -1477,32 +1477,39 @@ if (smdInput) {
 // ===============================
 // Robo Popup Controller
 // ===============================
+// ===============================
+// Robo Popup Controller (FIXED)
+// ===============================
+
 const roboBtn = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
-const roboClose = document.getElementById('robo-close');
 const roboMinimize = document.getElementById('robo-minimize');
 const roboSound = document.getElementById('robo-sound');
 
 let roboOpen = false;
 
-roboBtn.onclick = () => {
-  roboOpen = !roboOpen;
+if (roboBtn && roboPopup) {
 
-  if (roboOpen) {
-    roboPopup.classList.add('show');
-    roboPopup.classList.remove('minimized');
-    if (roboSound) roboSound.play();
-  } else {
-    roboPopup.classList.remove('show');
-  }
-};
-roboClose.onclick = () => {
-  roboPopup.classList.remove('show');
-};
+  roboBtn.onclick = () => {
+    roboOpen = !roboOpen;
 
-roboMinimize.onclick = () => {
-  roboPopup.classList.toggle('minimized');
-};
+    if (roboOpen) {
+      roboPopup.classList.add('show');
+      roboPopup.classList.remove('minimized');
+      if (roboSound) roboSound.play();
+    } else {
+      roboPopup.classList.remove('show');
+    }
+  };
+
+}
+
+if (roboMinimize) {
+  roboMinimize.onclick = (e) => {
+    e.stopPropagation();
+    roboPopup.classList.toggle('minimized');
+  };
+}
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

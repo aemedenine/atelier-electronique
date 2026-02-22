@@ -1570,71 +1570,116 @@ footer {
     transform: scale(1.2);
 }
 /* ================================
-   Robo Floating Widget
+   Robo Floating Widget - ULTRA MODE
 ================================ */
 
+/* الزر العائم */
 #robo-float-btn {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+  bottom: 25px;
+  right: 25px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background: linear-gradient(135deg,#00fff7,#0066ff);
+  background: linear-gradient(135deg, #00fff7, #0066ff);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 36px;
+  color: #000;
   cursor: pointer;
-  z-index: 99999;
-  box-shadow: 0 0 25px rgba(0,255,255,.7);
-  transition: transform .3s;
+  z-index: 999999;
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
 }
 
 #robo-float-btn:hover {
-  transform: scale(1.1) rotate(10deg);
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 12px 40px rgba(0, 255, 255, 0.8);
 }
 
-/* Popup */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
+}
+
+/* الـ Popup */
 #robo-popup {
   position: fixed;
-  bottom: 90px;
-  right: 20px;
-  width: 360px;
-  height: 520px;
-  background: #000;
-  border-radius: 20px;
+  bottom: 110px;
+  right: 25px;
+  width: 380px;
+  height: 560px;
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 0 40px rgba(0,255,255,.6);
+  box-shadow: 0 15px 60px rgba(0, 255, 255, 0.6);
   display: none;
   flex-direction: column;
-  z-index: 99999;
+  z-index: 999998;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.4s ease;
 }
 
-/* Header */
+#robo-popup.show {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Header داخل الـ popup */
 #robo-header {
-  height: 45px;
-  background: linear-gradient(90deg,#00fff7,#0066ff);
+  height: 50px;
+  background: linear-gradient(90deg, #00fff7, #0066ff);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 18px;
   font-weight: bold;
   color: #000;
+  font-size: 1.2em;
 }
 
 #robo-header button {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 28px;
+  color: #000;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-/* iframe */
+#robo-header button:hover {
+  transform: scale(1.2);
+}
+
+/* iframe داخل الـ popup */
 #robo-popup iframe {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 50px);
   border: none;
+  background: transparent;
+}
+
+/* Mobile responsive */
+@media (max-width: 500px) {
+  #robo-float-btn {
+    width: 60px;
+    height: 60px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 30px;
+  }
+  #robo-popup {
+    width: 92%;
+    height: 80vh;
+    bottom: 90px;
+    right: 4%;
+    border-radius: 20px;
+  }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

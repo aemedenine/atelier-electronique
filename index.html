@@ -42,29 +42,24 @@
                 <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
-          <!-- Robo Floating Button -->
-<div id="robo-float-btn">🤖</div>
+  <!-- Floating Robo Button -->
+  <div id="robo-float-btn">🤖</div>
+  <audio id="robo-sound" preload="auto">
+    <source src="open.mp3" type="audio/mpeg">
+  </audio>
 
-<!-- Robo Layer -->
-<div id="robo-layer">
-  <div id="robo-container">
-
-    <model-viewer id="robo-3d"
-      src="robo.glb"
-      auto-rotate
-      camera-controls>
-    </model-viewer>
-
-    <div id="robo-chat">
-      <div id="current-msg">أهلا! أنا Robo PRO 🤖 شنّا نعاونك؟</div>
-      <div class="typing" style="display:none">يفكّر...</div>
-
-      <input id="inp" placeholder="اكتب هنا...">
-      <button id="mic">🎤 احكي</button>
+  <!-- Robo Popup -->
+  <div id="robo-popup">
+    <div id="robo-header">
+      <span>Robo ULTRA MODE</span>
+      <div>
+        <button id="robo-minimize">—</button>
+        <button id="robo-close">×</button>
+      </div>
     </div>
-
+    <iframe src="robo.html"></iframe>
   </div>
-</div>
+
         </section>
 
         <!-- User Info & Login Popup -->

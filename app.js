@@ -1510,22 +1510,7 @@ if (roboMinimize) {
     roboPopup.classList.toggle('minimized');
   };
 }
-    // ===============================
-// Robo Auto Dance 😎
-// ===============================
 
-const robo3D = document.getElementById('robo');
-
-if (robo3D) {
-  setInterval(() => {
-    robo3D.classList.add('robo-dance');
-
-    setTimeout(() => {
-      robo3D.classList.remove('robo-dance');
-    }, 2000);
-
-  }, 5000);
-}
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

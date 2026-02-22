@@ -1687,6 +1687,32 @@ footer {
     border-radius: 20px;
   }
 }
+/* Glass Blur Effect */
+#robo-popup {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* زر minimize */
+#robo-minimize {
+  background: none;
+  border: none;
+  font-size: 26px;
+  margin-left: 6px;
+  cursor: pointer;
+  color: #000;
+  transition: transform 0.2s ease;
+}
+
+#robo-minimize:hover {
+  transform: scale(1.2);
+}
+
+/* وضع minimize */
+#robo-popup.minimized {
+  height: 60px !important;
+  overflow: hidden;
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

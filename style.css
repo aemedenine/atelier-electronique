@@ -1638,14 +1638,6 @@ footer {
   transform: translateY(0);
 }
 
-/* نخلي غير الهيدر باين */
-#robo-header {
-  height: 50px;
-  background: linear-gradient(90deg, #00fff7, #0066ff);
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 0 20px rgba(0,255,255,.7);
-}
-
 /* iframe شفاف */
 #robo-popup iframe {
   width: 100%;

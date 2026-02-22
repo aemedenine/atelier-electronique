@@ -1571,7 +1571,7 @@ footer {
     transform: scale(1.2);
 }
 /* ================================
-   Robo PRO MODE - Ultra Design
+   Robo Floating Widget - ULTRA MODE
 ================================ */
 
 /* الزر العائم */
@@ -1590,113 +1590,127 @@ footer {
   color: #000;
   cursor: pointer;
   z-index: 999999;
-  box-shadow: 0 8px 30px rgba(0,255,255,.6);
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.5);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   animation: pulse 2s infinite;
-  transition: transform .35s, box-shadow .35s;
 }
 
 #robo-float-btn:hover {
   transform: scale(1.15) rotate(8deg);
-  box-shadow: 0 12px 40px rgba(0,255,255,.9);
+  box-shadow: 0 12px 40px rgba(0, 255, 255, 0.8);
 }
 
-/* Pulse animation */
+/* Animation */
 @keyframes pulse {
-  0% {transform:scale(1)}
-  50%{transform:scale(1.08)}
-  100%{transform:scale(1)}
+  0% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+  100% { transform: scale(1); }
 }
 
-/* Robo Layer */
-#robo-layer {
+/* Popup */
+#robo-popup {
   position: fixed;
-  inset: 0;
-  background: transparent;
-  z-index: 999998;
+  bottom: 110px;
+  right: 25px;
+  width: 380px;
+  height: 560px;
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 60px rgba(0, 255, 255, 0.6);
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column;
+  z-index: 999998;
+
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* Robo Container */
-#robo-container {
-  width: 320px;
-  transform: translateY(120%);
-  transition: transform .65s cubic-bezier(.17,.89,.32,1.49);
+#robo-popup.show {
+  opacity: 1;
+  visibility: visible;
   pointer-events: auto;
-  margin-bottom: 15px;
+  transform: translateY(0) scale(1);
 }
 
-/* Show animation */
-#robo-layer.show #robo-container {
-  transform: translateY(0);
-}
-
-/* 3D Robot */
-#robo-3d {
-  width: 100%;
-  height: 260px;
-  background: transparent;
-  filter: drop-shadow(0 0 35px cyan);
-  cursor: pointer;
-}
-
-/* Chat Box */
-#robo-chat {
-  margin-top: -18px;
-  background: rgba(0,0,0,.45);
-  backdrop-filter: blur(16px);
-  border-radius: 18px;
-  padding: 12px;
-  box-shadow: 0 0 25px cyan;
-}
-
-/* Chat Message */
-#current-msg {
-  background: rgba(255,165,0,.25);
-  color: white;
-  padding: 10px 14px;
-  border-radius: 16px;
-  font-size: .95em;
-  margin-bottom: 8px;
-  transition: opacity .4s;
-}
-
-/* Input */
-#inp {
-  width: 100%;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 12px;
-  outline: none;
-  font-size: .95em;
-}
-
-/* Mic Button */
-#mic {
-  width: 100%;
-  margin-top: 8px;
-  border: none;
-  border-radius: 20px;
-  padding: 8px;
-  background: #00fff7;
-  color: black;
+/* Header */
+#robo-header {
+  height: 50px;
+  background: linear-gradient(90deg, #00fff7, #0066ff);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 18px;
   font-weight: bold;
-  cursor: pointer;
+  color: #000;
+  font-size: 1.1em;
 }
 
-/* Typing */
-.typing {
-  font-size: .85em;
-  color: #aaa;
-  margin: 6px 0;
+#robo-header button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #000;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#robo-header button:hover {
+  transform: scale(1.2);
+}
+
+/* iframe */
+#robo-popup iframe {
+  width: 100%;
+  height: calc(100% - 50px);
+  border: none;
+  background: transparent;
+  border-radius: 0 0 24px 24px;
+}
+
+/* زر minimize */
+#robo-minimize {
+  background: none;
+  border: none;
+  font-size: 26px;
+  margin-left: 6px;
+  cursor: pointer;
+  color: #000;
+  transition: transform 0.2s ease;
+}
+
+#robo-minimize:hover {
+  transform: scale(1.2);
+}
+
+/* وضع minimize */
+#robo-popup.minimized {
+  height: 60px !important;
+  overflow: hidden;
 }
 
 /* Mobile */
-@media(max-width:500px){
-  #robo-container{
-    width:95%;
+@media (max-width: 500px) {
+  #robo-float-btn {
+    width: 60px;
+    height: 60px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 30px;
+  }
+
+  #robo-popup {
+    width: 92%;
+    height: 80vh;
+    bottom: 90px;
+    right: 4%;
+    border-radius: 20px;
   }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */

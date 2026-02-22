@@ -114,17 +114,22 @@
     }
     /* Robo Dance Animation */
 @keyframes roboDance {
-  0%   { transform: rotate(0deg) scale(1); }
-  20%  { transform: rotate(-15deg) scale(1.05); }
-  40%  { transform: rotate(15deg) scale(1.08); }
-  60%  { transform: rotate(-10deg) scale(1.05); }
-  80%  { transform: rotate(10deg) scale(1.02); }
-  100% { transform: rotate(0deg) scale(1); }
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  10%  { transform: translateY(-10px) rotate(-8deg) scale(1.02); }
+  20%  { transform: translateY(6px) rotate(8deg) scale(1.04); }
+  30%  { transform: translateY(-12px) rotate(-12deg) scale(1.06); }
+  40%  { transform: translateY(8px) rotate(12deg) scale(1.08); }
+  50%  { transform: translateY(-16px) rotate(-16deg) scale(1.1); }
+  60%  { transform: translateY(10px) rotate(14deg) scale(1.07); }
+  70%  { transform: translateY(-10px) rotate(-10deg) scale(1.05); }
+  80%  { transform: translateY(6px) rotate(8deg) scale(1.03); }
+  90%  { transform: translateY(-4px) rotate(-6deg) scale(1.01); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
 }
 
 #robo.robo-dance {
-  animation: roboDance 2s ease-in-out;
-filter: none;
+  animation: roboDance 2s cubic-bezier(.17,.89,.32,1.49);
+  transform-origin: center bottom;
 }
   </style>
 </head>
@@ -312,14 +317,18 @@ filter: none;
 // ===============================
 const robo3D = document.getElementById('robo');
 
-setInterval(() => {
+function roboDance() {
   robo3D.classList.add('robo-dance');
 
   setTimeout(() => {
     robo3D.classList.remove('robo-dance');
   }, 2000);
 
-}, 5000);
+  const next = 3500 + Math.random() * 4000; // توقيت طبيعي عشوائي
+  setTimeout(roboDance, next);
+}
+
+setTimeout(roboDance, 3000);
     // Image Upload
     async function handleImageUpload() {
       const file = uploadInput.files[0];

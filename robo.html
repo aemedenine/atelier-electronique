@@ -112,6 +112,20 @@
       text-decoration: none;
       font-weight: bold;
     }
+    /* Robo Dance Animation */
+@keyframes roboDance {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  20%  { transform: translateY(-8px) rotate(-6deg) scale(1.05); }
+  40%  { transform: translateY(0) rotate(6deg) scale(1.08); }
+  60%  { transform: translateY(-6px) rotate(-4deg) scale(1.05); }
+  80%  { transform: translateY(0) rotate(4deg) scale(1.02); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+.robo-dance {
+  animation: roboDance 2s ease-in-out;
+  filter: drop-shadow(0 0 35px cyan) drop-shadow(0 0 70px #00fff7);
+}
   </style>
 </head>
 <body>
@@ -293,7 +307,22 @@
         if (t) sendMessage(t);
       }
     };
+// ===============================
+// Robo Auto Dance 😎
+// ===============================
 
+const robo3D = document.getElementById('robo');
+
+if (robo3D) {
+  setInterval(() => {
+    robo3D.classList.add('robo-dance');
+
+    setTimeout(() => {
+      robo3D.classList.remove('robo-dance');
+    }, 2000);
+
+  }, 5000);
+}
     // Image Upload
     async function handleImageUpload() {
       const file = uploadInput.files[0];

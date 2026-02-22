@@ -1475,28 +1475,33 @@ if (smdInput) {
         });
     });
 // ===============================
-// Robo Popup Controller
+// Robo PRO Controller
 // ===============================
+
 const roboBtn = document.getElementById('robo-float-btn');
-const roboPopup = document.getElementById('robo-popup');
-const roboClose = document.getElementById('robo-close');
-const roboMinimize = document.getElementById('robo-minimize');
-const roboSound = document.getElementById('robo-sound');
+const roboLayer = document.getElementById('robo-layer');
+const robo3d = document.getElementById('robo-3d');
+const chatBox = document.getElementById('robo-chat');
 
+let open = false;
+
+// Toggle Robo
 roboBtn.onclick = () => {
-  roboPopup.classList.add('show');
-  roboPopup.classList.remove('minimized');
-  if (roboSound) roboSound.play();
+  open = !open;
+  roboLayer.classList.toggle('show', open);
 };
 
-roboClose.onclick = () => {
-  roboPopup.classList.remove('show');
+// Toggle chat on robo click
+let chatOpen = true;
+robo3d.onclick = () => {
+  chatOpen = !chatOpen;
+  chatBox.style.display = chatOpen ? "block" : "none";
 };
 
-roboMinimize.onclick = () => {
-  roboPopup.classList.toggle('minimized');
-};
-    // ── Final Initialization ───────────────────────────────────────────────
+// Smooth scroll prevent bug on mobile
+document.addEventListener("touchmove", e => {
+  if (open) e.preventDefault();
+},{passive:false});  // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
     updateMiniCalendar();

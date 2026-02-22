@@ -1652,7 +1652,9 @@ footer {
   height: calc(100% - 50px);
   border: none;
   background: transparent;
+  pointer-events: auto;
 }
+
 /* Header */
 #robo-header {
   height: 50px;

@@ -42,14 +42,27 @@
                 <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
-            <!-- Robo Floating Button -->
+          <!-- Robo Floating Button -->
 <div id="robo-float-btn">🤖</div>
 
 <!-- Robo Layer -->
 <div id="robo-layer">
   <div id="robo-container">
-    <model-viewer id="robo-3d" src="robo.glb" auto-rotate camera-controls></model-viewer>
-    <div id="robo-chat"></div>
+
+    <model-viewer id="robo-3d"
+      src="robo.glb"
+      auto-rotate
+      camera-controls>
+    </model-viewer>
+
+    <div id="robo-chat">
+      <div id="current-msg">أهلا! أنا Robo PRO 🤖 شنّا نعاونك؟</div>
+      <div class="typing" style="display:none">يفكّر...</div>
+
+      <input id="inp" placeholder="اكتب هنا...">
+      <button id="mic">🎤 احكي</button>
+    </div>
+
   </div>
 </div>
         </section>

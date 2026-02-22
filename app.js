@@ -1477,208 +1477,25 @@ if (smdInput) {
 // ===============================
 // Robo Popup Controller
 // ===============================
-const robo = document.getElementById('robo');
-const ghost = document.getElementById('ghost');
-const chat = document.getElementById('chat');
-const currentMsg = document.getElementById('current-msg');
-const typing = document.getElementById('typing-indicator');
-const inp = document.getElementById('inp');
-const micBtn = document.getElementById('mic');
-const uploadInput = document.getElementById('upload-image');
-const whatsappLink = document.getElementById('whatsapp-link');
-const muteBtn = document.getElementById('mute-btn');
+const roboBtn = document.getElementById('robo-float-btn');
+const roboPopup = document.getElementById('robo-popup');
+const roboClose = document.getElementById('robo-close');
+const roboMinimize = document.getElementById('robo-minimize');
+const roboSound = document.getElementById('robo-sound');
 
-let open = false;
-let isMuted = false;
-let userPhone = null;
-let currentRequest = { type: null, description: '', step: 0 };
-
-// Toggle chat + mute button visibility
-robo.onclick = () => {
-  open = !open;
-  ghost.classList.toggle('open', open);
-  chat.style.display = open ? 'block' : 'none';
-  muteBtn.style.display = open ? 'block' : 'none';
-
-  if (open && currentMsg.textContent.includes('Ana Robo ULTRA')) {
-    // welcome message only once if needed
-  }
+roboBtn.onclick = () => {
+  roboPopup.classList.add('show');
+  roboPopup.classList.remove('minimized');
+  if (roboSound) roboSound.play();
 };
 
-// Mute / Unmute button
-muteBtn.onclick = () => {
-  isMuted = !isMuted;
-  muteBtn.textContent = isMuted ? '🔇' : '🔊';
+roboClose.onclick = () => {
+  roboPopup.classList.remove('show');
 };
 
-function showTyping() {
-  typing.style.display = 'block';
-  currentMsg.style.opacity = '0.5';
-}
-
-function hideTyping() {
-  typing.style.display = 'none';
-  currentMsg.style.opacity = '1';
-}
-
-function updateMsg(text, type = 'bot') {
-  currentMsg.textContent = text;
-  currentMsg.className = `message ${type === 'user' ? 'user-msg' : 'bot'}`;
-  currentMsg.style.opacity = '0';
-  setTimeout(() => { currentMsg.style.opacity = '1'; }, 250);
-  speak(text);
-}
-
-function speak(text) {
-  if (isMuted) return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'ar-TN';
-  speechSynthesis.speak(utterance);
-}
-
-function showUpload() {
-  uploadInput.style.display = 'block';
-}
-
-function showWhatsApp(preText = '') {
-  const msg = currentRequest.description || inp.value.trim() || 'طلب تصليح';
-  whatsappLink.href = `https://wa.me/21698192103?text=${encodeURIComponent(preText + msg)}`;
-  whatsappLink.style.display = 'block';
-}
-
-function resetRequest() {
-  currentRequest = { type: null, description: '', step: 0 };
-  uploadInput.style.display = 'none';
-}
-
-async function sendMessage(text) {
-  if (!text) return;
-  updateMsg(text, 'user');
-
-  showTyping();
-  await new Promise(r => setTimeout(r, 1000));
-
-  let reply = 'آسف... ما فهمتش 😅 قلّي شنو بالضبط';
-
-  const lower = text.toLowerCase();
-
-  if (lower.includes('حجز') || lower.includes('موعد')) {
-    currentRequest.type = 'booking';
-    currentRequest.step = 1;
-    reply = 'تمام! قلّي اليوم والساعة + المشكل + رقمك';
-  } else if (currentRequest.type === 'booking') {
-    currentRequest.description = text;
-    try {
-      await db.ref('bookings').push({
-        phone: userPhone || 'غير محدد',
-        details: text,
-        createdAt: firebase.database.ServerValue.TIMESTAMP,
-        status: 'pending'
-      });
-      reply = 'حجزك تم! نتصل بيك قريب 🚀';
-      resetRequest();
-    } catch (e) {
-      reply = 'مشكل في التسجيل... اتصل 98 192 103';
-    }
-  } else if (lower.includes('تصليح') || lower.includes('كرت') || lower.includes('بوردة')) {
-    currentRequest.type = 'repair';
-    currentRequest.step = 1;
-    reply = 'اهلا! شنو الجهاز؟ غسالة، كليما، لحام...؟ ارفع صورة إذا تحب';
-    showUpload();
-  } else if (currentRequest.type === 'repair' && currentRequest.step === 1) {
-    currentRequest.description = text;
-    currentRequest.step = 2;
-    reply = 'شكرًا! ارفع الصورة تاوا';
-    showUpload();
-  } else if (lower.includes('شيمة') || lower.includes('schéma')) {
-    reply = 'عطيني الماركة والموديل، نبحثلك.';
-    showWhatsApp('شيمة لـ ');
-  } else if (lower.includes('كورس') || lower.includes('اردوينو')) {
-    reply = 'تحب كورس أساسيات ولا مشروع أردوينو؟';
-  } else if (lower.includes('وينكم') || lower.includes('عنوان')) {
-    reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. 98 192 103';
-  } else if (/\d{8}/.test(text)) {
-    userPhone = text.match(/\d{8}/)[0];
-    reply = `رقمك ${userPhone} محفوظ. شنو نحب نساعدك؟`;
-  } else {
-    try {
-      const response = await puter.ai.chat([
-        { role: 'system', content: 'جاوب بالدارجة التونسية زي صديق خبير في تصليح إلكترونيك. كن مرح ومفيد.' },
-        { role: 'user', content: text }
-      ], { model: 'x-ai/grok-4-1-fast' });
-      reply = response.message.content || 'معليش... جرب سؤال أوضح';
-    } catch (err) {
-      reply = 'مشكل في الاتصال... قلّي شنو بالضبط';
-    }
-  }
-
-  hideTyping();
-  updateMsg(reply, 'bot');
-}
-
-// Voice Input
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-if (SR) {
-  const rec = new SR();
-  rec.lang = 'ar-TN';
-  micBtn.onclick = () => {
-    rec.start();
-    updateMsg('نسمع فيك... 🎤', 'bot');
-  };
-  rec.onresult = e => {
-    const t = e.results[0][0].transcript.trim();
-    sendMessage(t);
-  };
-  rec.onerror = () => updateMsg('مشكل في المايك... جرب الكتابة', 'bot');
-} else {
-  micBtn.style.display = 'none';
-}
-
-// Text Input
-inp.onkeydown = e => {
-  if (e.key === 'Enter') {
-    const t = inp.value.trim();
-    inp.value = '';
-    if (t) sendMessage(t);
-  }
+roboMinimize.onclick = () => {
+  roboPopup.classList.toggle('minimized');
 };
-
-// Image Upload
-async function handleImageUpload() {
-  const file = uploadInput.files[0];
-  if (!file) return;
-
-  updateMsg('جاري رفع الصورة...', 'bot');
-  showTyping();
-
-  const fileName = Date.now() + '_' + file.name;
-  const storageRef = storage.ref('repair_images/' + fileName);
-
-  try {
-    const snapshot = await storageRef.put(file);
-    const url = await snapshot.ref.getDownloadURL();
-
-    await db.ref('repair_requests').push({
-      phone: userPhone || 'غير محدد',
-      description: currentRequest.description || 'بدون وصف',
-      imageUrl: url,
-      createdAt: firebase.database.ServerValue.TIMESTAMP,
-      status: 'new'
-    });
-
-    hideTyping();
-    updateMsg('الصورة وصلت! نتصل بيك قريب 😎', 'bot');
-    showWhatsApp('طلب تصليح مع صورة: ');
-    resetRequest();
-  } catch (err) {
-    hideTyping();
-    updateMsg('مشكل في الرفع... جرب عبر واتساب', 'bot');
-  }
-  uploadInput.value = '';
-}
-
-// Attach image upload handler
-uploadInput.onchange = handleImageUpload;
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

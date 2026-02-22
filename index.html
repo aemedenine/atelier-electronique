@@ -42,22 +42,28 @@
                 <img src="flags/fr.png" data-lang="fr" alt="Français" title="Français">
                 <img src="flags/gb.png" data-lang="en" alt="English" title="English">
             </div>
-  <!-- Floating Robo Button -->
-  <div id="robo-float-btn">🤖</div>
-  <audio id="robo-sound" preload="auto">
-    <source src="open.mp3" type="audio/mpeg">
-  </audio>
+  <div id="robo-container">
+    <model-viewer 
+      id="robo"
+      src="robo.glb"
+      alt="روبو الورشة"
+      auto-rotate 
+      camera-controls
+      rotation-per-second="30deg"
+      interaction-prompt="none"
+      background-color="transparent"
+    ></model-viewer>
 
-  <!-- Robo Popup -->
-  <div id="robo-popup">
-    <div id="robo-header">
-      <span>Robo ULTRA MODE</span>
-      <div>
-        <button id="robo-minimize">—</button>
-        <button id="robo-close">×</button>
+    <button id="mute-btn" aria-label="كتم الصوت">🔊</button>
+
+    <div id="chat-box">
+      <div id="messages">
+        <div class="msg bot">اهلا يا خويا! 🤖 شنو نحب نساعدك فيه اليوم؟</div>
       </div>
+      <input id="user-input" placeholder="اكتب رسالتك..." autofocus />
+      <button id="send-btn">إرسال</button>
+      <button id="mic-btn">🎤</button>
     </div>
-    <iframe src="robo.html"></iframe>
   </div>
 
         </section>

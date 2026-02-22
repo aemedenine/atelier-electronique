@@ -1483,12 +1483,19 @@ const roboClose = document.getElementById('robo-close');
 const roboMinimize = document.getElementById('robo-minimize');
 const roboSound = document.getElementById('robo-sound');
 
-roboBtn.onclick = () => {
-  roboPopup.classList.add('show');
-  roboPopup.classList.remove('minimized');
-  if (roboSound) roboSound.play();
-};
+let roboOpen = false;
 
+roboBtn.onclick = () => {
+  roboOpen = !roboOpen;
+
+  if (roboOpen) {
+    roboPopup.classList.add('show');
+    roboPopup.classList.remove('minimized');
+    if (roboSound) roboSound.play();
+  } else {
+    roboPopup.classList.remove('show');
+  }
+};
 roboClose.onclick = () => {
   roboPopup.classList.remove('show');
 };

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Robo ULTRA MODE - ورشة إلكترونيك الرحماني 🤖</title>
+  <title>Robo l'Atelier - ورشة إلكترونيك الرحماني 🤖</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <!-- Firebase SDK -->
@@ -113,7 +113,7 @@
     
     <div id="chat">
       <div id="current-msg" class="message bot">
-        اهلا يا خويا! Ana Robo ULTRA V6 🚀<br>شنو نحب نساعدك فيه؟ (تصليح، حجز، شيمة...)
+        اهلا يا خويا! Ana Robo l'Atelier V6 🚀<br>شنو نحب نساعدك فيه؟ (تصليح، حجز، شيمة...)
       </div>
       <div id="typing-indicator" class="typing" style="display:none;">جاري التفكير...</div>
 
@@ -157,7 +157,7 @@
     robo.onclick = () => {
       open = !open;
       chat.style.display = open ? 'block' : 'none';
-      if (open && currentMsg.textContent.includes('Ana Robo ULTRA')) {
+      if (open && currentMsg.textContent.includes('Ana Robo l'Atelier')) {
         // welcome فقط مرة واحدة
       }
     };
@@ -222,7 +222,7 @@
           reply = 'حجزك تم! نتصل بيك قريب 🚀';
           resetRequest();
         } catch (e) {
-          reply = 'مشكل في التسجيل... اتصل 98 192 103';
+          reply = 'مشكل في التسجيل... اتصل 98.192.103';
         }
       } else if (lower.includes('تصليح') || lower.includes('كرت') || lower.includes('بوردة')) {
         currentRequest.type = 'repair';

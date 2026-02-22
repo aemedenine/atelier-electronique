@@ -1475,21 +1475,33 @@ if (smdInput) {
         });
     });
 // ===============================
-// Robo Popup Controller - ULTRA PRO
+// Robo Popup Controller – ULTRA PRO
 // ===============================
 
 const roboBtn   = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
 const roboClose = document.getElementById('robo-close');
 const roboMin   = document.getElementById('robo-minimize');
+const roboMute  = document.getElementById('robo-mute');
 const roboSound = document.getElementById('robo-sound');
 
+// الصوت عند الفتح
+let isMuted = localStorage.getItem('roboMuted') === 'true';
+roboSound.muted = isMuted;
+
 function playSound() {
-  if (!roboSound) return;
+  if (isMuted) return;
   roboSound.currentTime = 0;
   roboSound.play();
 }
 
+// تحديث زر الصوت
+function updateMuteButton() {
+  roboMute.textContent = isMuted ? '🔇' : '🔊';
+}
+updateMuteButton();
+
+// فتح الروبو
 function openRobo() {
   roboPopup.classList.add('show');
   roboPopup.classList.remove('minimized');
@@ -1497,11 +1509,13 @@ function openRobo() {
   playSound();
 }
 
+// غلق الروبو
 function closeRobo() {
   roboPopup.classList.remove('show');
   localStorage.setItem('robo_open', '0');
 }
 
+// تصغير/تكبير الروبو
 function minimizeRobo() {
   roboPopup.classList.toggle('minimized');
   localStorage.setItem(
@@ -1510,6 +1524,7 @@ function minimizeRobo() {
   );
 }
 
+// التعامل مع الأزرار
 roboBtn.onclick = (e) => {
   e.stopPropagation();
   roboPopup.classList.contains('show') ? closeRobo() : openRobo();
@@ -1525,48 +1540,27 @@ roboMin.onclick = (e) => {
   minimizeRobo();
 };
 
-document.addEventListener('click', (e) => {
-  if (!roboPopup.contains(e.target) && !roboBtn.contains(e.target)) {
-    closeRobo();
-  }
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeRobo();
-});
-
-// Restore state
-window.addEventListener('load', () => {
-  if (localStorage.getItem('robo_open') === '1') {
-    openRobo();
-  }
-  if (localStorage.getItem('robo_minimized') === '1') {
-    roboPopup.classList.add('minimized');
-  }
-});
-    const roboMute = document.getElementById('robo-mute');
-const roboAudio = document.getElementById('robo-sound'); // الصوت عند فتح الروبو
-
-// حالة الصوت مخزنة في localStorage
-let isMuted = localStorage.getItem('roboMuted') === 'true';
-
-// تحديث زر حسب الحالة
-function updateMuteButton() {
-  roboMute.textContent = isMuted ? '🔇' : '🔊';
-}
-
-// عند الضغط على الزر
 roboMute.onclick = () => {
   isMuted = !isMuted;
-  roboAudio.muted = isMuted;
+  roboSound.muted = isMuted;
   updateMuteButton();
   localStorage.setItem('roboMuted', isMuted);
 };
 
-// تهيئة عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-  roboAudio.muted = isMuted;
-  updateMuteButton();
+// إغلاق الروبو إذا ضغط المستخدم خارجها
+document.addEventListener('click', (e) => {
+  if (!roboPopup.contains(e.target) && !roboBtn.contains(e.target)) closeRobo();
+});
+
+// Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeRobo();
+});
+
+// Restore state عند تحميل الصفحة
+window.addEventListener('load', () => {
+  if (localStorage.getItem('robo_open') === '1') openRobo();
+  if (localStorage.getItem('robo_minimized') === '1') roboPopup.classList.add('minimized');
 });
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

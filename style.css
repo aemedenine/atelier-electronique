@@ -1580,43 +1580,40 @@ footer {
 
 body {
   font-family: Tahoma, Arial, sans-serif;
-  background: linear-gradient(135deg, #0a1f2c, #1e3a4f, #2c5364);
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea); /* ألوان فاتحة زرقاء بحرية */
   min-height: 100vh;
   overflow-x: hidden;
   direction: rtl;
+  color: #333; /* نص غامق عشان يبان مليح */
 }
 
-/* ─────────────── ROBO CONTAINER ─────────────── */
-#robo-container {
+#ghost {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999999;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  pointer-events: none;
+  align-items: center;
 }
 
 model-viewer#robo {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   background: transparent !important;
   --poster-color: transparent;
   --progress-bar-height: 0;
-  --ar-button-display: none;
+  filter: drop-shadow(0 0 30px rgba(0, 150, 200, 0.6)); /* ظل خفيف أزرق */
   cursor: pointer;
-  filter: drop-shadow(0 0 35px #00f0ff);
-  pointer-events: auto;
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition: all 0.4s ease;
 }
 
-#robo-container.open model-viewer#robo {
-  transform: scale(1.15);
-  filter: drop-shadow(0 0 55px #00ffff);
+#ghost.open model-viewer#robo {
+  transform: scale(1.12);
+  filter: drop-shadow(0 0 50px rgba(0, 180, 220, 0.9));
 }
 
-/* إخفاء كل عناصر الواجهة الافتراضية لـ model-viewer */
+/* إخفاء كل الأزرار الافتراضية للـ model-viewer */
 model-viewer#robo::part(default-ar-button),
 model-viewer#robo::part(default-progress-bar),
 model-viewer#robo::part(default-ar-prompt),
@@ -1625,126 +1622,101 @@ model-viewer#robo::part(default-ar-instructions) {
   display: none !important;
 }
 
-/* زر كتم الصوت */
 #mute-btn {
-  margin: 12px 0 15px auto;
-  width: 44px;
-  height: 44px;
-  border: none;
+  margin-top: 12px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(0, 240, 255, 0.18);
-  border: 2px solid #00f0ff;
-  color: #00f0ff;
-  font-size: 22px;
+  background: rgba(0, 188, 212, 0.15);
+  border: 2px solid #00acc1;
+  color: #00acc1;
+  font-size: 24px;
   cursor: pointer;
   display: none;
-  backdrop-filter: blur(10px);
-  pointer-events: auto;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
 #mute-btn:hover {
-  background: #00f0ff;
-  color: #000;
+  background: #00acc1;
+  color: white;
   transform: scale(1.1);
 }
 
-/* صندوق الدردشة */
-#chat-box {
+#chat {
   display: none;
-  width: 320px;
-  max-height: 440px;
-  margin-top: 10px;
-  background: rgba(10, 20, 35, 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  width: 340px;
+  background: rgba(255, 255, 255, 0.92); /* خلفية بيضاء شفافة شوية */
   border-radius: 18px;
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  box-shadow: 0 8px 40px rgba(0, 240, 255, 0.22);
-  padding: 14px;
-  pointer-events: auto;
-  flex-direction: column;
+  padding: 16px;
+  box-shadow: 0 8px 35px rgba(0, 150, 200, 0.25);
+  margin-top: 12px;
+  border: 1px solid rgba(0, 188, 212, 0.3);
 }
 
-#messages {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 6px;
-  margin-bottom: 10px;
-  font-size: 1.05em;
-  line-height: 1.45;
-}
-
-.msg {
-  margin: 8px 0;
-  padding: 10px 14px;
+#current-msg {
+  padding: 12px 16px;
   border-radius: 16px;
-  max-width: 86%;
-  word-break: break-word;
+  background: rgba(0, 188, 212, 0.12);
+  margin-bottom: 12px;
+  transition: opacity 0.4s;
+  color: #004d40;
 }
 
-.msg.bot {
-  background: rgba(0, 240, 255, 0.16);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-}
-
-.msg.user {
-  background: #1e8449;
+#current-msg.user-msg {
+  background: #4caf50 !important;
   color: white;
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
 }
 
-#input-area {
-  display: flex;
-  gap: 8px;
+.typing {
+  font-style: italic;
+  color: #757575;
+  margin: 10px 0;
+}
+
+#inp {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #b0bec5;
+  border-radius: 30px;
+  background: white;
+  color: #333;
+  outline: none;
   margin-top: 8px;
 }
 
-#user-input {
-  flex: 1;
-  padding: 12px 16px;
-  border: none;
-  border-radius: 30px;
-  background: rgba(255,255,255,0.10);
+#mic {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: #00acc1;
   color: white;
-  font-size: 1em;
-  outline: none;
-}
-
-#send-btn, #mic-btn {
-  padding: 0 18px;
   border: none;
   border-radius: 30px;
   font-weight: bold;
   cursor: pointer;
-  min-width: 50px;
 }
 
-#send-btn {
-  background: #00f0ff;
-  color: #000;
+#upload-image {
+  width: 100%;
+  margin: 12px 0;
+  display: none;
 }
 
-#mic-btn {
-  background: #ff3366;
+#whatsapp-link {
+  display: none;
+  margin-top: 12px;
+  padding: 12px;
+  background: #25D366;
   color: white;
+  text-align: center;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-/* Mobile adjustments */
 @media (max-width: 500px) {
-  #robo-container {
-    bottom: 15px;
-    right: 15px;
-  }
-  model-viewer#robo {
-    width: 160px;
-    height: 160px;
-  }
-  #chat-box {
-    width: 90vw;
-  }
+  model-viewer#robo { width: 180px; height: 180px; }
+  #chat { width: 92vw; }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

@@ -1477,25 +1477,112 @@ if (smdInput) {
 // ===============================
 // Robo Popup Controller
 // ===============================
-const roboBtn = document.getElementById('robo-float-btn');
-const roboPopup = document.getElementById('robo-popup');
-const roboClose = document.getElementById('robo-close');
-const roboMinimize = document.getElementById('robo-minimize');
-const roboSound = document.getElementById('robo-sound');
+// العناصر
+const robo = document.getElementById('robo');
+const container = document.getElementById('robo-container');
+const chatBox = document.getElementById('chat-box');
+const messages = document.getElementById('messages');
+const input = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const micBtn = document.getElementById('mic-btn');
+const muteBtn = document.getElementById('mute-btn');
 
-roboBtn.onclick = () => {
-  roboPopup.classList.add('show');
-  roboPopup.classList.remove('minimized');
-  if (roboSound) roboSound.play();
-};
+let isOpen = false;
+let isMuted = false;
 
-roboClose.onclick = () => {
-  roboPopup.classList.remove('show');
-};
+// فتح / إغلاق الدردشة
+function toggleChat() {
+  isOpen = !isOpen;
+  container.classList.toggle('open', isOpen);
+  chatBox.style.display = isOpen ? 'flex' : 'none';
+  muteBtn.style.display = isOpen ? 'block' : 'none';
+  
+  if (isOpen) {
+    input.focus();
+  }
+}
 
-roboMinimize.onclick = () => {
-  roboPopup.classList.toggle('minimized');
-};
+robo.addEventListener('click', toggleChat);
+
+// كتم / تشغيل الصوت
+muteBtn.addEventListener('click', () => {
+  isMuted = !isMuted;
+  muteBtn.textContent = isMuted ? '🔇' : '🔊';
+});
+
+// إضافة رسالة
+function addMessage(text, type = 'bot') {
+  const msg = document.createElement('div');
+  msg.className = `msg ${type}`;
+  msg.textContent = text;
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+
+  // قراءة الرسالة بصوت إذا كان bot ومش مكتوم
+  if (type === 'bot' && !isMuted) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ar-TN';
+    speechSynthesis.speak(utterance);
+  }
+}
+
+// إرسال الرسالة
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, 'user');
+  input.value = '';
+
+  // رد بسيط (يمكنك استبداله لاحقاً بـ AI أو منطق أكثر تعقيداً)
+  setTimeout(() => {
+    let reply = 'تمام يا خويا، شنو بالضبط اللي تحتاجه؟ 🚀';
+    
+    if (text.includes('تصليح') || text.includes('عطل') || text.includes('مشكل')) {
+      reply = 'شنو الجهاز اللي عندك؟ تلفون، غسالة، كليما...؟';
+    } else if (text.includes('حجز') || text.includes('موعد')) {
+      reply = 'قلي اليوم والساعة اللي تناسبك ونحجزلك!';
+    } else if (text.includes('عنوان') || text.includes('وينكم')) {
+      reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. اتصل 98 192 103';
+    }
+    
+    addMessage(reply, 'bot');
+  }, 800);
+}
+
+sendBtn.addEventListener('click', sendMessage);
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// التعرف على الصوت
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRec) {
+  const recognition = new SpeechRec();
+  recognition.lang = 'ar-TN';
+  recognition.interimResults = false;
+
+  micBtn.addEventListener('click', () => {
+    recognition.start();
+    addMessage('جاري الاستماع... 🎤', 'bot');
+  });
+
+  recognition.onresult = e => {
+    const spokenText = e.results[0][0].transcript.trim();
+    input.value = spokenText;
+    sendMessage();
+  };
+
+  recognition.onerror = () => {
+    addMessage('مشكل في المايك... جرب الكتابة', 'bot');
+  };
+} else {
+  micBtn.style.display = 'none';
+}
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

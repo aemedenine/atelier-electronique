@@ -3,162 +3,330 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Robo V6 - 3D Chat 🤖</title>
+  <title>Robo ULTRA MODE - ورشة إلكترونيك الرحماني 🤖</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <!-- Puter.js لـ Grok -->
+  <script src="https://js.puter.com/v2/"></script>
+
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
+      font-family: Tahoma, sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
+      overflow-x: hidden;
     }
-
-    h1, h2 {
-      margin: 10px 0;
-      text-align: center;
-      text-shadow: 0 0 10px #0ff;
-    }
-    h2 { color: #ffa500; }
-
-    /* Robo V6 container */
-    #robo-v6-container {
+    #ghost {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 240px;
+      z-index: 999999;
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
-      max-width: 400px;
     }
-
-    model-viewer#robo-v6 {
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      box-shadow: 0 0 40px rgba(255, 165, 0, 0.5);
-      background: rgba(255,255,255,0.05);
-      transition: all 0.4s ease;
+    model-viewer {
+      width: 180px;
+      height: 180px;
+      filter: drop-shadow(0 0 35px cyan);
       cursor: pointer;
+      background: transparent;
     }
-
-    #robo-v6-chat {
-      margin-top: 15px;
-      width: 90%;
+    #chat {
+      display: none;
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(15px);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 0 25px cyan;
+      margin-top: 8px;
     }
-
-    #robo-messages {
-      background: rgba(0,0,0,0.55);
-      padding: 10px;
-      border-radius: 12px;
-      max-height: 300px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #robo-messages .message {
-      margin: 8px 0;
+    #current-msg {
+      margin: 8px auto;
       padding: 10px 14px;
       border-radius: 18px;
-      max-width: 85%;
-      word-wrap: break-word;
+      max-width: 95%;
+      font-size: 0.98em;
+      transition: opacity 0.4s;
+      background: rgba(255,165,0,0.25);
+      color: white;
+    }
+    .user-msg {
+      background: #1e8449 !important;
+      color: white;
+    }
+    .typing {
+      font-style: italic;
+      color: #aaa;
+      margin: 10px 0;
+      font-size: 0.9em;
+    }
+    #inp {
+      width: 100%;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      outline: none;
       font-size: 0.95em;
     }
-
-    #robo-messages .user { background: #1e8449; margin-left: auto; }
-    #robo-messages .bot { background: rgba(255,255,255,0.12); margin-right: auto; }
-
-    .input-area { display: flex; margin-top: 10px; }
-    .input-area input {
-      flex:1;
-      padding:12px 15px;
-      border-radius:25px 0 0 25px;
-      border:none;
-      outline:none;
+    #mic {
+      width: 100%;
+      margin-top: 8px;
+      border: none;
+      border-radius: 20px;
+      padding: 8px;
+      background: #00fff7;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
     }
-    .input-area button {
-      padding:12px 22px;
-      border-radius:0 25px 25px 0;
-      background:#ffa500;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-      font-weight:bold;
-      transition: background 0.3s;
+    #upload-image {
+      margin: 10px 0;
+      display: none;
+      width: 100%;
     }
-    .input-area button:hover { background:#e69500; }
+    #whatsapp-link {
+      display: none;
+      margin: 10px auto;
+      padding: 8px 16px;
+      background: #25D366;
+      color: white;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-
-  <h1>Robo V6 🤖</h1>
-
-  <div id="robo-v6-container">
-    <model-viewer id="robo-v6" src="robo.glb" 
-                  alt="Robo Tounsi 3D" 
-                  auto-rotate 
-                  camera-controls 
-                  shadow-intensity="1" 
-                  rotation-per-second="30deg">
-    </model-viewer>
-
-    <div id="robo-v6-chat">
-      <div id="robo-messages"></div>
-      <div class="input-area">
-        <input id="robo-input" placeholder="S2el Robo..." autofocus />
-        <button onclick="sendRoboMsg()">Send</button>
+  <div id="ghost">
+    <model-viewer id="robo" src="robo.glb" auto-rotate camera-controls></model-viewer>
+    
+    <div id="chat">
+      <div id="current-msg" class="message bot">
+        اهلا يا خويا! Ana Robo ULTRA V6 🚀<br>شنو نحب نساعدك فيه؟ (تصليح، حجز، شيمة...)
       </div>
+      <div id="typing-indicator" class="typing" style="display:none;">جاري التفكير...</div>
+
+      <input id="inp" placeholder="اكتب أو اضغط 🎤" autofocus />
+      <button id="mic">🎤 احكي</button>
+
+      <input id="upload-image" type="file" accept="image/*" onchange="handleImageUpload()" />
+      <a href="#" id="whatsapp-link" target="_blank">تواصل عبر واتساب</a>
     </div>
   </div>
 
   <script>
-    const roboV6 = document.getElementById('robo-v6');
-    const messagesDivV6 = document.getElementById('robo-messages');
-    const inputV6 = document.getElementById('robo-input');
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtbEWdm7CAC25ROslGlVeLOvfxdi2exVo",
+      authDomain: "atelier-electronique-mednine.firebaseapp.com",
+      projectId: "atelier-electronique-mednine",
+      storageBucket: "atelier-electronique-mednine.firebasestorage.app",
+      messagingSenderId: "547430908384",
+      appId: "1:547430908384:web:4caa4cf3869491bd14eb85",
+      databaseURL: "https://atelier-electronique-mednine-default-rtdb.europe-west1.firebasedatabase.app"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const storage = firebase.storage();
 
-    function addMessageV6(text, type) {
-      const msg = document.createElement('div');
-      msg.className = `message ${type}`;
-      msg.textContent = text;
-      messagesDivV6.appendChild(msg);
-      messagesDivV6.scrollTop = messagesDivV6.scrollHeight;
-    }
+    // Elements
+    const robo = document.getElementById('robo');
+    const chat = document.getElementById('chat');
+    const currentMsg = document.getElementById('current-msg');
+    const typing = document.getElementById('typing-indicator');
+    const inp = document.getElementById('inp');
+    const micBtn = document.getElementById('mic');
+    const uploadInput = document.getElementById('upload-image');
+    const whatsappLink = document.getElementById('whatsapp-link');
 
-    // Welcome message
-    addMessageV6('Ahla ! Ana Robo V6, نجم نفتحلك الأقسام, نعمل حجز, و نولّد فاتورة 🚀', 'bot');
+    let open = false;
+    let userPhone = null;
+    let currentRequest = { type: null, description: '', step: 0 };
 
-    async function sendRoboMsg() {
-      const text = inputV6.value.trim();
-      if (!text) return;
-      addMessageV6(text, 'user');
-      inputV6.value = '';
-
-      // Simple commands
-      if(text.includes('فتح')) {
-        addMessageV6('Tawa باش نفتحلك القسم...', 'bot');
-        // هنا تحط الكود باش Robo يفتح القسم تلقائياً
-      } else if(text.includes('حجز')) {
-        addMessageV6('Chnowa التاريخ و الساعة؟', 'bot');
-      } else if(text.includes('فاتورة')) {
-        addMessageV6('Tawa باش نولّدلك فاتورة...', 'bot');
-      } else {
-        addMessageV6('Smah... ma fhemtch, jarreb mara okhra 😅', 'bot');
+    robo.onclick = () => {
+      open = !open;
+      chat.style.display = open ? 'block' : 'none';
+      if (open && currentMsg.textContent.includes('Ana Robo ULTRA')) {
+        // welcome فقط مرة واحدة
       }
+    };
+
+    function showTyping() {
+      typing.style.display = 'block';
+      currentMsg.style.opacity = '0.5';
     }
 
-    // Enter key
-    inputV6.addEventListener('keypress', e => {
-      if(e.key==='Enter') sendRoboMsg();
-    });
+    function hideTyping() {
+      typing.style.display = 'none';
+      currentMsg.style.opacity = '1';
+    }
 
-    // Hover animation
-    roboV6.addEventListener('pointerenter', () => { roboV6.style.transform='scale(1.18)'; });
-    roboV6.addEventListener('pointerleave', () => { roboV6.style.transform='scale(1)'; });
+    function updateMsg(text, type = 'bot') {
+      currentMsg.textContent = text;
+      currentMsg.className = `message ${type === 'user' ? 'user-msg' : 'bot'}`;
+      currentMsg.style.opacity = '0';
+      setTimeout(() => { currentMsg.style.opacity = '1'; }, 250);
+      speak(text);
+    }
+
+    function showUpload() {
+      uploadInput.style.display = 'block';
+    }
+
+    function showWhatsApp(preText = '') {
+      const msg = currentRequest.description || inp.value.trim() || 'طلب تصليح';
+      whatsappLink.href = `https://wa.me/21698192103?text=${encodeURIComponent(preText + msg)}`;
+      whatsappLink.style.display = 'block';
+    }
+
+    function resetRequest() {
+      currentRequest = { type: null, description: '', step: 0 };
+      uploadInput.style.display = 'none';
+    }
+
+    async function sendMessage(text) {
+      if (!text) return;
+      updateMsg(text, 'user');
+
+      showTyping();
+      await new Promise(r => setTimeout(r, 1000));
+
+      let reply = 'آسف... ما فهمتش 😅 قلّي شنو بالضبط';
+
+      const lower = text.toLowerCase();
+
+      if (lower.includes('حجز') || lower.includes('موعد')) {
+        currentRequest.type = 'booking';
+        currentRequest.step = 1;
+        reply = 'تمام! قلّي اليوم والساعة + المشكل + رقمك';
+      } else if (currentRequest.type === 'booking') {
+        currentRequest.description = text;
+        try {
+          await db.ref('bookings').push({
+            phone: userPhone || 'غير محدد',
+            details: text,
+            createdAt: firebase.database.ServerValue.TIMESTAMP,
+            status: 'pending'
+          });
+          reply = 'حجزك تم! نتصل بيك قريب 🚀';
+          resetRequest();
+        } catch (e) {
+          reply = 'مشكل في التسجيل... اتصل 98 192 103';
+        }
+      } else if (lower.includes('تصليح') || lower.includes('كرت') || lower.includes('بوردة')) {
+        currentRequest.type = 'repair';
+        currentRequest.step = 1;
+        reply = 'اهلا! شنو الجهاز؟ غسالة، كليما، لحام...؟ ارفع صورة إذا تحب';
+        showUpload();
+      } else if (currentRequest.type === 'repair' && currentRequest.step === 1) {
+        currentRequest.description = text;
+        currentRequest.step = 2;
+        reply = 'شكرًا! ارفع الصورة تاوا';
+        showUpload();
+      } else if (lower.includes('شيمة') || lower.includes('schéma')) {
+        reply = 'عطيني الماركة والموديل، نبحثلك.';
+        showWhatsApp('شيمة لـ ');
+      } else if (lower.includes('كورس') || lower.includes('اردوينو')) {
+        reply = 'تحب كورس أساسيات ولا مشروع أردوينو؟';
+      } else if (lower.includes('وينكم') || lower.includes('عنوان')) {
+        reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. 98 192 103';
+      } else if (/\d{8}/.test(text)) {
+        userPhone = text.match(/\d{8}/)[0];
+        reply = `رقمك ${userPhone} محفوظ. شنو نحب نساعدك؟`;
+      } else {
+        try {
+          const response = await puter.ai.chat([
+            { role: 'system', content: 'جاوب بالدارجة التونسية زي صديق خبير في تصليح إلكترونيك. كن مرح ومفيد.' },
+            { role: 'user', content: text }
+          ], { model: 'x-ai/grok-4-1-fast' });
+          reply = response.message.content || 'معليش... جرب سؤال أوضح';
+        } catch (err) {
+          reply = 'مشكل في الاتصال... قلّي شنو بالضبط';
+        }
+      }
+
+      hideTyping();
+      updateMsg(reply, 'bot');
+    }
+
+    // Voice Input
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      const rec = new SR();
+      rec.lang = 'ar-TN';
+      micBtn.onclick = () => {
+        rec.start();
+        updateMsg('نسمع فيك... 🎤', 'bot');
+      };
+      rec.onresult = e => {
+        const t = e.results[0][0].transcript.trim();
+        sendMessage(t);
+      };
+      rec.onerror = () => updateMsg('مشكل في المايك... جرب الكتابة', 'bot');
+    } else {
+      micBtn.style.display = 'none';
+    }
+
+    // Text Input
+    inp.onkeydown = e => {
+      if (e.key === 'Enter') {
+        const t = inp.value.trim();
+        inp.value = '';
+        if (t) sendMessage(t);
+      }
+    };
+
+    // Image Upload
+    async function handleImageUpload() {
+      const file = uploadInput.files[0];
+      if (!file) return;
+
+      updateMsg('جاري رفع الصورة...', 'bot');
+      showTyping();
+
+      const fileName = Date.now() + '_' + file.name;
+      const storageRef = storage.ref('repair_images/' + fileName);
+
+      try {
+        const snapshot = await storageRef.put(file);
+        const url = await snapshot.ref.getDownloadURL();
+
+        await db.ref('repair_requests').push({
+          phone: userPhone || 'غير محدد',
+          description: currentRequest.description || 'بدون وصف',
+          imageUrl: url,
+          createdAt: firebase.database.ServerValue.TIMESTAMP,
+          status: 'new'
+        });
+
+        hideTyping();
+        updateMsg('الصورة وصلت! نتصل بيك قريب 😎', 'bot');
+        showWhatsApp('طلب تصليح مع صورة: ');
+        resetRequest();
+      } catch (err) {
+        hideTyping();
+        updateMsg('مشكل في الرفع... جرب عبر واتساب', 'bot');
+      }
+      uploadInput.value = '';
+    }
+
+    // Speech Output
+    function speak(text) {
+      const s = new SpeechSynthesisUtterance(text);
+      s.lang = 'ar-TN';
+      speechSynthesis.speak(s);
+    }
   </script>
-
 </body>
 </html>

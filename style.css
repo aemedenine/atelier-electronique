@@ -1626,6 +1626,9 @@ footer {
   pointer-events: none;
   transform: translateY(40px) scale(0.95);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 #robo-popup.show {
@@ -1667,30 +1670,7 @@ footer {
   height: calc(100% - 50px);
   border: none;
   background: transparent;
-}
-
-/* Mobile */
-@media (max-width: 500px) {
-  #robo-float-btn {
-    width: 60px;
-    height: 60px;
-    bottom: 15px;
-    right: 15px;
-    font-size: 30px;
-  }
-
-  #robo-popup {
-    width: 92%;
-    height: 80vh;
-    bottom: 90px;
-    right: 4%;
-    border-radius: 20px;
-  }
-}
-/* Glass Blur Effect */
-#robo-popup {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-radius: 0 0 24px 24px;
 }
 
 /* زر minimize */
@@ -1712,6 +1692,25 @@ footer {
 #robo-popup.minimized {
   height: 60px !important;
   overflow: hidden;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  #robo-float-btn {
+    width: 60px;
+    height: 60px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 30px;
+  }
+
+  #robo-popup {
+    width: 92%;
+    height: 80vh;
+    bottom: 90px;
+    right: 4%;
+    border-radius: 20px;
+  }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

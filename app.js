@@ -1475,33 +1475,28 @@ if (smdInput) {
         });
     });
 // ===============================
-// Robo PRO Controller
+// Robo Popup Controller
 // ===============================
-
 const roboBtn = document.getElementById('robo-float-btn');
-const roboLayer = document.getElementById('robo-layer');
-const robo3d = document.getElementById('robo-3d');
-const chatBox = document.getElementById('robo-chat');
+const roboPopup = document.getElementById('robo-popup');
+const roboClose = document.getElementById('robo-close');
+const roboMinimize = document.getElementById('robo-minimize');
+const roboSound = document.getElementById('robo-sound');
 
-let open = false;
-
-// Toggle Robo
 roboBtn.onclick = () => {
-  open = !open;
-  roboLayer.classList.toggle('show', open);
+  roboPopup.classList.add('show');
+  roboPopup.classList.remove('minimized');
+  if (roboSound) roboSound.play();
 };
 
-// Toggle chat on robo click
-let chatOpen = true;
-robo3d.onclick = () => {
-  chatOpen = !chatOpen;
-  chatBox.style.display = chatOpen ? "block" : "none";
+roboClose.onclick = () => {
+  roboPopup.classList.remove('show');
 };
 
-// Smooth scroll prevent bug on mobile
-document.addEventListener("touchmove", e => {
-  if (open) e.preventDefault();
-},{passive:false});  // ── Final Initialization ───────────────────────────────────────────────
+roboMinimize.onclick = () => {
+  roboPopup.classList.toggle('minimized');
+};
+    // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();
     updateMiniCalendar();

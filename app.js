@@ -1544,6 +1544,30 @@ window.addEventListener('load', () => {
     roboPopup.classList.add('minimized');
   }
 });
+    const roboMute = document.getElementById('robo-mute');
+const roboAudio = document.getElementById('robo-sound'); // الصوت عند فتح الروبو
+
+// حالة الصوت مخزنة في localStorage
+let isMuted = localStorage.getItem('roboMuted') === 'true';
+
+// تحديث زر حسب الحالة
+function updateMuteButton() {
+  roboMute.textContent = isMuted ? '🔇' : '🔊';
+}
+
+// عند الضغط على الزر
+roboMute.onclick = () => {
+  isMuted = !isMuted;
+  roboAudio.muted = isMuted;
+  updateMuteButton();
+  localStorage.setItem('roboMuted', isMuted);
+};
+
+// تهيئة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+  roboAudio.muted = isMuted;
+  updateMuteButton();
+});
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

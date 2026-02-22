@@ -1474,94 +1474,134 @@ if (smdInput) {
             }
         });
     });
-// ===============================
-// Robo Popup Controller – ULTRA PRO
-// ===============================
+// =============================================
+// Robo Popup Controller - PRO PRO
+// =============================================
 
-const roboBtn   = document.getElementById('robo-float-btn');
+const roboBtn = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
 const roboClose = document.getElementById('robo-close');
-const roboMin   = document.getElementById('robo-minimize');
-const roboMute  = document.getElementById('robo-mute');
+const roboMin = document.getElementById('robo-minimize');
+const roboMute = document.getElementById('robo-mute');
 const roboSound = document.getElementById('robo-sound');
+const roboBadge = document.getElementById('robo-badge');
 
-// الصوت عند الفتح
 let isMuted = localStorage.getItem('roboMuted') === 'true';
-roboSound.muted = isMuted;
+let isDragging = false;
+let currentX = 0, currentY = 0, initialX, initialY;
 
-function playSound() {
-  if (isMuted) return;
+// Load saved states
+if (localStorage.getItem('robo_open') === '1') {
+  roboPopup.classList.add('show');
+}
+if (localStorage.getItem('robo_minimized') === '1') {
+  roboPopup.classList.add('minimized');
+  roboMin.textContent = '+';
+}
+roboSound.muted = isMuted;
+updateMuteButton();
+
+function playSound(type = 'open') {
+  if (isMuted || !roboSound) return;
+  roboSound.src = type === 'close' ? 'close.mp3' : (type === 'min' ? 'minimize.mp3' : 'open.mp3');
   roboSound.currentTime = 0;
-  roboSound.play();
+  roboSound.play().catch(() => {});
 }
 
-// تحديث زر الصوت
 function updateMuteButton() {
   roboMute.textContent = isMuted ? '🔇' : '🔊';
 }
-updateMuteButton();
 
-// فتح الروبو
-function openRobo() {
-  roboPopup.classList.add('show');
-  roboPopup.classList.remove('minimized');
-  localStorage.setItem('robo_open', '1');
-  playSound();
-}
-
-// غلق الروبو
-function closeRobo() {
-  roboPopup.classList.remove('show');
-  localStorage.setItem('robo_open', '0');
-}
-
-// تصغير/تكبير الروبو
-function minimizeRobo() {
-  roboPopup.classList.toggle('minimized');
-  localStorage.setItem(
-    'robo_minimized',
-    roboPopup.classList.contains('minimized') ? '1' : '0'
-  );
-}
-
-// التعامل مع الأزرار
 roboBtn.onclick = (e) => {
   e.stopPropagation();
-  roboPopup.classList.contains('show') ? closeRobo() : openRobo();
+  if (roboPopup.classList.contains('show')) {
+    roboPopup.classList.remove('show');
+    playSound('close');
+    localStorage.setItem('robo_open', '0');
+  } else {
+    roboPopup.classList.add('show');
+    roboPopup.classList.remove('minimized');
+    playSound('open');
+    localStorage.setItem('robo_open', '1');
+    localStorage.setItem('robo_minimized', '0');
+    roboBadge.style.display = 'none'; // إخفاء البادج لما يفتح
+  }
 };
 
 roboClose.onclick = (e) => {
   e.stopPropagation();
-  closeRobo();
+  roboPopup.classList.remove('show');
+  playSound('close');
+  localStorage.setItem('robo_open', '0');
 };
 
 roboMin.onclick = (e) => {
   e.stopPropagation();
-  minimizeRobo();
+  roboPopup.classList.toggle('minimized');
+  const minimized = roboPopup.classList.contains('minimized');
+  roboMin.textContent = minimized ? '+' : '—';
+  localStorage.setItem('robo_minimized', minimized ? '1' : '0');
+  playSound('min');
 };
 
 roboMute.onclick = () => {
   isMuted = !isMuted;
   roboSound.muted = isMuted;
-  updateMuteButton();
   localStorage.setItem('roboMuted', isMuted);
+  updateMuteButton();
+  playSound();
 };
 
-// إغلاق الروبو إذا ضغط المستخدم خارجها
+// Drag functionality
+const header = document.getElementById('robo-header');
+header.addEventListener('mousedown', (e) => {
+  if (e.target.tagName === 'BUTTON') return;
+  isDragging = true;
+  initialX = e.clientX - currentX;
+  initialY = e.clientY - currentY;
+  header.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  e.preventDefault();
+  currentX = e.clientX - initialX;
+  currentY = e.clientY - initialY;
+  roboPopup.style.left = currentX + 'px';
+  roboPopup.style.top = currentY + 'px';
+  roboPopup.style.right = 'auto';
+  roboPopup.style.bottom = 'auto';
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  header.style.cursor = 'move';
+});
+
+// Close on outside click
 document.addEventListener('click', (e) => {
-  if (!roboPopup.contains(e.target) && !roboBtn.contains(e.target)) closeRobo();
+  if (roboPopup.classList.contains('show') &&
+      !roboPopup.contains(e.target) &&
+      !roboBtn.contains(e.target) &&
+      !roboMute.contains(e.target)) {
+    roboPopup.classList.remove('show');
+    playSound('close');
+    localStorage.setItem('robo_open', '0');
+  }
 });
 
 // Escape key
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeRobo();
+  if (e.key === 'Escape' && roboPopup.classList.contains('show')) {
+    roboPopup.classList.remove('show');
+    playSound('close');
+  }
 });
 
-// Restore state عند تحميل الصفحة
-window.addEventListener('load', () => {
-  if (localStorage.getItem('robo_open') === '1') openRobo();
-  if (localStorage.getItem('robo_minimized') === '1') roboPopup.classList.add('minimized');
-});
+// Badge example (يمكن تحديثه ديناميكياً)
+setTimeout(() => {
+  roboBadge.textContent = '2'; // مثال: 2 رسائل جديدة
+}, 5000);
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

@@ -1475,19 +1475,42 @@ if (smdInput) {
         });
     });
 // ===============================
-// Robo Popup Controller
+// Robo Popup Controller - ULTRA
 // ===============================
-const roboBtn = document.getElementById('robo-float-btn');
+
+const roboBtn   = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
 const roboClose = document.getElementById('robo-close');
 
-roboBtn.onclick = () => {
-  roboPopup.style.display = 'flex';
-};
+function openRobo() {
+  roboPopup.classList.add('show');
+}
 
-roboClose.onclick = () => {
-  roboPopup.style.display = 'none';
-};
+function closeRobo() {
+  roboPopup.classList.remove('show');
+}
+
+roboBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  roboPopup.classList.toggle('show');
+});
+
+roboClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeRobo();
+});
+
+// غلق عند الضغط خارج البوباب
+document.addEventListener('click', (e) => {
+  if (!roboPopup.contains(e.target) && !roboBtn.contains(e.target)) {
+    closeRobo();
+  }
+});
+
+// غلق بزر ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeRobo();
+});
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();
     updatePrayerTimes();

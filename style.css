@@ -1713,6 +1713,27 @@ footer {
   height: 60px !important;
   overflow: hidden;
 }
+#robo-mute {
+  position: fixed;
+  bottom: 105px; /* فوق زر الروبو */
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00fff7, #0066ff);
+  color: #000;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  box-shadow: 0 6px 20px rgba(0, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+#robo-mute:hover {
+  transform: scale(1.1);
+}
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

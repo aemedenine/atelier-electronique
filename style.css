@@ -1590,7 +1590,7 @@ footer {
   color: #000;
   cursor: pointer;
   z-index: 999999;
-  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.5);
+  box-shadow: 0 8px 30px
   transition: transform 0.35s ease, box-shadow 0.35s ease;
   animation: pulse 2s infinite;
 }

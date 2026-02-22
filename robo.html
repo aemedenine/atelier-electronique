@@ -310,19 +310,16 @@
 // ===============================
 // Robo Auto Dance 😎
 // ===============================
+const roboContainer = document.getElementById('ghost');
 
-const robo3D = document.getElementById('ghost');
+setInterval(() => {
+  roboContainer.classList.add('robo-dance');
 
-if (robo3D) {
-  setInterval(() => {
-    robo3D.classList.add('robo-dance');
+  setTimeout(() => {
+    roboContainer.classList.remove('robo-dance');
+  }, 2000);
 
-    setTimeout(() => {
-      robo3D.classList.remove('robo-dance');
-    }, 2000);
-
-  }, 5000);
-}
+}, 5000);
     // Image Upload
     async function handleImageUpload() {
       const file = uploadInput.files[0];

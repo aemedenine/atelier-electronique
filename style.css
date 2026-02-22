@@ -1,3 +1,4 @@
+
 /* ==========================================================================
    Base & Reset + Fonts + Direction
    ========================================================================== */
@@ -1572,151 +1573,145 @@ footer {
 /* ================================
    Robo Floating Widget - ULTRA MODE
 ================================ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: Tahoma, Arial, sans-serif;
-  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea); /* ألوان فاتحة زرقاء بحرية */
-  min-height: 100vh;
-  overflow-x: hidden;
-  direction: rtl;
-  color: #333; /* نص غامق عشان يبان مليح */
-}
-
-#ghost {
+/* الزر العائم */
+#robo-float-btn {
   position: fixed;
   bottom: 25px;
   right: 25px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00fff7, #0066ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: #000;
+  cursor: pointer;
   z-index: 999999;
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.5);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: pulse 2s infinite;
+}
+
+#robo-float-btn:hover {
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 12px 40px rgba(0, 255, 255, 0.8);
+}
+
+/* Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+
+/* Popup */
+#robo-popup {
+  position: fixed;
+  bottom: 110px;
+  right: 25px;
+  width: 380px;
+  height: 560px;
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 60px rgba(0, 255, 255, 0.6);
   display: flex;
   flex-direction: column;
+  z-index: 999998;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#robo-popup.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Header */
+#robo-header {
+  height: 50px;
+  background: linear-gradient(90deg, #00fff7, #0066ff);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 18px;
+  font-weight: bold;
+  color: #000;
+  font-size: 1.1em;
 }
 
-model-viewer#robo {
-  width: 220px;
-  height: 220px;
-  background: transparent !important;
-  --poster-color: transparent;
-  --progress-bar-height: 0;
-  filter: drop-shadow(0 0 30px rgba(0, 150, 200, 0.6)); /* ظل خفيف أزرق */
-  cursor: pointer;
-  transition: all 0.4s ease;
-}
-
-#ghost.open model-viewer#robo {
-  transform: scale(1.12);
-  filter: drop-shadow(0 0 50px rgba(0, 180, 220, 0.9));
-}
-
-/* إخفاء كل الأزرار الافتراضية للـ model-viewer */
-model-viewer#robo::part(default-ar-button),
-model-viewer#robo::part(default-progress-bar),
-model-viewer#robo::part(default-ar-prompt),
-model-viewer#robo::part(default-exit-ar-button),
-model-viewer#robo::part(default-ar-instructions) {
-  display: none !important;
-}
-
-#mute-btn {
-  margin-top: 12px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(0, 188, 212, 0.15);
-  border: 2px solid #00acc1;
-  color: #00acc1;
-  font-size: 24px;
-  cursor: pointer;
-  display: none;
-  transition: all 0.3s;
-}
-
-#mute-btn:hover {
-  background: #00acc1;
-  color: white;
-  transform: scale(1.1);
-}
-
-#chat {
-  display: none;
-  width: 340px;
-  background: rgba(255, 255, 255, 0.92); /* خلفية بيضاء شفافة شوية */
-  border-radius: 18px;
-  padding: 16px;
-  box-shadow: 0 8px 35px rgba(0, 150, 200, 0.25);
-  margin-top: 12px;
-  border: 1px solid rgba(0, 188, 212, 0.3);
-}
-
-#current-msg {
-  padding: 12px 16px;
-  border-radius: 16px;
-  background: rgba(0, 188, 212, 0.12);
-  margin-bottom: 12px;
-  transition: opacity 0.4s;
-  color: #004d40;
-}
-
-#current-msg.user-msg {
-  background: #4caf50 !important;
-  color: white;
-}
-
-.typing {
-  font-style: italic;
-  color: #757575;
-  margin: 10px 0;
-}
-
-#inp {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #b0bec5;
-  border-radius: 30px;
-  background: white;
-  color: #333;
-  outline: none;
-  margin-top: 8px;
-}
-
-#mic {
-  width: 100%;
-  margin-top: 10px;
-  padding: 12px;
-  background: #00acc1;
-  color: white;
+#robo-header button {
+  background: none;
   border: none;
-  border-radius: 30px;
-  font-weight: bold;
+  font-size: 28px;
+  color: #000;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-#upload-image {
+#robo-header button:hover {
+  transform: scale(1.2);
+}
+
+/* iframe */
+#robo-popup iframe {
   width: 100%;
-  margin: 12px 0;
-  display: none;
+  height: calc(100% - 50px);
+  border: none;
+  background: transparent;
+  border-radius: 0 0 24px 24px;
 }
 
-#whatsapp-link {
-  display: none;
-  margin-top: 12px;
-  padding: 12px;
-  background: #25D366;
-  color: white;
-  text-align: center;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
+/* زر minimize */
+#robo-minimize {
+  background: none;
+  border: none;
+  font-size: 26px;
+  margin-left: 6px;
+  cursor: pointer;
+  color: #000;
+  transition: transform 0.2s ease;
 }
 
+#robo-minimize:hover {
+  transform: scale(1.2);
+}
+
+/* وضع minimize */
+#robo-popup.minimized {
+  height: 60px !important;
+  overflow: hidden;
+}
+
+/* Mobile */
 @media (max-width: 500px) {
-  model-viewer#robo { width: 180px; height: 180px; }
-  #chat { width: 92vw; }
+  #robo-float-btn {
+    width: 60px;
+    height: 60px;
+    bottom: 15px;
+    right: 15px;
+    font-size: 30px;
+  }
+
+  #robo-popup {
+    width: 92%;
+    height: 80vh;
+    bottom: 90px;
+    right: 4%;
+    border-radius: 20px;
+  }
 }
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================

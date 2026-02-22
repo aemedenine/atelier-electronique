@@ -1590,7 +1590,7 @@ footer {
   cursor: pointer;
   z-index: 999999;
   box-shadow: 0 8px 30px rgba(0, 255, 255, 0.5);
-  transition: all 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   animation: pulse 2s infinite;
 }
 
@@ -1599,13 +1599,14 @@ footer {
   box-shadow: 0 12px 40px rgba(0, 255, 255, 0.8);
 }
 
+/* Animation */
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
-  70% { box-shadow: 0 0 0 15px rgba(0, 255, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+  100% { transform: scale(1); }
 }
 
-/* الـ Popup */
+/* Popup */
 #robo-popup {
   position: fixed;
   bottom: 110px;
@@ -1616,21 +1617,25 @@ footer {
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 15px 60px rgba(0, 255, 255, 0.6);
-  display: none;
+  display: flex;
   flex-direction: column;
   z-index: 999998;
+
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.4s ease;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 #robo-popup.show {
-  display: flex;
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
-/* Header داخل الـ popup */
+/* Header */
 #robo-header {
   height: 50px;
   background: linear-gradient(90deg, #00fff7, #0066ff);
@@ -1640,7 +1645,7 @@ footer {
   padding: 0 18px;
   font-weight: bold;
   color: #000;
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 
 #robo-header button {
@@ -1656,7 +1661,7 @@ footer {
   transform: scale(1.2);
 }
 
-/* iframe داخل الـ popup */
+/* iframe */
 #robo-popup iframe {
   width: 100%;
   height: calc(100% - 50px);
@@ -1664,7 +1669,7 @@ footer {
   background: transparent;
 }
 
-/* Mobile responsive */
+/* Mobile */
 @media (max-width: 500px) {
   #robo-float-btn {
     width: 60px;
@@ -1673,6 +1678,7 @@ footer {
     right: 15px;
     font-size: 30px;
   }
+
   #robo-popup {
     width: 92%;
     height: 80vh;

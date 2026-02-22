@@ -1558,17 +1558,7 @@ footer {
 
 .lang-switch img {
     width: 32px;   /* حجم العلم */
-    height: auto;
-    cursor: pointer;
-    border: 2px solid #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-}
-
-.lang-switch img:hover {
-    transform: scale(1.2);
-#robo-float-btn {
+    height: auto#robo-float-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -1666,23 +1656,17 @@ footer {
     height: 50px;
     font-size: 26px;
   }
-}
-   #robo-frame {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 320px;
-  height: 480px;
-  border: none;
-  background: transparent;
-  z-index: 999999;
-  pointer-events: none; /* نخلي الموقع clickable */
+};
+    cursor: pointer;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
 }
 
-/* نخلي التفاعل كان داخل robo نفسه */
-#robo-frame * {
-  pointer-events: auto;
-}
+.lang-switch img:hover {
+    transform: scale(1.2);
+
 /* ====== نهاية CSS البوكسات الجديدة ====== */
 /* ==========================================================================
    RTL Specific

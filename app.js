@@ -1475,41 +1475,74 @@ if (smdInput) {
         });
     });
 // ===============================
-// Robo Popup Controller - ULTRA
+// Robo Popup Controller - ULTRA PRO
 // ===============================
 
 const roboBtn   = document.getElementById('robo-float-btn');
 const roboPopup = document.getElementById('robo-popup');
 const roboClose = document.getElementById('robo-close');
+const roboMin   = document.getElementById('robo-minimize');
+const roboSound = document.getElementById('robo-sound');
+
+function playSound() {
+  if (!roboSound) return;
+  roboSound.currentTime = 0;
+  roboSound.play();
+}
 
 function openRobo() {
   roboPopup.classList.add('show');
+  roboPopup.classList.remove('minimized');
+  localStorage.setItem('robo_open', '1');
+  playSound();
 }
 
 function closeRobo() {
   roboPopup.classList.remove('show');
+  localStorage.setItem('robo_open', '0');
 }
 
-roboBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  roboPopup.classList.toggle('show');
-});
+function minimizeRobo() {
+  roboPopup.classList.toggle('minimized');
+  localStorage.setItem(
+    'robo_minimized',
+    roboPopup.classList.contains('minimized') ? '1' : '0'
+  );
+}
 
-roboClose.addEventListener('click', (e) => {
+roboBtn.onclick = (e) => {
+  e.stopPropagation();
+  roboPopup.classList.contains('show') ? closeRobo() : openRobo();
+};
+
+roboClose.onclick = (e) => {
   e.stopPropagation();
   closeRobo();
-});
+};
 
-// غلق عند الضغط خارج البوباب
+roboMin.onclick = (e) => {
+  e.stopPropagation();
+  minimizeRobo();
+};
+
 document.addEventListener('click', (e) => {
   if (!roboPopup.contains(e.target) && !roboBtn.contains(e.target)) {
     closeRobo();
   }
 });
 
-// غلق بزر ESC
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeRobo();
+});
+
+// Restore state
+window.addEventListener('load', () => {
+  if (localStorage.getItem('robo_open') === '1') {
+    openRobo();
+  }
+  if (localStorage.getItem('robo_minimized') === '1') {
+    roboPopup.classList.add('minimized');
+  }
 });
     // ── Final Initialization ───────────────────────────────────────────────
     updateWeather();

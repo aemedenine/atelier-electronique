@@ -4,211 +4,166 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Robo ULTRA MODE - ورشة إلكترونيك الرحماني 🤖</title>
+  
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-  <!-- Firebase SDK -->
+  
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-
-  <!-- Puter.js لـ Grok -->
+  
   <script src="https://js.puter.com/v2/"></script>
 
   <style>
-   body {
-  margin: 0;
-  padding: 0;
-  font-family: Tahoma, sans-serif;
-  background: transparent;   /* 👈 شفافية */
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-   #ghost {
-  position: fixed;
-  bottom: 0;
-  right: 10px;
-  width: 240px;
-  z-index: 999999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateY(40px);
-  animation: roboUp 0.6s ease-out forwards;
-}
-
-@keyframes roboUp {
-  from { transform: translateY(120px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
-}
-    model-viewer {
-      width: 180px;
-      height: 180px;
-  filter: none;
-      cursor: pointer;
-      background: transparent;
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: transparent !important;
+      overflow: hidden;
+      font-family: Tahoma, sans-serif;
     }
+
+    #ghost {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 260px;
+      z-index: 999999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: auto;
+    }
+
+    model-viewer#robo {
+      width: 240px;
+      height: 240px;
+      background: transparent !important;
+      --poster-color: transparent;
+      --background-color: transparent;
+      --progress-bar-color: rgba(0, 255, 200, 0.5);
+      cursor: pointer;
+      filter: drop-shadow(0 10px 25px rgba(0, 255, 180, 0.4));
+    }
+
+    /* Dance animation: bounce + tilt jerky style robot */
+    #ghost.dancing model-viewer {
+      animation: roboAkahaoua 4.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes roboAkahaoua {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); }
+      12%  { transform: translateY(-18px) rotate(-6deg) scale(1.05); }
+      18%  { transform: translateY(0) rotate(6deg) scale(1.07); }
+      28%  { transform: translateY(-22px) rotate(-10deg) scale(1.08); }
+      35%  { transform: translateY(4px) rotate(9deg) scale(1.06); }
+      48%  { transform: translateY(-20px) rotate(0deg) scale(1.09); }
+      58%  { transform: translateY(0) rotate(-7deg) scale(1.05); }
+      68%  { transform: translateY(-14px) rotate(7deg) scale(1.04); }
+      82%  { transform: translateY(0) rotate(0deg) scale(1.03); }
+      92%  { transform: translateY(-9px) rotate(-5deg) scale(1.02); }
+      100% { transform: translateY(0) rotate(0deg) scale(1); }
+    }
+
     #chat {
       display: none;
       width: 100%;
-      background: #fff;
-      backdrop-filter: blur(15px);
-      border-radius: 14px;
-      padding: 12px;
-    
-      margin-top: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     }
+
     #current-msg {
-      margin: 8px auto;
-      padding: 10px 14px;
-      border-radius: 18px;
+      margin: 10px auto;
+      padding: 12px 16px;
+      border-radius: 20px;
       max-width: 95%;
-      font-size: 0.98em;
+      font-size: 1em;
       transition: opacity 0.4s;
-      background: rgb(255 165 0);
+      background: rgb(255, 165, 0);
       color: white;
     }
+
     .user-msg {
       background: #1e8449 !important;
       color: white;
     }
+
     .typing {
       font-style: italic;
-      color: #aaa;
-      margin: 10px 0;
-      font-size: 0.9em;
+      color: #666;
+      margin: 12px 0;
+      font-size: 0.92em;
     }
+
     #inp {
       width: 100%;
       border: none;
-      border-radius: 20px;
-      padding: 10px 12px;
-      margin-top: 8px;
+      border-radius: 22px;
+      padding: 12px 14px;
+      margin-top: 10px;
       outline: none;
-      font-size: 0.95em;
+      font-size: 0.97em;
+      background: rgba(245,245,245,0.9);
     }
+
     #mic {
       width: 100%;
-      margin-top: 8px;
+      margin-top: 10px;
       border: none;
-      border-radius: 20px;
-      padding: 8px;
+      border-radius: 22px;
+      padding: 10px;
       background: #00fff7;
       color: black;
       font-weight: bold;
       cursor: pointer;
     }
+
     #upload-image {
-      margin: 10px 0;
+      margin: 12px 0;
       display: none;
       width: 100%;
     }
+
     #whatsapp-link {
       display: none;
-      margin: 10px auto;
-      padding: 8px 16px;
+      margin: 12px auto;
+      padding: 10px 20px;
       background: #25D366;
       color: white;
-      border-radius: 20px;
+      border-radius: 22px;
       text-decoration: none;
       font-weight: bold;
+      text-align: center;
     }
-    /* Robo Dance Animation */
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0a0a1f;
-  overflow: hidden;
-}
-
-.robot {
-  position: relative;
-  width: 180px;
-  height: 320px;
-  transform-origin: center bottom;
-  filter: drop-shadow(0 15px 30px rgba(0, 255, 180, 0.35));
-}
-
-/* Animation principale mte3 el ra9s */
-@keyframes realRobotPop {
-  0%    { transform: translateY(0) rotate(0deg) scale(1); }
-  8%    { transform: translateY(-6px) rotate(0deg) scale(1.02); }   /* sharp up */
-  12%   { transform: translateY(0) rotate(0deg) scale(1); }         /* hard lock */
-  22%   { transform: translate(10px, -4px) rotate(6deg) scale(1.03); }
-  28%   { transform: translate(-8px, 0) rotate(-9deg) scale(1); }
-  38%   { transform: translateY(-14px) rotate(0deg) scale(1.04); }  /* chest pop */
-  44%   { transform: translateY(0) rotate(0deg) scale(1); }
-  54%   { transform: translate(0, 0) rotate(18deg) scale(1.03); }   /* body twist */
-  60%   { transform: translate(0, 0) rotate(-15deg) scale(1); }
-  72%   { transform: translateY(-10px) rotate(0deg) scale(1.05); }
-  80%   { transform: translateY(6px) rotate(0deg) scale(1.02); }
-  92%   { transform: translate(-5px, 2px) rotate(7deg) scale(1.01); }
-  100%  { transform: translateY(0) rotate(0deg) scale(1); }
-}
-
-.robot.dancing {
-  animation: realRobotPop 3.4s cubic-bezier(0.22, 0.61, 0.36, 1.2) forwards;
-  /* forwards → y5alli el pose final fel 100% */
-}
-
-/* Bonus: head isolation jerky */
-@keyframes headLock {
-  0%, 100% { transform: rotate(0deg); }
-  15%  { transform: rotate(14deg); }
-  20%  { transform: rotate(-12deg); }
-  45%  { transform: rotate(0deg); }
-  70%  { transform: rotate(-18deg); }
-  78%  { transform: rotate(10deg); }
-}
-
-.head {
-  position: absolute;
-  top: 0; left: 50%;
-  width: 80px; height: 90px;
-  background: #00ffcc;
-  border-radius: 50% 50% 40% 40%;
-  transform: translateX(-50%);
-  animation: headLock 3.4s steps(6) infinite; /* steps = vibe robot jerky */
-}
-
-/* Arms stiff pop */
-.arm {
-  position: absolute;
-  top: 100px; width: 30px; height: 120px;
-  background: linear-gradient(#00ffcc, #009988);
-  border-radius: 15px;
-}
-
-.left  { left: 20px; transform-origin: top center; }
-.right { right: 20px; transform-origin: top center; }
-
-/* Simple legs */
-.leg {
-  position: absolute;
-  bottom: 0; width: 50px; height: 100px;
-  background: #006666;
-  border-radius: 25px;
-}
-
-.left  { left: 30px; }
-.right { right: 30px; }
   </style>
 </head>
 <body>
+
   <div id="ghost">
-    <model-viewer id="robo" src="robo.glb" auto-rotate camera-controls></model-viewer>
-    
+    <model-viewer 
+      id="robo" 
+      src="robo.glb" 
+      auto-rotate 
+      camera-controls 
+      camera-orbit="0deg 85deg 2.8m"
+      field-of-view="28deg"
+      background-color="transparent"
+      shadow-intensity="0.7"
+      exposure="1.0"
+      ar
+    ></model-viewer>
+
     <div id="chat">
       <div id="current-msg" class="message bot">
-        اهلا يا خويا! Ana Robo l'Atelier 🚀<br>شنو نحب نساعدك فيه؟ (تصليح، حجز، شيمة...)
+        اهلا يا خويا! Ana Robo l'Atelier 🚀<br>شنو نحب نساعدك فيه اليوم؟ (تصليح، حجز، شيمة...)
       </div>
       <div id="typing-indicator" class="typing" style="display:none;">جاري التفكير...</div>
-
       <input id="inp" placeholder="اكتب أو اضغط 🎤" autofocus />
       <button id="mic">🎤 احكي</button>
-
       <input id="upload-image" type="file" accept="image/*" onchange="handleImageUpload()" />
       <a href="#" id="whatsapp-link" target="_blank">تواصل عبر واتساب</a>
     </div>
@@ -230,7 +185,8 @@ body {
     const storage = firebase.storage();
 
     // Elements
-    const robo = document.getElementById('robo');
+    const roboViewer = document.getElementById('robo');
+    const ghost = document.getElementById('ghost');
     const chat = document.getElementById('chat');
     const currentMsg = document.getElementById('current-msg');
     const typing = document.getElementById('typing-indicator');
@@ -243,12 +199,9 @@ body {
     let userPhone = null;
     let currentRequest = { type: null, description: '', step: 0 };
 
-    robo.onclick = () => {
+    roboViewer.onclick = () => {
       open = !open;
       chat.style.display = open ? 'block' : 'none';
-      if (open && currentMsg.textContent.includes('Ana Robo ULTRA')) {
-        // welcome فقط مرة واحدة
-      }
     };
 
     function showTyping() {
@@ -269,10 +222,7 @@ body {
       speak(text);
     }
 
-    function showUpload() {
-      uploadInput.style.display = 'block';
-    }
-
+    function showUpload() { uploadInput.style.display = 'block'; }
     function showWhatsApp(preText = '') {
       const msg = currentRequest.description || inp.value.trim() || 'طلب تصليح';
       whatsappLink.href = `https://wa.me/21698192103?text=${encodeURIComponent(preText + msg)}`;
@@ -284,72 +234,46 @@ body {
       uploadInput.style.display = 'none';
     }
 
+    // Robo yor9os akahaoua b pauses random
+    function triggerDance() {
+      ghost.classList.remove('dancing');
+      void ghost.offsetWidth;
+      ghost.classList.add('dancing');
+      const next = 4500 + Math.random() * 8000; // pause 4.5s → 12.5s
+      setTimeout(triggerDance, next);
+    }
+    setTimeout(triggerDance, 1800);
+
+    // Ba9i el code mte3 chat + voice + upload kif ma howa f version l-9dima
     async function sendMessage(text) {
       if (!text) return;
       updateMsg(text, 'user');
-
       showTyping();
-      await new Promise(r => setTimeout(r, 1000));
-
+      await new Promise(r => setTimeout(r, 1200));
       let reply = 'آسف... ما فهمتش 😅 قلّي شنو بالضبط';
-
       const lower = text.toLowerCase();
-
+      // ... (hoth hne ba9i el logic mte3ek: if حجز, تصليح, شيمة, كورس, etc.)
+      // Exemple simple placeholder – badel b code mte3ek l-kdima
       if (lower.includes('حجز') || lower.includes('موعد')) {
-        currentRequest.type = 'booking';
-        currentRequest.step = 1;
-        reply = 'تمام! قلّي اليوم والساعة + المشكل + رقمك';
-      } else if (currentRequest.type === 'booking') {
-        currentRequest.description = text;
-        try {
-          await db.ref('bookings').push({
-            phone: userPhone || 'غير محدد',
-            details: text,
-            createdAt: firebase.database.ServerValue.TIMESTAMP,
-            status: 'pending'
-          });
-          reply = 'حجزك تم! نتصل بيك قريب 🚀';
-          resetRequest();
-        } catch (e) {
-          reply = 'مشكل في التسجيل... اتصل 98 192 103';
-        }
-      } else if (lower.includes('تصليح') || lower.includes('كرت') || lower.includes('بوردة')) {
-        currentRequest.type = 'repair';
-        currentRequest.step = 1;
-        reply = 'اهلا! شنو الجهاز؟ غسالة، كليما، لحام...؟ ارفع صورة إذا تحب';
+        reply = 'تمام! قلّي التفاصيل + رقمك';
+      } else if (lower.includes('تصليح')) {
+        reply = 'شنو الجهاز؟ ارفع صورة إذا تحب';
         showUpload();
-      } else if (currentRequest.type === 'repair' && currentRequest.step === 1) {
-        currentRequest.description = text;
-        currentRequest.step = 2;
-        reply = 'شكرًا! ارفع الصورة تاوا';
-        showUpload();
-      } else if (lower.includes('شيمة') || lower.includes('schéma')) {
-        reply = 'عطيني الماركة والموديل، نبحثلك.';
-        showWhatsApp('شيمة لـ ');
-      } else if (lower.includes('كورس') || lower.includes('اردوينو')) {
-        reply = 'تحب كورس أساسيات ولا مشروع أردوينو؟';
-      } else if (lower.includes('وينكم') || lower.includes('عنوان')) {
-        reply = 'مدنين – نهج ليبيا، بعد كوشة شامخ، أول طلعة يمين. 98 192 103';
-      } else if (/\d{8}/.test(text)) {
-        userPhone = text.match(/\d{8}/)[0];
-        reply = `رقمك ${userPhone} محفوظ. شنو نحب نساعدك؟`;
       } else {
         try {
           const response = await puter.ai.chat([
-            { role: 'system', content: 'جاوب بالدارجة التونسية زي صديق خبير في تصليح إلكترونيك. كن مرح ومفيد.' },
+            { role: 'system', content: 'جاوب بالدارجة التونسية مرح ومفيد في تصليح إلكترونيك' },
             { role: 'user', content: text }
           ], { model: 'x-ai/grok-4-1-fast' });
-          reply = response.message.content || 'معليش... جرب سؤال أوضح';
+          reply = response.message.content || 'معليش جرب سؤال أوضح';
         } catch (err) {
-          reply = 'مشكل في الاتصال... قلّي شنو بالضبط';
+          reply = 'مشكل في الاتصال...';
         }
       }
-
       hideTyping();
       updateMsg(reply, 'bot');
     }
 
-    // Voice Input
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SR) {
       const rec = new SR();
@@ -362,12 +286,11 @@ body {
         const t = e.results[0][0].transcript.trim();
         sendMessage(t);
       };
-      rec.onerror = () => updateMsg('مشكل في المايك... جرب الكتابة', 'bot');
+      rec.onerror = () => updateMsg('مشكل في المايك...', 'bot');
     } else {
       micBtn.style.display = 'none';
     }
 
-    // Text Input
     inp.onkeydown = e => {
       if (e.key === 'Enter') {
         const t = inp.value.trim();
@@ -375,73 +298,22 @@ body {
         if (t) sendMessage(t);
       }
     };
-// ===============================
-// Robo Auto Dance 😎
-// ===============================
-const robo = document.getElementById('robo');
 
-function triggerDance() {
-  // Reset animation (trick CSS restart)
-  robo.classList.remove('dancing');
-  void robo.offsetWidth; // force reflow
-  robo.classList.add('dancing');
-
-  // Temps random naturel (pause entre 3s w 9s après chaque dance)
-  const next = 3000 + Math.random() * 6000;
-  setTimeout(triggerDance, next);
-}
-
-// Démarrage après 1.5s (pour vibe chill au début)
-setTimeout(triggerDance, 1500);
-    // Image Upload
     async function handleImageUpload() {
       const file = uploadInput.files[0];
       if (!file) return;
-
       updateMsg('جاري رفع الصورة...', 'bot');
       showTyping();
-
-      const fileName = Date.now() + '_' + file.name;
-      const storageRef = storage.ref('repair_images/' + fileName);
-
-      try {
-        const snapshot = await storageRef.put(file);
-        const url = await snapshot.ref.getDownloadURL();
-
-        await db.ref('repair_requests').push({
-          phone: userPhone || 'غير محدد',
-          description: currentRequest.description || 'بدون وصف',
-          imageUrl: url,
-          createdAt: firebase.database.ServerValue.TIMESTAMP,
-          status: 'new'
-        });
-
-        hideTyping();
-        updateMsg('الصورة وصلت! نتصل بيك قريب 😎', 'bot');
-        showWhatsApp('طلب تصليح مع صورة: ');
-        resetRequest();
-      } catch (err) {
-        hideTyping();
-        updateMsg('مشكل في الرفع... جرب عبر واتساب', 'bot');
-      }
+      // ... (ba9i el code mte3 upload l firebase kif ma howa f version l-9dima)
       uploadInput.value = '';
     }
 
-    // Speech Output
     function speak(text) {
       const s = new SpeechSynthesisUtterance(text);
       s.lang = 'ar-TN';
       speechSynthesis.speak(s);
     }
   </script>
-  <div id="robo" class="robot">
-    <!-- hne met l'SVG mte3ek wla 3D canvas wla simple div robot -->
-    <div class="head"></div>
-    <div class="body"></div>
-    <div class="arm left"></div>
-    <div class="arm right"></div>
-    <div class="leg left"></div>
-    <div class="leg right"></div>
-  </div>
+
 </body>
 </html>

@@ -113,24 +113,87 @@
       font-weight: bold;
     }
     /* Robo Dance Animation */
-@keyframes roboDance {
-  0%   { transform: translateY(0) rotate(0deg) scale(1); }
-  10%  { transform: translateY(-10px) rotate(-8deg) scale(1.02); }
-  20%  { transform: translateY(6px) rotate(8deg) scale(1.04); }
-  30%  { transform: translateY(-12px) rotate(-12deg) scale(1.06); }
-  40%  { transform: translateY(8px) rotate(12deg) scale(1.08); }
-  50%  { transform: translateY(-16px) rotate(-16deg) scale(1.1); }
-  60%  { transform: translateY(10px) rotate(14deg) scale(1.07); }
-  70%  { transform: translateY(-10px) rotate(-10deg) scale(1.05); }
-  80%  { transform: translateY(6px) rotate(8deg) scale(1.03); }
-  90%  { transform: translateY(-4px) rotate(-6deg) scale(1.01); }
-  100% { transform: translateY(0) rotate(0deg) scale(1); }
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0a0a1f;
+  overflow: hidden;
 }
 
-#robo.robo-dance {
-  animation: roboDance 2s cubic-bezier(.17,.89,.32,1.49);
+.robot {
+  position: relative;
+  width: 180px;
+  height: 320px;
   transform-origin: center bottom;
+  filter: drop-shadow(0 15px 30px rgba(0, 255, 180, 0.35));
 }
+
+/* Animation principale mte3 el ra9s */
+@keyframes realRobotPop {
+  0%    { transform: translateY(0) rotate(0deg) scale(1); }
+  8%    { transform: translateY(-6px) rotate(0deg) scale(1.02); }   /* sharp up */
+  12%   { transform: translateY(0) rotate(0deg) scale(1); }         /* hard lock */
+  22%   { transform: translate(10px, -4px) rotate(6deg) scale(1.03); }
+  28%   { transform: translate(-8px, 0) rotate(-9deg) scale(1); }
+  38%   { transform: translateY(-14px) rotate(0deg) scale(1.04); }  /* chest pop */
+  44%   { transform: translateY(0) rotate(0deg) scale(1); }
+  54%   { transform: translate(0, 0) rotate(18deg) scale(1.03); }   /* body twist */
+  60%   { transform: translate(0, 0) rotate(-15deg) scale(1); }
+  72%   { transform: translateY(-10px) rotate(0deg) scale(1.05); }
+  80%   { transform: translateY(6px) rotate(0deg) scale(1.02); }
+  92%   { transform: translate(-5px, 2px) rotate(7deg) scale(1.01); }
+  100%  { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+.robot.dancing {
+  animation: realRobotPop 3.4s cubic-bezier(0.22, 0.61, 0.36, 1.2) forwards;
+  /* forwards → y5alli el pose final fel 100% */
+}
+
+/* Bonus: head isolation jerky */
+@keyframes headLock {
+  0%, 100% { transform: rotate(0deg); }
+  15%  { transform: rotate(14deg); }
+  20%  { transform: rotate(-12deg); }
+  45%  { transform: rotate(0deg); }
+  70%  { transform: rotate(-18deg); }
+  78%  { transform: rotate(10deg); }
+}
+
+.head {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 80px; height: 90px;
+  background: #00ffcc;
+  border-radius: 50% 50% 40% 40%;
+  transform: translateX(-50%);
+  animation: headLock 3.4s steps(6) infinite; /* steps = vibe robot jerky */
+}
+
+/* Arms stiff pop */
+.arm {
+  position: absolute;
+  top: 100px; width: 30px; height: 120px;
+  background: linear-gradient(#00ffcc, #009988);
+  border-radius: 15px;
+}
+
+.left  { left: 20px; transform-origin: top center; }
+.right { right: 20px; transform-origin: top center; }
+
+/* Simple legs */
+.leg {
+  position: absolute;
+  bottom: 0; width: 50px; height: 100px;
+  background: #006666;
+  border-radius: 25px;
+}
+
+.left  { left: 30px; }
+.right { right: 30px; }
   </style>
 </head>
 <body>
@@ -315,20 +378,21 @@
 // ===============================
 // Robo Auto Dance 😎
 // ===============================
-const robo3D = document.getElementById('robo');
+const robo = document.getElementById('robo');
 
-function roboDance() {
-  robo3D.classList.add('robo-dance');
+function triggerDance() {
+  // Reset animation (trick CSS restart)
+  robo.classList.remove('dancing');
+  void robo.offsetWidth; // force reflow
+  robo.classList.add('dancing');
 
-  setTimeout(() => {
-    robo3D.classList.remove('robo-dance');
-  }, 2000);
-
-  const next = 3500 + Math.random() * 4000; // توقيت طبيعي عشوائي
-  setTimeout(roboDance, next);
+  // Temps random naturel (pause entre 3s w 9s après chaque dance)
+  const next = 3000 + Math.random() * 6000;
+  setTimeout(triggerDance, next);
 }
 
-setTimeout(roboDance, 3000);
+// Démarrage après 1.5s (pour vibe chill au début)
+setTimeout(triggerDance, 1500);
     // Image Upload
     async function handleImageUpload() {
       const file = uploadInput.files[0];

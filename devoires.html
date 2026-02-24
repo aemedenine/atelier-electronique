@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>📚 مكتبة فروض البكالوريا</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="container header-inner">
+    <img src="logo.png" class="logo">
+    <h1>📚 مكتبة فروض البكالوريا</h1>
+  </div>
+</header>
+
+<main class="container">
+
+<section class="projects-section">
+  <div class="project-box">
+
+    <h2 id="page-title">اختر الشعبة</h2>
+    <p class="box-desc">اضغط على الشعبة لعرض جميع الفروض</p>
+
+    <div class="projects-grid" id="sectionsGrid">
+
+      <div class="project-card" onclick="openSection('technique')">
+        <h3>⚙️ تقنية</h3>
+      </div>
+
+      <div class="project-card" onclick="openSection('informatique')">
+        <h3>💻 إعلامية</h3>
+      </div>
+
+      <div class="project-card" onclick="openSection('maths')">
+        <h3>📐 رياضيات</h3>
+      </div>
+
+      <div class="project-card" onclick="openSection('sciences')">
+        <h3>🧪 علوم</h3>
+      </div>
+
+      <div class="project-card" onclick="openSection('eco_gestion')">
+        <h3>📊 اقتصاد وتصرف</h3>
+      </div>
+
+      <div class="project-card" onclick="openSection('arabia')">
+        <h3>📖 آداب</h3>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const section = params.get("section");
+
+if(section){
+  loadDevoirs(section);
+}
+
+function openSection(sec){
+  window.location.href = "devoires.html?section=" + sec;
+}
+
+function loadDevoirs(sec){
+
+const data = {
+  maths: [
+    {title:"رياضيات 2023", file:"devoires/maths/maths-2023.pdf"},
+    {title:"فيزياء 2022", file:"devoires/maths/physique-2022.pdf"}
+  ],
+  informatique: [
+    {title:"Algorithmique 2023", file:"devoires/informatique/algo-2023.pdf"}
+  ],
+  technique: [
+    {title:"الكترونيات 2023", file:"devoires/technique/electronique-2023.pdf"}
+  ],
+  sciences: [
+    {title:"علوم طبيعية 2023", file:"devoires/sciences/svt-2023.pdf"}
+  ],
+  eco_gestion: [
+    {title:"اقتصاد 2023", file:"devoires/eco_gestion/eco-2023.pdf"}
+  ],
+  arabia: [
+    {title:"فلسفة 2023", file:"devoires/arabia/philo-2023.pdf"}
+  ]
+};
+
+let title = document.getElementById("page-title");
+let grid = document.getElementById("sectionsGrid");
+
+title.innerHTML = "📂 فروض شعبة " + sec;
+grid.innerHTML = "";
+
+data[sec].forEach(d => {
+  grid.innerHTML += `
+    <div class="project-card">
+      <h3>${d.title}</h3>
+      <button class="download-btn" onclick="openPDF('${d.file}')">👁️ مشاهدة</button>
+      <a href="${d.file}" download class="download-btn">📥 تحميل</a>
+    </div>
+  `;
+});
+}
+
+function openPDF(file){
+  window.open(file, "_blank");
+}
+</script>
+
+</body>
+</html>

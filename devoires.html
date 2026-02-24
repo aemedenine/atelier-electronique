@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>📚 مكتبة فروض البكالوريا</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
-
 <body>
 
 <header>
@@ -19,100 +21,122 @@
 <main class="container">
 
 <section class="projects-section">
-  <div class="project-box">
 
+  <div class="project-box">
     <h2 id="page-title">اختر الشعبة</h2>
     <p class="box-desc">اضغط على الشعبة لعرض جميع الفروض</p>
 
     <div class="projects-grid" id="sectionsGrid">
 
-      <div class="project-card" onclick="openSection('technique')">
-        <h3>⚙️ تقنية</h3>
-      </div>
-
-      <div class="project-card" onclick="openSection('informatique')">
-        <h3>💻 إعلامية</h3>
-      </div>
-
-      <div class="project-card" onclick="openSection('maths')">
-        <h3>📐 رياضيات</h3>
-      </div>
-
-      <div class="project-card" onclick="openSection('sciences')">
-        <h3>🧪 علوم</h3>
-      </div>
-
-      <div class="project-card" onclick="openSection('eco_gestion')">
-        <h3>📊 اقتصاد وتصرف</h3>
-      </div>
-
-      <div class="project-card" onclick="openSection('arabia')">
-        <h3>📖 آداب</h3>
-      </div>
+      <div class="project-card" onclick="openSection('technique')"><h3>⚙️ تقنية</h3></div>
+      <div class="project-card" onclick="openSection('informatique')"><h3>💻 إعلامية</h3></div>
+      <div class="project-card" onclick="openSection('maths')"><h3>📐 رياضيات</h3></div>
+      <div class="project-card" onclick="openSection('sciences')"><h3>🧪 علوم</h3></div>
+      <div class="project-card" onclick="openSection('eco_gestion')"><h3>📊 اقتصاد وتصرف</h3></div>
+      <div class="project-card" onclick="openSection('arabia')"><h3>📖 آداب</h3></div>
 
     </div>
 
   </div>
+
+  <!-- 🔍 بحث -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 ابحث عن الفرض أو السنة...">
+  </div>
+
+  <!-- 🗂️ Container for filtered devoirs -->
+  <div class="projects-grid" id="devoirsGrid"></div>
+
 </section>
 
 </main>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const section = params.get("section");
+  // ================= Firebase Config =================
+  const firebaseConfig = {
+    apiKey: "AIzaSy...YOUR_API_KEY",
+    authDomain: "your-app.firebaseapp.com",
+    databaseURL: "https://your-app-default-rtdb.firebaseio.com",
+    projectId: "your-app",
+    storageBucket: "your-app.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abc123"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
 
-if(section){
-  loadDevoirs(section);
-}
+  // ================= بيانات كل الفروض =================
+  const data = {
+    maths: Array.from({length:10}, (_,i)=>({title:`رياضيات 2023-${i+1}`, year:2023, file:`devoires/maths/maths-${i+1}.pdf`, downloads:0})),
+    informatique: Array.from({length:10}, (_,i)=>({title:`Algorithmique 2023-${i+1}`, year:2023, file:`devoires/informatique/algo-${i+1}.pdf`, downloads:0})),
+    technique: Array.from({length:10}, (_,i)=>({title:`الكترونيات 2023-${i+1}`, year:2023, file:`devoires/technique/electronique-${i+1}.pdf`, downloads:0})),
+    sciences: Array.from({length:10}, (_,i)=>({title:`علوم طبيعية 2023-${i+1}`, year:2023, file:`devoires/sciences/svt-${i+1}.pdf`, downloads:0})),
+    eco_gestion: Array.from({length:10}, (_,i)=>({title:`اقتصاد 2023-${i+1}`, year:2023, file:`devoires/eco_gestion/eco-${i+1}.pdf`, downloads:0})),
+    arabia: Array.from({length:10}, (_,i)=>({title:`فلسفة 2023-${i+1}`, year:2023, file:`devoires/arabia/philo-${i+1}.pdf`, downloads:0}))
+  };
 
-function openSection(sec){
-  window.location.href = "devoires.html?section=" + sec;
-}
+  // ================= اختيار الشعبة =================
+  function openSection(sec){
+    window.location.href = "devoires.html?section=" + sec;
+  }
 
-function loadDevoirs(sec){
+  const params = new URLSearchParams(window.location.search);
+  const section = params.get("section");
 
-const data = {
-  maths: [
-    {title:"رياضيات 2023", file:"devoires/maths/maths-2023.pdf"},
-    {title:"فيزياء 2022", file:"devoires/maths/physique-2022.pdf"}
-  ],
-  informatique: [
-    {title:"Algorithmique 2023", file:"devoires/informatique/algo-2023.pdf"}
-  ],
-  technique: [
-    {title:"الكترونيات 2023", file:"devoires/technique/electronique-2023.pdf"}
-  ],
-  sciences: [
-    {title:"علوم طبيعية 2023", file:"devoires/sciences/svt-2023.pdf"}
-  ],
-  eco_gestion: [
-    {title:"اقتصاد 2023", file:"devoires/eco_gestion/eco-2023.pdf"}
-  ],
-  arabia: [
-    {title:"فلسفة 2023", file:"devoires/arabia/philo-2023.pdf"}
-  ]
-};
+  if(section) loadDevoirs(section);
 
-let title = document.getElementById("page-title");
-let grid = document.getElementById("sectionsGrid");
+  function loadDevoirs(sec){
+    document.getElementById("page-title").innerHTML = "📂 فروض شعبة " + sec;
+    const grid = document.getElementById("devoirsGrid");
+    grid.innerHTML = "";
 
-title.innerHTML = "📂 فروض شعبة " + sec;
-grid.innerHTML = "";
+    data[sec].forEach((d, idx) => {
+      const card = document.createElement("div");
+      card.classList.add("project-card");
+      card.innerHTML = `
+        <h3>${d.title} (${d.year})</h3>
+        <button class="download-btn" onclick="viewPDF('${sec}',${idx})">👁️ مشاهدة</button>
+        <a href="${d.file}" download class="download-btn" onclick="incrementDownload('${sec}',${idx})">📥 تحميل</a>
+        <small>⭐ ${d.downloads} تحميلات</small>
+      `;
+      grid.appendChild(card);
+    });
+  }
 
-data[sec].forEach(d => {
-  grid.innerHTML += `
-    <div class="project-card">
-      <h3>${d.title}</h3>
-      <button class="download-btn" onclick="openPDF('${d.file}')">👁️ مشاهدة</button>
-      <a href="${d.file}" download class="download-btn">📥 تحميل</a>
-    </div>
-  `;
-});
-}
+  // ================= مشاهدة PDF =================
+  function viewPDF(sec, idx){
+    const file = data[sec][idx].file;
+    window.open(file, "_blank");
+  }
 
-function openPDF(file){
-  window.open(file, "_blank");
-}
+  // ================= تحميل + Firebase compteur =================
+  function incrementDownload(sec, idx){
+    data[sec][idx].downloads++;
+    const path = `downloads/${sec}-${idx}`;
+    db.ref(path).set(data[sec][idx].downloads);
+    loadDevoirs(sec);
+  }
+
+  // ================= بحث مباشر =================
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", () => {
+    const val = searchInput.value.toLowerCase();
+    const filtered = data[section].filter(d => d.title.toLowerCase().includes(val) || d.year.toString().includes(val));
+    const grid = document.getElementById("devoirsGrid");
+    grid.innerHTML = "";
+    filtered.forEach((d, idx) => {
+      const card = document.createElement("div");
+      card.classList.add("project-card");
+      card.innerHTML = `
+        <h3>${d.title} (${d.year})</h3>
+        <button class="download-btn" onclick="viewPDF('${section}',${idx})">👁️ مشاهدة</button>
+        <a href="${d.file}" download class="download-btn" onclick="incrementDownload('${section}',${idx})">📥 تحميل</a>
+        <small>⭐ ${d.downloads} تحميلات</small>
+      `;
+      grid.appendChild(card);
+    });
+  });
+
 </script>
 
 </body>

@@ -882,8 +882,8 @@ header h1 {
   z-index: 10;
 }
 .user-box:hover {
-  background: #ff9800;
-  box-shadow: 0 0 20px #ff9800;
+  background: #fff;
+  box-shadow: 0 0 20px #fff;
 }
 .welcome-msg {
   font-size: 1.1rem;

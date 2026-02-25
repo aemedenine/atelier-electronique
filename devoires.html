@@ -1,156 +1,359 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>فروض Bac</title>
-<style>
-body{font-family:sans-serif;margin:0;padding:0;background:#f4f4f4}
-header{background:#222;color:#fff;padding:1rem;text-align:center}
-.container{max-width:1200px;margin:auto;padding:1rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
-.card{background:#fff;padding:1rem;border-radius:8px;text-align:center;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
-.devoirs-list{margin-top:1rem;display:none}
-.devoirs-list.active{display:block}
-.devoir-item{background:#fff;padding:0.8rem;margin:0.5rem 0;border-radius:5px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-button,a{margin:0.2rem;padding:0.4rem 0.8rem;border:none;border-radius:5px;text-decoration:none;cursor:pointer}
-button{background:#007bff;color:#fff}
-a{background:#28a745;color:#fff}
-#searchBox{width:100%;padding:0.6rem;margin:1rem 0;border-radius:5px;border:1px solid #ccc}
-.filter-section{margin:1rem 0;text-align:center}
-.filter-section select{padding:0.4rem;margin:0.2rem;border-radius:5px;border:1px solid #ccc}
-.most-downloaded{margin:1rem 0;padding:0.5rem;background:#ffc107;color:#000;border-radius:5px;text-align:center}
-</style>
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>فروض Bac Pro</title>
+  <meta name="description" content="منصة فروض وامتحانات باكالوريا تونس - رياضيات، تقنية، إعلامية وغيرها"/>
+  
+  <!-- Firebase v10+ modular (أحدث وأفضل) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      // حط هنا الـ config الحقيقي تبعك (من Firebase console)
+      apiKey: "AIzaSy...your-real-key",
+      authDomain: "your-project.firebaseapp.com",
+      projectId: "your-project",
+      storageBucket: "your-project.firebasestorage.app",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.db = db; // for dev only — remove in production
+  </script>
+
+  <style>
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #004080;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --gray: #6c757d;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --text: #e0e0e0;
+      --gray: #a0a0a0;
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+    #searchBox {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      font-size: 1.1rem;
+      border: 2px solid #ddd;
+      border-radius: var(--radius);
+      margin: 1.5rem 0;
+      transition: border-color 0.3s;
+    }
+    #searchBox:focus { border-color: var(--primary); outline: none; }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .filters select, .filters button {
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+    }
+    button#themeToggle {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .stats {
+      background: #fff3cd;
+      color: #664d03;
+      padding: 1rem;
+      border-radius: var(--radius);
+      text-align: center;
+      margin: 1rem 0;
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .card {
+      background: var(--card);
+      padding: 1.8rem;
+      border-radius: var(--radius);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+    .devoirs-list { display: none; }
+    .devoirs-list.active { display: block; }
+    .devoir-item {
+      background: var(--card);
+      margin: 0.8rem 0;
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .devoir-item a {
+      background: var(--primary);
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .devoir-item a:hover { background: var(--primary-dark); }
+
+    @media (max-width: 600px) {
+      .devoir-item { flex-direction: column; text-align: center; }
+    }
+  </style>
 </head>
-<body>
+<body data-theme="light">
 
 <header>
-<h1>🎓 فروض Bac</h1>
+  <h1>🎓 فروض Bac Pro</h1>
+  <p>كل فروض الباكالوريا في مكان واحد – تحميل سريع وتصفية ذكية</p>
 </header>
 
-<main class="container">
+<div class="container">
+  <input type="text" id="searchBox" placeholder="ابحث عن فرض معين (اسم، سنة، مادة...) 🔍" />
 
-<input type="text" id="searchBox" placeholder="🔍 ابحث مباشرة باسم الفرض...">
+  <div class="filters">
+    <select id="filterYear">
+      <option value="">السنة الكل</option>
+      <option value="1ere">1ère</option>
+      <option value="2nde">2nde</option>
+    </select>
+    <select id="filterSubject">
+      <option value="">المادة الكل</option>
+      <option value="maths">رياضيات</option>
+      <option value="tech">تقنية</option>
+      <option value="info">إعلامية</option>
+      <option value="sciences">علوم</option>
+      <option value="eco">اقتصاد</option>
+      <option value="arab">آداب</option>
+    </select>
+    <button id="themeToggle">🌙 الوضع الليلي</button>
+  </div>
 
-<div class="filter-section">
-<select id="filterYear">
-  <option value="">الكل حسب السنة</option>
-  <option value="1ere">1ère</option>
-  <option value="2nde">2nde</option>
-</select>
-<select id="filterSubject">
-  <option value="">الكل حسب المادة</option>
-  <option value="maths">رياضيات</option>
-  <option value="tech">تقنية</option>
-  <option value="info">إعلامية</option>
-  <option value="sciences">علوم</option>
-  <option value="eco">اقتصاد وتصرف</option>
-  <option value="arab">آداب</option>
-</select>
+  <div class="stats" id="mostDownloaded">⭐ الأكثر تحميلاً: جاري التحميل...</div>
+
+  <div class="grid" id="sectionsGrid">
+    <!-- البطاقات -->
+  </div>
+
+  <!-- قوائم الفروض -->
+  <div id="tech" class="devoirs-list"></div>
+  <div id="maths" class="devoirs-list"></div>
+  <div id="info" class="devoirs-list"></div>
+  <div id="sciences" class="devoirs-list"></div>
+  <div id="eco" class="devoirs-list"></div>
+  <div id="arab" class="devoirs-list"></div>
 </div>
 
-<div class="most-downloaded" id="mostDownloaded">⭐ الأكثر تحميلاً: -</div>
+<script type="module">
+  // ──────────────────────────────────────────────
+  //  Config & State
+  // ──────────────────────────────────────────────
+  const subjects = ["tech", "maths", "info", "sciences", "eco", "arab"];
+  let allDevoirs = [];
+  let downloadCounts = {};
 
-<div class="grid" id="sectionsGrid">
-  <div class="card" onclick="showDevoirs('tech')">⚙️ تقنية</div>
-  <div class="card" onclick="showDevoirs('maths')">📐 رياضيات</div>
-  <div class="card" onclick="showDevoirs('info')">💻 إعلامية</div>
-  <div class="card" onclick="showDevoirs('sciences')">🧪 علوم</div>
-  <div class="card" onclick="showDevoirs('eco')">📊 اقتصاد وتصرف</div>
-  <div class="card" onclick="showDevoirs('arab')">📖 آداب</div>
-</div>
+  const db = window.db;
 
-<!-- قوائم الفروض لكل شعبة -->
-<div id="tech" class="devoirs-list"></div>
-<div id="maths" class="devoirs-list"></div>
-<div id="info" class="devoirs-list"></div>
-<div id="sciences" class="devoirs-list"></div>
-<div id="eco" class="devoirs-list"></div>
-<div id="arab" class="devoirs-list"></div>
+  // ──────────────────────────────────────────────
+  //  Fetch Data from Firestore (أفضل طريقة)
+  // ──────────────────────────────────────────────
+  async function loadData() {
+    try {
+      const colRef = collection(db, "devoirs");
+      const snapshot = await getDocs(colRef);
+      allDevoirs = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
-</main>
+      // جلب عدد التحميلات
+      const countsSnap = await getDocs(collection(db, "downloads"));
+      countsSnap.forEach(d => {
+        downloadCounts[d.id] = d.data().count || 0;
+      });
 
-<script>
-// Firebase config
-const firebaseConfig = {
-  apiKey: "FAKE-KEY",
-  authDomain: "fake.firebaseapp.com",
-  databaseURL: "https://fake-default-rtdb.firebaseio.com",
-  projectId: "fake",
-  storageBucket: "fake.appspot.com",
-  messagingSenderId: "123",
-  appId: "1:123:web:abc"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+      renderSections();
+      updateMostDownloaded();
+    } catch (e) {
+      console.error("خطأ في جلب البيانات:", e);
+      document.getElementById("mostDownloaded").textContent = "⚠️ خطأ في الاتصال بالخادم";
+    }
+  }
 
-// بيانات الفروض مع السنة والمادة
-const data = {
-  tech:Array.from({length:10},(_,i)=>({title:`تقنية ${i+1}`,file:`devoirs/tech/devoir-${i+1}.pdf`,year:i%2===0?"1ere":"2nde",subject:"tech",downloads:0 })),
-  maths:Array.from({length:10},(_,i)=>({title:`رياضيات ${i+1}`,file:`devoirs/maths/devoir-${i+1}.pdf`,year:i%2===0?"1ere":"2nde",subject:"maths",downloads:0 })),
-  info:Array.from({length:10},(_,i)=>({title:`إعلامية ${i+1}`,file:`devoirs/info/devoir-${i+1}.pdf`,year:i%2===0?"1ere":"2nde",subject:"info",downloads:0 })),
-  sciences:Array.from({length:10},(_,i)=>({title:`علوم ${i+1}`,file:`devoirs/sciences/devoir-${i+1}.pdf`,year:i%2===0?"1ere":"2nde",subject:"sciences",downloads:0 })),
-  eco:Array.from({length:10},(_,i)=>({title:`اقتصاد ${i+1}`,file:`devoirs/eco/devoir-${i+1}.pdf`,year:i%2===0?"1ere":"2nde",subject:"eco",downloads:0 })),
-  arab:Array.from({length:10},(_,i)=>({title:`آداب ${i+1}`,file:`devoirs/arab/devoir-${i+1}.pdf`,year:i%2===0?"1ere":"2nde",subject:"arab",downloads:0 }))
-};
+  function renderSections() {
+    const grid = document.getElementById("sectionsGrid");
+    grid.innerHTML = subjects.map(sub => `
+      <div class="card" data-subject="${sub}" role="button" tabindex="0">
+        ${getEmoji(sub)} ${getSubjectName(sub)}
+      </div>
+    `).join("");
 
-function updateMostDownloaded(){
-  let all = Object.values(data).flat();
-  all.sort((a,b)=>b.downloads-a.downloads);
-  document.getElementById("mostDownloaded").innerText=`⭐ الأكثر تحميلاً: ${all[0].title} (${all[0].downloads})`;
-}
-
-function showDevoirs(section){
-  document.querySelectorAll('.devoirs-list').forEach(div=>div.classList.remove('active'));
-  const container = document.getElementById(section);
-  if(container.innerHTML===""){
-    data[section].forEach((d,i)=>{
-      const div = document.createElement('div');
-      div.className="devoir-item";
-      div.innerHTML=`<h3>${d.title}</h3>
-        <p>السنة: ${d.year} | المادة: ${d.subject}</p>
-        <a href="${d.file}" target="_blank" onclick="incrementDownload('${section}',${i})">📥 تحميل</a>`;
-      container.appendChild(div);
+    // events
+    document.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("click", () => showDevoirs(card.dataset.subject));
+      card.addEventListener("keydown", e => { if (e.key === "Enter") showDevoirs(card.dataset.subject); });
     });
   }
-  container.classList.add('active');
-  filterDevoirs();
-}
 
-function incrementDownload(section,index){
-  data[section][index].downloads++;
-  updateMostDownloaded();
-  // Firebase
-  db.ref(`downloads/${section}/devoir-${index+1}`).set(data[section][index].downloads);
-}
+  function getEmoji(s) {
+    const emojis = { tech:"⚙️", maths:"📐", info:"💻", sciences:"🧪", eco:"📊", arab:"📖" };
+    return emojis[s] || "📄";
+  }
 
-function filterDevoirs(){
-  const year = document.getElementById("filterYear").value;
-  const subject = document.getElementById("filterSubject").value;
-  document.querySelectorAll('.devoirs-list.active .devoir-item').forEach(div=>{
-    const text = div.innerText;
-    let show=true;
-    if(year && !text.includes(year)) show=false;
-    if(subject && !text.includes(subject)) show=false;
-    div.style.display=show?"block":"none";
+  function getSubjectName(s) {
+    const names = { tech:"تقنية", maths:"رياضيات", info:"إعلامية", sciences:"علوم", eco:"اقتصاد", arab:"آداب" };
+    return names[s] || s;
+  }
+
+  // ──────────────────────────────────────────────
+  //  عرض الفروض
+  // ──────────────────────────────────────────────
+  function showDevoirs(subject) {
+    document.querySelectorAll('.devoirs-list').forEach(el => el.classList.remove('active'));
+
+    const container = document.getElementById(subject);
+    if (!container.dataset.loaded) {
+      const filtered = allDevoirs.filter(d => d.subject === subject);
+
+      container.innerHTML = filtered.map(d => {
+        const id = d.id;
+        const downloads = downloadCounts[id] || 0;
+        return `
+          <div class="devoir-item" data-year="${d.year}" data-subject="${d.subject}">
+            <div>
+              <h3>${d.title}</h3>
+              <small>السنة: ${d.year === "1ere" ? "أولى" : "ثانية"} | ${getSubjectName(d.subject)}</small>
+            </div>
+            <a href="${d.file}" target="_blank" rel="noopener noreferrer"
+               onclick="incrementDownload('${id}'); return true;">
+              📥 تحميل (${downloads})
+            </a>
+          </div>
+        `;
+      }).join("");
+      container.dataset.loaded = "true";
+    }
+
+    container.classList.add('active');
+    filterDevoirs();
+  }
+
+  window.incrementDownload = async function(id) {
+    downloadCounts[id] = (downloadCounts[id] || 0) + 1;
+    updateMostDownloaded();
+
+    try {
+      await setDoc(doc(db, "downloads", id), { count: increment(1) }, { merge: true });
+    } catch(e) {
+      console.error("خطأ في تحديث التحميلات", e);
+    }
+  };
+
+  function updateMostDownloaded() {
+    if (allDevoirs.length === 0) return;
+    const top = allDevoirs
+      .map(d => ({ ...d, downloads: downloadCounts[d.id] || 0 }))
+      .sort((a,b) => b.downloads - a.downloads)[0];
+
+    document.getElementById("mostDownloaded").textContent =
+      `⭐ الأكثر تحميلاً: ${top.title} (${top.downloads} تحميل)`;
+  }
+
+  // ──────────────────────────────────────────────
+  //  Filtre & Search
+  // ──────────────────────────────────────────────
+  function filterDevoirs() {
+    const year = document.getElementById("filterYear").value;
+    const subj = document.getElementById("filterSubject").value;
+
+    document.querySelectorAll('.devoirs-list.active .devoir-item').forEach(item => {
+      const matchYear = !year || item.dataset.year === year;
+      const matchSubj = !subj || item.dataset.subject === subj;
+      item.style.display = matchYear && matchSubj ? "" : "none";
+    });
+  }
+
+  let searchTimeout;
+  document.getElementById("searchBox").addEventListener("input", e => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      const val = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('.devoirs-list.active .devoir-item').forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(val) ? "" : "none";
+      });
+    }, 300);
   });
-}
 
-// بحث مباشر
-document.getElementById("searchBox").addEventListener("input",e=>{
-  const val = e.target.value.toLowerCase();
-  document.querySelectorAll('.devoirs-list.active .devoir-item').forEach(div=>{
-    div.style.display = div.innerText.toLowerCase().includes(val)?"block":"none";
+  document.getElementById("filterYear").addEventListener("change", filterDevoirs);
+  document.getElementById("filterSubject").addEventListener("change", filterDevoirs);
+
+  // Dark mode
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    const body = document.body;
+    const current = body.dataset.theme;
+    body.dataset.theme = current === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", body.dataset.theme);
   });
-});
 
-document.getElementById("filterYear").addEventListener("change",filterDevoirs);
-document.getElementById("filterSubject").addEventListener("change",filterDevoirs);
-updateMostDownloaded();
+  // Load saved theme
+  const savedTheme = localStorage.getItem("theme") || "light";
+  document.body.dataset.theme = savedTheme;
+
+  // Start
+  loadData();
 </script>
-
 </body>
 </html>

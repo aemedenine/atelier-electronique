@@ -1004,7 +1004,7 @@ section{
   bottom:0;
   width:100%;
   padding:12px;
-linear-gradient(0deg, rgb(17 171 228 / 96%), #12bd1499)  text-align:center;
+  background:linear-gradient(0deg,rgba(0,0,0,.8),transparent);
   font-weight:800;
   color:#fff;
 }

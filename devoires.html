@@ -1,192 +1,276 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-lang="ar">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>فروض Bac Pro</title>
-  <meta name="description" content="منصة فروض وامتحانات باكالوريا تونس - رياضيات، تقنية، إعلامية وغيرها"/>
-  
-  <!-- Firebase v10+ modular (أحدث وأفضل) -->
+  <title data-key="title">فروض Bac Pro</title>
+  <meta name="description" content="فروض وامتحانات باكالوريا تونس - تحميل سريع، تصفية ذكية، متعدد اللغات"/>
+
+  <!-- Firebase v10 modular -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const firebaseConfig = {
-      // حط هنا الـ config الحقيقي تبعك (من Firebase console)
-      apiKey: "AIzaSy...your-real-key",
+      // ← غير هذا بالـ config الحقيقي تبعك من Firebase Console
+      apiKey: "AIzaSyYOUR_REAL_KEY_HERE",
       authDomain: "your-project.firebaseapp.com",
       projectId: "your-project",
-      storageBucket: "your-project.firebasestorage.app",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef123456"
+      storageBucket: "your-project.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abcdef1234567890"
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    window.db = db; // for dev only — remove in production
+    window.db = getFirestore(app);
   </script>
 
   <style>
     :root {
-      --primary: #0066cc;
-      --primary-dark: #004080;
-      --bg: #f8f9fa;
+      --primary: #6366f1;       /* indigo-500 */
+      --primary-dark: #4f46e5;
+      --bg: #f8fafc;
       --card: #ffffff;
-      --text: #1a1a1a;
-      --gray: #6c757d;
-      --radius: 12px;
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --text: #0f172a;
+      --gray: #64748b;
+      --radius: 16px;
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow: 0 10px 30px rgba(0,0,0,0.1);
+      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6);
     }
 
     [data-theme="dark"] {
-      --bg: #121212;
-      --card: #1e1e1e;
-      --text: #e0e0e0;
-      --gray: #a0a0a0;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --gray: #94a3b8;
     }
 
-    * { box-sizing:border-box; margin:0; padding:0; }
+    [dir="ltr"] { direction: ltr; text-align: left; }
+    [dir="rtl"] { direction: rtl; text-align: right; }
+
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      line-height: 1.6;
+      transition: background 0.4s, color 0.4s;
     }
+
     header {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background: var(--gradient);
       color: white;
-      padding: 2.5rem 1rem;
+      padding: 3rem 1rem 2rem;
       text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      position: relative;
     }
-    .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+    .lang-toggle {
+      position: absolute;
+      top: 1.2rem;
+      inset-inline-end: 1.2rem;
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(8px);
+      padding: 0.5rem;
+      border-radius: 999px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .lang-btn {
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .lang-btn.active {
+      background: white;
+      color: var(--primary-dark);
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
     #searchBox {
       width: 100%;
-      padding: 0.9rem 1.2rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      display: block;
+      padding: 1rem 1.5rem;
       font-size: 1.1rem;
-      border: 2px solid #ddd;
+      border: 2px solid #e2e8f0;
       border-radius: var(--radius);
-      margin: 1.5rem 0;
-      transition: border-color 0.3s;
+      background: var(--card);
+      box-shadow: var(--shadow-sm);
+      transition: border 0.3s, box-shadow 0.3s;
     }
-    #searchBox:focus { border-color: var(--primary); outline: none; }
+
+    #searchBox:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.15);
+      outline: none;
+    }
 
     .filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
       justify-content: center;
+      gap: 1rem;
       margin: 1.5rem 0;
     }
+
     .filters select, .filters button {
-      padding: 0.7rem 1.2rem;
+      padding: 0.8rem 1.4rem;
       font-size: 1rem;
       border-radius: var(--radius);
-      border: 1px solid #ccc;
+      border: 1px solid #e2e8f0;
       background: var(--card);
       color: var(--text);
       cursor: pointer;
+      min-width: 160px;
     }
-    button#themeToggle {
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin: 1.5rem auto;
+      padding: 0.9rem 1.8rem;
       background: var(--primary);
       color: white;
       border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
     }
 
-    .stats {
-      background: #fff3cd;
-      color: #664d03;
-      padding: 1rem;
-      border-radius: var(--radius);
-      text-align: center;
-      margin: 1rem 0;
-      font-weight: bold;
-    }
+    .home-btn:hover { transform: translateY(-2px); background: var(--primary-dark); }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+      margin: 2.5rem 0;
     }
+
     .card {
       background: var(--card);
-      padding: 1.8rem;
       border-radius: var(--radius);
+      padding: 2rem 1.5rem;
       text-align: center;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.35s ease;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(4px);
     }
+
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
-    .devoirs-list { display: none; }
+
+    .emoji { font-size: 3rem; margin-bottom: 1rem; display: block; }
+
+    .devoirs-list { display: none; padding: 2rem 0; }
     .devoirs-list.active { display: block; }
+
     .devoir-item {
       background: var(--card);
-      margin: 0.8rem 0;
-      padding: 1.2rem;
+      margin: 1.2rem 0;
+      padding: 1.5rem;
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1.5rem;
       flex-wrap: wrap;
-      gap: 1rem;
     }
-    .devoir-item a {
+
+    .devoir-info h3 { margin-bottom: 0.4rem; }
+    .devoir-info small { color: var(--gray); }
+
+    .download-btn {
       background: var(--primary);
       color: white;
-      padding: 0.6rem 1.4rem;
+      padding: 0.8rem 1.6rem;
       border-radius: 999px;
       text-decoration: none;
-      font-weight: 500;
-      transition: background 0.2s;
+      font-weight: 600;
+      transition: all 0.25s;
+      white-space: nowrap;
     }
-    .devoir-item a:hover { background: var(--primary-dark); }
 
-    @media (max-width: 600px) {
+    .download-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
+
+    .most-downloaded {
+      background: rgba(99,102,241,0.1);
+      color: var(--primary-dark);
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      text-align: center;
+      font-weight: 700;
+      margin: 2rem 0;
+      border: 1px solid rgba(99,102,241,0.2);
+    }
+
+    @media (max-width: 640px) {
       .devoir-item { flex-direction: column; text-align: center; }
+      .filters { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
-<body data-theme="light">
+<body>
 
 <header>
-  <h1>🎓 فروض Bac Pro</h1>
-  <p>كل فروض الباكالوريا في مكان واحد – تحميل سريع وتصفية ذكية</p>
+  <h1 data-key="header">🎓 فروض Bac Pro</h1>
+  <p data-key="subtitle">منصة فروض الباكالوريا التونسية – تحميل سريع، متعدد اللغات</p>
+
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="ar">عربي</button>
+    <button class="lang-btn" data-lang="fr">Fr</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
 </header>
 
 <div class="container">
-  <input type="text" id="searchBox" placeholder="ابحث عن فرض معين (اسم، سنة، مادة...) 🔍" />
+
+  <input type="text" id="searchBox" data-key-placeholder="searchPlaceholder" placeholder="ابحث عن فرض (مادة، سنة، عنوان...) 🔍" />
 
   <div class="filters">
     <select id="filterYear">
-      <option value="">السنة الكل</option>
-      <option value="1ere">1ère</option>
-      <option value="2nde">2nde</option>
+      <option value="" data-key="allYears">السنة الكل</option>
+      <option value="1ere" data-key="1ere">1ère</option>
+      <option value="2nde" data-key="2nde">2nde</option>
     </select>
+
     <select id="filterSubject">
-      <option value="">المادة الكل</option>
-      <option value="maths">رياضيات</option>
-      <option value="tech">تقنية</option>
-      <option value="info">إعلامية</option>
-      <option value="sciences">علوم</option>
-      <option value="eco">اقتصاد</option>
-      <option value="arab">آداب</option>
+      <option value="" data-key="allSubjects">المادة الكل</option>
+      <option value="maths" data-key="maths">رياضيات</option>
+      <option value="tech" data-key="tech">تقنية</option>
+      <option value="info" data-key="info">إعلامية</option>
+      <option value="sciences" data-key="sciences">علوم</option>
+      <option value="eco" data-key="eco">اقتصاد</option>
+      <option value="arab" data-key="arab">آداب</option>
     </select>
-    <button id="themeToggle">🌙 الوضع الليلي</button>
   </div>
 
-  <div class="stats" id="mostDownloaded">⭐ الأكثر تحميلاً: جاري التحميل...</div>
+  <div class="most-downloaded" id="mostDownloaded">⭐ الأكثر تحميلاً: جاري التحميل...</div>
 
-  <div class="grid" id="sectionsGrid">
-    <!-- البطاقات -->
-  </div>
+  <div class="grid" id="sectionsGrid"></div>
+
+  <button class="home-btn" id="homeBtn" style="display:none;">
+    ← العودة للرئيسية
+  </button>
 
   <!-- قوائم الفروض -->
   <div id="tech" class="devoirs-list"></div>
@@ -195,164 +279,222 @@
   <div id="sciences" class="devoirs-list"></div>
   <div id="eco" class="devoirs-list"></div>
   <div id="arab" class="devoirs-list"></div>
+
 </div>
 
 <script type="module">
-  // ──────────────────────────────────────────────
-  //  Config & State
-  // ──────────────────────────────────────────────
+  const db = window.db;
   const subjects = ["tech", "maths", "info", "sciences", "eco", "arab"];
   let allDevoirs = [];
   let downloadCounts = {};
 
-  const db = window.db;
+  // الترجمات
+  const translations = {
+    ar: {
+      title: "فروض Bac Pro",
+      header: "🎓 فروض Bac Pro",
+      subtitle: "منصة فروض الباكالوريا التونسية – تحميل سريع، متعدد اللغات",
+      searchPlaceholder: "ابحث عن فرض (مادة، سنة، عنوان...) 🔍",
+      allYears: "السنة الكل",
+      allSubjects: "المادة الكل",
+      1ere: "1ère",
+      2nde: "2nde",
+      maths: "رياضيات",
+      tech: "تقنية",
+      info: "إعلامية",
+      sciences: "علوم",
+      eco: "اقتصاد",
+      arab: "آداب"
+    },
+    fr: {
+      title: "Devoirs Bac Pro",
+      header: "🎓 Devoirs Bac Pro",
+      subtitle: "Plateforme des devoirs du bac tunisien – Téléchargement rapide, multilingue",
+      searchPlaceholder: "Rechercher un devoir (matière, année, titre...) 🔍",
+      allYears: "Toutes les années",
+      allSubjects: "Toutes les matières",
+      1ere: "1ère",
+      2nde: "2nde",
+      maths: "Mathématiques",
+      tech: "Technique",
+      info: "Informatique",
+      sciences: "Sciences",
+      eco: "Économie",
+      arab: "Lettres"
+    },
+    en: {
+      title: "Bac Pro Exams",
+      header: "🎓 Bac Pro Exams",
+      subtitle: "Tunisian Baccalaureate exam resources – Fast download, multilingual",
+      searchPlaceholder: "Search for an exam (subject, year, title...) 🔍",
+      allYears: "All Years",
+      allSubjects: "All Subjects",
+      1ere: "1st Year",
+      2nde: "2nd Year",
+      maths: "Mathematics",
+      tech: "Technical",
+      info: "Computer Science",
+      sciences: "Sciences",
+      eco: "Economics",
+      arab: "Literature"
+    }
+  };
 
-  // ──────────────────────────────────────────────
-  //  Fetch Data from Firestore (أفضل طريقة)
-  // ──────────────────────────────────────────────
+  let currentLang = localStorage.getItem("lang") || "ar";
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem("lang", lang);
+
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
+    document.documentElement.dataset.lang = lang;
+
+    document.querySelectorAll("[data-key]").forEach(el => {
+      const key = el.dataset.key;
+      if (translations[lang][key]) el.textContent = translations[lang][key];
+    });
+
+    document.querySelectorAll("[data-key-placeholder]").forEach(el => {
+      const key = el.dataset.keyPlaceholder;
+      if (translations[lang][key]) el.placeholder = translations[lang][key];
+    });
+
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.lang === lang);
+    });
+
+    // إعادة عرض إذا كان قسم مفتوح
+    const activeList = document.querySelector('.devoirs-list.active');
+    if (activeList) filterDevoirs();
+  }
+
+  // ─── Load Data from Firestore ───
   async function loadData() {
     try {
       const colRef = collection(db, "devoirs");
-      const snapshot = await getDocs(colRef);
-      allDevoirs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const snap = await getDocs(colRef);
+      allDevoirs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-      // جلب عدد التحميلات
       const countsSnap = await getDocs(collection(db, "downloads"));
-      countsSnap.forEach(d => {
-        downloadCounts[d.id] = d.data().count || 0;
-      });
+      countsSnap.forEach(d => { downloadCounts[d.id] = d.data().count || 0; });
 
-      renderSections();
+      renderHome();
       updateMostDownloaded();
-    } catch (e) {
-      console.error("خطأ في جلب البيانات:", e);
-      document.getElementById("mostDownloaded").textContent = "⚠️ خطأ في الاتصال بالخادم";
+    } catch(e) {
+      console.error(e);
+      document.getElementById("mostDownloaded").textContent = "⚠️ خطأ في تحميل البيانات";
     }
   }
 
-  function renderSections() {
+  function renderHome() {
     const grid = document.getElementById("sectionsGrid");
-    grid.innerHTML = subjects.map(sub => `
-      <div class="card" data-subject="${sub}" role="button" tabindex="0">
-        ${getEmoji(sub)} ${getSubjectName(sub)}
+    grid.innerHTML = subjects.map(s => `
+      <div class="card" data-subject="${s}" role="button" tabindex="0">
+        <span class="emoji">${getEmoji(s)}</span>
+        <h2>${getSubjectName(s)}</h2>
       </div>
     `).join("");
 
-    // events
-    document.querySelectorAll(".card").forEach(card => {
-      card.addEventListener("click", () => showDevoirs(card.dataset.subject));
-      card.addEventListener("keydown", e => { if (e.key === "Enter") showDevoirs(card.dataset.subject); });
+    document.querySelectorAll(".card").forEach(c => {
+      c.onclick = () => showDevoirs(c.dataset.subject);
+      c.onkeydown = e => { if(e.key==="Enter") showDevoirs(c.dataset.subject); };
     });
   }
 
   function getEmoji(s) {
-    const emojis = { tech:"⚙️", maths:"📐", info:"💻", sciences:"🧪", eco:"📊", arab:"📖" };
-    return emojis[s] || "📄";
+    return {tech:"⚙️",maths:"📐",info:"💻",sciences:"🧪",eco:"📊",arab:"📖"}[s] || "📝";
   }
 
   function getSubjectName(s) {
-    const names = { tech:"تقنية", maths:"رياضيات", info:"إعلامية", sciences:"علوم", eco:"اقتصاد", arab:"آداب" };
-    return names[s] || s;
+    return translations[currentLang][s] || s;
   }
 
-  // ──────────────────────────────────────────────
-  //  عرض الفروض
-  // ──────────────────────────────────────────────
   function showDevoirs(subject) {
-    document.querySelectorAll('.devoirs-list').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.devoirs-list').forEach(el=>el.classList.remove('active'));
+    document.getElementById("sectionsGrid").style.display = "none";
+    document.getElementById("homeBtn").style.display = "block";
 
     const container = document.getElementById(subject);
     if (!container.dataset.loaded) {
       const filtered = allDevoirs.filter(d => d.subject === subject);
-
       container.innerHTML = filtered.map(d => {
-        const id = d.id;
-        const downloads = downloadCounts[id] || 0;
+        const dl = downloadCounts[d.id] || 0;
         return `
           <div class="devoir-item" data-year="${d.year}" data-subject="${d.subject}">
-            <div>
+            <div class="devoir-info">
               <h3>${d.title}</h3>
-              <small>السنة: ${d.year === "1ere" ? "أولى" : "ثانية"} | ${getSubjectName(d.subject)}</small>
+              <small>${translations[currentLang][d.year === "1ere" ? "1ere" : "2nde"]} • ${getSubjectName(d.subject)}</small>
             </div>
-            <a href="${d.file}" target="_blank" rel="noopener noreferrer"
-               onclick="incrementDownload('${id}'); return true;">
-              📥 تحميل (${downloads})
+            <a href="${d.file}" target="_blank" class="download-btn"
+               onclick="incrementDownload('${d.id}');">
+              📥 ${translations[currentLang].download || "Télécharger"} (${dl})
             </a>
           </div>
         `;
       }).join("");
       container.dataset.loaded = "true";
     }
-
     container.classList.add('active');
     filterDevoirs();
   }
 
-  window.incrementDownload = async function(id) {
+  window.incrementDownload = async (id) => {
     downloadCounts[id] = (downloadCounts[id] || 0) + 1;
     updateMostDownloaded();
-
     try {
       await setDoc(doc(db, "downloads", id), { count: increment(1) }, { merge: true });
-    } catch(e) {
-      console.error("خطأ في تحديث التحميلات", e);
-    }
+    } catch(e){}
   };
 
   function updateMostDownloaded() {
-    if (allDevoirs.length === 0) return;
-    const top = allDevoirs
-      .map(d => ({ ...d, downloads: downloadCounts[d.id] || 0 }))
-      .sort((a,b) => b.downloads - a.downloads)[0];
+    if (!allDevoirs.length) return;
+    const top = [...allDevoirs]
+      .map(d => ({...d, downloads: downloadCounts[d.id]||0}))
+      .sort((a,b)=>b.downloads - a.downloads)[0];
 
     document.getElementById("mostDownloaded").textContent =
-      `⭐ الأكثر تحميلاً: ${top.title} (${top.downloads} تحميل)`;
+      `⭐ ${translations[currentLang].mostDownloaded || "Most Downloaded"}: ${top.title} (${top.downloads})`;
   }
 
-  // ──────────────────────────────────────────────
-  //  Filtre & Search
-  // ──────────────────────────────────────────────
   function filterDevoirs() {
     const year = document.getElementById("filterYear").value;
     const subj = document.getElementById("filterSubject").value;
 
     document.querySelectorAll('.devoirs-list.active .devoir-item').forEach(item => {
-      const matchYear = !year || item.dataset.year === year;
-      const matchSubj = !subj || item.dataset.subject === subj;
-      item.style.display = matchYear && matchSubj ? "" : "none";
+      const y = item.dataset.year === year || !year;
+      const s = item.dataset.subject === subj || !subj;
+      item.style.display = y && s ? "" : "none";
     });
   }
 
-  let searchTimeout;
-  document.getElementById("searchBox").addEventListener("input", e => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
+  let searchTimer;
+  document.getElementById("searchBox").oninput = e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
       const val = e.target.value.toLowerCase().trim();
       document.querySelectorAll('.devoirs-list.active .devoir-item').forEach(item => {
         item.style.display = item.textContent.toLowerCase().includes(val) ? "" : "none";
       });
-    }, 300);
+    }, 280);
+  };
+
+  document.getElementById("filterYear").onchange = filterDevoirs;
+  document.getElementById("filterSubject").onchange = filterDevoirs;
+
+  document.getElementById("homeBtn").onclick = () => {
+    document.querySelectorAll('.devoirs-list').forEach(el=>el.classList.remove('active'));
+    document.getElementById("sectionsGrid").style.display = "grid";
+    document.getElementById("homeBtn").style.display = "none";
+  };
+
+  // Language switch
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.onclick = () => setLanguage(btn.dataset.lang);
   });
 
-  document.getElementById("filterYear").addEventListener("change", filterDevoirs);
-  document.getElementById("filterSubject").addEventListener("change", filterDevoirs);
-
-  // Dark mode
-  document.getElementById("themeToggle").addEventListener("click", () => {
-    const body = document.body;
-    const current = body.dataset.theme;
-    body.dataset.theme = current === "dark" ? "light" : "dark";
-    localStorage.setItem("theme", body.dataset.theme);
-  });
-
-  // Load saved theme
-  const savedTheme = localStorage.getItem("theme") || "light";
-  document.body.dataset.theme = savedTheme;
-
-  // Start
+  // Init
+  setLanguage(currentLang);
   loadData();
 </script>
 </body>

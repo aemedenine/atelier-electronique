@@ -533,8 +533,31 @@ function safeUpdateVisitText() {
     visitEl.textContent = translations[currentLang]
         .visit_count.replace('{count1}', total);
 }
+/* Info Bar Short Live */
+// 💱 TND Live Currency Ticker
+async function updateExchangeTicker() {
+    try{
+        const res = await fetch('https://api.exchangerate.host/latest?base=TND&symbols=USD,EUR,SAR,LYD,DZD,MAD,EGP');
+        const data = await res.json();
+        const rates = data.rates;
 
+        const ticker = document.getElementById('exchange-ticker');
+        ticker.innerHTML = Object.entries(rates)
+            .map(([cur,val])=>`<span>${cur}: ${val.toFixed(3)}</span>`)
+            .join('  •  ');
 
+        // إعادة تشغيل animation عند كل تحديث
+        ticker.style.animation = 'none';
+        void ticker.offsetWidth;
+        ticker.style.animation = '';
+    }catch(e){
+        console.error("Exchange ticker error:", e);
+    }
+}
+
+// تحديث live كل دقيقة
+updateExchangeTicker();
+setInterval(updateExchangeTicker,60*1000);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

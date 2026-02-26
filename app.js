@@ -603,9 +603,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateNews, 5000);
     }
 // ==========================================================================
-// International News Bar - ULTRA PRO MODE 🌍
+// International News Bar - FINAL CLEAN VERSION 🌍
 // ==========================================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadInternationalNews();
+});
+
 function loadInternationalNews() {
+    console.log("🔥 International News Init");
+
     let bar = document.getElementById('international-news-bar');
 
     if (!bar) {
@@ -617,17 +624,18 @@ function loadInternationalNews() {
                 <span id="intl-flag">🌍</span>
                 <span id="intl-title">International News</span>
             </div>
-            <div class="news-text scrolling-news" id="intl-news-text"></div>
+            <div class="news-text" id="intl-news-text">Loading...</div>
         `;
 
-        const firstTicker = document.querySelector('.news-ticker');
-        if (firstTicker) {
-            firstTicker.insertAdjacentElement('afterend', bar);
-        } else {
-            document.body.prepend(bar);
-        }
-    } // ←←← الغلطة كانت هنا: } ناقصة
+        // نحطّو مباشرة في أعلى الصفحة (مضمون)
+        document.body.insertBefore(bar, document.body.firstChild);
+    }
 
+    updateIntlHeader();
+    fetchInternationalNews();
+}
+
+function updateIntlHeader() {
     const flag = document.getElementById('intl-flag');
     const title = document.getElementById('intl-title');
 
@@ -639,9 +647,10 @@ function loadInternationalNews() {
 
     flag.textContent = labels[currentLang]?.flag || '🌍';
     title.textContent = labels[currentLang]?.title || 'International News';
+}
 
+function fetchInternationalNews() {
     const container = document.getElementById('intl-news-text');
-    container.innerHTML = translations[currentLang]?.news_loading || 'Loading news...';
 
     const rss = {
         ar: [
@@ -659,17 +668,51 @@ function loadInternationalNews() {
     };
 
     const sources = rss[currentLang] || rss.ar;
-    const cacheKey = `intlNews_${currentLang}`;
-    const cacheTime = localStorage.getItem(cacheKey + '_time');
+    loadFromSources(sources, 0);
+}
 
-    if (cacheTime && Date.now() - cacheTime < 25 * 60 * 1000) {
-        const cached = JSON.parse(localStorage.getItem(cacheKey));
-        renderNews(cached);
+function loadFromSources(sources, index) {
+    if (index >= sources.length) {
+        document.getElementById('intl-news-text').textContent =
+            currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية' :
+            currentLang === 'fr' ? '⚠️ Erreur de chargement des actualités' :
+            '⚠️ Failed to load international news';
         return;
     }
 
-    fetchSequential(sources, 0, cacheKey);
+    console.log("🌍 Fetch:", sources[index]);
+
+    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(sources[index])}`)
+        .then(res => res.text())
+        .then(str => new DOMParser().parseFromString(str, "text/xml"))
+        .then(data => {
+            const items = data.querySelectorAll('item');
+            if (!items.length) throw "empty";
+
+            const news = [...items].slice(0, 8).map(item => ({
+                title: item.querySelector('title')?.textContent || '',
+                link: item.querySelector('link')?.textContent || '#'
+            }));
+
+            renderInternationalNews(news);
+        })
+        .catch(() => loadFromSources(sources, index + 1));
 }
+
+function renderInternationalNews(news) {
+    const container = document.getElementById('intl-news-text');
+    container.innerHTML = news.map(n =>
+        `<a href="${n.link}" target="_blank" class="intl-news-item">${n.title}</a>`
+    ).join('');
+}
+
+// عند تغيير اللغة
+const oldApplyLanguage = applyLanguage;
+applyLanguage = (lang) => {
+    oldApplyLanguage(lang);
+    updateIntlHeader();
+    fetchInternationalNews();
+};
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

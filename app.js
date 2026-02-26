@@ -622,10 +622,7 @@ function initInternationalNewsBar() {
     bar.id = 'international-news-bar';
     bar.className = 'international-news';
     bar.innerHTML = `
-        <div class="intl-header">
-            <span id="intl-flag">🌍</span>
-            <span id="intl-title">أخبار دولية</span>
-        </div>
+    
         <div class="news-text" id="intl-news-text">
             ${translations[currentLang]?.news_loading || 'جاري تحميل الأخبار الدولية...'}
         </div>

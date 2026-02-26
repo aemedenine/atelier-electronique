@@ -603,32 +603,42 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateNews, 5000);
     }
 // ==========================================================================
-// International News Bar - FINAL CLEAN VERSION 🌍
+// International News Bar - VERSION FINALE PROPRE ET STABLE (2026)
 // ==========================================================================
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadInternationalNews();
-});
+// نضيف هذه الدالة في نهاية DOMContentLoaded أو نربطها بـ applyLanguage
+function initInternationalNewsBar() {
+    console.log("International News Bar → Initialisation");
 
-function loadInternationalNews() {
-    console.log("🔥 International News Init");
+    // إذا كان البار موجود من قبل → نحذفه باش نعاود بناءه نظيف
+    let existingBar = document.getElementById('international-news-bar');
+    if (existingBar) existingBar.remove();
 
-    let bar = document.getElementById('international-news-bar');
+    const bar = document.createElement('div');
+    bar.id = 'international-news-bar';
+    bar.className = 'international-news';
+    bar.innerHTML = `
+        <div class="intl-header">
+            <span id="intl-flag">🌍</span>
+            <span id="intl-title">أخبار دولية</span>
+        </div>
+        <div class="news-text" id="intl-news-text">
+            ${translations[currentLang]?.news_loading || 'جاري تحميل الأخبار الدولية...'}
+        </div>
+    `;
 
-    if (!bar) {
-        bar = document.createElement('div');
-        bar.id = 'international-news-bar';
-        bar.className = 'international-news';
-        bar.innerHTML = `
-            <div class="intl-header">
-                <span id="intl-flag">🌍</span>
-                <span id="intl-title">International News</span>
-            </div>
-            <div class="news-text" id="intl-news-text">Loading...</div>
-        `;
-
-        // نحطّو مباشرة في أعلى الصفحة (مضمون)
-        document.body.insertBefore(bar, document.body.firstChild);
+    // ==========================================================================
+    // مكان الإدراج الأمثل: بعد الـ header مباشرة (الأكثر أماناً في موقعك)
+    // ==========================================================================
+    const header = document.querySelector('header');
+    if (header) {
+        header.insertAdjacentElement('afterend', bar);
+        console.log("→ البار تم إدراجه بعد الـ header");
+    } else {
+        // fallback: أول العنصر الرئيسي أو body
+        const main = document.querySelector('main') || document.body;
+        main.insertAdjacentElement('afterbegin', bar);
+        console.log("→ fallback: البار تم إدراجه في البداية");
     }
 
     updateIntlHeader();
@@ -636,83 +646,107 @@ function loadInternationalNews() {
 }
 
 function updateIntlHeader() {
-    const flag = document.getElementById('intl-flag');
-    const title = document.getElementById('intl-title');
+    const flagEl = document.getElementById('intl-flag');
+    const titleEl = document.getElementById('intl-title');
+    if (!flagEl || !titleEl) return;
 
     const labels = {
         ar: { flag: '🌍', title: 'أخبار دولية' },
-        fr: { flag: '🇫🇷', title: 'Actualités Internationales' },
-        en: { flag: '🇬🇧', title: 'International News' }
+        fr: { flag: '🌐', title: 'Actualités Internationales' },
+        en: { flag: '🌍', title: 'International News' }
     };
 
-    flag.textContent = labels[currentLang]?.flag || '🌍';
-    title.textContent = labels[currentLang]?.title || 'International News';
+    const lbl = labels[currentLang] || labels.ar;
+    flagEl.textContent = lbl.flag;
+    titleEl.textContent = lbl.title;
 }
 
 function fetchInternationalNews() {
-    const container = document.getElementById('intl-news-text');
+    const textContainer = document.getElementById('intl-news-text');
+    if (!textContainer) return;
 
-    const rss = {
-        ar: [
-            'https://feeds.bbci.co.uk/arabic/rss.xml',
-            'https://www.aljazeera.net/xml/rss/all.xml'
-        ],
-        fr: [
-            'https://www.france24.com/fr/rss',
-            'https://www.lemonde.fr/rss/une.xml'
-        ],
-        en: [
-            'https://feeds.bbci.co.uk/news/rss.xml',
-            'https://www.reuters.com/arc/outboundfeeds/rss/?outputType=xml'
-        ]
+    // مصادر RSS موثوقة ومستقرة
+    const rssFeeds = {
+        ar: 'https://feeds.bbci.co.uk/arabic/rss.xml',           // BBC Arabic – مستقر جداً
+        fr: 'https://www.france24.com/fr/rss',                   // France 24
+        en: 'https://feeds.bbci.co.uk/news/rss.xml'              // BBC World – الأفضل
     };
 
-    const sources = rss[currentLang] || rss.ar;
-    loadFromSources(sources, 0);
+    const feedUrl = rssFeeds[currentLang] || rssFeeds.ar;
+
+    // نستعمل proxy موثوق (codetabs أحياناً أفضل من allorigins في 2025/2026)
+    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}`;
+
+    console.log("جاري جلب الأخبار من:", feedUrl);
+
+    fetch(proxyUrl)
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(xmlText => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+            const items = xmlDoc.querySelectorAll('item');
+
+            if (items.length === 0) {
+                throw new Error("No items found in RSS");
+            }
+
+            const newsItems = Array.from(items)
+                .slice(0, 7) // نأخذ 7 أخبار فقط
+                .map(item => {
+                    const title = item.querySelector('title')?.textContent?.trim() || 'بدون عنوان';
+                    const link = item.querySelector('link')?.textContent || '#';
+                    return { title, link };
+                });
+
+            renderIntlNews(newsItems);
+        })
+        .catch(error => {
+            console.error("خطأ في جلب الأخبار الدولية:", error);
+            textContainer.innerHTML =
+                currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية حالياً' :
+                currentLang === 'fr' ? '⚠️ Impossible de charger les actualités internationales' :
+                '⚠️ Unable to load international news right now';
+        });
 }
 
-function loadFromSources(sources, index) {
-    if (index >= sources.length) {
-        document.getElementById('intl-news-text').textContent =
-            currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية' :
-            currentLang === 'fr' ? '⚠️ Erreur de chargement des actualités' :
-            '⚠️ Failed to load international news';
+function renderIntlNews(newsArray) {
+    const container = document.getElementById('intl-news-text');
+    if (!container) return;
+
+    if (newsArray.length === 0) {
+        container.textContent = 'لا توجد أخبار متاحة حالياً';
         return;
     }
 
-    console.log("🌍 Fetch:", sources[index]);
+    container.innerHTML = newsArray
+        .map(item => `<a href="${item.link}" target="_blank" rel="noopener" class="intl-news-item">${item.title}</a>`)
+        .join('  •  ');
 
-    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(sources[index])}`)
-        .then(res => res.text())
-        .then(str => new DOMParser().parseFromString(str, "text/xml"))
-        .then(data => {
-            const items = data.querySelectorAll('item');
-            if (!items.length) throw "empty";
-
-            const news = [...items].slice(0, 8).map(item => ({
-                title: item.querySelector('title')?.textContent || '',
-                link: item.querySelector('link')?.textContent || '#'
-            }));
-
-            renderInternationalNews(news);
-        })
-        .catch(() => loadFromSources(sources, index + 1));
+    // نعطي animation خفيف بعد التحميل
+    container.style.opacity = '0';
+    setTimeout(() => {
+        container.style.transition = 'opacity 1.2s ease';
+        container.style.opacity = '1';
+    }, 100);
 }
 
-function renderInternationalNews(news) {
-    const container = document.getElementById('intl-news-text');
-    container.innerHTML = news.map(n =>
-        `<a href="${n.link}" target="_blank" class="intl-news-item">${n.title}</a>`
-    ).join('');
-}
+// ==========================================================================
+// ربط مع تغيير اللغة (الأهم)
+// ==========================================================================
+const originalApplyLanguage = applyLanguage;
 
-// عند تغيير اللغة
-const oldApplyLanguage = applyLanguage;
-applyLanguage = (lang) => {
-    oldApplyLanguage(lang);
-    updateIntlHeader();
-    fetchInternationalNews();
+applyLanguage = function(lang) {
+    originalApplyLanguage(lang);
+    // نحدّث البار كاملاً عند تغيير اللغة
+    initInternationalNewsBar();
 };
+
+// إذا كنت تنادي applyLanguage في البداية، البار سيظهر تلقائياً
+// إذا ما كانش، أضف هذا السطر في نهاية DOMContentLoaded:
+// initInternationalNewsBar();
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

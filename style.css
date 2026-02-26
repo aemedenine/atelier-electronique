@@ -156,13 +156,8 @@ header h1 {
     color: #e0f2fe;
 }
 
-#intl-flag {
-    font-size: 1.4rem;
-}
-
-#intl-title {
-    letter-spacing: 0.8px;
-}
+#intl-flag { font-size: 1.4rem; }
+#intl-title { letter-spacing: 0.8px; }
 
 #intl-news-text {
     padding: 12px 20px;
@@ -186,20 +181,17 @@ header h1 {
     text-shadow: 0 0 12px rgba(254, 240, 138, 0.7);
 }
 
-/* التمرير */
 @keyframes scrollIntlNews {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-100%); }
 }
 
-/* الخلفية المتحركة */
 @keyframes gradientFlowIntl {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* موبايل – أبطأ شوية عشان ما يتعبش العين */
 @media (max-width: 768px) {
     #intl-news-text {
         animation-duration: 70s;

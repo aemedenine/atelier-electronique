@@ -103,49 +103,50 @@ header h1 {
   100% { transform: rotate(360deg); }
 }
 /* ==========================================================================
-   News Ticker
+   News Ticker (الأول)
    ========================================================================== */
 .news-ticker {
   width: 100%;
   overflow: hidden;
   background: linear-gradient(90deg, #0c65e0a3, #0d34d3b8, #130480, #0a33dafc, #1337de);
   background-size: 300% 100%;
-  animation: gradientFlow 22s ease infinite; /* نفس سرعة ونوع الـ animation اللي في FAQ */
+  animation: gradientFlowTicker 22s ease infinite;
   color: white;
   white-space: nowrap;
   font-weight: 700;
   padding: 12px 0;
-  margin-bottom: 25px;
+  margin-bottom: 14px;
   font-size: 1.1rem;
   text-align: center;
   z-index: 10;
   box-shadow: 0 4px 15px rgba(20,184,166,0.35);
-  border-radius: 0 0 12px 12px; /* شوية انحناء تحت عشان يبقى أنيق */
+  border-radius: 0 0 12px 12px;
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
-/* نفس الـ keyframes اللي مستعمل في wave-header */
-@keyframes gradientFlow {
+@keyframes gradientFlowTicker {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
 /* ==========================================================================
-   International News Bar - ULTRA STYLE
+   International News Bar - ULTRA STYLE (الثاني)
    ========================================================================== */
 
 .international-news {
     background: linear-gradient(270deg, #020617, #1e3a8a, #2563eb, #020617);
     background-size: 400% 400%;
-    animation: gradientFlow 22s ease infinite;
+    animation: gradientFlowIntl 22s ease infinite;
     border-radius: 14px;
-    margin: 12px 0 28px;
+    margin: 0 0 28px;
     box-shadow: 0 0 25px rgba(37,99,235,0.5);
     overflow: hidden;
     color: #fff;
 }
 
-.intl-header {
+/* الهيدر الصغير */
+.international-news .intl-header {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -164,38 +165,41 @@ header h1 {
     letter-spacing: 1px;
 }
 
-.news-text {
+/* النص المتحرّك – مربوط فقط بالبار الثاني */
+#international-news-bar .news-text {
     display: inline-flex;
     gap: 70px;
     padding: 12px 10px;
-    animation: scrollNews 60s linear infinite;
+    animation: scrollNewsIntl 60s linear infinite;
+    white-space: nowrap;
 }
 
-.intl-news-item {
+#international-news-bar .intl-news-item {
     color: #fff;
     text-decoration: none;
     font-weight: 500;
     transition: 0.3s;
 }
 
-.intl-news-item:hover {
+#international-news-bar .intl-news-item:hover {
     color: #fde68a;
     text-shadow: 0 0 10px rgba(253,230,138,0.8);
 }
 
-@keyframes scrollNews {
+/* أنيميشن خاص بالبار الثاني فقط */
+@keyframes scrollNewsIntl {
     from { transform: translateX(100%); }
     to   { transform: translateX(-100%); }
 }
 
-@keyframes gradientFlow {
+@keyframes gradientFlowIntl {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
 @media (max-width: 768px) {
-    .news-text {
+    #international-news-bar .news-text {
         animation-duration: 80s;
     }
 }

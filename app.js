@@ -605,7 +605,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================================
 // International News Bar - ULTRA PRO MODE 🌍
 // ==========================================================================
-
 function loadInternationalNews() {
     let bar = document.getElementById('international-news-bar');
 
@@ -623,10 +622,11 @@ function loadInternationalNews() {
 
         const firstTicker = document.querySelector('.news-ticker');
         if (firstTicker) {
-   firstTicker.insertAdjacentElement('afterend', bar);
-} else {
-   document.body.prepend(bar);
-}
+            firstTicker.insertAdjacentElement('afterend', bar);
+        } else {
+            document.body.prepend(bar);
+        }
+    } // ←←← الغلطة كانت هنا: } ناقصة
 
     const flag = document.getElementById('intl-flag');
     const title = document.getElementById('intl-title');
@@ -669,46 +669,6 @@ function loadInternationalNews() {
     }
 
     fetchSequential(sources, 0, cacheKey);
-}
-
-function fetchSequential(sources, index, cacheKey) {
-    if (index >= sources.length) {
-        document.getElementById('intl-news-text').innerHTML =
-            currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية' :
-            currentLang === 'fr' ? '⚠️ Erreur chargement news internationales' :
-            '⚠️ Failed loading international news';
-        return;
-    }
-
-    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(sources[index])}`)
-        .then(res => res.text())
-        .then(str => new DOMParser().parseFromString(str, "text/xml"))
-        .then(data => {
-            const items = [...data.querySelectorAll('item')].slice(0, 8);
-
-            if (!items.length) throw 'Empty';
-
-            const news = items.map(item => ({
-                title: item.querySelector('title')?.textContent || '',
-                link: item.querySelector('link')?.textContent || '#',
-                date: item.querySelector('pubDate')?.textContent || ''
-            }));
-
-            localStorage.setItem(cacheKey, JSON.stringify(news));
-            localStorage.setItem(cacheKey + '_time', Date.now());
-
-            renderNews(news);
-        })
-        .catch(() => fetchSequential(sources, index + 1, cacheKey));
-}
-
-function renderNews(news) {
-    const container = document.getElementById('intl-news-text');
-    container.innerHTML = news.map(n =>
-        `<a href="${n.link}" target="_blank" class="intl-news-item">
-            ${n.title}
-        </a>`
-    ).join('');
 }
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {

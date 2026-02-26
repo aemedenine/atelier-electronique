@@ -534,6 +534,21 @@ function safeUpdateVisitText() {
         .visit_count.replace('{count1}', total);
 }
 /* Info Bar Short Live */
+// ⏰ الوقت live
+function updateTime() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('time-display').textContent = `🕒 ${h}:${m}:${s}`;
+}
+setInterval(updateTime,1000);
+updateTime();
+
+// 👥 عدد الزوار ثابت
+let visitorCount = 1234; // مثال
+document.getElementById('visitor-count').textContent = `👥 ${visitorCount}`;
+
 // 💱 TND Live Currency Ticker
 async function updateExchangeTicker() {
     try{

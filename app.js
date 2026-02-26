@@ -694,10 +694,6 @@ function refreshIntlBar(items) {
     bar.id = 'international-news-bar';
     bar.className = 'international-news';
     bar.innerHTML = `
-        <div class="intl-header">
-            <span id="intl-flag">${currentLang === 'ar' ? '🌍' : currentLang === 'fr' ? '🌐' : '🌍'}</span>
-            <span id="intl-title">${currentLang === 'ar' ? 'أخبار دولية' : currentLang === 'fr' ? 'Actualités Internationales' : 'International News'}</span>
-        </div>
         <div class="news-text" id="intl-news-text">
             ${items.map(i => `<a href="${i.link}" target="_blank" class="intl-news-item">${i.title}</a>`).join('  •  ')}
         </div>

@@ -103,7 +103,7 @@ header h1 {
   100% { transform: rotate(360deg); }
 }
 /* ==========================================================================
-   News Ticker (الأول)
+   News Ticker (الأول) – Bar Atelier
    ========================================================================== */
 .news-ticker {
   width: 100%;
@@ -115,12 +115,12 @@ header h1 {
   white-space: nowrap;
   font-weight: 700;
   padding: 12px 0;
-  margin-bottom: 14px;
+  margin-bottom: 0 !important; /* التصاق مباشر بالبار الثاني */
   font-size: 1.1rem;
   text-align: center;
   z-index: 10;
   box-shadow: 0 4px 15px rgba(20,184,166,0.35);
-  border-radius: 0 0 12px 12px;
+  border-radius: 0 0 12px 12px; /* الانحناء من الأسفل فقط */
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
@@ -135,13 +135,14 @@ header h1 {
    ========================================================================== */
 #international-news-bar {
     width: 100%;
-    margin: 12px 0 28px;
-    border-radius: 12px;
+    margin: 0 0 28px; /* التصاق بالبار الأول */
+    border-radius: 0 0 12px 12px; /* الانحناء من الأسفل فقط */
     overflow: hidden;
     box-shadow: 0 4px 18px rgba(30, 58, 138, 0.35);
     background: linear-gradient(90deg, #0f172a, #1e40af, #3b82f6, #1e40af, #0f172a);
     background-size: 300% 100%;
     animation: gradientFlowIntl 18s ease infinite;
+    border-top: 1px solid rgba(255,255,255,0.12); /* خط فاصل بسيط */
 }
 
 #international-news-bar .intl-header {

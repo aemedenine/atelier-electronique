@@ -602,7 +602,109 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         setInterval(updateNews, 5000);
     }
+// ==========================================================================
+// International News Bar (RSS) – متعدد اللغات
+// ==========================================================================
+function loadInternationalNews() {
+    const newsContainer = document.createElement('div');
+    newsContainer.id = 'international-news-bar';
+    newsContainer.className = 'international-news';
+    newsContainer.innerHTML = `<div class="news-text" id="intl-news-text">${translations[currentLang]?.news_loading || 'Loading international news...'}</div>`;
+    
+    // إدراج البار الجديد تحت الـ ticker الأول
+    const firstTicker = document.querySelector('.news-ticker');
+    if (firstTicker) {
+        firstTicker.insertAdjacentElement('afterend', newsContainer);
+    } else {
+        document.body.prepend(newsContainer);
+    }
 
+    const rssSources = {
+        ar: [
+            'https://feeds.bbci.co.uk/arabic/rss.xml',
+            'https://www.aljazeera.net/xml/rss/all.xml'
+        ],
+        fr: [
+            'https://www.france24.com/fr/rss',
+            'https://www.lemonde.fr/rss/une.xml'
+        ],
+        en: [
+            'https://feeds.bbci.co.uk/news/rss.xml',
+            'https://www.reuters.com/arc/outboundfeeds/rss/?outputType=xml'
+        ]
+    };
+
+    const selectedSources = rssSources[currentLang] || rssSources.ar;
+    const cacheKey = `intlNews_${currentLang}`;
+    const cacheTime = localStorage.getItem(`${cacheKey}_time`);
+    const now = Date.now();
+
+    // Cache صالح 25 دقيقة
+    if (cacheTime && now - parseInt(cacheTime) < 25 * 60 * 1000) {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+            renderNews(JSON.parse(cached));
+            return;
+        }
+    }
+
+    // جلب من أول مصدر (نختار أول رابط ناجح)
+    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(selectedSources[0])}`)
+        .then(res => {
+            if (!res.ok) throw new Error('RSS fetch failed');
+            return res.text();
+        })
+        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+        .then(data => {
+            const items = data.querySelectorAll('item');
+            const newsList = [];
+            
+            items.forEach((item, index) => {
+                if (index >= 7) return; // حد أقصى 7 أخبار
+                const title = item.querySelector('title')?.textContent || '';
+                const link = item.querySelector('link')?.textContent || '#';
+                const pubDate = item.querySelector('pubDate')?.textContent || '';
+                const date = pubDate ? new Date(pubDate).toLocaleDateString(currentLang === 'ar' ? 'ar-TN' : currentLang) : '';
+
+                newsList.push({ title, link, date });
+            });
+
+            localStorage.setItem(cacheKey, JSON.stringify(newsList));
+            localStorage.setItem(`${cacheKey}_time`, now);
+
+            renderNews(newsList);
+        })
+        .catch(err => {
+            console.error('International news error:', err);
+            document.getElementById('intl-news-text').textContent = 
+                currentLang === 'ar' ? '⚠️ مشكلة في تحميل الأخبار الدولية' :
+                currentLang === 'fr' ? '⚠️ Problème de chargement des news internationales' :
+                '⚠️ Failed to load international news';
+        });
+}
+
+function renderNews(newsList) {
+    const container = document.getElementById('intl-news-text');
+    if (!container || !newsList.length) return;
+
+    let html = '';
+    newsList.forEach(n => {
+        html += `
+            <a href="${n.link}" target="_blank" rel="noopener noreferrer" class="intl-news-item">
+                ${n.date ? `<small>${n.date} – </small>` : ''}${n.title}
+            </a>
+        `;
+    });
+
+    container.innerHTML = html;
+    container.classList.add('scrolling-news');
+}
+
+// أضف هذا في نهاية applyLanguage() أيضاً
+applyLanguage = (lang) => {
+    // ... الكود القديم ...
+    loadInternationalNews();
+};
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

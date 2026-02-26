@@ -533,46 +533,37 @@ function safeUpdateVisitText() {
     visitEl.textContent = translations[currentLang]
         .visit_count.replace('{count1}', total);
 }
-/* Info Bar Short Live */
-// ⏰ الوقت live
-function updateTime() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2,'0');
-    const m = String(now.getMinutes()).padStart(2,'0');
-    const s = String(now.getSeconds()).padStart(2,'0');
-    document.getElementById('time-display').textContent = `🕒 ${h}:${m}:${s}`;
-}
-setInterval(updateTime,1000);
-updateTime();
-
-// 👥 عدد الزوار ثابت
-let visitorCount = 1234; // مثال
-document.getElementById('visitor-count').textContent = `👥 ${visitorCount}`;
-
-// 💱 TND Live Currency Ticker
+    /* Info Bar Short Live */
+// 💱 Live Currency TND – فقط الوسط ticker
 async function updateExchangeTicker() {
-    try{
+    try {
+        // جلب العملات مقابل الدينار التونسي
         const res = await fetch('https://api.exchangerate.host/latest?base=TND&symbols=USD,EUR,SAR,LYD,DZD,MAD,EGP');
         const data = await res.json();
         const rates = data.rates;
 
+        // إدراج الأسعار داخل العنصر الوسط اللي عندك
         const ticker = document.getElementById('exchange-ticker');
+        if (!ticker) return;
+
         ticker.innerHTML = Object.entries(rates)
-            .map(([cur,val])=>`<span>${cur}: ${val.toFixed(3)}</span>`)
+            .map(([cur, val]) => `<span>${cur}: ${val.toFixed(3)}</span>`)
             .join('  •  ');
 
         // إعادة تشغيل animation عند كل تحديث
         ticker.style.animation = 'none';
-        void ticker.offsetWidth;
+        void ticker.offsetWidth; // force reflow
         ticker.style.animation = '';
-    }catch(e){
+    } catch (e) {
         console.error("Exchange ticker error:", e);
+        const ticker = document.getElementById('exchange-ticker');
+        if(ticker) ticker.innerHTML = '⚠️ خطأ في تحميل أسعار الصرف';
     }
 }
 
 // تحديث live كل دقيقة
 updateExchangeTicker();
-setInterval(updateExchangeTicker,60*1000);
+setInterval(updateExchangeTicker, 60*1000);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

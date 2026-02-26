@@ -130,6 +130,56 @@ header h1 {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+/* International News Bar – البار الثاني */
+.international-news {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa);
+    background-size: 300% 100%;
+    animation: gradientFlow 28s ease infinite;
+    color: white;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 10px 0;
+    margin: 12px 0 25px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 3px 12px rgba(30,58,138,0.4);
+    z-index: 9;
+}
+
+#intl-news-text {
+    display: inline-flex;
+    gap: 60px;
+    animation: scrollNews 60s linear infinite;
+}
+
+.intl-news-item {
+    color: white;
+    text-decoration: none;
+    padding: 0 30px;
+    transition: color 0.3s;
+}
+
+.intl-news-item:hover {
+    color: #ffebc6;
+    text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+
+.scrolling-news {
+    animation: scrollNews 55s linear infinite;
+}
+
+@keyframes scrollNews {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* للموبايل – نجعل السرعة أبطأ شوية */
+@media (max-width: 768px) {
+    #intl-news-text {
+        animation-duration: 75s;
+    }
+}
 /* ==========================================================================
    Info Bar
    ========================================================================== */

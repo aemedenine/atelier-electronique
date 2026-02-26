@@ -630,10 +630,6 @@ function showPlaceholderIntl() {
     bar.id = 'international-news-bar';
     bar.className = 'international-news';
     bar.innerHTML = `
-        <div class="intl-header">
-            <span id="intl-flag">🌍</span>
-            <span id="intl-title">${currentLang === 'ar' ? 'أخبار دولية' : currentLang === 'fr' ? 'Actualités Internationales' : 'International News'}</span>
-        </div>
         <div class="news-text" id="intl-news-text">
             <a href="#" class="intl-news-item">${currentLang === 'ar' ? '⏳ جاري تحميل الأخبار الدولية...' : currentLang === 'fr' ? '⏳ Chargement des news internationales...' : '⏳ Loading international news...'}</a>
         </div>

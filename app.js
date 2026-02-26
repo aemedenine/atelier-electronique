@@ -622,8 +622,11 @@ function loadInternationalNews() {
         `;
 
         const firstTicker = document.querySelector('.news-ticker');
-        firstTicker?.insertAdjacentElement('afterend', bar);
-    }
+        if (firstTicker) {
+   firstTicker.insertAdjacentElement('afterend', bar);
+} else {
+   document.body.prepend(bar);
+}
 
     const flag = document.getElementById('intl-flag');
     const title = document.getElementById('intl-title');

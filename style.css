@@ -131,18 +131,18 @@ header h1 {
 }
 
 /* ==========================================================================
-   International News Bar – نسخة 2026 مستقرة وجميلة
+   International News Bar – Rouge Clair Version
    ========================================================================== */
 #international-news-bar {
     width: 100%;
-    margin: 0 0 28px; /* التصاق بالبار الأول */
-    border-radius: 0 0 12px 12px; /* الانحناء من الأسفل فقط */
+    margin: 0 0 28px; /* التصاق مباشر بالبار الأول */
+    border-radius: 0 0 12px 12px;
     overflow: hidden;
-    box-shadow: 0 4px 18px rgba(30, 58, 138, 0.35);
-    background: linear-gradient(90deg, #0f172a, #1e40af, #3b82f6, #1e40af, #0f172a);
+    box-shadow: 0 4px 18px rgba(200, 50, 50, 0.35);
+    background: linear-gradient(90deg, #f87171, #fca5a5, #f87171, #fca5a5, #f87171);
     background-size: 300% 100%;
     animation: gradientFlowIntl 18s ease infinite;
-    border-top: 1px solid rgba(255,255,255,0.12); /* خط فاصل بسيط */
+    border-top: 1px solid rgba(255,255,255,0.12); /* خط فاصل خفيف */
 }
 
 #international-news-bar .intl-header {
@@ -150,11 +150,11 @@ header h1 {
     align-items: center;
     gap: 12px;
     padding: 10px 18px;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(255,255,255,0.15);
     font-weight: 700;
     font-size: 1.05rem;
-    color: #e0f2fe;
+    color: #fff5f5;
 }
 
 #intl-flag { font-size: 1.4rem; }
@@ -162,7 +162,7 @@ header h1 {
 
 #intl-news-text {
     padding: 12px 20px;
-    color: #f0f9ff;
+    color: #fff5f5;
     font-size: 1.05rem;
     white-space: nowrap;
     overflow: hidden;
@@ -172,14 +172,14 @@ header h1 {
 }
 
 .intl-news-item {
-    color: #dbeafe;
+    color: #ffe4e6;
     text-decoration: none;
     transition: all 0.28s ease;
 }
 
 .intl-news-item:hover {
-    color: #fef08a;
-    text-shadow: 0 0 12px rgba(254, 240, 138, 0.7);
+    color: #fffacd;
+    text-shadow: 0 0 12px rgba(255, 250, 205, 0.7);
 }
 
 @keyframes scrollIntlNews {

@@ -130,54 +130,73 @@ header h1 {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-/* International News Bar – البار الثاني */
+/* ==========================================================================
+   International News Bar - ULTRA STYLE
+   ========================================================================== */
+
 .international-news {
-    width: 100%;
+    background: linear-gradient(270deg, #020617, #1e3a8a, #2563eb, #020617);
+    background-size: 400% 400%;
+    animation: gradientFlow 22s ease infinite;
+    border-radius: 14px;
+    margin: 12px 0 28px;
+    box-shadow: 0 0 25px rgba(37,99,235,0.5);
     overflow: hidden;
-    background: linear-gradient(90deg, #1e3a8a, #3b82f6, #60a5fa);
-    background-size: 300% 100%;
-    animation: gradientFlow 28s ease infinite;
-    color: white;
-    white-space: nowrap;
-    font-weight: 600;
-    padding: 10px 0;
-    margin: 12px 0 25px;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 3px 12px rgba(30,58,138,0.4);
-    z-index: 9;
+    color: #fff;
 }
 
-#intl-news-text {
+.intl-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.05);
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#intl-flag {
+    font-size: 20px;
+}
+
+#intl-title {
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.news-text {
     display: inline-flex;
-    gap: 60px;
+    gap: 70px;
+    padding: 12px 10px;
     animation: scrollNews 60s linear infinite;
 }
 
 .intl-news-item {
-    color: white;
+    color: #fff;
     text-decoration: none;
-    padding: 0 30px;
-    transition: color 0.3s;
+    font-weight: 500;
+    transition: 0.3s;
 }
 
 .intl-news-item:hover {
-    color: #ffebc6;
-    text-shadow: 0 0 8px rgba(255,255,255,0.8);
-}
-
-.scrolling-news {
-    animation: scrollNews 55s linear infinite;
+    color: #fde68a;
+    text-shadow: 0 0 10px rgba(253,230,138,0.8);
 }
 
 @keyframes scrollNews {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    from { transform: translateX(100%); }
+    to   { transform: translateX(-100%); }
 }
 
-/* للموبايل – نجعل السرعة أبطأ شوية */
+@keyframes gradientFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 @media (max-width: 768px) {
-    #intl-news-text {
-        animation-duration: 75s;
+    .news-text {
+        animation-duration: 80s;
     }
 }
 /* ==========================================================================

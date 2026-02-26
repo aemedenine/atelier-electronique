@@ -139,7 +139,7 @@ header h1 {
     border-radius: 0 0 12px 12px;
     overflow: hidden;
     box-shadow: 0 4px 18px rgba(200, 50, 50, 0.35);
-    background: linear-gradient(90deg, #f87171, #fca5a5, #f87171, #fca5a5, #f87171);
+    background: linear-gradient(90deg, #ee0909, #e03d3d, #b40404, #ad1919, #b40448);
     background-size: 300% 100%;
     animation: gradientFlowIntl 18s ease infinite;
     border-top: 1px solid rgba(255,255,255,0.12); /* خط فاصل خفيف */

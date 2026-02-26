@@ -603,23 +603,44 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateNews, 5000);
     }
 // ==========================================================================
-// International News Bar (RSS) – متعدد اللغات
+// International News Bar - ULTRA PRO MODE 🌍
 // ==========================================================================
+
 function loadInternationalNews() {
-    const newsContainer = document.createElement('div');
-    newsContainer.id = 'international-news-bar';
-    newsContainer.className = 'international-news';
-    newsContainer.innerHTML = `<div class="news-text" id="intl-news-text">${translations[currentLang]?.news_loading || 'Loading international news...'}</div>`;
-    
-    // إدراج البار الجديد تحت الـ ticker الأول
-    const firstTicker = document.querySelector('.news-ticker');
-    if (firstTicker) {
-        firstTicker.insertAdjacentElement('afterend', newsContainer);
-    } else {
-        document.body.prepend(newsContainer);
+    let bar = document.getElementById('international-news-bar');
+
+    if (!bar) {
+        bar = document.createElement('div');
+        bar.id = 'international-news-bar';
+        bar.className = 'international-news';
+        bar.innerHTML = `
+            <div class="intl-header">
+                <span id="intl-flag">🌍</span>
+                <span id="intl-title">International News</span>
+            </div>
+            <div class="news-text scrolling-news" id="intl-news-text"></div>
+        `;
+
+        const firstTicker = document.querySelector('.news-ticker');
+        firstTicker?.insertAdjacentElement('afterend', bar);
     }
 
-    const rssSources = {
+    const flag = document.getElementById('intl-flag');
+    const title = document.getElementById('intl-title');
+
+    const labels = {
+        ar: { flag: '🌍', title: 'أخبار دولية' },
+        fr: { flag: '🇫🇷', title: 'Actualités Internationales' },
+        en: { flag: '🇬🇧', title: 'International News' }
+    };
+
+    flag.textContent = labels[currentLang]?.flag || '🌍';
+    title.textContent = labels[currentLang]?.title || 'International News';
+
+    const container = document.getElementById('intl-news-text');
+    container.innerHTML = translations[currentLang]?.news_loading || 'Loading news...';
+
+    const rss = {
         ar: [
             'https://feeds.bbci.co.uk/arabic/rss.xml',
             'https://www.aljazeera.net/xml/rss/all.xml'
@@ -634,77 +655,58 @@ function loadInternationalNews() {
         ]
     };
 
-    const selectedSources = rssSources[currentLang] || rssSources.ar;
+    const sources = rss[currentLang] || rss.ar;
     const cacheKey = `intlNews_${currentLang}`;
-    const cacheTime = localStorage.getItem(`${cacheKey}_time`);
-    const now = Date.now();
+    const cacheTime = localStorage.getItem(cacheKey + '_time');
 
-    // Cache صالح 25 دقيقة
-    if (cacheTime && now - parseInt(cacheTime) < 25 * 60 * 1000) {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-            renderNews(JSON.parse(cached));
-            return;
-        }
+    if (cacheTime && Date.now() - cacheTime < 25 * 60 * 1000) {
+        const cached = JSON.parse(localStorage.getItem(cacheKey));
+        renderNews(cached);
+        return;
     }
 
-    // جلب من أول مصدر (نختار أول رابط ناجح)
-    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(selectedSources[0])}`)
-        .then(res => {
-            if (!res.ok) throw new Error('RSS fetch failed');
-            return res.text();
-        })
-        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+    fetchSequential(sources, 0, cacheKey);
+}
+
+function fetchSequential(sources, index, cacheKey) {
+    if (index >= sources.length) {
+        document.getElementById('intl-news-text').innerHTML =
+            currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية' :
+            currentLang === 'fr' ? '⚠️ Erreur chargement news internationales' :
+            '⚠️ Failed loading international news';
+        return;
+    }
+
+    fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(sources[index])}`)
+        .then(res => res.text())
+        .then(str => new DOMParser().parseFromString(str, "text/xml"))
         .then(data => {
-            const items = data.querySelectorAll('item');
-            const newsList = [];
-            
-            items.forEach((item, index) => {
-                if (index >= 7) return; // حد أقصى 7 أخبار
-                const title = item.querySelector('title')?.textContent || '';
-                const link = item.querySelector('link')?.textContent || '#';
-                const pubDate = item.querySelector('pubDate')?.textContent || '';
-                const date = pubDate ? new Date(pubDate).toLocaleDateString(currentLang === 'ar' ? 'ar-TN' : currentLang) : '';
+            const items = [...data.querySelectorAll('item')].slice(0, 8);
 
-                newsList.push({ title, link, date });
-            });
+            if (!items.length) throw 'Empty';
 
-            localStorage.setItem(cacheKey, JSON.stringify(newsList));
-            localStorage.setItem(`${cacheKey}_time`, now);
+            const news = items.map(item => ({
+                title: item.querySelector('title')?.textContent || '',
+                link: item.querySelector('link')?.textContent || '#',
+                date: item.querySelector('pubDate')?.textContent || ''
+            }));
 
-            renderNews(newsList);
+            localStorage.setItem(cacheKey, JSON.stringify(news));
+            localStorage.setItem(cacheKey + '_time', Date.now());
+
+            renderNews(news);
         })
-        .catch(err => {
-            console.error('International news error:', err);
-            document.getElementById('intl-news-text').textContent = 
-                currentLang === 'ar' ? '⚠️ مشكلة في تحميل الأخبار الدولية' :
-                currentLang === 'fr' ? '⚠️ Problème de chargement des news internationales' :
-                '⚠️ Failed to load international news';
-        });
+        .catch(() => fetchSequential(sources, index + 1, cacheKey));
 }
 
-function renderNews(newsList) {
+function renderNews(news) {
     const container = document.getElementById('intl-news-text');
-    if (!container || !newsList.length) return;
-
-    let html = '';
-    newsList.forEach(n => {
-        html += `
-            <a href="${n.link}" target="_blank" rel="noopener noreferrer" class="intl-news-item">
-                ${n.date ? `<small>${n.date} – </small>` : ''}${n.title}
-            </a>
-        `;
-    });
-
-    container.innerHTML = html;
-    container.classList.add('scrolling-news');
+    container.innerHTML = news.map(n =>
+        `<a href="${n.link}" target="_blank" class="intl-news-item">
+            ${n.title}
+        </a>`
+    ).join('');
 }
-
-// أضف هذا في نهاية applyLanguage() أيضاً
-applyLanguage = (lang) => {
-    // ... الكود القديم ...
-    loadInternationalNews();
-};
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

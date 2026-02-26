@@ -232,7 +232,51 @@ header h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+/* Info Bar Short Live */
+.info-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg,#f87171,#fca5a5,#f87171); /* Rouge clair */
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow: hidden;
+    position: relative;
+}
 
+/* الوسط يتحرك ticker */
+.scrolling-ticker {
+    flex: 1;
+    display: inline-flex;
+    gap: 50px;
+    white-space: nowrap;
+    margin: 0 15px;
+    animation: scrollExchange 50s linear infinite;
+}
+
+.scrolling-ticker span {
+    display: inline-block;
+}
+
+/* الأطراف ثابتة */
+#time-display, #visitor-count {
+    flex-shrink: 0;
+}
+
+/* Animation ticker */
+@keyframes scrollExchange {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Responsive */
+@media (max-width:768px){
+    .info-bar { flex-direction: column; gap: 6px; font-size: 0.85rem; }
+    .scrolling-ticker { animation-duration: 80s; margin: 0; }
+}
 /* ==========================================================================
    CTA Buttons + Glow Effect
    ========================================================================== */

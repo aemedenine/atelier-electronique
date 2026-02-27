@@ -131,45 +131,40 @@ header h1 {
 }
 
 /* ==========================================================================
-   International News Bar – Live Feed 2026 (Rouge Clair – ديناميكي)
+   International News Bar 
    ========================================================================== */
 
 #international-news-bar {
     width: 100%;
-    margin: 0 0 26px;
-    border-radius: 0 0 12px 12px;
+    margin: 0 0 25px;
     overflow: hidden;
-    box-shadow: 0 4px 18px rgba(200, 50, 50, 0.35);
-    background: linear-gradient(90deg, #ff3c3c, #d62828, #b00000, #d62828, #ff3c3c);
+    border-radius: 0 0 12px 12px;
+    background: linear-gradient(90deg, #ff1c1c, #c90000, #8b0000, #c90000, #ff1c1c);
     background-size: 300% 100%;
     animation: gradientFlowIntl 18s ease infinite;
-    border-top: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 4px 18px rgba(200,50,50,0.35);
 }
 
-/* container */
-#international-news-bar .news-track {
+#international-news-bar .ticker-track {
     display: flex;
     width: max-content;
-    white-space: nowrap;
-    will-change: transform;
-    animation: scrollIntlNews 28s linear infinite;
+    animation: tickerScrollIntl 22s linear infinite;
 }
 
-/* النص */
 #international-news-bar .news-text {
     display: flex;
-    align-items: center;
-    gap: 45px;
+    gap: 40px;
     padding: 12px 22px;
     font-size: 1.05rem;
     font-weight: 600;
-    color: #fff5f5;
+    color: #fff;
+    white-space: nowrap;
 }
 
 .intl-news-item {
-    color: #ffe5e7;
+    color: #ffe6e6;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .intl-news-item:hover {
@@ -177,33 +172,15 @@ header h1 {
     text-shadow: 0 0 10px rgba(255,250,205,0.8);
 }
 
-/* الحركة */
-@keyframes scrollIntlNews {
+@keyframes tickerScrollIntl {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
 
-/* gradient flow */
 @keyframes gradientFlowIntl {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-}
-
-/* Pause on hover */
-#international-news-bar:hover .news-track {
-    animation-play-state: paused;
-}
-
-/* responsive */
-@media (max-width: 768px) {
-    #international-news-bar .news-text {
-        font-size: 0.95rem;
-        padding: 10px 16px;
-    }
-    #international-news-bar .news-track {
-        animation-duration: 38s;
-    }
 }
 /* ==========================================================================
    Info Bar

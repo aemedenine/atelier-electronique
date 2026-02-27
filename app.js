@@ -536,7 +536,10 @@ function safeUpdateVisitText() {
         .visit_count.replace('{count1}', total);
 }
    
-function initSarafTicker() {
+// ==========================================================================
+// سعر الصرف – VERTICAL TICKER (واحدة ورا الواحدة + علم كل بلاد)
+// ==========================================================================
+    function initSarafTicker() {
     const el = document.getElementById("sarafText");
     if (!el) {
         console.warn("Element #sarafText غير موجود!");

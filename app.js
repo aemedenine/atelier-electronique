@@ -699,11 +699,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================================
 // International News Bar 
 // ==========================================================================
-
-// ==========================================================================
-// International News Vertical Ticker – Pro 2026
-// ==========================================================================
-
 let intlNews = [];
 let intlIndex = 0;
 
@@ -779,6 +774,11 @@ function rotateIntlNews() {
     }, 120);
 
     setTimeout(rotateIntlNews, 5000);
+}
+    function changeLang(newLang) {
+    currentLang = newLang;
+    localStorage.setItem('lang', currentLang); // حفظ اللغة
+    fetchInternationalNews(); // جلب الأخبار باللغه الجديدة
 }
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {

@@ -535,7 +535,7 @@ function safeUpdateVisitText() {
 }
    
 // ==========================================================================
-// Live Exchange Rate Bar – Ultra Stable 2026
+// Live Exchange Rate Bar – Pro Stable 2026
 // ==========================================================================
 
 function initExchangeBar() {
@@ -545,9 +545,8 @@ function initExchangeBar() {
 
 async function fetchExchangeRates() {
     try {
-        // API أساسي
-        let res = await fetch("https://open.er-api.com/v6/latest/TND");
-        let data = await res.json();
+        const res = await fetch("https://open.er-api.com/v6/latest/TND");
+        const data = await res.json();
 
         if (data && data.rates) {
             renderExchangeBar(data.rates);
@@ -557,12 +556,9 @@ async function fetchExchangeRates() {
         throw "Primary API Failed";
 
     } catch (e) {
-        console.warn("Primary API failed → Trying backup");
-
         try {
-            // API احتياطي
-            let res = await fetch("https://api.exchangerate.host/latest?base=TND");
-            let data = await res.json();
+            const res = await fetch("https://api.exchangerate.host/latest?base=TND");
+            const data = await res.json();
 
             if (data && data.rates) {
                 renderExchangeBar(data.rates);
@@ -601,9 +597,13 @@ function buildExchangeTicker(items) {
     const ticker = document.getElementById("sarafText");
     if (!ticker) return;
 
-    // نكرر العناصر باش يكون scrolling سلس
     const doubled = [...items, ...items];
-    ticker.innerHTML = doubled.join(" • ");
+
+    ticker.innerHTML = `
+        <div class="ticker-text">
+            ${doubled.map(i => `<span>${i}</span>`).join(" • ")}
+        </div>
+    `;
 }
 
 function renderExchangeError() {
@@ -612,10 +612,7 @@ function renderExchangeError() {
     ticker.textContent = "⚠️ تعذر تحميل أسعار الصرف حالياً";
 }
 
-// استدعاء عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-    initExchangeBar();
-});
+document.addEventListener("DOMContentLoaded", initExchangeBar);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {
@@ -690,62 +687,126 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateNews, 5000);
     }
 
-/* ==========================================================================
-   International News Bar – Rouge Pro
-   ========================================================================== */
-#international-news-bar {
-    width: 100%;
-    overflow: hidden;
-    background: linear-gradient(90deg, #8b0000a3, #9b0000b8, #b20000, #8f0000fc, #a50000);
-    background-size: 300% 100%;
-    animation: gradientFlowIntl 22s ease infinite; /* نفس حركة Gradient متاع Atelier */
-    color: white;
-    white-space: nowrap;
-    font-weight: 700;
-    padding: 12px 0;
-    margin: 0; /* تلاصق مباشر بالبار الأول */
-    font-size: 1.1rem;
-    text-align: center;
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(139,0,0,0.35); /* ظل بنفس درجة الأحمر */
-    border-radius: 0 0 12px 12px; /* الانحناء من الأسفل فقط */
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px; /* ارتفاع واضح للبار */
+// ==========================================================================
+// International News Vertical Ticker – ULTRA PRO 2026
+// ==========================================================================
+
+let intlNews = [];
+let intlIndex = 0;
+let intlTimer = null;
+
+function initInternationalNewsBar() {
+    showIntlPlaceholder();
+    fetchInternationalNews();
+    setInterval(fetchInternationalNews, 5 * 60 * 1000);
 }
 
-/* حركة Gradient الأحمر */
-@keyframes gradientFlowIntl {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+// placeholder
+function showIntlPlaceholder() {
+    const box = document.getElementById("intl-news-text");
+    if (!box) return;
+
+    box.textContent =
+        currentLang === "ar"
+            ? "⏳ جاري تحميل الأخبار الدولية..."
+            : currentLang === "fr"
+            ? "⏳ Chargement des news internationales..."
+            : "⏳ Loading international news...";
+    box.style.opacity = 1;
 }
 
-/* نص الأخبار */
-#intl-news-text {
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: #fff;
-    opacity: 0;
-    transform: translateY(-18px);
-    transition: all 0.6s ease;
+// fetch RSS
+function fetchInternationalNews() {
+    const rss = {
+        ar: "https://feeds.bbci.co.uk/arabic/rss.xml",
+        fr: "https://www.france24.com/fr/rss",
+        en: "https://feeds.bbci.co.uk/news/rss.xml",
+    };
+
+    const url = rss[currentLang] || rss.ar;
+    const proxy = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
+
+    fetch(proxy)
+        .then((r) => r.text())
+        .then((xml) => {
+            const doc = new DOMParser().parseFromString(xml, "text/xml");
+            intlNews = [...doc.querySelectorAll("item")]
+                .slice(0, 12)
+                .map((i) => ({
+                    title: i.querySelector("title")?.textContent?.trim(),
+                    link: i.querySelector("link")?.textContent || "#",
+                }));
+
+            intlIndex = 0;
+            startIntlRotation();
+        })
+        .catch(() => {
+            intlNews = [
+                {
+                    title:
+                        currentLang === "ar"
+                            ? "⚠️ تعذر تحميل الأخبار الدولية حالياً"
+                            : currentLang === "fr"
+                            ? "⚠️ Impossible de charger les news internationales"
+                            : "⚠️ Unable to load international news",
+                    link: "#",
+                },
+            ];
+            intlIndex = 0;
+            startIntlRotation();
+        });
 }
 
-#intl-news-text a {
-    color: inherit;
-    text-decoration: none;
+// smart timing حسب طول النص
+function computeDelay(text) {
+    let base = 4200;
+    let extra = Math.min(text.length * 45, 5000);
+    return base + extra;
 }
 
-#intl-news-text.intl-fade-down {
-    opacity: 1;
-    transform: translateY(0);
+// rotation loop
+function startIntlRotation() {
+    if (intlTimer) clearTimeout(intlTimer);
+    rotateIntlNews();
 }
 
-#intl-news-text.intl-fade-up {
-    opacity: 0;
-    transform: translateY(18px);
+function rotateIntlNews() {
+    const box = document.getElementById("intl-news-text");
+    if (!box || !intlNews.length) return;
+
+    box.classList.remove("intl-fade-up", "intl-fade-down");
+
+    setTimeout(() => {
+        const item = intlNews[intlIndex];
+        box.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+        box.classList.add("intl-fade-down");
+
+        const delay = computeDelay(item.title);
+
+        intlIndex = (intlIndex + 1) % intlNews.length;
+        intlTimer = setTimeout(rotateIntlNews, delay);
+    }, 120);
+}
+
+// pause عند hover
+document.addEventListener("DOMContentLoaded", () => {
+    const bar = document.getElementById("international-news-bar");
+
+    if (bar) {
+        bar.addEventListener("mouseenter", () => clearTimeout(intlTimer));
+        bar.addEventListener("mouseleave", rotateIntlNews);
+    }
+
+    initInternationalNewsBar();
+});
+
+// change language
+function changeLang(newLang) {
+    if (currentLang === newLang) return;
+    currentLang = newLang;
+    localStorage.setItem("lang", currentLang);
+    showIntlPlaceholder();
+    fetchInternationalNews();
 }
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {

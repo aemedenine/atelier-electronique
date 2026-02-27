@@ -184,8 +184,7 @@
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
 
- 
-<!-- ⚽ بوكس الدوري + مباريات الأسبوع -->
+ <!-- ⚽ بوكس الدوري + مباريات الأسبوع -->
 <div class="max-w-7xl mx-auto my-10 px-4">
 
   <div class="grid gap-6 md:grid-cols-2">
@@ -211,12 +210,12 @@
             </tr>
           </thead>
           <tbody id="league-standings">
-            <!-- سيتم ملؤه أوتوماتيك -->
+            <tr><td colspan="5" class="p-4 text-center">جاري التحميل...</td></tr>
           </tbody>
         </table>
       </div>
       <div class="text-center text-xs text-gray-500 border-t border-gray-200 p-3">
-        مصدر: Sofascore • 365Scores • Mosaique FM
+        مصدر: Sofascore • تحديث: 2025/2026 (season 78868)
       </div>
     </div>
 
@@ -230,7 +229,7 @@
         </div>
       </div>
       <div class="matches-list flex flex-col gap-3 p-5" id="weekly-matches">
-        <!-- سيتم ملؤه أوتوماتيك -->
+        <div class="text-center text-gray-600">جاري التحميل...</div>
       </div>
       <div class="text-center text-xs text-gray-500 border-t border-gray-200 p-3">
         مصدر: Sofascore • 365Scores • Mosaique FM
@@ -242,95 +241,120 @@
 </div>
 
 <script>
-// إعدادات الدوري
-const leagueID = 200; // الرابطة التونسية
+// إعدادات الدوري - محدث لموسم 2025/2026
+const leagueID = 984;          // Tunisian Ligue 1
+const seasonID = 78868;        // Current season ID (Ligue 1 25/26)
 const standingsEl = document.getElementById("league-standings");
 const matchesEl = document.getElementById("weekly-matches");
 
 // 🥇 تحميل ترتيب الدوري
-async function loadStandings(){
+async function loadStandings() {
   try {
-    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/season/52118/standings/total`));
+    const url = `https://www.sofascore.com/api/v1/unique-tournament/\( {leagueID}/season/ \){seasonID}/standings/total`;
+    const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+    const res = await fetch(proxyUrl);
+    
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    
     const data = await res.json();
+    
+    if (!data.standings || !data.standings[0] || !data.standings[0].rows) {
+      throw new Error("No standings data");
+    }
 
     let html = "";
     data.standings[0].rows.forEach((team, i) => {
       let bgClass = "";
-      if(i === 0) bgClass = "bg-blue-100 font-bold";
-      else if(i === 1) bgClass = "bg-blue-50 font-bold";
-      else if(i === 2) bgClass = "bg-yellow-50 font-bold";
-      else if(i >= data.standings[0].rows.length - 3) bgClass = "bg-red-50 text-red-700 font-bold";
+      if (i === 0) bgClass = "bg-blue-100 font-bold";
+      else if (i === 1) bgClass = "bg-blue-50 font-bold";
+      else if (i === 2) bgClass = "bg-yellow-50 font-bold";
+      else if (i >= data.standings[0].rows.length - 3 && data.standings[0].rows.length > 3) {
+        bgClass = "bg-red-50 text-red-700 font-bold"; // مناطق الهبوط
+      }
 
       html += `<tr class="${bgClass}">
         <td class="p-3 text-center">${team.position}</td>
         <td class="p-3 flex items-center gap-2 justify-end">
-          <img src="${team.team.logo}" class="w-6 h-6" alt="${team.team.name}"/> ${team.team.name}
+          <img src="\( {team.team.logo}" class="w-6 h-6 rounded-full" alt=" \){team.team.name}" onerror="this.src='https://via.placeholder.com/24?text=?'"/>
+          ${team.team.name}
         </td>
-        <td class="p-3 text-center">${team.matchesPlayed}</td>
+        <td class="p-3 text-center">${team.matches}</td>
         <td class="p-3 text-center">${team.goalDifference}</td>
-        <td class="p-3 text-center">${team.points}</td>
+        <td class="p-3 text-center font-bold">${team.points}</td>
       </tr>`;
     });
 
-    standingsEl.innerHTML = html;
-  } catch(e){
-    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-700">⚠️ تعذر تحميل الترتيب</td></tr>`;
+    standingsEl.innerHTML = html || `<tr><td colspan="5" class="p-4 text-center text-yellow-700">لا توجد بيانات بعد</td></tr>`;
+  } catch (e) {
+    console.error("Standings error:", e);
+    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-700">⚠️ تعذر تحميل الترتيب - تحقق الإنترنت أو جرب لاحقًا</td></tr>`;
   }
 }
 
-// ⚽ تحميل مباريات الأسبوع
-async function loadWeeklyMatches(){
+// ⚽ تحميل مباريات الأسبوع القادم
+async function loadWeeklyMatches() {
   try {
-    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events`));
+    const url = `https://www.sofascore.com/api/v1/unique-tournament/\( {leagueID}/season/ \){seasonID}/events`;
+    const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+    const res = await fetch(proxyUrl);
+    
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    
     const data = await res.json();
 
-    // الفلترة حسب الأسبوع الحالي
     const today = new Date();
     const nextWeek = new Date();
     nextWeek.setDate(today.getDate() + 7);
 
-    const weekMatches = data.events.filter(m => {
-      const matchDate = new Date(m.startTimestamp*1000);
+    // فلترة المباريات القادمة فقط خلال 7 أيام
+    const weekMatches = (data.events || []).filter(m => {
+      if (!m.startTimestamp) return false;
+      const matchDate = new Date(m.startTimestamp * 1000);
       return matchDate >= today && matchDate <= nextWeek;
-    });
+    }).sort((a, b) => a.startTimestamp - b.startTimestamp);
 
-    if(weekMatches.length === 0){
-      matchesEl.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">❌ لا توجد مقابلات لهذا الأسبوع</div>`;
+    if (weekMatches.length === 0) {
+      matchesEl.innerHTML = `<div class="bg-yellow-50 text-yellow-700 p-4 rounded-lg text-center font-bold">ℹ️ لا توجد مباريات في الأسبوع الحالي</div>`;
       return;
     }
 
     let html = "";
     weekMatches.forEach(m => {
       const d = new Date(m.startTimestamp * 1000);
-      const date = d.toLocaleDateString("fr-FR");
-      const time = d.toLocaleTimeString("fr-FR",{hour:'2-digit',minute:'2-digit'});
+      const dateStr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
+      const timeStr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
 
-      html += `<div class="match-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-500 hover:bg-green-50 transition transform flex justify-between items-center">
-        <div>
-          <div class="text-xs text-gray-500">${date} • ${time}</div>
-          <div class="font-bold">${m.homeTeam.name} <b>🆚</b> ${m.awayTeam.name}</div>
-        </div>
-        <div class="flex gap-2">
-          <img src="${m.homeTeam.logo}" class="w-6 h-6" alt="${m.homeTeam.name}">
-          <img src="${m.awayTeam.logo}" class="w-6 h-6" alt="${m.awayTeam.name}">
-        </div>
-      </div>`;
+      const status = m.status?.type === 'finished' ? 'انتهت' : 
+                     m.status?.type === 'inprogress' ? 'مباشر' : 'قادمة';
+
+      html += `
+        <div class="match-card bg-gray-50 p-4 rounded-lg border-l-4 ${status.includes('مباشر') ? 'border-red-500' : 'border-green-500'} hover:bg-gray-100 transition flex justify-between items-center gap-4">
+          <div class="flex-1">
+            <div class="text-xs text-gray-500 mb-1">${dateStr} • ${timeStr} ${status}</div>
+            <div class="font-bold text-lg">${m.homeTeam?.name || '؟'} <span class="text-red-600">🆚</span> ${m.awayTeam?.name || '؟'}</div>
+          </div>
+          <div class="flex gap-3 items-center shrink-0">
+            <img src="${m.homeTeam?.logo || 'https://via.placeholder.com/32?text=?H'}" class="w-8 h-8 rounded-full" alt="" onerror="this.src='https://via.placeholder.com/32?text=?H'"/>
+            <img src="${m.awayTeam?.logo || 'https://via.placeholder.com/32?text=?A'}" class="w-8 h-8 rounded-full" alt="" onerror="this.src='https://via.placeholder.com/32?text=?A'"/>
+          </div>
+        </div>`;
     });
 
     matchesEl.innerHTML = html;
-
-  } catch(e){
+  } catch (e) {
+    console.error("Matches error:", e);
     matchesEl.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">⚠️ تعذر تحميل المباريات</div>`;
   }
 }
 
-// تحميل أول مرة
+// تشغيل أول مرة
 loadStandings();
 loadWeeklyMatches();
 
-// تحديث أوتوماتيكي
-setInterval(loadStandings, 86400000);      // يومياً
-setInterval(loadWeeklyMatches, 604800000); // أسبوعياً
+// تحديث تلقائي
+setInterval(loadStandings, 12 * 60 * 60 * 1000);     // كل 12 ساعة (أفضل من يومي عشان الدوري يتغير بسرعة)
+setInterval(loadWeeklyMatches, 6 * 60 * 60 * 1000);  // كل 6 ساعات للمباريات
+
 </script>
     
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->

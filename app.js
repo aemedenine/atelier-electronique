@@ -629,37 +629,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================================================
 // International News Bar – Live Feed 2026 (Rouge Clair – ديناميكي)
 // ==========================================================================
+
 function initInternationalNewsBar() {
     console.log("International News Bar → Initialisation");
-    
-    // إنشاء بار افتراضي أثناء التحميل
-    showPlaceholderIntl();
 
-    // تحديث الأخبار كل 5 دقائق تلقائياً
+    showPlaceholderIntl();
     fetchAndUpdateIntlNews();
     setInterval(fetchAndUpdateIntlNews, 5 * 60 * 1000);
 }
 
+// Placeholder
 function showPlaceholderIntl() {
-    const existing = document.getElementById('international-news-bar');
-    if (existing) existing.remove();
-
-    const bar = document.createElement('div');
-    bar.id = 'international-news-bar';
-    bar.className = 'international-news';
-    bar.innerHTML = `
-        <div class="news-text" id="intl-news-text">
-            ${[...Array(5)].map((_,i) => 
-                `<a href="#" class="intl-news-item">${currentLang === 'ar' ? '⏳ جاري تحميل الأخبار...' : currentLang === 'fr' ? '⏳ Chargement des news...' : '⏳ Loading news...'}</a>`
-            ).join('  •  ')}
-        </div>
-    `;
-
-    const atelierBar = document.querySelector('.news-ticker');
-    if (atelierBar) atelierBar.insertAdjacentElement('afterend', bar);
-    else document.body.prepend(bar);
+    createIntlBar([{
+        title: currentLang === 'ar' ? '⏳ جاري تحميل الأخبار الدولية...' :
+               currentLang === 'fr' ? '⏳ Chargement des news internationales...' :
+               '⏳ Loading international news...',
+        link: '#'
+    }]);
 }
 
+// Fetch RSS
 function fetchAndUpdateIntlNews() {
     const rss = {
         ar: 'https://feeds.bbci.co.uk/arabic/rss.xml',
@@ -671,23 +660,22 @@ function fetchAndUpdateIntlNews() {
     const proxy = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
 
     fetch(proxy)
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.text();
-        })
+        .then(res => res.text())
         .then(xml => {
             const parser = new DOMParser();
             const doc = parser.parseFromString(xml, "text/xml");
-            const items = Array.from(doc.querySelectorAll('item')).slice(0, 7).map(item => ({
-                title: item.querySelector('title')?.textContent?.trim() || 'بدون عنوان',
-                link: item.querySelector('link')?.textContent || '#'
-            }));
+            const items = [...doc.querySelectorAll('item')]
+                .slice(0, 8)
+                .map(item => ({
+                    title: item.querySelector('title')?.textContent?.trim(),
+                    link: item.querySelector('link')?.textContent
+                }));
 
-            updateIntlBar(items);
+            if (items.length) createIntlBar(items);
         })
         .catch(err => {
-            console.error("خطأ في الأخبار الدولية:", err);
-            updateIntlBar([{
+            console.error("RSS Error:", err);
+            createIntlBar([{
                 title: currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية' :
                        currentLang === 'fr' ? '⚠️ Impossible de charger les news internationales' :
                        '⚠️ Unable to load international news',
@@ -696,34 +684,31 @@ function fetchAndUpdateIntlNews() {
         });
 }
 
-function updateIntlBar(items) {
+// إنشاء البار بالحركة المستمرة
+function createIntlBar(items) {
     let bar = document.getElementById('international-news-bar');
 
     if (!bar) {
         bar = document.createElement('div');
         bar.id = 'international-news-bar';
-        bar.className = 'international-news';
 
         const atelierBar = document.querySelector('.news-ticker');
         if (atelierBar) atelierBar.insertAdjacentElement('afterend', bar);
         else document.body.prepend(bar);
     }
 
+    const doubled = [...items, ...items];
+
     bar.innerHTML = `
-        <div class="news-text" id="intl-news-text">
-            ${items.map(i => `<a href="${i.link}" target="_blank" class="intl-news-item">${i.title}</a>`).join('  •  ')}
+        <div class="news-track">
+            <div class="news-text">
+                ${doubled.map(i =>
+                    `<a href="${i.link}" target="_blank" class="intl-news-item">${i.title}</a>`
+                ).join('')}
+            </div>
         </div>
     `;
-
-    // Fade-in animation
-    const container = document.getElementById('intl-news-text');
-    container.style.opacity = '0';
-    setTimeout(() => {
-        container.style.transition = 'opacity 1.2s';
-        container.style.opacity = '1';
-    }, 50);
 }
-
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

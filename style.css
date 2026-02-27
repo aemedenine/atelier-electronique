@@ -204,6 +204,30 @@ header h1 {
     font-size: clamp(0.9rem, 2vw, 1.05rem); /* يتقلص شوي على الشاشات الصغيرة */
 }
 /* ==========================================================================
+   Saraf Ticker – Exchange Rates Bar
+   ========================================================================== */
+
+#sarafText {
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-flex;
+    gap: 40px;
+    animation: sarafScroll 36s linear infinite;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.saraf-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@keyframes sarafScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+/* ==========================================================================
    Info Bar
    ========================================================================== */
 .info-bar {

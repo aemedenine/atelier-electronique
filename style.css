@@ -209,10 +209,14 @@ header h1 {
 #sarafText {
     white-space: nowrap;
     overflow: hidden;
-    display: inline-flex;
-    gap: 40px;
+    display: flex;
     font-weight: 700;
     font-size: 1.05rem;
+}
+
+.saraf-track {
+    display: inline-flex;
+    gap: 40px;
     animation: sarafScroll 36s linear infinite;
 }
 

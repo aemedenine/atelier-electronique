@@ -187,6 +187,22 @@ header h1 {
     opacity: 0;
     transform: translateY(18px);
 }
+/* International News Bar responsive */
+#international-news-bar {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* يختصر النص لو طويل */
+    box-sizing: border-box;
+    padding: 10px 5px; 
+}
+
+#intl-news-text {
+    display: inline-block;
+    max-width: 100%; /* ما يخرجش من البار */
+    vertical-align: middle;
+    font-size: clamp(0.9rem, 2vw, 1.05rem); /* يتقلص شوي على الشاشات الصغيرة */
+}
 /* ==========================================================================
    Info Bar
    ========================================================================== */

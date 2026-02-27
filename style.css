@@ -263,7 +263,7 @@ header h1 {
   display: inline-block;
   white-space: nowrap;
   padding-left: 100%;
-  animation: tickerMove 18s linear infinite;
+  animation: tickerMove 10s linear infinite;
 }
 
 @keyframes tickerMove {

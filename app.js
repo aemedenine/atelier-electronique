@@ -690,102 +690,63 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateNews, 5000);
     }
 
-// ==========================================================================
-// International News Vertical Ticker – Pro 2026
-// ==========================================================================
-
-let intlNews = [];
-let intlIndex = 0;
-let currentLang = localStorage.getItem('lang') || 'ar'; // اللغة الحالية
-
-// تهيئة البار
-function initInternationalNewsBar() {
-    showIntlPlaceholder();
-    fetchInternationalNews();
-    setInterval(fetchInternationalNews, 5 * 60 * 1000); // تحديث كل 5 دقائق
+/* ==========================================================================
+   International News Bar – Rouge Pro
+   ========================================================================== */
+#international-news-bar {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(90deg, #8b0000a3, #9b0000b8, #b20000, #8f0000fc, #a50000);
+    background-size: 300% 100%;
+    animation: gradientFlowIntl 22s ease infinite; /* نفس حركة Gradient متاع Atelier */
+    color: white;
+    white-space: nowrap;
+    font-weight: 700;
+    padding: 12px 0;
+    margin: 0; /* تلاصق مباشر بالبار الأول */
+    font-size: 1.1rem;
+    text-align: center;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(139,0,0,0.35); /* ظل بنفس درجة الأحمر */
+    border-radius: 0 0 12px 12px; /* الانحناء من الأسفل فقط */
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* ارتفاع واضح للبار */
 }
 
-// placeholder مؤقت قبل تحميل الأخبار
-function showIntlPlaceholder() {
-    const box = document.getElementById("intl-news-text");
-    if (!box) return;
-
-    box.textContent = currentLang === 'ar'
-        ? "⏳ جاري تحميل الأخبار الدولية..."
-        : currentLang === 'fr'
-            ? "⏳ Chargement des news internationales..."
-            : "⏳ Loading international news...";
-    box.style.opacity = 1; // اجعلها تظهر مباشرة
+/* حركة Gradient الأحمر */
+@keyframes gradientFlowIntl {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-// جلب الأخبار من RSS
-function fetchInternationalNews() {
-    const rss = {
-        ar: 'https://feeds.bbci.co.uk/arabic/rss.xml',
-        fr: 'https://www.france24.com/fr/rss',
-        en: 'https://feeds.bbci.co.uk/news/rss.xml'
-    };
-
-    const url = rss[currentLang] || rss.ar;
-    const proxy = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
-
-    fetch(proxy)
-        .then(r => r.text())
-        .then(xml => {
-            const doc = new DOMParser().parseFromString(xml, "text/xml");
-            intlNews = [...doc.querySelectorAll("item")]
-                .slice(0, 10)
-                .map(i => ({
-                    title: i.querySelector("title")?.textContent?.trim(),
-                    link: i.querySelector("link")?.textContent || "#"
-                }));
-            intlIndex = 0;
-            rotateIntlNews();
-        })
-        .catch(err => {
-            console.error("Intl News Error:", err);
-            intlNews = [{
-                title: currentLang === 'ar' ? "⚠️ تعذر تحميل الأخبار الدولية" :
-                       currentLang === 'fr' ? "⚠️ Impossible de charger les news internationales" :
-                       "⚠️ Unable to load international news",
-                link: "#"
-            }];
-            intlIndex = 0;
-            rotateIntlNews();
-        });
+/* نص الأخبار */
+#intl-news-text {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(-18px);
+    transition: all 0.6s ease;
 }
 
-// تدوير الأخبار كل 5 ثواني
-function rotateIntlNews() {
-    const box = document.getElementById("intl-news-text");
-    if (!box || !intlNews.length) return;
-
-    box.classList.remove("intl-fade-up","intl-fade-down");
-
-    setTimeout(() => {
-        const item = intlNews[intlIndex];
-        box.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
-        box.classList.add("intl-fade-down");
-
-        intlIndex = (intlIndex + 1) % intlNews.length;
-    }, 120);
-
-    setTimeout(rotateIntlNews, 5000);
+#intl-news-text a {
+    color: inherit;
+    text-decoration: none;
 }
 
-// تغيير اللغة من drapeau
-function changeLang(newLang) {
-    if (currentLang === newLang) return; // إذا نفس اللغة لا تعمل شيء
-    currentLang = newLang;
-    localStorage.setItem('lang', currentLang); // حفظ اللغة
-    showIntlPlaceholder(); // عرض placeholder مباشر
-    fetchInternationalNews(); // جلب الأخبار بالـ langue الجديدة
+#intl-news-text.intl-fade-down {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-// تشغيل البار عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-    initInternationalNewsBar();
-});
+#intl-news-text.intl-fade-up {
+    opacity: 0;
+    transform: translateY(18px);
+}
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

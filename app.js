@@ -421,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     applyLanguage = function(lang) {
         originalApplyLanguage(lang);
         initInternationalNewsBar(); // ← هذا هو المفتاح
+        initSarafTicker();
     };
     // ── Language Switcher (النسخة المحسنة الكاملة) ────────────────────────
     function applyLanguage(lang) {

@@ -697,31 +697,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 // ==========================================================================
-// International News Bar 
+// International News Vertical Ticker – Pro 2026
 // ==========================================================================
+
 let intlNews = [];
 let intlIndex = 0;
+let currentLang = localStorage.getItem('lang') || 'ar'; // اللغة الحالية
 
+// تهيئة البار
 function initInternationalNewsBar() {
     showIntlPlaceholder();
     fetchInternationalNews();
     setInterval(fetchInternationalNews, 5 * 60 * 1000); // تحديث كل 5 دقائق
 }
 
+// placeholder مؤقت قبل تحميل الأخبار
 function showIntlPlaceholder() {
-    const bar = document.getElementById("international-news-bar");
-    if (!bar) return;
+    const box = document.getElementById("intl-news-text");
+    if (!box) return;
 
-    const box = bar.querySelector("#intl-news-text");
-    if (box) {
-        box.textContent = currentLang === 'ar'
-            ? "⏳ جاري تحميل الأخبار الدولية..."
-            : currentLang === 'fr'
-                ? "⏳ Chargement des news internationales..."
-                : "⏳ Loading international news...";
-    }
+    box.textContent = currentLang === 'ar'
+        ? "⏳ جاري تحميل الأخبار الدولية..."
+        : currentLang === 'fr'
+            ? "⏳ Chargement des news internationales..."
+            : "⏳ Loading international news...";
+    box.style.opacity = 1; // اجعلها تظهر مباشرة
 }
 
+// جلب الأخبار من RSS
 function fetchInternationalNews() {
     const rss = {
         ar: 'https://feeds.bbci.co.uk/arabic/rss.xml',
@@ -742,7 +745,6 @@ function fetchInternationalNews() {
                     title: i.querySelector("title")?.textContent?.trim(),
                     link: i.querySelector("link")?.textContent || "#"
                 }));
-
             intlIndex = 0;
             rotateIntlNews();
         })
@@ -759,6 +761,7 @@ function fetchInternationalNews() {
         });
 }
 
+// تدوير الأخبار كل 5 ثواني
 function rotateIntlNews() {
     const box = document.getElementById("intl-news-text");
     if (!box || !intlNews.length) return;
@@ -775,11 +778,20 @@ function rotateIntlNews() {
 
     setTimeout(rotateIntlNews, 5000);
 }
-    function changeLang(newLang) {
+
+// تغيير اللغة من drapeau
+function changeLang(newLang) {
+    if (currentLang === newLang) return; // إذا نفس اللغة لا تعمل شيء
     currentLang = newLang;
     localStorage.setItem('lang', currentLang); // حفظ اللغة
-    fetchInternationalNews(); // جلب الأخبار باللغه الجديدة
+    showIntlPlaceholder(); // عرض placeholder مباشر
+    fetchInternationalNews(); // جلب الأخبار بالـ langue الجديدة
 }
+
+// تشغيل البار عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+    initInternationalNewsBar();
+});
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {
         document.querySelectorAll('.faq-question').forEach(item => {

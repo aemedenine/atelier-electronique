@@ -537,17 +537,20 @@ function safeUpdateVisitText() {
 }
    
 // ==========================================================================
-// سعر الصرف – Ticker متحرك (ثابت وسريع)
+// سعر الصرف – Ticker متحرك احترافي (Live Flags Edition 2026)
 // ==========================================================================
+
 function initSarafTicker() {
     const el = document.getElementById("sarafText");
     if (!el) {
         console.warn("Element #sarafText غير موجود!");
         return;
     }
-    el.innerHTML = "جاري تحميل أسعار الصرف... ⏳";
+
+    el.innerHTML = "⏳ جاري تحميل أسعار الصرف المباشرة...";
+
     fetchAndRenderRates();
-    setInterval(fetchAndRenderRates, 8 * 60 * 1000); // كل 8 دقايق
+    setInterval(fetchAndRenderRates, 8 * 60 * 1000); // تحديث كل 8 دقائق
 }
 
 async function fetchAndRenderRates() {
@@ -564,39 +567,43 @@ async function fetchAndRenderRates() {
             const res = await fetch(url);
             if (!res.ok) continue;
             const data = await res.json();
-            if (data.rates) {
+
+            if (data?.rates) {
                 renderSarafTicker(data.rates, el);
-                console.log("سعر الصرف تحمّل بنجاح");
+                console.log("💱 Saraf Loaded Successfully");
                 return;
             }
         } catch (e) {}
     }
 
-    el.innerHTML = "⚠️ تعذر تحميل أسعار الصرف";
+    el.innerHTML = "⚠️ تعذر تحميل أسعار الصرف المباشرة";
 }
 
 function renderSarafTicker(rates, el) {
-    const list = [
-        {flag:"🇺🇸", code:"USD"},
-        {flag:"🇪🇺", code:"EUR"},
-        {flag:"🇸🇦", code:"SAR"},
-        {flag:"🇱🇾", code:"LYD"},
-        {flag:"🇩🇿", code:"DZD"},
-        {flag:"🇲🇦", code:"MAD"}
+    const currencies = [
+        { flag:"🇺🇸", code:"USD", name:"دولار" },
+        { flag:"🇪🇺", code:"EUR", name:"يورو" },
+        { flag:"🇸🇦", code:"SAR", name:"ريال سعودي" },
+        { flag:"🇱🇾", code:"LYD", name:"دينار ليبي" },
+        { flag:"🇩🇿", code:"DZD", name:"دينار جزائري" },
+        { flag:"🇲🇦", code:"MAD", name:"درهم مغربي" },
+        { flag:"🇪🇬", code:"EGP", name:"جنيه مصري" }
     ];
 
-    const items = list.map(c => {
+    const items = currencies.map(c => {
         const rate = rates[c.code];
-        return rate ? `${c.flag} ${c.code}: ${(1/rate).toFixed(3)} د.ت` : `${c.flag} ${c.code}: —`;
+        return rate
+            ? `<span class="saraf-item">${c.flag} ${c.name}: ${(1/rate).toFixed(3)} د.ت</span>`
+            : `<span class="saraf-item">${c.flag} ${c.name}: —</span>`;
     });
 
-    const doubled = [...items, ...items];
-    el.innerHTML = doubled.map(i => `<span>${i}</span>`).join("  •  ");
+    // نكررو باش يبقى دايماً معمّر
+    el.innerHTML = [...items, ...items].join("   ");
 
-    // إعادة تشغيل التمرير
+    // إعادة تشغيل الأنيميشن
     el.style.animation = 'none';
     void el.offsetWidth;
-    el.style.animation = 'tickerScroll 38s linear infinite';
+    el.style.animation = 'sarafScroll 36s linear infinite';
 }
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 

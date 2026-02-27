@@ -206,15 +206,14 @@ header h1 {
 /* ==========================================================================
    Saraf Ticker – Exchange Rates Bar
    ========================================================================== */
-
 #sarafText {
     white-space: nowrap;
     overflow: hidden;
     display: inline-flex;
     gap: 40px;
-    animation: sarafScroll 36s linear infinite;
     font-weight: 700;
     font-size: 1.05rem;
+    animation: sarafScroll 36s linear infinite;
 }
 
 .saraf-item {
@@ -224,9 +223,10 @@ header h1 {
 }
 
 @keyframes sarafScroll {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0%   { transform: translateX(100%); }   /* يبدأ من خارج اليمين */
+    100% { transform: translateX(-100%); }  /* ينتهي خارج الشمال */
 }
+
 .saraf-bar #sarafText span:hover {
     color: #fff;
     text-shadow: 0 0 10px red;

@@ -416,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnSignOut = document.getElementById('btn-signout');
     initInternationalNewsBar();
+    initSarafTicker();
     // ── تحديث اللغة مع إعادة بناء البار
     const originalApplyLanguage = applyLanguage;
     applyLanguage = function(lang) {
@@ -536,86 +537,67 @@ function safeUpdateVisitText() {
 }
    
 // ==========================================================================
-// سعر الصرف – Ticker متحرك + مصادر متعددة + تحديث كل 10 دقايق
+// سعر الصرف – Ticker متحرك (ثابت وسريع)
 // ==========================================================================
 function initSarafTicker() {
-    const tickerEl = document.getElementById("sarafText");
-    if (!tickerEl) {
-        console.warn("ما لقيناش #sarafText في الصفحة!");
+    const el = document.getElementById("sarafText");
+    if (!el) {
+        console.warn("Element #sarafText غير موجود!");
         return;
     }
-
-    // عرض "جاري التحميل" أول ما يشتغل
-    tickerEl.textContent = "جاري تحميل أسعار الصرف... ⏳";
-
+    el.innerHTML = "جاري تحميل أسعار الصرف... ⏳";
     fetchAndRenderRates();
-
-    // تحديث كل 10 دقايق (600 ثانية)
-    setInterval(fetchAndRenderRates, 10 * 60 * 1000);
+    setInterval(fetchAndRenderRates, 8 * 60 * 1000); // كل 8 دقايق
 }
 
 async function fetchAndRenderRates() {
-    const tickerEl = document.getElementById("sarafText");
-    if (!tickerEl) return;
+    const el = document.getElementById("sarafText");
+    if (!el) return;
 
     const apis = [
         "https://api.exchangerate-api.com/v4/latest/TND",
-        "https://open.er-api.com/v6/latest/TND",
-        "https://api.currencyfreaks.com/latest?apikey=free&base=TND"
+        "https://open.er-api.com/v6/latest/TND"
     ];
 
-    for (const url of apis) {
+    for (let url of apis) {
         try {
             const res = await fetch(url);
             if (!res.ok) continue;
-
             const data = await res.json();
-            let rates = data.rates;
-
-            if (rates && (rates.USD || rates.EUR)) {
-                renderSarafTicker(rates, tickerEl);
-                console.log("سعر الصرف جاب من:", url);
+            if (data.rates) {
+                renderSarafTicker(data.rates, el);
+                console.log("سعر الصرف تحمّل بنجاح");
                 return;
             }
-        } catch (err) {
-            console.warn("فشل مصدر:", url, err);
-        }
+        } catch (e) {}
     }
 
-    tickerEl.textContent = "⚠️ تعذر جلب أسعار الصرف حالياً";
+    el.innerHTML = "⚠️ تعذر تحميل أسعار الصرف";
 }
 
 function renderSarafTicker(rates, el) {
-    const currencies = [
-        { code: "USD", flag: "🇺🇸" },
-        { code: "EUR", flag: "🇪🇺" },
-        { code: "SAR", flag: "🇸🇦" },
-        { code: "LYD", flag: "🇱🇾" },
-        { code: "DZD", flag: "🇩🇿" },
-        { code: "MAD", flag: "🇲🇦" }
+    const list = [
+        {flag:"🇺🇸", code:"USD"},
+        {flag:"🇪🇺", code:"EUR"},
+        {flag:"🇸🇦", code:"SAR"},
+        {flag:"🇱🇾", code:"LYD"},
+        {flag:"🇩🇿", code:"DZD"},
+        {flag:"🇲🇦", code:"MAD"}
     ];
 
-    const items = currencies.map(c => {
+    const items = list.map(c => {
         const rate = rates[c.code];
-        if (!rate) return `${c.flag} ${c.code}: —`;
-        // 1 / rate = كم دينار تونسي للوحدة الواحدة
-        return `${c.flag} ${c.code}: ${(1 / rate).toFixed(3)} د.ت`;
+        return rate ? `${c.flag} ${c.code}: ${(1/rate).toFixed(3)} د.ت` : `${c.flag} ${c.code}: —`;
     });
 
-    // نضاعف القائمة عشان التمرير يكون مستمر بدون فراغ
     const doubled = [...items, ...items];
+    el.innerHTML = doubled.map(i => `<span>${i}</span>`).join("  •  ");
 
-    el.innerHTML = doubled.map(item => `<span>${item}</span>`).join("  •  ");
-
-    // نعيد تشغيل الـ animation بعد ما نحدّث النص
+    // إعادة تشغيل التمرير
     el.style.animation = 'none';
-    void el.offsetWidth; // force reflow
-    el.style.animation = null;
+    void el.offsetWidth;
+    el.style.animation = 'tickerScroll 38s linear infinite';
 }
-
-// شغّل الدالة لما الصفحة تحمل
-document.addEventListener("DOMContentLoaded", initSarafTicker);
-
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

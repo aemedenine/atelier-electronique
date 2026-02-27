@@ -535,98 +535,85 @@ function safeUpdateVisitText() {
 }
    
 // ==========================================================================
-// Live Exchange Rate Bar – SUPER STABLE 2026 (ثابت وما يعلقش)
+// سعر الصرف – Ticker متحرك + مصادر متعددة + تحديث كل 10 دقايق
 // ==========================================================================
-function initExchangeBar() {
-    fetchExchangeRates();
-    setInterval(fetchExchangeRates, 5 * 60 * 1000); // تحديث كل 5 دقائق (أحسن للـ rate limit)
+function initSarafTicker() {
+    const tickerEl = document.getElementById("sarafText");
+    if (!tickerEl) {
+        console.warn("ما لقيناش #sarafText في الصفحة!");
+        return;
+    }
+
+    // عرض "جاري التحميل" أول ما يشتغل
+    tickerEl.textContent = "جاري تحميل أسعار الصرف... ⏳";
+
+    fetchAndRenderRates();
+
+    // تحديث كل 10 دقايق (600 ثانية)
+    setInterval(fetchAndRenderRates, 10 * 60 * 1000);
 }
 
-async function fetchExchangeRates() {
-    const sarafText = document.getElementById("sarafText");
-    if (!sarafText) return;
+async function fetchAndRenderRates() {
+    const tickerEl = document.getElementById("sarafText");
+    if (!tickerEl) return;
 
-    sarafText.innerHTML = "جاري تحميل أسعار الصرف... ⏳";
-
-    // مصادر 2026 الأكثر استقراراً (بدون مفتاح أولاً)
-    const sources = [
-        // 1. exchangeratesapi.io (مجاني، مستقر، يدعم TND)
+    const apis = [
         "https://api.exchangerate-api.com/v4/latest/TND",
-
-        // 2. currencyapi.com (مجاني محدود، لكن سريع)
-        "https://api.currencyapi.com/v3/latest?apikey=free&base_currency=TND",
-
-        // 3. cnb.cz (بنك مركزي تشيكي – مجاني ومفتوح)
-        "https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing.txt"
+        "https://open.er-api.com/v6/latest/TND",
+        "https://api.currencyfreaks.com/latest?apikey=free&base=TND"
     ];
 
-    for (let i = 0; i < sources.length; i++) {
+    for (const url of apis) {
         try {
-            const url = sources[i];
-            console.log(`جاري المحاولة مع: ${url}`);
-
-            const res = await fetch(url, {
-                headers: { 'User-Agent': 'Mozilla/5.0 (Tunisia Exchange Bar 2026)' }
-            });
-
+            const res = await fetch(url);
             if (!res.ok) continue;
 
             const data = await res.json();
+            let rates = data.rates;
 
-            // exchangerate-api.com
-            if (data && data.rates && data.base === 'TND') {
-                renderExchangeBar(data.rates);
-                console.log("نجاح من exchangerate-api");
+            if (rates && (rates.USD || rates.EUR)) {
+                renderSarafTicker(rates, tickerEl);
+                console.log("سعر الصرف جاب من:", url);
                 return;
             }
-
-            // currencyapi.com (fallback 2)
-            if (data && data.data) {
-                renderExchangeBar(data.data);
-                console.log("نجاح من currencyapi");
-                return;
-            }
-
         } catch (err) {
-            console.warn(`فشل المصدر ${i+1}:`, err);
+            console.warn("فشل مصدر:", url, err);
         }
     }
 
-    // لو كل المصادر فشلت
-    sarafText.innerHTML = "⚠️ تعذر تحميل أسعار الصرف حالياً";
-    console.error("كل مصادر أسعار الصرف فشلت");
+    tickerEl.textContent = "⚠️ تعذر جلب أسعار الصرف حالياً";
 }
 
-function renderExchangeBar(rates) {
-    const sarafText = document.getElementById("sarafText");
-    if (!sarafText) return;
-
-    const important = [
+function renderSarafTicker(rates, el) {
+    const currencies = [
         { code: "USD", flag: "🇺🇸" },
         { code: "EUR", flag: "🇪🇺" },
         { code: "SAR", flag: "🇸🇦" },
         { code: "LYD", flag: "🇱🇾" },
         { code: "DZD", flag: "🇩🇿" },
-        { code: "MAD", flag: "🇲🇦" },
-        { code: "EGP", flag: "🇪🇬" }
+        { code: "MAD", flag: "🇲🇦" }
     ];
 
-    const items = important.map(c => {
+    const items = currencies.map(c => {
         const rate = rates[c.code];
-        if (!rate) return `${c.flag} ${c.code}: غير متوفر`;
-        const tnd = (1 / rate).toFixed(3);
-        return `${c.flag} ${c.code}: ${tnd} د.ت`;
+        if (!rate) return `${c.flag} ${c.code}: —`;
+        // 1 / rate = كم دينار تونسي للوحدة الواحدة
+        return `${c.flag} ${c.code}: ${(1 / rate).toFixed(3)} د.ت`;
     });
 
-    // نضاعف القائمة عشان التمرير يكون سلس
+    // نضاعف القائمة عشان التمرير يكون مستمر بدون فراغ
     const doubled = [...items, ...items];
 
-    sarafText.innerHTML = `
-        <div class="ticker-text">
-            ${doubled.map(i => `<span>${i}</span>`).join(" • ")}
-        </div>
-    `;
+    el.innerHTML = doubled.map(item => `<span>${item}</span>`).join("  •  ");
+
+    // نعيد تشغيل الـ animation بعد ما نحدّث النص
+    el.style.animation = 'none';
+    void el.offsetWidth; // force reflow
+    el.style.animation = null;
 }
+
+// شغّل الدالة لما الصفحة تحمل
+document.addEventListener("DOMContentLoaded", initSarafTicker);
 
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 

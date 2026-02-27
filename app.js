@@ -533,7 +533,8 @@ function safeUpdateVisitText() {
     visitEl.textContent = translations[currentLang]
         .visit_count.replace('{count1}', total);
 }
-   // ==========================================================================
+   
+// ==========================================================================
 // Live Exchange Rate Bar – Ultra Stable 2026
 // ==========================================================================
 
@@ -597,31 +598,24 @@ function renderExchangeBar(r) {
 }
 
 function buildExchangeTicker(items) {
-    let bar = document.getElementById("exchange-bar");
+    const ticker = document.getElementById("sarafText");
+    if (!ticker) return;
 
-    if (!bar) {
-        bar = document.createElement("div");
-        bar.id = "exchange-bar";
-
-        const infoBar = document.querySelector(".info-bar");
-        if (infoBar) infoBar.appendChild(bar);
-        else document.body.prepend(bar);
-    }
-
+    // نكرر العناصر باش يكون scrolling سلس
     const doubled = [...items, ...items];
-
-    bar.innerHTML = `
-        <div class="ticker-track">
-            <div class="ticker-text">
-                ${doubled.map(i => `<span>${i}</span>`).join(" • ")}
-            </div>
-        </div>
-    `;
+    ticker.innerHTML = doubled.join(" • ");
 }
 
 function renderExchangeError() {
-    buildExchangeTicker(["⚠️ تعذر تحميل أسعار الصرف حالياً"]);
+    const ticker = document.getElementById("sarafText");
+    if (!ticker) return;
+    ticker.textContent = "⚠️ تعذر تحميل أسعار الصرف حالياً";
 }
+
+// استدعاء عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+    initExchangeBar();
+});
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

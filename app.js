@@ -539,7 +539,6 @@ function safeUpdateVisitText() {
 // ==========================================================================
 // سعر الصرف – Ticker متحرك احترافي (Live Flags Edition 2026)
 // ==========================================================================
-
 function initSarafTicker() {
     const el = document.getElementById("sarafText");
     if (!el) {
@@ -573,7 +572,9 @@ async function fetchAndRenderRates() {
                 console.log("💱 Saraf Loaded Successfully");
                 return;
             }
-        } catch (e) {}
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     el.innerHTML = "⚠️ تعذر تحميل أسعار الصرف المباشرة";
@@ -597,7 +598,7 @@ function renderSarafTicker(rates, el) {
             : `<span class="saraf-item">${c.flag} ${c.name}: —</span>`;
     });
 
-    // نكررو باش يبقى دايماً معمّر
+    // نكرر العناصر مرتين لضمان استمرار الشريط
     el.innerHTML = [...items, ...items].join("   ");
 
     // إعادة تشغيل الأنيميشن
@@ -605,6 +606,9 @@ function renderSarafTicker(rates, el) {
     void el.offsetWidth;
     el.style.animation = 'sarafScroll 36s linear infinite';
 }
+
+// تفعيل الـ ticker عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", initSarafTicker);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

@@ -131,20 +131,45 @@ header h1 {
 }
 
 /* ==========================================================================
-   International News Bar 
+   International News Bar – Rouge Pro
    ========================================================================== */
 #international-news-bar {
+    width: 100%;
     overflow: hidden;
-    margin-top: 0; /* تلاصق مباشر بالبار الأول */
+    background: linear-gradient(90deg, #8b0000a3, #9b0000b8, #b20000, #8f0000fc, #a50000);
+    background-size: 300% 100%;
+    animation: gradientFlowIntl 22s ease infinite; /* نفس حركة Gradient متاع Atelier */
+    color: white;
+    white-space: nowrap;
+    font-weight: 700;
+    padding: 12px 0;
+    margin: 0; /* تلاصق مباشر بالبار الأول */
+    font-size: 1.1rem;
+    text-align: center;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(139,0,0,0.35); /* ظل بنفس درجة الأحمر */
+    border-radius: 0 0 12px 12px; /* الانحناء من الأسفل فقط */
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px; /* ارتفاع واضح للبار */
 }
 
+/* حركة Gradient الأحمر */
+@keyframes gradientFlowIntl {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* نص الأخبار */
 #intl-news-text {
-    text-align: center;
     font-weight: 700;
     font-size: 1.05rem;
     color: #fff;
     opacity: 0;
-    transform: translateY(-18px); /* البداية فوق شوي */
+    transform: translateY(-18px);
     transition: all 0.6s ease;
 }
 
@@ -155,12 +180,12 @@ header h1 {
 
 #intl-news-text.intl-fade-down {
     opacity: 1;
-    transform: translateY(0); /* ينزل للخانة */
+    transform: translateY(0);
 }
 
 #intl-news-text.intl-fade-up {
     opacity: 0;
-    transform: translateY(18px); /* يطلع فوق لو لزم */
+    transform: translateY(18px);
 }
 /* ==========================================================================
    Info Bar

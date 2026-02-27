@@ -533,26 +533,95 @@ function safeUpdateVisitText() {
     visitEl.textContent = translations[currentLang]
         .visit_count.replace('{count1}', total);
 }
-    /* Info Bar Short Live */
-// 💱 Live Currency TND – Ticker وسط فقط
-async function loadSaraf() {
-  try {
-    const res = await fetch("https://api.exchangerate.host/latest?base=EUR&symbols=TND,USD");
-    const data = await res.json();
+   // ==========================================================================
+// Live Exchange Rate Bar – Ultra Stable 2026
+// ==========================================================================
 
-    const eur = data.rates.TND.toFixed(3);
-    const usd = (data.rates.TND / data.rates.USD).toFixed(3);
-
-    document.getElementById("sarafText").innerHTML =
-      `💶 1€ = ${eur} TND   |   💵 1$ = ${usd} TND   |   تحديث مباشر`;
-  } catch (e) {
-    document.getElementById("sarafText").innerHTML =
-      "⚠️ خطأ في تحميل أسعار الصرف";
-  }
+function initExchangeBar() {
+    fetchExchangeRates();
+    setInterval(fetchExchangeRates, 3 * 60 * 1000); // تحديث كل 3 دقائق
 }
 
-loadSaraf();
-setInterval(loadSaraf, 60000);
+async function fetchExchangeRates() {
+    try {
+        // API أساسي
+        let res = await fetch("https://open.er-api.com/v6/latest/TND");
+        let data = await res.json();
+
+        if (data && data.rates) {
+            renderExchangeBar(data.rates);
+            return;
+        }
+
+        throw "Primary API Failed";
+
+    } catch (e) {
+        console.warn("Primary API failed → Trying backup");
+
+        try {
+            // API احتياطي
+            let res = await fetch("https://api.exchangerate.host/latest?base=TND");
+            let data = await res.json();
+
+            if (data && data.rates) {
+                renderExchangeBar(data.rates);
+                return;
+            }
+
+            throw "Backup API Failed";
+
+        } catch (err) {
+            console.error("Exchange Rates Error:", err);
+            renderExchangeError();
+        }
+    }
+}
+
+function renderExchangeBar(r) {
+    const rates = [
+        { code: "USD", flag: "🇺🇸" },
+        { code: "EUR", flag: "🇪🇺" },
+        { code: "SAR", flag: "🇸🇦" },
+        { code: "LYD", flag: "🇱🇾" },
+        { code: "DZD", flag: "🇩🇿" },
+        { code: "MAD", flag: "🇲🇦" },
+        { code: "EGP", flag: "🇪🇬" }
+    ];
+
+    const items = rates.map(c => {
+        const value = (1 / r[c.code]).toFixed(3);
+        return `${c.flag} ${c.code}: ${value} TND`;
+    });
+
+    buildExchangeTicker(items);
+}
+
+function buildExchangeTicker(items) {
+    let bar = document.getElementById("exchange-bar");
+
+    if (!bar) {
+        bar = document.createElement("div");
+        bar.id = "exchange-bar";
+
+        const infoBar = document.querySelector(".info-bar");
+        if (infoBar) infoBar.appendChild(bar);
+        else document.body.prepend(bar);
+    }
+
+    const doubled = [...items, ...items];
+
+    bar.innerHTML = `
+        <div class="ticker-track">
+            <div class="ticker-text">
+                ${doubled.map(i => `<span>${i}</span>`).join(" • ")}
+            </div>
+        </div>
+    `;
+}
+
+function renderExchangeError() {
+    buildExchangeTicker(["⚠️ تعذر تحميل أسعار الصرف حالياً"]);
+}
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

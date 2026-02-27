@@ -184,7 +184,8 @@
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
 
- <!-- ⚽ بوكس الدوري + مباريات الأسبوع -->
+ 
+<!-- ⚽ بوكس الدوري + مباريات الأسبوع -->
 <div class="max-w-7xl mx-auto my-10 px-4">
 
   <div class="grid gap-6 md:grid-cols-2">
@@ -195,7 +196,7 @@
         <span class="text-4xl">🏆</span>
         <div>
           <h2 class="text-xl font-semibold">ترتيب الدوري التونسي 2025/2026</h2>
-          <p class="text-sm opacity-90">محدث يومياً</p>
+          <p class="text-sm opacity-90">تحديث يومي تلقائي</p>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -225,7 +226,7 @@
         <span class="text-4xl">⚽📅</span>
         <div>
           <h2 class="text-xl font-semibold">مباريات الأسبوع</h2>
-          <p class="text-sm opacity-90">تحديث أسبوعي</p>
+          <p class="text-sm opacity-90">تحديث أسبوعي تلقائي</p>
         </div>
       </div>
       <div class="matches-list flex flex-col gap-3 p-5" id="weekly-matches">
@@ -241,21 +242,18 @@
 </div>
 
 <script>
-// ⚽ إعدادات الدوري
+// إعدادات الدوري
 const leagueID = 200; // الرابطة التونسية
-
-// العناصر
 const standingsEl = document.getElementById("league-standings");
 const matchesEl = document.getElementById("weekly-matches");
 
-// تحميل الترتيب الكامل - تحديث يومي
+// 🥇 تحميل ترتيب الدوري
 async function loadStandings(){
   try {
     const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/season/52118/standings/total`));
     const data = await res.json();
 
     let html = "";
-
     data.standings[0].rows.forEach((team, i) => {
       let bgClass = "";
       if(i === 0) bgClass = "bg-blue-100 font-bold";
@@ -280,19 +278,29 @@ async function loadStandings(){
   }
 }
 
-// تحميل مباريات الأسبوع - تحديث أسبوعي
+// ⚽ تحميل مباريات الأسبوع
 async function loadWeeklyMatches(){
   try {
-    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events/next/7`));
+    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events`));
     const data = await res.json();
 
-    if(!data.events || data.events.length === 0){
+    // الفلترة حسب الأسبوع الحالي
+    const today = new Date();
+    const nextWeek = new Date();
+    nextWeek.setDate(today.getDate() + 7);
+
+    const weekMatches = data.events.filter(m => {
+      const matchDate = new Date(m.startTimestamp*1000);
+      return matchDate >= today && matchDate <= nextWeek;
+    });
+
+    if(weekMatches.length === 0){
       matchesEl.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">❌ لا توجد مقابلات لهذا الأسبوع</div>`;
       return;
     }
 
     let html = "";
-    data.events.forEach(m => {
+    weekMatches.forEach(m => {
       const d = new Date(m.startTimestamp * 1000);
       const date = d.toLocaleDateString("fr-FR");
       const time = d.toLocaleTimeString("fr-FR",{hour:'2-digit',minute:'2-digit'});
@@ -316,16 +324,14 @@ async function loadWeeklyMatches(){
   }
 }
 
-// أول تحميل
+// تحميل أول مرة
 loadStandings();
 loadWeeklyMatches();
 
-// تحديث يومي للترتيب
-setInterval(loadStandings, 86400000);
-// تحديث أسبوعي للمباريات
-setInterval(loadWeeklyMatches, 604800000);
+// تحديث أوتوماتيكي
+setInterval(loadStandings, 86400000);      // يومياً
+setInterval(loadWeeklyMatches, 604800000); // أسبوعياً
 </script>
-        
     
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">

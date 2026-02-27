@@ -180,192 +180,123 @@
             </div>
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
-<section id="finalboss-football">
+<section id="tunisia-football-boxes">
 
-  <h2 class="boss-title">👑 FINAL BOSS SPORT PLATFORM</h2>
+  <div class="football-box">
+    <h3>🏆 ترتيب البطولة التونسية 2025 / 2026</h3>
+    <div id="leagueTable">جاري تحميل الترتيب...</div>
+  </div>
 
-  <div class="boss-grid">
-
-    <div class="boss-box">
-      <h3>🏆 ترتيب البطولة</h3>
-      <div id="leagueTable">تحميل...</div>
-    </div>
-
-    <div class="boss-box">
-      <h3>⚽ المقابلات القادمة</h3>
-      <div id="nextMatches">تحميل...</div>
-      <div id="countdownBox"></div>
-    </div>
-
-    <div class="boss-box">
-      <h3>🥇 ترتيب الهدافين</h3>
-      <div id="topScorers">تحميل...</div>
-    </div>
-
-    <div class="boss-box ai-box">
-      <h3>🤖 تحليل ذكي للمقابلة القادمة</h3>
-      <div id="aiPrediction">جارٍ التحليل...</div>
-    </div>
-
+  <div class="football-box">
+    <h3>⚽ مقابلات الجولة القادمة</h3>
+    <div id="nextMatches">جاري تحميل المقابلات...</div>
   </div>
 
 </section>
 
 <style>
-#finalboss-football{
-  margin:60px 0;
-  text-align:center;
-}
-
-.boss-title{
-  font-size:26px;
-  margin-bottom:25px;
-  color:#00f6ff;
-  text-shadow:0 0 15px rgba(0,255,255,.7);
-}
-
-.boss-grid{
+#tunisia-football-boxes{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:22px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:15px;
+  margin:20px 0;
 }
 
-.boss-box{
-  background:linear-gradient(145deg,#020814,#0b1d3a);
-  border-radius:22px;
-  padding:18px;
-  color:#fff;
-  box-shadow:0 0 35px rgba(0,153,255,.65);
-  border:1px solid rgba(0,153,255,.35);
+.football-box{
+  background:linear-gradient(145deg,#0b1220,#101a33);
+  border-radius:14px;
+  padding:15px;
+  box-shadow:0 0 15px rgba(0,140,255,.25);
+  color:white;
 }
 
-.boss-box h3{
-  color:#3cf;
+.football-box h3{
+  text-align:center;
   margin-bottom:12px;
+  color:#4fc3ff;
 }
 
-.ai-box{
-  background:linear-gradient(145deg,#120018,#26004a);
-  box-shadow:0 0 35px rgba(255,0,255,.6);
-}
-
-table{
+.football-table{
   width:100%;
   border-collapse:collapse;
   font-size:14px;
 }
 
-th,td{
-  padding:7px;
+.football-table th,
+.football-table td{
   border-bottom:1px solid rgba(255,255,255,.08);
+  padding:6px;
+  text-align:center;
 }
 
 .match-row{
-  padding:8px 0;
+  padding:6px;
   border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-#countdownBox{
-  margin-top:10px;
-  color:#00ffcc;
-  font-weight:700;
-}
-
-#aiPrediction{
+  display:flex;
+  justify-content:space-between;
   font-size:14px;
-  line-height:1.8;
 }
 </style>
 
 <script>
-const leagueID = 200;
-const seasonID = 52118;
+const leagueID = 200; // Tunisia Ligue 1
 
-async function api(url){
-  return fetch("https://api.allorigins.win/raw?url="+encodeURIComponent(url)).then(r=>r.json());
-}
+async function loadLeagueTable(){
+  try{
+    const res = await fetch(`https://api.allorigins.win/raw?url=https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/season/52118/standings/total`);
+    const data = await res.json();
+    const teams = data.standings[0].rows;
 
-// ترتيب البطولة
-async function loadStandings(){
-  const d = await api(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/season/${seasonID}/standings/total`);
-  let html="<table><tr><th>#</th><th>الفريق</th><th>نقاط</th></tr>";
-  d.standings[0].rows.forEach(t=>{
-    html+=`<tr><td>${t.position}</td><td>${t.team.name}</td><td>${t.points}</td></tr>`;
-  });
-  html+="</table>";
-  leagueTable.innerHTML=html;
-}
+    let html = `<table class="football-table">
+    <tr><th>#</th><th>الفريق</th><th>ن</th><th>نقاط</th></tr>`;
 
-// المقابلات
-async function loadMatches(){
-  const d = await api(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events/next/0`);
-  if(!d.events.length){
-    nextMatches.innerHTML="❌ لا توجد مقابلات حاليا";
-    return;
+    teams.forEach(t=>{
+      html+=`<tr>
+        <td>${t.position}</td>
+        <td>${t.team.name}</td>
+        <td>${t.matches}</td>
+        <td>${t.points}</td>
+      </tr>`;
+    });
+
+    html+=`</table>`;
+    document.getElementById("leagueTable").innerHTML = html;
+
+  }catch(e){
+    document.getElementById("leagueTable").innerHTML="⚠️ تعذر تحميل الترتيب";
   }
-
-  let html="";
-  const nextMatch = d.events[0];
-  const nextTime = nextMatch.startTimestamp*1000;
-
-  d.events.slice(0,5).forEach(m=>{
-    const dt=new Date(m.startTimestamp*1000);
-    html+=`<div class="match-row">
-      ${m.homeTeam.name} 🆚 ${m.awayTeam.name}<br>
-      🗓️ ${dt.toLocaleDateString()} ⏰ ${dt.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}
-    </div>`;
-  });
-
-  nextMatches.innerHTML=html;
-  countdown(nextTime);
-  aiPredict(nextMatch.homeTeam.name, nextMatch.awayTeam.name);
 }
 
-// الهدافين
-async function loadScorers(){
-  const d = await api(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/season/${seasonID}/top-players/scorers`);
-  let html="<table><tr><th>#</th><th>اللاعب</th><th>الأهداف</th></tr>";
-  d.topPlayers.slice(0,8).forEach((p,i)=>{
-    html+=`<tr><td>${i+1}</td><td>${p.player.name}</td><td>${p.goals}</td></tr>`;
-  });
-  html+="</table>";
-  topScorers.innerHTML=html;
+async function loadNextMatches(){
+  try{
+    const res = await fetch(`https://api.allorigins.win/raw?url=https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events/next/0`);
+    const data = await res.json();
+
+    if(!data.events || data.events.length==0){
+      document.getElementById("nextMatches").innerHTML="❌ لا توجد مقابلات حاليا";
+      return;
+    }
+
+    let html="";
+    data.events.slice(0,6).forEach(m=>{
+      html+=`<div class="match-row">
+        <span>${m.homeTeam.name}</span>
+        <span>vs</span>
+        <span>${m.awayTeam.name}</span>
+      </div>`;
+    });
+
+    document.getElementById("nextMatches").innerHTML=html;
+
+  }catch(e){
+    document.getElementById("nextMatches").innerHTML="⚠️ لا توجد مقابلات حاليا";
+  }
 }
 
-// AI Prediction (Simulated smart logic)
-function aiPredict(home,away){
-  const preds=[
-    `⚡ ${home} يدخل المقابلة بأفضلية الأرض والجمهور، الحظوظ الأكبر للفوز.`,
-    `🔥 مواجهة قوية بين ${home} و ${away}، التعادل وارد جداً.`,
-    `🚀 ${away} قد يفاجئ الجميع بهجوم سريع ومرتدات قاتلة.`,
-    `📊 المباراة مغلقة تكتيكياً، عدد الأهداف سيكون محدود.`
-  ];
-  aiPrediction.innerHTML = preds[Math.floor(Math.random()*preds.length)];
-}
-
-// عد تنازلي
-function countdown(time){
-  setInterval(()=>{
-    let d=time-Date.now();
-    if(d<=0){countdownBox.innerHTML="🔴 المباراة الآن";return;}
-    let h=Math.floor(d/3600000);
-    let m=Math.floor((d%3600000)/60000);
-    let s=Math.floor((d%60000)/1000);
-    countdownBox.innerHTML=`⏳ المباراة القادمة بعد: ${h}س ${m}د ${s}ث`;
-  },1000);
-}
-
-// تحميل
-loadStandings();
-loadMatches();
-loadScorers();
-
-setInterval(()=>{
-  loadStandings();
-  loadMatches();
-  loadScorers();
-},300000);
+loadLeagueTable();
+loadNextMatches();
 </script>
+
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">
             <div class="faq-container">

@@ -184,18 +184,18 @@
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
 
-        <!-- Sports Boxes - Tunisian League 2025/2026 -->
+ <!-- ⚽ بوكس الدوري + مباريات الأسبوع -->
 <div class="max-w-7xl mx-auto my-10 px-4">
 
   <div class="grid gap-6 md:grid-cols-2">
 
-    <!-- Box 1: Standings -->
+    <!-- Box 1: ترتيب الدوري كامل -->
     <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-      <div class="flex items-center gap-4 p-5 bg-gradient-to-r from-green-700 to-green-500 text-white">
+      <div class="flex items-center gap-4 p-5 bg-gradient-to-r from-blue-700 to-blue-500 text-white">
         <span class="text-4xl">🏆</span>
         <div>
-          <h2 class="text-xl font-semibold">ترتيب الرابطة التونسية</h2>
-          <p class="text-sm opacity-90">الموسم 2025/2026</p>
+          <h2 class="text-xl font-semibold">ترتيب الدوري التونسي 2025/2026</h2>
+          <p class="text-sm opacity-90">محدث يومياً</p>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -209,48 +209,8 @@
               <th class="p-3 text-center font-bold">نقاط</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="bg-green-50 font-bold">
-              <td class="p-3 text-center">1</td>
-              <td class="p-3 flex items-center gap-2">
-                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/6/61/Esp%C3%A9rance_Sportive_de_Tunis_logo.svg/24px-Esp%C3%A9rance_Sportive_de_Tunis_logo.svg.png" class="w-6 h-6" alt="EST"> الترجي
-              </td>
-              <td class="p-3 text-center">21</td>
-              <td class="p-3 text-center">+29</td>
-              <td class="p-3 text-center text-green-700">47</td>
-            </tr>
-            <tr class="bg-yellow-50 font-bold">
-              <td class="p-3 text-center">2</td>
-              <td class="p-3 flex items-center gap-2">
-                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/9/9c/Club_Africain_logo.svg/24px-Club_Africain_logo.svg.png" class="w-6 h-6" alt="CA"> الإفريقي
-              </td>
-              <td class="p-3 text-center">21</td>
-              <td class="p-3 text-center">+20</td>
-              <td class="p-3 text-center">45</td>
-            </tr>
-            <tr class="bg-orange-50 font-bold">
-              <td class="p-3 text-center">3</td>
-              <td class="p-3 flex items-center gap-2">
-                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/3/3f/Stade_Tunisien_logo.svg/24px-Stade_Tunisien_logo.svg.png" class="w-6 h-6" alt="ST"> الملعب التونسي
-              </td>
-              <td class="p-3 text-center">21</td>
-              <td class="p-3 text-center">+16</td>
-              <td class="p-3 text-center">41</td>
-            </tr>
-            <tr>
-              <td class="p-3 text-center">4</td>
-              <td class="p-3">الصفاقسي</td>
-              <td class="p-3 text-center">21</td>
-              <td class="p-3 text-center">+17</td>
-              <td class="p-3 text-center">39</td>
-            </tr>
-            <tr class="bg-red-50 text-red-700 font-bold">
-              <td class="p-3 text-center">14</td>
-              <td class="p-3">الأخير</td>
-              <td class="p-3 text-center">21</td>
-              <td class="p-3 text-center">-20</td>
-              <td class="p-3 text-center">18</td>
-            </tr>
+          <tbody id="league-standings">
+            <!-- سيتم ملؤه أوتوماتيك -->
           </tbody>
         </table>
       </div>
@@ -259,16 +219,16 @@
       </div>
     </div>
 
-    <!-- Box 2: Next Matches -->
+    <!-- Box 2: مباريات الأسبوع -->
     <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
       <div class="flex items-center gap-4 p-5 bg-gradient-to-r from-red-700 to-green-500 text-white">
         <span class="text-4xl">⚽📅</span>
         <div>
-          <h2 class="text-xl font-semibold">المباريات القادمة</h2>
-          <p class="text-sm opacity-90">الجولة 22</p>
+          <h2 class="text-xl font-semibold">مباريات الأسبوع</h2>
+          <p class="text-sm opacity-90">تحديث أسبوعي</p>
         </div>
       </div>
-      <div class="matches-list flex flex-col gap-3 p-5">
+      <div class="matches-list flex flex-col gap-3 p-5" id="weekly-matches">
         <!-- سيتم ملؤه أوتوماتيك -->
       </div>
       <div class="text-center text-xs text-gray-500 border-t border-gray-200 p-3">
@@ -280,45 +240,91 @@
 
 </div>
 
-<!-- Script: Fetch Matches + Auto Update Daily -->
 <script>
+// ⚽ إعدادات الدوري
 const leagueID = 200; // الرابطة التونسية
-const matchesContainer = document.querySelector(".matches-list");
 
-async function loadMatches(){
+// العناصر
+const standingsEl = document.getElementById("league-standings");
+const matchesEl = document.getElementById("weekly-matches");
+
+// تحميل الترتيب الكامل - تحديث يومي
+async function loadStandings(){
   try {
-    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events/next/0`));
+    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/season/52118/standings/total`));
+    const data = await res.json();
+
+    let html = "";
+
+    data.standings[0].rows.forEach((team, i) => {
+      let bgClass = "";
+      if(i === 0) bgClass = "bg-blue-100 font-bold";
+      else if(i === 1) bgClass = "bg-blue-50 font-bold";
+      else if(i === 2) bgClass = "bg-yellow-50 font-bold";
+      else if(i >= data.standings[0].rows.length - 3) bgClass = "bg-red-50 text-red-700 font-bold";
+
+      html += `<tr class="${bgClass}">
+        <td class="p-3 text-center">${team.position}</td>
+        <td class="p-3 flex items-center gap-2 justify-end">
+          <img src="${team.team.logo}" class="w-6 h-6" alt="${team.team.name}"/> ${team.team.name}
+        </td>
+        <td class="p-3 text-center">${team.matchesPlayed}</td>
+        <td class="p-3 text-center">${team.goalDifference}</td>
+        <td class="p-3 text-center">${team.points}</td>
+      </tr>`;
+    });
+
+    standingsEl.innerHTML = html;
+  } catch(e){
+    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-700">⚠️ تعذر تحميل الترتيب</td></tr>`;
+  }
+}
+
+// تحميل مباريات الأسبوع - تحديث أسبوعي
+async function loadWeeklyMatches(){
+  try {
+    const res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(`https://www.sofascore.com/api/v1/unique-tournament/${leagueID}/events/next/7`));
     const data = await res.json();
 
     if(!data.events || data.events.length === 0){
-      matchesContainer.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">❌ لا توجد مقابلات حاليا</div>`;
+      matchesEl.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">❌ لا توجد مقابلات لهذا الأسبوع</div>`;
       return;
     }
 
     let html = "";
-    data.events.slice(0,6).forEach(m => {
+    data.events.forEach(m => {
       const d = new Date(m.startTimestamp * 1000);
       const date = d.toLocaleDateString("fr-FR");
       const time = d.toLocaleTimeString("fr-FR",{hour:'2-digit',minute:'2-digit'});
-      html += `
-        <div class="match-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-500 hover:bg-green-50 transition transform">
+
+      html += `<div class="match-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-500 hover:bg-green-50 transition transform flex justify-between items-center">
+        <div>
           <div class="text-xs text-gray-500">${date} • ${time}</div>
-          <div class="font-bold mt-1">${m.homeTeam.name} <b>🆚</b> ${m.awayTeam.name}</div>
+          <div class="font-bold">${m.homeTeam.name} <b>🆚</b> ${m.awayTeam.name}</div>
         </div>
-      `;
+        <div class="flex gap-2">
+          <img src="${m.homeTeam.logo}" class="w-6 h-6" alt="${m.homeTeam.name}">
+          <img src="${m.awayTeam.logo}" class="w-6 h-6" alt="${m.awayTeam.name}">
+        </div>
+      </div>`;
     });
-    matchesContainer.innerHTML = html;
+
+    matchesEl.innerHTML = html;
 
   } catch(e){
-    matchesContainer.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">⚠️ تعذر تحميل المقابلات</div>`;
+    matchesEl.innerHTML = `<div class="bg-red-50 text-red-700 p-4 rounded-lg text-center font-bold">⚠️ تعذر تحميل المباريات</div>`;
   }
 }
 
-// Load first time
-loadMatches();
-// Update every 24 hours automatically
-setInterval(loadMatches, 86400000);
-</script>      
+// أول تحميل
+loadStandings();
+loadWeeklyMatches();
+
+// تحديث يومي للترتيب
+setInterval(loadStandings, 86400000);
+// تحديث أسبوعي للمباريات
+setInterval(loadWeeklyMatches, 604800000);
+</script>
         
     
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->

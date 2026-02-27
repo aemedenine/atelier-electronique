@@ -700,12 +700,34 @@ document.addEventListener('DOMContentLoaded', () => {
 // International News Bar 
 // ==========================================================================
 
+// ==========================================================================
+// International News Vertical Ticker – Pro 2026
+// ==========================================================================
+
+let intlNews = [];
+let intlIndex = 0;
+
 function initInternationalNewsBar() {
-    fetchAndUpdateIntlNews();
-    setInterval(fetchAndUpdateIntlNews, 5 * 60 * 1000);
+    showIntlPlaceholder();
+    fetchInternationalNews();
+    setInterval(fetchInternationalNews, 5 * 60 * 1000); // تحديث كل 5 دقائق
 }
 
-function fetchAndUpdateIntlNews() {
+function showIntlPlaceholder() {
+    const bar = document.getElementById("international-news-bar");
+    if (!bar) return;
+
+    const box = bar.querySelector("#intl-news-text");
+    if (box) {
+        box.textContent = currentLang === 'ar'
+            ? "⏳ جاري تحميل الأخبار الدولية..."
+            : currentLang === 'fr'
+                ? "⏳ Chargement des news internationales..."
+                : "⏳ Loading international news...";
+    }
+}
+
+function fetchInternationalNews() {
     const rss = {
         ar: 'https://feeds.bbci.co.uk/arabic/rss.xml',
         fr: 'https://www.france24.com/fr/rss',
@@ -716,45 +738,47 @@ function fetchAndUpdateIntlNews() {
     const proxy = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
 
     fetch(proxy)
-        .then(res => res.text())
+        .then(r => r.text())
         .then(xml => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(xml, "text/xml");
-            const items = [...doc.querySelectorAll('item')]
-                .slice(0, 8)
-                .map(item => ({
-                    title: item.querySelector('title')?.textContent?.trim(),
-                    link: item.querySelector('link')?.textContent || '#'
+            const doc = new DOMParser().parseFromString(xml, "text/xml");
+            intlNews = [...doc.querySelectorAll("item")]
+                .slice(0, 10)
+                .map(i => ({
+                    title: i.querySelector("title")?.textContent?.trim(),
+                    link: i.querySelector("link")?.textContent || "#"
                 }));
 
-            if (items.length) buildIntlTicker(items);
+            intlIndex = 0;
+            rotateIntlNews();
         })
-        .catch(err => console.error("RSS Error:", err));
+        .catch(err => {
+            console.error("Intl News Error:", err);
+            intlNews = [{
+                title: currentLang === 'ar' ? "⚠️ تعذر تحميل الأخبار الدولية" :
+                       currentLang === 'fr' ? "⚠️ Impossible de charger les news internationales" :
+                       "⚠️ Unable to load international news",
+                link: "#"
+            }];
+            intlIndex = 0;
+            rotateIntlNews();
+        });
 }
 
-function buildIntlTicker(items) {
-    let bar = document.getElementById('international-news-bar');
+function rotateIntlNews() {
+    const box = document.getElementById("intl-news-text");
+    if (!box || !intlNews.length) return;
 
-    if (!bar) {
-        bar = document.createElement('div');
-        bar.id = 'international-news-bar';
+    box.classList.remove("intl-fade-up","intl-fade-down");
 
-        const atelierBar = document.querySelector('.news-ticker');
-        if (atelierBar) atelierBar.insertAdjacentElement('afterend', bar);
-        else document.body.prepend(bar);
-    }
+    setTimeout(() => {
+        const item = intlNews[intlIndex];
+        box.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+        box.classList.add("intl-fade-down");
 
-    const doubled = [...items, ...items];
+        intlIndex = (intlIndex + 1) % intlNews.length;
+    }, 120);
 
-    bar.innerHTML = `
-        <div class="ticker-track">
-            <div class="news-text">
-                ${doubled.map(i =>
-                    `<a href="${i.link}" target="_blank" class="intl-news-item">${i.title}</a>`
-                ).join('')}
-            </div>
-        </div>
-    `;
+    setTimeout(rotateIntlNews, 5000);
 }
     // ── FAQ Toggle ─────────────────────────────────────────────────────────
     function initFAQ() {

@@ -216,7 +216,7 @@ header h1 {
 
 .saraf-track {
     display: inline-flex;
-    gap: 40px;
+    gap: 80px; /* المسافة بين العملات أكبر */
     animation: sarafScroll 36s linear infinite;
 }
 
@@ -224,6 +224,7 @@ header h1 {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    margin-right: 20px; /* مسافة إضافية بين كل عملة */
 }
 
 @keyframes sarafScroll {

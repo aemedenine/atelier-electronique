@@ -103,7 +103,7 @@ header h1 {
   100% { transform: rotate(360deg); }
 }
 /* ==========================================================================
-   News Ticker (الأول) – Bar Atelier
+   News Ticker  – Bar Atelier
    ========================================================================== */
 .news-ticker {
   width: 100%;
@@ -133,54 +133,33 @@ header h1 {
 /* ==========================================================================
    International News Bar 
    ========================================================================== */
-
 #international-news-bar {
-    width: 100%;
-    margin: 0 0 25px;
     overflow: hidden;
-    border-radius: 0 0 12px 12px;
-    background: linear-gradient(90deg, #ff1c1c, #c90000, #8b0000, #c90000, #ff1c1c);
-    background-size: 300% 100%;
-    animation: gradientFlowIntl 18s ease infinite;
-    box-shadow: 0 4px 18px rgba(200,50,50,0.35);
 }
 
-#international-news-bar .ticker-track {
-    display: flex;
-    width: max-content;
-    animation: tickerScrollIntl 22s linear infinite;
-}
-
-#international-news-bar .news-text {
-    display: flex;
-    gap: 40px;
-    padding: 12px 22px;
+#intl-news-text {
+    text-align: center;
+    font-weight: 700;
     font-size: 1.05rem;
-    font-weight: 600;
     color: #fff;
-    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-18px);
+    transition: all 0.6s ease;
 }
 
-.intl-news-item {
-    color: #ffe6e6;
+#intl-news-text a {
+    color: inherit;
     text-decoration: none;
-    transition: 0.3s;
 }
 
-.intl-news-item:hover {
-    color: #fffacd;
-    text-shadow: 0 0 10px rgba(255,250,205,0.8);
+#intl-news-text.intl-fade-down {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-@keyframes tickerScrollIntl {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-@keyframes gradientFlowIntl {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+#intl-news-text.intl-fade-up {
+    opacity: 0;
+    transform: translateY(18px);
 }
 /* ==========================================================================
    Info Bar

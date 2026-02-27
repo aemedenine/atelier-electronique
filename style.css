@@ -227,6 +227,13 @@ header h1 {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
+/* ===== Saraf text only in red ===== */
+.saraf-bar #sarafText,
+.saraf-bar #sarafText span {
+    color: #ff2d2d;
+    font-weight: 800;
+    text-shadow: 0 0 6px rgba(255,45,45,0.6);
+}
 /* ==========================================================================
    Info Bar
    ========================================================================== */

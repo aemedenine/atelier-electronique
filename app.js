@@ -626,29 +626,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNews();
         setInterval(updateNews, 5000);
     }
+
 // ==========================================================================
-// International News Bar – Live Feed 2026 (Rouge Clair – ديناميكي)
+// International News Bar 
 // ==========================================================================
 
 function initInternationalNewsBar() {
-    console.log("International News Bar → Initialisation");
-
-    showPlaceholderIntl();
     fetchAndUpdateIntlNews();
     setInterval(fetchAndUpdateIntlNews, 5 * 60 * 1000);
 }
 
-// Placeholder
-function showPlaceholderIntl() {
-    createIntlBar([{
-        title: currentLang === 'ar' ? '⏳ جاري تحميل الأخبار الدولية...' :
-               currentLang === 'fr' ? '⏳ Chargement des news internationales...' :
-               '⏳ Loading international news...',
-        link: '#'
-    }]);
-}
-
-// Fetch RSS
 function fetchAndUpdateIntlNews() {
     const rss = {
         ar: 'https://feeds.bbci.co.uk/arabic/rss.xml',
@@ -668,24 +655,15 @@ function fetchAndUpdateIntlNews() {
                 .slice(0, 8)
                 .map(item => ({
                     title: item.querySelector('title')?.textContent?.trim(),
-                    link: item.querySelector('link')?.textContent
+                    link: item.querySelector('link')?.textContent || '#'
                 }));
 
-            if (items.length) createIntlBar(items);
+            if (items.length) buildIntlTicker(items);
         })
-        .catch(err => {
-            console.error("RSS Error:", err);
-            createIntlBar([{
-                title: currentLang === 'ar' ? '⚠️ تعذر تحميل الأخبار الدولية' :
-                       currentLang === 'fr' ? '⚠️ Impossible de charger les news internationales' :
-                       '⚠️ Unable to load international news',
-                link: '#'
-            }]);
-        });
+        .catch(err => console.error("RSS Error:", err));
 }
 
-// إنشاء البار بالحركة المستمرة
-function createIntlBar(items) {
+function buildIntlTicker(items) {
     let bar = document.getElementById('international-news-bar');
 
     if (!bar) {
@@ -700,7 +678,7 @@ function createIntlBar(items) {
     const doubled = [...items, ...items];
 
     bar.innerHTML = `
-        <div class="news-track">
+        <div class="ticker-track">
             <div class="news-text">
                 ${doubled.map(i =>
                     `<a href="${i.link}" target="_blank" class="intl-news-item">${i.title}</a>`

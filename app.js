@@ -534,15 +534,13 @@ function safeUpdateVisitText() {
         .visit_count.replace('{count1}', total);
 }
     /* Info Bar Short Live */
-// 💱 Live Currency TND – فقط الوسط ticker
+// 💱 Live Currency TND – Ticker وسط فقط
 async function updateExchangeTicker() {
     try {
-        // جلب العملات مقابل الدينار التونسي
         const res = await fetch('https://api.exchangerate.host/latest?base=TND&symbols=USD,EUR,SAR,LYD,DZD,MAD,EGP');
         const data = await res.json();
         const rates = data.rates;
 
-        // إدراج الأسعار داخل العنصر الوسط اللي عندك
         const ticker = document.getElementById('exchange-ticker');
         if (!ticker) return;
 
@@ -550,20 +548,23 @@ async function updateExchangeTicker() {
             .map(([cur, val]) => `<span>${cur}: ${val.toFixed(3)}</span>`)
             .join('  •  ');
 
-        // إعادة تشغيل animation عند كل تحديث
+        // Restart animation
         ticker.style.animation = 'none';
-        void ticker.offsetWidth; // force reflow
+        void ticker.offsetWidth;
         ticker.style.animation = '';
+
     } catch (e) {
         console.error("Exchange ticker error:", e);
         const ticker = document.getElementById('exchange-ticker');
-        if(ticker) ticker.innerHTML = '⚠️ خطأ في تحميل أسعار الصرف';
+        if (ticker) ticker.innerHTML = '⚠️ خطأ في تحميل أسعار الصرف';
     }
 }
 
-// تحديث live كل دقيقة
+// أول تحميل
 updateExchangeTicker();
-setInterval(updateExchangeTicker, 60*1000);
+
+// تحديث تلقائي كل دقيقة
+setInterval(updateExchangeTicker, 60 * 1000);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {
@@ -1606,9 +1607,6 @@ if (smdInput) {
             }
         });
     });
-// ===============================
-// Robo Popup Controller
-// ===============================
 // ===============================
 // Robo Popup Controller (FIXED)
 // ===============================

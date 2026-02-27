@@ -21,6 +21,13 @@
 </head>
 <body>
     <header>
+        <div id="language-switcher" style="text-align:right; margin:5px 10px;">
+        <select onchange="changeLang(this.value)">
+            <option value="ar">AR</option>
+            <option value="fr">FR</option>
+            <option value="en">EN</option>
+        </select>
+    </div>
         <div class="container header-inner">
             <canvas id="pcbCanvasHeader"></canvas>
             <img src="logo.png" alt="Atelier Electronique Médenine Logo" class="logo" />

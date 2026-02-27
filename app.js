@@ -694,6 +694,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // International News Vertical Ticker – Pro 2026
 // ==========================================================================
 
+let intlNews = [];
+let intlIndex = 0;
+let currentLang = localStorage.getItem('lang') || 'ar'; // اللغة الحالية
+
 // تهيئة البار
 function initInternationalNewsBar() {
     showIntlPlaceholder();

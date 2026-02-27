@@ -535,47 +535,73 @@ function safeUpdateVisitText() {
 }
    
 // ==========================================================================
-// Live Exchange Rate Bar – Pro Stable 2026
+// Live Exchange Rate Bar – SUPER STABLE 2026 (ثابت وما يعلقش)
 // ==========================================================================
-
 function initExchangeBar() {
     fetchExchangeRates();
-    setInterval(fetchExchangeRates, 3 * 60 * 1000); // تحديث كل 3 دقائق
+    setInterval(fetchExchangeRates, 5 * 60 * 1000); // تحديث كل 5 دقائق (أحسن للـ rate limit)
 }
 
 async function fetchExchangeRates() {
-    try {
-        const res = await fetch("https://open.er-api.com/v6/latest/TND");
-        const data = await res.json();
+    const sarafText = document.getElementById("sarafText");
+    if (!sarafText) return;
 
-        if (data && data.rates) {
-            renderExchangeBar(data.rates);
-            return;
-        }
+    sarafText.innerHTML = "جاري تحميل أسعار الصرف... ⏳";
 
-        throw "Primary API Failed";
+    // مصادر 2026 الأكثر استقراراً (بدون مفتاح أولاً)
+    const sources = [
+        // 1. exchangeratesapi.io (مجاني، مستقر، يدعم TND)
+        "https://api.exchangerate-api.com/v4/latest/TND",
 
-    } catch (e) {
+        // 2. currencyapi.com (مجاني محدود، لكن سريع)
+        "https://api.currencyapi.com/v3/latest?apikey=free&base_currency=TND",
+
+        // 3. cnb.cz (بنك مركزي تشيكي – مجاني ومفتوح)
+        "https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing.txt"
+    ];
+
+    for (let i = 0; i < sources.length; i++) {
         try {
-            const res = await fetch("https://api.exchangerate.host/latest?base=TND");
+            const url = sources[i];
+            console.log(`جاري المحاولة مع: ${url}`);
+
+            const res = await fetch(url, {
+                headers: { 'User-Agent': 'Mozilla/5.0 (Tunisia Exchange Bar 2026)' }
+            });
+
+            if (!res.ok) continue;
+
             const data = await res.json();
 
-            if (data && data.rates) {
+            // exchangerate-api.com
+            if (data && data.rates && data.base === 'TND') {
                 renderExchangeBar(data.rates);
+                console.log("نجاح من exchangerate-api");
                 return;
             }
 
-            throw "Backup API Failed";
+            // currencyapi.com (fallback 2)
+            if (data && data.data) {
+                renderExchangeBar(data.data);
+                console.log("نجاح من currencyapi");
+                return;
+            }
 
         } catch (err) {
-            console.error("Exchange Rates Error:", err);
-            renderExchangeError();
+            console.warn(`فشل المصدر ${i+1}:`, err);
         }
     }
+
+    // لو كل المصادر فشلت
+    sarafText.innerHTML = "⚠️ تعذر تحميل أسعار الصرف حالياً";
+    console.error("كل مصادر أسعار الصرف فشلت");
 }
 
-function renderExchangeBar(r) {
-    const rates = [
+function renderExchangeBar(rates) {
+    const sarafText = document.getElementById("sarafText");
+    if (!sarafText) return;
+
+    const important = [
         { code: "USD", flag: "🇺🇸" },
         { code: "EUR", flag: "🇪🇺" },
         { code: "SAR", flag: "🇸🇦" },
@@ -585,34 +611,23 @@ function renderExchangeBar(r) {
         { code: "EGP", flag: "🇪🇬" }
     ];
 
-    const items = rates.map(c => {
-        const value = (1 / r[c.code]).toFixed(3);
-        return `${c.flag} ${c.code}: ${value} TND`;
+    const items = important.map(c => {
+        const rate = rates[c.code];
+        if (!rate) return `${c.flag} ${c.code}: غير متوفر`;
+        const tnd = (1 / rate).toFixed(3);
+        return `${c.flag} ${c.code}: ${tnd} د.ت`;
     });
 
-    buildExchangeTicker(items);
-}
-
-function buildExchangeTicker(items) {
-    const ticker = document.getElementById("sarafText");
-    if (!ticker) return;
-
+    // نضاعف القائمة عشان التمرير يكون سلس
     const doubled = [...items, ...items];
 
-    ticker.innerHTML = `
+    sarafText.innerHTML = `
         <div class="ticker-text">
             ${doubled.map(i => `<span>${i}</span>`).join(" • ")}
         </div>
     `;
 }
 
-function renderExchangeError() {
-    const ticker = document.getElementById("sarafText");
-    if (!ticker) return;
-    ticker.textContent = "⚠️ تعذر تحميل أسعار الصرف حالياً";
-}
-
-document.addEventListener("DOMContentLoaded", initExchangeBar);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

@@ -535,36 +535,24 @@ function safeUpdateVisitText() {
 }
     /* Info Bar Short Live */
 // 💱 Live Currency TND – Ticker وسط فقط
-async function updateExchangeTicker() {
-    try {
-        const res = await fetch('https://api.exchangerate.host/latest?base=TND&symbols=USD,EUR,SAR,LYD,DZD,MAD,EGP');
-        const data = await res.json();
-        const rates = data.rates;
+async function loadSaraf() {
+  try {
+    const res = await fetch("https://api.exchangerate.host/latest?base=EUR&symbols=TND,USD");
+    const data = await res.json();
 
-        const ticker = document.getElementById('exchange-ticker');
-        if (!ticker) return;
+    const eur = data.rates.TND.toFixed(3);
+    const usd = (data.rates.TND / data.rates.USD).toFixed(3);
 
-        ticker.innerHTML = Object.entries(rates)
-            .map(([cur, val]) => `<span>${cur}: ${val.toFixed(3)}</span>`)
-            .join('  •  ');
-
-        // Restart animation
-        ticker.style.animation = 'none';
-        void ticker.offsetWidth;
-        ticker.style.animation = '';
-
-    } catch (e) {
-        console.error("Exchange ticker error:", e);
-        const ticker = document.getElementById('exchange-ticker');
-        if (ticker) ticker.innerHTML = '⚠️ خطأ في تحميل أسعار الصرف';
-    }
+    document.getElementById("sarafText").innerHTML =
+      `💶 1€ = ${eur} TND   |   💵 1$ = ${usd} TND   |   تحديث مباشر`;
+  } catch (e) {
+    document.getElementById("sarafText").innerHTML =
+      "⚠️ خطأ في تحميل أسعار الصرف";
+  }
 }
 
-// أول تحميل
-updateExchangeTicker();
-
-// تحديث تلقائي كل دقيقة
-setInterval(updateExchangeTicker, 60 * 1000);
+loadSaraf();
+setInterval(loadSaraf, 60000);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 
 function updateTime() {

@@ -536,9 +536,6 @@ function safeUpdateVisitText() {
         .visit_count.replace('{count1}', total);
 }
    
-// ==========================================================================
-// سعر الصرف – Ticker متحرك احترافي (Live Flags Edition 2026)
-// ==========================================================================
 function initSarafTicker() {
     const el = document.getElementById("sarafText");
     if (!el) {
@@ -598,16 +595,16 @@ function renderSarafTicker(rates, el) {
             : `<span class="saraf-item">${c.flag} ${c.name}: —</span>`;
     });
 
-    // نكرر العناصر مرتين لضمان استمرار الشريط
-    el.innerHTML = [...items, ...items].join("   ");
+    // نكرر العناصر مرتين باش يكون loop fermé
+    el.innerHTML = `<div class="saraf-track">${[...items, ...items].join("   ")}</div>`;
 
     // إعادة تشغيل الأنيميشن
-    el.style.animation = 'none';
-    void el.offsetWidth;
-    el.style.animation = 'sarafScroll 36s linear infinite';
+    const track = el.querySelector('.saraf-track');
+    track.style.animation = 'none';
+    void track.offsetWidth;
+    track.style.animation = 'sarafScroll 36s linear infinite';
 }
 
-// تفعيل الـ ticker عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", initSarafTicker);
     // ── Mise à jour de l'heure ─────────────────────────────────────────────
 

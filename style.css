@@ -232,50 +232,43 @@ header h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-/* Info Bar Short Live */
 .info-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(90deg,#71c6f8fa,#4f52e9,#0c12e7); 
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    overflow: hidden;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: linear-gradient(90deg,#6ec6ff,#1e2cff);
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-/* الوسط يتحرك ticker */
-.scrolling-ticker {
-    flex: 1;
-    display: inline-flex;
-    gap: 50px;
-    white-space: nowrap;
-    margin: 0 15px;
-    animation: scrollExchange 50s linear infinite;
+/* الوقت و الزيارات */
+#timeBox,
+#visitsBox {
+  white-space: nowrap;
+  font-weight: 700;
 }
 
-.scrolling-ticker span {
-    display: inline-block;
+/* وسط البار */
+.ticker {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
 }
 
-/* الأطراف ثابتة */
-#time-display, #visitor-count {
-    flex-shrink: 0;
+/* النص المتحرك */
+.ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: tickerMove 18s linear infinite;
 }
 
-/* Animation ticker */
-@keyframes scrollExchange {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-/* Responsive */
-@media (max-width:768px){
-    .info-bar { flex-direction: column; gap: 6px; font-size: 0.85rem; }
-    .scrolling-ticker { animation-duration: 80s; margin: 0; }
+@keyframes tickerMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
 }
 /* ==========================================================================
    CTA Buttons + Glow Effect

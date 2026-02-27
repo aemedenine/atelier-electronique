@@ -183,134 +183,126 @@
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
-<!-- بوكسات الرياضة - متوازية جنب بعض (grid) -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-    <!-- بوكس 1: ترتيب البطولة -->
-    <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border-2 border-green-600 overflow-hidden">
-      <div class="bg-gradient-to-r from-green-700 to-green-500 text-white p-6 flex items-center gap-4">
-        <span class="text-5xl">🏆</span>
+<!-- بوكسات الرياضة - جنب بعضهم مثل الطقس والتقييم -->
+<div style="max-width: 1200px; margin: 40px auto; padding: 0 15px;">
+  <div style="display: grid; grid-template-columns: 1fr; gap: 25px; @media (min-width: 1024px) { grid-template-columns: 1fr 1fr; }">
+    
+    <!-- بوكس 1: الترتيب -->
+    <div style="background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #e0e0e0; overflow: hidden;">
+      <div style="background: linear-gradient(to right, #15803d, #16a34a); color: white; padding: 20px; display: flex; align-items: center; gap: 15px;">
+        <span style="font-size: 42px;">🏆</span>
         <div>
-          <h2 class="text-2xl md:text-3xl font-extrabold">ترتيب الرابطة التونسية 2025/2026</h2>
-          <p class="text-base opacity-90">بعد 21 جولة • محدث 27 فيفري 2026</p>
+          <h2 style="margin: 0; font-size: 24px;">ترتيب الرابطة التونسية 2025/2026</h2>
+          <p style="margin: 4px 0 0; font-size: 14px; opacity: 0.9;">بعد 21 جولة • محدث 27 فيفري 2026</p>
         </div>
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-right text-sm md:text-base">
-          <thead class="bg-green-50 dark:bg-green-950">
-            <tr class="text-xs md:text-sm uppercase font-bold">
-              <th class="p-4">#</th>
-              <th class="p-4 text-left">الفريق</th>
-              <th class="p-4">لعب</th>
-              <th class="p-4">+/-</th>
-              <th class="p-4 font-black">نقاط</th>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: right; font-size: 15px;">
+          <thead style="background: #f8f9fa;">
+            <tr>
+              <th style="padding: 12px 8px;">#</th>
+              <th style="padding: 12px 8px; text-align: right;">الفريق</th>
+              <th style="padding: 12px 8px;">لعب</th>
+              <th style="padding: 12px 8px;">+/-</th>
+              <th style="padding: 12px 8px; font-weight: bold;">نقاط</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-            <tr class="bg-green-100 dark:bg-green-900 font-bold">
-              <td class="p-4 text-center">1</td>
-              <td class="p-4">الترجي</td>
-              <td class="p-4 text-center">21</td>
-              <td class="p-4 text-center">+29</td>
-              <td class="p-4 text-center text-green-700">47</td>
+          <tbody>
+            <!-- 1 - الترجي (أخضر فاتح) -->
+            <tr style="background: #f0fdf4; font-weight: bold;">
+              <td style="padding: 12px 8px; text-align: center;">1</td>
+              <td style="padding: 12px 8px;">
+                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/6/61/Esp%C3%A9rance_Sportive_de_Tunis_logo.svg/120px-Esp%C3%A9rance_Sportive_de_Tunis_logo.svg.png" alt="EST" style="width: 24px; height: 24px; vertical-align: middle; margin-left: 8px;">
+                الترجي
+              </td>
+              <td style="padding: 12px 8px; text-align: center;">21</td>
+              <td style="padding: 12px 8px; text-align: center;">+29</td>
+              <td style="padding: 12px 8px; text-align: center; color: #15803d;">47</td>
             </tr>
-            <tr class="bg-yellow-50 dark:bg-yellow-900/50">
-              <td class="p-4 text-center">2</td>
-              <td class="p-4">الإفريقي</td>
-              <td class="p-4 text-center">21</td>
-              <td class="p-4 text-center">+20</td>
-              <td class="p-4 text-center">45</td>
+            <!-- 2 - الإفريقي (أصفر فاتح) -->
+            <tr style="background: #fefce8; font-weight: bold;">
+              <td style="padding: 12px 8px; text-align: center;">2</td>
+              <td style="padding: 12px 8px;">
+                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/9/9c/Club_Africain_logo.svg/120px-Club_Africain_logo.svg.png" alt="CA" style="width: 24px; height: 24px; vertical-align: middle; margin-left: 8px;">
+                الإفريقي
+              </td>
+              <td style="padding: 12px 8px; text-align: center;">21</td>
+              <td style="padding: 12px 8px; text-align: center;">+20</td>
+              <td style="padding: 12px 8px; text-align: center;">45</td>
             </tr>
+            <!-- 3 - الملعب التونسي (برتقالي فاتح) -->
+            <tr style="background: #fff7ed; font-weight: bold;">
+              <td style="padding: 12px 8px; text-align: center;">3</td>
+              <td style="padding: 12px 8px;">
+                <img src="https://upload.wikimedia.org/wikipedia/ar/thumb/3/3f/Stade_Tunisien_logo.svg/120px-Stade_Tunisien_logo.svg.png" alt="ST" style="width: 24px; height: 24px; vertical-align: middle; margin-left: 8px;">
+                الملعب التونسي
+              </td>
+              <td style="padding: 12px 8px; text-align: center;">21</td>
+              <td style="padding: 12px 8px; text-align: center;">+16</td>
+              <td style="padding: 12px 8px; text-align: center;">41</td>
+            </tr>
+            <!-- باقي الفرق (أبيض + أحمر للأخيرين إذا تحب) -->
             <tr>
-              <td class="p-4 text-center">3</td>
-              <td class="p-4">الملعب التونسي</td>
-              <td class="p-4 text-center">21</td>
-              <td class="p-4 text-center">+16</td>
-              <td class="p-4 text-center">41</td>
+              <td style="padding: 12px 8px; text-align: center;">4</td>
+              <td style="padding: 12px 8px;">الصفاقسي</td>
+              <td style="padding: 12px 8px; text-align: center;">21</td>
+              <td style="padding: 12px 8px; text-align: center;">+17</td>
+              <td style="padding: 12px 8px; text-align: center;">39</td>
             </tr>
-            <tr>
-              <td class="p-4 text-center">4</td>
-              <td class="p-4">الصفاقسي</td>
-              <td class="p-4 text-center">21</td>
-              <td class="p-4 text-center">+17</td>
-              <td class="p-4 text-center">39</td>
-            </tr>
-            <tr>
-              <td class="p-4 text-center">5</td>
-              <td class="p-4">الاتحاد المنستيري</td>
-              <td class="p-4 text-center">21</td>
-              <td class="p-4 text-center">+10</td>
-              <td class="p-4 text-center">36</td>
-            </tr>
-            <tr>
-              <td class="p-4 text-center">6</td>
-              <td class="p-4">النجم الساحلي</td>
-              <td class="p-4 text-center">21</td>
-              <td class="p-4 text-center">+3</td>
-              <td class="p-4 text-center">30</td>
+            <!-- ... أضف 5،6،... حسب الحاجة، وآخر 3 أحمر خفيف مثلاً -->
+            <tr style="background: #fef2f2; color: #991b1b;">
+              <td style="padding: 12px 8px; text-align: center;">14</td>
+              <td style="padding: 12px 8px;">الأخير (مثال)</td>
+              <td style="padding: 12px 8px; text-align: center;">21</td>
+              <td style="padding: 12px 8px; text-align: center;">-20</td>
+              <td style="padding: 12px 8px; text-align: center;">18</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="p-3 text-xs text-center text-gray-600 dark:text-gray-400 border-t bg-gray-50 dark:bg-gray-800">
-        مصدر: 365Scores • jdwel • Mosaique FM • Sofascore
+      <div style="padding: 10px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #eee;">
+        مصدر: jdwel • 365Scores • Mosaique FM • Sofascore
       </div>
     </div>
 
-    <!-- بوكس 2: المقابلات الجاية -->
-    <div class="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border-2 border-green-600 overflow-hidden">
-      <div class="bg-gradient-to-r from-red-600 to-green-600 text-white p-6 flex items-center gap-4">
-        <span class="text-5xl">⚽📅</span>
+    <!-- بوكس 2: المقابلات الجاية (لون موحد رمادي فاتح + hover أخضر) -->
+    <div style="background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #e0e0e0; overflow: hidden;">
+      <div style="background: linear-gradient(to right, #dc2626, #16a34a); color: white; padding: 20px; display: flex; align-items: center; gap: 15px;">
+        <span style="font-size: 42px;">⚽📅</span>
         <div>
-          <h2 class="text-2xl md:text-3xl font-extrabold">المباريات القادمة - الجولة 22</h2>
-          <p class="text-base opacity-90">الرابطة التونسية 2025/2026</p>
+          <h2 style="margin: 0; font-size: 24px;">المباريات القادمة - الجولة 22</h2>
+          <p style="margin: 4px 0 0; font-size: 14px; opacity: 0.9;">2025/2026</p>
         </div>
       </div>
-      <div class="p-5 space-y-4">
-        <div class="bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 p-4 rounded-2xl transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <div class="text-xs text-gray-500">28 فيفري 2026 • 15:00</div>
-            <div class="font-bold text-base md:text-lg">مستقبل المرسى <span class="text-green-600 mx-1">🆚</span> الملعب التونسي</div>
+      <div style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: #f9fafb; padding: 12px; border-radius: 10px; transition: all 0.2s; hover { background: #ecfdf5; }">
+          <div style="font-size: 13px; color: #666;">28 فيفري 2026 • 15:00</div>
+          <div style="font-weight: bold; margin-top: 4px;">
+            مستقبل المرسى <span style="color: #16a34a; margin: 0 4px;">🆚</span> الملعب التونسي
           </div>
-          <span class="text-xs bg-green-100 dark:bg-green-800 px-3 py-1 rounded-full">تفاصيل قريباً</span>
         </div>
-        <div class="bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 p-4 rounded-2xl transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <div class="text-xs text-gray-500">28 فيفري 2026 • 15:00</div>
-            <div class="font-bold text-base md:text-lg">البنزرتي <span class="text-green-600 mx-1">🆚</span> الاتحاد المنستيري</div>
+        <div style="background: #f9fafb; padding: 12px; border-radius: 10px; transition: all 0.2s;">
+          <div style="font-size: 13px; color: #666;">28 فيفري 2026 • 15:00</div>
+          <div style="font-weight: bold; margin-top: 4px;">
+            البنزرتي <span style="color: #16a34a; margin: 0 4px;">🆚</span> الاتحاد المنستيري
           </div>
-          <span class="text-xs bg-green-100 dark:bg-green-800 px-3 py-1 rounded-full">تفاصيل قريباً</span>
         </div>
-        <div class="bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 p-4 rounded-2xl transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <div class="text-xs text-gray-500">28 فيفري 2026 • 15:00</div>
-            <div class="font-bold text-base md:text-lg">النجم الساحلي <span class="text-green-600 mx-1">🆚</span> مستقبل سليمان</div>
+        <!-- أضف الباقي: النجم vs سليمان، الإفريقي vs متلوي، الباجي vs الترجي ... -->
+        <div style="background: #f9fafb; padding: 12px; border-radius: 10px; transition: all 0.2s;">
+          <div style="font-size: 13px; color: #666;">1 مارس 2026 • 15:00</div>
+          <div style="font-weight: bold; margin-top: 4px;">
+            الأولمبي الباجي <span style="color: #16a34a; margin: 0 4px;">🆚</span> الترجي
           </div>
-          <span class="text-xs bg-green-100 dark:bg-green-800 px-3 py-1 rounded-full">تفاصيل قريباً</span>
-        </div>
-        <div class="bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 p-4 rounded-2xl transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <div class="text-xs text-gray-500">1 مارس 2026 • 15:00</div>
-            <div class="font-bold text-base md:text-lg">الإفريقي <span class="text-green-600 mx-1">🆚</span> نجم المتلوي</div>
-          </div>
-          <span class="text-xs bg-green-100 dark:bg-green-800 px-3 py-1 rounded-full">تفاصيل قريباً</span>
-        </div>
-        <div class="bg-gray-50 dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 p-4 rounded-2xl transition flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <div class="text-xs text-gray-500">1 مارس 2026 • 15:00</div>
-            <div class="font-bold text-base md:text-lg">الأولمبي الباجي <span class="text-green-600 mx-1">🆚</span> الترجي</div>
-          </div>
-          <span class="text-xs bg-green-100 dark:bg-green-800 px-3 py-1 rounded-full">تفاصيل قريباً</span>
         </div>
       </div>
-      <div class="p-3 text-xs text-center text-gray-600 dark:text-gray-400 border-t bg-gray-50 dark:bg-gray-800">
-        مصدر: 365Scores • jdwel • Webmanagercenter • محدث يومياً
+      <div style="padding: 10px; text-align: center; font-size: 12px; color: #666; border-top: 1px solid #eee;">
+        مصدر: jdwel • 365Scores • Mosaique FM
       </div>
     </div>
 
   </div>
 </div>
+    
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">
             <div class="faq-container">

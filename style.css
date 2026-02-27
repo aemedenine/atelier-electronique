@@ -237,7 +237,7 @@ header h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(90deg,#f87171,#fca5a5,#f87171); /* Rouge clair */
+    background: linear-gradient(90deg,#71c6f8fa,#4f52e9,#0c12e7); 
     color: #fff;
     padding: 8px 15px;
     border-radius: 8px;

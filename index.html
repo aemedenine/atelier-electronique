@@ -659,5 +659,13 @@
 </div>
         <!-- JavaScript externe -->
         <script src="app.js" defer></script>
+    <!-- Twemoji بعد ما يتحمّل المحتوى -->
+    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
+<script>
+twemoji.parse(document.getElementById('sarafText'), {
+  folder: 'svg',
+  ext: '.svg'
+});
+</script>
 </body>
 </html>

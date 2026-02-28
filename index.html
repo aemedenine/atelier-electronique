@@ -184,114 +184,181 @@
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
  
-
-<section class="football-section mt-8">
-    <div class="football-grid grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto px-4">
-        <!-- بوكس الترتيب -->
-        <div class="football-box bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl shadow-xl overflow-hidden border border-amber-200">
-            <h3 class="text-white text-center py-4 text-xl font-bold bg-amber-600">
-                🏆 ترتيب الدوري التونسي المحترف 2025/2026
-            </h3>
-            <div id="standings-loading" class="text-center py-10 text-gray-600 italic">جاري التحميل من API... ⚽</div>
-            <ol id="standings-list" class="p-5 space-y-3"></ol>
-            <small id="standings-update" class="block text-center py-3 text-sm text-gray-500 border-t border-amber-200">
-                محدث تلقائياً – API-Football
-            </small>
-        </div>
-
-        <!-- بوكس المباريات -->
-        <div class="football-box bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-xl overflow-hidden border border-blue-200">
-            <h3 class="text-white text-center py-4 text-xl font-bold bg-blue-600">
-                ⚽ مباريات الأسبوع (جولة 22 & قادمة)
-            </h3>
-            <div id="fixtures-loading" class="text-center py-10 text-gray-600 italic">جاري تحميل المباريات...</div>
-            <ul id="fixtures-list" class="p-5 space-y-3"></ul>
-            <small class="block text-center py-3 text-sm text-gray-500 border-t border-blue-200">
-                مواعيد تونس – تحديثات مباشرة
-            </small>
-        </div>
-    </div>
-</section>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بطولة تونس – ULTRA PRO ⚽</title>
+<script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-    .football-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-    }
-    @media (min-width: 768px) {
-        .football-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-    .football-box {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .football-box:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-    ol, ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    li {
-        background: white;
-        padding: 12px 16px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        font-size: 1.05em;
-    }
-    li strong {
-        color: #b91c1c;
-        font-weight: bold;
-    }
+body{
+    background: radial-gradient(circle at top, #020617, #000);
+}
+.glass{
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    border:1px solid rgba(255,255,255,0.12);
+}
+.glow:hover{
+    box-shadow: 0 0 30px rgba(59,130,246,.7),0 0 60px rgba(59,130,246,.4);
+}
+.skeleton{
+    background: linear-gradient(90deg,#222 25%,#333 37%,#222 63%);
+    background-size: 400% 100%;
+    animation: sk 1.4s ease infinite;
+}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:0 0}}
+.badge{
+    padding:2px 8px;
+    border-radius:999px;
+    font-size:11px;
+    background:linear-gradient(45deg,#facc15,#f59e0b);
+    color:#000;
+    font-weight:bold;
+}
 </style>
+</head>
+
+<body class="text-white">
+
+<section class="max-w-7xl mx-auto px-4 py-12">
+
+<h1 class="text-center text-3xl md:text-4xl font-black mb-12 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+🔥 بطولة تونس – Ultra Premium Dashboard ⚽
+</h1>
+
+<div class="grid md:grid-cols-2 gap-8">
+
+<!-- ترتيب الدوري -->
+<div class="glass rounded-3xl glow overflow-hidden">
+    <div class="p-4 text-xl font-black bg-gradient-to-r from-yellow-500 to-orange-600 text-black text-center">
+        🏆 ترتيب الدوري
+    </div>
+
+    <div id="standings-loading" class="p-6 space-y-3">
+        <div class="h-10 rounded-xl skeleton"></div>
+        <div class="h-10 rounded-xl skeleton"></div>
+        <div class="h-10 rounded-xl skeleton"></div>
+        <div class="h-10 rounded-xl skeleton"></div>
+    </div>
+
+    <ol id="standings-list" class="hidden p-6 space-y-3"></ol>
+
+    <div id="standings-update" class="text-center text-xs text-gray-400 py-3 border-t border-white/10"></div>
+</div>
+
+<!-- مباريات الأسبوع -->
+<div class="glass rounded-3xl glow overflow-hidden">
+    <div class="p-4 text-xl font-black bg-gradient-to-r from-blue-500 to-cyan-500 text-black text-center">
+        ⚽ مباريات الأسبوع
+    </div>
+
+    <div id="fixtures-loading" class="p-6 space-y-3">
+        <div class="h-12 rounded-xl skeleton"></div>
+        <div class="h-12 rounded-xl skeleton"></div>
+        <div class="h-12 rounded-xl skeleton"></div>
+    </div>
+
+    <ul id="fixtures-list" class="hidden p-6 space-y-3"></ul>
+
+    <div class="text-center text-xs text-gray-400 py-3 border-t border-white/10">
+        توقيت تونس 🇹🇳 – تحديث مباشر
+    </div>
+</div>
+
+</div>
+
+</section>
 
 <script>
-    const API_KEY = '4194a9fc903cf90950dfbc5b3e10f34c';
-    const LEAGUE_ID = 984;
-    const SEASON = 2025;
+const API_KEY = "4194a9fc903cf90950dfbc5b3e10f34c";
+const LEAGUE_ID = 984;
+const SEASON = 2025;
 
-    async function fetchStandings() {
-        const loading = document.getElementById('standings-loading');
-        const list = document.getElementById('standings-list');
-        try {
-            const res = await fetch(`https://v3.football.api-sports.io/standings?league=${LEAGUE_ID}&season=${SEASON}`, {
-                headers: { 'x-apisports-key': API_KEY }
-            });
-            const data = await res.json();
-            if (data.response?.length > 0) {
-                const standings = data.response[0].league.standings[0];
-                list.innerHTML = '';
-                standings.forEach((t, i) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<strong>${i+1}. ${t.team.name}</strong> - ${t.points} نقطة (+${t.goalsDiff})`;
-                    list.appendChild(li);
-                });
-                loading.style.display = 'none';
-                document.getElementById('standings-update').textContent = `محدث ${new Date().toLocaleString('ar-TN')} – API-Football`;
-            }
-        } catch (e) {
-            console.error(e);
-            loading.textContent = 'خطأ في الـ API – الترتيب الحالي (28 فيفري 2026)';
-            list.innerHTML = `
-                <li><strong>1. الترجي الرياضي</strong> - 47 نقطة (+29)</li>
-                <li><strong>2. النادي الإفريقي</strong> - 45 نقطة (+20)</li>
-                <li><strong>3. الملعب التونسي</strong> - 44 نقطة (+20)</li>
-                <li><strong>4. النادي الصفاقسي</strong> - 39 نقطة (+17)</li>
-                <li><strong>5. الاتحاد المنستيري</strong> - 37 نقطة (+10)</li>
-            `;
-        }
+// ترتيب الدوري
+async function fetchStandings(){
+    const loading = document.getElementById("standings-loading");
+    const list = document.getElementById("standings-list");
+
+    try{
+        const res = await fetch(`https://v3.football.api-sports.io/standings?league=${LEAGUE_ID}&season=${SEASON}`,{
+            headers:{ "x-apisports-key": API_KEY }
+        });
+        const data = await res.json();
+
+        const rows = data.response[0].league.standings[0];
+        loading.classList.add("hidden");
+        list.classList.remove("hidden");
+        list.innerHTML="";
+
+        rows.forEach((t,i)=>{
+            let badge = i==0 ? `<span class="badge">👑 بطل</span>` : "";
+            let glow = i==0 ? "ring-2 ring-yellow-400" : "";
+
+            list.innerHTML+=`
+            <li class="flex justify-between items-center bg-white/5 rounded-xl px-4 py-3 ${glow}">
+                <div class="flex items-center gap-2 font-bold">
+                    <span class="text-yellow-400">${t.rank}</span>
+                    <span>${t.team.name}</span>
+                    ${badge}
+                </div>
+                <div class="text-sm text-gray-300">
+                    ${t.points} نقطة • ${t.goalsDiff}
+                </div>
+            </li>`;
+        });
+
+        document.getElementById("standings-update").innerText=
+        "آخر تحديث: "+new Date().toLocaleString("ar-TN");
+
+    }catch(err){
+        loading.innerHTML=`<div class="text-center text-red-400">❌ فشل تحميل الترتيب</div>`;
     }
+}
 
-    // fetchFixtures نفسها بدون تغيير كبير (أضفها لو مش موجودة)
+// مباريات الأسبوع
+async function fetchFixtures(){
+    const loading = document.getElementById("fixtures-loading");
+    const list = document.getElementById("fixtures-list");
 
-    window.addEventListener('load', () => {
-        fetchStandings();
-        fetchFixtures();  // لو موجودة
-    });
+    try{
+        const today = new Date().toISOString().split("T")[0];
+        const res = await fetch(`https://v3.football.api-sports.io/fixtures?league=${LEAGUE_ID}&season=${SEASON}&from=${today}&next=6`,{
+            headers:{ "x-apisports-key": API_KEY }
+        });
+        const data = await res.json();
+
+        loading.classList.add("hidden");
+        list.classList.remove("hidden");
+        list.innerHTML="";
+
+        data.response.forEach(m=>{
+            const d = new Date(m.fixture.date);
+            const date = d.toLocaleDateString("ar-TN",{weekday:"short",day:"numeric",month:"short"});
+            const time = d.toLocaleTimeString("ar-TN",{hour:"2-digit",minute:"2-digit"});
+
+            list.innerHTML+=`
+            <li class="bg-white/5 rounded-xl px-4 py-3 hover:bg-white/10 transition">
+                <div class="text-xs text-gray-400">${date} • ${time}</div>
+                <div class="font-bold flex justify-between">
+                    <span>${m.teams.home.name}</span>
+                    <span class="text-red-400">VS</span>
+                    <span>${m.teams.away.name}</span>
+                </div>
+            </li>`;
+        });
+
+    }catch(err){
+        loading.innerHTML=`<div class="text-center text-red-400">❌ فشل تحميل المباريات</div>`;
+    }
+}
+
+fetchStandings();
+fetchFixtures();
 </script>
+
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">

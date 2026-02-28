@@ -183,7 +183,15 @@
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بطولة تونس - PRO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
 <section class="football-section my-6 px-2 md:px-4 max-w-7xl mx-auto">
+
+  <h2 class="text-xl md:text-2xl font-bold text-center mb-4 text-blue-800">
+    ⚽ البطولة التونسية 2025 / 2026
+  </h2>
 
   <div class="grid gap-4 md:grid-cols-2">
 
@@ -191,9 +199,7 @@
     <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden text-sm">
       <div class="flex items-center gap-2 p-2 bg-gradient-to-r from-blue-700 to-blue-600 text-white">
         <span class="text-2xl">🏆</span>
-        <div>
-          <h3 class="text-base md:text-lg font-bold">ترتيب الدوري</h3>
-        </div>
+        <h3 class="text-base md:text-lg font-bold">ترتيب الدوري</h3>
       </div>
 
       <div class="overflow-x-auto">
@@ -233,7 +239,7 @@
 </section>
 
 <script>
-const league = 199;
+const league = 199;   // Ligue 1 Tunisie
 const season = 2025;
 
 const standingsEl = document.getElementById("league-standings");
@@ -241,11 +247,17 @@ const matchesEl   = document.getElementById("weekly-matches");
 
 async function loadStandings() {
   try {
-    const res = await fetch(`api-football.php?endpoint=standings&params=league=${league}&season=${season}`);
+    const res = await fetch(`api-football.php?endpoint=standings&params=league=${league}&season=${season}`, { cache: "no-store" });
     const data = await res.json();
-    const rows = data.response[0].league.standings[0];
 
+    if (!data.response || !data.response.length) {
+      standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">لا توجد بيانات</td></tr>`;
+      return;
+    }
+
+    const rows = data.response[0].league.standings[0];
     let html = "";
+
     rows.forEach((row, i) => {
       let bg = "";
       if (i === 0) bg = "bg-blue-100 font-bold";
@@ -256,7 +268,7 @@ async function loadStandings() {
         <tr class="${bg}">
           <td class="p-1.5 text-center">${row.rank}</td>
           <td class="p-1.5 flex items-center gap-1 justify-end">
-            <img src="${row.team.logo}" class="w-5 h-5 rounded-full">
+            <img src="${row.team.logo}" class="w-5 h-5">
             <span class="truncate max-w-[140px]">${row.team.name}</span>
           </td>
           <td class="p-1.5 text-center">${row.all.played}</td>
@@ -266,27 +278,28 @@ async function loadStandings() {
     });
 
     standingsEl.innerHTML = html;
-  } catch (e) {
+
+  } catch (err) {
     standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">تعذر التحميل</td></tr>`;
   }
 }
 
 async function loadWeeklyMatches() {
   try {
-    const now = new Date().toISOString().split("T")[0];
+    const now  = new Date().toISOString().split("T")[0];
     const next = new Date(Date.now() + 7*24*60*60*1000).toISOString().split("T")[0];
 
-    const res = await fetch(`api-football.php?endpoint=fixtures&params=league=${league}&season=${season}&from=${now}&to=${next}`);
+    const res = await fetch(`api-football.php?endpoint=fixtures&params=league=${league}&season=${season}&from=${now}&to=${next}`, { cache: "no-store" });
     const data = await res.json();
-    const events = data.response;
 
-    if (!events.length) {
+    if (!data.response || !data.response.length) {
       matchesEl.innerHTML = `<div class="bg-yellow-50 p-3 rounded-md text-center">لا مباريات هذا الأسبوع</div>`;
       return;
     }
 
     let html = "";
-    events.forEach(e => {
+
+    data.response.forEach(e => {
       const d = new Date(e.fixture.date);
       const dateAr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
       const timeAr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
@@ -299,7 +312,8 @@ async function loadWeeklyMatches() {
     });
 
     matchesEl.innerHTML = html;
-  } catch (e) {
+
+  } catch (err) {
     matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700">تعذر التحميل</div>`;
   }
 }
@@ -308,10 +322,6 @@ loadStandings();
 loadWeeklyMatches();
 </script>
 
-</body>
-</html>
-
-        
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">

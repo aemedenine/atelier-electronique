@@ -183,133 +183,155 @@
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
-<!-- Ultra Premium Tunisia Football -->
-<section class="football-mini max-w-6xl mx-auto px-2 my-6">
+<!-- Box ترتيب + مباريات الأسبوع -->
+<div id="tunisia-league-box">
+  <h2>🏆 ترتيب الرابطة المحترفة الأولى</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>الفريق</th>
+        <th>لعب</th>
+        <th>فاز</th>
+        <th>تعادل</th>
+        <th>خسر</th>
+        <th>نقاط</th>
+      </tr>
+    </thead>
+    <tbody id="league-body">
+      <!-- سيتم تعبئتها بالـ JS -->
+    </tbody>
+  </table>
 
-  <h2 class="text-center text-lg md:text-xl font-bold mb-4 text-blue-800">
-    ⚽ البطولة التونسية – مباشر
-  </h2>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-
-    <!-- الترتيب -->
-    <div class="mini-box">
-      <div class="mini-title blue">🏆 الترتيب</div>
-      <div class="mini-table">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>الفريق</th>
-              <th>نقاط</th>
-            </tr>
-          </thead>
-          <tbody id="standings">
-            <tr><td colspan="3">جاري التحميل...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- المباريات -->
-    <div class="mini-box">
-      <div class="mini-title green">⚽ مباريات اليوم</div>
-      <div id="fixtures" class="mini-matches">جاري التحميل...</div>
-    </div>
-
+  <h2>📅 مباريات الأسبوع</h2>
+  <div id="matches-week" class="matches-box">
+    <!-- المباريات القادمة ستظهر هنا -->
   </div>
-</section>
+</div>
 
 <style>
-.football-mini{font-family:system-ui,sans-serif}
-.mini-box{
-  background:#fff;
-  border-radius:12px;
-  box-shadow:0 6px 20px rgba(0,0,0,.08);
-  overflow:hidden;
-  transition:.35s;
-  animation:fadeUp .6s ease both;
+#tunisia-league-box {
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 15px;
+  color: #fff;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0 0 20px #0ff, 0 0 40px #0ff inset;
+  font-family: 'Montserrat', sans-serif;
 }
-.mini-box:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,.15)}
-.mini-title{
-  padding:8px;
-  text-align:center;
-  font-weight:700;
-  color:#fff;
-  font-size:14px;
-}
-.blue{background:linear-gradient(135deg,#2563eb,#1e40af)}
-.green{background:linear-gradient(135deg,#16a34a,#166534)}
 
-.mini-table{max-height:260px;overflow:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{background:#f1f5f9;padding:6px}
-td{padding:6px;border-bottom:1px solid #eee;text-align:center}
-
-.mini-matches{
-  max-height:260px;
-  overflow:auto;
-  padding:8px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  font-size:12px;
+#tunisia-league-box h2 {
+  color: #0ff;
+  text-align: center;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px #0ff;
 }
-.match{
-  background:#f8fafc;
-  padding:6px 8px;
-  border-radius:8px;
-  box-shadow:0 3px 8px rgba(0,0,0,.06);
-  transition:.3s;
-}
-.match:hover{transform:scale(1.03)}
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(15px)}
-  to{opacity:1;transform:none}
+#tunisia-league-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#tunisia-league-box th, #tunisia-league-box td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #0ff33;
+}
+
+.matches-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.match-item {
+  background: rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 10px;
+  border-left: 4px solid #0ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  #tunisia-league-box th, #tunisia-league-box td {
+    font-size: 12px;
+    padding: 5px;
+  }
+  .match-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
 }
 </style>
 
 <script>
-async function loadTunisiaFootball(){
-  try{
-    const res = await fetch("tunisia-football.php",{cache:"no-store"});
-    const data = await res.json();
+const apiKey = '7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660'; // حط مفتاحك هنا
+const leagueId = 228; // الدوري التونسي في API-Football
+const season = 2025;
 
-    // Standings
-    let sHTML="";
-    data.standings.forEach(t=>{
-      sHTML+=`
-      <tr>
-        <td>${t.rank}</td>
-        <td>${t.team}</td>
-        <td><b>${t.points}</b></td>
-      </tr>`;
-    });
-    document.getElementById("standings").innerHTML=sHTML;
-
-    // Matches
-    let mHTML="";
-    if(!data.matches.length){
-      mHTML="لا توجد مباريات اليوم";
-    } else {
-      data.matches.forEach(m=>{
-        mHTML+=`
-        <div class="match">
-          ${m.home} 🆚 ${m.away}
-        </div>`;
-      });
-    }
-    document.getElementById("fixtures").innerHTML=mHTML;
-
-  }catch(e){
-    document.getElementById("standings").innerHTML="<tr><td colspan='3'>تعذر التحميل</td></tr>";
-    document.getElementById("fixtures").innerHTML="تعذر التحميل";
+// ترتيب الفرق
+fetch(`curl --request GET \
+	--url 'https://free-api-live-football-data.p.rapidapi.com/football-players-search?search=m' \
+	--header 'x-rapidapi-host: free-api-live-football-data.p.rapidapi.com' \
+	--header 'x-rapidapi-key: 7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660'`, {
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
   }
-}
+})
+.then(res => res.json())
+.then(data => {
+  const tbody = document.getElementById('league-body');
+  const standings = data.response[0].league.standings[0];
+  standings.forEach((team, index) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${index+1}</td>
+        <td>${team.team.name}</td>
+        <td>${team.all.played}</td>
+        <td>${team.all.win}</td>
+        <td>${team.all.draw}</td>
+        <td>${team.all.lose}</td>
+        <td>${team.points}</td>
+      </tr>
+    `;
+  });
+})
+.catch(err => console.error("خطأ في جلب ترتيب الفرق:", err));
 
-loadTunisiaFootball();
-setInterval(loadTunisiaFootball, 60000); // تحديث كل دقيقة
+// مباريات الأسبوع القادمة
+fetch(`https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${leagueId}&season=${season}&next=7`, {
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+  }
+})
+.then(res => res.json())
+.then(data => {
+  const matchesDiv = document.getElementById('matches-week');
+  const matches = data.response;
+  matches.forEach(match => {
+    const date = new Date(match.fixture.date).toLocaleString('ar-TN', {
+      weekday:'short', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'
+    });
+    matchesDiv.innerHTML += `
+      <div class="match-item">
+        <span>${match.teams.home.name} ⚔ ${match.teams.away.name}</span>
+        <span>${date}</span>
+      </div>
+    `;
+  });
+})
+.catch(err => console.error("خطأ في جلب المباريات:", err));
 </script>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->

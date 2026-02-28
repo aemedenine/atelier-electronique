@@ -183,10 +183,18 @@
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
-<!-- =========================
-   بطولة تونس PRO - Compact
-========================= -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بطولة تونس - PRO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
 <section class="football-section my-6 px-2 md:px-4 max-w-7xl mx-auto">
+  <h2 class="text-xl md:text-2xl font-bold text-center mb-4 text-blue-800">⚽ بطولة تونس 2025/2026</h2>
 
   <div class="grid gap-4 md:grid-cols-2">
 
@@ -196,26 +204,25 @@
         <span class="text-2xl">🏆</span>
         <div>
           <h3 class="text-base md:text-lg font-bold">ترتيب الدوري</h3>
+          <p class="text-[10px] opacity-90">تحديث تلقائي</p>
         </div>
       </div>
+
       <div class="overflow-x-auto">
         <table class="w-full text-[11px] md:text-xs text-right border-collapse">
           <thead class="bg-gray-100 sticky top-0">
             <tr>
-              <th class="p-1.5 text-center font-semibold">#</th>
-              <th class="p-1.5 text-right font-semibold">الفريق</th>
-              <th class="p-1.5 text-center font-semibold">لعب</th>
-              <th class="p-1.5 text-center font-semibold">+/-</th>
-              <th class="p-1.5 text-center font-semibold">نقاط</th>
+              <th class="p-1.5 text-center">#</th>
+              <th class="p-1.5 text-right">الفريق</th>
+              <th class="p-1.5 text-center">لعب</th>
+              <th class="p-1.5 text-center">+/-</th>
+              <th class="p-1.5 text-center">نقاط</th>
             </tr>
           </thead>
           <tbody id="league-standings">
-            <tr><td colspan="5" class="p-4 text-center text-gray-500 text-xs">جاري التحميل...</td></tr>
+            <tr><td colspan="5" class="p-4 text-center text-gray-500">جاري التحميل...</td></tr>
           </tbody>
         </table>
-      </div>
-      <div class="text-center text-[10px] text-gray-500 py-1 border-t bg-gray-50">
-        مصدر: API-Football (RapidAPI)
       </div>
     </div>
 
@@ -228,11 +235,9 @@
           <p class="text-[10px] opacity-90">القادمة</p>
         </div>
       </div>
-      <div id="weekly-matches" class="p-2 flex flex-col gap-2 max-h-[360px] md:max-h-[420px] overflow-y-auto">
-        <div class="text-center text-gray-600 py-6 text-xs">جاري التحميل...</div>
-      </div>
-      <div class="text-center text-[10px] text-gray-500 py-1 border-t bg-gray-50">
-        مصدر: API-Football (RapidAPI)
+
+      <div id="weekly-matches" class="p-2 flex flex-col gap-2 max-h-[360px] overflow-y-auto">
+        <div class="text-center text-gray-600 py-6">جاري التحميل...</div>
       </div>
     </div>
 
@@ -240,23 +245,15 @@
 </section>
 
 <script>
-const API_KEY = "7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660"; // 🔑 بدّل بمفتاحك
-const league = 199;   // Tunisia Ligue 1
+const league = 199;
 const season = 2025;
 
 const standingsEl = document.getElementById("league-standings");
 const matchesEl   = document.getElementById("weekly-matches");
 
-const headers = {
-  "X-RapidAPI-Key": API_KEY,
-  "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
-};
-
-// ===== ترتيب الدوري =====
 async function loadStandings() {
   try {
-    const url = `https://api-football-v1.p.rapidapi.com/v3/standings?league=${league}&season=${season}`;
-    const res = await fetch(url, { headers });
+    const res = await fetch(`api-football.php?endpoint=standings&params=league=${league}&season=${season}`);
     const data = await res.json();
     const rows = data.response[0].league.standings[0];
 
@@ -282,23 +279,21 @@ async function loadStandings() {
 
     standingsEl.innerHTML = html;
   } catch (e) {
-    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600 text-xs">تعذر تحميل الترتيب</td></tr>`;
+    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">تعذر التحميل</td></tr>`;
   }
 }
 
-// ===== مباريات الأسبوع =====
 async function loadWeeklyMatches() {
   try {
     const now = new Date().toISOString().split("T")[0];
     const next = new Date(Date.now() + 7*24*60*60*1000).toISOString().split("T")[0];
 
-    const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${league}&season=${season}&from=${now}&to=${next}`;
-    const res = await fetch(url, { headers });
+    const res = await fetch(`api-football.php?endpoint=fixtures&params=league=${league}&season=${season}&from=${now}&to=${next}`);
     const data = await res.json();
     const events = data.response;
 
     if (!events.length) {
-      matchesEl.innerHTML = `<div class="bg-yellow-50 p-3 rounded-md text-center text-xs">لا مباريات هذا الأسبوع</div>`;
+      matchesEl.innerHTML = `<div class="bg-yellow-50 p-3 rounded-md text-center">لا مباريات هذا الأسبوع</div>`;
       return;
     }
 
@@ -309,26 +304,24 @@ async function loadWeeklyMatches() {
       const timeAr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
 
       html += `
-        <div class="p-2 bg-gray-50 rounded-md border-l-4 border-green-500 hover:bg-gray-100 text-xs">
+        <div class="p-2 bg-gray-50 rounded-md border-l-4 border-green-500 text-xs">
           <div class="text-gray-600">${dateAr} • ${timeAr}</div>
-          <div class="font-bold truncate">${e.teams.home.name} <span class="text-red-600">🆚</span> ${e.teams.away.name}</div>
+          <div class="font-bold">${e.teams.home.name} <span class="text-red-600">🆚</span> ${e.teams.away.name}</div>
         </div>`;
     });
 
     matchesEl.innerHTML = html;
   } catch (e) {
-    matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700 text-xs">تعذر تحميل المباريات</div>`;
+    matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700">تعذر التحميل</div>`;
   }
 }
 
-// ===== تحميل البيانات =====
 loadStandings();
 loadWeeklyMatches();
-
-// ===== تحديث دوري + مباريات تلقائي =====
-setInterval(loadStandings, 3 * 60 * 60 * 1000); // كل 3 ساعات
-setInterval(loadWeeklyMatches, 60 * 60 * 1000); // كل ساعة
 </script>
+
+</body>
+</html>
 
         
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->

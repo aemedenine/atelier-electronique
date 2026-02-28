@@ -251,7 +251,7 @@ const matchesEl   = document.getElementById("weekly-matches");
 async function loadStandings() {
   try {
     const apiUrl = `https://www.sofascore.com/api/v1/unique-tournament/${LEAGUE_ID}/season/latest/standings/total`;
-    const proxy  = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
+    const proxy = "https://corsproxy.io/?" + encodeURIComponent(apiUrl);
     const res    = await fetch(proxy);
     if (!res.ok) throw new Error("Connection error");
 

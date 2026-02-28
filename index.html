@@ -184,157 +184,70 @@
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بطولة تونس - PRO</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+ <script>
+  // غير الـ API_KEY بتاعك (سجل في api-sports.io وخذ key مجاني)
+  const API_KEY = '4194a9fc903cf90950dfbc5b3e10f34c'; // ← حط key هنا
+  const LEAGUE_ID = 265; // Tunisian Ligue 1 (تأكد من ID في docs)
+  const SEASON = 2025;   // أو 2026 حسب
 
-<section class="football-section my-6 px-2 md:px-4 max-w-7xl mx-auto">
-  <h2 class="text-xl md:text-2xl font-bold text-center mb-4 text-blue-800">
-    ⚽ البطولة التونسية 2025 / 2026
-  </h2>
-
-  <div class="grid gap-4 md:grid-cols-2">
-
-    <!-- ترتيب الدوري -->
-    <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden text-sm">
-      <div class="flex items-center gap-2 p-2 bg-gradient-to-r from-blue-700 to-blue-600 text-white">
-        <span class="text-2xl">🏆</span>
-        <h3 class="text-base md:text-lg font-bold">ترتيب الدوري</h3>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-[11px] md:text-xs text-right border-collapse">
-          <thead class="bg-gray-100 sticky top-0">
-            <tr>
-              <th class="p-1.5 text-center">#</th>
-              <th class="p-1.5 text-right">الفريق</th>
-              <th class="p-1.5 text-center">لعب</th>
-              <th class="p-1.5 text-center">+/-</th>
-              <th class="p-1.5 text-center">نقاط</th>
-            </tr>
-          </thead>
-          <tbody id="league-standings">
-            <tr><td colspan="5" class="p-4 text-center text-gray-500">جاري التحميل...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- مباريات الأسبوع -->
-    <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden text-sm">
-      <div class="flex items-center gap-2 p-2 bg-gradient-to-r from-green-700 to-green-600 text-white">
-        <span class="text-2xl">⚽📅</span>
-        <div>
-          <h3 class="text-base md:text-lg font-bold">مباريات الأسبوع</h3>
-          <p class="text-[10px] opacity-90">القادمة</p>
-        </div>
-      </div>
-      <div id="weekly-matches" class="p-2 flex flex-col gap-2 max-h-[360px] overflow-y-auto">
-        <div class="text-center text-gray-600 py-6">جاري التحميل...</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<script>
-const apiHost = 'sofascore.p.rapidapi.com';
-const apiKey  = '7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660';
-
-const standingsEl = document.getElementById("league-standings");
-const matchesEl   = document.getElementById("weekly-matches");
-
-const tournamentId = 17; // مثال: البطولة التونسية (ستحتاج تعديل حسب Sofascore)
-const seasonId     = 29415; // مثال للـ Season
-
-// ---------------- ترتيب الدوري ----------------
-async function loadStandings() {
-  try {
-    const res = await fetch(`https://${apiHost}/tournaments/${tournamentId}/standings?seasonId=${seasonId}`, {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': apiKey,
-        'X-RapidAPI-Host': apiHost
+  async function fetchStandings() {
+    try {
+      const response = await fetch(`https://v3.football.api-sports.io/standings?league=${LEAGUE_ID}&season=${SEASON}`, {
+        headers: { 'x-apisports-key': API_KEY }
+      });
+      const data = await response.json();
+      
+      if (data.response && data.response.length > 0) {
+        const standings = data.response[0].league.standings[0]; // league standings
+        const ol = document.querySelector('.ranking-box ol');
+        ol.innerHTML = ''; // clear old
+        
+        standings.forEach((team, index) => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${index + 1}. ${team.team.name}</strong> - ${team.points} نقطة (${team.all.played} مباراة، +${team.goalsDiff})`;
+          ol.appendChild(li);
+        });
+        
+        document.querySelector('.ranking-box small').textContent = `محدث ${new Date().toLocaleDateString('ar-TN')} – API-Football`;
       }
-    });
-    const data = await res.json();
-
-    if (!data.standings || !data.standings.length) {
-      standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">لا توجد بيانات</td></tr>`;
-      return;
+    } catch (error) {
+      console.error('Error fetching standings:', error);
+      // fallback to static if error
     }
-
-    let html = "";
-    data.standings[0].rows.forEach((row, i) => {
-      let bg = "";
-      if (i === 0) bg = "bg-blue-100 font-bold";
-      else if (i <= 2) bg = "bg-blue-50";
-      else if (i >= data.standings[0].rows.length - 2) bg = "bg-red-50 text-red-700";
-
-      html += `
-        <tr class="${bg}">
-          <td class="p-1.5 text-center">${row.position}</td>
-          <td class="p-1.5 flex items-center gap-1 justify-end">
-            <img src="${row.team.logo}" class="w-5 h-5">
-            <span class="truncate max-w-[140px]">${row.team.name}</span>
-          </td>
-          <td class="p-1.5 text-center">${row.matchesPlayed}</td>
-          <td class="p-1.5 text-center">${row.goalsDiff}</td>
-          <td class="p-1.5 text-center font-bold">${row.points}</td>
-        </tr>`;
-    });
-
-    standingsEl.innerHTML = html;
-
-  } catch (err) {
-    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">تعذر التحميل</td></tr>`;
-    console.error(err);
   }
-}
 
-// ---------------- مباريات الأسبوع ----------------
-async function loadWeeklyMatches() {
-  try {
-    const res = await fetch(`https://${apiHost}/tournaments/get-next-matches?tournamentId=${tournamentId}&seasonId=${seasonId}&pageIndex=0`, {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': apiKey,
-        'X-RapidAPI-Host': apiHost
+  async function fetchFixtures() {
+    try {
+      const response = await fetch(`https://v3.football.api-sports.io/fixtures?league=${LEAGUE_ID}&season=${SEASON}&next=10`, {
+        headers: { 'x-apisports-key': API_KEY }
+      });
+      const data = await response.json();
+      
+      if (data.response) {
+        const ul = document.querySelector('.matches-box ul');
+        ul.innerHTML = ''; // clear
+        
+        data.response.forEach(match => {
+          const date = new Date(match.fixture.date).toLocaleString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+          const li = document.createElement('li');
+          li.innerHTML = `${date}: <strong>${match.teams.home.name} vs ${match.teams.away.name}</strong>`;
+          if (match.goals.home !== null) {
+            li.innerHTML += ` (${match.goals.home} - ${match.goals.away})`;
+          }
+          ul.appendChild(li);
+        });
       }
-    });
-
-    const data = await res.json();
-
-    if (!data.matches || !data.matches.length) {
-      matchesEl.innerHTML = `<div class="bg-yellow-50 p-3 rounded-md text-center">لا مباريات هذا الأسبوع</div>`;
-      return;
+    } catch (error) {
+      console.error('Error fetching fixtures:', error);
     }
-
-    let html = "";
-    data.matches.forEach(e => {
-      const d = new Date(e.startTimestamp * 1000);
-      const dateAr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
-      const timeAr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
-
-      html += `
-        <div class="p-2 bg-gray-50 rounded-md border-l-4 border-green-500 text-xs">
-          <div class="text-gray-600">${dateAr} • ${timeAr}</div>
-          <div class="font-bold">${e.homeTeam.name} <span class="text-red-600">🆚</span> ${e.awayTeam.name}</div>
-        </div>`;
-    });
-
-    matchesEl.innerHTML = html;
-
-  } catch(err) {
-    matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700">تعذر التحميل</div>`;
-    console.error(err);
   }
-}
 
-loadStandings();
-loadWeeklyMatches();
+  // Call on load
+  window.addEventListener('load', () => {
+    fetchStandings();
+    fetchFixtures();
+  });
 </script>
-
-
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">

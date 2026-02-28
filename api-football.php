@@ -1,40 +1,30 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
-header("Access-Control-Allow-Origin: *");
-$API_KEY = "7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660"; // 🔑 حط مفتاح RapidAPI هنا
+// api-football.php
+header('Content-Type: application/json');
+
+// هنا تحط مفتاحك و host من RapidAPI
+$apiKey = '7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660';
+$host   = 'v3.football.api-sports.io';
+
+// Endpoint من URL: ?endpoint=standings أو fixtures&params=...
 $endpoint = $_GET['endpoint'] ?? '';
 $params   = $_GET['params'] ?? '';
 
-if (!$endpoint) {
-    echo json_encode(["error" => "Missing endpoint"]);
-    exit;
-}
-
-$url = "https://v3.football.api-sports.io/$endpoint?$params";
+$url = "https://$host/$endpoint?$params";
 
 $ch = curl_init();
-curl_setopt_array($ch, [
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER => [
-        "x-apisports-key: $apiKey"
-    ],
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "X-RapidAPI-Key: $apiKey",
+    "X-RapidAPI-Host: $host"
 ]);
 
 $response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-if (curl_errno($ch)) {
-    echo json_encode(["error" => curl_error($ch)]);
+if(curl_errno($ch)) {
+    echo json_encode(['error' => curl_error($ch)]);
     exit;
 }
 
 curl_close($ch);
-
-if ($httpCode !== 200) {
-    echo json_encode(["error" => "API error", "code" => $httpCode]);
-    exit;
-}
-
 echo $response;
-

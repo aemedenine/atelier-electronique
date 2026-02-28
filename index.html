@@ -237,39 +237,47 @@
 </section>
 
 <script>
-const league = 199;   // Ligue 1 Tunisie
-const season = 2025;
+const apiHost = 'sofascore.p.rapidapi.com';
+const apiKey  = '7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660';
 
 const standingsEl = document.getElementById("league-standings");
 const matchesEl   = document.getElementById("weekly-matches");
 
+const tournamentId = 17; // مثال: البطولة التونسية (ستحتاج تعديل حسب Sofascore)
+const seasonId     = 29415; // مثال للـ Season
+
+// ---------------- ترتيب الدوري ----------------
 async function loadStandings() {
   try {
-    const res = await fetch(`api-football.php?endpoint=standings&params=league=${league}&season=${season}`, { cache: "no-store" });
+    const res = await fetch(`https://${apiHost}/tournaments/${tournamentId}/standings?seasonId=${seasonId}`, {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': apiKey,
+        'X-RapidAPI-Host': apiHost
+      }
+    });
     const data = await res.json();
 
-    if (!data.response || !data.response.length) {
+    if (!data.standings || !data.standings.length) {
       standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">لا توجد بيانات</td></tr>`;
       return;
     }
 
-    const rows = data.response[0].league.standings[0];
     let html = "";
-
-    rows.forEach((row, i) => {
+    data.standings[0].rows.forEach((row, i) => {
       let bg = "";
       if (i === 0) bg = "bg-blue-100 font-bold";
       else if (i <= 2) bg = "bg-blue-50";
-      else if (i >= rows.length - 2) bg = "bg-red-50 text-red-700";
+      else if (i >= data.standings[0].rows.length - 2) bg = "bg-red-50 text-red-700";
 
       html += `
         <tr class="${bg}">
-          <td class="p-1.5 text-center">${row.rank}</td>
+          <td class="p-1.5 text-center">${row.position}</td>
           <td class="p-1.5 flex items-center gap-1 justify-end">
             <img src="${row.team.logo}" class="w-5 h-5">
             <span class="truncate max-w-[140px]">${row.team.name}</span>
           </td>
-          <td class="p-1.5 text-center">${row.all.played}</td>
+          <td class="p-1.5 text-center">${row.matchesPlayed}</td>
           <td class="p-1.5 text-center">${row.goalsDiff}</td>
           <td class="p-1.5 text-center font-bold">${row.points}</td>
         </tr>`;
@@ -279,45 +287,53 @@ async function loadStandings() {
 
   } catch (err) {
     standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600">تعذر التحميل</td></tr>`;
+    console.error(err);
   }
 }
 
+// ---------------- مباريات الأسبوع ----------------
 async function loadWeeklyMatches() {
   try {
-    const now  = new Date().toISOString().split("T")[0];
-    const next = new Date(Date.now() + 7*24*60*60*1000).toISOString().split("T")[0];
+    const res = await fetch(`https://${apiHost}/tournaments/get-next-matches?tournamentId=${tournamentId}&seasonId=${seasonId}&pageIndex=0`, {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': apiKey,
+        'X-RapidAPI-Host': apiHost
+      }
+    });
 
-    const res = await fetch(`api-football.php?endpoint=fixtures&params=league=${league}&season=${season}&from=${now}&to=${next}`, { cache: "no-store" });
     const data = await res.json();
 
-    if (!data.response || !data.response.length) {
+    if (!data.matches || !data.matches.length) {
       matchesEl.innerHTML = `<div class="bg-yellow-50 p-3 rounded-md text-center">لا مباريات هذا الأسبوع</div>`;
       return;
     }
 
     let html = "";
-    data.response.forEach(e => {
-      const d = new Date(e.fixture.date);
+    data.matches.forEach(e => {
+      const d = new Date(e.startTimestamp * 1000);
       const dateAr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
       const timeAr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
 
       html += `
         <div class="p-2 bg-gray-50 rounded-md border-l-4 border-green-500 text-xs">
           <div class="text-gray-600">${dateAr} • ${timeAr}</div>
-          <div class="font-bold">${e.teams.home.name} <span class="text-red-600">🆚</span> ${e.teams.away.name}</div>
+          <div class="font-bold">${e.homeTeam.name} <span class="text-red-600">🆚</span> ${e.awayTeam.name}</div>
         </div>`;
     });
 
     matchesEl.innerHTML = html;
 
-  } catch (err) {
+  } catch(err) {
     matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700">تعذر التحميل</div>`;
+    console.error(err);
   }
 }
 
 loadStandings();
 loadWeeklyMatches();
 </script>
+
 
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->

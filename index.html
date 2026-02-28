@@ -184,70 +184,108 @@
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
  
- <script>
-  // غير الـ API_KEY بتاعك (سجل في api-sports.io وخذ key مجاني)
-  const API_KEY = '4194a9fc903cf90950dfbc5b3e10f34c'; // ← حط key هنا
-  const LEAGUE_ID = 265; // Tunisian Ligue 1 (تأكد من ID في docs)
-  const SEASON = 2025;   // أو 2026 حسب
+<!-- Football Grid الديناميكي -->
+        <div class="football-grid">
+            <!-- بوكس 1: الترتيب -->
+            <div class="ranking-box">
+                <h3>🏆 ترتيب الدوري التونسي المحترف 2025/2026</h3>
+                <div class="loading" id="standings-loading">جاري تحميل الترتيب...</div>
+                <ol id="standings-list">
+                    <!-- سيتم ملؤه بالـ JS -->
+                </ol>
+                <small id="standings-update">محدث تلقائياً من API-Football</small>
+            </div>
 
-  async function fetchStandings() {
-    try {
-      const response = await fetch(`https://v3.football.api-sports.io/standings?league=${LEAGUE_ID}&season=${SEASON}`, {
-        headers: { 'x-apisports-key': API_KEY }
-      });
-      const data = await response.json();
-      
-      if (data.response && data.response.length > 0) {
-        const standings = data.response[0].league.standings[0]; // league standings
-        const ol = document.querySelector('.ranking-box ol');
-        ol.innerHTML = ''; // clear old
-        
-        standings.forEach((team, index) => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${index + 1}. ${team.team.name}</strong> - ${team.points} نقطة (${team.all.played} مباراة، +${team.goalsDiff})`;
-          ol.appendChild(li);
+            <!-- بوكس 2: المباريات (الجولة الحالية + القادمة) -->
+            <div class="matches-box">
+                <h3>⚽ مباريات الأسبوع (جولة 22 & قادمة)</h3>
+                <div class="loading" id="fixtures-loading">جاري تحميل المباريات...</div>
+                <ul id="fixtures-list">
+                    <!-- سيتم ملؤه بالـ JS -->
+                </ul>
+                <small>مواعيد تونس – Live updates via API</small>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px;">Clubiste يا وحش! الإفريقي 45 نقطة ويلحق الترجي بقوة ⚫🔵 – لو فاز اليوم vs متلاوي، يمكن يتقدم! 😏</p>
+    </div>
+
+    <script>
+        const API_KEY = '4194a9fc903cf90950dfbc5b3e10f34c';
+        const LEAGUE_ID = 984;  // Tunisian Ligue Professionnelle 1
+        const SEASON = 2025;    // 2025/2026 season
+
+        async function fetchStandings() {
+            const loading = document.getElementById('standings-loading');
+            const list = document.getElementById('standings-list');
+            try {
+                const response = await fetch(`https://v3.football.api-sports.io/standings?league=${LEAGUE_ID}&season=${SEASON}`, {
+                    headers: { 'x-apisports-key': API_KEY }
+                });
+                const data = await response.json();
+                
+                if (data.response && data.response.length > 0) {
+                    const standings = data.response[0].league.standings[0];
+                    list.innerHTML = '';
+                    standings.forEach((team, index) => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${index + 1}. ${team.team.name}</strong> - ${team.points} نقطة (${team.all.played} مباراة، +${team.goalsDiff})`;
+                        list.appendChild(li);
+                    });
+                    loading.style.display = 'none';
+                    document.getElementById('standings-update').textContent = `محدث ${new Date().toLocaleString('ar-TN')} – API-Football`;
+                } else {
+                    throw new Error('No data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                loading.textContent = 'خطأ في التحميل – استخدم الترتيب الثابت أدناه';
+                // Fallback static
+                list.innerHTML = `
+                    <li><strong>الترجي الرياضي التونسي</strong> - 47 نقطة (+29)</li>
+                    <li><strong>النادي الإفريقي</strong> - 45 نقطة (+20)</li>
+                    <li><strong>الملعب التونسي</strong> - 44 نقطة (+20)</li>
+                    <li><strong>النادي الصفاقسي</strong> - 39 نقطة (+17)</li>
+                    <li><strong>الاتحاد المنستيري</strong> - 37 نقطة (+10)</li>
+                `;
+            }
+        }
+
+        async function fetchFixtures() {
+            const loading = document.getElementById('fixtures-loading');
+            const list = document.getElementById('fixtures-list');
+            try {
+                // Get recent + next fixtures (last 5 + next 5 for the week)
+                const response = await fetch(`https://v3.football.api-sports.io/fixtures?league=${LEAGUE_ID}&season=${SEASON}&last=10&next=10`, {
+                    headers: { 'x-apisports-key': API_KEY }
+                });
+                const data = await response.json();
+                
+                if (data.response) {
+                    list.innerHTML = '';
+                    data.response.slice(0, 8).forEach(match => {  // Limit to recent/relevant
+                        const date = new Date(match.fixture.date).toLocaleString('ar-TN', {
+                            weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                        });
+                        const score = match.goals.home !== null ? ` (${match.goals.home} - ${match.goals.away})` : '';
+                        const li = document.createElement('li');
+                        li.innerHTML = `${date}: <strong>${match.teams.home.name} vs ${match.teams.away.name}</strong>${score}`;
+                        list.appendChild(li);
+                    });
+                    loading.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                loading.textContent = 'خطأ في تحميل المباريات – تحقق لاحقاً';
+            }
+        }
+
+        // Load on page ready
+        window.addEventListener('load', () => {
+            fetchStandings();
+            fetchFixtures();
         });
-        
-        document.querySelector('.ranking-box small').textContent = `محدث ${new Date().toLocaleDateString('ar-TN')} – API-Football`;
-      }
-    } catch (error) {
-      console.error('Error fetching standings:', error);
-      // fallback to static if error
-    }
-  }
-
-  async function fetchFixtures() {
-    try {
-      const response = await fetch(`https://v3.football.api-sports.io/fixtures?league=${LEAGUE_ID}&season=${SEASON}&next=10`, {
-        headers: { 'x-apisports-key': API_KEY }
-      });
-      const data = await response.json();
-      
-      if (data.response) {
-        const ul = document.querySelector('.matches-box ul');
-        ul.innerHTML = ''; // clear
-        
-        data.response.forEach(match => {
-          const date = new Date(match.fixture.date).toLocaleString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-          const li = document.createElement('li');
-          li.innerHTML = `${date}: <strong>${match.teams.home.name} vs ${match.teams.away.name}</strong>`;
-          if (match.goals.home !== null) {
-            li.innerHTML += ` (${match.goals.home} - ${match.goals.away})`;
-          }
-          ul.appendChild(li);
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching fixtures:', error);
-    }
-  }
-
-  // Call on load
-  window.addEventListener('load', () => {
-    fetchStandings();
-    fetchFixtures();
-  });
-</script>
+    </script>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->
         <section class="faq">

@@ -182,62 +182,129 @@
             </div>
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
-<script>
-// إعدادات SofaScore - شغال ومحدث للموسم الحالي 2025/2026
-const LEAGUE_ID = 984; // Tunisian Ligue 1 ثابت
-const standingsEl = document.getElementById("league-standings");
-const matchesEl = document.getElementById("upcoming-matches");
+<!-- قسم الدوري التونسي كامل - ترتيب + مباريات -->
+<section class="football-section my-12 px-4 max-w-7xl mx-auto">
+  <h2 class="text-3xl font-bold text-center mb-10 text-blue-800">⚽ بطولة تونس المحترفة 2025/2026</h2>
+  
+  <div class="grid gap-8 md:grid-cols-2">
 
-// تحميل الترتيب الكامل (tartib kamil)
+    <!-- 1. ترتيب الدوري الكامل -->
+    <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+      <div class="flex items-center gap-5 p-6 bg-gradient-to-r from-blue-700 to-blue-600 text-white">
+        <span class="text-6xl">🏆</span>
+        <div>
+          <h3 class="text-2xl md:text-3xl font-bold">ترتيب الدوري</h3>
+          <p class="text-sm opacity-90 mt-1">تحديث تلقائي يومي</p>
+        </div>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-base md:text-sm text-right border-collapse">
+          <thead class="bg-gray-100 sticky top-0 z-10">
+            <tr class="border-b">
+              <th class="p-4 text-center font-bold">#</th>
+              <th class="p-4 text-right font-bold">الفريق</th>
+              <th class="p-4 text-center font-bold">لعب</th>
+              <th class="p-4 text-center font-bold">+/-</th>
+              <th class="p-4 text-center font-bold">نقاط</th>
+            </tr>
+          </thead>
+          <tbody id="league-standings" class="divide-y">
+            <tr><td colspan="5" class="p-10 text-center text-gray-600 font-medium">جاري تحميل الترتيب الكامل...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="text-center text-xs text-gray-500 py-4 border-t bg-gray-50">
+        مصدر: SofaScore • بطولة الرابطة الأولى تونس
+      </div>
+    </div>
+
+    <!-- 2. مباريات الأسبوع القادم -->
+    <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+      <div class="flex items-center gap-5 p-6 bg-gradient-to-r from-green-700 to-green-600 text-white">
+        <span class="text-6xl">⚽📅</span>
+        <div>
+          <h3 class="text-2xl md:text-3xl font-bold">مباريات الأسبوع</h3>
+          <p class="text-sm opacity-90 mt-1">المباريات القادمة (7 أيام)</p>
+        </div>
+      </div>
+      
+      <div id="weekly-matches" class="p-6 flex flex-col gap-5 max-h-[600px] overflow-y-auto">
+        <div class="text-center text-gray-600 py-10 font-medium">جاري تحميل المباريات...</div>
+      </div>
+      
+      <div class="text-center text-xs text-gray-500 py-4 border-t bg-gray-50">
+        مصدر: SofaScore • تحديث كل بضع ساعات
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- السكريبت (حطه قبل </body> أو في app.js) -->
+<script>
+// إعدادات SofaScore - شغال 2026
+const LEAGUE_ID = 984; // الرابطة التونسية الأولى
+const standingsEl = document.getElementById("league-standings");
+const matchesEl   = document.getElementById("weekly-matches");
+
+// ────────────────────────────────────────────────
+// تحميل ترتيب الدوري الكامل
 async function loadStandings() {
   try {
     const apiUrl = `https://www.sofascore.com/api/v1/unique-tournament/${LEAGUE_ID}/season/latest/standings/total`;
-    const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
-    const res = await fetch(proxy);
-    if (!res.ok) throw new Error('مشكلة في الاتصال: ' + res.status);
+    const proxy  = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
+    const res    = await fetch(proxy);
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json();
     const rows = data.standings?.[0]?.rows || [];
 
-    if (rows.length === 0) throw new Error('لا بيانات ترتيب');
+    if (rows.length === 0) throw new Error("لا توجد بيانات ترتيب");
 
-    let html = '';
+    let html = "";
     rows.forEach((row, i) => {
       const team = row.team;
-      let bg = '';
-      if (i === 0) bg = 'bg-blue-100 font-bold';
-      else if (i === 1) bg = 'bg-blue-50 font-semibold';
-      else if (i === 2) bg = 'bg-yellow-50 font-semibold';
-      else if (i >= rows.length - 3) bg = 'bg-red-50 text-red-800 font-semibold';
+      let bgClass = "";
+      if (i === 0) bgClass = "bg-blue-100 font-bold";
+      else if (i === 1) bgClass = "bg-blue-50 font-semibold";
+      else if (i === 2) bgClass = "bg-yellow-50 font-semibold";
+      else if (i >= rows.length - 3 && rows.length > 3) bgClass = "bg-red-50 text-red-800 font-semibold";
 
       html += `
-        <tr class="${bg}">
-          <td class="p-4 text-center">${row.position}</td>
-          <td class="p-4 flex items-center gap-3 justify-end">
-            <img src="${team.logo || 'https://via.placeholder.com/32'}" 
-                 class="w-8 h-8 rounded-full" alt="${team.name}"
-                 onerror="this.src='https://via.placeholder.com/32?text=؟'">
-            ${team.name}
+        <tr class="${bgClass}">
+          <td class="p-4 text-center text-lg">${row.position}</td>
+          <td class="p-4 flex items-center gap-4 justify-end">
+            <img src="${team.logo || 'https://via.placeholder.com/40'}" 
+                 class="w-10 h-10 rounded-full object-cover border border-gray-200" 
+                 alt="${team.name}"
+                 onerror="this.src='https://via.placeholder.com/40?text=؟'">
+            <span class="font-medium">${team.name}</span>
           </td>
-          <td class="p-4 text-center">${row.matches}</td>
-          <td class="p-4 text-center">${row.goalDifference}</td>
-          <td class="p-4 text-center font-bold">${row.points}</td>
+          <td class="p-4 text-center text-lg">${row.matches}</td>
+          <td class="p-4 text-center text-lg">${row.goalDifference}</td>
+          <td class="p-4 text-center text-xl font-bold">${row.points}</td>
         </tr>`;
     });
+
     standingsEl.innerHTML = html;
-  } catch (e) {
-    console.error("خطأ في الترتيب:", e);
-    standingsEl.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-red-600 font-medium">تعذر تحميل الترتيب • جرب لاحقاً أو تحقق النت</td></tr>';
+  } catch (err) {
+    console.error("خطأ في الترتيب:", err);
+    standingsEl.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-red-700 font-bold text-lg">تعذر تحميل الترتيب حالياً • جرب بعد شوية</td></tr>`;
   }
 }
 
-// تحميل المباريات القادمة (les matchs القادمة - فلترة الأسبوع)
-async function loadMatches() {
+// ────────────────────────────────────────────────
+// تحميل مباريات الأسبوع القادم
+async function loadWeeklyMatches() {
   try {
     const apiUrl = `https://www.sofascore.com/api/v1/unique-tournament/${LEAGUE_ID}/season/latest/events`;
-    const proxy = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
-    const res = await fetch(proxy);
-    if (!res.ok) throw new Error('مشكلة في الاتصال: ' + res.status);
+    const proxy  = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
+    const res    = await fetch(proxy);
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const data = await res.json();
     const events = data.events || [];
@@ -251,42 +318,47 @@ async function loadMatches() {
       .sort((a, b) => a.startTimestamp - b.startTimestamp);
 
     if (upcoming.length === 0) {
-      matchesEl.innerHTML = '<div class="bg-yellow-50 p-6 rounded-xl text-center font-medium">لا مباريات مجدولة في الأسبوع الحالي</div>';
+      matchesEl.innerHTML = `<div class="bg-yellow-50 border border-yellow-200 p-8 rounded-xl text-center text-lg font-medium text-yellow-800">لا توجد مباريات في الأسبوع الحالي</div>`;
       return;
     }
 
-    let html = '';
+    let html = "";
     upcoming.forEach(e => {
       const d = new Date(e.startTimestamp * 1000);
-      const dateStr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
-      const timeStr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
+      const dateAr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
+      const timeAr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
+
+      const isLive = e.status?.type === 'inprogress';
+      const isDone = e.status?.type === 'finished';
+      const borderColor = isLive ? 'border-red-500' : (isDone ? 'border-gray-400' : 'border-green-500');
 
       html += `
-        <div class="p-5 bg-gray-50 rounded-xl border-l-4 border-green-500 hover:bg-green-50 transition flex flex-col sm:flex-row justify-between items-start gap-4">
+        <div class="match-card p-5 rounded-xl bg-gray-50 border-l-5 ${borderColor} hover:bg-gray-100 transition-all duration-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
           <div class="flex-1">
-            <div class="text-sm text-gray-600 mb-1">${dateStr} • ${timeStr}</div>
-            <div class="font-bold text-lg">${e.homeTeam?.name || '?'} <span class="text-red-600 mx-1">🆚</span> ${e.awayTeam?.name || '?'}</div>
+            <div class="text-sm text-gray-600 mb-2">${dateAr} • ${timeAr} ${isLive ? '🟢 مباشر' : (isDone ? '🏁 انتهت' : '')}</div>
+            <div class="font-bold text-xl md:text-lg">${e.homeTeam?.name || '?'} <span class="text-red-600 mx-2 text-2xl">🆚</span> ${e.awayTeam?.name || '?'}</div>
           </div>
-          <div class="flex gap-4 items-center">
-            <img src="${e.homeTeam?.logo || 'https://via.placeholder.com/48'}" class="w-12 h-12 rounded-full" onerror="this.src='https://via.placeholder.com/48?text=H'">
-            <img src="${e.awayTeam?.logo || 'https://via.placeholder.com/48'}" class="w-12 h-12 rounded-full" onerror="this.src='https://via.placeholder.com/48?text=A'">
+          <div class="flex gap-5 items-center shrink-0">
+            <img src="${e.homeTeam?.logo || 'https://via.placeholder.com/56'}" class="w-14 h-14 rounded-full border border-gray-200" alt="" onerror="this.src='https://via.placeholder.com/56?text=H'">
+            <img src="${e.awayTeam?.logo || 'https://via.placeholder.com/56'}" class="w-14 h-14 rounded-full border border-gray-200" alt="" onerror="this.src='https://via.placeholder.com/56?text=A'">
           </div>
         </div>`;
     });
+
     matchesEl.innerHTML = html;
-  } catch (e) {
-    console.error("خطأ في المباريات:", e);
-    matchesEl.innerHTML = '<div class="bg-red-50 p-6 rounded-xl text-center text-red-700 font-medium">تعذر تحميل المباريات • جرب لاحقاً</div>';
+  } catch (err) {
+    console.error("خطأ في المباريات:", err);
+    matchesEl.innerHTML = `<div class="bg-red-50 border border-red-200 p-8 rounded-xl text-center text-lg font-bold text-red-800">تعذر تحميل المباريات حالياً</div>`;
   }
 }
 
-// شغل فوراً + تحديث كل 6-12 ساعة (عشان ما يتعطلش)
+// ────────────────────────────────────────────────
+// تشغيل + تحديث تلقائي
 loadStandings();
-loadMatches();
-setInterval(() => {
-  loadStandings();
-  loadMatches();
-}, 6 * 60 * 60 * 1000); // كل 6 ساعات – أفضل للمباريات
+loadWeeklyMatches();
+
+setInterval(loadStandings, 4 * 60 * 60 * 1000);     // كل 4 ساعات للترتيب
+setInterval(loadWeeklyMatches, 60 * 60 * 1000);     // كل ساعة للمباريات (أهم)
 
 </script>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->

@@ -183,8 +183,11 @@
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
 
-<!-- قسم بطولة تونس - Compact Version -->
+<!-- =========================
+   بطولة تونس PRO - Compact
+========================= -->
 <section class="football-section my-6 px-2 md:px-4 max-w-7xl mx-auto">
+
   <div class="grid gap-4 md:grid-cols-2">
 
     <!-- ترتيب الدوري -->
@@ -192,11 +195,9 @@
       <div class="flex items-center gap-2 p-2 bg-gradient-to-r from-blue-700 to-blue-600 text-white">
         <span class="text-2xl">🏆</span>
         <div>
-          <h3 class="text-base md:text-lg font-bold">ترتيب الدوري التونسي</h3>
-          
+          <h3 class="text-base md:text-lg font-bold">ترتيب الدوري</h3>
         </div>
       </div>
-
       <div class="overflow-x-auto">
         <table class="w-full text-[11px] md:text-xs text-right border-collapse">
           <thead class="bg-gray-100 sticky top-0">
@@ -209,15 +210,12 @@
             </tr>
           </thead>
           <tbody id="league-standings">
-            <tr>
-              <td colspan="5" class="p-4 text-center text-gray-500 text-xs">جاري التحميل...</td>
-            </tr>
+            <tr><td colspan="5" class="p-4 text-center text-gray-500 text-xs">جاري التحميل...</td></tr>
           </tbody>
         </table>
       </div>
-
       <div class="text-center text-[10px] text-gray-500 py-1 border-t bg-gray-50">
-        مصدر: SofaScore
+        مصدر: API-Football (RapidAPI)
       </div>
     </div>
 
@@ -230,13 +228,11 @@
           <p class="text-[10px] opacity-90">القادمة</p>
         </div>
       </div>
-
       <div id="weekly-matches" class="p-2 flex flex-col gap-2 max-h-[360px] md:max-h-[420px] overflow-y-auto">
         <div class="text-center text-gray-600 py-6 text-xs">جاري التحميل...</div>
       </div>
-
       <div class="text-center text-[10px] text-gray-500 py-1 border-t bg-gray-50">
-        مصدر: SofaScore
+        مصدر: API-Football (RapidAPI)
       </div>
     </div>
 
@@ -244,95 +240,94 @@
 </section>
 
 <script>
-const LEAGUE_ID = 984;
+const API_KEY = "7b51fa7498mshc0f1433aaed4c9fp1d3febjsn9f377995c660"; // 🔑 بدّل بمفتاحك
+const league = 199;   // Tunisia Ligue 1
+const season = 2025;
+
 const standingsEl = document.getElementById("league-standings");
 const matchesEl   = document.getElementById("weekly-matches");
 
+const headers = {
+  "X-RapidAPI-Key": API_KEY,
+  "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+};
+
+// ===== ترتيب الدوري =====
 async function loadStandings() {
   try {
-    const apiUrl = `https://www.sofascore.com/api/v1/unique-tournament/${LEAGUE_ID}/season/latest/standings/total`;
-    const proxy = "https://corsproxy.io/?" + encodeURIComponent(apiUrl);
-    const res    = await fetch(proxy);
-    if (!res.ok) throw new Error("Connection error");
-
+    const url = `https://api-football-v1.p.rapidapi.com/v3/standings?league=${league}&season=${season}`;
+    const res = await fetch(url, { headers });
     const data = await res.json();
-    const rows = data.standings?.[0]?.rows || [];
+    const rows = data.response[0].league.standings[0];
 
     let html = "";
     rows.forEach((row, i) => {
-      const team = row.team;
       let bg = "";
       if (i === 0) bg = "bg-blue-100 font-bold";
-      else if (i === 1) bg = "bg-blue-50";
-      else if (i === 2) bg = "bg-yellow-50";
-      else if (i >= rows.length - 3) bg = "bg-red-50 text-red-700";
+      else if (i <= 2) bg = "bg-blue-50";
+      else if (i >= rows.length - 2) bg = "bg-red-50 text-red-700";
 
       html += `
         <tr class="${bg}">
-          <td class="p-1.5 text-center">${row.position}</td>
+          <td class="p-1.5 text-center">${row.rank}</td>
           <td class="p-1.5 flex items-center gap-1 justify-end">
-            <img src="${team.logo || 'https://via.placeholder.com/20'}" class="w-5 h-5 rounded-full" alt="" onerror="this.src='https://via.placeholder.com/20?text=?'">
-            <span class="truncate max-w-[140px] md:max-w-[180px]">${team.name}</span>
+            <img src="${row.team.logo}" class="w-5 h-5 rounded-full">
+            <span class="truncate max-w-[140px]">${row.team.name}</span>
           </td>
-          <td class="p-1.5 text-center">${row.matches}</td>
-          <td class="p-1.5 text-center">${row.goalDifference}</td>
+          <td class="p-1.5 text-center">${row.all.played}</td>
+          <td class="p-1.5 text-center">${row.goalsDiff}</td>
           <td class="p-1.5 text-center font-bold">${row.points}</td>
         </tr>`;
     });
 
     standingsEl.innerHTML = html;
   } catch (e) {
-    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600 text-xs">تعذر التحميل</td></tr>`;
+    standingsEl.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-600 text-xs">تعذر تحميل الترتيب</td></tr>`;
   }
 }
 
+// ===== مباريات الأسبوع =====
 async function loadWeeklyMatches() {
   try {
-    const apiUrl = `https://www.sofascore.com/api/v1/unique-tournament/${LEAGUE_ID}/season/latest/events`;
-    const proxy  = "https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl);
-    const res    = await fetch(proxy);
-    if (!res.ok) throw new Error("Connection error");
+    const now = new Date().toISOString().split("T")[0];
+    const next = new Date(Date.now() + 7*24*60*60*1000).toISOString().split("T")[0];
 
+    const url = `https://api-football-v1.p.rapidapi.com/v3/fixtures?league=${league}&season=${season}&from=${now}&to=${next}`;
+    const res = await fetch(url, { headers });
     const data = await res.json();
-    const events = data.events || [];
+    const events = data.response;
 
-    const now = new Date();
-    const nextWeek = new Date(now);
-    nextWeek.setDate(now.getDate() + 7);
-
-    const upcoming = events
-      .filter(e => e.startTimestamp && new Date(e.startTimestamp * 1000) >= now && new Date(e.startTimestamp * 1000) <= nextWeek)
-      .sort((a, b) => a.startTimestamp - b.startTimestamp);
-
-    if (!upcoming.length) {
+    if (!events.length) {
       matchesEl.innerHTML = `<div class="bg-yellow-50 p-3 rounded-md text-center text-xs">لا مباريات هذا الأسبوع</div>`;
       return;
     }
 
     let html = "";
-    upcoming.forEach(e => {
-      const d = new Date(e.startTimestamp * 1000);
+    events.forEach(e => {
+      const d = new Date(e.fixture.date);
       const dateAr = d.toLocaleDateString('ar-TN', { weekday: 'short', day: 'numeric', month: 'short' });
       const timeAr = d.toLocaleTimeString('ar-TN', { hour: '2-digit', minute: '2-digit' });
 
       html += `
         <div class="p-2 bg-gray-50 rounded-md border-l-4 border-green-500 hover:bg-gray-100 text-xs">
-          <div class="text-gray-600 mb-0.5">${dateAr} • ${timeAr}</div>
-          <div class="font-bold truncate">${e.homeTeam?.name || '?'} <span class="text-red-600">🆚</span> ${e.awayTeam?.name || '?'}</div>
+          <div class="text-gray-600">${dateAr} • ${timeAr}</div>
+          <div class="font-bold truncate">${e.teams.home.name} <span class="text-red-600">🆚</span> ${e.teams.away.name}</div>
         </div>`;
     });
 
     matchesEl.innerHTML = html;
   } catch (e) {
-    matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700 text-xs">تعذر التحميل</div>`;
+    matchesEl.innerHTML = `<div class="bg-red-50 p-3 rounded-md text-center text-red-700 text-xs">تعذر تحميل المباريات</div>`;
   }
 }
 
+// ===== تحميل البيانات =====
 loadStandings();
 loadWeeklyMatches();
 
-setInterval(loadStandings, 6 * 60 * 60 * 1000);
-setInterval(loadWeeklyMatches, 60 * 60 * 1000);
+// ===== تحديث دوري + مباريات تلقائي =====
+setInterval(loadStandings, 3 * 60 * 60 * 1000); // كل 3 ساعات
+setInterval(loadWeeklyMatches, 60 * 60 * 1000); // كل ساعة
 </script>
 
         

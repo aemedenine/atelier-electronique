@@ -245,63 +245,98 @@
 .tunisia-mini-panel{
   display:grid;
   grid-template-columns:2fr 1fr;
-  gap:10px; /* قلصت المسافة */
-  max-width:900px; /* أصغر شوي */
+  gap:12px;
+  max-width:850px;
   margin:15px auto;
   font-family:'Tajawal', sans-serif;
-  font-size:0.85rem; /* حجم أصغر لكل النصوص */
+  font-size:0.82rem;
 }
 
 .mini-box{
   background:#fff;
-  border-radius:10px;
-  padding:8px; /* أقل padding */
-  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  border-radius:14px;
+  padding:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  transition:0.4s all ease-in-out;
 }
 
 .mini-box:hover{
-  background:linear-gradient(135deg,#22c55e,#ef4444);
+  background:linear-gradient(145deg,#22c55e,#ef4444);
   color:#fff;
+  transform:translateY(-3px) scale(1.02);
 }
 
 .mini-title{
-  font-size:1rem; /* أصغر شوي */
+  font-size:1rem;
   margin-bottom:6px;
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:4px;
+  gap:5px;
+  font-weight:800;
 }
 
 .mini-title img{
-  width:20px;
-  height:20px;
+  width:22px;
+  height:22px;
+  transition:0.3s transform;
+}
+
+.mini-box:hover .mini-title img{
+  transform:rotate(15deg) scale(1.1);
 }
 
 table{
-  font-size:0.75rem; /* أصغر */
+  width:100%;
+  border-collapse:collapse;
+  font-size:0.75rem;
 }
 
 th,td{
-  padding:4px; /* أقل padding */
+  padding:4px 3px;
+  text-align:center;
+  border-bottom:1px solid #e5e7eb;
 }
 
 td img{
   width:16px;
   height:16px;
+  border-radius:50%;
+  margin-left:3px;
 }
 
 .pts{
-  font-size:0.8rem;
+  font-weight:700;
+  color:#16a34a;
+  font-size:0.78rem;
 }
 
 .match{
+  display:flex;
+  justify-content:space-between;
   padding:4px 6px;
+  border-radius:10px;
+  margin-bottom:5px;
+  background:#f1f5f9;
   font-size:0.75rem;
+  transition:0.3s all ease-in-out;
+}
+
+.match.important:hover{
+  background:linear-gradient(145deg,#22c55e,#ef4444);
+  color:#fff;
+  font-weight:700;
+  transform:translateX(2px);
+}
+
+.match span, .match small{
+  flex:1;
+  text-align:center;
 }
 
 .match strong{
   font-size:0.85rem;
+  color:#ef4444;
 }
 
 @media(max-width:900px){

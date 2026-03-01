@@ -184,128 +184,34 @@
 <!-- ========================================================== -->
 <!--          ترتيب + جدول مباريات - نسخة مدمجة 2026           -->
 <!-- ========================================================== -->
-<!-- ================== TUNISIA LEAGUE PRO PANEL ================== -->
-<section class="tn-foot">
+<!-- Tailwind CDN -->
 
-  <div class="tn-title">
-    🏆 الرابطة التونسية المحترفة – ترتيب + مباريات
+<section class="max-w-6xl mx-auto my-10 p-6 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-2xl">
+  
+  <h2 class="text-center text-3xl font-extrabold text-white mb-6 tracking-wide">
+    🏆 ترتيب البطولة التونسية
+  </h2>
+
+  <div class="overflow-x-auto rounded-xl">
+    <table class="min-w-full text-sm text-white border-separate border-spacing-y-2">
+      <thead>
+        <tr class="text-gray-300 uppercase text-xs tracking-widest">
+          <th class="px-3 py-2 text-center">#</th>
+          <th class="px-3 py-2 text-right">الفريق</th>
+          <th class="px-3 py-2 text-center">لعب</th>
+          <th class="px-3 py-2 text-center">ف</th>
+          <th class="px-3 py-2 text-center">ت</th>
+          <th class="px-3 py-2 text-center">خ</th>
+          <th class="px-3 py-2 text-center">نقاط</th>
+        </tr>
+      </thead>
+      <tbody id="rankingTable"></tbody>
+    </table>
   </div>
 
-  <div class="tn-grid">
-
-    <!-- ============ RANKING ============ -->
-    <div class="tn-box">
-      <h4>📊 الترتيب</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th><th>الفريق</th><th>ل</th><th>ف</th><th>ت</th><th>خ</th><th>ن</th>
-          </tr>
-        </thead>
-        <tbody id="rank-body"></tbody>
-      </table>
-    </div>
-
-    <!-- ============ MATCHES ============ -->
-    <div class="tn-box">
-      <h4>⚽ مباريات الجولة</h4>
-      <div id="match-body" class="match-list"></div>
-    </div>
-
-  </div>
 </section>
 
-<style>
-.tn-foot{
-  max-width:1100px;margin:40px auto;padding:0 10px;font-family:tahoma;
-}
-.tn-title{
-  background:linear-gradient(90deg,#2563eb,#22c55e,#ef4444);
-  color:white;
-  font-weight:900;
-  text-align:center;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:18px;
-  box-shadow:0 5px 15px rgba(0,0,0,.3);
-}
-.tn-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr;
-  gap:16px;
-}
-@media(max-width:900px){
-  .tn-grid{grid-template-columns:1fr;}
-}
-.tn-box{
-  background:white;
-  border-radius:14px;
-  padding:12px;
-  box-shadow:0 6px 18px rgba(0,0,0,.15);
-  transition:.25s;
-}
-.tn-box:hover{transform:translateY(-3px);}
-h4{
-  text-align:center;
-  margin-bottom:10px;
-  color:#2563eb;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
-}
-th,td{
-  padding:6px;
-  text-align:center;
-  border-bottom:1px solid #e5e7eb;
-}
-th{background:#f1f5f9;}
-.team{
-  text-align:right;
-  font-weight:600;
-}
-.team img{
-  width:22px;
-  vertical-align:middle;
-  margin-left:6px;
-}
-tbody tr{
-  transition:.2s;
-}
-tbody tr:hover{
-  background:#f8fafc;
-  transform:scale(1.01);
-}
-
-/* MATCHES */
-.match{
-  background:#f8fafc;
-  border-radius:10px;
-  padding:8px 10px;
-  margin-bottom:8px;
-  transition:.25s;
-}
-.match:hover{
-  transform:translateY(-2px);
-  box-shadow:0 5px 12px rgba(0,0,0,.15);
-}
-.match-teams{
-  display:flex;
-  justify-content:space-between;
-  font-weight:600;
-  font-size:13px;
-}
-.match-time{
-  text-align:center;
-  font-size:12px;
-  color:#555;
-  margin-top:4px;
-}
-</style>
-
 <script>
-// ================== RANKING DATA ==================
 const ranking = [
  {p:1,t:"الترجي الرياضي",l:22,w:15,d:5,lo:2,pts:50,logo:"logos/esperance.png"},
  {p:2,t:"النادي الإفريقي",l:22,w:14,d:6,lo:2,pts:48,logo:"logos/club-africain.png"},
@@ -325,36 +231,33 @@ const ranking = [
  {p:16,t:"مستقبل سليمان",l:22,w:2,d:7,lo:13,pts:13,logo:"logos/mss.png"}
 ];
 
-// ================== MATCH DATA ==================
-const matches=[
- {h:"النادي الإفريقي",a:"النجم الساحلي",time:"اليوم 15:00"},
- {h:"الترجي الرياضي",a:"الأولمبي الباجي",time:"اليوم 18:00"},
- {h:"النادي الصفاقسي",a:"مستقبل قابس",time:"غداً 14:00"}
-];
+const tbody = document.getElementById("rankingTable");
 
-// ================== RENDER ==================
-const rankBody=document.getElementById("rank-body");
-ranking.forEach(r=>{
- rankBody.innerHTML+=`
- <tr>
-  <td>${r.p}</td>
-  <td class="team"><img src="${r.logo}">${r.t}</td>
-  <td>${r.l}</td><td>${r.w}</td><td>${r.d}</td><td>${r.lo}</td>
-  <td><b>${r.pts}</b></td>
- </tr>`;
-});
+ranking.forEach(team => {
+  const row = document.createElement("tr");
+  row.className = `
+    bg-slate-800/60 backdrop-blur
+    hover:bg-gradient-to-r hover:from-yellow-500/20 hover:to-red-500/20
+    transition-all duration-300 hover:scale-[1.01]
+    shadow-lg rounded-xl
+  `;
 
-const matchBody=document.getElementById("match-body");
-matches.forEach(m=>{
- matchBody.innerHTML+=`
- <div class="match">
-   <div class="match-teams">
-     <span>${m.h}</span>
-     <span>🆚</span>
-     <span>${m.a}</span>
-   </div>
-   <div class="match-time">${m.time}</div>
- </div>`;
+  row.innerHTML = `
+    <td class="text-center font-bold">${team.p}</td>
+
+    <td class="flex items-center gap-3 px-3 py-2 text-right">
+      <img src="${team.logo}" class="w-8 h-8 rounded-full bg-white p-1 shadow-md">
+      <span class="font-semibold">${team.t}</span>
+    </td>
+
+    <td class="text-center">${team.l}</td>
+    <td class="text-center text-green-400">${team.w}</td>
+    <td class="text-center text-yellow-400">${team.d}</td>
+    <td class="text-center text-red-400">${team.lo}</td>
+    <td class="text-center font-bold text-cyan-400">${team.pts}</td>
+  `;
+
+  tbody.appendChild(row);
 });
 </script>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->

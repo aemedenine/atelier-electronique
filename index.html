@@ -184,322 +184,171 @@
 <!-- ========================================================== -->
 <!--          ترتيب + جدول مباريات - نسخة مدمجة 2026           -->
 <!-- ========================================================== -->
-<section class="foot-section" id="foot-rank-matches">
-  <div class="foot-header">
-    <h3>🏆 الرابطة المحترفة الأولى – موسم 2025/2026</h3>
-    <div class="last-update">آخر تحديث: <span id="foot-update-date"></span></div>
+<!-- ================== TUNISIA LEAGUE PRO PANEL ================== -->
+<section class="tn-foot">
+
+  <div class="tn-title">
+    🏆 الرابطة التونسية المحترفة – ترتيب + مباريات
   </div>
 
-  <div class="foot-grid">
-    <!-- الترتيب -->
-    <div class="foot-card ranking-card">
-      <div class="card-title"><span class="emoji">📊</span> الترتيب الحالي</div>
-      <div class="table-responsive">
-        <table class="foot-table">
-          <thead>
-            <tr>
-              <th>م</th>
-              <th>الفريق</th>
-              <th>ل</th>
-              <th>ف</th>
-              <th>ت</th>
-              <th>خ</th>
-              <th>+</th>
-              <th>-</th>
-              <th>النقاط</th>
-            </tr>
-          </thead>
-          <tbody id="foot-ranking-body"></tbody>
-        </table>
-      </div>
+  <div class="tn-grid">
+
+    <!-- ============ RANKING ============ -->
+    <div class="tn-box">
+      <h4>📊 الترتيب</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>الفريق</th><th>ل</th><th>ف</th><th>ت</th><th>خ</th><th>ن</th>
+          </tr>
+        </thead>
+        <tbody id="rank-body"></tbody>
+      </table>
     </div>
 
-    <!-- المباريات -->
-    <div class="foot-card matches-card">
-      <div class="card-title"><span class="emoji">⚽</span> مباريات الجولة</div>
-      <div class="matches-container" id="foot-matches-list"></div>
+    <!-- ============ MATCHES ============ -->
+    <div class="tn-box">
+      <h4>⚽ مباريات الجولة</h4>
+      <div id="match-body" class="match-list"></div>
     </div>
+
   </div>
 </section>
 
 <style>
-  .foot-section {
-    max-width: 1180px;
-    margin: 35px auto;
-    padding: 0 12px;
-  }
+.tn-foot{
+  max-width:1100px;margin:40px auto;padding:0 10px;font-family:tahoma;
+}
+.tn-title{
+  background:linear-gradient(90deg,#2563eb,#22c55e,#ef4444);
+  color:white;
+  font-weight:900;
+  text-align:center;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:18px;
+  box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+.tn-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:16px;
+}
+@media(max-width:900px){
+  .tn-grid{grid-template-columns:1fr;}
+}
+.tn-box{
+  background:white;
+  border-radius:14px;
+  padding:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  transition:.25s;
+}
+.tn-box:hover{transform:translateY(-3px);}
+h4{
+  text-align:center;
+  margin-bottom:10px;
+  color:#2563eb;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th,td{
+  padding:6px;
+  text-align:center;
+  border-bottom:1px solid #e5e7eb;
+}
+th{background:#f1f5f9;}
+.team{
+  text-align:right;
+  font-weight:600;
+}
+.team img{
+  width:22px;
+  vertical-align:middle;
+  margin-left:6px;
+}
+tbody tr{
+  transition:.2s;
+}
+tbody tr:hover{
+  background:#f8fafc;
+  transform:scale(1.01);
+}
 
-  .foot-header {
-    text-align: center;
-    margin-bottom: 22px;
-  }
-
-  .foot-header h3 {
-    font-size: 1.65rem;
-    font-weight: 900;
-    color: #facc15;
-    margin-bottom: 6px;
-    text-shadow: 0 2px 8px rgba(250,204,21,0.35);
-  }
-
-  .last-update {
-    color: #94a3b8;
-    font-size: 0.98rem;
-  }
-
-  .foot-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-  }
-
-  @media (max-width: 920px) {
-    .foot-grid { grid-template-columns: 1fr; gap: 24px; }
-  }
-
-  .foot-card {
-    background: #172038;
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid #2d3b55;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
-  }
-
-  .card-title {
-    background: linear-gradient(90deg, #15803d, #22c55e);
-    color: white;
-    padding: 14px 18px;
-    font-size: 1.22rem;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-shadow: 0 1px 3px #000;
-  }
-
-  .emoji { font-size: 1.4rem; }
-
-  /* Table */
-  .table-responsive { overflow-x: auto; }
-  .foot-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.96rem;
-  }
-
-  .foot-table th, .foot-table td {
-    padding: 11px 7px;
-    text-align: center;
-    border-bottom: 1px solid #2d3b55;
-  }
-
-  .foot-table th {
-    background: #0f172a;
-    color: #94a3b8;
-    font-weight: bold;
-    font-size: 0.86rem;
-    text-transform: uppercase;
-  }
-
-  .team-name-cell {
-    text-align: right;
-    font-weight: 600;
-  }
-
-  .team-logo-small {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-left: 8px;
-    border: 1px solid #475569;
-  }
-
-  .points-cell {
-    font-weight: 900;
-    font-size: 1.12rem;
-    color: #22c55e;
-    text-shadow: 0 0 9px rgba(34,197,94,0.45);
-  }
-
-  tr.top3-1 { background: rgba(250,204,21,0.16); }
-  tr.top3-2 { background: rgba(226,232,240,0.11); }
-  tr.top3-3 { background: rgba(249,115,22,0.11); }
-  tr.relegate { background: rgba(239,68,68,0.13); }
-
-  /* Matches */
-  .matches-container {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .match-row {
-    background: #1e293b;
-    border-radius: 10px;
-    padding: 12px 14px;
-    border: 1px solid #2d3b55;
-    transition: all 0.25s;
-  }
-
-  .match-row:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(34,197,94,0.2);
-  }
-
-  .match-teams {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.02rem;
-    margin-bottom: 6px;
-  }
-
-  .match-score {
-    font-weight: 900;
-    min-width: 70px;
-    text-align: center;
-    font-size: 1.25rem;
-  }
-
-  .match-score.live { color: #ef4444; animation: blinkScore 1.7s infinite; }
-
-  .match-time {
-    text-align: center;
-    font-size: 0.9rem;
-    margin-top: 5px;
-    padding-top: 6px;
-    border-top: 1px dashed #334155;
-    color: #94a3b8;
-  }
-
-  .match-time.live { color: #ef4444; font-weight: bold; }
-  .match-time.upcoming { color: #facc15; }
-
-  .highlight-match {
-    border: 2px solid #facc15;
-    background: rgba(250,204,21,0.06);
-  }
-
-  @keyframes blinkScore {
-    0%,100% { opacity:1; }
-    50%     { opacity:0.35; }
-  }
-
-  @media (max-width: 580px) {
-    .match-teams { flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.95rem; }
-    .match-score { width: 100%; margin: 6px 0; }
-  }
+/* MATCHES */
+.match{
+  background:#f8fafc;
+  border-radius:10px;
+  padding:8px 10px;
+  margin-bottom:8px;
+  transition:.25s;
+}
+.match:hover{
+  transform:translateY(-2px);
+  box-shadow:0 5px 12px rgba(0,0,0,.15);
+}
+.match-teams{
+  display:flex;
+  justify-content:space-between;
+  font-weight:600;
+  font-size:13px;
+}
+.match-time{
+  text-align:center;
+  font-size:12px;
+  color:#555;
+  margin-top:4px;
+}
 </style>
 
 <script>
-// ============================================================================
-//                   DONNÉES – à actualiser quand tu veux
-// ============================================================================
-
-const footRanking = [
-  {pos:1, name:"الترجي الرياضي",         pl:21, w:14, d:5,  l:2,  pts:47},
-  {pos:2, name:"النادي الإفريقي",       pl:21, w:13, d:6,  l:2,  pts:45},
-  {pos:3, name:"الملعب التونسي",         pl:22, w:12, d:8,  l:2,  pts:44},
-  {pos:4, name:"النادي الصفاقسي",       pl:21, w:11, d:6,  l:4,  pts:39},
-  {pos:5, name:"الاتحاد المنستيري",     pl:22, w:9,  d:10, l:3,  pts:37},
-  {pos:6, name:"النجم الساحلي",         pl:21, w:8,  d:6,  l:7,  pts:30},
-  {pos:7, name:"شبيبة العمران",         pl:22, w:8,  d:4,  l:10, pts:28},
-  {pos:8, name:"الترجي الجرجيسي",       pl:22, w:7,  d:6,  l:9,  pts:27},
-  {pos:9, name:"النادي البنزرتي",       pl:21, w:6,  d:8,  l:7,  pts:26},
-  {pos:10,name:"النجم الرياضي بالمتلوي",pl:21, w:6,  d:7,  l:8,  pts:25},
-  {pos:11,name:"مستقبل قابس",            pl:21, w:6,  d:6,  l:9,  pts:24},
-  {pos:12,name:"الأولمبي الباجي",       pl:21, w:5,  d:8,  l:8,  pts:23},
-  {pos:13,name:"مستقبل سليمان",         pl:21, w:5,  d:7,  l:9,  pts:22},
-  {pos:14,name:"الشبيبة القيروانية",   pl:22, w:4,  d:9,  l:9,  pts:21},
-  {pos:15,name:"اتحاد بن قردان",        pl:22, w:4,  d:7,  l:11, pts:19},
-  {pos:16,name:"مستقبل المرسى",         pl:22, w:3,  d:6,  l:13, pts:15},
+// ================== RANKING DATA ==================
+const ranking=[
+ {p:1,t:"الترجي الرياضي",l:21,w:14,d:5,lo:2,pts:47,logo:"logos/est.png"},
+ {p:2,t:"النادي الإفريقي",l:21,w:13,d:6,lo:2,pts:45,logo:"logos/ca.png"},
+ {p:3,t:"الملعب التونسي",l:22,w:12,d:8,lo:2,pts:44,logo:"logos/st.png"},
+ {p:4,t:"النادي الصفاقسي",l:21,w:11,d:6,lo:4,pts:39,logo:"logos/css.png"},
+ {p:5,t:"الاتحاد المنستيري",l:22,w:9,d:10,lo:3,pts:37,logo:"logos/usm.png"},
+ {p:6,t:"النجم الساحلي",l:22,w:9,d:6,lo:7,pts:33,logo:"logos/ess.png"},
+ {p:7,t:"شبيبة العمران",l:22,w:8,d:4,lo:10,pts:28,logo:"logos/jsom.png"},
+ {p:8,t:"الترجي الجرجيسي",l:22,w:7,d:6,lo:9,pts:27,logo:"logos/esj.png"},
+ {p:9,t:"نجم المتلوي",l:21,w:6,d:9,lo:6,pts:27,logo:"logos/esm.png"},
+ {p:10,t:"مستقبل المرسى",l:22,w:8,d:1,lo:13,pts:25,logo:"logos/asm.png"}
 ];
 
-const footMatches = [
-  {status:"finished", home:"مستقبل المرسى",     score:"0 - 4", away:"الملعب التونسي"},
-  {status:"finished", home:"شبيبة العمران",     score:"2 - 1", away:"اتحاد بن قردان"},
-  {status:"finished", home:"الترجي الجرجيسي",   score:"1 - 1", away:"الشبيبة القيروانية"},
-  {status:"finished", home:"النادي البنزرتي",   score:"0 - 0", away:"الاتحاد المنستيري"},
-  {status:"live",     home:"النادي الإفريقي",   score:"1 - 1", away:"النجم الرياضي بالمتلوي", time:"د 68'"},
-  {status:"upcoming", home:"النادي الصفاقسي",               away:"مستقبل قابس",              time:"اليوم 15:00"},
-  {status:"upcoming", home:"الأولمبي الباجي",                away:"الترجي الرياضي",           time:"اليوم 18:00", highlight:true},
-  {status:"upcoming", home:"الاتحاد المنستيري",              away:"النادي البنزرتي",          time:"غداً 14:00"},
+// ================== MATCH DATA ==================
+const matches=[
+ {h:"النادي الإفريقي",a:"النجم الساحلي",time:"اليوم 15:00"},
+ {h:"الترجي الرياضي",a:"الأولمبي الباجي",time:"اليوم 18:00"},
+ {h:"النادي الصفاقسي",a:"مستقبل قابس",time:"غداً 14:00"}
 ];
 
-// ============================================================================
-//                   RENDU
-// ============================================================================
+// ================== RENDER ==================
+const rankBody=document.getElementById("rank-body");
+ranking.forEach(r=>{
+ rankBody.innerHTML+=`
+ <tr>
+  <td>${r.p}</td>
+  <td class="team"><img src="${r.logo}">${r.t}</td>
+  <td>${r.l}</td><td>${r.w}</td><td>${r.d}</td><td>${r.lo}</td>
+  <td><b>${r.pts}</b></td>
+ </tr>`;
+});
 
-function renderFootRanking() {
-  const tbody = document.getElementById("foot-ranking-body");
-  if (!tbody) return;
-  tbody.innerHTML = "";
-
-  footRanking.forEach(r => {
-    const tr = document.createElement("tr");
-    if (r.pos <= 3) tr.className = `top3-${r.pos}`;
-    if (r.pos >= 14) tr.className = "relegate";
-
-    tr.innerHTML = `
-      <td>${r.pos}</td>
-      <td class="team-name-cell">${r.name}</td>
-      <td>${r.pl}</td>
-      <td>${r.w}</td>
-      <td>${r.d}</td>
-      <td>${r.l}</td>
-      <td class="points-cell">${r.pts}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function renderFootMatches() {
-  const cont = document.getElementById("foot-matches-list");
-  if (!cont) return;
-  cont.innerHTML = "";
-
-  footMatches.forEach(m => {
-    const row = document.createElement("div");
-    row.className = `match-row ${m.status}`;
-    if (m.highlight) row.classList.add("highlight-match");
-
-    const scoreHTML = m.score
-      ? `<span class="match-score ${m.status==='live'?'live':''}">${m.score}</span>`
-      : `<span class="vs">🆚</span>`;
-
-    row.innerHTML = `
-      <div class="match-teams">
-        <span class="team-home">${m.home}</span>
-        ${scoreHTML}
-        <span class="team-away">${m.away}</span>
-      </div>
-      <div class="match-time ${m.status}">
-        ${m.status==='finished' ? 'منتهية' : ''}
-        ${m.status==='live' ? 'مباشر • ' + (m.time||'') : ''}
-        ${m.status==='upcoming' ? m.time||'' : ''}
-      </div>
-    `;
-    cont.appendChild(row);
-  });
-}
-
-// ============================================================================
-//                   LANCEMENT
-// ============================================================================
-
-document.addEventListener("DOMContentLoaded", () => {
-  // Date
-  const dateEl = document.getElementById("foot-update-date");
-  if (dateEl) {
-    dateEl.textContent = new Date().toLocaleString("ar-TN", {
-      weekday:"long", day:"numeric", month:"long", hour:"2-digit", minute:"2-digit"
-    });
-  }
-
-  renderFootRanking();
-  renderFootMatches();
+const matchBody=document.getElementById("match-body");
+matches.forEach(m=>{
+ matchBody.innerHTML+=`
+ <div class="match">
+   <div class="match-teams">
+     <span>${m.h}</span>
+     <span>🆚</span>
+     <span>${m.a}</span>
+   </div>
+   <div class="match-time">${m.time}</div>
+ </div>`;
 });
 </script>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->

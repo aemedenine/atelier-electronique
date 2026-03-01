@@ -242,76 +242,108 @@
 </section>
 
 <style>
-/* ===== Tunisie Mini Panel like Rating Box ===== */
+/* ===== Tunisie Mini Panel Small Like Rating Box ===== */
 .tunisia-mini-panel {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 12px;
+  gap: 10px; /* أصغر شوي */
   max-width: 1100px;
-  margin: 20px auto;
+  margin: 15px auto;
   font-family: 'Tajawal', sans-serif;
-  font-size: 1.05rem; /* نفس rating-title font-size */
+  font-size: 0.85rem; /* صغير */
 }
 
 /* Boxes */
 .mini-box {
-  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
-  border-radius: 14px; /* نفس rating */
-  padding: 14px 12px; /* نفس rating */
-  box-shadow: 0 4px 14px rgba(13,71,161,0.12);
-  border: 1px solid rgba(13,71,161,0.08);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 12px; /* أصغر */
+  padding: 10px; /* أصغر */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.15);
   transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
 }
 
+.mini-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 20%, rgba(239,68,68,0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+
+.mini-box:hover::before {
+  opacity: 1;
+}
+
 .mini-box:hover {
   transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 10px 30px rgba(13,71,161,0.25);
-  border-color: #1976d2;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.55), 0 0 25px rgba(239,68,68,0.3);
+  border-color: #ef4444;
 }
 
 /* Title */
 .mini-title {
-  font-size: 1.05rem; /* نفس rating-title */
-  font-weight: 700;
-  color: #1976d2;
-  margin-bottom: 8px;
+  font-size: 1rem; /* أصغر */
+  font-weight: 800;
+  margin-bottom: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  color: #facc15;
+  text-shadow: 0 1px 4px rgba(250,204,21,0.5);
 }
 
 .mini-title img {
-  width: 28px;
-  height: 28px;
-  transition: all 0.35s ease;
+  width: 24px; /* أصغر */
+  height: 24px;
+  transition: all 0.35s;
 }
 
 /* Table */
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 10px;
+  border-radius: 8px; /* أصغر */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem; /* متقارب للـ rating stars */
+  font-size: 0.75rem; /* أصغر */
 }
 
 th, td {
-  padding: 6px 4px;
+  padding: 4px 3px; /* أصغر */
   text-align: center;
-  color: #0d47a1;
+  border-bottom: 1px solid rgba(55,65,81,0.4);
+  color: #e2e8f0;
 }
 
 td img {
-  width: 18px;
-  height: 18px;
+  width: 16px; /* أصغر */
+  height: 16px;
   border-radius: 50%;
-  margin-left: 4px;
+  margin-left: 3px;
+}
+
+/* Points */
+.pts {
+  font-weight: 900;
+  color: #22c55e;
+  font-size: 0.8rem; /* أصغر */
+  text-shadow: 0 1px 2px rgba(34,197,94,0.5);
+}
+
+.top-team td {
+  background: rgba(34,197,94,0.06);
+  font-weight: bold;
 }
 
 /* Matches */
@@ -319,19 +351,19 @@ td img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
-  padding: 14px 12px; /* نفس rating box */
-  border-radius: 14px;
-  border: 1px solid rgba(13,71,161,0.08);
-  box-shadow: 0 4px 14px rgba(13,71,161,0.12);
-  margin-bottom: 6px;
+  background: rgba(30,41,59,0.7);
+  padding: 8px 10px; /* أصغر */
+  border-radius: 12px; /* أصغر */
+  margin-bottom: 5px;
+  border: 1px solid rgba(55,65,81,0.35);
   transition: all 0.35s ease;
+  backdrop-filter: blur(2px);
 }
 
 .match:hover {
-  box-shadow: 0 10px 30px rgba(13,71,161,0.25);
-  transform: translateY(-2px) scale(1.01);
-  border-color: #1976d2;
+  transform: scale(1.02) translateY(-1px);
+  box-shadow: 0 5px 18px rgba(239,68,68,0.3);
+  border-color: #facc15;
 }
 
 .match span {
@@ -340,14 +372,14 @@ td img {
 }
 
 .match strong {
-  font-size: 1.05rem; /* متساوي */
-  color: #1976d2;
+  font-size: 1rem; /* أصغر */
+  margin: 0 8px;
+  text-shadow: 0 1px 2px #000;
 }
 
 .match small {
-  font-size: 0.8rem;
-  color: #0d47a1;
-  min-width: 70px;
+  font-size: 0.7rem; /* أصغر */
+  min-width: 65px;
   text-align: right;
 }
 

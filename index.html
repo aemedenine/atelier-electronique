@@ -184,21 +184,34 @@
 <!-- ========================================================== -->
 <!--          ترتيب + جدول مباريات - نسخة مدمجة 2026           -->
 <!-- ========================================================== -->
+
 <section class="max-w-3xl mx-auto my-3 p-2 rounded-xl bg-gradient-to-br from-[#020617] via-[#020617] to-black shadow-lg border border-white/10">
 
-  <div class="flex items-center justify-between mb-1">
-    <h2 class="text-[13px] font-bold text-white flex items-center gap-1">
-      🏆 ترتيب البطولة
-    </h2>
-    <span class="px-1.5 py-[1px] text-[8px] rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-400/20">
+  <!-- HEADER -->
+  <div class="flex items-center justify-between mb-1.5">
+    <div class="flex items-center gap-1.5">
+      <!-- Logo الجامعة -->
+      <img src="logos/football.png" class="w-5 h-5 object-contain drop-shadow-md">
+
+      <!-- Icons -->
+      <span class="text-[14px]">🏆</span>
+      <span class="text-[14px]">⚽</span>
+
+      <!-- Title -->
+      <h2 class="text-[14px] font-extrabold text-white">
+        ترتيب البطولة
+      </h2>
+    </div>
+
+    <span class="px-1.5 py-[1px] text-[9px] rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-400/20">
       LIVE
     </span>
   </div>
 
   <div class="overflow-x-auto">
-    <table class="min-w-full text-[10px] text-white border-separate border-spacing-y-[2px]">
+    <table class="min-w-full text-[11px] text-white border-separate border-spacing-y-[2px]">
       <thead>
-        <tr class="text-gray-400 uppercase text-[8px]">
+        <tr class="text-gray-400 uppercase text-[9px]">
           <th>#</th>
           <th class="text-right">Equipe</th>
           <th>MJ</th>
@@ -238,15 +251,15 @@ const ranking = [
 const tbody = document.getElementById("rankingTable");
 
 const formBadge = r => {
-  if(r === "W") return `<span class="w-3 h-3 flex items-center justify-center rounded-full bg-green-500/20 text-green-400 text-[7px]">W</span>`;
-  if(r === "D") return `<span class="w-3 h-3 flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-400 text-[7px]">D</span>`;
-  return `<span class="w-3 h-3 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 text-[7px]">L</span>`;
+  if(r === "W") return `<span class="w-3.5 h-3.5 flex items-center justify-center rounded-full bg-green-500/20 text-green-400 text-[8px]">W</span>`;
+  if(r === "D") return `<span class="w-3.5 h-3.5 flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-400 text-[8px]">D</span>`;
+  return `<span class="w-3.5 h-3.5 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 text-[8px]">L</span>`;
 }
 
 const arrow = d => {
-  if(d > 0) return `<span class="text-green-400 text-[8px]">⬆${d}</span>`;
-  if(d < 0) return `<span class="text-red-400 text-[8px]">⬇${Math.abs(d)}</span>`;
-  return `<span class="text-gray-400 text-[8px]">—</span>`;
+  if(d > 0) return `<span class="text-green-400 text-[9px]">⬆${d}</span>`;
+  if(d < 0) return `<span class="text-red-400 text-[9px]">⬇${Math.abs(d)}</span>`;
+  return `<span class="text-gray-400 text-[9px]">—</span>`;
 }
 
 ranking.forEach(team => {
@@ -262,8 +275,8 @@ ranking.forEach(team => {
     <td class="text-center font-bold">${team.p}</td>
 
     <td class="flex items-center gap-1 px-1 py-[2px] text-right">
-      <img src="${team.logo}" class="w-5 h-5 rounded-full bg-white p-[1px]">
-      <span class="font-medium truncate max-w-[90px]">${team.t}</span>
+      <img src="${team.logo}" class="w-5.5 h-5.5 rounded-full bg-white p-[1px]">
+      <span class="font-medium truncate max-w-[95px]">${team.t}</span>
     </td>
 
     <td class="text-center">${team.l}</td>

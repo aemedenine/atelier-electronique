@@ -292,6 +292,53 @@
   0%,100%{transform:translateX(0)}
   50%{transform:translateX(6px)}
 }
+    @media (max-width: 640px){
+
+  .tunisia-rank-wrapper{
+    max-width:100%;
+    padding:12px;
+    border-radius:14px;
+  }
+
+  .rank-title h2{
+    font-size:20px;
+  }
+
+  .rank-title span{
+    font-size:20px;
+  }
+
+  .rank-grid{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .rank-row{
+    grid-template-columns:
+      14px
+      minmax(110px,1fr)
+      26px
+      24px
+      24px
+      24px
+      30px;
+    font-size:12.8px;
+    padding:4px 5px;
+  }
+
+  .rank-row img{
+    width:22px;
+    height:22px;
+  }
+
+  .team-name{
+    font-size:12.5px;
+  }
+
+  .col-title{
+    font-size:9px;
+  }
+}
 </style>
 
 <script>

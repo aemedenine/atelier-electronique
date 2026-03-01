@@ -221,7 +221,17 @@
   font-size:24px;
   font-weight:900;
   letter-spacing:.5px;
-  color:#0000FF; /* اللون الأزرق صافي */
+  background: linear-gradient(270deg, #0000FF, #22C55E, #EF4444, #0000FF); /* ازرق-اخضر-احمر */
+  background-size: 600% 600%; /* حجم أكبر باش الحركة تبان */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease infinite; /* مدة التحرك 6 ثواني */
+}
+
+@keyframes gradientShift {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
 }
 .rank-grid{
   display:grid;
@@ -285,7 +295,7 @@
 }
 
 .animate-ball{
-  animation:ballMove 1.4 infinite ease-in-out;
+  animation:ballMove 1.3 infinite ease-in-out;
 }
 
 @keyframes ballMove{

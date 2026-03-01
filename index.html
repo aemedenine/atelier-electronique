@@ -184,95 +184,150 @@
 <!-- ========================================================== -->
 <!--          ترتيب + جدول مباريات - نسخة مدمجة 2026           -->
 <!-- ========================================================== -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<section class="max-w-4xl mx-auto my-3 p-2 rounded-xl bg-gradient-to-br from-[#020617] via-[#020617] to-black shadow-xl border border-white/10">
-
-  <!-- HEADER -->
-  <div class="flex items-center justify-center gap-2 mb-2">
-    <img src="logos/football.png" class="w-6 h-6">
+<div class="tunisia-rank-wrapper">
+  <div class="rank-title">
     <span class="text-[23px]">🏆</span>
-    <h2 class="text-[23px] font-extrabold text-white">
-      ترتيب البطولة
-    </h2>
-    <span class="text-[23px]">⚽</span>
+    <h2>ترتيب البطولة</h2>
+    <span class="text-[23px] animate-ball">⚽</span>
   </div>
 
-  <!-- GRID -->
-  <div class="grid grid-cols-2 gap-2">
-
-    <!-- BOX 1–8 -->
-    <div class="bg-white/5 rounded-lg p-1">
-      <table class="w-full text-[11px] text-white border-separate border-spacing-y-[1px]">
-        <thead>
-          <tr class="text-gray-400 text-[8px] uppercase">
-            <th>#</th>
-            <th class="text-right">Equipe</th>
-            <th>MJ</th>
-            <th>Pts</th>
-          </tr>
-        </thead>
-        <tbody id="boxTop"></tbody>
-      </table>
-    </div>
-
-    <!-- BOX 9–16 -->
-    <div class="bg-white/5 rounded-lg p-1">
-      <table class="w-full text-[11px] text-white border-separate border-spacing-y-[1px]">
-        <thead>
-          <tr class="text-gray-400 text-[8px] uppercase">
-            <th>#</th>
-            <th class="text-right">Equipe</th>
-            <th>MJ</th>
-            <th>Pts</th>
-          </tr>
-        </thead>
-        <tbody id="boxBottom"></tbody>
-      </table>
-    </div>
-
+  <div class="rank-grid">
+    <div class="rank-box" id="box1"></div>
+    <div class="rank-box" id="box2"></div>
   </div>
-</section>
+</div>
+
+<style>
+.tunisia-rank-wrapper{
+  max-width:480px;
+  margin:auto;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  border-radius:16px;
+  padding:10px;
+  color:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  font-family:system-ui;
+}
+
+.rank-title{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+
+.rank-title h2{font-size:23px;font-weight:900}
+
+.rank-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+
+.rank-box{
+  background:rgba(255,255,255,.04);
+  border-radius:12px;
+  padding:6px;
+}
+
+.rank-row{
+  display:grid;
+  grid-template-columns:16px 1fr 22px 22px 22px 22px 26px;
+  align-items:center;
+  gap:4px;
+  font-size:11px;
+  padding:3px 3px;
+  border-radius:6px;
+}
+
+.rank-row:nth-child(odd){
+  background:rgba(255,255,255,.03);
+}
+
+.rank-row img{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#fff;
+  padding:1px;
+}
+
+.team-name{
+  font-size:13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.col-title{
+  font-size:10px;
+  opacity:.7;
+  text-align:center;
+  font-weight:700;
+}
+
+.animate-ball{
+  animation:ballMove 1.2s infinite ease-in-out;
+}
+
+@keyframes ballMove{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+</style>
 
 <script>
 const ranking = [
- {p:1,t:"الترجي الرياضي",l:22,w:15,d:5,lo:2,pts:50,logo:"logos/esperance.png",form:["W","W","D","W","W"],delta:0},
- {p:2,t:"النادي الإفريقي",l:22,w:14,d:6,lo:2,pts:48,logo:"logos/club-africain.png",form:["W","D","W","W","W"],delta:+1},
- {p:3,t:"الملعب التونسي",l:22,w:12,d:8,lo:2,pts:44,logo:"logos/stade-tunisien.png",form:["D","W","W","D","W"],delta:-1},
- {p:4,t:"النادي الصفاقسي",l:22,w:11,d:7,lo:4,pts:40,logo:"logos/css.png",form:["L","W","D","W","W"],delta:0},
- {p:5,t:"الاتحاد المنستيري",l:22,w:9,d:10,lo:3,pts:37,logo:"logos/usm.png",form:["W","D","D","W","D"],delta:+2},
- {p:6,t:"النجم الساحلي",l:22,w:9,d:6,lo:7,pts:33,logo:"logos/ess.png",form:["L","W","L","W","D"],delta:-1},
- {p:7,t:"شبيبة العمران",l:22,w:8,d:4,lo:10,pts:28,logo:"logos/jsom.png",form:["W","L","D","L","W"],delta:0},
- {p:8,t:"الترجي الجرجيسي",l:22,w:7,d:6,lo:9,pts:27,logo:"logos/esj.png",form:["D","W","L","W","D"],delta:0},
- {p:9,t:"نجم المتلوي",l:22,w:6,d:9,lo:7,pts:27,logo:"logos/asm.png",form:["W","D","L","D","W"],delta:+1},
- {p:10,t:"مستقبل المرسى",l:22,w:8,d:1,lo:13,pts:25,logo:"logos/asmarsa.png",form:["L","W","L","W","L"],delta:-2},
- {p:11,t:"النادي البنزرتي",l:22,w:6,d:7,lo:9,pts:25,logo:"logos/cab.png",form:["D","W","D","L","W"],delta:0},
- {p:12,t:"اتحاد بن قردان",l:22,w:5,d:9,lo:8,pts:24,logo:"logos/usbq.png",form:["D","L","D","W","D"],delta:0},
- {p:13,t:"الشبيبة القيروانية",l:22,w:6,d:3,lo:13,pts:21,logo:"logos/asg.png",form:["L","L","W","D","L"],delta:-1},
- {p:14,t:"مستقبل قابس",l:22,w:3,d:9,lo:10,pts:18,logo:"logos/msg.png",form:["D","L","D","L","W"],delta:+1},
- {p:15,t:"الأولمبي الباجي",l:22,w:5,d:3,lo:14,pts:18,logo:"logos/ob.png",form:["W","L","L","L","D"],delta:-1},
- {p:16,t:"مستقبل سليمان",l:22,w:2,d:7,lo:13,pts:13,logo:"logos/mss.png",form:["L","D","L","L","L"],delta:0}
+ {p:1,t:"الترجي الرياضي",l:22,w:15,d:5,lo:2,pts:50,logo:"logos/esperance.png"},
+ {p:2,t:"النادي الإفريقي",l:22,w:14,d:6,lo:2,pts:48,logo:"logos/club-africain.png"},
+ {p:3,t:"الملعب التونسي",l:22,w:12,d:8,lo:2,pts:44,logo:"logos/stade-tunisien.png"},
+ {p:4,t:"النادي الصفاقسي",l:22,w:11,d:7,lo:4,pts:40,logo:"logos/css.png"},
+ {p:5,t:"الاتحاد المنستيري",l:22,w:9,d:10,lo:3,pts:37,logo:"logos/usm.png"},
+ {p:6,t:"النجم الساحلي",l:22,w:9,d:6,lo:7,pts:33,logo:"logos/ess.png"},
+ {p:7,t:"شبيبة العمران",l:22,w:8,d:4,lo:10,pts:28,logo:"logos/jsom.png"},
+ {p:8,t:"الترجي الجرجيسي",l:22,w:7,d:6,lo:9,pts:27,logo:"logos/esj.png"},
+ {p:9,t:"نجم المتلوي",l:22,w:6,d:9,lo:7,pts:27,logo:"logos/asm.png"},
+ {p:10,t:"مستقبل المرسى",l:22,w:8,d:1,lo:13,pts:25,logo:"logos/asmarsa.png"},
+ {p:11,t:"النادي البنزرتي",l:22,w:6,d:7,lo:9,pts:25,logo:"logos/cab.png"},
+ {p:12,t:"اتحاد بن قردان",l:22,w:5,d:9,lo:8,pts:24,logo:"logos/usbq.png"},
+ {p:13,t:"الشبيبة القيروانية",l:22,w:6,d:3,lo:13,pts:21,logo:"logos/asg.png"},
+ {p:14,t:"مستقبل قابس",l:22,w:3,d:9,lo:10,pts:18,logo:"logos/msg.png"},
+ {p:15,t:"الأولمبي الباجي",l:22,w:5,d:3,lo:14,pts:18,logo:"logos/ob.png"},
+ {p:16,t:"مستقبل سليمان",l:22,w:2,d:7,lo:13,pts:13,logo:"logos/mss.png"}
 ];
 
-const topBox = document.getElementById("boxTop");
-const bottomBox = document.getElementById("boxBottom");
+function headerRow(){
+  return `<div class="rank-row">
+    <div class="col-title">#</div>
+    <div class="col-title">Equipe</div>
+    <div class="col-title">MJ</div>
+    <div class="col-title">W</div>
+    <div class="col-title">D</div>
+    <div class="col-title">L</div>
+    <div class="col-title">Pts</div>
+  </div>`;
+}
 
-ranking.forEach(team => {
-  const row = document.createElement("tr");
-  row.className = "bg-white/5 hover:bg-cyan-500/10 transition rounded";
+function renderBox(list,el){
+  el.innerHTML = headerRow() + list.map(team=>`
+    <div class="rank-row">
+      <strong>${team.p}</strong>
+      <div class="flex items-center gap-1">
+        <img src="${team.logo}">
+        <span class="team-name">${team.t}</span>
+      </div>
+      <div class="text-center">${team.l}</div>
+      <div class="text-center">${team.w}</div>
+      <div class="text-center">${team.d}</div>
+      <div class="text-center">${team.lo}</div>
+      <strong class="text-center">${team.pts}</strong>
+    </div>
+  `).join("");
+}
 
-  row.innerHTML = `
-    <td class="w-[18px] text-center font-bold">${team.p}</td>
-    <td class="flex items-center gap-1 text-right px-1">
-      <img src="${team.logo}" class="w-6 h-6 rounded-full bg-white p-[1px]">
-      <span class="truncate max-w-[85px] text-[12px] font-semibold">${team.t}</span>
-    </td>
-    <td class="text-center text-[11px]">${team.l}</td>
-    <td class="text-center font-bold text-cyan-400">${team.pts}</td>
-  `;
-
-  team.p <= 8 ? topBox.appendChild(row) : bottomBox.appendChild(row);
-});
+renderBox(ranking.slice(0,8),document.getElementById("box1"));
+renderBox(ranking.slice(8,16),document.getElementById("box2"));
 </script>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
         <!-- FAQ Section – كاملة مع data-i18n على كل عنصر -->

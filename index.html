@@ -246,21 +246,21 @@
 .tunisia-mini-panel {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 10px; /* أصغر شوي */
+  gap: 8px; /* أصغر */
   max-width: 1100px;
   margin: 15px auto;
   font-family: 'Tajawal', sans-serif;
-  font-size: 0.85rem; /* صغير */
+  font-size: 0.75rem; /* أصغر جدا */
 }
 
 /* Boxes */
 .mini-box {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 12px; /* أصغر */
-  padding: 10px; /* أصغر */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5), inset 0 0 10px rgba(34,197,94,0.1);
+  border-radius: 10px; /* أصغر */
+  padding: 8px; /* أصغر */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.45), inset 0 0 8px rgba(34,197,94,0.1);
   border: 1px solid rgba(34,197,94,0.15);
-  transition: all 0.35s ease;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
@@ -272,9 +272,9 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 30% 20%, rgba(239,68,68,0.1) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 20%, rgba(239,68,68,0.08) 0%, transparent 60%);
   opacity: 0;
-  transition: opacity 0.6s;
+  transition: opacity 0.5s;
   pointer-events: none;
 }
 
@@ -283,67 +283,62 @@
 }
 
 .mini-box:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.55), 0 0 25px rgba(239,68,68,0.3);
+  transform: translateY(-3px) scale(1.008);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 20px rgba(239,68,68,0.25);
   border-color: #ef4444;
 }
 
 /* Title */
 .mini-title {
-  font-size: 1rem; /* أصغر */
-  font-weight: 800;
-  margin-bottom: 6px;
+  font-size: 0.95rem; /* أصغر */
+  font-weight: 700;
+  margin-bottom: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   color: #facc15;
-  text-shadow: 0 1px 4px rgba(250,204,21,0.5);
+  text-shadow: 0 1px 2px rgba(250,204,21,0.5);
 }
 
 .mini-title img {
-  width: 24px; /* أصغر */
-  height: 24px;
-  transition: all 0.35s;
+  width: 20px; /* أصغر */
+  height: 20px;
+  transition: all 0.3s;
 }
 
 /* Table */
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 8px; /* أصغر */
+  border-radius: 6px; /* أصغر */
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.75rem; /* أصغر */
+  font-size: 0.7rem; /* أصغر */
 }
 
 th, td {
-  padding: 4px 3px; /* أصغر */
+  padding: 3px 2px; /* أصغر */
   text-align: center;
   border-bottom: 1px solid rgba(55,65,81,0.4);
   color: #e2e8f0;
 }
 
 td img {
-  width: 16px; /* أصغر */
-  height: 16px;
+  width: 14px; /* أصغر */
+  height: 14px;
   border-radius: 50%;
-  margin-left: 3px;
+  margin-left: 2px;
 }
 
 /* Points */
 .pts {
   font-weight: 900;
   color: #22c55e;
-  font-size: 0.8rem; /* أصغر */
+  font-size: 0.75rem; /* أصغر */
   text-shadow: 0 1px 2px rgba(34,197,94,0.5);
-}
-
-.top-team td {
-  background: rgba(34,197,94,0.06);
-  font-weight: bold;
 }
 
 /* Matches */
@@ -352,17 +347,17 @@ td img {
   justify-content: space-between;
   align-items: center;
   background: rgba(30,41,59,0.7);
-  padding: 8px 10px; /* أصغر */
-  border-radius: 12px; /* أصغر */
-  margin-bottom: 5px;
-  border: 1px solid rgba(55,65,81,0.35);
-  transition: all 0.35s ease;
+  padding: 5px 8px; /* أصغر */
+  border-radius: 10px; /* أصغر */
+  margin-bottom: 4px;
+  border: 1px solid rgba(55,65,81,0.3);
+  transition: all 0.3s ease;
   backdrop-filter: blur(2px);
 }
 
 .match:hover {
-  transform: scale(1.02) translateY(-1px);
-  box-shadow: 0 5px 18px rgba(239,68,68,0.3);
+  transform: scale(1.01) translateY(-1px);
+  box-shadow: 0 4px 15px rgba(239,68,68,0.25);
   border-color: #facc15;
 }
 
@@ -372,14 +367,14 @@ td img {
 }
 
 .match strong {
-  font-size: 1rem; /* أصغر */
-  margin: 0 8px;
+  font-size: 0.95rem; /* أصغر */
+  margin: 0 6px;
   text-shadow: 0 1px 2px #000;
 }
 
 .match small {
-  font-size: 0.7rem; /* أصغر */
-  min-width: 65px;
+  font-size: 0.65rem; /* أصغر */
+  min-width: 60px;
   text-align: right;
 }
 

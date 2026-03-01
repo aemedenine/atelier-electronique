@@ -187,23 +187,23 @@
 
 <section class="max-w-3xl mx-auto my-3 p-2 rounded-xl bg-gradient-to-br from-[#020617] via-[#020617] to-black shadow-lg border border-white/10">
 
-  <!-- HEADER CENTER -->
+  <!-- HEADER CENTER مع الكرة المتحركة -->
   <div class="flex items-center justify-center gap-2 mb-2">
-    <img src="logos/football.png" class="w-6 h-6 object-contain">
-    <span class="text-[23px]">🏆</span>
+    <img src="logos/football.png" class="w-6 h-6 object-contain animate-bounce-slow">
+    <span class="text-[23px] animate-bounce-slow">🏆</span>
     <h2 class="text-[23px] font-extrabold text-white tracking-wide">
       ترتيب البطولة
     </h2>
-    <span class="text-[23px]">⚽</span>
+    <span class="text-[23px] animate-bounce-slow">⚽</span>
   </div>
 
   <div class="overflow-x-auto">
     <table class="min-w-full text-[10px] text-white border-separate border-spacing-y-[2px]">
       <thead>
         <tr class="text-gray-400 uppercase text-[8px]">
-         <th class="w-[22px] text-center">#</th>
-<th class="text-right px-1">Equipe</th>
-<th class="w-[28px] text-center">MJ</th>
+          <th class="w-[22px] text-center">#</th>
+          <th class="text-right px-1">Equipe</th>
+          <th class="w-[28px] text-center">MJ</th>
           <th>G</th>
           <th>N</th>
           <th>P</th>
@@ -216,6 +216,16 @@
     </table>
   </div>
 </section>
+
+<style>
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-bounce-slow {
+  animation: bounce-slow 1s infinite;
+}
+</style>
 
 <script>
 const ranking = [
@@ -264,7 +274,7 @@ ranking.forEach(team => {
     <td class="w-[22px] text-center font-semibold">${team.p}</td>
 
     <td class="flex items-center gap-1.5 px-1 py-[2px] text-right">
-     <img src="${team.logo}" class="w-8 h-8 rounded-full bg-white p-[1px]">
+      <img src="${team.logo}" class="w-8 h-8 rounded-full bg-white p-[1px]">
       <span class="font-semibold truncate max-w-[95px] text-[13px]">${team.t}</span>
     </td>
 

@@ -246,89 +246,110 @@
 .tunisia-mini-panel {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 12px;
-  max-width: 900px;
-  margin: 15px auto;
+  gap: 18px;
+  max-width: 1100px;
+  margin: 25px auto;
   font-family: 'Tajawal', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
 }
 
 .mini-box {
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-  border: 1px solid rgba(34,197,94,0.2);
-  transition: all 0.35s ease;
-  overflow: hidden;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 15px rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
+  overflow: hidden;
+}
+
+.mini-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 20%, rgba(239,68,68,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+
+.mini-box:hover::before {
+  opacity: 1;
 }
 
 .mini-box:hover {
-  transform: translateY(-4px) scale(1.015);
-  box-shadow: 0 12px 30px rgba(239,68,68,0.35), 0 0 20px rgba(34,197,94,0.25);
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(239,68,68,0.4);
   border-color: #ef4444;
 }
 
 .mini-title {
-  font-size: 1.05rem;
+  font-size: 1.35rem;
   font-weight: 900;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
   color: #facc15;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  text-shadow: 0 2px 8px rgba(250,204,21,0.5);
+  letter-spacing: 0.5px;
 }
 
 .mini-title img {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   transition: all 0.4s;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
 .mini-box:hover .mini-title img {
-  transform: rotate(20deg) scale(1.12);
+  transform: rotate(360deg) scale(1.15);
 }
 
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
 }
 
 thead tr {
-  background: #111827;
+  background: linear-gradient(90deg, #111827, #1e293b);
 }
 
 th, td {
-  padding: 6px 4px;
+  padding: 8px 6px;
   text-align: center;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid rgba(55,65,81,0.5);
   color: #e2e8f0;
 }
 
 td img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  margin-left: 4px;
+  margin-left: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
 .pts {
   font-weight: 900;
   color: #22c55e;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  text-shadow: 0 1px 4px rgba(34,197,94,0.6);
 }
 
 .top-team td {
-  background: rgba(34,197,94,0.1);
+  background: rgba(34,197,94,0.08);
   font-weight: bold;
 }
 
@@ -336,26 +357,32 @@ td img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(30,41,59,0.6);
-  padding: 8px 12px;
-  border-radius: 10px;
-  margin-bottom: 6px;
-  border: 1px solid #334155;
-  transition: all 0.3s ease;
-  font-size: 0.8rem;
+  background: rgba(30,41,59,0.7);
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(55,65,81,0.5);
+  transition: all 0.35s ease;
+  backdrop-filter: blur(4px);
 }
 
 .match:hover {
   background: linear-gradient(90deg, #22c55e, #ef4444);
-  transform: scale(1.02);
-  color: white;
-  box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+  transform: scale(1.03) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(239,68,68,0.4);
+  color: #fff;
+  border-color: #facc15;
 }
 
 .match.important {
   background: linear-gradient(90deg, #1e40af, #3b82f6);
-  border: 1px solid #facc15;
   font-weight: bold;
+  border: 2px solid #facc15;
+}
+
+.match.finished {
+  opacity: 0.85;
+  background: rgba(30,41,59,0.4);
 }
 
 .match span {
@@ -364,15 +391,16 @@ td img {
 }
 
 .match strong {
-  font-size: 1rem;
+  font-size: 1.3rem;
   color: #facc15;
-  margin: 0 8px;
+  margin: 0 12px;
+  text-shadow: 0 1px 4px #000;
 }
 
 .match small {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #fbbf24;
-  min-width: 60px;
+  min-width: 80px;
   text-align: right;
 }
 

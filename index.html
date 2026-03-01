@@ -185,28 +185,28 @@
 <!--          ترتيب + جدول مباريات - نسخة مدمجة 2026           -->
 <!-- ========================================================== -->
 
-<section class="max-w-6xl mx-auto my-12 p-6 rounded-3xl bg-gradient-to-br from-[#0f172a] via-[#020617] to-black shadow-2xl border border-white/10">
+<section class="max-w-4xl mx-auto my-6 p-4 rounded-2xl bg-gradient-to-br from-[#020617] via-[#020617] to-black shadow-xl border border-white/10">
 
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-3xl font-extrabold text-white tracking-wide flex items-center gap-2">
-      🏆 ترتيب البطولة التونسية
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-lg font-extrabold text-white tracking-wide flex items-center gap-2">
+      🏆 ترتيب البطولة
     </h2>
-    <span class="px-3 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-400/20">
-      LIVE MODE
+    <span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-400/20">
+      LIVE
     </span>
   </div>
 
   <div class="overflow-x-auto">
-    <table class="min-w-full text-sm text-white border-separate border-spacing-y-2">
+    <table class="min-w-full text-[12px] text-white border-separate border-spacing-y-1">
       <thead>
-        <tr class="text-gray-400 uppercase text-xs tracking-widest">
+        <tr class="text-gray-400 uppercase text-[10px] tracking-widest">
           <th>#</th>
-          <th class="text-right">الفريق</th>
-          <th>لعب</th>
-          <th>ف</th>
-          <th>ت</th>
-          <th>خ</th>
-          <th>نقاط</th>
+          <th class="text-right">Equipe</th>
+          <th>MJ</th>
+          <th>G</th>
+          <th>N</th>
+          <th>P</th>
+          <th>Pts</th>
           <th>Form</th>
           <th>↕</th>
         </tr>
@@ -225,21 +225,29 @@ const ranking = [
  {p:5,t:"الاتحاد المنستيري",l:22,w:9,d:10,lo:3,pts:37,logo:"logos/usm.png",form:["W","D","D","W","D"],delta:+2},
  {p:6,t:"النجم الساحلي",l:22,w:9,d:6,lo:7,pts:33,logo:"logos/ess.png",form:["L","W","L","W","D"],delta:-1},
  {p:7,t:"شبيبة العمران",l:22,w:8,d:4,lo:10,pts:28,logo:"logos/jsom.png",form:["W","L","D","L","W"],delta:0},
- {p:8,t:"الترجي الجرجيسي",l:22,w:7,d:6,lo:9,pts:27,logo:"logos/esj.png",form:["D","W","L","W","D"],delta:0}
+ {p:8,t:"الترجي الجرجيسي",l:22,w:7,d:6,lo:9,pts:27,logo:"logos/esj.png",form:["D","W","L","W","D"],delta:0},
+ {p:9,t:"نجم المتلوي",l:22,w:6,d:9,lo:7,pts:27,logo:"logos/asm.png",form:["W","D","L","D","W"],delta:+1},
+ {p:10,t:"مستقبل المرسى",l:22,w:8,d:1,lo:13,pts:25,logo:"logos/asmarsa.png",form:["L","W","L","W","L"],delta:-2},
+ {p:11,t:"النادي البنزرتي",l:22,w:6,d:7,lo:9,pts:25,logo:"logos/cab.png",form:["D","W","D","L","W"],delta:0},
+ {p:12,t:"اتحاد بن قردان",l:22,w:5,d:9,lo:8,pts:24,logo:"logos/usbq.png",form:["D","L","D","W","D"],delta:0},
+ {p:13,t:"الشبيبة القيروانية",l:22,w:6,d:3,lo:13,pts:21,logo:"logos/asg.png",form:["L","L","W","D","L"],delta:-1},
+ {p:14,t:"مستقبل قابس",l:22,w:3,d:9,lo:10,pts:18,logo:"logos/msg.png",form:["D","L","D","L","W"],delta:+1},
+ {p:15,t:"الأولمبي الباجي",l:22,w:5,d:3,lo:14,pts:18,logo:"logos/ob.png",form:["W","L","L","L","D"],delta:-1},
+ {p:16,t:"مستقبل سليمان",l:22,w:2,d:7,lo:13,pts:13,logo:"logos/mss.png",form:["L","D","L","L","L"],delta:0}
 ];
 
 const tbody = document.getElementById("rankingTable");
 
 const formBadge = r => {
-  if(r === "W") return `<span class="w-5 h-5 flex items-center justify-center rounded-full bg-green-500/20 text-green-400 text-xs">W</span>`;
-  if(r === "D") return `<span class="w-5 h-5 flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-400 text-xs">D</span>`;
-  return `<span class="w-5 h-5 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 text-xs">L</span>`;
+  if(r === "W") return `<span class="w-4 h-4 flex items-center justify-center rounded-full bg-green-500/20 text-green-400 text-[9px]">W</span>`;
+  if(r === "D") return `<span class="w-4 h-4 flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-400 text-[9px]">D</span>`;
+  return `<span class="w-4 h-4 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 text-[9px]">L</span>`;
 }
 
 const arrow = d => {
-  if(d > 0) return `<span class="text-green-400 font-bold">⬆ ${d}</span>`;
-  if(d < 0) return `<span class="text-red-400 font-bold">⬇ ${Math.abs(d)}</span>`;
-  return `<span class="text-gray-400">—</span>`;
+  if(d > 0) return `<span class="text-green-400 text-[10px]">⬆${d}</span>`;
+  if(d < 0) return `<span class="text-red-400 text-[10px]">⬇${Math.abs(d)}</span>`;
+  return `<span class="text-gray-400 text-[10px]">—</span>`;
 }
 
 ranking.forEach(team => {
@@ -247,16 +255,16 @@ ranking.forEach(team => {
 
   row.className = `
     bg-white/5 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-purple-500/10
-    transition-all duration-300 hover:scale-[1.01]
-    backdrop-blur-lg shadow-xl rounded-xl
+    transition-all duration-200 hover:scale-[1.01]
+    backdrop-blur-lg shadow-md rounded-xl
   `;
 
   row.innerHTML = `
     <td class="text-center font-bold">${team.p}</td>
 
-    <td class="flex items-center gap-3 px-3 py-2 text-right">
-      <img src="${team.logo}" class="w-8 h-8 rounded-full bg-white p-1">
-      <span class="font-semibold">${team.t}</span>
+    <td class="flex items-center gap-2 px-2 py-1 text-right">
+      <img src="${team.logo}" class="w-6 h-6 rounded-full bg-white p-[2px]">
+      <span class="font-medium truncate max-w-[110px]">${team.t}</span>
     </td>
 
     <td class="text-center">${team.l}</td>
@@ -265,7 +273,7 @@ ranking.forEach(team => {
     <td class="text-center text-red-400">${team.lo}</td>
     <td class="text-center font-bold text-cyan-400">${team.pts}</td>
 
-    <td class="flex justify-center gap-1">${team.form.map(f=>formBadge(f)).join("")}</td>
+    <td class="flex justify-center gap-[2px]">${team.form.map(f=>formBadge(f)).join("")}</td>
 
     <td class="text-center">${arrow(team.delta)}</td>
   `;

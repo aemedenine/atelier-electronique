@@ -201,9 +201,9 @@
     <table class="min-w-full text-[10px] text-white border-separate border-spacing-y-[2px]">
       <thead>
         <tr class="text-gray-400 uppercase text-[8px]">
-          <th>#</th>
-          <th class="text-right">Equipe</th>
-          <th>MJ</th>
+         <th class="w-[22px] text-center">#</th>
+<th class="text-right px-1">Equipe</th>
+<th class="w-[28px] text-center">MJ</th>
           <th>G</th>
           <th>N</th>
           <th>P</th>
@@ -261,7 +261,7 @@ ranking.forEach(team => {
   `;
 
   row.innerHTML = `
-    <td class="text-center font-semibold">${team.p}</td>
+    <td class="w-[22px] text-center font-semibold">${team.p}</td>
 
     <td class="flex items-center gap-1.5 px-1 py-[2px] text-right">
      <img src="${team.logo}" class="w-8 h-8 rounded-full bg-white p-[1px]">

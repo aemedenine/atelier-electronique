@@ -182,12 +182,13 @@
             </div>
         </div>
 <!-- FINAL BOSS MODE - Ultimate Football Platform -->
-
 <section class="tunisia-mini-panel">
-
-  <!-- Box الترتيب -->
+  <!-- Box الترتيب الكامل -->
   <div class="mini-box classement">
-    <div class="mini-title"><img src="logos/football.png" alt="logo" /> 🏆 ترتيب البطولة التونسية</div>
+    <div class="mini-title">
+      <img src="logos/football.png" alt="logo" />
+      🏆 ترتيب البطولة التونسية
+    </div>
     <div class="table-wrapper">
       <table>
         <thead>
@@ -204,7 +205,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- كل 16 فريق -->
           <tr><td>1</td><td><img src="logos/esperance.png" alt="الترجي"> الترجي الرياضي</td><td>21</td><td>14</td><td>5</td><td>2</td><td>36</td><td>7</td><td class="pts">47</td></tr>
           <tr><td>2</td><td><img src="logos/club-africain.png" alt="الإفريقي"> النادي الإفريقي</td><td>21</td><td>13</td><td>6</td><td>2</td><td>29</td><td>8</td><td class="pts">45</td></tr>
           <tr><td>3</td><td><img src="logos/stade-tunisien.png" alt="الملعب"> الملعب التونسي</td><td>22</td><td>12</td><td>8</td><td>2</td><td>27</td><td>7</td><td class="pts">44</td></tr>
@@ -228,22 +228,57 @@
 
   <!-- Box مباريات الأسبوع -->
   <div class="mini-box matches">
-    <div class="mini-title"><img src="logos/calendar.png" alt="calendar" /> ⚽ مباريات الأسبوع</div>
-    
-    <div class="match finished"><span>مستقبل المرسى</span><strong>🆚</strong><span>الملعب التونسي</span><small class="result">0 - 4</small></div>
-    <div class="match finished"><span>شبيبة العمران</span><strong>🆚</strong><span>اتحاد بن قردان</span><small class="result">2 - 1</small></div>
-    <div class="match finished"><span>الترجي الجرجيسي</span><strong>🆚</strong><span>الشبيبة القيروانية</span><small class="result">1 - 1</small></div>
-    <div class="match finished"><span>النادي البنزرتي</span><strong>🆚</strong><span>الاتحاد المنستيري</span><small class="result">0 - 0</small></div>
-    <div class="match important"><span>النادي الإفريقي</span><strong>🆚</strong><span>النجم الرياضي بالمتلوي</span><small>الأحد 1 مارس – 15:00</small></div>
-    <div class="match important"><span>النادي الصفاقسي</span><strong>🆚</strong><span>مستقبل قابس</span><small>الأحد 1 مارس – 15:00</small></div>
-    <div class="match important"><span>الأولمبي الباجي</span><strong>🆚</strong><span>الترجي الرياضي</span><small>الأحد 1 مارس – 15:00</small></div>
-
+    <div class="mini-title">
+      <img src="logos/calendar.png" alt="calendar" />
+      ⚽ مباريات الأسبوع
+    </div>
+   
+    <div class="match finished">
+      <span>مستقبل المرسى</span>
+      <strong>🆚</strong>
+      <span>الملعب التونسي</span>
+      <small class="result">0 - 4</small>
+    </div>
+    <div class="match finished">
+      <span>شبيبة العمران</span>
+      <strong>🆚</strong>
+      <span>اتحاد بن قردان</span>
+      <small class="result">2 - 1</small>
+    </div>
+    <div class="match finished">
+      <span>الترجي الجرجيسي</span>
+      <strong>🆚</strong>
+      <span>الشبيبة القيروانية</span>
+      <small class="result">1 - 1</small>
+    </div>
+    <div class="match finished">
+      <span>النادي البنزرتي</span>
+      <strong>🆚</strong>
+      <span>الاتحاد المنستيري</span>
+      <small class="result">0 - 0</small>
+    </div>
+    <div class="match important">
+      <span>النادي الإفريقي</span>
+      <strong>🆚</strong>
+      <span>النجم الرياضي بالمتلوي</span>
+      <small>الأحد 1 مارس – 15:00</small>
+    </div>
+    <div class="match important">
+      <span>النادي الصفاقسي</span>
+      <strong>🆚</strong>
+      <span>مستقبل قابس</span>
+      <small>الأحد 1 مارس – 15:00</small>
+    </div>
+    <div class="match important">
+      <span>الأولمبي الباجي</span>
+      <strong>🆚</strong>
+      <span>الترجي الرياضي</span>
+      <small>الأحد 1 مارس – 15:00</small>
+    </div>
   </div>
 </section>
 
 <style>
-/* ===== Tunisie Mini Panel Small Like Rating Box ===== */
-
 .tunisia-mini-panel {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -254,7 +289,7 @@
   font-size: 0.7rem;
 }
 
-/* Boxes */
+/* Boxes – نفس الإفكت */
 .mini-box {
   background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
   border-radius: 10px;
@@ -266,7 +301,7 @@
   overflow: hidden;
 }
 
-/* Shine effect */
+/* Shine effect – نفس السابق */
 .mini-box::before {
   content: '';
   position: absolute;
@@ -279,18 +314,16 @@
   transition: all 0.6s ease;
   pointer-events: none;
 }
-
 .mini-box:hover::before {
   opacity: 1;
 }
-
 .mini-box:hover {
   transform: translateY(-3px) scale(1.01);
   box-shadow: 0 6px 18px rgba(0,0,0,0.12), 0 0 15px rgba(59,130,246,0.3);
   border-color: #3b82f6;
 }
 
-/* Title */
+/* Title – نفس اللون الأزرق */
 .mini-title {
   font-size: 0.85rem;
   font-weight: 900;
@@ -303,35 +336,30 @@
   text-shadow: 0 1px 2px rgba(0,0,0,0.12);
   transition: all 0.3s ease;
 }
-
 .mini-title img {
   width: 16px;
   height: 16px;
   transition: all 0.35s ease;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
 }
-
 .mini-box:hover .mini-title img {
   transform: rotate(360deg) scale(1.2);
 }
 
-/* Table */
+/* Table – نفس الستايل لكن فاتح */
 .table-wrapper {
   overflow-x: auto;
   border-radius: 6px;
   transition: all 0.3s ease;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.68rem;
 }
-
 thead tr {
   background: linear-gradient(90deg, rgba(224,242,254,0.9), rgba(219,234,254,0.9));
 }
-
 th, td {
   padding: 2px 3px;
   text-align: center;
@@ -339,7 +367,6 @@ th, td {
   color: #1e293b;
   transition: all 0.25s ease;
 }
-
 td img {
   width: 13px;
   height: 13px;
@@ -347,7 +374,6 @@ td img {
   margin-left: 2px;
   transition: all 0.3s ease;
 }
-
 /* Points */
 .pts {
   font-weight: 900;
@@ -356,15 +382,13 @@ td img {
   text-shadow: 0 1px 2px rgba(22,163,74,0.25);
   transition: all 0.3s ease;
 }
-
 /* Top teams highlight */
 .top-team td {
-  background: rgba(34,197,94,0.05);
+  background: rgba(34,197,94,0.04);
   font-weight: bold;
   transition: background 0.3s ease;
 }
-
-/* Matches */
+/* Matches – نفس الإفكت */
 .match {
   display: flex;
   justify-content: space-between;
@@ -379,8 +403,7 @@ td img {
   cursor: pointer;
   position: relative;
 }
-
-/* Match hover premium effect */
+/* Match hover premium effect – نفس النار */
 .match:hover {
   background: linear-gradient(90deg, #22c55e, #ef4444);
   transform: translateY(-1px) scale(1.02);
@@ -388,7 +411,6 @@ td img {
   color: white;
   border-color: #facc15;
 }
-
 /* Important matches */
 .match.important {
   background: linear-gradient(90deg, #1d4ed8, #3b82f6);
@@ -397,7 +419,6 @@ td img {
   color: white;
   transition: all 0.3s ease;
 }
-
 /* Match texts */
 .match span {
   flex: 1;
@@ -405,7 +426,6 @@ td img {
   color: #1e293b;
   transition: color 0.25s ease;
 }
-
 .match strong {
   font-size: 0.8rem;
   color: #facc15;
@@ -413,7 +433,6 @@ td img {
   text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   transition: all 0.25s ease;
 }
-
 .match small {
   font-size: 0.58rem;
   color: #fbbf24;
@@ -421,7 +440,6 @@ td img {
   text-align: right;
   transition: all 0.25s ease;
 }
-
 /* Responsive */
 @media (max-width: 800px) {
   .tunisia-mini-panel {

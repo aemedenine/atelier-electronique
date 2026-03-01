@@ -242,7 +242,7 @@
 </section>
 
 <style>
-/* ===== Tunisie Mini Panel Scaled Down & Premium ===== */
+/* ===== Tunisie Mini Panel like Rating Box ===== */
 .tunisia-mini-panel {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -250,66 +250,43 @@
   max-width: 1100px;
   margin: 20px auto;
   font-family: 'Tajawal', sans-serif;
-  font-size: 0.85rem;
+  font-size: 1.05rem; /* نفس rating-title font-size */
 }
 
 /* Boxes */
 .mini-box {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
-  padding: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.55), inset 0 0 12px rgba(34,197,94,0.12);
-  border: 1px solid rgba(34,197,94,0.2);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
+  border-radius: 14px; /* نفس rating */
+  padding: 14px 12px; /* نفس rating */
+  box-shadow: 0 4px 14px rgba(13,71,161,0.12);
+  border: 1px solid rgba(13,71,161,0.08);
+  transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
 }
 
-.mini-box::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 20%, rgba(239,68,68,0.1) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.6s;
-  pointer-events: none;
-}
-
-.mini-box:hover::before {
-  opacity: 1;
-}
-
 .mini-box:hover {
-  transform: translateY(-6px) scale(1.012);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.65), 0 0 35px rgba(239,68,68,0.35);
-  border-color: #ef4444;
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 10px 30px rgba(13,71,161,0.25);
+  border-color: #1976d2;
 }
 
 /* Title */
 .mini-title {
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 1.05rem; /* نفس rating-title */
+  font-weight: 700;
+  color: #1976d2;
   margin-bottom: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 6px;
-  color: #facc15;
-  text-shadow: 0 2px 6px rgba(250,204,21,0.5);
 }
 
 .mini-title img {
   width: 28px;
   height: 28px;
-  transition: all 0.4s;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-}
-
-.mini-box:hover .mini-title img {
-  transform: rotate(360deg) scale(1.1);
+  transition: all 0.35s ease;
 }
 
 /* Table */
@@ -321,18 +298,13 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.78rem;
-}
-
-thead tr {
-  background: linear-gradient(90deg, #111827, #1e293b);
+  font-size: 0.85rem; /* متقارب للـ rating stars */
 }
 
 th, td {
   padding: 6px 4px;
   text-align: center;
-  border-bottom: 1px solid rgba(55,65,81,0.5);
-  color: #e2e8f0;
+  color: #0d47a1;
 }
 
 td img {
@@ -340,19 +312,6 @@ td img {
   height: 18px;
   border-radius: 50%;
   margin-left: 4px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
-}
-
-.pts {
-  font-weight: 900;
-  color: #22c55e;
-  font-size: 0.85rem;
-  text-shadow: 0 1px 3px rgba(34,197,94,0.6);
-}
-
-.top-team td {
-  background: rgba(34,197,94,0.08);
-  font-weight: bold;
 }
 
 /* Matches */
@@ -360,32 +319,19 @@ td img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(30,41,59,0.7);
-  padding: 6px 10px;
-  border-radius: 10px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(244,248,255,0.95));
+  padding: 14px 12px; /* نفس rating box */
+  border-radius: 14px;
+  border: 1px solid rgba(13,71,161,0.08);
+  box-shadow: 0 4px 14px rgba(13,71,161,0.12);
   margin-bottom: 6px;
-  border: 1px solid rgba(55,65,81,0.4);
   transition: all 0.35s ease;
-  backdrop-filter: blur(3px);
 }
 
 .match:hover {
-  background: linear-gradient(90deg, #22c55e, #ef4444);
-  transform: scale(1.03) translateY(-2px);
-  box-shadow: 0 6px 20px rgba(239,68,68,0.35);
-  color: #fff;
-  border-color: #facc15;
-}
-
-.match.important {
-  background: linear-gradient(90deg, #1e40af, #3b82f6);
-  font-weight: bold;
-  border: 2px solid #facc15;
-}
-
-.match.finished {
-  opacity: 0.85;
-  background: rgba(30,41,59,0.4);
+  box-shadow: 0 10px 30px rgba(13,71,161,0.25);
+  transform: translateY(-2px) scale(1.01);
+  border-color: #1976d2;
 }
 
 .match span {
@@ -394,15 +340,13 @@ td img {
 }
 
 .match strong {
-  font-size: 1.1rem;
-  color: #facc15;
-  margin: 0 10px;
-  text-shadow: 0 1px 3px #000;
+  font-size: 1.05rem; /* متساوي */
+  color: #1976d2;
 }
 
 .match small {
-  font-size: 0.7rem;
-  color: #fbbf24;
+  font-size: 0.8rem;
+  color: #0d47a1;
   min-width: 70px;
   text-align: right;
 }

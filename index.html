@@ -199,13 +199,13 @@
 
 <style>
 .tunisia-rank-wrapper{
-  max-width:480px;
+  max-width:520px;
   margin:auto;
   background:linear-gradient(135deg,#0f172a,#020617);
-  border-radius:16px;
-  padding:10px;
+  border-radius:18px;
+  padding:12px;
   color:#fff;
-  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  box-shadow:0 12px 35px rgba(0,0,0,.55);
   font-family:system-ui;
 }
 
@@ -214,47 +214,64 @@
   justify-content:center;
   align-items:center;
   gap:10px;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
-.rank-title h2{font-size:23px;font-weight:900}
+.rank-title h2{
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
 
 .rank-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:6px;
+  gap:8px;
 }
 
 .rank-box{
   background:rgba(255,255,255,.04);
-  border-radius:12px;
+  border-radius:14px;
   padding:6px;
 }
 
 .rank-row{
   display:grid;
-  grid-template-columns:16px 1fr 22px 22px 22px 22px 26px;
+  grid-template-columns:
+    20px
+    minmax(95px,1fr)
+    30px
+    28px
+    28px
+    28px
+    34px;
   align-items:center;
   gap:4px;
-  font-size:13.5px;
+  font-size:13.8px;
   padding:5px 6px;
-  border-radius:6px;
+  border-radius:7px;
 }
 
 .rank-row:nth-child(odd){
   background:rgba(255,255,255,.03);
 }
 
+.rank-row:hover{
+  background:linear-gradient(90deg,rgba(34,211,238,.12),rgba(139,92,246,.12));
+}
+
 .rank-row img{
-  width:20px;
-  height:20px;
+  width:24px;
+  height:24px;
   border-radius:50%;
   background:#fff;
   padding:1px;
+  flex-shrink:0;
 }
 
 .team-name{
-  font-size:13px;
+  font-size:13.5px;
+  font-weight:600;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -262,18 +279,18 @@
 
 .col-title{
   font-size:10px;
-  opacity:.7;
+  opacity:.75;
   text-align:center;
   font-weight:700;
 }
 
 .animate-ball{
-  animation:ballMove 1.2s infinite ease-in-out;
+  animation:ballMove 1.3s infinite ease-in-out;
 }
 
 @keyframes ballMove{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-5px)}
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(6px)}
 }
 </style>
 
@@ -312,16 +329,16 @@ function headerRow(){
 function renderBox(list,el){
   el.innerHTML = headerRow() + list.map(team=>`
     <div class="rank-row">
-      <strong>${team.p}</strong>
+      <strong class="text-center">${team.p}</strong>
       <div class="flex items-center gap-1">
         <img src="${team.logo}">
         <span class="team-name">${team.t}</span>
       </div>
       <div class="text-center">${team.l}</div>
-      <div class="text-center">${team.w}</div>
-      <div class="text-center">${team.d}</div>
-      <div class="text-center">${team.lo}</div>
-      <strong class="text-center">${team.pts}</strong>
+      <div class="text-center text-green-400">${team.w}</div>
+      <div class="text-center text-yellow-400">${team.d}</div>
+      <div class="text-center text-red-400">${team.lo}</div>
+      <strong class="text-center text-cyan-400">${team.pts}</strong>
     </div>
   `).join("");
 }
